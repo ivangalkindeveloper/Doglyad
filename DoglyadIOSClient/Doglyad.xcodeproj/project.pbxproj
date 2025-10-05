@@ -1,0 +1,671 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77759AFA2E932B78007CC90C /* DependencyInitializer */; };
+		777E469A2E9317F000F9FF2C /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 777E46992E9317F000F9FF2C /* Router */; };
+		778D6BED2E930BDE00F1D352 /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 778D6BEC2E930BDE00F1D352 /* Router */; };
+		77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77BB12232E92A87700B9FFC5 /* DependencyInitializer */; };
+		77BB12522E92C62A00B9FFC5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		77AC58C22E929E800028250A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77AC58AA2E929E7E0028250A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77AC58B12E929E7E0028250A;
+			remoteInfo = Doglyad;
+		};
+		77AC58CC2E929E800028250A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77AC58AA2E929E7E0028250A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77AC58B12E929E7E0028250A;
+			remoteInfo = Doglyad;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		77AC58B22E929E7E0028250A /* Doglyad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doglyad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		77AC58C12E929E800028250A /* DoglyadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		77AC58CB2E929E800028250A /* DoglyadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		77BB12512E92C62A00B9FFC5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		77759AF82E932627007CC90C /* Exceptions for "Doglyad" folder in "Doglyad" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 77AC58B12E929E7E0028250A /* Doglyad */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		77AC58B42E929E7E0028250A /* Doglyad */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				77759AF82E932627007CC90C /* Exceptions for "Doglyad" folder in "Doglyad" target */,
+			);
+			path = Doglyad;
+			sourceTree = "<group>";
+		};
+		77AC58C42E929E800028250A /* DoglyadTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DoglyadTests;
+			sourceTree = "<group>";
+		};
+		77AC58CE2E929E800028250A /* DoglyadUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DoglyadUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		77AC58AF2E929E7E0028250A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */,
+				77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */,
+				777E469A2E9317F000F9FF2C /* Router in Frameworks */,
+				778D6BED2E930BDE00F1D352 /* Router in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77AC58BE2E929E800028250A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77AC58C82E929E800028250A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		77AC58A92E929E7E0028250A = {
+			isa = PBXGroup;
+			children = (
+				77BB12512E92C62A00B9FFC5 /* Config.xcconfig */,
+				77AC58B42E929E7E0028250A /* Doglyad */,
+				77AC58C42E929E800028250A /* DoglyadTests */,
+				77AC58CE2E929E800028250A /* DoglyadUITests */,
+				77AC58B32E929E7E0028250A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		77AC58B32E929E7E0028250A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				77AC58B22E929E7E0028250A /* Doglyad.app */,
+				77AC58C12E929E800028250A /* DoglyadTests.xctest */,
+				77AC58CB2E929E800028250A /* DoglyadUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		77AC58B12E929E7E0028250A /* Doglyad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77AC58D52E929E800028250A /* Build configuration list for PBXNativeTarget "Doglyad" */;
+			buildPhases = (
+				77AC58AE2E929E7E0028250A /* Sources */,
+				77AC58AF2E929E7E0028250A /* Frameworks */,
+				77AC58B02E929E7E0028250A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				77AC58B42E929E7E0028250A /* Doglyad */,
+			);
+			name = Doglyad;
+			packageProductDependencies = (
+				77BB12232E92A87700B9FFC5 /* DependencyInitializer */,
+				778D6BEC2E930BDE00F1D352 /* Router */,
+				777E46992E9317F000F9FF2C /* Router */,
+				77759AFA2E932B78007CC90C /* DependencyInitializer */,
+			);
+			productName = Doglyad;
+			productReference = 77AC58B22E929E7E0028250A /* Doglyad.app */;
+			productType = "com.apple.product-type.application";
+		};
+		77AC58C02E929E800028250A /* DoglyadTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77AC58D82E929E800028250A /* Build configuration list for PBXNativeTarget "DoglyadTests" */;
+			buildPhases = (
+				77AC58BD2E929E800028250A /* Sources */,
+				77AC58BE2E929E800028250A /* Frameworks */,
+				77AC58BF2E929E800028250A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				77AC58C32E929E800028250A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				77AC58C42E929E800028250A /* DoglyadTests */,
+			);
+			name = DoglyadTests;
+			packageProductDependencies = (
+			);
+			productName = DoglyadTests;
+			productReference = 77AC58C12E929E800028250A /* DoglyadTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		77AC58CA2E929E800028250A /* DoglyadUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77AC58DB2E929E800028250A /* Build configuration list for PBXNativeTarget "DoglyadUITests" */;
+			buildPhases = (
+				77AC58C72E929E800028250A /* Sources */,
+				77AC58C82E929E800028250A /* Frameworks */,
+				77AC58C92E929E800028250A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				77AC58CD2E929E800028250A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				77AC58CE2E929E800028250A /* DoglyadUITests */,
+			);
+			name = DoglyadUITests;
+			packageProductDependencies = (
+			);
+			productName = DoglyadUITests;
+			productReference = 77AC58CB2E929E800028250A /* DoglyadUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		77AC58AA2E929E7E0028250A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					77AC58B12E929E7E0028250A = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					77AC58C02E929E800028250A = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 77AC58B12E929E7E0028250A;
+					};
+					77AC58CA2E929E800028250A = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 77AC58B12E929E7E0028250A;
+					};
+				};
+			};
+			buildConfigurationList = 77AC58AD2E929E7E0028250A /* Build configuration list for PBXProject "Doglyad" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 77AC58A92E929E7E0028250A;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				777E46982E9317F000F9FF2C /* XCRemoteSwiftPackageReference "Router" */,
+				77759AF92E932B78007CC90C /* XCRemoteSwiftPackageReference "DependencyInitializer" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 77AC58B32E929E7E0028250A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				77AC58B12E929E7E0028250A /* Doglyad */,
+				77AC58C02E929E800028250A /* DoglyadTests */,
+				77AC58CA2E929E800028250A /* DoglyadUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		77AC58B02E929E7E0028250A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77BB12522E92C62A00B9FFC5 /* Config.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77AC58BF2E929E800028250A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77AC58C92E929E800028250A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		77AC58AE2E929E7E0028250A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77AC58BD2E929E800028250A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77AC58C72E929E800028250A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		77AC58C32E929E800028250A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77AC58B12E929E7E0028250A /* Doglyad */;
+			targetProxy = 77AC58C22E929E800028250A /* PBXContainerItemProxy */;
+		};
+		77AC58CD2E929E800028250A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77AC58B12E929E7E0028250A /* Doglyad */;
+			targetProxy = 77AC58CC2E929E800028250A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		77AC58D32E929E800028250A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		77AC58D42E929E800028250A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		77AC58D62E929E800028250A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Doglyad/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Догляд";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.Doglyad;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		77AC58D72E929E800028250A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Doglyad/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Догляд";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.Doglyad;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		77AC58D92E929E800028250A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doglyad.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Doglyad";
+			};
+			name = Debug;
+		};
+		77AC58DA2E929E800028250A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doglyad.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Doglyad";
+			};
+			name = Release;
+		};
+		77AC58DC2E929E800028250A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Doglyad;
+			};
+			name = Debug;
+		};
+		77AC58DD2E929E800028250A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Doglyad;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		77AC58AD2E929E7E0028250A /* Build configuration list for PBXProject "Doglyad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77AC58D32E929E800028250A /* Debug */,
+				77AC58D42E929E800028250A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77AC58D52E929E800028250A /* Build configuration list for PBXNativeTarget "Doglyad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77AC58D62E929E800028250A /* Debug */,
+				77AC58D72E929E800028250A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77AC58D82E929E800028250A /* Build configuration list for PBXNativeTarget "DoglyadTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77AC58D92E929E800028250A /* Debug */,
+				77AC58DA2E929E800028250A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77AC58DB2E929E800028250A /* Build configuration list for PBXNativeTarget "DoglyadUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77AC58DC2E929E800028250A /* Debug */,
+				77AC58DD2E929E800028250A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		77759AF92E932B78007CC90C /* XCRemoteSwiftPackageReference "DependencyInitializer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivangalkindeveloper/DependencyInitializer";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		777E46982E9317F000F9FF2C /* XCRemoteSwiftPackageReference "Router" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivangalkindeveloper/Router";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		77759AFA2E932B78007CC90C /* DependencyInitializer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77759AF92E932B78007CC90C /* XCRemoteSwiftPackageReference "DependencyInitializer" */;
+			productName = DependencyInitializer;
+		};
+		777E46992E9317F000F9FF2C /* Router */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 777E46982E9317F000F9FF2C /* XCRemoteSwiftPackageReference "Router" */;
+			productName = Router;
+		};
+		778D6BEC2E930BDE00F1D352 /* Router */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Router;
+		};
+		77BB12232E92A87700B9FFC5 /* DependencyInitializer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DependencyInitializer;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 77AC58AA2E929E7E0028250A /* Project object */;
+}

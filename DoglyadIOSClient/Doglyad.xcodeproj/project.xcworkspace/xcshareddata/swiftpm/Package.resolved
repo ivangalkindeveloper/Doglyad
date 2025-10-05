@@ -1,0 +1,24 @@
+{
+  "originHash" : "bb70e9baf9f54316df0a42680dfa2e83c9e171fa3a2e9f574773112a48d29b7c",
+  "pins" : [
+    {
+      "identity" : "dependencyinitializer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ivangalkindeveloper/DependencyInitializer",
+      "state" : {
+        "branch" : "master",
+        "revision" : "64c944650c13783bb805839dfe2773f5ee7c4806"
+      }
+    },
+    {
+      "identity" : "router",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ivangalkindeveloper/Router",
+      "state" : {
+        "branch" : "master",
+        "revision" : "0361cbfc922e2f4f075f95d44ca2ddfab646541e"
+      }
+    }
+  ],
+  "version" : 3
+}
