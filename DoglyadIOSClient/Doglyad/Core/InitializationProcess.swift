@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 import DependencyInitializer
+import AVFoundation
 
 final class InitializationProcess: DependencyInitializationProcess {
     typealias T = DependencyContainer
@@ -49,7 +50,7 @@ extension InitializationProcess {
             title: "ModelContainer",
             run: { process in
                 let schema = Schema([
-//                    Item.self,
+                    // Model
                 ])
                 let modelConfiguration = ModelConfiguration(
                     schema: schema,
@@ -66,6 +67,12 @@ extension InitializationProcess {
             title: "DiagnosticsRepository",
             run: { process in
                 process.diagnosticsRepository = DiagnosticsRepository()
+            }
+        ),
+        AsyncInitializationStep<InitializationProcess>(
+            title: "Camera Request",
+            run: { process in
+                await AVCaptureDevice.requestAccess(for: .video)
             }
         ),
     ]

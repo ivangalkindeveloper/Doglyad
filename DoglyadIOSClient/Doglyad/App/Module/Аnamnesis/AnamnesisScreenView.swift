@@ -14,11 +14,11 @@ struct AnamnesisScreenView: View {
     let arguments: AnamnesisScreenArguments?
     
     @StateObject private var viewModel = AnamnesisViewModel()
-    @StateObject private var cameraViewModel = AnamnesisCameraViewModel()
+    @StateObject private var cameraViewModel = CameraViewModel()
 
     var body: some View {
         ZStack {
-            AnamnesisCameraView(
+            CameraView(
                 viewModel: cameraViewModel
             )
                 .ignoresSafeArea()

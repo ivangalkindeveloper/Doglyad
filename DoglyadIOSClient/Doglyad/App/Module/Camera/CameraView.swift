@@ -8,8 +8,8 @@
 import SwiftUI
 import AVFoundation
 
-struct AnamnesisCameraView: UIViewRepresentable {
-    @ObservedObject var viewModel: AnamnesisCameraViewModel
+struct CameraView: UIViewRepresentable {
+    @ObservedObject var viewModel: CameraViewModel
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)

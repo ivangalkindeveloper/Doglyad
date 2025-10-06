@@ -15,7 +15,7 @@ struct MainRootView: View {
         RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
             builder: RouterBuilder(),
             initialRouteScreen: RouteScreen<ScreenType>(
-                type: .researchType
+                type: .anamnesis
             )
         )
         .environmentObject(self.dependencyContainer)
