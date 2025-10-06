@@ -12,10 +12,35 @@ final class AnamnesisScreenArguments: RouteArgumentsProtocol {}
 
 struct AnamnesisScreenView: View {
     let arguments: AnamnesisScreenArguments?
-    @StateObject var viewModel = AnamnesisViewModel()
     
+    @StateObject private var viewModel = AnamnesisViewModel()
+    @StateObject private var cameraViewModel = AnamnesisCameraViewModel()
+
     var body: some View {
-        Text("AnamnesisScreenView")
+        ZStack {
+            AnamnesisCameraView(
+                viewModel: cameraViewModel
+            )
+                .ignoresSafeArea()
+
+            VStack {
+                Spacer()
+                HStack {
+                    Button(
+                        action: cameraViewModel.takePhoto
+                    ) {
+                        Circle()
+                            .stroke(lineWidth: 5)
+                            .frame(width: 70, height: 70)
+                            .overlay(Circle().fill(Color.white.opacity(0.3)))
+                    }
+                }
+                .padding(.bottom, 30)
+            }
+        }
+        .onDisappear {
+            cameraViewModel.stopSession()
+        }
     }
 }
 
