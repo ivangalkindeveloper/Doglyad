@@ -8,11 +8,11 @@
 import SwiftUI
 import Router
 
-final class DiagnosisScreenArguments: RouteArgumentsProtocol {}
+final class ConclusionScreenArguments: RouteArgumentsProtocol {}
 
-struct DiagnosisScreenView: View {
-    let arguments: DiagnosisScreenArguments?
-    @StateObject var viewModel = DiagnosisViewModel()
+struct ConclusionScreenView: View {
+    let arguments: ConclusionScreenArguments?
+    @StateObject var viewModel = ConclusionViewModel()
     
     var body: some View {
         Text("DiagnosisScreenView")
@@ -20,7 +20,7 @@ struct DiagnosisScreenView: View {
 }
 
 #Preview {
-    DiagnosisScreenView(
+    ConclusionScreenView(
         arguments: nil
     )
 }

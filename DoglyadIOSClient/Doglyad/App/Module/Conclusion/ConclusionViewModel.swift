@@ -7,4 +7,4 @@
 
 import Foundation
 
-final class DiagnosisViewModel: ObservableObject {}
+final class ConclusionViewModel: ObservableObject {}

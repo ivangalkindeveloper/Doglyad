@@ -18,24 +18,24 @@ final class RouterBuilder: RouterBuilderProtocol {
         route: RouteScreen<ScreenType>
     ) -> AnyView {
         switch route.type {
-        case .anamnesis:
-            AnyView(AnamnesisScreenView(
-                arguments: route.arguments as? AnamnesisScreenArguments
+        case .onBoarding:
+            AnyView(OnBoardingScreenView(
+                arguments: route.arguments as? OnBoardingScreenArguments
             ))
             
-        case .diagnosis:
-            AnyView(DiagnosisScreenView(
-                arguments: route.arguments as? DiagnosisScreenArguments
+        case .scan:
+            AnyView(ScanScreenView(
+                arguments: route.arguments as? ScanScreenArguments
             ))
-            
+
         case .history:
             AnyView(HistoryScreenView(
                 arguments: route.arguments as? HistoryScreenArguments
             ))
-            
-        case .researchType:
-            AnyView(ResearchTypeScreenView(
-                arguments: route.arguments as? ResearchTypeScreenArguments
+
+        case .conclusion:
+            AnyView(ConclusionScreenView(
+                arguments: route.arguments as? ConclusionScreenArguments
             ))
         }
     }
@@ -45,8 +45,10 @@ final class RouterBuilder: RouterBuilderProtocol {
         route: RouteSheet<SheetType>
     ) -> AnyView {
         switch route.type {
-        case .some:
-            AnyView(EmptyView())
+        case .researchType:
+            AnyView(ResearchTypeScreenView(
+                arguments: route.arguments as? ResearchTypeScreenArguments
+            ))
         }
     }
     

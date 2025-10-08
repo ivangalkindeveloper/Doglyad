@@ -6,14 +6,14 @@
 //
 
 enum ScreenType: Hashable {
-    case anamnesis
-    case diagnosis
+    case onBoarding
+    case scan
     case history
-    case researchType
+    case conclusion
 }
 
 enum SheetType: Hashable {
-    case some
+    case researchType
 }
 
 enum FullScreenCoverType: Hashable {

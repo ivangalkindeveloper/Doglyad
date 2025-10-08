@@ -7,4 +7,4 @@
 
 import Foundation
 
-final class AnamnesisViewModel: ObservableObject {}
+final class ScanViewModel: ObservableObject {}

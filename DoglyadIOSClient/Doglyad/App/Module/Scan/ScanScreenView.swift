@@ -8,10 +8,10 @@
 import SwiftUI
 import Router
 
-final class AnamnesisScreenArguments: RouteArgumentsProtocol {}
+final class ScanScreenArguments: RouteArgumentsProtocol {}
 
-struct AnamnesisScreenView: View {
-    let arguments: AnamnesisScreenArguments?
+struct ScanScreenView: View {
+    let arguments: ScanScreenArguments?
     
     @StateObject private var viewModel = AnamnesisViewModel()
     @StateObject private var cameraViewModel = CameraViewModel()
