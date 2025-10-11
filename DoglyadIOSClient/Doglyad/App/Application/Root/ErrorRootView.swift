@@ -14,7 +14,3 @@ struct ErrorRootView: View {
         Text("Hello, World!")
     }
 }
-
-//#Preview {
-//    ErrorRootView()
-//}

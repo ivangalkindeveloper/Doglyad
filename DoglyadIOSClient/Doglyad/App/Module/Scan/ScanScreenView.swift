@@ -13,7 +13,7 @@ final class ScanScreenArguments: RouteArgumentsProtocol {}
 struct ScanScreenView: View {
     let arguments: ScanScreenArguments?
     
-    @StateObject private var viewModel = AnamnesisViewModel()
+    @StateObject private var viewModel = ScanViewModel()
     @StateObject private var cameraViewModel = CameraViewModel()
 
     var body: some View {
@@ -45,7 +45,7 @@ struct ScanScreenView: View {
 }
 
 #Preview {
-    AnamnesisScreenView(
+    ScanScreenView(
         arguments: nil
     )
 }

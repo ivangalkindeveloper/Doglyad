@@ -8,5 +8,12 @@
 	<string>$(BASE_URL_SCHEMA)</string>
 	<key>BASE_URL</key>
 	<string>$(BASE_URL)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Poppins-Regular.ttf</string>
+		<string>Poppins-Medium.ttf</string>
+		<string>Poppins-SemiBold.ttf</string>
+		<string>Poppins-Bold.ttf</string>
+	</array>
 </dict>
 </plist>

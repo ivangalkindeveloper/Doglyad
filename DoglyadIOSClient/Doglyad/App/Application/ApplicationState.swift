@@ -9,7 +9,7 @@ import SwiftUI
 import DependencyInitializer
 
 @MainActor
-final class AppState: ObservableObject {
+final class ApplicationState: ObservableObject {
     @Published var root: any View = EmptyView()
 
     func initialize() {
@@ -19,8 +19,9 @@ final class AppState: ObservableObject {
             },
             steps: InitializationProcess.steps,
             onSuccess: { [weak self] result, _ in
-                self?.root = MainRootView(
-                    dependencyContainer: result.container
+                self?.root = DependencyWrapperView(
+                    dependencyContainer: result.container,
+                    MainRootView()
                 )
             },
             onError: { [weak self] error, _, _, _ in
