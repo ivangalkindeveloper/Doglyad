@@ -5,8 +5,8 @@
 //  Created by Иван Галкин on 05.10.2025.
 //
 
-import SwiftUI
 import DoglyadUI
+import SwiftUI
 
 struct ErrorRootView: View {
     let error: Error
@@ -18,20 +18,20 @@ struct ErrorRootView: View {
         case .noInternetConnection:
             ErrorView(
                 image: .wifi,
-                title: L10n.errorNoInternetConnectionTitle,
-                description: L10n.errorNoInternetConnectionDescription,
+                title: .errorNoInternetConnectionTitle,
+                description: .errorNoInternetConnectionDescription,
             )
         case .noCameraRequestDenied:
             ErrorView(
                 image: .camera,
-                title: L10n.errorNoCameraPermissionTitle,
-                description: L10n.errorNoCameraPermissionDescription,
+                title: .errorNoCameraPermissionTitle,
+                description: .errorNoCameraPermissionDescription,
             )
         default:
             ErrorView(
                 image: .alertInfo,
-                title: L10n.errorUnknownTitle,
-                description: L10n.errorUnknownDescription,
+                title: .errorUnknownTitle,
+                description: .errorUnknownDescription,
             )
         }
     }
@@ -48,34 +48,53 @@ private struct ErrorView: View {
     let description: L10n
 
     var body: some View {
-        VStack(
-            spacing: 0,
-        ) {
-            Spacer()
-            ZStack {
-                Circle()
-                    .fill(color.gradientAccent)
-                Image(image)
-            }
+        DScreen(
+            body: VStack(
+                spacing: 0,
+            ) {
+                Spacer()
+                ZStack {
+                    Circle()
+                        .fill(color.gradientPrimaryWeak)
+                    DIcon(
+                        image,
+                        color: color.grayscaleBackground
+                    )
+                }
                 .frame(width: size.s64, height: size.s64)
                 .padding(.bottom, size.s14)
-            Text(title.string)
-                .font(typography.displayHuge)
+                DText(
+                    title.string,
+                )
+                .dStyle(
+                    alignment: .center
+                )
                 .padding(.bottom, size.s14)
-                .multilineTextAlignment(.center)
-            Text(description.string)
-                .font(typography.textMedium)
-                .multilineTextAlignment(.center)
-            Spacer()
-        }
-        .padding(size.s16)
+                DText(
+                    description.string,
+                )
+                .dStyle(
+                    font: typography.textSmall,
+                    color: color.grayscalePlaceholder,
+                    alignment: .center
+                )
+                .padding(.horizontal, size.s14)
+                .padding(.bottom, size.s14)
+                Spacer()
+                DButton(
+                    title: L10n.buttonUpdate.string,
+                    action: {},
+                )
+            }
+            .padding(size.s16)
+        )
     }
 }
 
 #Preview {
-    ThemeWrapperView(
+    DThemeWrapperView(
         ErrorRootView(
-            error: InitializationError.noCameraRequestDenied
+            error: InitializationError.noInternetConnection
         )
     )
 }

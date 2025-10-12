@@ -9,13 +9,16 @@ import SwiftUI
 import Router
 
 struct MainRootView: View {
-    @EnvironmentObject var dependencyContainer: DependencyContainer
+    let dependencyContainer: DependencyContainer
     
     var body: some View {
-        RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
-            builder: RouterBuilder(),
-            initialRouteScreen: RouteScreen<ScreenType>(
-                type: dependencyContainer.initialScreen
+        DependencyWrapperView(
+            dependencyContainer: dependencyContainer,
+            RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
+                builder: RouterBuilder(),
+                initialRouteScreen: RouteScreen<ScreenType>(
+                    type: dependencyContainer.initialScreen
+                )
             )
         )
     }

@@ -26,8 +26,8 @@ public class DTheme: Combine.ObservableObject {
 public extension DTheme {
     static let light = DTheme(
         color: DColor.light,
-        size: DSize(),
-        typography: DTypography.default,
+        size: DSize.shared,
+        typography: DTypography.shared,
     )
     
     func changeColor(

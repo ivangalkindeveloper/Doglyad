@@ -72,6 +72,13 @@
 			);
 			target = 7720FEE42E9ACE42002EA89E /* DoglyadUI */;
 		};
+		773A697E2E9C4365003C3643 /* Exceptions for "DoglyadUI" folder in "Doglyad" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Assets.xcassets,
+			);
+			target = 77AC58B12E929E7E0028250A /* Doglyad */;
+		};
 		77759AF82E932627007CC90C /* Exceptions for "Doglyad" folder in "Doglyad" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -85,6 +92,7 @@
 		7720FEE62E9ACE42002EA89E /* DoglyadUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				773A697E2E9C4365003C3643 /* Exceptions for "DoglyadUI" folder in "Doglyad" target */,
 				773A697A2E9C24AE003C3643 /* Exceptions for "DoglyadUI" folder in "DoglyadUI" target */,
 			);
 			path = DoglyadUI;

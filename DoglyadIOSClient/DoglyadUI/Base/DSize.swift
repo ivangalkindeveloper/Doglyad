@@ -25,3 +25,7 @@ public struct DSize {
     public let s96: CGFloat = 96
     public let s128: CGFloat = 128
 }
+
+public extension DSize {
+    static let shared = DSize()
+}

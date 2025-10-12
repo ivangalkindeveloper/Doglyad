@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Color {
+public extension Color {
     init(
         hex: UInt,
         alpha: Double = 1
@@ -22,7 +22,7 @@ extension Color {
     }
 }
 
-extension Font {
+public extension Font {
     static func custom(
         _ family: DFontFamily,
         _ size: CGFloat
@@ -31,5 +31,33 @@ extension Font {
             family.rawValue,
             fixedSize: size
         )
+    }
+}
+
+public extension View {
+    @ViewBuilder
+    func `if`<Content: View>(
+        _ condition: Bool,
+        transform: (Self) -> Content
+    ) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
+
+public extension View {
+    @ViewBuilder
+    func ifLet<T, Content: View>(
+        _ value: T?,
+        transform: (Self, T) -> Content
+    ) -> some View {
+        if let value = value {
+            transform(self, value)
+        } else {
+            self
+        }
     }
 }

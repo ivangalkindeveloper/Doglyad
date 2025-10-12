@@ -12,6 +12,7 @@ public struct DTypography {
     public let displayLarge: Font
     public let displayMedium: Font
     public let displaySmall: Font
+    
     public let displayHugeBold: Font
     public let displayLargeBold: Font
     public let displayMediumBold: Font
@@ -29,11 +30,12 @@ public struct DTypography {
 }
 
 public extension DTypography {
-     static let `default` = DTypography(
+     static let shared = DTypography(
         displayHuge: .custom(.PoppinsRegular, 32),
         displayLarge: .custom(.PoppinsRegular, 28),
         displayMedium: .custom(.PoppinsRegular, 24),
         displaySmall: .custom(.PoppinsRegular, 20),
+        
         displayHugeBold: .custom(.PoppinsBold, 32),
         displayLargeBold: .custom(.PoppinsBold, 28),
         displayMediumBold: .custom(.PoppinsBold, 24),

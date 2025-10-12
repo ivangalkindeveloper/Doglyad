@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import DoglyadUI
 
 @main
 struct Application: App {
@@ -14,7 +15,7 @@ struct Application: App {
 
     var body: some Scene {
         WindowGroup {
-            ThemeWrapperView(
+            DThemeWrapperView(
                 AnyView(
                     self.state.root)
                     .onAppear {
