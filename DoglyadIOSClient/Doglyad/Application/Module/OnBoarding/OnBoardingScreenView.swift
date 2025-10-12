@@ -15,7 +15,7 @@ struct OnBoardingScreenView: View {
     @StateObject var viewModel = OnBoardingViewModel()
     
     var body: some View {
-        Text("HistoryScreenView")
+        EmptyView()
     }
 }
 

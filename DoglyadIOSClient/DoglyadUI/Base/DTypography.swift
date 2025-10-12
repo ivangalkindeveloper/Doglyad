@@ -8,26 +8,28 @@
 import SwiftUI
 
 public struct DTypography {
-    let displayHuge: Font
-    let displayLarge: Font
-    let displayMedium: Font
-    let displaySmall: Font
-    let displayHugeBold: Font
-    let displayLargeBold: Font
-    let displayMediumBold: Font
-    let displaySmallBold: Font
+    public let displayHuge: Font
+    public let displayLarge: Font
+    public let displayMedium: Font
+    public let displaySmall: Font
+    public let displayHugeBold: Font
+    public let displayLargeBold: Font
+    public let displayMediumBold: Font
+    public let displaySmallBold: Font
     
-    let textLarge: Font
-    let textMedium: Font
-    let textSmall: Font
-    let textXSmall: Font
+    public let textLarge: Font
+    public let textMedium: Font
+    public let textSmall: Font
+    public let textXSmall: Font
     
-    let linkLarge: Font
-    let linkMedium: Font
-    let linkSmall: Font
-    let linkXSmall: Font
-    
-    public static let `default` = DTypography(
+    public let linkLarge: Font
+    public let linkMedium: Font
+    public let linkSmall: Font
+    public let linkXSmall: Font
+}
+
+public extension DTypography {
+     static let `default` = DTypography(
         displayHuge: .custom(.PoppinsRegular, 32),
         displayLarge: .custom(.PoppinsRegular, 28),
         displayMedium: .custom(.PoppinsRegular, 24),

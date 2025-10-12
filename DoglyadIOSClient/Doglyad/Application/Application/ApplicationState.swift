@@ -19,18 +19,23 @@ final class ApplicationState: ObservableObject {
             },
             steps: InitializationProcess.steps,
             onSuccess: { [weak self] result, _ in
-                self?.root = DependencyWrapperView(
-                    dependencyContainer: result.container,
-                    MainRootView()
+//                self?.root = DependencyWrapperView(
+//                    dependencyContainer: result.container,
+//                    MainRootView()
+//                )
+                self?.root = ErrorRootView(
+                    error: InitializationError.noInternetConnection
                 )
             },
             onError: { [weak self] error, _, _, _ in
-                self?.root = NavigationStack {
-                    ErrorRootView(
-                        error: error
-                    )
-                }
+                self?.root = ErrorRootView(
+                    error: error
+                )
             }
         ).run()
+    }
+    
+    func reload() {
+        
     }
 }

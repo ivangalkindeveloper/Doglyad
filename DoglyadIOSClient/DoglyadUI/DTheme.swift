@@ -8,14 +8,17 @@
 import Combine
 
 public class DTheme: Combine.ObservableObject {
-    @Published var color: DColor
-    @Published var typography: DTypography
+    @Published public var color: DColor
+    @Published public var size: DSize
+    @Published public var typography: DTypography
     
-    private init(
+    init(
         color: DColor,
+        size: DSize,
         typography: DTypography
     ) {
         self.color = color
+        self.size = size
         self.typography = typography
     }
 }
@@ -23,6 +26,7 @@ public class DTheme: Combine.ObservableObject {
 public extension DTheme {
     static let light = DTheme(
         color: DColor.light,
+        size: DSize(),
         typography: DTypography.default,
     )
     

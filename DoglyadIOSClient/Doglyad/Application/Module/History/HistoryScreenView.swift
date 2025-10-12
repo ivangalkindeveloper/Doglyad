@@ -15,7 +15,7 @@ struct HistoryScreenView: View {
     @StateObject var viewModel = HistoryViewModel()
     
     var body: some View {
-        Text("HistoryScreenView")
+        EmptyView()
     }
 }
 

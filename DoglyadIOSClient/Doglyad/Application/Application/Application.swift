@@ -15,7 +15,8 @@ struct Application: App {
     var body: some Scene {
         WindowGroup {
             ThemeWrapperView(
-                AnyView(self.state.root)
+                AnyView(
+                    self.state.root)
                     .onAppear {
                         self.state.initialize()
                     }

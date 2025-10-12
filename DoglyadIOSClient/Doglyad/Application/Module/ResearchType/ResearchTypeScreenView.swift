@@ -15,7 +15,7 @@ struct ResearchTypeScreenView: View {
     @StateObject var viewModel = ResearchTypeViewModel()
     
     var body: some View {
-        Text("ResearchTypeScreenView")
+        EmptyView()
     }
 }
 

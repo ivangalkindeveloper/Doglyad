@@ -15,7 +15,7 @@ struct ConclusionScreenView: View {
     @StateObject var viewModel = ConclusionViewModel()
     
     var body: some View {
-        Text("DiagnosisScreenView")
+        EmptyView()
     }
 }
 

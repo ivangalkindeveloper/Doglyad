@@ -62,15 +62,21 @@ extension InitializationProcess {
             }
         ),
         InitializationStep<InitializationProcess>(
-            title: "DiagnosticsRepository",
+            title: "Repository",
             run: { process in
                 process.diagnosticsRepository = DiagnosticsRepository()
             }
         ),
         AsyncInitializationStep<InitializationProcess>(
-            title: "Camera Request",
+            title: "Permission",
             run: { process in
                 await AVCaptureDevice.requestAccess(for: .video)
+            }
+        ),
+        InitializationStep<InitializationProcess>(
+            title: "Initial screen",
+            run: { process in
+                process.initialScreen = .onBoarding
             }
         ),
     ]
