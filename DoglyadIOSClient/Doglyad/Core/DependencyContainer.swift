@@ -11,12 +11,15 @@ import SwiftData
 final class DependencyContainer: ObservableObject {
     init(
         environment: EnvironmentProtocol,
-        diagnosticsRepository: DiagnosticsRepositoryProtocol
+        diagnosticsRepository: DiagnosticsRepositoryProtocol,
+        initialScreen: ScreenType
     ) {
         self.environment = environment
         self.diagnosticsRepository = diagnosticsRepository
+        self.initialScreen = initialScreen
     }
     
     let environment: EnvironmentProtocol
     let diagnosticsRepository: DiagnosticsRepositoryProtocol
+    let initialScreen: ScreenType
 }

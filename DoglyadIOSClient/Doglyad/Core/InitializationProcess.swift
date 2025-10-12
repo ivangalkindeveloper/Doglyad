@@ -16,12 +16,14 @@ final class InitializationProcess: DependencyInitializationProcess {
     var environment: EnvironmentProtocol?
     var sharedModelContainer: ModelContainer?
     var diagnosticsRepository: DiagnosticsRepositoryProtocol?
+    var initialScreen: ScreenType?
     
     var toContainer: DependencyContainer {
         get {
             DependencyContainer(
                 environment: self.environment!,
                 diagnosticsRepository: self.diagnosticsRepository!,
+                initialScreen: self.initialScreen!,
             )
         }
     }
@@ -33,12 +35,8 @@ extension InitializationProcess {
         InitializationStep<InitializationProcess>(
             title: "Environment",
             run: { process in
-                guard let baseUrlSchemaString = Bundle.main.object(forInfoDictionaryKey: "BASE_URL_SCHEMA") as? String else {
-                    fatalError()
-                }
-                guard let baseUrlString = Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as? String else {
-                    fatalError()
-                }
+                let baseUrlSchemaString = Bundle.dictionaryString(.BASE_URL_SCHEMA)
+                let baseUrlString = Bundle.dictionaryString(.BASE_URL)
                 let baseUrl = URL(string: "\(baseUrlSchemaString)://\(baseUrlString)")!
                 
                 process.environment = EnvironmentBase(
