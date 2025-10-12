@@ -17,19 +17,19 @@ struct ErrorRootView: View {
         switch error {
         case .noInternetConnection:
             ErrorView(
-                imageName: "",
+                image: .wifi,
                 title: L10n.errorNoInternetConnectionTitle,
                 description: L10n.errorNoInternetConnectionDescription,
             )
         case .noCameraRequestDenied:
             ErrorView(
-                imageName: "",
+                image: .camera,
                 title: L10n.errorNoCameraPermissionTitle,
                 description: L10n.errorNoCameraPermissionDescription,
             )
         default:
             ErrorView(
-                imageName: "",
+                image: .alertInfo,
                 title: L10n.errorUnknownTitle,
                 description: L10n.errorUnknownDescription,
             )
@@ -43,7 +43,7 @@ private struct ErrorView: View {
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
 
-    let imageName: String
+    let image: ImageResource
     let title: L10n
     let description: L10n
 
@@ -55,9 +55,9 @@ private struct ErrorView: View {
             ZStack {
                 Circle()
                     .fill(color.gradientAccent)
-//                Image(imageName)
+                Image(image)
             }
-                .frame(width: size.s128, height: size.s64)
+                .frame(width: size.s64, height: size.s64)
                 .padding(.bottom, size.s14)
             Text(title.string)
                 .font(typography.displayHuge)
@@ -75,7 +75,7 @@ private struct ErrorView: View {
 #Preview {
     ThemeWrapperView(
         ErrorRootView(
-            error: InitializationError.noInternetConnection
+            error: InitializationError.noCameraRequestDenied
         )
     )
 }

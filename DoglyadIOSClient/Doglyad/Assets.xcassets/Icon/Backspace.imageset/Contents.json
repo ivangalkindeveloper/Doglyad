@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Backspace.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

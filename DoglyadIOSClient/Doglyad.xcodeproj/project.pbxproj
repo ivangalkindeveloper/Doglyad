@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; };
 		7720FEEC2E9ACE43002EA89E /* DoglyadUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		773A696A2E9C1054003C3643 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 773A69692E9C104A003C3643 /* swiftgen.yml */; };
 		773A696D2E9C1207003C3643 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 773A696C2E9C1202003C3643 /* Makefile */; };
 		77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77759AFA2E932B78007CC90C /* DependencyInitializer */; };
 		777E469A2E9317F000F9FF2C /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 777E46992E9317F000F9FF2C /* Router */; };
@@ -58,7 +57,6 @@
 
 /* Begin PBXFileReference section */
 		7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		773A69692E9C104A003C3643 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		773A696C2E9C1202003C3643 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		77AC58B22E929E7E0028250A /* Doglyad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doglyad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58C12E929E800028250A /* DoglyadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				773A696C2E9C1202003C3643 /* Makefile */,
-				773A69692E9C104A003C3643 /* swiftgen.yml */,
 				77BB12512E92C62A00B9FFC5 /* Config.xcconfig */,
 				77AC58B42E929E7E0028250A /* Doglyad */,
 				77AC58C42E929E800028250A /* DoglyadTests */,
@@ -349,7 +346,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				77BB12522E92C62A00B9FFC5 /* Config.xcconfig in Resources */,
-				773A696A2E9C1054003C3643 /* swiftgen.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
