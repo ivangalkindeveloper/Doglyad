@@ -53,8 +53,8 @@ private struct DTextModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(font ?? theme.typography.displaySmallBold)
-            .foregroundStyle(color ?? theme.color.grayscaleBody)
+            .font(font ?? theme.typography.textMedium)
+            .foregroundStyle(color ?? theme.color.grayscaleHeader)
             .multilineTextAlignment(alignment ?? .leading)
     }
 }

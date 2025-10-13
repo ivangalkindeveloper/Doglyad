@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ErrorRootView: View {
     let error: Error
+    @StateObject var state: ApplicationState
 
     var body: some View {
         let error = error as? InitializationError
@@ -20,18 +21,21 @@ struct ErrorRootView: View {
                 image: .wifi,
                 title: .errorNoInternetConnectionTitle,
                 description: .errorNoInternetConnectionDescription,
+                state: self.state
             )
         case .noCameraRequestDenied:
             ErrorView(
                 image: .camera,
                 title: .errorNoCameraPermissionTitle,
                 description: .errorNoCameraPermissionDescription,
+                state: self.state
             )
         default:
             ErrorView(
                 image: .alertInfo,
                 title: .errorUnknownTitle,
                 description: .errorUnknownDescription,
+                state: self.state
             )
         }
     }
@@ -46,7 +50,8 @@ private struct ErrorView: View {
     let image: ImageResource
     let title: L10n
     let description: L10n
-
+    @StateObject var state: ApplicationState
+    
     var body: some View {
         DScreen(
             body: VStack(
@@ -62,14 +67,15 @@ private struct ErrorView: View {
                     )
                 }
                 .frame(width: size.s64, height: size.s64)
-                .padding(.bottom, size.s14)
+                .padding(.bottom, size.s16)
                 DText(
                     title.string,
                 )
                 .dStyle(
+                    font: theme.typography.linkMedium,
                     alignment: .center
                 )
-                .padding(.bottom, size.s14)
+                .padding(.bottom, size.s10)
                 DText(
                     description.string,
                 )
@@ -83,7 +89,8 @@ private struct ErrorView: View {
                 Spacer()
                 DButton(
                     title: L10n.buttonUpdate.string,
-                    action: {},
+                    action: self.state.initialize,
+                    isLoading: self.state.isLoading
                 )
             }
             .padding(size.s16)
@@ -94,7 +101,8 @@ private struct ErrorView: View {
 #Preview {
     DThemeWrapperView(
         ErrorRootView(
-            error: InitializationError.noInternetConnection
+            error: InitializationError.noInternetConnection,
+            state: ApplicationState(),
         )
     )
 }

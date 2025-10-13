@@ -28,16 +28,21 @@ public struct DButton: View {
     
     public var body: some View {
         Button(
-            action: action,
+            action: isLoading ? {} : action,
             label: {
                 if isLoading {
                     ProgressView()
+                        .progressViewStyle(
+                            CircularProgressViewStyle(
+                                tint: theme.color.grayscaleBackground
+                            )
+                        )
                 } else {
                     DText(
                         title ?? ""
                     )
                     .dStyle(
-                        font: theme.typography.linkMedium,
+                        font: theme.typography.linkSmall,
                         color: theme.color.grayscaleBackground,
                     )
                 }
@@ -72,12 +77,15 @@ private struct DButtonStyle: ButtonStyle {
 }
 
 #Preview {
+    @Previewable @State var isLoading = false
+    
     DThemeWrapperView(
         DButton(
             title: "Preview",
             action: {
-                
-            }
+                isLoading = !isLoading
+            },
+            isLoading: isLoading
         )
         .padding()
     )

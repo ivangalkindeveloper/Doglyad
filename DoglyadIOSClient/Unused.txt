@@ -1,3 +1,0 @@
-button_next
-button_start
-button_update

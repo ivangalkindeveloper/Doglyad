@@ -76,6 +76,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Assets.xcassets,
+				"Resources/Poppins-Bold.ttf",
+				"Resources/Poppins-Medium.ttf",
+				"Resources/Poppins-Regular.ttf",
+				"Resources/Poppins-SemiBold.ttf",
 			);
 			target = 77AC58B12E929E7E0028250A /* Doglyad */;
 		};

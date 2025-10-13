@@ -37,14 +37,5 @@ public struct DScreen<Content: View>: View {
             view
                 .navigationTitle(title)
         }
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button("Опции") { }
-//            }
-//        }
     }
 }
-
-//#Preview {
-//    DScreen()
-//}

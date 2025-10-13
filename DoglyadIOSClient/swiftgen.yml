@@ -1,6 +1,0 @@
-strings:
-  inputs:
-    - Doglyad/Resources/Localizable.xstrings
-  outputs:
-    templateName: structured-swift5
-    output: Doglyad/Generated/Strings.swift

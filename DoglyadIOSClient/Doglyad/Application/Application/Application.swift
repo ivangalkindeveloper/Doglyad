@@ -11,13 +11,18 @@ import DoglyadUI
 
 @main
 struct Application: App {
+    init() {
+        FontRegistrar.registerFonts()
+    }
+    
     @StateObject private var state = ApplicationState()
 
     var body: some Scene {
         WindowGroup {
             DThemeWrapperView(
                 AnyView(
-                    self.state.root)
+                    self.state.root
+                )
                     .onAppear {
                         self.state.initialize()
                     }
@@ -25,4 +30,5 @@ struct Application: App {
         }
     }
 }
+
 
