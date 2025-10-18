@@ -9,7 +9,7 @@ import Foundation
 
 struct ResearchData {
     let timestamp: Date
-    let researchType: UltraSoundResearhType
+    let researchType: USResearhType
     let photos: [ScanPhoto]
     let personalData: PatientPersonalData
     let anamnesis: PatientAnamnesis

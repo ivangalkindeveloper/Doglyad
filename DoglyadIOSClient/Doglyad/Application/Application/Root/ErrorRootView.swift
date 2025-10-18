@@ -9,49 +9,58 @@ import DoglyadUI
 import SwiftUI
 
 struct ErrorRootView: View {
+    @EnvironmentObject var viewModel: ApplicationViewModel
     let error: Error
-    @StateObject var state: ApplicationState
 
     var body: some View {
         let error = error as? InitializationError
-
         switch error {
         case .noInternetConnection:
             ErrorView(
+                error: self.error,
                 image: .wifi,
                 title: .errorNoInternetConnectionTitle,
                 description: .errorNoInternetConnectionDescription,
-                state: self.state
+                buttonTitle: .buttonUpdate,
+                action: self.viewModel.initialize
             )
         case .noCameraRequestDenied:
             ErrorView(
+                error: self.error,
                 image: .camera,
                 title: .errorNoCameraPermissionTitle,
                 description: .errorNoCameraPermissionDescription,
-                state: self.state
+                buttonTitle: .buttonOpenSettings,
+                action: self.viewModel.openSettings
             )
-        default:
+        case .some(.common), .none:
             ErrorView(
+                error: self.error,
                 image: .alertInfo,
                 title: .errorUnknownTitle,
                 description: .errorUnknownDescription,
-                state: self.state
+                buttonTitle: .buttonUpdate,
+                action: self.viewModel.initialize
             )
         }
     }
 }
 
 private struct ErrorView: View {
+    @EnvironmentObject var viewModel: ApplicationViewModel
     @EnvironmentObject var theme: DTheme
+    
     var color: DColor { theme.color }
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
 
+    let error: Error
     let image: ImageResource
     let title: L10n
     let description: L10n
-    @StateObject var state: ApplicationState
-    
+    let buttonTitle: L10n
+    let action: () -> Void
+
     var body: some View {
         DScreen(
             body: VStack(
@@ -88,9 +97,9 @@ private struct ErrorView: View {
                 .padding(.bottom, size.s14)
                 Spacer()
                 DButton(
-                    title: L10n.buttonUpdate.string,
-                    action: self.state.initialize,
-                    isLoading: self.state.isLoading
+                    title: buttonTitle.string,
+                    action: self.action,
+                    isLoading: self.viewModel.isLoading
                 )
             }
             .padding(size.s16)
@@ -99,10 +108,11 @@ private struct ErrorView: View {
 }
 
 #Preview {
-    DThemeWrapperView(
-        ErrorRootView(
-            error: InitializationError.noInternetConnection,
-            state: ApplicationState(),
+    ApplicationWrapperView(
+        DThemeWrapperView(
+            ErrorRootView(
+                error: InitializationError.noInternetConnection,
+            )
         )
     )
 }

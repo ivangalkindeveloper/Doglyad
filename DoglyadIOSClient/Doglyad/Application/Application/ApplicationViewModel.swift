@@ -8,11 +8,11 @@
 import SwiftUI
 import DependencyInitializer
 
-@MainActor
-final class ApplicationState: ObservableObject {
+final class ApplicationViewModel: ObservableObject {
     @Published var root: any View = EmptyView()
     @Published var isLoading = false
 
+    @MainActor
     func initialize() -> Void {
         isLoading = true
         DependencyInitializer<InitializationProcess, DependencyContainer>(
@@ -23,12 +23,8 @@ final class ApplicationState: ObservableObject {
             onSuccess: { [weak self] result, _ in
                 guard let self = self else { return }
                 isLoading = false
-                //                self?.root = MainRootView(
-                //                    dependencyContainer: result.container,
-                //                )
-                self.root = ErrorRootView(
-                    error: InitializationError.noCameraRequestDenied,
-                    state: self
+                self.root = MainRootView(
+                    dependencyContainer: result.container,
                 )
             },
             onError: { [weak self] error, _, _, _ in
@@ -36,9 +32,12 @@ final class ApplicationState: ObservableObject {
                 self.isLoading = false
                 self.root = ErrorRootView(
                     error: error,
-                    state: self
                 )
             }
         ).run()
+    }
+    
+    func openSettings() {
+        UIApplication.openSettings()
     }
 }

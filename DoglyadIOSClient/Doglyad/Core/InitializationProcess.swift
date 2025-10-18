@@ -9,13 +9,20 @@ import Foundation
 import SwiftData
 import DependencyInitializer
 import AVFoundation
+import DoglyadDB
 
 final class InitializationProcess: DependencyInitializationProcess {
     typealias T = DependencyContainer
     
     var environment: EnvironmentProtocol?
-    var sharedModelContainer: ModelContainer?
+    
+    var connectionManager: ConnectionManagerProtocol?
+    var permissionmanager: PermissionManagerProtocol?
+    
+    var database: DDatabase?
+    
     var diagnosticsRepository: DiagnosticsRepositoryProtocol?
+    
     var initialScreen: ScreenType?
     
     var toContainer: DependencyContainer {
@@ -38,27 +45,23 @@ extension InitializationProcess {
                 let baseUrlSchemaString = Bundle.dictionaryString(.BASE_URL_SCHEMA)
                 let baseUrlString = Bundle.dictionaryString(.BASE_URL)
                 let baseUrl = URL(string: "\(baseUrlSchemaString)://\(baseUrlString)")!
-                
                 process.environment = EnvironmentBase(
                     baseURL: baseUrl
                 )
             }
         ),
         InitializationStep<InitializationProcess>(
+            title: "Manager",
+            run: { process in
+                process.connectionManager = ConnectionManager()
+                process.connectionManager?.start()
+                process.permissionmanager = PermissionManager()
+            }
+        ),
+        InitializationStep<InitializationProcess>(
             title: "ModelContainer",
             run: { process in
-                let schema = Schema([
-                    // Model
-                ])
-                let modelConfiguration = ModelConfiguration(
-                    schema: schema,
-                    isStoredInMemoryOnly: false
-                )
-                process.sharedModelContainer = try ModelContainer(
-                    for: schema,
-                    configurations: [
-                        modelConfiguration
-                    ])
+                process.database = try DDatabase()
             }
         ),
         InitializationStep<InitializationProcess>(
@@ -67,16 +70,34 @@ extension InitializationProcess {
                 process.diagnosticsRepository = DiagnosticsRepository()
             }
         ),
+        InitializationStep<InitializationProcess>(
+            title: "Internet connection",
+            run: { process in
+                let isConnected = process.connectionManager!.isConnected
+                if !isConnected {
+                    throw InitializationError.noInternetConnection
+                }
+            }
+        ),
         AsyncInitializationStep<InitializationProcess>(
             title: "Permission",
             run: { process in
-                await AVCaptureDevice.requestAccess(for: .video)
+                let isGranted = await process.permissionmanager!.isGranted(.camera)
+                if !isGranted {
+                    throw InitializationError.noCameraRequestDenied
+                }
             }
         ),
         InitializationStep<InitializationProcess>(
             title: "Initial screen",
             run: { process in
-                process.initialScreen = .onBoarding
+                let isOnBoardingCompleted = process.database!.getOnBoardingCompleted()
+                let selectedUSResearchType = process.database!.getSelectedUSResearchType()
+                if isOnBoardingCompleted && selectedUSResearchType != nil {
+                    process.initialScreen = .scan
+                } else {
+                    process.initialScreen = .onBoarding
+                }
             }
         ),
     ]

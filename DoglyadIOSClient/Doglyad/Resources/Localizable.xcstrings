@@ -18,6 +18,23 @@
         }
       }
     },
+    "button_open_settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В настройки"
+          }
+        }
+      }
+    },
     "button_start" : {
       "extractionState" : "manual",
       "localizations" : {

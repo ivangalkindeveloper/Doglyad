@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol EnvironmentProtocol {
+protocol EnvironmentProtocol: AnyObject {
     var baseURL: URL { get }
 }
 

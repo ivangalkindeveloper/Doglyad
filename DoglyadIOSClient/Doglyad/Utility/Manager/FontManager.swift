@@ -8,8 +8,16 @@
 import Foundation
 import SwiftUI
 
-final class FontRegistrar {
-    static func registerFonts() {
+protocol FontManagerProtocol: AnyObject {
+    func registerFonts() -> Void
+    
+    func registerFont(named name: String, fileExtension: String) -> Void
+}
+
+final class FontManager {}
+
+extension FontManager: FontManagerProtocol {
+    func registerFonts() -> Void {
         registerFont(named: "Poppins-Regular", fileExtension: "ttf")
         registerFont(named: "Poppins-Medium", fileExtension: "ttf")
         registerFont(named: "Poppins-SemiBold", fileExtension: "ttf")
@@ -17,13 +25,12 @@ final class FontRegistrar {
         
     }
 
-    static func registerFont(named name: String, fileExtension: String) {
+    func registerFont(named name: String, fileExtension: String) -> Void {
         let bundle = Bundle(for: InitializationProcess.self)
         guard let fontURL = bundle.url(forResource: name, withExtension: fileExtension),
               let dataProvider = CGDataProvider(url: fontURL as CFURL),
               let font = CGFont(dataProvider)
         else {
-            print("⚠️ Не удалось найти шрифт \(name)")
             return
         }
 

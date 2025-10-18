@@ -1,0 +1,10 @@
+button_next
+button_open_settings
+button_start
+button_update
+error_no_camera_permission_description
+error_no_camera_permission_title
+error_no_internet_connection_description
+error_no_internet_connection_title
+error_unknown_description
+error_unknown_title

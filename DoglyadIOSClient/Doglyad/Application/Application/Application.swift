@@ -12,20 +12,23 @@ import DoglyadUI
 @main
 struct Application: App {
     init() {
-        FontRegistrar.registerFonts()
+        FontManager().registerFonts()
     }
     
-    @StateObject private var state = ApplicationState()
+    @StateObject private var viewModel = ApplicationViewModel()
 
     var body: some Scene {
         WindowGroup {
-            DThemeWrapperView(
-                AnyView(
-                    self.state.root
+            ApplicationWrapperView(
+                viewModel: viewModel,
+                DThemeWrapperView(
+                    AnyView(
+                        self.viewModel.root
+                    )
+                        .onAppear {
+                            self.viewModel.initialize()
+                        }
                 )
-                    .onAppear {
-                        self.state.initialize()
-                    }
             )
         }
     }

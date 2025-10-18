@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		771F41AE2EA430B400C4945A /* DoglyadDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 771F41A82EA430B400C4945A /* DoglyadDB.framework */; };
+		771F41AF2EA430B400C4945A /* DoglyadDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 771F41A82EA430B400C4945A /* DoglyadDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; };
 		7720FEEC2E9ACE43002EA89E /* DoglyadUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		773A696D2E9C1207003C3643 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 773A696C2E9C1202003C3643 /* Makefile */; };
@@ -18,6 +20,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		771F41AC2EA430B400C4945A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77AC58AA2E929E7E0028250A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 771F41A72EA430B400C4945A;
+			remoteInfo = DoglyadDB;
+		};
 		7720FEE92E9ACE43002EA89E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 77AC58AA2E929E7E0028250A /* Project object */;
@@ -49,6 +58,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				7720FEEC2E9ACE43002EA89E /* DoglyadUI.framework in Embed Frameworks */,
+				771F41AF2EA430B400C4945A /* DoglyadDB.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		771F41A82EA430B400C4945A /* DoglyadDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A696C2E9C1202003C3643 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		77AC58B22E929E7E0028250A /* Doglyad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doglyad.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +104,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		771F41A92EA430B400C4945A /* DoglyadDB */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DoglyadDB;
+			sourceTree = "<group>";
+		};
 		7720FEE62E9ACE42002EA89E /* DoglyadUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -123,6 +139,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		771F41A52EA430B400C4945A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7720FEE22E9ACE42002EA89E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +162,7 @@
 				77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */,
 				777E469A2E9317F000F9FF2C /* Router in Frameworks */,
 				778D6BED2E930BDE00F1D352 /* Router in Frameworks */,
+				771F41AE2EA430B400C4945A /* DoglyadDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +192,7 @@
 				77AC58C42E929E800028250A /* DoglyadTests */,
 				77AC58CE2E929E800028250A /* DoglyadUITests */,
 				7720FEE62E9ACE42002EA89E /* DoglyadUI */,
+				771F41A92EA430B400C4945A /* DoglyadDB */,
 				77AC58B32E929E7E0028250A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -179,6 +204,7 @@
 				77AC58C12E929E800028250A /* DoglyadTests.xctest */,
 				77AC58CB2E929E800028250A /* DoglyadUITests.xctest */,
 				7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */,
+				771F41A82EA430B400C4945A /* DoglyadDB.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +212,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		771F41A32EA430B400C4945A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7720FEE02E9ACE42002EA89E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -196,6 +229,29 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		771F41A72EA430B400C4945A /* DoglyadDB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 771F41B02EA430B400C4945A /* Build configuration list for PBXNativeTarget "DoglyadDB" */;
+			buildPhases = (
+				771F41A32EA430B400C4945A /* Headers */,
+				771F41A42EA430B400C4945A /* Sources */,
+				771F41A52EA430B400C4945A /* Frameworks */,
+				771F41A62EA430B400C4945A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				771F41A92EA430B400C4945A /* DoglyadDB */,
+			);
+			name = DoglyadDB;
+			packageProductDependencies = (
+			);
+			productName = DoglyadDB;
+			productReference = 771F41A82EA430B400C4945A /* DoglyadDB.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		7720FEE42E9ACE42002EA89E /* DoglyadUI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7720FEF02E9ACE43002EA89E /* Build configuration list for PBXNativeTarget "DoglyadUI" */;
@@ -232,6 +288,7 @@
 			);
 			dependencies = (
 				7720FEEA2E9ACE43002EA89E /* PBXTargetDependency */,
+				771F41AD2EA430B400C4945A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				77AC58B42E929E7E0028250A /* Doglyad */,
@@ -303,6 +360,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					771F41A72EA430B400C4945A = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					7720FEE42E9ACE42002EA89E = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -341,11 +401,19 @@
 				77AC58C02E929E800028250A /* DoglyadTests */,
 				77AC58CA2E929E800028250A /* DoglyadUITests */,
 				7720FEE42E9ACE42002EA89E /* DoglyadUI */,
+				771F41A72EA430B400C4945A /* DoglyadDB */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		771F41A62EA430B400C4945A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7720FEE32E9ACE42002EA89E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,6 +446,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		771F41A42EA430B400C4945A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7720FEE12E9ACE42002EA89E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -410,6 +485,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		771F41AD2EA430B400C4945A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 771F41A72EA430B400C4945A /* DoglyadDB */;
+			targetProxy = 771F41AC2EA430B400C4945A /* PBXContainerItemProxy */;
+		};
 		7720FEEA2E9ACE43002EA89E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7720FEE42E9ACE42002EA89E /* DoglyadUI */;
@@ -428,6 +508,76 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		771F41B12EA430B400C4945A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadDB;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		771F41B22EA430B400C4945A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadDB;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		7720FEEE2E9ACE43002EA89E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -796,6 +946,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		771F41B02EA430B400C4945A /* Build configuration list for PBXNativeTarget "DoglyadDB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				771F41B12EA430B400C4945A /* Debug */,
+				771F41B22EA430B400C4945A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7720FEF02E9ACE43002EA89E /* Build configuration list for PBXNativeTarget "DoglyadUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

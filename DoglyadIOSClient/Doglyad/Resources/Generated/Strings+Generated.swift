@@ -8,22 +8,31 @@ public enum L10n: Equatable, Hashable {
   #warning("Unused key: buttonNext")
   /// Next
   case buttonNext
+  #warning("Unused key: buttonOpenSettings")
+  /// Open settings
+  case buttonOpenSettings
   #warning("Unused key: buttonStart")
   /// Let’s start!
   case buttonStart
   #warning("Unused key: buttonUpdate")
   /// Update
   case buttonUpdate
+  #warning("Unused key: errorNoCameraPermissionDescription")
   /// Please check camera permission for taking scan photos and try again
   case errorNoCameraPermissionDescription
+  #warning("Unused key: errorNoCameraPermissionTitle")
   /// Camera permission denied
   case errorNoCameraPermissionTitle
+  #warning("Unused key: errorNoInternetConnectionDescription")
   /// Please check your internet connection and try again
   case errorNoInternetConnectionDescription
+  #warning("Unused key: errorNoInternetConnectionTitle")
   /// No intenet connection
   case errorNoInternetConnectionTitle
+  #warning("Unused key: errorUnknownDescription")
   /// Please try again later
   case errorUnknownDescription
+  #warning("Unused key: errorUnknownTitle")
   /// Unknown error
   case errorUnknownTitle
 }
@@ -35,6 +44,8 @@ extension L10n: CustomStringConvertible {
     switch self {
     case .buttonNext:
       return L10n.tr(key: "button_next")
+    case .buttonOpenSettings:
+      return L10n.tr(key: "button_open_settings")
     case .buttonStart:
       return L10n.tr(key: "button_start")
     case .buttonUpdate:

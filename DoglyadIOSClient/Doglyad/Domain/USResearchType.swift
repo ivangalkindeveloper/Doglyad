@@ -5,6 +5,6 @@
 //  Created by Иван Галкин on 09.10.2025.
 //
 
-enum UltraSoundResearhType {
+enum USResearhType {
     case thyroidGland // Щитовидная железа
 }

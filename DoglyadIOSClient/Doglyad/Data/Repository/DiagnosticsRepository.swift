@@ -5,7 +5,11 @@
 //  Created by Иван Галкин on 05.10.2025.
 //
 
-protocol DiagnosticsRepositoryProtocol {}
+protocol DiagnosticsRepositoryProtocol {
+    func isOnBoardingCompleted() -> Bool
+}
 
-final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {}
+final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
+    func isOnBoardingCompleted() -> Bool {false}
+}
 
