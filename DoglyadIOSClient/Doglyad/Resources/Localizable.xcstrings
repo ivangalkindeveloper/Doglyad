@@ -255,6 +255,57 @@
           }
         }
       }
+    },
+    "research_type_future_adding_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We are already in the process of adding new research types, expect them in the next updates."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях."
+          }
+        }
+      }
+    },
+    "research_type_thyroid_gland" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thyroid gland"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щитовидная железа"
+          }
+        }
+      }
+    },
+    "research_type_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Research type"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип исследования"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

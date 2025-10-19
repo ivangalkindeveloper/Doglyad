@@ -26,7 +26,16 @@ final class OnBoardingViewModel: ObservableObject {
             page = .researchType
             
         case .researchType:
-            page = .scan
+            router.push(
+                route: RouteSheet(
+                    type: .researchType,
+                    arguments: ResearchTypeScreenArguments(
+                        onSelected: { researchType in
+                            self.page = .scan
+                        }
+                    )
+                )
+            )
             
         case .scan:
             router.push(

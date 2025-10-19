@@ -37,6 +37,7 @@ public extension DText {
 
 private struct DTextModifier: ViewModifier {
     @EnvironmentObject var theme: DTheme
+    
     let font: Font?
     let color: Color?
     let alignment: TextAlignment?

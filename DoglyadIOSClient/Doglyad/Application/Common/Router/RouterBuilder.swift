@@ -46,7 +46,7 @@ final class RouterBuilder: RouterBuilderProtocol {
     ) -> AnyView {
         switch route.type {
         case .researchType:
-            AnyView(ResearchTypeScreen(
+            AnyView(ResearchTypeBottomSheet(
                 arguments: route.arguments as? ResearchTypeScreenArguments
             ))
         }

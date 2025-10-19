@@ -10,10 +10,8 @@ public enum L10n: Equatable, Hashable {
   #warning("Unused key: buttonOpenSettings")
   /// Open settings
   case buttonOpenSettings
-  #warning("Unused key: buttonSelectType")
   /// Select type
   case buttonSelectType
-  #warning("Unused key: buttonStart")
   /// Let’s start!
   case buttonStart
   #warning("Unused key: buttonUpdate")
@@ -48,6 +46,14 @@ public enum L10n: Equatable, Hashable {
   case onBoardingScanDescription
   /// Welcome to Doglyad!
   case onBoardingTitle
+  /// We are already in the process of adding new research types, expect them in the next updates.
+  case researchTypeFutureAddingDescription
+  #warning("Unused key: researchTypeThyroidGland")
+  /// Thyroid gland
+  case researchTypeThyroidGland
+  #warning("Unused key: researchTypeTitle")
+  /// Research type
+  case researchTypeTitle
 }
 
 extension L10n: CustomStringConvertible {
@@ -85,6 +91,12 @@ extension L10n: CustomStringConvertible {
       return L10n.tr(key: "on_boarding_scan_description")
     case .onBoardingTitle:
       return L10n.tr(key: "on_boarding_title")
+    case .researchTypeFutureAddingDescription:
+      return L10n.tr(key: "research_type_future_adding_description")
+    case .researchTypeThyroidGland:
+      return L10n.tr(key: "research_type_thyroid_gland")
+    case .researchTypeTitle:
+      return L10n.tr(key: "research_type_title")
     }
   }
 

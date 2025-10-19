@@ -21,24 +21,26 @@ struct ScanScreen: View {
     @StateObject private var cameraViewModel = CameraViewModel()
 
     var body: some View {
-        ZStack {
-            CameraView(
-                viewModel: cameraViewModel
-            )
-                .ignoresSafeArea()
-            VStack {
-                Spacer()
-                HStack {
-                    Button(
-                        action: cameraViewModel.takePhoto
-                    ) {
-                        Circle()
-                            .stroke(lineWidth: 5)
-                            .frame(width: 70, height: 70)
-                            .overlay(Circle().fill(Color.white.opacity(0.3)))
+        DScreen {
+            ZStack {
+                CameraView(
+                    viewModel: cameraViewModel
+                )
+                    .ignoresSafeArea()
+                VStack {
+                    Spacer()
+                    HStack {
+                        Button(
+                            action: cameraViewModel.takePhoto
+                        ) {
+                            Circle()
+                                .stroke(lineWidth: 5)
+                                .frame(width: 70, height: 70)
+                                .overlay(Circle().fill(Color.white.opacity(0.3)))
+                        }
                     }
+                    .padding(.bottom, 30)
                 }
-                .padding(.bottom, 30)
             }
         }
         .onDisappear {

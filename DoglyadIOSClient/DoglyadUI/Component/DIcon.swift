@@ -8,7 +8,8 @@
 import SwiftUI
 
 public struct DIcon: View {
-    @EnvironmentObject var theme: DTheme
+    @EnvironmentObject private var theme: DTheme
+    
     let resource: ImageResource
     let color: Color?
     

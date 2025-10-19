@@ -1,6 +1,4 @@
 button_open_settings
-button_select_type
-button_start
 button_update
 error_no_camera_permission_description
 error_no_camera_permission_title
@@ -11,3 +9,5 @@ error_unknown_title
 on_boarding_intro_description
 on_boarding_research_type_description
 on_boarding_scan_description
+research_type_thyroid_gland
+research_type_title

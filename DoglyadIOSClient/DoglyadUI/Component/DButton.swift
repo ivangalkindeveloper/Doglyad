@@ -8,7 +8,10 @@
 import SwiftUI
 
 public struct DButton: View {
-    @EnvironmentObject var theme: DTheme
+    @EnvironmentObject private var theme: DTheme
+    private var color: DColor { theme.color }
+    private var typography: DTypography { theme.typography }
+    
     let prefix: DIcon?
     let title: String?
     let action: () -> Void
@@ -34,7 +37,7 @@ public struct DButton: View {
                     ProgressView()
                         .progressViewStyle(
                             CircularProgressViewStyle(
-                                tint: theme.color.grayscaleBackground
+                                tint: color.grayscaleBackground
                             )
                         )
                 } else {
@@ -42,8 +45,8 @@ public struct DButton: View {
                         title ?? ""
                     )
                     .dStyle(
-                        font: theme.typography.linkSmall,
-                        color: theme.color.grayscaleBackground,
+                        font: typography.linkSmall,
+                        color: color.grayscaleBackground,
                     )
                 }
 
@@ -54,18 +57,20 @@ public struct DButton: View {
 }
 
 private struct DButtonStyle: ButtonStyle {
-    @EnvironmentObject var theme: DTheme
+    @EnvironmentObject private var theme: DTheme
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding(theme.size.s14)
+            .padding(size.s14)
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(
-                    cornerRadius: theme.size.s16
+                    cornerRadius: size.s16
                 )
                     .fill(
-                        theme.color.gradientPrimaryWeak.opacity(configuration.isPressed ? 0.6: 1)
+                        color.gradientPrimaryWeak.opacity(configuration.isPressed ? 0.6: 1)
                     )
             )
             .foregroundColor(.white)

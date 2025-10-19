@@ -21,49 +21,50 @@ struct OnBoardingScreen: View {
     @StateObject private var viewModel = OnBoardingViewModel()
     
     var body: some View {
-        VStack(
-            alignment: .leading,
-            spacing: 0,
-        ) {
-            DText(
-                L10n.onBoardingTitle.string,
-            )
-            .dStyle(
-                font: typography.displayLargeBold,
-            )
-            .padding(size.s16)
-            TabView(
-                selection: $viewModel.page
+        DScreen {
+            VStack(
+                alignment: .leading,
+                spacing: 0,
             ) {
-                Page(
-                    description: .onBoardingIntroDescription,
-                    tag: .intro
+                DText(
+                    L10n.onBoardingTitle.string,
                 )
-                Page(
-                    description: .onBoardingResearchTypeDescription,
-                    tag: .researchType
+                .dStyle(
+                    font: typography.displayLargeBold,
                 )
-                Page(
-                    description: .onBoardingScanDescription,
-                    tag: .scan
-                )
-            }
-            .tabViewStyle(.page(indexDisplayMode: .always))
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
-            .animation(.easeInOut, value: viewModel.page)
-            .allowsHitTesting(false)
-            .padding(.bottom, size.s16)
-            DButton(
-                title: title(viewModel.page).string,
-                action: {
-                    viewModel.onPressedNext(
-                        router: router
+                .padding(size.s16)
+                TabView(
+                    selection: $viewModel.page
+                ) {
+                    Page(
+                        description: .onBoardingIntroDescription,
+                        tag: .intro
+                    )
+                    Page(
+                        description: .onBoardingResearchTypeDescription,
+                        tag: .researchType
+                    )
+                    Page(
+                        description: .onBoardingScanDescription,
+                        tag: .scan
                     )
                 }
-            )
-            .padding(size.s16)
+                .tabViewStyle(.page(indexDisplayMode: .always))
+                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .animation(.easeInOut, value: viewModel.page)
+                .allowsHitTesting(false)
+                .padding(.bottom, size.s16)
+                DButton(
+                    title: title(viewModel.page).string,
+                    action: {
+                        viewModel.onPressedNext(
+                            router: router
+                        )
+                    }
+                )
+                .padding(size.s16)
+            }
         }
-
     }
 }
 
