@@ -21,15 +21,16 @@ struct Application: App {
         WindowGroup {
             ApplicationWrapperView(
                 viewModel: viewModel,
-                DThemeWrapperView(
+            ) {
+                DThemeWrapperView {
                     AnyView(
                         self.viewModel.root
                     )
                         .onAppear {
                             self.viewModel.initialize()
                         }
-                )
-            )
+                }
+            }
         }
     }
 }

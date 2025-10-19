@@ -9,16 +9,16 @@ import SwiftUI
 
 public struct DThemeWrapperView<Content: View>: View {
     @StateObject private var theme = DTheme.light
-    var child: Content
+    @ViewBuilder  let content: () -> Content
 
     public init(
-        _ child: Content
+        content: @escaping () -> Content
     ) {
-        self.child = child
+        self.content = content
     }
 
     public var body: some View {
-        child
+        content()
             .environmentObject(theme)
     }
 }

@@ -7,12 +7,16 @@
 
 import SwiftUI
 import Router
+import DoglyadUI
 
 final class ScanScreenArguments: RouteArgumentsProtocol {}
 
-struct ScanScreenView: View {
-    let arguments: ScanScreenArguments?
+struct ScanScreen: View {
+    @EnvironmentObject private var theme: DTheme
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
     
+    let arguments: ScanScreenArguments?
     @StateObject private var viewModel = ScanViewModel()
     @StateObject private var cameraViewModel = CameraViewModel()
 
@@ -22,7 +26,6 @@ struct ScanScreenView: View {
                 viewModel: cameraViewModel
             )
                 .ignoresSafeArea()
-
             VStack {
                 Spacer()
                 HStack {
@@ -45,7 +48,7 @@ struct ScanScreenView: View {
 }
 
 #Preview {
-    ScanScreenView(
+    ScanScreen(
         arguments: nil
     )
 }

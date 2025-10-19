@@ -7,10 +7,15 @@
 
 import SwiftUI
 import Router
+import DoglyadUI
 
 final class ConclusionScreenArguments: RouteArgumentsProtocol {}
 
-struct ConclusionScreenView: View {
+struct ConclusionScreen: View {
+    @EnvironmentObject private var theme: DTheme
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
+    
     let arguments: ConclusionScreenArguments?
     @StateObject var viewModel = ConclusionViewModel()
     
@@ -20,7 +25,7 @@ struct ConclusionScreenView: View {
 }
 
 #Preview {
-    ConclusionScreenView(
+    ConclusionScreen(
         arguments: nil
     )
 }

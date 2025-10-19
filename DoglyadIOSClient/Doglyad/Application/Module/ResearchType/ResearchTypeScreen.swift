@@ -7,12 +7,17 @@
 
 import SwiftUI
 import Router
+import DoglyadUI
 
 final class ResearchTypeScreenArguments: RouteArgumentsProtocol {}
     
-struct ResearchTypeScreenView: View {
+struct ResearchTypeScreen: View {
+    @EnvironmentObject private var theme: DTheme
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
+    
     let arguments: ResearchTypeScreenArguments?
-    @StateObject var viewModel = ResearchTypeViewModel()
+    @StateObject private var viewModel = ResearchTypeViewModel()
     
     var body: some View {
         EmptyView()
@@ -20,7 +25,7 @@ struct ResearchTypeScreenView: View {
 }
 
 #Preview {
-    ResearchTypeScreenView(
+    ResearchTypeScreen(
         arguments: nil
     )
 }

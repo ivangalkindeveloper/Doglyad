@@ -79,7 +79,7 @@ private struct DButtonStyle: ButtonStyle {
 #Preview {
     @Previewable @State var isLoading = false
     
-    DThemeWrapperView(
+    DThemeWrapperView {
         DButton(
             title: "Preview",
             action: {
@@ -88,5 +88,5 @@ private struct DButtonStyle: ButtonStyle {
             isLoading: isLoading
         )
         .padding()
-    )
+    }
 }

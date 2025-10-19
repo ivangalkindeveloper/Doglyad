@@ -19,22 +19,22 @@ final class RouterBuilder: RouterBuilderProtocol {
     ) -> AnyView {
         switch route.type {
         case .onBoarding:
-            AnyView(OnBoardingScreenView(
+            AnyView(OnBoardingScreen(
                 arguments: route.arguments as? OnBoardingScreenArguments
             ))
             
         case .scan:
-            AnyView(ScanScreenView(
+            AnyView(ScanScreen(
                 arguments: route.arguments as? ScanScreenArguments
             ))
 
         case .history:
-            AnyView(HistoryScreenView(
+            AnyView(HistoryScreen(
                 arguments: route.arguments as? HistoryScreenArguments
             ))
 
         case .conclusion:
-            AnyView(ConclusionScreenView(
+            AnyView(ConclusionScreen(
                 arguments: route.arguments as? ConclusionScreenArguments
             ))
         }
@@ -46,7 +46,7 @@ final class RouterBuilder: RouterBuilderProtocol {
     ) -> AnyView {
         switch route.type {
         case .researchType:
-            AnyView(ResearchTypeScreenView(
+            AnyView(ResearchTypeScreen(
                 arguments: route.arguments as? ResearchTypeScreenArguments
             ))
         }

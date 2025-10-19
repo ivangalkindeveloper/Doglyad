@@ -14,12 +14,13 @@ struct MainRootView: View {
     var body: some View {
         DependencyWrapperView(
             dependencyContainer: dependencyContainer,
+        ) {
             RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
                 builder: RouterBuilder(),
                 initialRouteScreen: RouteScreen<ScreenType>(
                     type: dependencyContainer.initialScreen
                 )
             )
-        )
+        }
     }
 }

@@ -60,9 +60,9 @@ private struct DTextModifier: ViewModifier {
 }
 
 #Preview {
-    DThemeWrapperView(
+    DThemeWrapperView {
         DText(
             "Hello, World!",
         )
-    )
+    }
 }

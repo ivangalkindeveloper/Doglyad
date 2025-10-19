@@ -7,20 +7,20 @@
 
 import SwiftUI
 
-struct ApplicationWrapperView<Content: View>: View  {
+struct ApplicationWrapperView<Content: View>: View {
     let viewModel: ApplicationViewModel
-    var child: Content
-    
+    @ViewBuilder let content: () -> Content
+
     init(
         viewModel: ApplicationViewModel = ApplicationViewModel(),
-        _ child: Content
+        content: @escaping () -> Content
     ) {
         self.viewModel = viewModel
-        self.child = child
+        self.content = content
     }
-    
+
     var body: some View {
-         child
-        .environmentObject(self.viewModel)
+        content()
+            .environmentObject(viewModel)
     }
 }

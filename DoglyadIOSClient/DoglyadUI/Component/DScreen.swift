@@ -8,30 +8,23 @@
 import SwiftUI
 
 public struct DScreen<Content: View>: View {
-    @EnvironmentObject var theme: DTheme
+    @EnvironmentObject private var theme: DTheme
+    
     let title: String?
-    let child: Content
-    let bottom: Content?
+    @ViewBuilder let content: () -> Content
     
     public init(
         title: String? = nil,
-        body: Content,
-        bottom: Content? = nil,
+        content: @escaping () -> Content,
     ) {
         self.title = title
-        self.child = body
-        self.bottom = bottom
+        self.content = content
     }
     
     public var body: some View {
         NavigationView {
-            VStack {
-                child
-                if let bottom {
-                    bottom
-                }
-            }
-            .background(theme.color.grayscaleBackground)
+            content()
+                .background(theme.color.grayscaleBackground)
         }
         .ifLet(title) { view, title in
             view

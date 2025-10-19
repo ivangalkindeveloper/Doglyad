@@ -7,20 +7,20 @@
 
 import SwiftUI
 
-struct DependencyWrapperView<Content: View>: View  {
+struct DependencyWrapperView<Content: View>: View {
     let dependencyContainer: DependencyContainer
-    var child: Content
-    
+    @ViewBuilder  let content: () -> Content
+
     init(
         dependencyContainer: DependencyContainer,
-        _ child: Content
+        content: @escaping () -> Content
     ) {
         self.dependencyContainer = dependencyContainer
-        self.child = child
+        self.content = content
     }
-    
+
     var body: some View {
-         child
-        .environmentObject(self.dependencyContainer)
+        content()
+            .environmentObject(dependencyContainer)
     }
 }

@@ -7,10 +7,15 @@
 
 import SwiftUI
 import Router
+import DoglyadUI
 
 final class HistoryScreenArguments: RouteArgumentsProtocol {}
     
-struct HistoryScreenView: View {
+struct HistoryScreen: View {
+    @EnvironmentObject private var theme: DTheme
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
+    
     let arguments: HistoryScreenArguments?
     @StateObject var viewModel = HistoryViewModel()
     
@@ -20,7 +25,7 @@ struct HistoryScreenView: View {
 }
 
 #Preview {
-    HistoryScreenView(
+    HistoryScreen(
         arguments: nil
     )
 }

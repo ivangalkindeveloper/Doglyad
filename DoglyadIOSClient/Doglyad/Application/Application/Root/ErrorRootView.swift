@@ -9,7 +9,8 @@ import DoglyadUI
 import SwiftUI
 
 struct ErrorRootView: View {
-    @EnvironmentObject var viewModel: ApplicationViewModel
+    @EnvironmentObject private var viewModel: ApplicationViewModel
+    
     let error: Error
 
     var body: some View {
@@ -47,12 +48,11 @@ struct ErrorRootView: View {
 }
 
 private struct ErrorView: View {
-    @EnvironmentObject var viewModel: ApplicationViewModel
-    @EnvironmentObject var theme: DTheme
-    
-    var color: DColor { theme.color }
-    var size: DSize { theme.size }
-    var typography: DTypography { theme.typography }
+    @EnvironmentObject private var viewModel: ApplicationViewModel
+    @EnvironmentObject private var theme: DTheme
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
 
     let error: Error
     let image: ImageResource
@@ -62,8 +62,8 @@ private struct ErrorView: View {
     let action: () -> Void
 
     var body: some View {
-        DScreen(
-            body: VStack(
+        DScreen {
+            VStack(
                 spacing: 0,
             ) {
                 Spacer()
@@ -103,16 +103,16 @@ private struct ErrorView: View {
                 )
             }
             .padding(size.s16)
-        )
+        }
     }
 }
 
 #Preview {
-    ApplicationWrapperView(
-        DThemeWrapperView(
+    ApplicationWrapperView {
+        DThemeWrapperView {
             ErrorRootView(
                 error: InitializationError.noInternetConnection,
             )
-        )
-    )
+        }
+    }
 }

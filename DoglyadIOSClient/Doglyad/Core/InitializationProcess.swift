@@ -91,13 +91,14 @@ extension InitializationProcess {
         InitializationStep<InitializationProcess>(
             title: "Initial screen",
             run: { process in
-                let isOnBoardingCompleted = process.database!.getOnBoardingCompleted()
-                let selectedUSResearchType = process.database!.getSelectedUSResearchType()
-                if isOnBoardingCompleted && selectedUSResearchType != nil {
-                    process.initialScreen = .scan
-                } else {
-                    process.initialScreen = .onBoarding
-                }
+                process.initialScreen = .onBoarding
+//                let isOnBoardingCompleted = process.database!.getOnBoardingCompleted()
+//                let selectedUSResearchType = process.database!.getSelectedUSResearchType()
+//                if isOnBoardingCompleted && selectedUSResearchType != nil {
+//                    process.initialScreen = .scan
+//                } else {
+//                    process.initialScreen = .onBoarding
+//                }
             }
         ),
     ]
