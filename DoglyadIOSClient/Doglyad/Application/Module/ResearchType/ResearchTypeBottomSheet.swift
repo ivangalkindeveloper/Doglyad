@@ -26,29 +26,25 @@ struct ResearchTypeBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: L10n.researchTypeTitle.string,
-            content: {
+        ) {
+            VStack(
+                spacing: 0,
+            ) {
                 ForEach(
                     viewModel.researchTypes
                 ) { type in
-                    Button {
-                        dismiss()
-                        viewModel.onPressedType(
-                            arguments: arguments,
-                            type: type
-                        )
-                    } label: {
-                        HStack(spacing: 12) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(type.title.string)
-                                    .font(.headline)
-                            }
-                            Spacer()
-                            Image(systemName: "largecircle.fill.circle")
-                                .foregroundColor(.secondary)
+                    DResearchTypeCard(
+                        title: type.title.string,
+                        action: {
+                            dismiss()
+                            viewModel.onPressedType(
+                                arguments: arguments,
+                                type: type
+                            )
                         }
-                        .padding(.vertical, 6)
-                    }
+                    )
                 }
+                .padding(.bottom, size.s16)
                 DText(
                     L10n.researchTypeFutureAddingDescription.string
                 )
@@ -57,11 +53,12 @@ struct ResearchTypeBottomSheet: View {
                     color: color.grayscalePlaceholder,
                     alignment: .center
                 )
-                .padding(size.s16)
             }
-        )
+            .padding(size.s16)
+        }
     }
 }
+
 
 #Preview {
     ApplicationWrapperView {

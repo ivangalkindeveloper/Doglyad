@@ -25,7 +25,7 @@ public struct DScreen<Content: View>: View {
     public var body: some View {
         NavigationView {
             content()
-                .background(color.grayscaleBackground)
+                .background(color.grayscaleBackgroundWeak)
         }
         .ifLet(title) { view, title in
             view

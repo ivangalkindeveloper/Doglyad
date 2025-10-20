@@ -32,52 +32,26 @@ public struct DButton: View {
     public var body: some View {
         Button(
             action: isLoading ? {} : action,
-            label: {
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(
-                            CircularProgressViewStyle(
-                                tint: color.grayscaleBackground
-                            )
+        ) {
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(
+                        CircularProgressViewStyle(
+                            tint: color.grayscaleBackground
                         )
-                } else {
-                    DText(
-                        title ?? ""
                     )
-                    .dStyle(
-                        font: typography.linkSmall,
-                        color: color.grayscaleBackground,
-                    )
-                }
-
-            }
-        )
-        .buttonStyle(DButtonStyle())
-    }
-}
-
-private struct DButtonStyle: ButtonStyle {
-    @EnvironmentObject private var theme: DTheme
-    private var color: DColor { theme.color }
-    private var size: DSize { theme.size }
-    
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(size.s14)
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(
-                    cornerRadius: size.s16
+            } else {
+                DText(
+                    title ?? ""
                 )
-                    .fill(
-                        color.gradientPrimaryWeak.opacity(configuration.isPressed ? 0.6: 1)
-                    )
-            )
-            .foregroundColor(.white)
-            .animation(
-                .easeOut(duration: 0.1),
-                value: configuration.isPressed
-            )
+                .dStyle(
+                    font: typography.linkSmall,
+                    color: color.grayscaleBackground,
+                )
+            }
+
+        }
+        .buttonStyle(DButtonStyle())
     }
 }
 

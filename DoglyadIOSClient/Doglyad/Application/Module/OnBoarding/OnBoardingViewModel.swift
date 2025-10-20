@@ -10,39 +10,48 @@ import SwiftUI
 import Router
 
 final class OnBoardingViewModel: ObservableObject {
-    enum Page {
-        case intro
-        case researchType
-        case scan
-    }
+    var diagnosticRepository: DiagnosticsRepositoryProtocol?
+    var router: DRouter?
     
     @Published var page: Page = .intro
     
-    func onPressedNext(
-        router: DRouter,
-    ) -> Void {
+    func onPressedNext() -> Void {
         switch page {
         case .intro:
             page = .researchType
             
         case .researchType:
-            router.push(
+            router?.push(
                 route: RouteSheet(
                     type: .researchType,
                     arguments: ResearchTypeScreenArguments(
-                        onSelected: { researchType in
-                            self.page = .scan
+                        onSelected: { [weak self] researchType in
+                            self?.page = .scan
+                            self?.diagnosticRepository?.setSelectedUSResearchType(
+                                type: researchType.type
+                            )
                         }
                     )
                 )
             )
             
         case .scan:
-            router.push(
+            router?.push(
                 route: RouteScreen(
                     type: .scan
                 )
             )
+            diagnosticRepository?.setOnBoardingCompleted(
+                value: true
+            )
         }
+    }
+}
+
+extension OnBoardingViewModel {
+    enum Page {
+        case intro
+        case researchType
+        case scan
     }
 }

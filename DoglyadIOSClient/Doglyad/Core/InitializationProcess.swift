@@ -67,7 +67,9 @@ extension InitializationProcess {
         InitializationStep<InitializationProcess>(
             title: "Repository",
             run: { process in
-                process.diagnosticsRepository = DiagnosticsRepository()
+                process.diagnosticsRepository = DiagnosticsRepository(
+                    database: process.database!
+                )
             }
         ),
         InitializationStep<InitializationProcess>(
@@ -91,14 +93,13 @@ extension InitializationProcess {
         InitializationStep<InitializationProcess>(
             title: "Initial screen",
             run: { process in
-                process.initialScreen = .onBoarding
-//                let isOnBoardingCompleted = process.database!.getOnBoardingCompleted()
-//                let selectedUSResearchType = process.database!.getSelectedUSResearchType()
-//                if isOnBoardingCompleted && selectedUSResearchType != nil {
-//                    process.initialScreen = .scan
-//                } else {
-//                    process.initialScreen = .onBoarding
-//                }
+                let isOnBoardingCompleted = process.database!.getOnBoardingCompleted()
+                let selectedUSResearchType = process.database!.getSelectedUSResearchType()
+                if isOnBoardingCompleted && selectedUSResearchType != nil {
+                    process.initialScreen = .scan
+                } else {
+                    process.initialScreen = .onBoarding
+                }
             }
         ),
     ]

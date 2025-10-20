@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ResearchTypeViewModel: ObservableObject {
+final class ResearchTypeViewModel: ObservableObject {    
     var researchTypes = [
         ResearchType(
             type: .thyroidGland,

@@ -12,7 +12,8 @@ import DoglyadUI
 final class OnBoardingScreenArguments: RouteArgumentsProtocol {}
     
 struct OnBoardingScreen: View {
-    @EnvironmentObject private var router: DRouter
+    @EnvironmentObject var container: DependencyContainer
+    @EnvironmentObject var router: DRouter
     @EnvironmentObject private var theme: DTheme
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
@@ -56,14 +57,14 @@ struct OnBoardingScreen: View {
                 .padding(.bottom, size.s16)
                 DButton(
                     title: title(viewModel.page).string,
-                    action: {
-                        viewModel.onPressedNext(
-                            router: router
-                        )
-                    }
+                    action: viewModel.onPressedNext
                 )
                 .padding(size.s16)
             }
+        }
+        .onAppear {
+            viewModel.diagnosticRepository = container.diagnosticsRepository
+            viewModel.router = router
         }
     }
 }
