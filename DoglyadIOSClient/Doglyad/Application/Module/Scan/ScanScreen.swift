@@ -12,6 +12,8 @@ import DoglyadUI
 final class ScanScreenArguments: RouteArgumentsProtocol {}
 
 struct ScanScreen: View {
+    @EnvironmentObject var container: DependencyContainer
+    @EnvironmentObject var router: DRouter
     @EnvironmentObject private var theme: DTheme
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
@@ -31,7 +33,7 @@ struct ScanScreen: View {
                     Spacer()
                     HStack {
                         Button(
-                            action: cameraViewModel.takePhoto
+                            action: {}
                         ) {
                             Circle()
                                 .stroke(lineWidth: 5)
@@ -42,6 +44,10 @@ struct ScanScreen: View {
                     .padding(.bottom, 30)
                 }
             }
+        }
+        .onAppear {
+            viewModel.diagnosticRepository = container.diagnosticsRepository
+            viewModel.router = router
         }
         .onDisappear {
             cameraViewModel.stopSession()

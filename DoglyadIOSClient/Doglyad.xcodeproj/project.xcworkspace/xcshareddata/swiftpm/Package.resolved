@@ -1,5 +1,5 @@
 {
-  "originHash" : "bb70e9baf9f54316df0a42680dfa2e83c9e171fa3a2e9f574773112a48d29b7c",
+  "originHash" : "9464a60fca6b08ee7877c656da996db7a64735d91cee3ee86f4c406072060590",
   "pins" : [
     {
       "identity" : "dependencyinitializer",
@@ -16,7 +16,7 @@
       "location" : "https://github.com/ivangalkindeveloper/Router",
       "state" : {
         "branch" : "master",
-        "revision" : "0361cbfc922e2f4f075f95d44ca2ddfab646541e"
+        "revision" : "b860a26a6498a5203686b8d8b4c58fe19d2d8b12"
       }
     }
   ],

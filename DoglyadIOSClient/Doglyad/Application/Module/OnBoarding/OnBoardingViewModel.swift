@@ -36,14 +36,16 @@ final class OnBoardingViewModel: ObservableObject {
             )
             
         case .scan:
-            router?.push(
-                route: RouteScreen(
-                    type: .scan
-                )
-            )
             diagnosticRepository?.setOnBoardingCompleted(
                 value: true
             )
+            withAnimation {
+                router?.root(
+                    route: RouteScreen(
+                        type: .scan
+                    )
+                )
+            }
         }
     }
 }

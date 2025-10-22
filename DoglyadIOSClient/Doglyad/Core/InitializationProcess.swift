@@ -11,6 +11,7 @@ import DependencyInitializer
 import AVFoundation
 import DoglyadDB
 
+@MainActor
 final class InitializationProcess: DependencyInitializationProcess {
     typealias T = DependencyContainer
     

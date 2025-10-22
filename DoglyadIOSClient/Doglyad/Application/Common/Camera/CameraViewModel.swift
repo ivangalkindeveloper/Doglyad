@@ -9,44 +9,50 @@ import SwiftUI
 import AVFoundation
 
 final class CameraViewModel: NSObject, ObservableObject {
-    @Published var session = AVCaptureSession()
-    @Published var isCameraRunning = false
-    private let sessionQueue = DispatchQueue(label: "com.anamnesis.camera.queue")
-
-    private var photoOutput = AVCapturePhotoOutput()
-    private var previewLayer: AVCaptureVideoPreviewLayer?
-
+    @Published var isLoading = true
+    @Published var isRunning = false
+    
+    let session = AVCaptureSession()
+    lazy var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(
+        session: self.session
+    )
+    private let sessionQueue = DispatchQueue(label: "com.scan.camera.queue")
+    private var output = AVCapturePhotoOutput()
+    private let settings = AVCapturePhotoSettings()
+    private var lastCapturedImage: UIImage?
+    
     override init() {
         super.init()
-        setup()
-    }
-
-    private func setup() {
         sessionQueue.async {
             self.session.beginConfiguration()
-
-            guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
-                  let input = try? AVCaptureDeviceInput(device: device),
-                  self.session.canAddInput(input) else {
+            guard let device = AVCaptureDevice.default(
+                .builtInWideAngleCamera,
+                for: .video,
+                position: .back
+                ),
+                let input = try? AVCaptureDeviceInput(device: device),
+                self.session.canAddInput(input),
+                self.session.canAddOutput(self.output) else {
                 return
             }
             self.session.addInput(input)
-
-            if self.session.canAddOutput(self.photoOutput) {
-                self.session.addOutput(self.photoOutput)
-            }
-
+            self.session.addOutput(self.output)
             self.session.commitConfiguration()
+            self.previewLayer.videoGravity = .resizeAspectFill
             self.startSession()
+            DispatchQueue.main.async {
+                self.isLoading = false
+            }
         }
     }
 
-    private func startSession() {
+
+    func startSession() {
         sessionQueue.async {
             if !self.session.isRunning {
                 self.session.startRunning()
                 DispatchQueue.main.async {
-                    self.isCameraRunning = true
+                    self.isRunning = true
                 }
             }
         }
@@ -57,15 +63,21 @@ final class CameraViewModel: NSObject, ObservableObject {
             if self.session.isRunning {
                 self.session.stopRunning()
                 DispatchQueue.main.async {
-                    self.isCameraRunning = false
+                    self.isRunning = false
                 }
             }
         }
     }
 
-    func takePhoto() {
-        let settings = AVCapturePhotoSettings()
-        photoOutput.capturePhoto(with: settings, delegate: self)
+    func takePhoto() -> UIImage {
+        output.capturePhoto(
+            with: settings,
+            delegate: self
+        )
+        guard let image = self.lastCapturedImage else {
+            fatalError()
+        }
+        return image
     }
 }
 
@@ -75,9 +87,10 @@ extension CameraViewModel: AVCapturePhotoCaptureDelegate {
         didFinishProcessingPhoto photo: AVCapturePhoto,
         error: Error?
     ) {
-        if let data = photo.fileDataRepresentation(),
-           let image = UIImage(data: data) {
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        guard let data = photo.fileDataRepresentation(),
+           let image = UIImage(data: data) else {
+            return
         }
+        self.lastCapturedImage = image
     }
 }

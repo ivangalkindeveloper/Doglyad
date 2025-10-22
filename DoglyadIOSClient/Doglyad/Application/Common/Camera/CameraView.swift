@@ -13,28 +13,13 @@ struct CameraView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
-        let layer = AVCaptureVideoPreviewLayer(
-            session: viewModel.session
-        )
-        layer.videoGravity = .resizeAspectFill
-        layer.connection?.videoOrientation = .portrait
-        view.layer.addSublayer(layer)
-        context.coordinator.previewLayer = layer
+        viewModel.previewLayer.frame = UIScreen.main.bounds
+        view.layer.addSublayer(viewModel.previewLayer)
         return view
     }
 
     func updateUIView(
         _ uiView: UIView,
         context: Context
-    ) {
-        context.coordinator.previewLayer?.frame = uiView.bounds
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
-    }
-
-    final class Coordinator {
-        var previewLayer: AVCaptureVideoPreviewLayer?
-    }
+    ) {}
 }

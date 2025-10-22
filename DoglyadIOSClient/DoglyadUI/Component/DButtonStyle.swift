@@ -29,14 +29,15 @@ public struct DButtonStyle: ButtonStyle {
                 Group {
                     if let backgroundColor = backgroundColor {
                         RoundedRectangle(cornerRadius: size.s16)
-                            .fill(backgroundColor).opacity(configuration.isPressed ? 0.6: 1)
+                            .fill(backgroundColor)
                     } else {
                         RoundedRectangle(cornerRadius: size.s16)
-                            .fill(color.gradientPrimaryWeak.opacity(configuration.isPressed ? 0.6: 1))
+                            .fill(color.gradientPrimaryWeak)
                     }
                 }
             )
             .foregroundColor(.white)
+            .opacity(configuration.isPressed ? 0.6: 1)
             .animation(
                 .easeOut(duration: 0.1),
                 value: configuration.isPressed
