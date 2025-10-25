@@ -5,6 +5,9 @@
 //  Created by Иван Галкин on 09.10.2025.
 //
 
-struct ScanPhoto {
-    
+import UIKit
+
+struct ScanPhoto: Identifiable, Equatable {
+    let id = UUID()
+    let image: UIImage
 }

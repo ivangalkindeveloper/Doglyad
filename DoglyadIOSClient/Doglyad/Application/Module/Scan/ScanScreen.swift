@@ -30,24 +30,34 @@ struct ScanScreen: View {
                 )
                     .ignoresSafeArea()
                 VStack {
-                    Spacer()
                     HStack {
-                        Button(
-                            action: {}
-                        ) {
-                            Circle()
-                                .stroke(lineWidth: 5)
-                                .frame(width: 70, height: 70)
-                                .overlay(Circle().fill(Color.white.opacity(0.3)))
-                        }
+                        
                     }
-                    .padding(.bottom, 30)
+                    Spacer()
+                    DCircleButton(
+                        resource: .camera,
+                        action: {
+                            cameraViewModel.takePhoto(
+                                completion: { image in
+                                    self.viewModel.capturePhoto(image: image)
+                                }
+                            )
+                        },
+                        isLoading: cameraViewModel.isCapturing
+                    )
+                    .padding(.bottom, viewModel.isShowBottomSheet ? size.s128 : size.s16)
                 }
             }
+        }
+        .sheet(
+            isPresented: $viewModel.isShowBottomSheet
+        ) {
+            ScanBottomSheet()
         }
         .onAppear {
             viewModel.diagnosticRepository = container.diagnosticsRepository
             viewModel.router = router
+            cameraViewModel.startSession()
         }
         .onDisappear {
             cameraViewModel.stopSession()

@@ -7,36 +7,42 @@
 
 import SwiftUI
 
-public struct DButtonStyle: ButtonStyle {
+public struct DTapStyle: ButtonStyle {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     
-    
     let backgroundColor: Color?
+    let backgroundGradient: LinearGradient?
+    let maxWidth: CGFloat?
     
     public init(
         backgroundColor: Color? = nil,
+        backgroundGradient: LinearGradient? = nil,
+        maxWidth: CGFloat? = nil
     ) {
         self.backgroundColor = backgroundColor
+        self.backgroundGradient = backgroundGradient
+        self.maxWidth = maxWidth
     }
     
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(size.s14)
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: maxWidth)
             .background(
                 Group {
                     if let backgroundColor = backgroundColor {
                         RoundedRectangle(cornerRadius: size.s16)
                             .fill(backgroundColor)
-                    } else {
+                    }
+                    if let backgroundGradient = backgroundGradient {
                         RoundedRectangle(cornerRadius: size.s16)
-                            .fill(color.gradientPrimaryWeak)
+                            .fill(backgroundGradient)
                     }
                 }
             )
-            .foregroundColor(.white)
+            .foregroundColor(color.grayscaleBackground)
             .opacity(configuration.isPressed ? 0.6: 1)
             .animation(
                 .easeOut(duration: 0.1),

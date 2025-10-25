@@ -13,13 +13,13 @@ public struct DButton: View {
     private var typography: DTypography { theme.typography }
     
     let prefix: DIcon?
-    let title: String?
+    let title: String
     let action: () -> Void
     let isLoading: Bool
     
     public init(
         prefix: DIcon? = nil,
-        title: String? = nil,
+        title: String,
         action: @escaping () -> Void,
         isLoading: Bool = false,
     ) {
@@ -41,17 +41,17 @@ public struct DButton: View {
                         )
                     )
             } else {
-                DText(
-                    title ?? ""
-                )
+                DText(title)
                 .dStyle(
                     font: typography.linkSmall,
                     color: color.grayscaleBackground,
                 )
             }
-
         }
-        .buttonStyle(DButtonStyle())
+        .buttonStyle(DTapStyle(
+                backgroundGradient: theme.color.gradientPrimaryWeak,
+                maxWidth: .infinity
+        ))
     }
 }
 

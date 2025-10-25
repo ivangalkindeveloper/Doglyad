@@ -33,7 +33,7 @@ struct ResearchTypeBottomSheet: View {
                 ForEach(
                     viewModel.researchTypes
                 ) { type in
-                    DResearchTypeCard(
+                    DListCard(
                         title: type.title.string,
                         action: {
                             dismiss()

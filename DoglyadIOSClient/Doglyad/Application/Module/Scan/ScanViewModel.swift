@@ -14,11 +14,13 @@ final class ScanViewModel: ObservableObject {
     var router: DRouter?
     
     @Published var researchType: ResearchType?
-    @Published var photos: [UIImage] = []
-    @Published var patientName: String = ""
-    @Published var patientGender: PatientGender?
-    @Published var patientAge: Int = 18
-    @Published var patientAnamnesis: String = ""
+    @Published var photos: [ScanPhoto] = []
+    @Published var isShowBottomSheet: Bool = false
+    @Published var name: String = ""
+    @Published var gender: PatientGender?
+    @Published var age: Int = 18
+    @Published var medicalHistory: String = ""
+    @Published var сurrentComplaint: String = ""
     
     func onPressedHisotry() -> Void {
         router?.push(
@@ -47,20 +49,28 @@ final class ScanViewModel: ObservableObject {
     func capturePhoto(
         image: UIImage
     ) -> Void {
-        self.photos.append(image)
+        self.photos.append(
+            ScanPhoto(image: image)
+        )
+        self.isShowBottomSheet = true
     }
     
     func deletePhoto(
-        image: UIImage
+        image: ScanPhoto
     ) -> Void {
         self.photos.remove(at: photos.firstIndex(of: image)!)
+        if (self.photos.isEmpty) {
+            self.isShowBottomSheet = false
+        }
     }
     
-    func onPressedPatientGender() -> Void {}
+    func onPressedGender() -> Void {}
     
-    func onPressedPatientAge() -> Void {}
+    func onPressedAge() -> Void {}
     
-    func onPressedPatientAnamnesisSpeechToText() -> Void {}
+    func onPressedMedicalHistorySpeechToText() -> Void {}
+    
+    func onPressedCurrentComplaintSpeechToText() -> Void {}
     
     func onPressedNext() -> Void {}
 }

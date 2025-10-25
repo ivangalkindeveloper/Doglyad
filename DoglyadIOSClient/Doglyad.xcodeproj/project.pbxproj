@@ -76,30 +76,70 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		773A697A2E9C24AE003C3643 /* Exceptions for "DoglyadUI" folder in "DoglyadUI" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 7720FEE42E9ACE42002EA89E /* DoglyadUI */;
-		};
-		773A697E2E9C4365003C3643 /* Exceptions for "DoglyadUI" folder in "Doglyad" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Resources/Assets.xcassets,
-				"Resources/Poppins-Bold.ttf",
-				"Resources/Poppins-Medium.ttf",
-				"Resources/Poppins-Regular.ttf",
-				"Resources/Poppins-SemiBold.ttf",
-			);
-			target = 77AC58B12E929E7E0028250A /* Doglyad */;
-		};
 		77759AF82E932627007CC90C /* Exceptions for "Doglyad" folder in "Doglyad" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = 77AC58B12E929E7E0028250A /* Doglyad */;
+		};
+		77760F3D2EAC3D7F00D25B49 /* Exceptions for "DoglyadUI" folder in "Doglyad" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Base/DColor.swift,
+				Base/DFontFamily.swift,
+				Base/DSize.swift,
+				Base/DTypography.swift,
+				Component/DBottomSheet.swift,
+				Component/DButton.swift,
+				Component/DCard.swift,
+				Component/DCircleButton.swift,
+				Component/DIcon.swift,
+				Component/DListCard.swift,
+				Component/DScreen.swift,
+				Component/DTapStyle.swift,
+				Component/DText.swift,
+				Custom/DConclusionCard.swift,
+				Custom/DHistoryCard.swift,
+				Custom/DPhotoCard.swift,
+				Custom/DResearchTypeChip.swift,
+				Extension.swift,
+				Info.plist,
+				Theme/DTheme.swift,
+				Theme/DThemeWrapperView.swift,
+			);
+			target = 77AC58B12E929E7E0028250A /* Doglyad */;
+		};
+		77760F3E2EAC3D7F00D25B49 /* Exceptions for "DoglyadUI" folder in "DoglyadUI" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Base/DColor.swift,
+				Base/DFontFamily.swift,
+				Base/DSize.swift,
+				Base/DTypography.swift,
+				Component/DBottomSheet.swift,
+				Component/DButton.swift,
+				Component/DCard.swift,
+				Component/DCircleButton.swift,
+				Component/DIcon.swift,
+				Component/DListCard.swift,
+				Component/DScreen.swift,
+				Component/DTapStyle.swift,
+				Component/DText.swift,
+				Custom/DConclusionCard.swift,
+				Custom/DHistoryCard.swift,
+				Custom/DPhotoCard.swift,
+				Custom/DResearchTypeChip.swift,
+				Extension.swift,
+				Resources/Assets.xcassets,
+				"Resources/Poppins-Bold.ttf",
+				"Resources/Poppins-Medium.ttf",
+				"Resources/Poppins-Regular.ttf",
+				"Resources/Poppins-SemiBold.ttf",
+				Theme/DTheme.swift,
+				Theme/DThemeWrapperView.swift,
+			);
+			target = 7720FEE42E9ACE42002EA89E /* DoglyadUI */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -109,11 +149,11 @@
 			path = DoglyadDB;
 			sourceTree = "<group>";
 		};
-		7720FEE62E9ACE42002EA89E /* DoglyadUI */ = {
+		77760F1F2EAC3D7F00D25B49 /* DoglyadUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				773A697E2E9C4365003C3643 /* Exceptions for "DoglyadUI" folder in "Doglyad" target */,
-				773A697A2E9C24AE003C3643 /* Exceptions for "DoglyadUI" folder in "DoglyadUI" target */,
+				77760F3D2EAC3D7F00D25B49 /* Exceptions for "DoglyadUI" folder in "Doglyad" target */,
+				77760F3E2EAC3D7F00D25B49 /* Exceptions for "DoglyadUI" folder in "DoglyadUI" target */,
 			);
 			path = DoglyadUI;
 			sourceTree = "<group>";
@@ -192,7 +232,7 @@
 				77AC58B42E929E7E0028250A /* Doglyad */,
 				77AC58C42E929E800028250A /* DoglyadTests */,
 				77AC58CE2E929E800028250A /* DoglyadUITests */,
-				7720FEE62E9ACE42002EA89E /* DoglyadUI */,
+				77760F1F2EAC3D7F00D25B49 /* DoglyadUI */,
 				771F41A92EA430B400C4945A /* DoglyadDB */,
 				77AC58B32E929E7E0028250A /* Products */,
 			);
@@ -266,9 +306,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				7720FEE62E9ACE42002EA89E /* DoglyadUI */,
-			);
 			name = DoglyadUI;
 			packageProductDependencies = (
 			);
@@ -292,6 +329,7 @@
 				771F41AD2EA430B400C4945A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				77760F1F2EAC3D7F00D25B49 /* DoglyadUI */,
 				77AC58B42E929E7E0028250A /* Doglyad */,
 			);
 			name = Doglyad;

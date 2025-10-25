@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct DResearchTypeCard: View {
+public struct DListCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -25,7 +25,7 @@ public struct DResearchTypeCard: View {
     }
     
     public var body: some View {
-        Button(
+        DCard(
             action: action
         ) {
             HStack {
@@ -35,17 +35,13 @@ public struct DResearchTypeCard: View {
                     )
                 Spacer()
             }
-
         }
-        .buttonStyle(DButtonStyle(
-            backgroundColor: color.grayscaleBackground
-        ))
     }
 }
 
 #Preview {
     DThemeWrapperView {
-        DResearchTypeCard(
+        DListCard(
             title: "Gland research",
             action: {
                 print("Gland")
