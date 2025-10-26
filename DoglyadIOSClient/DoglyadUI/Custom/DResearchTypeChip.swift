@@ -8,11 +8,30 @@
 import SwiftUI
 
 struct DResearchTypeChip: View {
+    let title: String
+    let action: () -> Void
+
+    public init(
+        title: String,
+        action: @escaping () -> Void,
+    ) {
+        self.title = title
+        self.action = action
+    }
+    
     var body: some View {
-        
+        DButton(
+            title: title,
+            action: action
+        ).buttonStyle(DButtonStyle(.primaryChip))
     }
 }
 
 #Preview {
-    DResearchTypeChip()
+    DThemeWrapperView{
+        DResearchTypeChip(
+            title: "Thyroid gland",
+            action: {}
+        )
+    }
 }

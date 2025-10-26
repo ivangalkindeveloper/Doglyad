@@ -7,24 +7,24 @@
 
 import SwiftUI
 
-public struct DPrimaryButton: View {
+public struct DButton: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    let prefix: DIcon?
+    let image: ImageResource?
     let title: String?
     let action: () -> Void
     let isLoading: Bool
 
     public init(
-        prefix: DIcon? = nil,
+        image: ImageResource? = nil,
         title: String? = nil,
         action: @escaping () -> Void,
         isLoading: Bool = false,
     ) {
-        self.prefix = prefix
+        self.image = image
         self.title = title
         self.action = action
         self.isLoading = isLoading
@@ -36,45 +36,103 @@ public struct DPrimaryButton: View {
         ) {
             if isLoading {
                 ProgressView()
-                    .progressViewStyle(
-                        CircularProgressViewStyle(
-                            tint: color.grayscaleBackground
-                        )
-                    )
             } else {
-                HStack {
-                    if let prefix = self.prefix {
-                        prefix
-                    }
-                    if prefix != nil && title != nil {
-                        EmptyView()
-                            .padding(size.s10)
+                HStack(spacing: .zero) {
+                    if let image = self.image {
+                        Image(image)
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(
+                                width: size.s20,
+                                height: size.s20
+                            )
+                            .if(title != nil) { view in
+                                view.padding(.trailing, size.s10)
+                            }
                     }
                     if let title = self.title {
-                        DText(title)
-                            .dStyle(
-                                font: typography.linkSmall,
-                                color: color.grayscaleBackground,
-                            )
+                        Text(title)
+                            .font(typography.linkSmall)
                     }
                 }
             }
         }
-        .buttonStyle(DButtonStyle(.primaryButton))
     }
 }
+
+public extension DButton {
+    func dStyle(
+        _ type: DButtonStyleType,
+    ) -> some View {
+        self.modifier(DTextModifier(type: type))
+    }
+}
+
+private struct DTextModifier: ViewModifier {
+    let type: DButtonStyleType
+    
+    init(
+        type: DButtonStyleType
+    ) {
+        self.type = type
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .buttonStyle(DButtonStyle(type))
+    }
+}
+
 
 #Preview {
     @Previewable @State var isLoading = false
 
     DThemeWrapperView {
-        DPrimaryButton(
-            title: "Preview",
-            action: {
-                isLoading = !isLoading
-            },
-            isLoading: isLoading
-        )
-        .padding()
+        DScreen {
+            VStack {
+                DButton(
+                    image: .bag,
+                    title: "Primary button",
+                    action: { isLoading = !isLoading },
+                    isLoading: isLoading
+                )
+                .dStyle(.primaryButton)
+                
+                DButton(
+                    image: .camera,
+                    action: { isLoading = !isLoading },
+                    isLoading: isLoading
+                )
+                .dStyle(.primaryCircle)
+    
+                DButton(
+                    image: .alertInfo,
+                    title: "Primary chip",
+                    action: { isLoading = !isLoading },
+                    isLoading: isLoading
+                )
+                .dStyle(.primaryChip)
+    
+                DButton(
+                    image: .alertInfo,
+                    action: { isLoading = !isLoading },
+                    isLoading: isLoading
+                )
+                .dStyle(.circle)
+    
+                DButton(
+                    image: .atSign,
+                    title: "Some card",
+                    action: { isLoading = !isLoading },
+                    isLoading: isLoading
+                )
+                .dStyle(.card)
+            }
+            .padding()
+        }
     }
 }
+
+
+
+

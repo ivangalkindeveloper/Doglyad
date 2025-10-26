@@ -28,14 +28,40 @@ struct ScanScreen: View {
                 CameraView(
                     viewModel: cameraViewModel
                 )
-                    .ignoresSafeArea()
+                .ignoresSafeArea()
+                
                 VStack {
                     HStack {
+                        DButton(
+                            image: .hambergerMenu,
+                            action: {},
+                        )
+                        .dStyle(.circle)
+                        .padding(.leading, size.s16)
                         
+                        Spacer()
+                        
+                        if let researchType = viewModel.researchType {
+                            DButton(
+                                title: L10n.forUSResearchType(researchType.type).string,
+                                action: viewModel.onPressedHistory,
+                            )
+                            .dStyle(.primaryChip)
+                            .padding([.trailing, .leading], size.s16)
+                        }
+
+                        Spacer()
+                        
+                        EmptyView()
+                            .frame(
+                                width: size.s56,
+                                height: size.s56,
+                            )
+                            .padding(.trailing, size.s16)
                     }
                     Spacer()
-                    DCircleButton(
-                        resource: .camera,
+                    DButton(
+                        image: .camera,
                         action: {
                             cameraViewModel.takePhoto(
                                 completion: { image in
@@ -45,8 +71,10 @@ struct ScanScreen: View {
                         },
                         isLoading: cameraViewModel.isCapturing
                     )
-                    .padding(.bottom, viewModel.isShowBottomSheet ? size.s128 : size.s16)
+                    .dStyle(.primaryCircle)
+                    .padding(.bottom, viewModel.isShowBottomSheet ? size.s96 : size.s16)
                 }
+                .padding(size.s16)
             }
         }
         .sheet(

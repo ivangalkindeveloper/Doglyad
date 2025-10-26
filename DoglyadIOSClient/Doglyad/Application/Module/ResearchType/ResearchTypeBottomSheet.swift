@@ -34,7 +34,7 @@ struct ResearchTypeBottomSheet: View {
                     viewModel.researchTypes
                 ) { type in
                     DListCard(
-                        title: type.title.string,
+                        title: L10n.forUSResearchType(type.type).string,
                         action: {
                             dismiss()
                             viewModel.onPressedType(

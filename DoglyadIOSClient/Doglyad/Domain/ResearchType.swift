@@ -10,5 +10,4 @@ import Foundation
 struct ResearchType: Identifiable {
     let id: UUID = UUID()
     let type: USResearchType
-    let title: L10n
 }

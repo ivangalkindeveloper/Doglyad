@@ -8,10 +8,9 @@
 import Foundation
 
 final class ResearchTypeViewModel: ObservableObject {    
-    var researchTypes = [
+    var researchTypes: [ResearchType] = [
         ResearchType(
             type: .thyroidGland,
-            title: .researchTypeThyroidGland
         )
     ]
     

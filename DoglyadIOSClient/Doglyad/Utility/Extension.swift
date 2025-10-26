@@ -30,3 +30,14 @@ extension UIApplication {
         }
     }
 }
+
+extension L10n {
+    static func forUSResearchType(
+        _ type: USResearchType,
+    ) -> L10n {
+        switch type {
+        case USResearchType.thyroidGland:
+                .researchTypeThyroidGland
+        }
+    }
+}

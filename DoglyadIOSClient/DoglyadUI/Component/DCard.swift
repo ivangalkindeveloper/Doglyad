@@ -29,9 +29,6 @@ public struct DCard<Content: View>: View {
         ) {
             content()
         }
-        .buttonStyle(DTapStyle(
-            backgroundColor: color.grayscaleBackground,
-            maxWidth: .infinity
-        ))
+        .buttonStyle(DButtonStyle(.card))
     }
 }

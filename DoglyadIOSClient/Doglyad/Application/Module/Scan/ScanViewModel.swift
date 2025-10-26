@@ -22,7 +22,7 @@ final class ScanViewModel: ObservableObject {
     @Published var medicalHistory: String = ""
     @Published var сurrentComplaint: String = ""
     
-    func onPressedHisotry() -> Void {
+    func onPressedHistory() -> Void {
         router?.push(
             route: RouteScreen(
                 type: .history

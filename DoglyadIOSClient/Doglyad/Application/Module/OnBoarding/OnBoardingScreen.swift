@@ -34,6 +34,7 @@ struct OnBoardingScreen: View {
                     font: typography.displayLargeBold,
                 )
                 .padding(size.s16)
+                
                 TabView(
                     selection: $viewModel.page
                 ) {
@@ -55,10 +56,12 @@ struct OnBoardingScreen: View {
                 .animation(.easeInOut, value: viewModel.page)
                 .allowsHitTesting(false)
                 .padding(.bottom, size.s16)
+                
                 DButton(
                     title: title(viewModel.page).string,
                     action: viewModel.onPressedNext
                 )
+                .dStyle(.primaryButton)
                 .padding(size.s16)
             }
         }
