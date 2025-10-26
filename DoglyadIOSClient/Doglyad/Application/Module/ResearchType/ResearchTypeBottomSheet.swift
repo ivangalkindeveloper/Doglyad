@@ -27,12 +27,8 @@ struct ResearchTypeBottomSheet: View {
         DBottomSheet(
             title: L10n.researchTypeTitle.string,
         ) {
-            VStack(
-                spacing: 0,
-            ) {
-                ForEach(
-                    viewModel.researchTypes
-                ) { type in
+            VStack(spacing: .zero) {
+                ForEach(viewModel.researchTypes) { type in
                     DListCard(
                         title: L10n.forUSResearchType(type.type).string,
                         action: {
@@ -45,6 +41,7 @@ struct ResearchTypeBottomSheet: View {
                     )
                 }
                 .padding(.bottom, size.s16)
+                
                 DText(
                     L10n.researchTypeFutureAddingDescription.string
                 )
@@ -60,12 +57,12 @@ struct ResearchTypeBottomSheet: View {
 }
 
 
-#Preview {
-    ApplicationWrapperView {
-        DThemeWrapperView {
-            ResearchTypeBottomSheet(
-                arguments: nil
-            )
-        }
-    }
-}
+//#Preview {
+//    ApplicationWrapperView {
+//        DThemeWrapperView {
+//            ResearchTypeBottomSheet(
+//                arguments: nil
+//            )
+//        }
+//    }
+//}

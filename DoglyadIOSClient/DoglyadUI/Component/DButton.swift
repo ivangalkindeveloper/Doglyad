@@ -93,14 +93,14 @@ private struct DTextModifier: ViewModifier {
                 DButton(
                     image: .bag,
                     title: "Primary button",
-                    action: { isLoading = !isLoading },
+                    action: { isLoading = isLoading },
                     isLoading: isLoading
                 )
                 .dStyle(.primaryButton)
                 
                 DButton(
                     image: .camera,
-                    action: { isLoading = !isLoading },
+                    action: { isLoading = isLoading },
                     isLoading: isLoading
                 )
                 .dStyle(.primaryCircle)
@@ -108,14 +108,14 @@ private struct DTextModifier: ViewModifier {
                 DButton(
                     image: .alertInfo,
                     title: "Primary chip",
-                    action: { isLoading = !isLoading },
+                    action: { isLoading = isLoading },
                     isLoading: isLoading
                 )
                 .dStyle(.primaryChip)
     
                 DButton(
                     image: .alertInfo,
-                    action: { isLoading = !isLoading },
+                    action: { isLoading = isLoading },
                     isLoading: isLoading
                 )
                 .dStyle(.circle)
@@ -123,7 +123,7 @@ private struct DTextModifier: ViewModifier {
                 DButton(
                     image: .atSign,
                     title: "Some card",
-                    action: { isLoading = !isLoading },
+                    action: { isLoading = isLoading },
                     isLoading: isLoading
                 )
                 .dStyle(.card)

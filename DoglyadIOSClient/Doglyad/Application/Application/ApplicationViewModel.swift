@@ -14,7 +14,7 @@ final class ApplicationViewModel: ObservableObject {
 
     @MainActor
     func initialize() -> Void {
-        isLoading = true
+        self.isLoading = true
         DependencyInitializer<InitializationProcess, DependencyContainer>(
             createProcess: {
                 InitializationProcess()
@@ -22,7 +22,7 @@ final class ApplicationViewModel: ObservableObject {
             steps: InitializationProcess.steps,
             onSuccess: { [weak self] result, _ in
                 guard let self = self else { return }
-                isLoading = false
+                self.isLoading = false
                 self.root = MainRootView(
                     dependencyContainer: result.container,
                 )
@@ -37,7 +37,7 @@ final class ApplicationViewModel: ObservableObject {
         ).run()
     }
     
-    func openSettings() {
+    func openSettings() -> Void {
         UIApplication.openSettings()
     }
 }

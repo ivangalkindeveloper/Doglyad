@@ -25,7 +25,7 @@ struct OnBoardingScreen: View {
         DScreen {
             VStack(
                 alignment: .leading,
-                spacing: 0,
+                spacing: .zero,
             ) {
                 DText(
                     L10n.onBoardingTitle.string,
@@ -108,12 +108,16 @@ private struct Page: View {
     }
 }
 
-#Preview {
-    ApplicationWrapperView {
-        DThemeWrapperView {
-            OnBoardingScreen(
-                arguments: nil
-            )
-        }
-    }
-}
+//#Preview {
+//    ApplicationWrapperView {
+//        DependencyWrapperView(
+//            dependencyContainer:
+//        ) {
+//            DThemeWrapperView {
+//                OnBoardingScreen(
+//                    arguments: nil
+//                )
+//            }
+//        }
+//    }
+//}

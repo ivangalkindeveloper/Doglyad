@@ -10,8 +10,20 @@ import SwiftUI
 import Router
 
 final class ScanViewModel: ObservableObject {
-    var diagnosticRepository: DiagnosticsRepositoryProtocol?
-    var router: DRouter?
+    private var diagnosticRepository: DiagnosticsRepositoryProtocol?
+    private var router: DRouter?
+    
+    func initialize(
+        container: DependencyContainer,
+        router: DRouter
+    ) -> Void {
+        self.diagnosticRepository = container.diagnosticsRepository
+        self.router = router
+        
+        if let usResearchType = diagnosticRepository?.getSelectedUSResearchType() {
+            self.researchType = ResearchType(type: usResearchType)
+        }
+    }
     
     @Published var researchType: ResearchType?
     @Published var photos: [ScanPhoto] = []
@@ -55,10 +67,10 @@ final class ScanViewModel: ObservableObject {
         self.isShowBottomSheet = true
     }
     
-    func deletePhoto(
-        image: ScanPhoto
+    func onPressedDeletePhoto(
+        photo: ScanPhoto
     ) -> Void {
-        self.photos.remove(at: photos.firstIndex(of: image)!)
+        self.photos.remove(at: photos.firstIndex(of: photo)!)
         if (self.photos.isEmpty) {
             self.isShowBottomSheet = false
         }

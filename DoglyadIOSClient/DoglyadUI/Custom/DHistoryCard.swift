@@ -13,6 +13,12 @@ public struct DHistoryCard: View {
     }
 }
 
-#Preview {
-    DHistoryCard()
-}
+//#Preview {
+//    DThemeWrapperView{
+//        DHistoryCard(
+//            title: "Thyroid gland",
+//            action: {}
+//        )
+//        .padding()
+//    }
+//}

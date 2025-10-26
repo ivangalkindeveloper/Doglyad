@@ -13,6 +13,12 @@ public struct DConclusionCard: View {
     }
 }
 
-#Preview {
-    DConclusionCard()
-}
+//#Preview {
+//    DThemeWrapperView{
+//        DConclusionCard(
+//            title: "Thyroid gland",
+//            action: {}
+//        )
+//        .padding()
+//    }
+//}

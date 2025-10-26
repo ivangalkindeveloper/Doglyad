@@ -27,11 +27,12 @@ struct DResearchTypeChip: View {
     }
 }
 
-#Preview {
-    DThemeWrapperView{
-        DResearchTypeChip(
-            title: "Thyroid gland",
-            action: {}
-        )
-    }
-}
+//#Preview {
+//    DThemeWrapperView{
+//        DResearchTypeChip(
+//            title: "Thyroid gland",
+//            action: {}
+//        )
+//        .padding()
+//    }
+//}

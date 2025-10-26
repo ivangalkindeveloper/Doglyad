@@ -14,9 +14,25 @@ struct ScanBottomSheet: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     
+    @EnvironmentObject private var viewModel: ScanViewModel
+    
     var body: some View {
-        VStack {
-            Text("Hello!")
+        VStack(spacing: .zero) {
+            ScrollView(.horizontal) {
+                ForEach(viewModel.photos) { photo in
+                    DPhotoCard(
+                        image: photo.image,
+                        actionDelete: {
+                            viewModel.onPressedDeletePhoto(photo: photo)
+                        }
+                    )
+                    .padding([.horizontal], size.s8)
+                }
+                .padding([.horizontal], size.s8)
+            }
+            .padding(.top, size.s24)
+            .padding(.bottom, size.s16)
+            
         }
         .background(color.grayscaleBackgroundWeak)
         .presentationDragIndicator(.visible)

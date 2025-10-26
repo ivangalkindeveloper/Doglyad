@@ -38,6 +38,8 @@ final class CameraViewModel: NSObject, ObservableObject {
         self.session.addOutput(self.output)
         self.previewLayer.videoGravity = .resizeAspectFill
         self.session.commitConfiguration()
+        self.startSession()
+        
         DispatchQueue.main.async {
             self.isLoading = false
         }
