@@ -12,20 +12,23 @@ public struct DScreen<Content: View>: View {
     private var color: DColor { theme.color }
     
     let title: String?
+    let backgroundColor: Color?
     let content: () -> Content
     
     public init(
         title: String? = nil,
+        backgroundColor: Color? = nil,
         @ViewBuilder content: @escaping () -> Content,
     ) {
         self.title = title
+        self.backgroundColor = backgroundColor
         self.content = content
     }
     
     public var body: some View {
         NavigationView {
             content()
-                .background(color.grayscaleBackgroundWeak)
+                .background(backgroundColor ?? color.grayscaleBackgroundWeak)
         }
         .ifLet(title) { view, title in
             view.navigationTitle(title)

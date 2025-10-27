@@ -10,6 +10,8 @@ public enum L10n: Equatable, Hashable {
   #warning("Unused key: buttonOpenSettings")
   /// Open settings
   case buttonOpenSettings
+  /// Scan
+  case buttonScan
   /// Select type
   case buttonSelectType
   /// Let’s start!
@@ -51,9 +53,11 @@ public enum L10n: Equatable, Hashable {
   #warning("Unused key: researchTypeThyroidGland")
   /// Thyroid gland
   case researchTypeThyroidGland
-  #warning("Unused key: researchTypeTitle")
   /// Research type
   case researchTypeTitle
+  #warning("Unused key: scanDescription")
+  /// Place the research image in a frame and take a photo of it for further scanning.
+  case scanDescription
 }
 
 extension L10n: CustomStringConvertible {
@@ -65,6 +69,8 @@ extension L10n: CustomStringConvertible {
       return L10n.tr(key: "button_next")
     case .buttonOpenSettings:
       return L10n.tr(key: "button_open_settings")
+    case .buttonScan:
+      return L10n.tr(key: "button_scan")
     case .buttonSelectType:
       return L10n.tr(key: "button_select_type")
     case .buttonStart:
@@ -97,6 +103,8 @@ extension L10n: CustomStringConvertible {
       return L10n.tr(key: "research_type_thyroid_gland")
     case .researchTypeTitle:
       return L10n.tr(key: "research_type_title")
+    case .scanDescription:
+      return L10n.tr(key: "scan_description")
     }
   }
 

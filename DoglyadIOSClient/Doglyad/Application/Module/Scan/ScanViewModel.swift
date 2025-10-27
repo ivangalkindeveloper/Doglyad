@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Router
+import BottomSheet
 
 final class ScanViewModel: ObservableObject {
     private var diagnosticRepository: DiagnosticsRepositoryProtocol?
@@ -21,13 +22,12 @@ final class ScanViewModel: ObservableObject {
         self.router = router
         
         if let usResearchType = diagnosticRepository?.getSelectedUSResearchType() {
-            self.researchType = ResearchType(type: usResearchType)
+            researchType = ResearchType(type: usResearchType)
         }
     }
     
     @Published var researchType: ResearchType?
     @Published var photos: [ScanPhoto] = []
-    @Published var isShowBottomSheet: Bool = false
     @Published var name: String = ""
     @Published var gender: PatientGender?
     @Published var age: Int = 18
@@ -61,19 +61,15 @@ final class ScanViewModel: ObservableObject {
     func capturePhoto(
         image: UIImage
     ) -> Void {
-        self.photos.append(
+        photos.append(
             ScanPhoto(image: image)
         )
-        self.isShowBottomSheet = true
     }
     
     func onPressedDeletePhoto(
         photo: ScanPhoto
     ) -> Void {
-        self.photos.remove(at: photos.firstIndex(of: photo)!)
-        if (self.photos.isEmpty) {
-            self.isShowBottomSheet = false
-        }
+        photos.remove(at: photos.firstIndex(of: photo)!)
     }
     
     func onPressedGender() -> Void {}
@@ -84,5 +80,5 @@ final class ScanViewModel: ObservableObject {
     
     func onPressedCurrentComplaintSpeechToText() -> Void {}
     
-    func onPressedNext() -> Void {}
+    func onPressedScan() -> Void {}
 }

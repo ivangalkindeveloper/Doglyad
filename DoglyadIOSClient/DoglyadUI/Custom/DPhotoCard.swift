@@ -44,8 +44,8 @@ public struct DPhotoCard: View {
                             .renderingMode(.template)
                             .foregroundColor(color.dangerDefault)
                             .frame(
-                                width: size.s20,
-                                height: size.s20,
+                                width: size.s16,
+                                height: size.s16,
                             )
                     }
                 }

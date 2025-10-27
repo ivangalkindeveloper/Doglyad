@@ -35,6 +35,23 @@
         }
       }
     },
+    "button_scan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать"
+          }
+        }
+      }
+    },
     "button_select_type" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -303,6 +320,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Тип исследования"
+          }
+        }
+      }
+    },
+    "scan_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place the research image in a frame and take a photo of it for further scanning."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поместите изображение исследования в рамку и сфотографируйте его для дальнейшего сканирования."
           }
         }
       }

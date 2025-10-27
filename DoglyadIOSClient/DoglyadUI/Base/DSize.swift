@@ -8,6 +8,7 @@
 import Foundation
 
 public struct DSize {
+    public let s4: CGFloat = 4
     public let s8: CGFloat = 8
     public let s10: CGFloat = 10
     public let s11: CGFloat = 11
@@ -16,6 +17,7 @@ public struct DSize {
     public let s14: CGFloat = 14
     public let s15: CGFloat = 15
     public let s16: CGFloat = 16
+    public let s18: CGFloat = 18
     public let s20: CGFloat = 20
     public let s24: CGFloat = 24
     public let s32: CGFloat = 32

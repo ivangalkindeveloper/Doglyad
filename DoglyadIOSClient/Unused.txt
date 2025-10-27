@@ -10,4 +10,4 @@ on_boarding_intro_description
 on_boarding_research_type_description
 on_boarding_scan_description
 research_type_thyroid_gland
-research_type_title
+scan_description

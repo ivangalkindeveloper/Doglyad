@@ -13,6 +13,7 @@
 		7720FEEC2E9ACE43002EA89E /* DoglyadUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		773A696D2E9C1207003C3643 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 773A696C2E9C1202003C3643 /* Makefile */; };
 		77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77759AFA2E932B78007CC90C /* DependencyInitializer */; };
+		777B8DE52EB0020D007F5678 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 777B8DE42EB0020D007F5678 /* BottomSheet */; };
 		778D6BED2E930BDE00F1D352 /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 778D6BEC2E930BDE00F1D352 /* Router */; };
 		7792C0552EA8418900F35E47 /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 7792C0542EA8418900F35E47 /* Router */; };
 		77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77BB12232E92A87700B9FFC5 /* DependencyInitializer */; };
@@ -196,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E7F0AE2EA843F000E49A4E /* Router in Frameworks */,
+				777B8DE52EB0020D007F5678 /* BottomSheet in Frameworks */,
 				77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */,
 				7792C0552EA8418900F35E47 /* Router in Frameworks */,
 				7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */,
@@ -337,6 +339,7 @@
 				77759AFA2E932B78007CC90C /* DependencyInitializer */,
 				7792C0542EA8418900F35E47 /* Router */,
 				77E7F0AD2EA843F000E49A4E /* Router */,
+				777B8DE42EB0020D007F5678 /* BottomSheet */,
 			);
 			productName = Doglyad;
 			productReference = 77AC58B22E929E7E0028250A /* Doglyad.app */;
@@ -430,6 +433,7 @@
 			packageReferences = (
 				77759AF92E932B78007CC90C /* XCRemoteSwiftPackageReference "DependencyInitializer" */,
 				77E7F0AC2EA843F000E49A4E /* XCRemoteSwiftPackageReference "Router" */,
+				777B8DE32EB0020D007F5678 /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 77AC58B32E929E7E0028250A /* Products */;
@@ -1057,6 +1061,14 @@
 				kind = branch;
 			};
 		};
+		777B8DE32EB0020D007F5678 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lucaszischka/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
+			};
+		};
 		77E7F0AC2EA843F000E49A4E /* XCRemoteSwiftPackageReference "Router" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ivangalkindeveloper/Router";
@@ -1072,6 +1084,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 77759AF92E932B78007CC90C /* XCRemoteSwiftPackageReference "DependencyInitializer" */;
 			productName = DependencyInitializer;
+		};
+		777B8DE42EB0020D007F5678 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 777B8DE32EB0020D007F5678 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
 		};
 		778D6BEC2E930BDE00F1D352 /* Router */ = {
 			isa = XCSwiftPackageProductDependency;
