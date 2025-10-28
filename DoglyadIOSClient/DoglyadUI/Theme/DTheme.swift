@@ -6,13 +6,19 @@
 //
 
 import Combine
+import SwiftUI
 
 public class DTheme: Combine.ObservableObject {
     @Published public var color: DColor
     @Published public var size: DSize
     @Published public var typography: DTypography
+    @Published public var animation: Animation? = .spring(
+        response: 0.5,
+        dampingFraction: 0.75,
+        blendDuration: 1
+    )
     
-    init(
+    public init(
         color: DColor,
         size: DSize,
         typography: DTypography

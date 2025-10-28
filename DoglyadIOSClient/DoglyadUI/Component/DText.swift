@@ -36,7 +36,8 @@ public extension DText {
 }
 
 private struct DTextModifier: ViewModifier {
-    @EnvironmentObject var theme: DTheme
+    @EnvironmentObject private var theme: DTheme
+    private var typography: DTypography { theme.typography }
     
     let font: Font?
     let color: Color?
@@ -54,7 +55,7 @@ private struct DTextModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(font ?? theme.typography.textMedium)
+            .font(font ?? typography.textMedium)
             .foregroundStyle(color ?? theme.color.grayscaleHeader)
             .multilineTextAlignment(alignment ?? .leading)
     }

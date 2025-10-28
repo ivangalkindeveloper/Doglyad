@@ -25,9 +25,7 @@ public struct DBottomSheet<Content: View>: View {
     }
     
     public var body: some View {
-        VStack(
-            spacing: 0
-        ) {
+        VStack(spacing: .zero) {
             DText(title)
                 .dStyle(
                     font: typography.linkMedium

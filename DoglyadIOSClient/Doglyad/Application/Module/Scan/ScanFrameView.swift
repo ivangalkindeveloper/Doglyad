@@ -77,7 +77,3 @@ struct ScanFrameView: View {
         .padding(size.s16)
     }
 }
-
-#Preview {
-    ScanFrameView()
-}

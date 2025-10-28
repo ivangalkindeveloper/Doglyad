@@ -28,7 +28,7 @@ struct ScanScreen: View {
 
     var body: some View {
         DScreen(
-            backgroundColor: theme.color.grayscaleHeader,
+            backgroundColor: color.grayscaleHeader,
         ) {
             ZStack {
                 CameraView(
@@ -118,7 +118,7 @@ struct ScanScreen: View {
         .enableSwipeToDismiss(false)
         .dragIndicatorColor(color.grayscaleLine)
         .animation(
-            .easeOut(duration: 0.1),
+            theme.animation,
             value: sheetViewModel.sheetPosition
         )
         .onChange(of: viewModel.photos, initial: true) {

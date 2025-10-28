@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Router
 import BottomSheet
+import DoglyadUI
 
 final class ScanViewModel: ObservableObject {
     private var diagnosticRepository: DiagnosticsRepositoryProtocol?
@@ -28,11 +29,11 @@ final class ScanViewModel: ObservableObject {
     
     @Published var researchType: ResearchType?
     @Published var photos: [ScanPhoto] = []
-    @Published var name: String = ""
+    @Published var nameController = DInputController()
     @Published var gender: PatientGender?
     @Published var age: Int = 18
-    @Published var medicalHistory: String = ""
-    @Published var сurrentComplaint: String = ""
+    @Published var medicalHistoryController = DInputController()
+    @Published var сurrentComplaintController = DInputController()
     
     func onPressedHistory() -> Void {
         router?.push(
@@ -81,4 +82,10 @@ final class ScanViewModel: ObservableObject {
     func onPressedCurrentComplaintSpeechToText() -> Void {}
     
     func onPressedScan() -> Void {}
+    
+    func unfocus() -> Void {
+        nameController.unfocus()
+        medicalHistoryController.unfocus()
+        сurrentComplaintController.unfocus()
+    }
 }
