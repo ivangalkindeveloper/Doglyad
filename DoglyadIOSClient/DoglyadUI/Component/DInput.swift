@@ -69,7 +69,18 @@ public struct DInput<Content: View>: View {
     }
 
     public var body: some View {
-        VStack(spacing: .zero) {
+        VStack(
+            alignment: .leading,
+            spacing: .zero
+        ) {
+            DText(placeholder)
+                .dStyle(
+                    font: typography.textXSmall,
+                    color: placeholderColor
+                )
+                .padding(.horizontal, size.s8)
+                .padding(.bottom, size.s4)
+            
             ZStack {
                 RoundedRectangle(cornerRadius: size.s16)
                     .fill(fillColor)
@@ -79,41 +90,26 @@ public struct DInput<Content: View>: View {
                 HStack(spacing: .zero) {
                     prefix?().fixedSize()
 
-                    ZStack(alignment: .leading) {
-                        DText(placeholder)
-                            .dStyle(
-                                font: typography.textXSmall,
-                                color: placeholderColor
-                            )
-                            .offset(y: placeholderOffset)
-                            .scaleEffect(placeholderScale, anchor: .leading)
-                            .padding(.leading, 0)
-                            .animation(
-                                .easeOut(duration: 0.18),
-                                value: placeholderShouldFloat
-                            )
-                        
-                        TextField(
-                            "",
-                            text: Binding(
-                                get: { controller.text },
-                                set: { controller.text = $0 }
-                            )
-                        )
-                        .focused($isFocused)
-                        .keyboardType(keyboardType)
-                        .textInputAutocapitalization(autocapitalization)
-                        .font(typography.textMedium)
-                        .foregroundStyle(color.grayscaleHeader)
-                        .multilineTextAlignment(.leading)
-                        .tint(borderColor)
-                    }
+                    TextField(
+                        "",
+                        text: Binding(
+                            get: { controller.text },
+                            set: { controller.text = $0 }
+                        ),
+                        axis: .vertical
+                    )
+                    .lineLimit(5)
+                    .focused($isFocused)
+                    .keyboardType(keyboardType)
+                    .textInputAutocapitalization(autocapitalization)
+                    .font(typography.textSmall)
+                    .foregroundStyle(color.grayscaleHeader)
+                    .multilineTextAlignment(.leading)
+                    .tint(borderColor)
 
                     postfix?().fixedSize()
                 }
-                .padding(.horizontal, size.s16)
-                .padding(.top, placeholderShouldFloat ? size.s12 : size.s16)
-                .padding(.bottom, placeholderShouldFloat ? size.s4 : size.s16)
+                .padding(size.s12)
             }
 
             if let error = controller.errorText, !error.isEmpty {
@@ -122,7 +118,7 @@ public struct DInput<Content: View>: View {
                     .foregroundStyle(color.dangerDefaultStrong)
             }
         }
-        .frame(minHeight: size.s56)
+        .frame(minHeight: size.s48)
         .fixedSize(horizontal: false, vertical: true)
         .onTapGesture {
             controller.focus()
@@ -148,16 +144,9 @@ private extension DInput {
         isFocused || !controller.text.isEmpty
     }
 
-    var placeholderOffset: CGFloat {
-        placeholderShouldFloat ? -24 : 0
-    }
-
-    var placeholderScale: CGFloat {
-        placeholderShouldFloat ? 0.85 : 1.0
-    }
-
     var placeholderColor: Color {
-        controller.errorText != nil ? color.dangerDefaultStrong : color.grayscaleLabel
+        if controller.errorText != nil { return color.dangerDefaultStrong }
+        return isFocused ? color.primaryDefault : color.grayscaleHeader
     }
 
     var borderColor: Color {
