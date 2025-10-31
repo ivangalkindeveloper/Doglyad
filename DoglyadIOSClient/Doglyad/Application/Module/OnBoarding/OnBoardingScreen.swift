@@ -28,7 +28,7 @@ struct OnBoardingScreen: View {
                 spacing: .zero,
             ) {
                 DText(
-                    L10n.onBoardingTitle.string,
+                    .onBoardingTitle,
                 )
                 .dStyle(
                     font: typography.displayLargeBold,
@@ -58,7 +58,7 @@ struct OnBoardingScreen: View {
                 .padding(.bottom, size.s16)
                 
                 DButton(
-                    title: title(viewModel.page).string,
+                    title: title(viewModel.page),
                     action: viewModel.onPressedNext
                 )
                 .dStyle(.primaryButton)
@@ -75,14 +75,14 @@ struct OnBoardingScreen: View {
 private extension OnBoardingScreen {
     func title(
         _ page: OnBoardingViewModel.Page
-    ) -> L10n {
+    ) -> LocalizedStringResource {
         switch page {
         case .intro:
-            L10n.buttonNext
+            .buttonNext
         case .researchType:
-            L10n.buttonSelectType
+            .buttonSelectType
         case .scan:
-            L10n.buttonStart
+            .buttonStart
         }
     }
 }
@@ -92,12 +92,12 @@ private struct Page: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     
-    let description: L10n
+    let description: LocalizedStringResource
     let tag: OnBoardingViewModel.Page
     
     var body: some View {
         DText(
-            description.string,
+            description,
         )
         .dStyle(
             font: typography.textMedium,

@@ -9,12 +9,12 @@ import SwiftUI
 import AVFoundation
 
 struct CameraView: UIViewRepresentable {
-    @ObservedObject var viewModel: CameraViewModel
+    @ObservedObject var controller: CameraController
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
-        viewModel.previewLayer.frame = UIScreen.main.bounds
-        view.layer.addSublayer(viewModel.previewLayer)
+        controller.previewLayer.frame = UIScreen.main.bounds
+        view.layer.addSublayer(controller.previewLayer)
         return view
     }
 

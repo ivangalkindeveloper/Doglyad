@@ -31,7 +31,7 @@ public struct DInput<Content: View>: View {
     private var typography: DTypography { theme.typography }
 
     @FocusState private var isFocused: Bool
-    private let placeholder: String
+    private let placeholder: LocalizedStringResource
     private let controller: DInputController
     private let keyboardType: UIKeyboardType
     private let autocapitalization: TextInputAutocapitalization?
@@ -39,7 +39,7 @@ public struct DInput<Content: View>: View {
     private let postfix: (() -> Content)?
 
     public init(
-        placeholder: String = "",
+        placeholder: LocalizedStringResource = "",
         controller: DInputController,
         keyboardType: UIKeyboardType = .default,
         autocapitalization: TextInputAutocapitalization? = .sentences,
@@ -53,7 +53,7 @@ public struct DInput<Content: View>: View {
     }
     
     public init(
-        placeholder: String = "",
+        placeholder: LocalizedStringResource = "",
         controller: DInputController,
         keyboardType: UIKeyboardType = .default,
         autocapitalization: TextInputAutocapitalization? = .sentences,

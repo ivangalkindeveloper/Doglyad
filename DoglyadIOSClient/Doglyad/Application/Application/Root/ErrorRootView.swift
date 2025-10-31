@@ -56,9 +56,9 @@ private struct ErrorView: View {
 
     let error: Error
     let image: ImageResource
-    let title: L10n
-    let description: L10n
-    let buttonTitle: L10n
+    let title: LocalizedStringResource
+    let description: LocalizedStringResource
+    let buttonTitle: LocalizedStringResource
     let action: () -> Void
 
     var body: some View {
@@ -78,7 +78,7 @@ private struct ErrorView: View {
                 .frame(width: size.s64, height: size.s64)
                 .padding(.bottom, size.s16)
                 DText(
-                    title.string,
+                    title,
                 )
                 .dStyle(
                     font: theme.typography.linkMedium,
@@ -86,7 +86,7 @@ private struct ErrorView: View {
                 )
                 .padding(.bottom, size.s10)
                 DText(
-                    description.string,
+                    description,
                 )
                 .dStyle(
                     font: typography.textSmall,
@@ -97,7 +97,7 @@ private struct ErrorView: View {
                 .padding(.bottom, size.s14)
                 Spacer()
                 DButton(
-                    title: buttonTitle.string,
+                    title: buttonTitle,
                     action: self.action,
                     isLoading: self.viewModel.isLoading
                 )

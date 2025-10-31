@@ -341,7 +341,7 @@
         }
       }
     },
-    "scan_description" : {
+    "scan_capture_description" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -354,6 +354,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Поместите изображение исследования в рамку и сфотографируйте его для дальнейшего сканирования."
+          }
+        }
+      }
+    },
+    "scan_max_photo_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum number of photos: %1$(count)lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Максимальное количество фото: %(count)lld"
           }
         }
       }

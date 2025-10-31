@@ -8,7 +8,7 @@
 import SwiftUI
 import AVFoundation
 
-final class CameraViewModel: NSObject, ObservableObject {
+final class CameraController: NSObject, ObservableObject {
     @Published var isLoading = true
     @Published var isRunning = false
     @Published var isCapturing = false
@@ -81,7 +81,7 @@ final class CameraViewModel: NSObject, ObservableObject {
     }
 }
 
-extension CameraViewModel: AVCapturePhotoCaptureDelegate {
+extension CameraController: AVCapturePhotoCaptureDelegate {
     func photoOutput(
         _ output: AVCapturePhotoOutput,
         didFinishProcessingPhoto photo: AVCapturePhoto,

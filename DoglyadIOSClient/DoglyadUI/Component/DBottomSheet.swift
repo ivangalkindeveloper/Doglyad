@@ -13,11 +13,11 @@ public struct DBottomSheet<Content: View>: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     
-    let title: String
+    let title: LocalizedStringResource
     let content: () -> Content
     
     public init(
-        title: String,
+        title: LocalizedStringResource,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.title = title

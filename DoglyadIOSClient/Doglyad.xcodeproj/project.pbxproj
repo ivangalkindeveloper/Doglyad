@@ -81,6 +81,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Utility/Untitled.swift,
 			);
 			target = 77AC58B12E929E7E0028250A /* Doglyad */;
 		};

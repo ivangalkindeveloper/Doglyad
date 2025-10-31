@@ -14,13 +14,13 @@ public struct DButton: View {
     private var typography: DTypography { theme.typography }
 
     let image: ImageResource?
-    let title: String?
+    let title: LocalizedStringResource?
     let action: () -> Void
     let isLoading: Bool
 
     public init(
         image: ImageResource? = nil,
-        title: String? = nil,
+        title: LocalizedStringResource? = nil,
         action: @escaping () -> Void,
         isLoading: Bool = false,
     ) {

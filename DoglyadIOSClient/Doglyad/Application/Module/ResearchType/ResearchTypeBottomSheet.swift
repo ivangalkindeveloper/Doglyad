@@ -25,12 +25,12 @@ struct ResearchTypeBottomSheet: View {
     
     var body: some View {
         DBottomSheet(
-            title: L10n.researchTypeTitle.string,
+            title: .researchTypeTitle,
         ) {
             VStack(spacing: .zero) {
                 ForEach(viewModel.researchTypes) { type in
                     DListCard(
-                        title: L10n.forUSResearchType(type.type).string,
+                        title: .forUSResearchType(type.type),
                         action: {
                             dismiss()
                             viewModel.onPressedType(
@@ -43,7 +43,7 @@ struct ResearchTypeBottomSheet: View {
                 .padding(.bottom, size.s16)
                 
                 DText(
-                    L10n.researchTypeFutureAddingDescription.string
+                    .researchTypeFutureAddingDescription
                 )
                 .dStyle(
                     font: typography.textSmall,

@@ -12,6 +12,8 @@ import BottomSheet
 import DoglyadUI
 
 final class ScanViewModel: ObservableObject {
+    static let photoMaxCount: Int = 10
+    
     private var diagnosticRepository: DiagnosticsRepositoryProtocol?
     private var router: DRouter?
     
@@ -27,13 +29,15 @@ final class ScanViewModel: ObservableObject {
         }
     }
     
+    @NestedObservableObject var cameraController = CameraController()
+    @NestedObservableObject var sheetController = ScanSheetController()
     @Published var researchType: ResearchType?
     @Published var photos: [ScanPhoto] = []
-    @Published var nameController = DInputController()
+    @NestedObservableObject var nameController = DInputController()
     @Published var gender: PatientGender?
     @Published var age: Int = 18
-    @Published var medicalHistoryController = DInputController()
-    @Published var сurrentComplaintController = DInputController()
+    @NestedObservableObject var medicalHistoryController = DInputController()
+    @NestedObservableObject var сurrentComplaintController = DInputController()
     
     func onPressedHistory() -> Void {
         router?.push(
@@ -59,14 +63,40 @@ final class ScanViewModel: ObservableObject {
         )
     }
     
-    func capturePhoto(
-        image: UIImage
-    ) -> Void {
-        photos.append(
-            ScanPhoto(image: image)
+    var captureIcon: ImageResource {
+        photos.count == ScanViewModel.photoMaxCount ? .down : .camera
+    }
+    
+    func onPressedCapture() -> Void {
+        if photos.count == ScanViewModel.photoMaxCount {
+            return sheetController.setTop()
+        }
+        
+        cameraController.takePhoto(
+            completion: { [weak self] image in
+                guard let self = self else { return }
+                photos.append(
+                    ScanPhoto(image: image)
+                )
+                if photos.count == ScanViewModel.photoMaxCount {
+                    sheetController.setTop()
+                }
+            }
         )
     }
     
+    func determineOpeningSheet() -> Void {
+        if photos.isEmpty {
+            return sheetController.setHidden()
+        }
+        
+        if photos.count == ScanViewModel.photoMaxCount {
+            return sheetController.setTop()
+        }
+        
+        sheetController.setBottom()
+    }
+
     func onPressedDeletePhoto(
         photo: ScanPhoto
     ) -> Void {

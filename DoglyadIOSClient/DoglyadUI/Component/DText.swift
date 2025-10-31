@@ -8,10 +8,10 @@
 import SwiftUI
 
 public struct DText: View {
-    let data: String
+    let data: LocalizedStringResource
     
     public init(
-        _ data: String,
+        _ data: LocalizedStringResource,
     ) {
         self.data = data
     }

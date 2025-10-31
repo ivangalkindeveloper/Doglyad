@@ -13,11 +13,11 @@ public struct DListCard: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     
-    let title: String;
+    let title: LocalizedStringResource;
     let action: () -> Void
     
     public init(
-        title: String,
+        title: LocalizedStringResource,
         action: @escaping () -> Void
     ) {
         self.title = title

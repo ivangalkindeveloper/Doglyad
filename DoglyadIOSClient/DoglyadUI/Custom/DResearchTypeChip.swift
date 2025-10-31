@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct DResearchTypeChip: View {
-    let title: String
+    let title: LocalizedStringResource
     let action: () -> Void
 
     public init(
-        title: String,
+        title: LocalizedStringResource,
         action: @escaping () -> Void,
     ) {
         self.title = title

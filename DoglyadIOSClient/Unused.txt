@@ -6,7 +6,6 @@ error_no_internet_connection_description
 error_no_internet_connection_title
 error_unknown_description
 error_unknown_title
-field_patient_name
 on_boarding_intro_description
 on_boarding_research_type_description
 on_boarding_scan_description
