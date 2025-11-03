@@ -1,10 +1,3 @@
-//
-//  DBottomSheet.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 19.10.2025.
-//
-
 import SwiftUI
 
 public struct DBottomSheet<Content: View>: View {

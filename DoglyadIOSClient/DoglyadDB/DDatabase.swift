@@ -1,10 +1,3 @@
-//
-//  DoglyadDB.swift
-//  DoglyadDB
-//
-//  Created by Иван Галкин on 18.10.2025.
-//
-
 import Foundation
 import SwiftData
 

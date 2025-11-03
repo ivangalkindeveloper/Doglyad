@@ -1,27 +1,20 @@
-//
-//  ResearchTypeScreenView.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import SwiftUI
 import Router
 import DoglyadUI
 
-struct ResearchTypeScreenArguments: RouteArgumentsProtocol {
+struct SelectResearchTypeScreenArguments: RouteArgumentsProtocol {
     let onSelected: (ResearchType) -> Void
 }
     
-struct ResearchTypeBottomSheet: View {
+struct SelectResearchTypeBottomSheet: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     
-    let arguments: ResearchTypeScreenArguments?
-    @StateObject private var viewModel = ResearchTypeViewModel()
+    let arguments: SelectResearchTypeScreenArguments?
+    @StateObject private var viewModel = SelectResearchTypeViewModel()
     
     var body: some View {
         DBottomSheet(

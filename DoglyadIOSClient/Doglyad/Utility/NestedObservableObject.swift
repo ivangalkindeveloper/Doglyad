@@ -1,16 +1,8 @@
-//
-//  NestedObservableObject.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 01.11.2025.
-//
-
 import SwiftUI
 import Combine
 
 @propertyWrapper
 struct NestedObservableObject<Value : ObservableObject> {
-    
     static subscript<T: ObservableObject>(
         _enclosingInstance instance: T,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<T, Value>,

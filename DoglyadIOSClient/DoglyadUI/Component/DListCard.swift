@@ -1,10 +1,3 @@
-//
-//  DResearchTypeCard.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 20.10.2025.
-//
-
 import SwiftUI
 
 public struct DListCard: View {

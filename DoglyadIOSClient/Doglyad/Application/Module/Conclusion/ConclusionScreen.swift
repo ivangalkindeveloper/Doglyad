@@ -1,10 +1,3 @@
-//
-//  DiagnosisScreenView.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import SwiftUI
 import Router
 import DoglyadUI

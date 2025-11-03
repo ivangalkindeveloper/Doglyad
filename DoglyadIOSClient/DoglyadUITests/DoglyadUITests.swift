@@ -1,10 +1,3 @@
-//
-//  DoglyadUITests.swift
-//  DoglyadUITests
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import XCTest
 
 final class DoglyadUITests: XCTestCase {

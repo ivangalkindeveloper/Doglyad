@@ -1,10 +1,3 @@
-//
-//  PermissionManager.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 18.10.2025.
-//
-
 import AVFoundation
 
 enum PermissionType {

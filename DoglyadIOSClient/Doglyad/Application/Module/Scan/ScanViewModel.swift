@@ -1,10 +1,3 @@
-//
-//  AnamnesisViewModel.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 06.10.2025.
-//
-
 import Foundation
 import SwiftUI
 import Router
@@ -49,8 +42,8 @@ final class ScanViewModel: ObservableObject {
     func onPressedResearchType() {
         router?.push(
             route: RouteSheet(
-                type: .researchType,
-                arguments: ResearchTypeScreenArguments(
+                type: .selectResearchType,
+                arguments: SelectResearchTypeScreenArguments(
                     onSelected: { [weak self] researchType in
                         guard let self = self else { return }
                         self.researchType = researchType

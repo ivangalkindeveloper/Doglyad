@@ -1,10 +1,3 @@
-//
-//  DTypography.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 11.10.2025.
-//
-
 import SwiftUI
 
 public struct DTypography {

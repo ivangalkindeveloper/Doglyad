@@ -1,10 +1,3 @@
-//
-//  Utility.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 12.10.2025.
-//
-
 import Foundation
 import UIKit
 import SystemConfiguration

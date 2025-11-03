@@ -1,10 +1,3 @@
-//
-//  DScreen.swift
-//  DoglyadUI
-//
-//  Created by Иван Галкин on 13.10.2025.
-//
-
 import SwiftUI
 
 public struct DScreen<Content: View>: View {

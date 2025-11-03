@@ -92,7 +92,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				Utility/Untitled.swift,
 			);
 			target = 77AC58B12E929E7E0028250A /* Doglyad */;
 		};
@@ -120,6 +119,8 @@
 				Style/DButtonStyle.swift,
 				Theme/DTheme.swift,
 				Theme/DThemeWrapperView.swift,
+				Utility/DFontRegister.swift,
+				Utility/DRoundedCorner.swift,
 				Utility/Extension.swift,
 			);
 			target = 77AC58B12E929E7E0028250A /* Doglyad */;
@@ -152,6 +153,8 @@
 				Style/DButtonStyle.swift,
 				Theme/DTheme.swift,
 				Theme/DThemeWrapperView.swift,
+				Utility/DFontRegister.swift,
+				Utility/DRoundedCorner.swift,
 				Utility/Extension.swift,
 			);
 			target = 7720FEE42E9ACE42002EA89E /* DoglyadUI */;

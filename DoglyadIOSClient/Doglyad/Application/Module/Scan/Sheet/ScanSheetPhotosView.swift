@@ -1,10 +1,3 @@
-//
-//  ScanSheetPhotosView.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 01.11.2025.
-//
-
 import SwiftUI
 import DoglyadUI
 

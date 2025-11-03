@@ -1,18 +1,15 @@
-//
-//  DoglyadApp.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import SwiftUI
 import SwiftData
 import DoglyadUI
 
+
+
 @main
 struct Application: App {
     init() {
-        FontManager().registerFonts()
+        DFontRegister.registerFonts(
+            bundle: Bundle(for: InitializationProcess.self)
+        )
     }
     
     @StateObject private var viewModel = ApplicationViewModel()

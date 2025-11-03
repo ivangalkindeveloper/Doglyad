@@ -1,10 +1,3 @@
-//
-//  OnBoardingViewModel.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 09.10.2025.
-//
-
 import Foundation
 import SwiftUI
 import Router
@@ -23,8 +16,8 @@ final class OnBoardingViewModel: ObservableObject {
         case .researchType:
             router?.push(
                 route: RouteSheet(
-                    type: .researchType,
-                    arguments: ResearchTypeScreenArguments(
+                    type: .selectResearchType,
+                    arguments: SelectResearchTypeScreenArguments(
                         onSelected: { [weak self] researchType in
                             self?.page = .scan
                             self?.diagnosticRepository?.setSelectedResearchType(

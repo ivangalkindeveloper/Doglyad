@@ -1,10 +1,3 @@
-//
-//  DSegment.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 02.11.2025.
-//
-
 import SwiftUI
 
 

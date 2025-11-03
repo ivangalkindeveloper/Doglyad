@@ -1,10 +1,3 @@
-//
-//  Wrapper.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 12.10.2025.
-//
-
 import SwiftUI
 
 public struct DThemeWrapperView<Content: View>: View {

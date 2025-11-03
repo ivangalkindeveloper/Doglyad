@@ -1,10 +1,3 @@
-//
-//  DInput.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 28.10.2025.
-//
-
 import Combine
 import SwiftUI
 

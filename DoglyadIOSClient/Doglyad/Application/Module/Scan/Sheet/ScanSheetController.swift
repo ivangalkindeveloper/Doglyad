@@ -1,10 +1,3 @@
-//
-//  ScanBottomSheetViewModel.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 27.10.2025.
-//
-
 import Foundation
 import SwiftUI
 import BottomSheet

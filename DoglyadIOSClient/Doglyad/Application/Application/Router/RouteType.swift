@@ -1,10 +1,3 @@
-//
-//  ScreenType.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 06.10.2025.
-//
-
 enum ScreenType: Hashable {
     case onBoarding
     case scan
@@ -13,7 +6,7 @@ enum ScreenType: Hashable {
 }
 
 enum SheetType: Hashable {
-    case researchType
+    case selectResearchType
 }
 
 enum FullScreenCoverType: Hashable {

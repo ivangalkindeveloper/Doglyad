@@ -1,10 +1,3 @@
-//
-//  DoglyadTests.swift
-//  DoglyadTests
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import Testing
 @testable import Doglyad
 

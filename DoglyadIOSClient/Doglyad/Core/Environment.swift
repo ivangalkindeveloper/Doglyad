@@ -1,10 +1,3 @@
-//
-//  Environment.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import Foundation
 
 protocol EnvironmentProtocol: AnyObject {

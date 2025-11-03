@@ -1,10 +1,3 @@
-//
-//  AnamnesisScreenView.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import BottomSheet
 import DoglyadUI
 import Router
@@ -105,7 +98,7 @@ struct ScanScreen: View {
         .customBackground(
             color.grayscaleBackgroundWeak
                 .clipShape(
-                    RoundedCorner(
+                    DRoundedCorner(
                         radius: size.s32,
                         corners: [.topLeft, .topRight]
                     )

@@ -1,10 +1,3 @@
-//
-//  DiagnosticsRepository.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import DoglyadDB
 
 protocol DiagnosticsRepositoryProtocol {

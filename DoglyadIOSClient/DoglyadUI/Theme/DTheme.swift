@@ -1,10 +1,3 @@
-//
-//  DTheme.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 11.10.2025.
-//
-
 import Combine
 import SwiftUI
 

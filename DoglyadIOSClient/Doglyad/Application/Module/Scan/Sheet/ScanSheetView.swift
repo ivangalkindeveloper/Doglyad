@@ -1,10 +1,3 @@
-//
-//  ScanSheetView.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 23.10.2025.
-//
-
 import SwiftUI
 import DoglyadUI
 import BottomSheet

@@ -1,10 +1,3 @@
-//
-//  RootRouter.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 05.10.2025.
-//
-
 import SwiftUI
 import Router
 
@@ -45,9 +38,9 @@ final class RouterBuilder: RouterBuilderProtocol {
         route: RouteSheet<SheetType>
     ) -> AnyView {
         switch route.type {
-        case .researchType:
-            AnyView(ResearchTypeBottomSheet(
-                arguments: route.arguments as? ResearchTypeScreenArguments
+        case .selectResearchType:
+            AnyView(SelectResearchTypeBottomSheet(
+                arguments: route.arguments as? SelectResearchTypeScreenArguments
             ))
         }
     }
