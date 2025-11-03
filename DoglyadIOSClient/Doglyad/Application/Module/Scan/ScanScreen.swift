@@ -9,6 +9,7 @@ import BottomSheet
 import DoglyadUI
 import Router
 import SwiftUI
+import DoglyadCamera
 
 final class ScanScreenArguments: RouteArgumentsProtocol {}
 
@@ -29,7 +30,7 @@ struct ScanScreen: View {
             backgroundColor: color.grayscaleHeader,
         ) {
             ZStack {
-                CameraView(
+                DCameraView(
                     controller: viewModel.cameraController
                 )
                 .ignoresSafeArea()

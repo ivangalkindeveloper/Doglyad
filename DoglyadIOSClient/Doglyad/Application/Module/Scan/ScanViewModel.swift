@@ -10,6 +10,7 @@ import SwiftUI
 import Router
 import BottomSheet
 import DoglyadUI
+import DoglyadCamera
 
 final class ScanViewModel: ObservableObject {
     static let photoMaxCount: Int = 10
@@ -28,7 +29,7 @@ final class ScanViewModel: ObservableObject {
         }
     }
     
-    @NestedObservableObject var cameraController = CameraController()
+    @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
     @Published var researchType = ResearchType.default
     @Published var photos: [ScanPhoto] = []

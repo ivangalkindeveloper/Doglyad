@@ -1,17 +1,11 @@
-//
-//  CameraViewModel.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 07.10.2025.
-//
-
 import SwiftUI
+import Combine
 import AVFoundation
 
-final class CameraController: NSObject, ObservableObject {
-    @Published var isLoading = true
-    @Published var isRunning = false
-    @Published var isCapturing = false
+public final class DCameraController: NSObject, ObservableObject {
+    @Published public var isLoading = true
+    @Published public var isRunning = false
+    @Published public var isCapturing = false
     
     let session = AVCaptureSession()
     lazy var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(
@@ -21,7 +15,7 @@ final class CameraController: NSObject, ObservableObject {
     private var output = AVCapturePhotoOutput()
     private var capturePhotoCompletion: ((UIImage) -> Void)?
     
-    override init() {
+    public override init() {
         super.init()
         self.session.beginConfiguration()
         guard let device = AVCaptureDevice.default(
@@ -46,7 +40,7 @@ final class CameraController: NSObject, ObservableObject {
     }
 
 
-    func startSession() {
+    public func startSession() {
         sessionQueue.async {
             if !self.session.isRunning {
                 self.session.startRunning()
@@ -57,7 +51,7 @@ final class CameraController: NSObject, ObservableObject {
         }
     }
 
-    func stopSession() {
+    public func stopSession() {
         sessionQueue.async {
             if self.session.isRunning {
                 self.session.stopRunning()
@@ -68,7 +62,7 @@ final class CameraController: NSObject, ObservableObject {
         }
     }
 
-    func takePhoto(
+    public func takePhoto(
         completion: @escaping (UIImage) -> Void
     ) -> Void {
         self.isCapturing = true
@@ -81,8 +75,8 @@ final class CameraController: NSObject, ObservableObject {
     }
 }
 
-extension CameraController: AVCapturePhotoCaptureDelegate {
-    func photoOutput(
+extension DCameraController: AVCapturePhotoCaptureDelegate {
+    public func photoOutput(
         _ output: AVCapturePhotoOutput,
         didFinishProcessingPhoto photo: AVCapturePhoto,
         error: Error?
