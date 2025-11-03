@@ -14,9 +14,9 @@ protocol DiagnosticsRepositoryProtocol {
     func setOnBoardingCompleted(value: Bool) -> Void
     
     // MARK: ResearchType
-    func getSelectedUSResearchType() -> USResearchType?
+    func getSelectedResearchType() -> ResearchType?
     
-    func setSelectedUSResearchType(type: USResearchType) -> Void
+    func setSelectedResearchType(type: ResearchType) -> Void
 }
 
 final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
@@ -42,11 +42,11 @@ extension DiagnosticsRepository {
 
 // MARK: ResearchType
 extension DiagnosticsRepository {
-    func getSelectedUSResearchType() -> USResearchType? {
-        USResearchType.fromString(database.getSelectedUSResearchType())
+    func getSelectedResearchType() -> ResearchType? {
+        ResearchType.fromString(database.getSelectedUSResearchType())
     }
     
-    func setSelectedUSResearchType(type: USResearchType) -> Void {
+    func setSelectedResearchType(type: ResearchType) -> Void {
         database.setSelectedUSResearchType(value: type.rawValue)
     }
 }

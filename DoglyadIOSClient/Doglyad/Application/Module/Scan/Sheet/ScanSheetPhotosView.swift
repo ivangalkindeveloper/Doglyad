@@ -42,10 +42,10 @@ struct ScanSheetPhotosView: View {
             )
                 .dStyle(
                     font: typography.textSmall,
-                    color: color.grayscaleLine
+                    color: color.grayscalePlaceholder
                 )
                 .padding([.horizontal], size.s16)
-                .padding(.bottom, size.s24)
+                .padding(.bottom, size.s32)
         }
     }
 }

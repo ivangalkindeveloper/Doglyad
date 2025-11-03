@@ -9,9 +9,7 @@ import Foundation
 
 final class ResearchTypeViewModel: ObservableObject {    
     var researchTypes: [ResearchType] = [
-        ResearchType(
-            type: .thyroidGland,
-        )
+        .thyroidGland,
     ]
     
     func onPressedType(

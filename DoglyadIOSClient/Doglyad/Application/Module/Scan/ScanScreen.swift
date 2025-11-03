@@ -48,7 +48,7 @@ struct ScanScreen: View {
                         Spacer()
 
                         DButton(
-                            title: .forUSResearchType(viewModel.researchType?.type ?? USResearchType.thyroidGland),
+                            title: .forResearchType(viewModel.researchType),
                             action: viewModel.onPressedResearchType,
                         )
                         .dStyle(.primaryChip)

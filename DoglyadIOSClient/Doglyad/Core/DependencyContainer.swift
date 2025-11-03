@@ -9,6 +9,10 @@ import SwiftUI
 import SwiftData
 
 final class DependencyContainer: ObservableObject {
+    let environment: EnvironmentProtocol
+    let diagnosticsRepository: DiagnosticsRepositoryProtocol
+    let initialScreen: ScreenType
+    
     init(
         environment: EnvironmentProtocol,
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
@@ -19,7 +23,4 @@ final class DependencyContainer: ObservableObject {
         self.initialScreen = initialScreen
     }
     
-    let environment: EnvironmentProtocol
-    let diagnosticsRepository: DiagnosticsRepositoryProtocol
-    let initialScreen: ScreenType
 }

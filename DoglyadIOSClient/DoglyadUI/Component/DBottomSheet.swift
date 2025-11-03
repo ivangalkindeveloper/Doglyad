@@ -14,13 +14,16 @@ public struct DBottomSheet<Content: View>: View {
     private var typography: DTypography { theme.typography }
     
     let title: LocalizedStringResource
+    let fraction: Double
     let content: () -> Content
     
     public init(
         title: LocalizedStringResource,
+        fraction: Double = 0.3,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.title = title
+        self.fraction = fraction
         self.content = content
     }
     
@@ -37,8 +40,7 @@ public struct DBottomSheet<Content: View>: View {
         }
         .presentationBackground(color.grayscaleBackgroundWeak)
         .presentationDragIndicator(.visible)
-        .presentationCornerRadius(size.s16)
-        .presentationCornerRadius(size.s20)
-        .presentationDetents([.fraction(0.3)])
+        .presentationCornerRadius(size.s32)
+        .presentationDetents([.fraction(fraction)])
     }
 }

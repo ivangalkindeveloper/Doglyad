@@ -23,21 +23,19 @@ final class ScanViewModel: ObservableObject {
     ) -> Void {
         self.diagnosticRepository = container.diagnosticsRepository
         self.router = router
-        
-        if let usResearchType = diagnosticRepository?.getSelectedUSResearchType() {
-            researchType = ResearchType(type: usResearchType)
+        if let storedResearchType = diagnosticRepository?.getSelectedResearchType() {
+            self.researchType = storedResearchType
         }
     }
     
     @NestedObservableObject var cameraController = CameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
-    @Published var researchType: ResearchType?
+    @Published var researchType = ResearchType.default
     @Published var photos: [ScanPhoto] = []
-    @NestedObservableObject var nameController = DInputController()
-    @Published var gender: PatientGender?
-    @Published var age: Int = 18
-    @NestedObservableObject var medicalHistoryController = DInputController()
-    @NestedObservableObject var сurrentComplaintController = DInputController()
+    @NestedObservableObject var patientNameController = DInputController(initialText: "Пациент№0")
+    @Published var patientGender = PatientGender.male
+    @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
+    @NestedObservableObject var patientComplaintController = DInputController()
     
     func onPressedHistory() -> Void {
         router?.push(
@@ -53,9 +51,10 @@ final class ScanViewModel: ObservableObject {
                 type: .researchType,
                 arguments: ResearchTypeScreenArguments(
                     onSelected: { [weak self] researchType in
-                        self?.researchType = researchType
-                        self?.diagnosticRepository?.setSelectedUSResearchType(
-                            type: researchType.type
+                        guard let self = self else { return }
+                        self.researchType = researchType
+                        self.diagnosticRepository?.setSelectedResearchType(
+                            type: researchType
                         )
                     }
                 )
@@ -103,7 +102,9 @@ final class ScanViewModel: ObservableObject {
         photos.remove(at: photos.firstIndex(of: photo)!)
     }
     
-    func onPressedGender() -> Void {}
+    func onPressedGender(value: PatientGender) -> Void {
+        patientGender = value
+    }
     
     func onPressedAge() -> Void {}
     
@@ -114,8 +115,7 @@ final class ScanViewModel: ObservableObject {
     func onPressedScan() -> Void {}
     
     func unfocus() -> Void {
-        nameController.unfocus()
-        medicalHistoryController.unfocus()
-        сurrentComplaintController.unfocus()
+        patientNameController.unfocus()
+        patientComplaintController.unfocus()
     }
 }

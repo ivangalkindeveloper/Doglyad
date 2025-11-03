@@ -13,7 +13,11 @@ public class DInputController: ObservableObject {
     @Published fileprivate var isFocused: Bool = false
     @Published fileprivate var errorText: String? = nil
 
-    public init() {}
+    public init(
+        initialText: String = ""
+    ) {
+        self.text = initialText
+    }
 
     public func focus() {
         isFocused = true

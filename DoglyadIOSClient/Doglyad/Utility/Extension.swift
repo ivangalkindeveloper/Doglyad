@@ -32,11 +32,11 @@ extension UIApplication {
 }
 
 extension LocalizedStringResource {
-    static func forUSResearchType(
-        _ type: USResearchType,
+    static func forResearchType(
+        _ type: ResearchType,
     ) -> LocalizedStringResource {
         switch type {
-        case USResearchType.thyroidGland:
+        case ResearchType.thyroidGland:
                 .researchTypeThyroidGland
         }
     }

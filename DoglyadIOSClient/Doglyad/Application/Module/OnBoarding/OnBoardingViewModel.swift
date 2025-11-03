@@ -27,8 +27,8 @@ final class OnBoardingViewModel: ObservableObject {
                     arguments: ResearchTypeScreenArguments(
                         onSelected: { [weak self] researchType in
                             self?.page = .scan
-                            self?.diagnosticRepository?.setSelectedUSResearchType(
-                                type: researchType.type
+                            self?.diagnosticRepository?.setSelectedResearchType(
+                                type: researchType
                             )
                         }
                     )

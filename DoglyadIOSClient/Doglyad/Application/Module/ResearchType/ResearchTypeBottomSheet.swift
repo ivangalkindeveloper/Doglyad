@@ -30,7 +30,7 @@ struct ResearchTypeBottomSheet: View {
             VStack(spacing: .zero) {
                 ForEach(viewModel.researchTypes) { type in
                     DListCard(
-                        title: .forUSResearchType(type.type),
+                        title: .forResearchType(type),
                         action: {
                             dismiss()
                             viewModel.onPressedType(
