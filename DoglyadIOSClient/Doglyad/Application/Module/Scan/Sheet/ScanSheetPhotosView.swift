@@ -45,7 +45,7 @@ struct ScanSheetPhotosView: View {
                     color: color.grayscalePlaceholder
                 )
                 .padding([.horizontal], size.s16)
-                .padding(.bottom, size.s32)
+                .padding(.bottom, viewModel.sheetController.isBottom ? size.s32 : size.s16)
         }
     }
 }

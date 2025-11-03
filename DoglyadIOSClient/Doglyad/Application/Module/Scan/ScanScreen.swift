@@ -83,7 +83,7 @@ struct ScanScreen: View {
                         color: color.grayscaleLine,
                         alignment: .center
                     )
-                    .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s108 : .zero)
+                    .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s128 : .zero)
                 }
                 .padding(size.s16)
             }
