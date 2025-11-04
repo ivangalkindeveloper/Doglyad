@@ -19,8 +19,7 @@ struct ScanSheetView: View {
                 placeholder: .fieldPatientName,
                 controller: viewModel.patientNameController
             )
-            .padding(.top, size.s32)
-            .padding(.bottom, size.s16)
+            .padding(.horizontal, size.s16)
             
             DSegment<PatientGender>(
                 currentValue: viewModel.patientGender,
@@ -29,13 +28,13 @@ struct ScanSheetView: View {
                         value: .male,
                         title: .scanGenderMaleLabel
                     ) {
-                        viewModel.onPressedGender(value: .male)
+                        viewModel.onPressedPatientGender(value: .male)
                     },
                     DSegmentItem<PatientGender>(
                         value: .female,
                         title: .scanGenderFemaleLabel
                     ) {
-                        viewModel.onPressedGender(value: .female)
+                        viewModel.onPressedPatientGender(value: .female)
                     }
                 ]
             )

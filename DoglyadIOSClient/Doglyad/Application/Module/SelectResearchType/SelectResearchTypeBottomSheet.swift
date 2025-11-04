@@ -2,8 +2,14 @@ import SwiftUI
 import Router
 import DoglyadUI
 
-struct SelectResearchTypeScreenArguments: RouteArgumentsProtocol {
+final class SelectResearchTypeScreenArguments: RouteArgumentsProtocol {
     let onSelected: (ResearchType) -> Void
+    
+    init(
+        onSelected: @escaping (ResearchType) -> Void
+    ) {
+        self.onSelected = onSelected
+    }
 }
     
 struct SelectResearchTypeBottomSheet: View {

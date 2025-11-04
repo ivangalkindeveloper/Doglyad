@@ -50,7 +50,7 @@ final class RouterBuilder: RouterBuilderProtocol {
         route: RouteFullScreenCover<FullScreenCoverType>
     ) -> AnyView {
         switch route.type {
-        case .some:
+        case .speech:
             AnyView(EmptyView())
         }
     }

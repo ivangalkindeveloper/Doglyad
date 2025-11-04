@@ -2,11 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Need for UltraSound pictures capture</string>
 	<key>BASE_URL_SCHEMA</key>
 	<string>$(BASE_URL_SCHEMA)</string>
 	<key>BASE_URL</key>
 	<string>$(BASE_URL)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Need for research pictures capture</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need for research pictures capture</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Need for voice reconginition research data</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Poppins-Regular.ttf</string>
+		<string>Poppins-Medium.ttf</string>
+		<string>Poppins-SemiBold.ttf</string>
+		<string>Poppins-Bold.ttf</string>
+	</array>
 </dict>
 </plist>

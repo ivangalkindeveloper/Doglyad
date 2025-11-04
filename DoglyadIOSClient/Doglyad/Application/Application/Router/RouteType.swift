@@ -10,5 +10,5 @@ enum SheetType: Hashable {
 }
 
 enum FullScreenCoverType: Hashable {
-    case some
+    case speech
 }

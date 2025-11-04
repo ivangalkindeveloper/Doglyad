@@ -6,12 +6,6 @@ import DoglyadUI
 
 @main
 struct Application: App {
-    init() {
-        DFontRegister.registerFonts(
-            bundle: Bundle(for: InitializationProcess.self)
-        )
-    }
-    
     @StateObject private var viewModel = ApplicationViewModel()
 
     var body: some Scene {

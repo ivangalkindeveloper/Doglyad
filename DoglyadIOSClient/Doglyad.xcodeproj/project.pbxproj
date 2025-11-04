@@ -19,6 +19,10 @@
 		77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77BB12232E92A87700B9FFC5 /* DependencyInitializer */; };
 		77CB94F82EB8FED100489F3E /* DoglyadCamera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */; };
 		77CB94F92EB8FED100489F3E /* DoglyadCamera.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77CB95192EB90C4600489F3E /* DoglyadSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB95132EB90C4600489F3E /* DoglyadSpeech.framework */; };
+		77CB951A2EB90C4600489F3E /* DoglyadSpeech.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB95132EB90C4600489F3E /* DoglyadSpeech.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77CB95292EB90C8500489F3E /* DoglyadML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB95232EB90C8500489F3E /* DoglyadML.framework */; };
+		77CB952A2EB90C8500489F3E /* DoglyadML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB95232EB90C8500489F3E /* DoglyadML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77E7F0AE2EA843F000E49A4E /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 77E7F0AD2EA843F000E49A4E /* Router */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +62,20 @@
 			remoteGlobalIDString = 77CB94F12EB8FED100489F3E;
 			remoteInfo = DoglyadCamera;
 		};
+		77CB95172EB90C4600489F3E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77AC58AA2E929E7E0028250A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77CB95122EB90C4600489F3E;
+			remoteInfo = DoglyadSpeech;
+		};
+		77CB95272EB90C8500489F3E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 77AC58AA2E929E7E0028250A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77CB95222EB90C8500489F3E;
+			remoteInfo = DoglyadML;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +88,8 @@
 				7720FEEC2E9ACE43002EA89E /* DoglyadUI.framework in Embed Frameworks */,
 				771F41AF2EA430B400C4945A /* DoglyadDB.framework in Embed Frameworks */,
 				77CB94F92EB8FED100489F3E /* DoglyadCamera.framework in Embed Frameworks */,
+				77CB952A2EB90C8500489F3E /* DoglyadML.framework in Embed Frameworks */,
+				77CB951A2EB90C4600489F3E /* DoglyadSpeech.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +105,8 @@
 		77AC58CB2E929E800028250A /* DoglyadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BB12512E92C62A00B9FFC5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77CB95132EB90C4600489F3E /* DoglyadSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77CB95232EB90C8500489F3E /* DoglyadML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -115,11 +137,9 @@
 				Custom/DHistoryCard.swift,
 				Custom/DPhotoCard.swift,
 				Custom/DResearchTypeChip.swift,
-				Info.plist,
 				Style/DButtonStyle.swift,
 				Theme/DTheme.swift,
 				Theme/DThemeWrapperView.swift,
-				Utility/DFontRegister.swift,
 				Utility/DRoundedCorner.swift,
 				Utility/Extension.swift,
 			);
@@ -153,7 +173,6 @@
 				Style/DButtonStyle.swift,
 				Theme/DTheme.swift,
 				Theme/DThemeWrapperView.swift,
-				Utility/DFontRegister.swift,
 				Utility/DRoundedCorner.swift,
 				Utility/Extension.swift,
 			);
@@ -199,6 +218,16 @@
 			path = DoglyadCamera;
 			sourceTree = "<group>";
 		};
+		77CB95142EB90C4600489F3E /* DoglyadSpeech */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DoglyadSpeech;
+			sourceTree = "<group>";
+		};
+		77CB95242EB90C8500489F3E /* DoglyadML */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DoglyadML;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,7 +256,9 @@
 				7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */,
 				77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */,
 				778D6BED2E930BDE00F1D352 /* Router in Frameworks */,
+				77CB95192EB90C4600489F3E /* DoglyadSpeech.framework in Frameworks */,
 				771F41AE2EA430B400C4945A /* DoglyadDB.framework in Frameworks */,
+				77CB95292EB90C8500489F3E /* DoglyadML.framework in Frameworks */,
 				77CB94F82EB8FED100489F3E /* DoglyadCamera.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,6 +284,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		77CB95102EB90C4600489F3E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77CB95202EB90C8500489F3E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -267,6 +312,8 @@
 				77AC58CE2E929E800028250A /* DoglyadUITests */,
 				77760F1F2EAC3D7F00D25B49 /* DoglyadUI */,
 				77CB94F32EB8FED100489F3E /* DoglyadCamera */,
+				77CB95142EB90C4600489F3E /* DoglyadSpeech */,
+				77CB95242EB90C8500489F3E /* DoglyadML */,
 				77AC58B32E929E7E0028250A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -280,6 +327,8 @@
 				7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */,
 				771F41A82EA430B400C4945A /* DoglyadDB.framework */,
 				77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */,
+				77CB95132EB90C4600489F3E /* DoglyadSpeech.framework */,
+				77CB95232EB90C8500489F3E /* DoglyadML.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -302,6 +351,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		77CB94ED2EB8FED100489F3E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77CB950E2EB90C4600489F3E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77CB951E2EB90C8500489F3E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -369,6 +432,8 @@
 				7720FEEA2E9ACE43002EA89E /* PBXTargetDependency */,
 				771F41AD2EA430B400C4945A /* PBXTargetDependency */,
 				77CB94F72EB8FED100489F3E /* PBXTargetDependency */,
+				77CB95182EB90C4600489F3E /* PBXTargetDependency */,
+				77CB95282EB90C8500489F3E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				77760F1F2EAC3D7F00D25B49 /* DoglyadUI */,
@@ -456,6 +521,52 @@
 			productReference = 77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		77CB95122EB90C4600489F3E /* DoglyadSpeech */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77CB951B2EB90C4600489F3E /* Build configuration list for PBXNativeTarget "DoglyadSpeech" */;
+			buildPhases = (
+				77CB950E2EB90C4600489F3E /* Headers */,
+				77CB950F2EB90C4600489F3E /* Sources */,
+				77CB95102EB90C4600489F3E /* Frameworks */,
+				77CB95112EB90C4600489F3E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				77CB95142EB90C4600489F3E /* DoglyadSpeech */,
+			);
+			name = DoglyadSpeech;
+			packageProductDependencies = (
+			);
+			productName = DoglyadSpeech;
+			productReference = 77CB95132EB90C4600489F3E /* DoglyadSpeech.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		77CB95222EB90C8500489F3E /* DoglyadML */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77CB952B2EB90C8500489F3E /* Build configuration list for PBXNativeTarget "DoglyadML" */;
+			buildPhases = (
+				77CB951E2EB90C8500489F3E /* Headers */,
+				77CB951F2EB90C8500489F3E /* Sources */,
+				77CB95202EB90C8500489F3E /* Frameworks */,
+				77CB95212EB90C8500489F3E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				77CB95242EB90C8500489F3E /* DoglyadML */,
+			);
+			name = DoglyadML;
+			packageProductDependencies = (
+			);
+			productName = DoglyadML;
+			productReference = 77CB95232EB90C8500489F3E /* DoglyadML.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -486,6 +597,12 @@
 					77CB94F12EB8FED100489F3E = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
+					77CB95122EB90C4600489F3E = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					77CB95222EB90C8500489F3E = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
 				};
 			};
 			buildConfigurationList = 77AC58AD2E929E7E0028250A /* Build configuration list for PBXProject "Doglyad" */;
@@ -511,9 +628,11 @@
 				77AC58B12E929E7E0028250A /* Doglyad */,
 				77AC58C02E929E800028250A /* DoglyadTests */,
 				77AC58CA2E929E800028250A /* DoglyadUITests */,
-				7720FEE42E9ACE42002EA89E /* DoglyadUI */,
-				771F41A72EA430B400C4945A /* DoglyadDB */,
 				77CB94F12EB8FED100489F3E /* DoglyadCamera */,
+				771F41A72EA430B400C4945A /* DoglyadDB */,
+				77CB95222EB90C8500489F3E /* DoglyadML */,
+				77CB95122EB90C4600489F3E /* DoglyadSpeech */,
+				7720FEE42E9ACE42002EA89E /* DoglyadUI */,
 			);
 		};
 /* End PBXProject section */
@@ -555,6 +674,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		77CB94F02EB8FED100489F3E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77CB95112EB90C4600489F3E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77CB95212EB90C8500489F3E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -607,6 +740,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		77CB950F2EB90C4600489F3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77CB951F2EB90C8500489F3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -634,6 +781,16 @@
 			isa = PBXTargetDependency;
 			target = 77CB94F12EB8FED100489F3E /* DoglyadCamera */;
 			targetProxy = 77CB94F62EB8FED100489F3E /* PBXContainerItemProxy */;
+		};
+		77CB95182EB90C4600489F3E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77CB95122EB90C4600489F3E /* DoglyadSpeech */;
+			targetProxy = 77CB95172EB90C4600489F3E /* PBXContainerItemProxy */;
+		};
+		77CB95282EB90C8500489F3E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77CB95222EB90C8500489F3E /* DoglyadML */;
+			targetProxy = 77CB95272EB90C8500489F3E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -733,7 +890,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DoglyadUI/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -775,7 +931,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DoglyadUI/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -1179,6 +1334,178 @@
 			};
 			name = Release;
 		};
+		77CB951C2EB90C4600489F3E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadSpeech;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		77CB951D2EB90C4600489F3E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadSpeech;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		77CB952C2EB90C8500489F3E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadML;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		77CB952D2EB90C8500489F3E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindev.DoglyadML;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1241,6 +1568,24 @@
 			buildConfigurations = (
 				77CB94FB2EB8FED100489F3E /* Debug */,
 				77CB94FC2EB8FED100489F3E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77CB951B2EB90C4600489F3E /* Build configuration list for PBXNativeTarget "DoglyadSpeech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77CB951C2EB90C4600489F3E /* Debug */,
+				77CB951D2EB90C4600489F3E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77CB952B2EB90C8500489F3E /* Build configuration list for PBXNativeTarget "DoglyadML" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77CB952C2EB90C8500489F3E /* Debug */,
+				77CB952D2EB90C8500489F3E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

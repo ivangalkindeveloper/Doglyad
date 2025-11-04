@@ -22,14 +22,19 @@ final class ScanViewModel: ObservableObject {
         }
     }
     
-    @NestedObservableObject var cameraController = DCameraController()
-    @NestedObservableObject var sheetController = ScanSheetController()
     @Published var researchType = ResearchType.default
     @Published var photos: [ScanPhoto] = []
+    @NestedObservableObject var cameraController = DCameraController()
+    @NestedObservableObject var sheetController = ScanSheetController()
     @NestedObservableObject var patientNameController = DInputController(initialText: "Пациент№0")
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
     @NestedObservableObject var patientComplaintController = DInputController()
+    
+    func unfocus() -> Void {
+        patientNameController.unfocus()
+        patientComplaintController.unfocus()
+    }
     
     func onPressedHistory() -> Void {
         router?.push(
@@ -46,6 +51,7 @@ final class ScanViewModel: ObservableObject {
                 arguments: SelectResearchTypeScreenArguments(
                     onSelected: { [weak self] researchType in
                         guard let self = self else { return }
+                        guard self.researchType != researchType else { return }
                         self.researchType = researchType
                         self.diagnosticRepository?.setSelectedResearchType(
                             type: researchType
@@ -96,20 +102,18 @@ final class ScanViewModel: ObservableObject {
         photos.remove(at: photos.firstIndex(of: photo)!)
     }
     
-    func onPressedGender(value: PatientGender) -> Void {
+    func onPressedPatientNameSpeech() -> Void {}
+    
+    func onPressedPatientGender(
+        value: PatientGender
+    ) -> Void {
+        guard patientGender != value else { return }
         patientGender = value
     }
     
-    func onPressedAge() -> Void {}
+    func onPressedPatientAge() -> Void {}
     
-    func onPressedMedicalHistorySpeechToText() -> Void {}
-    
-    func onPressedCurrentComplaintSpeechToText() -> Void {}
+    func onPressedPatientComplaintSpeech() -> Void {}
     
     func onPressedScan() -> Void {}
-    
-    func unfocus() -> Void {
-        patientNameController.unfocus()
-        patientComplaintController.unfocus()
-    }
 }

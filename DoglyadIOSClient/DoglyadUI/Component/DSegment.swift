@@ -102,7 +102,7 @@ public struct DSegmentButtonStyle: ButtonStyle {
     }
 
     var foregroundColor: Color {
-        condition ? color.grayscaleBackground : color.primaryDefault
+        condition ? color.grayscaleBackground : color.grayscaleHeader
     }
 }
 
