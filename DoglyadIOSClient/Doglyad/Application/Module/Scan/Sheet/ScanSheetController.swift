@@ -24,6 +24,10 @@ final class ScanSheetController: ObservableObject {
         currentPosition == sheetPositionBottom
     }
     
+    var isTop: Bool {
+        currentPosition == sheetPositionTop
+    }
+    
     func setHidden() -> Void {
         self.setPosition(sheetPositionHidden)
     }

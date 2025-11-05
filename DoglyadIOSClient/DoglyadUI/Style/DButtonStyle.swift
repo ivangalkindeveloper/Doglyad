@@ -6,6 +6,7 @@ public enum DButtonStyleType {
     case primaryChip
     case circle
     case card
+    case chip
 }
 
 public struct DButtonStyle: ButtonStyle {
@@ -55,7 +56,7 @@ private extension DButtonStyle {
         switch type {
         case .primaryButton, .primaryCircle, .primaryChip:
             return color.gradientPrimaryWeak
-        case .circle, .card:
+        case .circle, .card, .chip:
             return nil
         }
     }
@@ -64,7 +65,7 @@ private extension DButtonStyle {
         switch type {
         case .primaryButton, .primaryCircle, .primaryChip:
             return nil
-        case .circle, .card:
+        case .circle, .card, .chip:
             return color.grayscaleBackground
         }
     }
@@ -92,6 +93,10 @@ private extension DButtonStyle {
         case .card:
             RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(backgroundColor ?? DButtonStyle.defaultColor)
+        
+        case .chip:
+            Capsule()
+                .fill(backgroundColor ?? DButtonStyle.defaultColor)
         }
     }
 
@@ -99,7 +104,7 @@ private extension DButtonStyle {
         switch type {
         case .primaryButton, .primaryCircle, .primaryChip:
             return color.grayscaleBackground
-        case .circle, .card:
+        case .circle, .card, .chip:
             return color.grayscaleHeader
         }
     }
@@ -108,14 +113,14 @@ private extension DButtonStyle {
         switch type {
         case .primaryButton, .card:
             return size.s16
-        case .primaryCircle, .primaryChip, .circle:
+        case .primaryCircle, .primaryChip, .circle, .chip:
             return nil
         }
     }
 
     var width: CGFloat? {
         switch type {
-        case .primaryButton, .primaryChip, .card:
+        case .primaryButton, .primaryChip, .card, .chip:
             return nil
         case .primaryCircle, .circle:
             return size.s56
@@ -124,7 +129,7 @@ private extension DButtonStyle {
 
     var height: CGFloat? {
         switch type {
-        case .primaryButton, .primaryChip, .card:
+        case .primaryButton, .primaryChip, .card, .chip:
             return nil
         case .primaryCircle, .circle:
             return size.s56
@@ -135,7 +140,7 @@ private extension DButtonStyle {
         switch type {
         case .primaryButton, .card:
             return .infinity
-        case .primaryCircle, .primaryChip, .circle:
+        case .primaryCircle, .primaryChip, .circle, .chip:
             return nil
         }
     }

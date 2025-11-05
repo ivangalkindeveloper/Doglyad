@@ -41,23 +41,12 @@ struct ScanSheetView: View {
             )
             .padding(.bottom, size.s16)
             
-            HStack(
-                spacing: .zero
+            DDateOfBirthCard(
+                title: .scanDateOfBirthLabel,
+                ageLabel: .scanDateOfBirthAgeLabel,
+                date: viewModel.patientDateOfBirth,
             ) {
-                Spacer()
-                DText(.scanPatientDateOfBirthLabel)
-                    .dStyle(
-                        font: typography.textMedium
-                    )
-                Spacer()
-                DatePicker(
-                    "",
-                    selection: $viewModel.patientDateOfBirth,
-                    displayedComponents: .date
-                )
-                    .datePickerStyle(.compact)
-                    .labelsHidden()
-                    .tint(color.primaryDefault)
+                //
             }
             .padding(.bottom, size.s16)
             
@@ -69,13 +58,6 @@ struct ScanSheetView: View {
                 controller: viewModel.patientComplaintController
             )
             .padding(.bottom, size.s32)
-            
-            DButton(
-                title: .buttonScan,
-                action: viewModel.onPressedScan
-            )
-            .dStyle(.primaryButton)
-            .padding(.bottom, size.s16)
         }
         .padding([.horizontal], size.s16)
         .onTapGesture {

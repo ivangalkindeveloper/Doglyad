@@ -122,6 +122,7 @@ public struct DSegmentButtonStyle: ButtonStyle {
                     })
                 ]
             )
+            .redacted(reason: .placeholder)
             .padding()
         }
     }
