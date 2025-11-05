@@ -15,11 +15,12 @@ struct ScanSheetView: View {
             alignment: .leading,
             spacing: .zero
         ) {
-            DInput<EmptyView>(
+            DTextField<EmptyView>(
+                title: .fieldPatientName,
                 placeholder: .fieldPatientName,
                 controller: viewModel.patientNameController
             )
-            .padding(.horizontal, size.s16)
+            .padding(.vertical, size.s16)
             
             DSegment<PatientGender>(
                 currentValue: viewModel.patientGender,
@@ -62,7 +63,8 @@ struct ScanSheetView: View {
             
             // Компоненты
             
-            DInput<EmptyView>(
+            DTextField<EmptyView>(
+                title: .fieldPatientComplaint,
                 placeholder: .fieldPatientComplaint,
                 controller: viewModel.patientComplaintController
             )

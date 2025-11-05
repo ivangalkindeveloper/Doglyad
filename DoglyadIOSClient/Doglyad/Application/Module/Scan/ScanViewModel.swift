@@ -26,10 +26,10 @@ final class ScanViewModel: ObservableObject {
     @Published var photos: [ScanPhoto] = []
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
-    @NestedObservableObject var patientNameController = DInputController(initialText: "Пациент№0")
+    @NestedObservableObject var patientNameController = DTextFieldController(initialText: "Пациент№0")
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
-    @NestedObservableObject var patientComplaintController = DInputController()
+    @NestedObservableObject var patientComplaintController = DTextFieldController()
     
     func unfocus() -> Void {
         patientNameController.unfocus()

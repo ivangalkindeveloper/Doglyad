@@ -44,7 +44,7 @@ public struct DSegment<T: Equatable>: View {
                     action: item.action,
                 ) {
                     Text(item.title)
-                        .font(typography.linkSmall)
+                        .font(typography.textSmall)
                 }
                 .buttonStyle(
                     DSegmentButtonStyle(

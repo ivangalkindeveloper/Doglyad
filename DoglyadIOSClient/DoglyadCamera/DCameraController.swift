@@ -7,7 +7,7 @@ public final class DCameraController: NSObject, ObservableObject {
     @Published public var isRunning = false
     @Published public var isCapturing = false
     
-    let session = AVCaptureSession()
+    private let session = AVCaptureSession()
     lazy var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(
         session: self.session
     )
