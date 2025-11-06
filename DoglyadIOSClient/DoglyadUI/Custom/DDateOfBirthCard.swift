@@ -40,11 +40,11 @@ public struct DDateOfBirthCard: View {
             ) {
                 DText("\(title) \(date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits).locale(Locale(identifier: "ru_RU"))))")
                     .dStyle(
-                        font: typography.textSmall,
+                        font: typography.linkSmall,
                     )
                     .padding(.trailing , size.s8)
                 
-                DText("\(ageCount()) \(ageLabel)")
+                DText("(\(ageCount()) \(ageLabel))")
                     .dStyle(
                         font: typography.textXSmall,
                         color: color.grayscalePlaceholder

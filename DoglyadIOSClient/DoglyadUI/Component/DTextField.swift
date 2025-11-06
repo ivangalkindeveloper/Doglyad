@@ -96,7 +96,7 @@ public struct DTextField<Content: View>: View {
                         spacing: .zero
                     ) {
                         Text(title)
-                            .font(.custom(.PoppinsRegular, size.s10))
+                            .font(.custom(.MontserratRegular, size.s10))
                             .foregroundStyle(titleColor)
                             .padding(.bottom, size.s2)
                         

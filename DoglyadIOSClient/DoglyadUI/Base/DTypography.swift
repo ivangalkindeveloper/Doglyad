@@ -24,24 +24,24 @@ public struct DTypography {
 
 public extension DTypography {
      static let shared = DTypography(
-        displayHuge: .custom(.PoppinsRegular, 32),
-        displayLarge: .custom(.PoppinsRegular, 28),
-        displayMedium: .custom(.PoppinsRegular, 24),
-        displaySmall: .custom(.PoppinsRegular, 20),
+        displayHuge: .custom(.MontserratRegular, 32),
+        displayLarge: .custom(.MontserratRegular, 28),
+        displayMedium: .custom(.MontserratRegular, 24),
+        displaySmall: .custom(.MontserratRegular, 20),
         
-        displayHugeBold: .custom(.PoppinsBold, 32),
-        displayLargeBold: .custom(.PoppinsBold, 28),
-        displayMediumBold: .custom(.PoppinsBold, 24),
-        displaySmallBold: .custom(.PoppinsBold, 20),
+        displayHugeBold: .custom(.MontserratBold, 32),
+        displayLargeBold: .custom(.MontserratBold, 28),
+        displayMediumBold: .custom(.MontserratBold, 24),
+        displaySmallBold: .custom(.MontserratBold, 20),
         
-        textLarge: .custom(.PoppinsRegular, 20),
-        textMedium: .custom(.PoppinsRegular, 17),
-        textSmall: .custom(.PoppinsRegular, 14),
-        textXSmall: .custom(.PoppinsMedium, 13),
+        textLarge: .custom(.MontserratRegular, 20),
+        textMedium: .custom(.MontserratRegular, 17),
+        textSmall: .custom(.MontserratRegular, 14),
+        textXSmall: .custom(.MontserratMedium, 13),
         
-        linkLarge: .custom(.PoppinsSemiBold, 20),
-        linkMedium: .custom(.PoppinsSemiBold, 17),
-        linkSmall: .custom(.PoppinsSemiBold, 14),
-        linkXSmall: .custom(.PoppinsSemiBold, 13),
+        linkLarge: .custom(.MontserratSemiBold, 20),
+        linkMedium: .custom(.MontserratSemiBold, 17),
+        linkSmall: .custom(.MontserratSemiBold, 14),
+        linkXSmall: .custom(.MontserratSemiBold, 13),
     )
 }

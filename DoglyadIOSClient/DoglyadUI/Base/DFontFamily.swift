@@ -1,6 +1,6 @@
 public enum DFontFamily: String {
-    case PoppinsRegular = "Poppins-Regular"
-    case PoppinsMedium = "Poppins-Medium"
-    case PoppinsSemiBold = "Poppins-SemiBold"
-    case PoppinsBold = "Poppins-Bold"
+    case MontserratRegular = "Montserrat-Regular"
+    case MontserratMedium = "Montserrat-Medium"
+    case MontserratSemiBold = "Montserrat-SemiBold"
+    case MontserratBold = "Montserrat-Bold"
 }
