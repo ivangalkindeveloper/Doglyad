@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import Router
 
+@MainActor
 final class OnBoardingViewModel: ObservableObject {
     var diagnosticRepository: DiagnosticsRepositoryProtocol?
     var router: DRouter?

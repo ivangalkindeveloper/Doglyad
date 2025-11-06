@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 final class SelectResearchTypeViewModel: ObservableObject {
     var researchTypes: [ResearchType] = [
         .thyroidGland,

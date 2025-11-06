@@ -17,7 +17,7 @@ struct ScanSheetView: View {
         ) {
             DTextField<EmptyView>(
                 title: .fieldPatientName,
-                placeholder: .fieldPatientName,
+                placeholder: .fieldPatientNamePlaceholder,
                 controller: viewModel.patientNameController
             )
             .padding(.vertical, size.s16)
@@ -54,7 +54,7 @@ struct ScanSheetView: View {
             
             DTextField<EmptyView>(
                 title: .fieldPatientComplaint,
-                placeholder: .fieldPatientComplaint,
+                placeholder: .fieldPatientComplaintPlaceholder,
                 controller: viewModel.patientComplaintController
             )
             .padding(.bottom, size.s32)

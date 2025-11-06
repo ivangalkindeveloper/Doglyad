@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 import AVFoundation
 
+@MainActor
 public final class DCameraController: NSObject, ObservableObject {
     @Published public var isLoading = true
     @Published public var isRunning = false
@@ -11,7 +12,6 @@ public final class DCameraController: NSObject, ObservableObject {
     lazy var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(
         session: self.session
     )
-    private let sessionQueue = DispatchQueue(label: "com.scan.camera.queue")
     private var output = AVCapturePhotoOutput()
     private var capturePhotoCompletion: ((UIImage) -> Void)?
     
@@ -19,9 +19,9 @@ public final class DCameraController: NSObject, ObservableObject {
         super.init()
         self.session.beginConfiguration()
         guard let device = AVCaptureDevice.default(
-            .builtInWideAngleCamera,
-            for: .video,
-            position: .back
+                .builtInWideAngleCamera,
+                for: .video,
+                position: .back
             ),
             let input = try? AVCaptureDeviceInput(device: device),
             self.session.canAddInput(input),
@@ -32,34 +32,20 @@ public final class DCameraController: NSObject, ObservableObject {
         self.session.addOutput(self.output)
         self.previewLayer.videoGravity = .resizeAspectFill
         self.session.commitConfiguration()
-        self.startSession()
-        
-        DispatchQueue.main.async {
-            self.isLoading = false
-        }
+        self.isLoading = false
+        self.isRunning = true
     }
 
-
     public func startSession() {
-        sessionQueue.async {
-            if !self.session.isRunning {
-                self.session.startRunning()
-                DispatchQueue.main.async {
-                    self.isRunning = true
-                }
-            }
-        }
+        if self.session.isRunning { return }
+        self.session.startRunning()
+        self.isRunning = true
     }
 
     public func stopSession() {
-        sessionQueue.async {
-            if self.session.isRunning {
-                self.session.stopRunning()
-                DispatchQueue.main.async {
-                    self.isRunning = false
-                }
-            }
-        }
+        if !self.session.isRunning { return }
+        self.session.stopRunning()
+        self.isRunning = false
     }
 
     public func takePhoto(

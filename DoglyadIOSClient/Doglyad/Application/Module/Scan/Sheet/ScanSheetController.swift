@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import BottomSheet
 
+@MainActor
 final class ScanSheetController: ObservableObject {
     @Published var currentPosition: BottomSheetPosition = .hidden
     private let sheetPositionHidden: BottomSheetPosition = .hidden

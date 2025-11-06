@@ -3,6 +3,7 @@ import Combine
 import Speech
 import AVFoundation
 
+@MainActor
 public final class DSpeechController: ObservableObject {
     private let audioSession = AVAudioSession.sharedInstance()
     private let speechRecognizer: SFSpeechRecognizer?

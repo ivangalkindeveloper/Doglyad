@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "buttonCameraTurnOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the camera"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включить камеру"
+          }
+        }
+      }
+    },
     "buttonNext" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -205,23 +222,6 @@
         }
       }
     },
-    "fieldMedicalHistory" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medical history"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Медицинская история"
-          }
-        }
-      }
-    },
     "fieldPatientComplaint" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -239,6 +239,23 @@
         }
       }
     },
+    "fieldPatientComplaintPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The patient complains of pain in the area..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пациент жалуется на боли в области..."
+          }
+        }
+      }
+    },
     "fieldPatientName" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -252,6 +269,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Имя пациента"
+          }
+        }
+      }
+    },
+    "fieldPatientNamePlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patient#1"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пациент#1"
           }
         }
       }
@@ -296,13 +330,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next, scan the patient—take a photo of the ultrasound, fill in the medical history and patient details, and submit to see the model's response."
+            "value" : "Next, scan the patient—take a photo of the ultrasound, fill in the medical history and patient details, and submit to see the model's response"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Далее сканируйте пациента - делайте фото ультра-звукового исследования, заполняйте анаимнез, данные пациента и отправляйте чтобы увидеть ответ модели."
+            "value" : "Далее сканируйте пациента - делайте фото ультра-звукового исследования, заполняйте анаимнез, данные пациента и отправляйте чтобы увидеть ответ модели"
           }
         }
       }
@@ -330,13 +364,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We are already in the process of adding new research types, expect them in the next updates."
+            "value" : "We are already in the process of adding new research types, expect them in the next updates"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях."
+            "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях"
           }
         }
       }
@@ -381,13 +415,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Place the research image in a frame and take a photo of it for further scanning."
+            "value" : "Place the research image in a frame and take a photo of it for further scanning"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поместите изображение исследования в рамку и сфотографируйте его для дальнейшего сканирования."
+            "value" : "Поместите изображение исследования в рамку и сфотографируйте его для дальнейшего сканирования"
           }
         }
       }
@@ -490,6 +524,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата рождения"
+          }
+        }
+      }
+    },
+    "scanTurnedOffCameraDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The camera is turned off to avoid wasting battery power"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Камера отключена чтобы не тратить заряд батареи"
           }
         }
       }

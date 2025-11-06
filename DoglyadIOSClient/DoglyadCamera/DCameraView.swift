@@ -2,7 +2,7 @@ import SwiftUI
 import AVFoundation
 
 public struct DCameraView: UIViewRepresentable {
-    @ObservedObject var controller: DCameraController
+    var controller: DCameraController
     
     public init(
         controller: DCameraController

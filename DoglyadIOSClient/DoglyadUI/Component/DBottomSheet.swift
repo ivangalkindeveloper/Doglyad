@@ -29,11 +29,10 @@ public struct DBottomSheet<Content: View>: View {
                     height: 5
                 )
                 .padding(.top, 7.5)
-                .padding(.bottom, 7.5)
             
             DText(title)
                 .dStyle(
-                    font: typography.linkMedium
+                    font: typography.linkSmall
                 )
                 .padding(size.s16)
             

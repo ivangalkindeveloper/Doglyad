@@ -24,64 +24,18 @@ struct ScanScreen: View {
         ) {
             ZStack {
                 ZStack {
-                    DCameraView(
-                        controller: viewModel.cameraController
-                    )
-                    .ignoresSafeArea()
-
-                    ScanFrameView()
-                        .ignoresSafeArea()
-
-                    VStack(spacing: .zero) {
-                        HStack(spacing: .zero) {
-                            DButton(
-                                image: .hambergerMenu,
-                                action: viewModel.onPressedHistory,
-                            )
-                            .dStyle(.circle)
-
-                            Spacer()
-
-                            DButton(
-                                title: .forResearchType(viewModel.researchType),
-                                action: viewModel.onPressedResearchType,
-                            )
-                            .dStyle(.primaryChip)
-                            .padding([.trailing, .leading], size.s16)
-
-                            Spacer()
-
-                            Color.clear
-                                .frame(
-                                    width: size.s56,
-                                    height: size.s56,
-                                )
-                        }
-                        .padding(.bottom, size.s16)
+                    ScanCameraView()
+                    
+                    VStack(
+                        spacing: .zero
+                    ) {
+                        ScanHeaderView()
 
                         Spacer()
 
-                        DButton(
-                            image: viewModel.captureIcon,
-                            action: viewModel.onPressedCapture,
-                            isLoading: viewModel.cameraController.isCapturing
-                        )
-                        .dStyle(.primaryCircle)
-                        .padding(size.s16)
-
-                        DText(
-                            .scanCaptureDescription,
-                        )
-                        .dStyle(
-                            font: typography.textSmall,
-                            color: color.grayscaleLine,
-                            alignment: .center
-                        )
-                        .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s128 : .zero)
+                        ScanCaptureView()
                     }
                     .padding(size.s16)
-                    
-
                 }
                 .bottomSheet(
                     bottomSheetPosition: $viewModel.sheetController.currentPosition,
@@ -110,7 +64,7 @@ struct ScanScreen: View {
                 .dragIndicatorColor(color.grayscaleLine)
                 .enableSwipeToDismiss(false)
                 .enableTapToDismiss(false)
-                
+
                 VStack(
                     spacing: .zero
                 ) {
@@ -140,15 +94,17 @@ struct ScanScreen: View {
         }
         .onChange(of: viewModel.photos, initial: true) {
             viewModel.determineOpeningSheet()
+            viewModel.determineStopCamera()
         }
         .onAppear {
             viewModel.initialize(
                 container: container,
                 router: router
             )
+            viewModel.onAppear()
         }
         .onDisappear {
-            viewModel.cameraController.stopSession()
+            viewModel.onDisappear()
         }
         .animation(
             theme.animation,

@@ -5,11 +5,21 @@ import BottomSheet
 import DoglyadUI
 import DoglyadCamera
 
+@MainActor
 final class ScanViewModel: ObservableObject {
-    static let photoMaxCount: Int = 10
+    static let photoMaxCount: Int = 6
     
     private var diagnosticRepository: DiagnosticsRepositoryProtocol?
     private var router: DRouter?
+    
+    @Published var researchType = ResearchType.default
+    @Published var photos: [ScanPhoto] = []
+    @NestedObservableObject var cameraController = DCameraController()
+    @NestedObservableObject var sheetController = ScanSheetController()
+    @NestedObservableObject var patientNameController = DTextFieldController(initialText: "Пациент#0")
+    @Published var patientGender = PatientGender.male
+    @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
+    @NestedObservableObject var patientComplaintController = DTextFieldController()
     
     func initialize(
         container: DependencyContainer,
@@ -22,14 +32,18 @@ final class ScanViewModel: ObservableObject {
         }
     }
     
-    @Published var researchType = ResearchType.default
-    @Published var photos: [ScanPhoto] = []
-    @NestedObservableObject var cameraController = DCameraController()
-    @NestedObservableObject var sheetController = ScanSheetController()
-    @NestedObservableObject var patientNameController = DTextFieldController(initialText: "Пациент№0")
-    @Published var patientGender = PatientGender.male
-    @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
-    @NestedObservableObject var patientComplaintController = DTextFieldController()
+    var isPhotoFilling: Bool {
+        photos.count == ScanViewModel.photoMaxCount
+    }
+    
+    func onAppear() -> Void {
+        if isPhotoFilling { return }
+        cameraController.startSession()
+    }
+    
+    func onDisappear() -> Void {
+        cameraController.stopSession()
+    }
     
     func unfocus() -> Void {
         patientNameController.unfocus()
@@ -44,7 +58,7 @@ final class ScanViewModel: ObservableObject {
         )
     }
     
-    func onPressedResearchType() {
+    func onPressedResearchType() -> Void {
         router?.push(
             route: RouteSheet(
                 type: .selectResearchType,
@@ -94,6 +108,13 @@ final class ScanViewModel: ObservableObject {
         }
         
         sheetController.setBottom()
+    }
+    
+    func determineStopCamera() -> Void {
+        if photos.count == ScanViewModel.photoMaxCount || sheetController.isTop {
+            return cameraController.stopSession()
+        }
+        cameraController.startSession()
     }
 
     func onPressedDeletePhoto(
