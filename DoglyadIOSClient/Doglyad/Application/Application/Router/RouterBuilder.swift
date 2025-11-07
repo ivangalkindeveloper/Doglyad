@@ -15,17 +15,14 @@ final class RouterBuilder: RouterBuilderProtocol {
             AnyView(OnBoardingScreen(
                 arguments: route.arguments as? OnBoardingScreenArguments
             ))
-            
         case .scan:
             AnyView(ScanScreen(
                 arguments: route.arguments as? ScanScreenArguments
             ))
-
         case .history:
             AnyView(HistoryScreen(
                 arguments: route.arguments as? HistoryScreenArguments
             ))
-
         case .conclusion:
             AnyView(ConclusionScreen(
                 arguments: route.arguments as? ConclusionScreenArguments
@@ -33,19 +30,21 @@ final class RouterBuilder: RouterBuilderProtocol {
         }
     }
     
-    @ViewBuilder
     func build(
         route: RouteSheet<SheetType>
     ) -> AnyView {
         switch route.type {
         case .selectResearchType:
             AnyView(SelectResearchTypeBottomSheet(
-                arguments: route.arguments as? SelectResearchTypeScreenArguments
+                arguments: route.arguments as? SelectResearchTypeArguments
+            ))
+        case .selectDateOfBirth:
+            AnyView(SelectDateOfBirthBottomSheet(
+                arguments: route.arguments as? SelectDateOfBirthArguments
             ))
         }
     }
     
-    @ViewBuilder
     func build(
         route: RouteFullScreenCover<FullScreenCoverType>
     ) -> AnyView {

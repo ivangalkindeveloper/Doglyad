@@ -11,6 +11,7 @@ final class ScanViewModel: ObservableObject {
     
     private var diagnosticRepository: DiagnosticsRepositoryProtocol?
     private var router: DRouter?
+    private var isInitialized: Bool = false
     
     @Published var researchType = ResearchType.default
     @Published var photos: [ScanPhoto] = []
@@ -21,24 +22,26 @@ final class ScanViewModel: ObservableObject {
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
     @NestedObservableObject var patientComplaintController = DTextFieldController()
     
-    func initialize(
+    var isPhotoFilling: Bool {
+        photos.count == ScanViewModel.photoMaxCount
+    }
+    
+    var isCaptureAvailable: Bool {
+        cameraController.isRunning && !isPhotoFilling
+    }
+    
+    func onAppear(
         container: DependencyContainer,
         router: DRouter
     ) -> Void {
+        if isInitialized { return }
         self.diagnosticRepository = container.diagnosticsRepository
         self.router = router
         if let storedResearchType = diagnosticRepository?.getSelectedResearchType() {
             self.researchType = storedResearchType
         }
-    }
-    
-    var isPhotoFilling: Bool {
-        photos.count == ScanViewModel.photoMaxCount
-    }
-    
-    func onAppear() -> Void {
-        if isPhotoFilling { return }
         cameraController.startSession()
+        isInitialized = true
     }
     
     func onDisappear() -> Void {
@@ -48,6 +51,26 @@ final class ScanViewModel: ObservableObject {
     func unfocus() -> Void {
         patientNameController.unfocus()
         patientComplaintController.unfocus()
+    }
+    
+    func onChangePhotosForSheet() -> Void {
+        if photos.isEmpty {
+            return sheetController.setHidden()
+        }
+        
+        if !photos.isEmpty && sheetController.isHidden {
+            sheetController.setBottom()
+        }
+        
+        if photos.count == ScanViewModel.photoMaxCount {
+            return sheetController.setTop()
+        }
+    }
+    
+    func onChangeSheetForCamera() -> Void {
+        if sheetController.isTop {
+            cameraController.stopSession()
+        }
     }
     
     func onPressedHistory() -> Void {
@@ -62,7 +85,8 @@ final class ScanViewModel: ObservableObject {
         router?.push(
             route: RouteSheet(
                 type: .selectResearchType,
-                arguments: SelectResearchTypeScreenArguments(
+                arguments: SelectResearchTypeArguments(
+                    currentValue: self.researchType,
                     onSelected: { [weak self] researchType in
                         guard let self = self else { return }
                         guard self.researchType != researchType else { return }
@@ -97,25 +121,6 @@ final class ScanViewModel: ObservableObject {
             }
         )
     }
-    
-    func determineOpeningSheet() -> Void {
-        if photos.isEmpty {
-            return sheetController.setHidden()
-        }
-        
-        if photos.count == ScanViewModel.photoMaxCount {
-            return sheetController.setTop()
-        }
-        
-        sheetController.setBottom()
-    }
-    
-    func determineStopCamera() -> Void {
-        if photos.count == ScanViewModel.photoMaxCount || sheetController.isTop {
-            return cameraController.stopSession()
-        }
-        cameraController.startSession()
-    }
 
     func onPressedDeletePhoto(
         photo: ScanPhoto
@@ -132,7 +137,21 @@ final class ScanViewModel: ObservableObject {
         patientGender = value
     }
     
-    func onPressedPatientAge() -> Void {}
+    func onPressedPatientDateOfBirth() -> Void {
+        router?.push(
+            route: RouteSheet(
+                type: .selectDateOfBirth,
+                arguments: SelectDateOfBirthArguments(
+                    currentValue: self.patientDateOfBirth,
+                    onSelected: { [weak self] date in
+                        guard let self = self else { return }
+                        guard self.patientDateOfBirth != date else { return }
+                        self.patientDateOfBirth = date
+                    }
+                )
+            )
+        )
+    }
     
     func onPressedPatientComplaintSpeech() -> Void {}
     

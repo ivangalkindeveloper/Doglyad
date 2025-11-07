@@ -16,13 +16,14 @@ final class SpeechFullScreenCoverArguments: RouteArgumentsProtocol {
 }
 
 struct SpeechFullScreenCover: View {
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var router: DRouter
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     
     let arguments: SpeechFullScreenCoverArguments?
+    @StateObject private var viewModel = SpeechViewModel()
     
     var body: some View {
         

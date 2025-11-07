@@ -9,7 +9,6 @@ final class ScanScreenArguments: RouteArgumentsProtocol {}
 struct ScanScreen: View {
     @EnvironmentObject var container: DependencyContainer
     @EnvironmentObject var router: DRouter
-
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -93,15 +92,16 @@ struct ScanScreen: View {
             }
         }
         .onChange(of: viewModel.photos, initial: true) {
-            viewModel.determineOpeningSheet()
-            viewModel.determineStopCamera()
+            viewModel.onChangePhotosForSheet()
+        }
+        .onChange(of: viewModel.sheetController.currentPosition, initial: true) {
+            viewModel.onChangeSheetForCamera()
         }
         .onAppear {
-            viewModel.initialize(
+            viewModel.onAppear(
                 container: container,
                 router: router
             )
-            viewModel.onAppear()
         }
         .onDisappear {
             viewModel.onDisappear()

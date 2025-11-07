@@ -10,33 +10,35 @@ struct ScanCaptureView: View {
     @EnvironmentObject private var viewModel: ScanViewModel
     
     var body: some View {
-        VStack(
-            spacing: .zero
-        ) {
-            DButton(
-                image: viewModel.captureIcon,
-                action: viewModel.onPressedCapture,
-                isLoading: viewModel.cameraController.isCapturing
-            )
-            .dStyle(.primaryCircle)
-            
-            if !viewModel.isPhotoFilling {
-                DText(
-                    .scanCaptureDescription,
+        if viewModel.isCaptureAvailable {
+            VStack(
+                spacing: .zero
+            ) {
+                DButton(
+                    image: viewModel.captureIcon,
+                    action: viewModel.onPressedCapture,
+                    isLoading: viewModel.cameraController.isCapturing
                 )
-                .dStyle(
-                    font: typography.textSmall,
-                    color: color.grayscaleLine,
-                    alignment: .center
-                )
-                .padding(.top, size.s16)
+                .dStyle(.primaryCircle)
+                
+                if !viewModel.isPhotoFilling {
+                    DText(
+                        .scanCaptureDescription,
+                    )
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscaleLine,
+                        alignment: .center
+                    )
+                    .padding(.top, size.s16)
+                }
             }
+            .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s116 : .zero)
+            .animation(
+                theme.animation,
+                value: viewModel.sheetController.currentPosition
+            )
         }
-        .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s128 : .zero)
-        .animation(
-            theme.animation,
-            value: viewModel.sheetController.currentPosition
-        )
     }
 }
 

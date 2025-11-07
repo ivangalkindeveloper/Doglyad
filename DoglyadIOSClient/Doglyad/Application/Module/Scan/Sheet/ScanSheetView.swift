@@ -46,7 +46,7 @@ struct ScanSheetView: View {
                 ageLabel: .scanDateOfBirthAgeLabel,
                 date: viewModel.patientDateOfBirth,
             ) {
-                //
+                viewModel.onPressedPatientDateOfBirth()
             }
             .padding(.bottom, size.s16)
             

@@ -8,7 +8,7 @@ public final class DCameraController: NSObject, ObservableObject {
     @Published public var isRunning = false
     @Published public var isCapturing = false
     
-    private let session = AVCaptureSession()
+    nonisolated private let session = AVCaptureSession()
     lazy var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(
         session: self.session
     )
@@ -38,14 +38,22 @@ public final class DCameraController: NSObject, ObservableObject {
 
     public func startSession() {
         if self.session.isRunning { return }
-        self.session.startRunning()
-        self.isRunning = true
+        DispatchQueue.global(qos: .background).async {
+            self.session.startRunning()
+            DispatchQueue.main.async {
+                self.isRunning = true
+            }
+        }
     }
 
     public func stopSession() {
         if !self.session.isRunning { return }
-        self.session.stopRunning()
-        self.isRunning = false
+        DispatchQueue.global(qos: .background).async {
+            self.session.stopRunning()
+            DispatchQueue.main.async {
+                self.isRunning = false
+            }
+        }
     }
 
     public func takePhoto(

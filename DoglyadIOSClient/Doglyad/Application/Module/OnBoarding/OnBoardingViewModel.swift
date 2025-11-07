@@ -18,7 +18,7 @@ final class OnBoardingViewModel: ObservableObject {
             router?.push(
                 route: RouteSheet(
                     type: .selectResearchType,
-                    arguments: SelectResearchTypeScreenArguments(
+                    arguments: SelectResearchTypeArguments(
                         onSelected: { [weak self] researchType in
                             self?.page = .scan
                             self?.diagnosticRepository?.setSelectedResearchType(

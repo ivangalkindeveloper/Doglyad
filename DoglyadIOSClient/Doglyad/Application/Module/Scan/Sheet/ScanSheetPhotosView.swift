@@ -1,5 +1,5 @@
-import SwiftUI
 import DoglyadUI
+import SwiftUI
 
 struct ScanSheetPhotosView: View {
     @EnvironmentObject private var theme: DTheme
@@ -33,12 +33,12 @@ struct ScanSheetPhotosView: View {
             DText(
                 .scanMaxPhotoDescription(count: ScanViewModel.photoMaxCount)
             )
-                .dStyle(
-                    font: typography.textSmall,
-                    color: color.grayscalePlaceholder
-                )
-                .padding([.horizontal], size.s16)
-                .padding(.bottom, viewModel.sheetController.isBottom ? size.s32 : size.s16)
+            .dStyle(
+                font: typography.textSmall,
+                color: color.grayscalePlaceholder
+            )
+            .padding(.horizontal, size.s16)
+            .padding(.bottom, size.s32)
         }
     }
 }

@@ -17,6 +17,8 @@ final class InitializationProcess: DependencyInitializationProcess {
     
     var diagnosticsRepository: DiagnosticsRepositoryProtocol?
     
+    var researchTypes: [ResearchType]?
+    
     var initialScreen: ScreenType?
     
     var toContainer: DependencyContainer {
@@ -24,6 +26,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             DependencyContainer(
                 environment: self.environment!,
                 diagnosticsRepository: self.diagnosticsRepository!,
+                researchTypes: self.researchTypes!,
                 initialScreen: self.initialScreen!,
             )
         }
@@ -85,6 +88,14 @@ extension InitializationProcess {
             }
         ),
         InitializationStep<InitializationProcess>(
+            title: "Research types",
+            run: { process in
+                process.researchTypes = [
+                    .thyroidGland
+                ]
+            }
+        ),
+        InitializationStep<InitializationProcess>(
             title: "Initial screen",
             run: { process in
                 let isOnBoardingCompleted = process.database!.getOnBoardingCompleted()
@@ -97,5 +108,4 @@ extension InitializationProcess {
             }
         ),
     ]
-
 }

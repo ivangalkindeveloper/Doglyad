@@ -21,6 +21,10 @@ final class ScanSheetController: ObservableObject {
         currentPosition != sheetPositionHidden
     }
     
+    var isHidden: Bool {
+        currentPosition == sheetPositionHidden
+    }
+    
     var isBottom: Bool {
         currentPosition == sheetPositionBottom
     }

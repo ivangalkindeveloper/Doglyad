@@ -21,20 +21,22 @@ public struct DBottomSheet<Content: View>: View {
     }
 
     public var body: some View {
-        VStack(spacing: .zero) {
+        VStack(
+            spacing: .zero
+        ) {
             Capsule()
                 .fill(color.grayscaleLine)
                 .frame(
                     width: 36,
                     height: 5
                 )
-                .padding(.top, 7.5)
+                .padding(size.s8)
             
             DText(title)
                 .dStyle(
                     font: typography.linkSmall
                 )
-                .padding(size.s16)
+                .padding([.trailing, .leading, .bottom], size.s16)
             
             Spacer()
             content()

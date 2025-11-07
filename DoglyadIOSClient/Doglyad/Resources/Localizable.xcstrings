@@ -69,6 +69,23 @@
         }
       }
     },
+    "buttonSelect" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать"
+          }
+        }
+      }
+    },
     "buttonSelectType" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -358,23 +375,6 @@
         }
       }
     },
-    "researchTypeFutureAddingDescription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We are already in the process of adding new research types, expect them in the next updates"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях"
-          }
-        }
-      }
-    },
     "researchTypeThyroidGland" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -388,23 +388,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Щитовидная железа"
-          }
-        }
-      }
-    },
-    "researchTypeTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Research type"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тип исследования"
           }
         }
       }
@@ -540,7 +523,58 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Камера отключена чтобы не тратить заряд батареи"
+            "value" : "Камера отключена чтобы не тратить заряд аккумулятора"
+          }
+        }
+      }
+    },
+    "selectDateOfBirthTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date of birth"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата рождения"
+          }
+        }
+      }
+    },
+    "selectResearchTypeFutureAddingDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We are already in the process of adding new research types, expect them in the next updates"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях"
+          }
+        }
+      }
+    },
+    "selectResearchTypeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Research type"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип исследования"
           }
         }
       }
