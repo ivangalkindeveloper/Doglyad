@@ -4,6 +4,9 @@ struct ResearchData {
     let timestamp: Date
     let researchType: ResearchType
     let photos: [ScanPhoto]
-    let personalData: PatientPersonalData
-    let anamnesis: PatientAnamnesis
+    let patientName: String
+    let patientGender: PatientGender
+    let scanStrategyData: any ScanStrategyDataProtocol
+    let patientComplaint: String
+    let additionalMedicalData: String?
 }

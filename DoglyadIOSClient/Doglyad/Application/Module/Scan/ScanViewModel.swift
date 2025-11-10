@@ -15,12 +15,18 @@ final class ScanViewModel: ObservableObject {
     
     @Published var researchType = ResearchType.default
     @Published var photos: [ScanPhoto] = []
+    //
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
+    //
     @NestedObservableObject var patientNameController = DTextFieldController(initialText: "Пациент#0")
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
+    //
+    var scanStrategy: any ScanStrategyProtocol { researchType.strategy }
+    //
     @NestedObservableObject var patientComplaintController = DTextFieldController()
+    @NestedObservableObject var additionalMedicalDataController = DTextFieldController()
     
     var isPhotoFilling: Bool {
         photos.count == ScanViewModel.photoMaxCount
@@ -57,12 +63,10 @@ final class ScanViewModel: ObservableObject {
         if photos.isEmpty {
             return sheetController.setHidden()
         }
-        
         if !photos.isEmpty && sheetController.isHidden {
             sheetController.setBottom()
         }
-        
-        if photos.count == ScanViewModel.photoMaxCount {
+        if isPhotoFilling {
             return sheetController.setTop()
         }
     }

@@ -3,16 +3,10 @@ import Foundation
 enum ResearchType: String {
     case thyroidGland // Щитовидная железа
     
-    var components: [ResearchTypeComponentType] {
+    var strategy: any ScanStrategyProtocol {
         switch self {
         case .thyroidGland:
-            [
-                .patientHeight,
-                .patientWeight,
-                .thyroidGlandIsthmus,
-                .thyroidGlandRightLobe,
-                .thyroidGlandLeftLobe
-            ]
+            ThyroidGlandScanStrategy()
         }
     }
     

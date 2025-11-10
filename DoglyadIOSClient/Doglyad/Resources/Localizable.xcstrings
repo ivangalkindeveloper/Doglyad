@@ -239,6 +239,40 @@
         }
       }
     },
+    "fieldAdditionalMedicalData" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Additional medical data"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительные мед. данные"
+          }
+        }
+      }
+    },
+    "fieldAdditionalMedicalDataPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The patient suffers from chronic diseases..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пациент страдает хроническими заболеваниями..."
+          }
+        }
+      }
+    },
     "fieldPatientComplaint" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -273,6 +307,40 @@
         }
       }
     },
+    "fieldPatientHeight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patient height (cm)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рост пациента (см)"
+          }
+        }
+      }
+    },
+    "fieldPatientHeightPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "180.0"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "180.0"
+          }
+        }
+      }
+    },
     "fieldPatientName" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -303,6 +371,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Пациент#1"
+          }
+        }
+      }
+    },
+    "fieldPatientWeight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patient weight (kg)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вес пациента (кг)"
+          }
+        }
+      }
+    },
+    "fieldPatientWeightPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "74.0"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "74.0"
           }
         }
       }

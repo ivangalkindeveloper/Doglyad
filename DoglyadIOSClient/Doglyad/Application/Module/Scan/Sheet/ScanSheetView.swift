@@ -20,7 +20,7 @@ struct ScanSheetView: View {
                 placeholder: .fieldPatientNamePlaceholder,
                 controller: viewModel.patientNameController
             )
-            .padding(.vertical, size.s16)
+            .padding(.vertical, size.s8)
             
             DSegment<PatientGender>(
                 currentValue: viewModel.patientGender,
@@ -39,7 +39,7 @@ struct ScanSheetView: View {
                     }
                 ]
             )
-            .padding(.bottom, size.s16)
+            .padding(.bottom, size.s8)
             
             DDateOfBirthCard(
                 title: .scanDateOfBirthLabel,
@@ -48,14 +48,21 @@ struct ScanSheetView: View {
             ) {
                 viewModel.onPressedPatientDateOfBirth()
             }
-            .padding(.bottom, size.s16)
+            .padding(.bottom, size.s8)
             
-            // Компоненты
+            AnyView(viewModel.scanStrategy.view)
             
             DTextField<EmptyView>(
                 title: .fieldPatientComplaint,
                 placeholder: .fieldPatientComplaintPlaceholder,
                 controller: viewModel.patientComplaintController
+            )
+            .padding(.bottom, size.s8)
+            
+            DTextField<EmptyView>(
+                title: .fieldAdditionalMedicalData,
+                placeholder: .fieldAdditionalMedicalDataPlaceholder,
+                controller: viewModel.additionalMedicalDataController
             )
             .padding(.bottom, size.s32)
         }
