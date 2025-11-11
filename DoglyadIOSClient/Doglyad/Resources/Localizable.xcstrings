@@ -273,6 +273,40 @@
         }
       }
     },
+    "fieldDepthMM" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depth (mm)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Глубина (мм)"
+          }
+        }
+      }
+    },
+    "fieldHeightMM" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Height (mm)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Высота (мм)"
+          }
+        }
+      }
+    },
     "fieldPatientComplaint" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -307,7 +341,7 @@
         }
       }
     },
-    "fieldPatientHeight" : {
+    "fieldPatientHeightCM" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -324,7 +358,7 @@
         }
       }
     },
-    "fieldPatientHeightPlaceholder" : {
+    "fieldPatientHeightCMPlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -375,7 +409,7 @@
         }
       }
     },
-    "fieldPatientWeight" : {
+    "fieldPatientWeightKG" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -392,7 +426,7 @@
         }
       }
     },
-    "fieldPatientWeightPlaceholder" : {
+    "fieldPatientWeightKGPlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -405,6 +439,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "74.0"
+          }
+        }
+      }
+    },
+    "fieldValuePlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0.0"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0.0"
+          }
+        }
+      }
+    },
+    "fieldWidthMM" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Width (mm)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ширина (мм)"
           }
         }
       }
@@ -609,6 +677,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата рождения"
+          }
+        }
+      }
+    },
+    "scanThyroidGlandIsthmusLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isthmus"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перешеек"
+          }
+        }
+      }
+    },
+    "scanThyroidGlandLeftLobeLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Left lobe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Левая доля"
+          }
+        }
+      }
+    },
+    "scanThyroidGlandRightLobeLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Right lobe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Правая доля"
           }
         }
       }

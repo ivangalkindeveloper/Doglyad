@@ -11,9 +11,8 @@ struct ScanSheetView: View {
     @EnvironmentObject private var viewModel: ScanViewModel
     
     var body: some View {
-        VStack(
-            alignment: .leading,
-            spacing: .zero
+        ScrollView(
+            showsIndicators: false
         ) {
             DTextField<EmptyView>(
                 title: .fieldPatientName,
@@ -48,9 +47,10 @@ struct ScanSheetView: View {
             ) {
                 viewModel.onPressedPatientDateOfBirth()
             }
-            .padding(.bottom, size.s8)
+            .padding(.bottom, size.s16)
             
             AnyView(viewModel.scanStrategy.view)
+                .padding(.bottom, size.s16)
             
             DTextField<EmptyView>(
                 title: .fieldPatientComplaint,
@@ -64,9 +64,9 @@ struct ScanSheetView: View {
                 placeholder: .fieldAdditionalMedicalDataPlaceholder,
                 controller: viewModel.additionalMedicalDataController
             )
-            .padding(.bottom, size.s32)
+            .padding(.bottom, size.s128)
         }
-        .padding([.horizontal], size.s16)
+        .padding(.horizontal, size.s16)
         .onTapGesture {
             viewModel.unfocus()
         }

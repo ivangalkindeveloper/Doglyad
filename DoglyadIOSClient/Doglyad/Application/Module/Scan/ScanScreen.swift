@@ -46,10 +46,9 @@ struct ScanScreen: View {
                         ScanSheetView()
                     }
                 )
-                .enableAppleScrollBehavior(true)
                 .enableBackgroundBlur(false)
                 .showCloseButton(false)
-                .enableContentDrag(true)
+                .enableContentDrag(false)
                 .customBackground(
                     color.grayscaleBackgroundWeak
                         .clipShape(

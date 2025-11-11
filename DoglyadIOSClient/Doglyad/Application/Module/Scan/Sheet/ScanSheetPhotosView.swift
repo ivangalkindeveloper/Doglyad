@@ -14,7 +14,10 @@ struct ScanSheetPhotosView: View {
             alignment: .leading,
             spacing: .zero
         ) {
-            ScrollView(.horizontal) {
+            ScrollView(
+                .horizontal,
+                showsIndicators: false
+            ) {
                 HStack(spacing: .zero) {
                     ForEach(viewModel.photos) { photo in
                         DPhotoCard(

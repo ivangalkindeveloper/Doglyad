@@ -5,5 +5,9 @@ protocol ScanStrategyViewModelProtocol: ObservableObject {
     
     func validate() -> Void
     
+    func fillFromSpeech(
+        data: [String:String]
+    ) -> Void
+    
     func getData() -> T
 }
