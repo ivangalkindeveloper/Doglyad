@@ -23,7 +23,7 @@ final class ScanViewModel: ObservableObject {
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
     //
-    var scanStrategy: any ScanStrategyProtocol { researchType.strategy }
+    @NestedObservableObject var researchDataController = DTextFieldController()
     //
     @NestedObservableObject var patientComplaintController = DTextFieldController()
     @NestedObservableObject var additionalMedicalDataController = DTextFieldController()
@@ -157,7 +157,7 @@ final class ScanViewModel: ObservableObject {
         )
     }
     
-    func onPressedPatientComplaintSpeech() -> Void {}
+    func onPressedSpeech() -> Void {}
     
     func onPressedScan() -> Void {}
 }

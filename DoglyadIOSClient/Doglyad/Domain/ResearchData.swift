@@ -2,7 +2,7 @@ import Foundation
 
 struct ResearchData {
     let timestamp: Date
-    let researchType: ResearchType
+    let researchType: String
     let photos: [ScanPhoto]
     let patientName: String
     let patientGender: PatientGender

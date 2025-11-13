@@ -68,22 +68,35 @@ struct ScanScreen: View {
                 ) {
                     Spacer()
                     if viewModel.sheetController.isTop {
-                        DButton(
-                            title: .buttonScan,
-                            action: viewModel.onPressedScan
-                        )
-                        .dStyle(.primaryButton)
-                        .padding(size.s16)
-                        .safeAreaPadding(.bottom)
-                        .background(
-                            color.grayscaleBackground
-                                .clipShape(
-                                    DRoundedCorner(
-                                        radius: size.s32,
-                                        corners: [.topLeft, .topRight]
+                        VStack(
+                            spacing: .zero
+                        ) {
+                            DButton(
+                                image: .microphone,
+                                title: .buttonSpeech,
+                                action: viewModel.onPressedSpeech
+                            )
+                            .dStyle(.primaryChip)
+                            .padding(.bottom, size.s8)
+                            
+                            DButton(
+                                title: .buttonScan,
+                                action: viewModel.onPressedScan
+                            )
+                            .dStyle(.primaryButton)
+                            .padding(size.s16)
+                            .safeAreaPadding(.bottom)
+                            .background(
+                                color.grayscaleBackground
+                                    .clipShape(
+                                        DRoundedCorner(
+                                            radius: size.s32,
+                                            corners: [.topLeft, .topRight]
+                                        )
                                     )
-                                )
-                        )
+                            )
+                        }
+
                         .transition(.move(edge: .bottom))
                     }
                 }

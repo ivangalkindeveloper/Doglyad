@@ -103,6 +103,23 @@
         }
       }
     },
+    "buttonSpeech" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill in by voice"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполнить голосом"
+          }
+        }
+      }
+    },
     "buttonStart" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -422,6 +439,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "74.0"
+          }
+        }
+      }
+    },
+    "fieldResearchDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Research description"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание исследования"
+          }
+        }
+      }
+    },
+    "fieldResearchDescriptionPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The volume and shape of the objects under study, the state of curvature shows..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объем и форма исследуемых объектов, состояние кривизны показывает..."
           }
         }
       }

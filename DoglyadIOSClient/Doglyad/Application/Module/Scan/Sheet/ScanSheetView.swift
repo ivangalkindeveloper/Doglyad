@@ -47,10 +47,17 @@ struct ScanSheetView: View {
             ) {
                 viewModel.onPressedPatientDateOfBirth()
             }
-            .padding(.bottom, size.s16)
+            .padding(.bottom, size.s8)
             
-            AnyView(viewModel.scanStrategy.view)
-                .padding(.bottom, size.s16)
+//            AnyView(viewModel.scanStrategy.view)
+//                .padding(.bottom, size.s8)
+            
+            DTextField<EmptyView>(
+                title: .fieldResearchDescription,
+                placeholder: .fieldResearchDescriptionPlaceholder,
+                controller: viewModel.researchDataController
+            )
+            .padding(.bottom, size.s8)
             
             DTextField<EmptyView>(
                 title: .fieldPatientComplaint,
@@ -64,7 +71,7 @@ struct ScanSheetView: View {
                 placeholder: .fieldAdditionalMedicalDataPlaceholder,
                 controller: viewModel.additionalMedicalDataController
             )
-            .padding(.bottom, size.s128)
+            .padding(.bottom, size.s128 * 2)
         }
         .padding(.horizontal, size.s16)
         .onTapGesture {
