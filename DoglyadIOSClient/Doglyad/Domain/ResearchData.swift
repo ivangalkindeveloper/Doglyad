@@ -7,7 +7,7 @@ struct ResearchData {
     let patientName: String
     let patientGender: PatientGender
     let patientDateOfBirth: Date
-    let scanStrategyData: any ScanStrategyDataProtocol
-    let patientComplaint: String
+    let scanData: String
+    let patientComplaint: String?
     let additionalMedicalData: String?
 }

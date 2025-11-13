@@ -22,15 +22,16 @@ final class ThyroidGlandStrategyViewModel: ScanStrategyViewModelProtocol {
     @NestedObservableObject var patientHeightController = DTextFieldController()
     @NestedObservableObject var patientWeightController = DTextFieldController()
     
-    @NestedObservableObject var rightLobeHeightController = DTextFieldController()
+    @NestedObservableObject var isthmusThicknessController = DTextFieldController()
+    
     @NestedObservableObject var rightLobeWidthController = DTextFieldController()
-    @NestedObservableObject var rightLobeDepthController = DTextFieldController()
+    @NestedObservableObject var rightLobeThicknessController = DTextFieldController()
+    @NestedObservableObject var rightLobeLengthController = DTextFieldController()
     
-    @NestedObservableObject var leftLobeHeightController = DTextFieldController()
     @NestedObservableObject var leftLobeWidthController = DTextFieldController()
-    @NestedObservableObject var leftLobeDepthController = DTextFieldController()
-    
-    @NestedObservableObject var isthmusDepthController = DTextFieldController()
+    @NestedObservableObject var leftLobeThicknessController = DTextFieldController()
+    @NestedObservableObject var leftLobeLengthController = DTextFieldController()
+
     
     func validate() -> Void {}
     
@@ -44,21 +45,16 @@ final class ThyroidGlandStrategyViewModel: ScanStrategyViewModelProtocol {
         ThyroidGlandStrategyData(
             patientHeight: Double(patientHeightController.text),
             patientWeight: Double(patientWeightController.text),
-            rightLobe: DimensionsData(
-                height: Double(rightLobeHeightController.text),
-                width: Double(rightLobeWidthController.text),
-                depth: Double(rightLobeDepthController.text),
-            ),
-            leftLobe: DimensionsData(
-                height: Double(leftLobeHeightController.text),
-                width: Double(leftLobeWidthController.text),
-                depth: Double(leftLobeDepthController.text),
-            ),
-            isthmus: DimensionsData(
-                height: nil,
-                width: nil,
-                depth: Double(isthmusDepthController.text),
-            ),
+            
+            isthmusThickness: Double(isthmusThicknessController.text),
+            
+            rightLobeWidth: Double(rightLobeWidthController.text),
+            rightLobeThickness: Double(rightLobeThicknessController.text),
+            rightLobeLength: Double(rightLobeLengthController.text),
+            
+            leftLobeWidth: Double(leftLobeWidthController.text),
+            leftLobeThickness: Double(leftLobeThicknessController.text),
+            leftLobeLength: Double(leftLobeLengthController.text),
         )
     }
 }
@@ -84,6 +80,7 @@ struct ThyroidGlandStrategyView: ScanStrategyViewProtocol {
             alignment: .leading,
             spacing: .zero
         ) {
+            // MARK: - Patient Height
             DTextField<EmptyView>(
                 title: .fieldPatientHeightCM,
                 placeholder: .fieldPatientHeightCMPlaceholder,
@@ -91,6 +88,7 @@ struct ThyroidGlandStrategyView: ScanStrategyViewProtocol {
             )
             .padding(.bottom, size.s8)
             
+            // MARK: - Patient Weight
             DTextField<EmptyView>(
                 title: .fieldPatientWeightKG,
                 placeholder: .fieldPatientWeightKGPlaceholder,
@@ -98,68 +96,72 @@ struct ThyroidGlandStrategyView: ScanStrategyViewProtocol {
             )
             .padding(.bottom, size.s8)
             
+            // MARK: - Isthmus
+            DText(.scanThyroidGlandIsthmusLabel)
+                .dStyle(
+                    font: typography.linkSmall,
+                )
+                .padding([.bottom, .vertical], size.s8)
+            DTextField<EmptyView>(
+                title: .fieldThicknessMM,
+                placeholder: .fieldValuePlaceholder,
+                controller: viewModel.isthmusThicknessController
+            )
+            .padding(.bottom, size.s8)
+            
+            // MARK: - Right Lobe
             DText(.scanThyroidGlandRightLobeLabel)
                 .dStyle(
                     font: typography.linkSmall,
                 )
-                .padding([.bottom, .leading], size.s8)
+                .padding([.bottom, .vertical], size.s8)
             HStack(
-                spacing: size.s16,
+                spacing: size.s8,
             ) {
-                DTextField<EmptyView>(
-                    title: .fieldHeightMM,
-                    placeholder: .fieldValuePlaceholder,
-                    controller: viewModel.rightLobeHeightController
-                )
                 DTextField<EmptyView>(
                     title: .fieldWidthMM,
                     placeholder: .fieldValuePlaceholder,
                     controller: viewModel.rightLobeWidthController
                 )
                 DTextField<EmptyView>(
-                    title: .fieldDepthMM,
+                    title: .fieldThicknessMM,
                     placeholder: .fieldValuePlaceholder,
-                    controller: viewModel.rightLobeDepthController
+                    controller: viewModel.rightLobeThicknessController
+                )
+                DTextField<EmptyView>(
+                    title: .fieldLengthMM,
+                    placeholder: .fieldValuePlaceholder,
+                    controller: viewModel.rightLobeLengthController
                 )
             }
             .padding(.bottom, size.s8)
             
+            // MARK: - Left Lobe
             DText(.scanThyroidGlandLeftLobeLabel)
                 .dStyle(
                     font: typography.linkSmall,
                 )
-                .padding([.bottom, .leading], size.s8)
+                .padding([.bottom, .vertical], size.s8)
             HStack(
-                spacing: size.s16,
+                spacing: size.s8,
             ) {
-                DTextField<EmptyView>(
-                    title: .fieldHeightMM,
-                    placeholder: .fieldValuePlaceholder,
-                    controller: viewModel.leftLobeHeightController
-                )
                 DTextField<EmptyView>(
                     title: .fieldWidthMM,
                     placeholder: .fieldValuePlaceholder,
                     controller: viewModel.leftLobeWidthController
                 )
                 DTextField<EmptyView>(
-                    title: .fieldDepthMM,
+                    title: .fieldThicknessMM,
                     placeholder: .fieldValuePlaceholder,
-                    controller: viewModel.leftLobeDepthController
+                    controller: viewModel.leftLobeThicknessController
+                )
+                DTextField<EmptyView>(
+                    title: .fieldLengthMM,
+                    placeholder: .fieldValuePlaceholder,
+                    controller: viewModel.leftLobeLengthController
                 )
             }
             .padding(.bottom, size.s8)
-            
-            DText(.scanThyroidGlandIsthmusLabel)
-                .dStyle(
-                    font: typography.linkSmall,
-                )
-                .padding([.bottom, .leading], size.s8)
-            DTextField<EmptyView>(
-                title: .fieldDepthMM,
-                placeholder: .fieldValuePlaceholder,
-                controller: viewModel.isthmusDepthController
-            )
         }
     }
 }
@@ -167,7 +169,11 @@ struct ThyroidGlandStrategyView: ScanStrategyViewProtocol {
 struct ThyroidGlandStrategyData: ScanStrategyDataProtocol {
     let patientHeight: Double? // Вес пациента
     let patientWeight: Double? // Рост пациента
-    let rightLobe: DimensionsData? // Правая доля
-    let leftLobe: DimensionsData? // Левая доля
-    let isthmus: DimensionsData? // Перешеек
+    let isthmusThickness: Double? // Перешеек
+    let rightLobeWidth: Double? // Правая доля
+    let rightLobeThickness: Double? // Правая доля
+    let rightLobeLength: Double? // Правая доля
+    let leftLobeWidth: Double? // Левая доля
+    let leftLobeThickness: Double? // Левая доля
+    let leftLobeLength: Double? // Левая доля
 }
