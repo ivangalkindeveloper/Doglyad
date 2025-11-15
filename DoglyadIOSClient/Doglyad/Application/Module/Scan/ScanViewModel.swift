@@ -9,12 +9,20 @@ import DoglyadCamera
 final class ScanViewModel: ObservableObject {
     static let photoMaxCount: Int = 6
     
-    private var diagnosticRepository: DiagnosticsRepositoryProtocol?
-    private var router: DRouter?
-    private var isInitialized: Bool = false
+    private var diagnosticRepository: DiagnosticsRepositoryProtocol
+    private var router: DRouter
+    
+    init(
+        diagnosticRepository: DiagnosticsRepositoryProtocol,
+        router: DRouter
+    ) {
+        self.diagnosticRepository = diagnosticRepository
+        self.router = router
+        cameraController.startSession()
+    }
     
     @Published var researchType = ResearchType.default
-    @Published var photos: [ScanPhoto] = []
+    @Published var photos: [ResearchScanPhoto] = []
     //
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
@@ -34,20 +42,6 @@ final class ScanViewModel: ObservableObject {
     
     var isCaptureAvailable: Bool {
         cameraController.isRunning && !isPhotoFilling
-    }
-    
-    func onAppear(
-        container: DependencyContainer,
-        router: DRouter
-    ) -> Void {
-        if isInitialized { return }
-        self.diagnosticRepository = container.diagnosticsRepository
-        self.router = router
-        if let storedResearchType = diagnosticRepository?.getSelectedResearchType() {
-            self.researchType = storedResearchType
-        }
-        cameraController.startSession()
-        isInitialized = true
     }
     
     func onDisappear() -> Void {
@@ -78,7 +72,7 @@ final class ScanViewModel: ObservableObject {
     }
     
     func onPressedHistory() -> Void {
-        router?.push(
+        router.push(
             route: RouteScreen(
                 type: .history
             )
@@ -86,7 +80,7 @@ final class ScanViewModel: ObservableObject {
     }
     
     func onPressedResearchType() -> Void {
-        router?.push(
+        router.push(
             route: RouteSheet(
                 type: .selectResearchType,
                 arguments: SelectResearchTypeArguments(
@@ -95,7 +89,7 @@ final class ScanViewModel: ObservableObject {
                         guard let self = self else { return }
                         guard self.researchType != researchType else { return }
                         self.researchType = researchType
-                        self.diagnosticRepository?.setSelectedResearchType(
+                        self.diagnosticRepository.setSelectedResearchType(
                             type: researchType
                         )
                     }
@@ -117,7 +111,7 @@ final class ScanViewModel: ObservableObject {
             completion: { [weak self] image in
                 guard let self = self else { return }
                 photos.append(
-                    ScanPhoto(image: image)
+                    ResearchScanPhoto(image: image)
                 )
                 if photos.count == ScanViewModel.photoMaxCount {
                     sheetController.setTop()
@@ -127,7 +121,7 @@ final class ScanViewModel: ObservableObject {
     }
 
     func onPressedDeletePhoto(
-        photo: ScanPhoto
+        photo: ResearchScanPhoto
     ) -> Void {
         photos.remove(at: photos.firstIndex(of: photo)!)
     }
@@ -142,7 +136,7 @@ final class ScanViewModel: ObservableObject {
     }
     
     func onPressedPatientDateOfBirth() -> Void {
-        router?.push(
+        router.push(
             route: RouteSheet(
                 type: .selectDateOfBirth,
                 arguments: SelectDateOfBirthArguments(

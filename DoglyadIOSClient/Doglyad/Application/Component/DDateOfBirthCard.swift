@@ -1,32 +1,23 @@
-//
-//  DDateOfBirthCard.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 06.11.2025.
-//
-
 import Foundation
 import SwiftUI
+import DoglyadUI
 
 public struct DDateOfBirthCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-
-    let title: LocalizedStringResource
-    let ageLabel: LocalizedStringResource
+    
+    private let title: LocalizedStringResource = .scanDateOfBirthLabel
+    private let ageLabel: LocalizedStringResource = .scanDateOfBirthAgeLabel
+    
     let date: Date
     let action: () -> Void
 
     public init(
-        title: LocalizedStringResource,
-        ageLabel: LocalizedStringResource,
         date: Date,
         action: @escaping () -> Void
     ) {
-        self.title = title
-        self.ageLabel = ageLabel
         self.date = date
         self.action = action
     }
@@ -38,7 +29,8 @@ public struct DDateOfBirthCard: View {
             HStack(
                 spacing: 0
             ) {
-                DText("\(title) \(date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits).locale(Locale(identifier: "ru_RU"))))")
+                DText("\(title) \(date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits).locale(Locale(identifier: "ru_RU"))))"
+                )
                     .dStyle(
                         font: typography.linkSmall,
                     )
@@ -74,12 +66,9 @@ private extension DDateOfBirthCard {
 
     DThemeWrapperView {
         DDateOfBirthCard(
-            title: "Date of birth:",
-            ageLabel: "years old",
             date: date,
             action: {}
         )
         .padding()
-        .background(.red)
     }
 }

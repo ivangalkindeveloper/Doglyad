@@ -4,13 +4,13 @@ public struct DScreen<Content: View>: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     
-    let title: String?
+    let title: LocalizedStringResource?
     let backgroundColor: Color?
     let onTap: (() -> Void)?
     let content: () -> Content
     
     public init(
-        title: String? = nil,
+        title: LocalizedStringResource? = nil,
         backgroundColor: Color? = nil,
         onTap: (() -> Void)? = nil,
         @ViewBuilder content: @escaping () -> Content,
@@ -30,8 +30,8 @@ public struct DScreen<Content: View>: View {
                         .onTapGesture{ onTap() }
                 }
                 content()
-                    .background(backgroundColor ?? color.grayscaleBackgroundWeak)
             }
+            .background(backgroundColor ?? color.grayscaleBackgroundWeak)
         }
         .ifLet(title) { view, title in
             view.navigationTitle(title)

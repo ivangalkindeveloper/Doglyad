@@ -4,10 +4,32 @@ import Router
 
 @MainActor
 final class OnBoardingViewModel: ObservableObject {
-    var diagnosticRepository: DiagnosticsRepositoryProtocol?
-    var router: DRouter?
+    private var diagnosticRepository: DiagnosticsRepositoryProtocol
+    private var router: DRouter
+    
+    init(
+        diagnosticRepository: DiagnosticsRepositoryProtocol,
+        router: DRouter
+    ) {
+        self.diagnosticRepository = diagnosticRepository
+        self.router = router
+        self.page = page
+    }
     
     @Published var page: Page = .intro
+    
+    func buttonTitle(
+        _ page: OnBoardingViewModel.Page
+    ) -> LocalizedStringResource {
+        switch page {
+        case .intro:
+            .buttonNext
+        case .researchType:
+            .buttonSelectType
+        case .scan:
+            .buttonStart
+        }
+    }
     
     func onPressedNext() -> Void {
         switch page {
@@ -15,13 +37,13 @@ final class OnBoardingViewModel: ObservableObject {
             page = .researchType
             
         case .researchType:
-            router?.push(
+            router.push(
                 route: RouteSheet(
                     type: .selectResearchType,
                     arguments: SelectResearchTypeArguments(
                         onSelected: { [weak self] researchType in
                             self?.page = .scan
-                            self?.diagnosticRepository?.setSelectedResearchType(
+                            self?.diagnosticRepository.setSelectedResearchType(
                                 type: researchType
                             )
                         }
@@ -30,11 +52,11 @@ final class OnBoardingViewModel: ObservableObject {
             )
             
         case .scan:
-            diagnosticRepository?.setOnBoardingCompleted(
+            diagnosticRepository.setOnBoardingCompleted(
                 value: true
             )
             withAnimation {
-                router?.root(
+                router.root(
                     route: RouteScreen(
                         type: .scan
                     )

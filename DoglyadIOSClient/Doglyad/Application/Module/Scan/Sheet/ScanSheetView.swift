@@ -41,12 +41,9 @@ struct ScanSheetView: View {
             .padding(.bottom, size.s8)
             
             DDateOfBirthCard(
-                title: .scanDateOfBirthLabel,
-                ageLabel: .scanDateOfBirthAgeLabel,
                 date: viewModel.patientDateOfBirth,
-            ) {
-                viewModel.onPressedPatientDateOfBirth()
-            }
+                action: viewModel.onPressedPatientDateOfBirth
+            )
             .padding(.bottom, size.s8)
             
 //            AnyView(viewModel.scanStrategy.view)

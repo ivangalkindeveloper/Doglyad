@@ -33,7 +33,7 @@ struct SelectResearchTypeBottomSheet: View {
                 spacing: .zero
             ) {
                 ForEach(container.researchTypes) { type in
-                    DListCard(
+                    DListButtonCard(
                         title: .forResearchType(type),
                         action: {
                             router.dismissSheet()

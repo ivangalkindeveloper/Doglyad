@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct DListCard: View {
+public struct DListButtonCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -21,7 +21,7 @@ public struct DListCard: View {
     }
     
     public var body: some View {
-        DCard(
+        DButtonCard(
             action: action
         ) {
             HStack {
@@ -44,7 +44,7 @@ public struct DListCard: View {
 
 #Preview {
     DThemeWrapperView {
-        DListCard(
+        DListButtonCard(
             title: "Gland research",
             action: {
                 print("Gland")

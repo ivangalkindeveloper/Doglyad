@@ -7,15 +7,27 @@ import SwiftUI
 final class ScanScreenArguments: RouteArgumentsProtocol {}
 
 struct ScanScreen: View {
-    @EnvironmentObject var container: DependencyContainer
-    @EnvironmentObject var router: DRouter
-    @EnvironmentObject private var theme: DTheme
-    private var color: DColor { theme.color }
-    private var size: DSize { theme.size }
-    private var typography: DTypography { theme.typography }
-
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var router: DRouter
     let arguments: ScanScreenArguments?
-    @StateObject private var viewModel = ScanViewModel()
+    
+    var body: some View {
+        ScanScreenView(
+            viewModel: ScanViewModel(
+                diagnosticRepository: container.diagnosticsRepository,
+                router: router
+            )
+        )
+    }
+}
+
+private struct ScanScreenView: View {
+    @EnvironmentObject var theme: DTheme
+    var color: DColor { theme.color }
+    var size: DSize { theme.size }
+    var typography: DTypography { theme.typography }
+
+    @StateObject var viewModel: ScanViewModel
 
     var body: some View {
         DScreen(
@@ -109,12 +121,6 @@ struct ScanScreen: View {
         .onChange(of: viewModel.sheetController.currentPosition, initial: true) {
             viewModel.onChangeSheetForCamera()
         }
-        .onAppear {
-            viewModel.onAppear(
-                container: container,
-                router: router
-            )
-        }
         .onDisappear {
             viewModel.onDisappear()
         }
@@ -125,13 +131,3 @@ struct ScanScreen: View {
         .environmentObject(viewModel)
     }
 }
-
-// #Preview {
-//    ApplicationWrapperView {
-//        DThemeWrapperView {
-//            ScanScreen(
-//                arguments: nil
-//            )
-//        }
-//    }
-// }

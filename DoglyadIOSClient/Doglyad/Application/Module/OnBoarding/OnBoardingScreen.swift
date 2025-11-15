@@ -3,16 +3,28 @@ import Router
 import DoglyadUI
 
 final class OnBoardingScreenArguments: RouteArgumentsProtocol {}
-    
+
 struct OnBoardingScreen: View {
-    @EnvironmentObject var container: DependencyContainer
-    @EnvironmentObject var router: DRouter
-    @EnvironmentObject private var theme: DTheme
-    private var size: DSize { theme.size }
-    private var typography: DTypography { theme.typography }
-    
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var router: DRouter
     let arguments: OnBoardingScreenArguments?
-    @StateObject private var viewModel = OnBoardingViewModel()
+    
+    var body: some View {
+        OnBoardingScreenView(
+            viewModel: OnBoardingViewModel(
+                diagnosticRepository: container.diagnosticsRepository,
+                router: router
+            )
+        )
+    }
+}
+    
+private struct OnBoardingScreenView: View {
+    @EnvironmentObject var theme: DTheme
+    var size: DSize { theme.size }
+    var typography: DTypography { theme.typography }
+    
+    @StateObject var viewModel: OnBoardingViewModel
     
     var body: some View {
         DScreen {
@@ -31,15 +43,15 @@ struct OnBoardingScreen: View {
                 TabView(
                     selection: $viewModel.page
                 ) {
-                    Page(
+                    OnBoardingScreenPage(
                         description: .onBoardingIntroDescription,
                         tag: .intro
                     )
-                    Page(
+                    OnBoardingScreenPage(
                         description: .onBoardingResearchTypeDescription,
                         tag: .researchType
                     )
-                    Page(
+                    OnBoardingScreenPage(
                         description: .onBoardingScanDescription,
                         tag: .scan
                     )
@@ -51,39 +63,20 @@ struct OnBoardingScreen: View {
                 .padding(.bottom, size.s16)
                 
                 DButton(
-                    title: title(viewModel.page),
+                    title: viewModel.buttonTitle(viewModel.page),
                     action: viewModel.onPressedNext
                 )
                 .dStyle(.primaryButton)
                 .padding(size.s16)
             }
         }
-        .onAppear {
-            viewModel.diagnosticRepository = container.diagnosticsRepository
-            viewModel.router = router
-        }
     }
 }
 
-private extension OnBoardingScreen {
-    func title(
-        _ page: OnBoardingViewModel.Page
-    ) -> LocalizedStringResource {
-        switch page {
-        case .intro:
-            .buttonNext
-        case .researchType:
-            .buttonSelectType
-        case .scan:
-            .buttonStart
-        }
-    }
-}
-
-private struct Page: View {
-    @EnvironmentObject private var theme: DTheme
-    private var size: DSize { theme.size }
-    private var typography: DTypography { theme.typography }
+private struct OnBoardingScreenPage: View {
+    @EnvironmentObject var theme: DTheme
+    var size: DSize { theme.size }
+    var typography: DTypography { theme.typography }
     
     let description: LocalizedStringResource
     let tag: OnBoardingViewModel.Page
@@ -101,16 +94,9 @@ private struct Page: View {
     }
 }
 
-//#Preview {
-//    ApplicationWrapperView {
-//        DependencyWrapperView(
-//            dependencyContainer:
-//        ) {
-//            DThemeWrapperView {
-//                OnBoardingScreen(
-//                    arguments: nil
-//                )
-//            }
-//        }
-//    }
-//}
+#Preview {
+    PreviewWrapperView(
+        screenType: .onBoarding,
+        arguments: nil
+    )
+}

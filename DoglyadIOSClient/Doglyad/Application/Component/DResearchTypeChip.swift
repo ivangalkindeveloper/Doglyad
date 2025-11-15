@@ -1,4 +1,5 @@
 import SwiftUI
+import DoglyadUI
 
 struct DResearchTypeChip: View {
     let title: LocalizedStringResource

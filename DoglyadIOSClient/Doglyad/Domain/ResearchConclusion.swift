@@ -1,14 +1,15 @@
 import Foundation
 
-struct ResearchConclusion {
-    let timestamp: Date
-    let researchType: String
-    let photos: [ScanPhoto]
+struct ResearchConclusion: Identifiable {
+    let id = UUID()
+    let date: Date
+    let researchType: ResearchType
+    let photos: [ResearchScanPhoto]
     let patientName: String
     let patientGender: PatientGender
     let patientDateOfBirth: Date
-    let scanData: String
+    let scanDescription: String
     let patientComplaint: String?
     let additionalMedicalData: String?
-    let modelConclusions: [ModelConclusion]
+    let modelConclusions: [ResearchModelConclusion]
 }

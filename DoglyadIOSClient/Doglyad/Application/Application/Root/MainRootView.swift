@@ -11,7 +11,8 @@ struct MainRootView: View {
             RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
                 builder: RouterBuilder(),
                 initialRouteScreen: RouteScreen<ScreenType>(
-                    type: dependencyContainer.initialScreen
+                    type: dependencyContainer.initialScreen,
+                    arguments: dependencyContainer.initialScreenArguments
                 )
             )
         }

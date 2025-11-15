@@ -1,3 +1,23 @@
 import Foundation
 
-final class ConclusionViewModel: ObservableObject {}
+@MainActor
+final class ConclusionViewModel: ObservableObject {
+    private var diagnosticRepository: DiagnosticsRepositoryProtocol
+    private var router: DRouter
+    
+    init(
+        diagnosticRepository: DiagnosticsRepositoryProtocol,
+        router: DRouter,
+        initialConclusion: ResearchConclusion
+    ) {
+        self.diagnosticRepository = diagnosticRepository
+        self.router = router
+        self._conclusion = .init(initialValue: initialConclusion)
+    }
+    
+    @Published var conclusion: ResearchConclusion
+    
+    func onPressedShare() -> Void {}
+    
+    func onPressedRepeatScan() -> Void {}
+}

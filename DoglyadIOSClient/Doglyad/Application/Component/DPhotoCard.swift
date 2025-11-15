@@ -1,4 +1,5 @@
 import SwiftUI
+import DoglyadUI
 
 public struct DPhotoCard: View {
     @EnvironmentObject private var theme: DTheme

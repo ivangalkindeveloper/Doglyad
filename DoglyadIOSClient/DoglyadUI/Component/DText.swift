@@ -1,16 +1,30 @@
 import SwiftUI
 
 public struct DText: View {
-    let data: LocalizedStringResource
+    let data: LocalizedStringResource?
+    let label: String?
     
     public init(
         _ data: LocalizedStringResource,
     ) {
         self.data = data
+        self.label = nil
+    }
+    
+    public init(
+        _ label: String,
+    ) {
+        self.data = nil
+        self.label = label
     }
     
     public var body: some View {
-        Text(data)
+        if let data = self.data {
+            Text(data)
+        }
+        if let label = self.label {
+            Text(label)
+        }
     }
 }
 

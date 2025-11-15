@@ -25,7 +25,7 @@ final class RouterBuilder: RouterBuilderProtocol {
             ))
         case .conclusion:
             AnyView(ConclusionScreen(
-                arguments: route.arguments as? ConclusionScreenArguments
+                arguments: route.arguments as! ConclusionScreenArguments
             ))
         }
     }

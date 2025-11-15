@@ -2,12 +2,12 @@ import Foundation
 
 struct ResearchData {
     let timestamp: Date
-    let researchType: String
-    let photos: [ScanPhoto]
+    let researchType: ResearchType
+    let photos: [ResearchScanPhoto]
     let patientName: String
     let patientGender: PatientGender
     let patientDateOfBirth: Date
-    let scanData: String
+    let scanDescription: String
     let patientComplaint: String?
     let additionalMedicalData: String?
 }

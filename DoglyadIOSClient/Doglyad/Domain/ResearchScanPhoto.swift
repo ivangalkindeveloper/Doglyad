@@ -1,6 +1,6 @@
 import UIKit
 
-struct ScanPhoto: Identifiable, Equatable {
+struct ResearchScanPhoto: Identifiable, Equatable {
     let id = UUID()
     let image: UIImage
 }

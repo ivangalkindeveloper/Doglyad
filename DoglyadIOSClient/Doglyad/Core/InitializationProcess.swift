@@ -3,13 +3,14 @@ import SwiftData
 import DependencyInitializer
 import AVFoundation
 import DoglyadDB
+import Router
 
 @MainActor
 final class InitializationProcess: DependencyInitializationProcess {
     typealias T = DependencyContainer
     
     var environment: EnvironmentProtocol?
-    
+
     var connectionManager: ConnectionManagerProtocol?
     var permissionmanager: PermissionManagerProtocol?
     
@@ -20,6 +21,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var researchTypes: [ResearchType]?
     
     var initialScreen: ScreenType?
+    var initialScreenArguments: RouteArgumentsProtocol?
     
     var toContainer: DependencyContainer {
         get {
@@ -28,6 +30,7 @@ final class InitializationProcess: DependencyInitializationProcess {
                 diagnosticsRepository: self.diagnosticsRepository!,
                 researchTypes: self.researchTypes!,
                 initialScreen: self.initialScreen!,
+                initialScreenArguments: self.initialScreenArguments,
             )
         }
     }
@@ -105,6 +108,7 @@ extension InitializationProcess {
                 } else {
                     process.initialScreen = .onBoarding
                 }
+                process.initialScreenArguments = nil
             }
         ),
     ]
