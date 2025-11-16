@@ -31,6 +31,14 @@ extension LocalizedStringResource {
         switch type {
         case ResearchType.thyroidGland:
                 .researchTypeThyroidGland
+        case ResearchType.abdominalCavity:
+                .researchTypeAbdominalCavity
+        case ResearchType.kidneysAdrenalGlandsAndRetroperitonealSpace:
+                .researchTypeKidneysAdrenalGlandsAndRetroperitonealSpace
+        case ResearchType.bladder:
+                .researchTypeBladder
+        default:
+                .researchTypeThyroidGland
         }
     }
     
@@ -43,5 +51,16 @@ extension LocalizedStringResource {
         case PatientGender.female:
                 .scanGenderFemaleLabel
         }
+    }
+}
+
+extension Date {
+    func localized(
+        locale: Locale = .current
+    ) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = locale
+        formatter.dateStyle = .short
+        return formatter.string(from: self)
     }
 }

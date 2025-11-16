@@ -37,11 +37,9 @@ struct SelectDateOfBirthBottomSheet: View {
     }
     
     var body: some View {
-
-        
         DBottomSheet(
             title: .selectDateOfBirthTitle,
-            fraction: 0.5,
+            fraction: 0.4,
         ) {
             VStack(
                 spacing: .zero

@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import DoglyadUI
 
-public struct DateOfBirthCard: View {
+struct DateOfBirthCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -11,7 +11,7 @@ public struct DateOfBirthCard: View {
     let date: Date
     let action: () -> Void
 
-    public init(
+    init(
         date: Date,
         action: @escaping () -> Void
     ) {
@@ -19,14 +19,14 @@ public struct DateOfBirthCard: View {
         self.action = action
     }
 
-    public var body: some View {
+    var body: some View {
         Button(
             action: action
         ) {
             HStack(
                 spacing: 0
             ) {
-                DText("\(String(localized: .scanDateOfBirthLabel)): \(ageDate())")
+                DText("\(String(localized: .scanDateOfBirthLabel)): \(date.localized())")
                     .dStyle(
                         font: typography.linkSmall,
                     )
@@ -44,11 +44,7 @@ public struct DateOfBirthCard: View {
     }
 }
 
-private extension DateOfBirthCard {
-    func ageDate() -> String {
-        date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.defaultDigits).locale(Locale(identifier: "ru_RU")))
-    }
-    
+private extension DateOfBirthCard {    
     func ageCount() -> Int {
         let calendar = Calendar.current
         return calendar.dateComponents([.year], from: date, to: Date()).year!

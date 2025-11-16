@@ -35,170 +35,163 @@ private struct ConclusionScreenView: View {
     var typography: DTypography { theme.typography }
     
     @StateObject var viewModel: ConclusionViewModel
+    var conclusion: ResearchConclusion {
+        viewModel.conclusion
+    }
     
     var body: some View {
         DScreen(
-            title: .conslusionTitle,
+            title: .conclusionTitle,
+            subTitle: "\(conclusion.patientName), \(conclusion.date.localized())",
+            onTapBack: viewModel.onTapBack
         ) {
-            ScrollView(
-                showsIndicators: false
-            ) {
-                VStack(
-                    alignment: .leading,
-                    spacing: .zero
+            ScrollViewReader { proxy in
+                ScrollView(
+                    showsIndicators: false
                 ) {
-                    DText(.forResearchType(viewModel.conclusion.researchType))
-                        .dStyle(
-                            font: typography.linkLarge
-                        )
-                        .padding(.horizontal, size.s16)
-                        .padding(.bottom, size.s16)
-                    
-                    ScrollView(
-                        .horizontal,
-                        showsIndicators: false
-                    ) {
-                        HStack(
-                            spacing: .zero
-                        ) {
-                            ForEach(viewModel.conclusion.photos) { photo in
-                                PhotoCard(
-                                    image: photo.image,
-                                )
-                            }
-                            .padding([.horizontal], size.s2)
-                        }
-                        .padding([.horizontal], size.s14)
-                    }
-                    .padding(.bottom, size.s16)
-                    
                     VStack(
                         alignment: .leading,
                         spacing: .zero
                     ) {
-                        DText(.scanDateLabel)
-                            .dStyle(
-                                font: typography.linkSmall,
-                                color: color.grayscalePlaceholder
-                            )
-                        DText(viewModel.conclusion.date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.defaultDigits).locale(Locale(identifier: "ru_RU"))))
-                            .dStyle(
-                                font: typography.textSmall,
-                            )
-                            .padding(.bottom, size.s8)
-                        
-                        DText(.scanPatientName)
-                            .dStyle(
-                                font: typography.linkSmall,
-                                color: color.grayscalePlaceholder
-                            )
-                        DText(viewModel.conclusion.patientName)
-                            .dStyle(
-                                font: typography.textSmall,
-                            )
-                            .padding(.bottom, size.s8)
-                        
-                        DText(.scanGenderLabel)
-                            .dStyle(
-                                font: typography.linkSmall,
-                                color: color.grayscalePlaceholder
-                            )
-                        DText(.forGender(viewModel.conclusion.patientGender))
-                            .dStyle(
-                                font: typography.textSmall,
-                            )
-                            .padding(.bottom, size.s8)
-                        
-                        DText(.scanDateOfBirthLabel)
-                            .dStyle(
-                                font: typography.linkSmall,
-                                color: color.grayscalePlaceholder
-                            )
-                        DText(viewModel.conclusion.patientDateOfBirth.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.defaultDigits).locale(Locale(identifier: "ru_RU"))))
-                            .dStyle(
-                                font: typography.textSmall,
-                            )
-                            .padding(.bottom, size.s8)
-                        
-                        DText(.scanResearchDescription)
-                            .dStyle(
-                                font: typography.linkSmall,
-                                color: color.grayscalePlaceholder
-                            )
-                        ExpandableCard(
-                            collapsedHeight: size.s64,
-                            gradientColor: color.grayscaleBackgroundWeak,
-                        ) {
-                            DText(viewModel.conclusion.scanDescription + viewModel.conclusion.scanDescription)
-                                .dStyle(
-                                    font: typography.textSmall,
-                                )
-                        }
-                        .padding(.bottom, size.s8)
-                        
-                        if let patientComplaint = viewModel.conclusion.patientComplaint {
-                            DText(.scanPatientComplaint)
-                                .dStyle(
-                                    font: typography.linkSmall,
-                                    color: color.grayscalePlaceholder
-                                )
-                            ExpandableCard(
-                                collapsedHeight: size.s64,
-                                gradientColor: color.grayscaleBackgroundWeak,
-                            ) {
-                                DText(patientComplaint)
-                                    .dStyle(
-                                        font: typography.textSmall,
-                                    )
-                            }
-                            .padding(.bottom, size.s8)
-                        }
-                        
-                        if let additionalMedicalData = viewModel.conclusion.additionalMedicalData {
-                            DText(.scanAdditionalMedicalData)
-                                .dStyle(
-                                    font: typography.linkSmall,
-                                    color: color.grayscalePlaceholder
-                                )
-                            ExpandableCard(
-                                collapsedHeight: size.s64,
-                                gradientColor: color.grayscaleBackgroundWeak,
-                            ) {
-                                DText(additionalMedicalData)
-                                    .dStyle(
-                                        font: typography.textSmall,
-                                    )
-                            }
-                            .padding(.bottom, size.s8)
-                        }
-                        
-                        DText(.conclusionModelReponsesTitle)
+                        DText(.forResearchType(conclusion.researchType))
                             .dStyle(
                                 font: typography.linkLarge
                             )
-                            .padding(.top, size.s8)
-                            .padding(.bottom, size.s16)
-
-                        ForEach(viewModel.conclusion.modelConclusions) { modelConclusion in
-                            ModelConclusionCard(
-                                conclusion: modelConclusion
+                            .padding(size.s16)
+                            .padding(.horizontal, size.s8)
+                        
+                        ConclusionPhotosView()
+                        
+                        VStack(
+                            alignment: .leading,
+                            spacing: .zero
+                        ) {
+                            DText(.scanResearchDateLabel)
+                                .dStyle(
+                                    font: typography.linkSmall,
+                                    color: color.grayscalePlaceholder
+                                )
+                            DText(conclusion.date.localized())
+                                .dStyle(
+                                    font: typography.textSmall,
+                                )
+                                .padding(.bottom, size.s8)
+                            
+                            DText(.scanPatientName)
+                                .dStyle(
+                                    font: typography.linkSmall,
+                                    color: color.grayscalePlaceholder
+                                )
+                            DText(conclusion.patientName)
+                                .dStyle(
+                                    font: typography.textSmall,
+                                )
+                                .padding(.bottom, size.s8)
+                            
+                            DText(.scanGenderLabel)
+                                .dStyle(
+                                    font: typography.linkSmall,
+                                    color: color.grayscalePlaceholder
+                                )
+                            DText(.forGender(conclusion.patientGender))
+                                .dStyle(
+                                    font: typography.textSmall,
+                                )
+                                .padding(.bottom, size.s8)
+                            
+                            DText(.scanDateOfBirthLabel)
+                                .dStyle(
+                                    font: typography.linkSmall,
+                                    color: color.grayscalePlaceholder
+                                )
+                            DText(conclusion.patientDateOfBirth.localized())
+                                .dStyle(
+                                    font: typography.textSmall,
+                                )
+                                .padding(.bottom, size.s8)
+                            
+                            DText(.scanResearchDescription)
+                                .dStyle(
+                                    font: typography.linkSmall,
+                                    color: color.grayscalePlaceholder
+                                )
+                            ExpandableText(
+                                text: conclusion.scanDescription,
+                                backgroundColor: color.grayscaleBackgroundWeak
                             )
                             .padding(.bottom, size.s8)
+                            
+                            if let patientComplaint = conclusion.patientComplaint {
+                                DText(.scanPatientComplaint)
+                                    .dStyle(
+                                        font: typography.linkSmall,
+                                        color: color.grayscalePlaceholder
+                                    )
+                                ExpandableText(
+                                    text: patientComplaint,
+                                    backgroundColor: color.grayscaleBackgroundWeak,
+                                )
+                                .padding(.bottom, size.s8)
+                            }
+                            
+                            if let additionalMedicalData = conclusion.additionalMedicalData {
+                                DText(.scanAdditionalMedicalData)
+                                    .dStyle(
+                                        font: typography.linkSmall,
+                                        color: color.grayscalePlaceholder
+                                    )
+                                ExpandableText(
+                                    text: additionalMedicalData,
+                                    backgroundColor: color.grayscaleBackgroundWeak,
+                                )
+                                .padding(.bottom, size.s8)
+                            }
+                            
+                            DText(.conclusionActualModelReponseTitle)
+                                .dStyle(
+                                    font: typography.linkLarge
+                                )
+                                .padding(.top, size.s16)
+                                .padding(.horizontal, size.s8)
+                                .padding(.bottom, size.s16)
+                            ModelConclusionCard(
+                                conclusion: conclusion.actualModelConclusion
+                            )
+                            .padding(.bottom, size.s16)
+                            
+                            DButton(
+                                image: .refresh,
+                                title: .buttonRepeatScan,
+                                action: {
+                                    viewModel.onTapRepeatScan(proxy: proxy)
+                                }
+                            )
+                            .dStyle(.primaryButton)
+                            .padding(.bottom, size.s16)
+                            
+                            if !conclusion.previosModelConclusions.isEmpty {
+                                DText(.conclusionPreviosModelResponsesTitle)
+                                    .dStyle(
+                                        font: typography.linkLarge
+                                    )
+                                    .padding(.top, size.s8)
+                                    .padding(.horizontal, size.s8)
+                                    .padding(.bottom, size.s16)
+                                ForEach(conclusion.previosModelConclusions) { modelConclusion in
+                                    ModelConclusionCard(
+                                        conclusion: modelConclusion
+                                    )
+                                    .padding(.bottom, size.s8)
+                                }
+                            }
                         }
-                        
-                        DButton(
-                            image: .refresh,
-                            title: .buttonRepeatScan,
-                            action: viewModel.onPressedRepeatScan
-                        )
-                        .dStyle(.primaryButton)
-                        .padding(.top, size.s8)
+                        .padding(.horizontal, size.s16)
+                        .padding(.bottom, size.s128)
                     }
-                    .padding(.horizontal, size.s16)
-                    .padding(.bottom, size.s128)
                 }
             }
         }
+        .environmentObject(viewModel)
     }
 }
 
@@ -236,7 +229,17 @@ private struct ConclusionScreenView: View {
                 Качество изображения стабильное на протяжении всего исследования.
                 Архивирование изображения выполнено автоматически.
                 """,
-                modelConclusions: [
+                actualModelConclusion: ResearchModelConclusion(
+                    date: Date(),
+                    description: """
+                    Признаков узловых или кистозных изменений щитовидной железы не выявлено.
+                    Размеры органа в пределах возрастной нормы.
+                    Эхоструктура паренхимы сохранена, патологических включений нет.
+                    Данных за воспалительный процесс не получено.
+                    УЗ-картина соответствует норме.
+                    """
+                ),
+                previosModelConclusions: [
                     ResearchModelConclusion(
                         date: Date(),
                         description: """

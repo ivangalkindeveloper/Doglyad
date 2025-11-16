@@ -32,9 +32,7 @@ private struct OnBoardingScreenView: View {
                 alignment: .leading,
                 spacing: .zero,
             ) {
-                DText(
-                    .onBoardingTitle,
-                )
+                DText(.onBoardingTitle)
                 .dStyle(
                     font: typography.displayLargeBold,
                 )

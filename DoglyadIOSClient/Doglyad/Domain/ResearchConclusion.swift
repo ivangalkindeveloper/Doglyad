@@ -11,5 +11,6 @@ struct ResearchConclusion: Identifiable {
     let scanDescription: String
     let patientComplaint: String?
     let additionalMedicalData: String?
-    let modelConclusions: [ResearchModelConclusion]
+    let actualModelConclusion: ResearchModelConclusion
+    let previosModelConclusions: [ResearchModelConclusion]
 }

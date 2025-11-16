@@ -93,9 +93,7 @@ extension InitializationProcess {
         InitializationStep<InitializationProcess>(
             title: "Research types",
             run: { process in
-                process.researchTypes = [
-                    .thyroidGland
-                ]
+                process.researchTypes = ResearchType.allCases
             }
         ),
         InitializationStep<InitializationProcess>(

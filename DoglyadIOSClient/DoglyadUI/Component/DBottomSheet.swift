@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct DBottomSheet<Content: View>: View {
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -24,27 +25,48 @@ public struct DBottomSheet<Content: View>: View {
         VStack(
             spacing: .zero
         ) {
-            Capsule()
-                .fill(color.grayscaleLine)
-                .frame(
-                    width: 36,
-                    height: 5
-                )
-                .padding(size.s8)
-            
-            DText(String(localized: title))
-                .dStyle(
-                    font: typography.linkSmall
-                )
-                .padding([.trailing, .leading, .bottom], size.s16)
-            
-            Spacer()
+            HStack {
+                Color.clear
+                    .frame(
+                        width: 22,
+                        height: .zero
+                    )
+                Spacer()
+                DText(title)
+                    .dStyle(
+                        font: typography.linkSmall
+                    )
+                    .padding(size.s16)
+                Spacer()
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 22))
+                        .foregroundStyle(color.grayscaleLine)
+                }
+            }
+            .padding(.top, size.s8)
+            .padding(.horizontal, size.s16)
+
             content()
-            Spacer()
         }
+        .ignoresSafeArea()
         .presentationBackground(color.grayscaleBackgroundWeak)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(size.s32)
         .presentationDetents([.fraction(fraction)])
     }
+}
+
+
+#Preview {
+    DThemeWrapperView {
+        DBottomSheet(
+            title: "Some title"
+        ) {
+            
+        }
+    }
+    .background(Color.gray)
 }

@@ -131,3 +131,5 @@ private struct ScanScreenView: View {
         .environmentObject(viewModel)
     }
 }
+
+

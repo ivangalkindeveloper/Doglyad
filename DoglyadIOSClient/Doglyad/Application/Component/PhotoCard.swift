@@ -1,7 +1,7 @@
 import DoglyadUI
 import SwiftUI
 
-public struct PhotoCard: View {
+struct PhotoCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -10,7 +10,7 @@ public struct PhotoCard: View {
     let image: UIImage
     let actionDelete: (() -> Void)?
 
-    public init(
+    init(
         image: UIImage,
         actionDelete: (() -> Void)? = nil
     ) {
@@ -18,7 +18,7 @@ public struct PhotoCard: View {
         self.actionDelete = actionDelete
     }
 
-    public var body: some View {
+    var body: some View {
         Image(uiImage: image)
             .resizable()
             .frame(

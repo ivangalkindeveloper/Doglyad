@@ -10,43 +10,36 @@ struct ModelConclusionCard: View {
     let conclusion: ResearchModelConclusion
 
     var body: some View {
-        ExpandableCard(
-            collapsedHeight: size.s128,
-            gradientColor: color.grayscaleBackground
+        VStack(
+            alignment: .leading,
+            spacing: .zero
         ) {
-            VStack(
-                alignment: .leading,
+            DText(.conclusionModelResponseLabel)
+                .dStyle(
+                    font: typography.linkSmall,
+                )
+
+            HStack(
+                alignment: .bottom,
                 spacing: .zero
             ) {
-                DText(.conclusionModelResponseLabel)
-                    .dStyle(
-                        font: typography.linkSmall,
-                    )
-
-                HStack(
-                    alignment: .bottom,
-                    spacing: .zero
-                ) {
-                    DText(.scanDateLabel)
-                        .dStyle(
-                            font: typography.textSmall,
-                        )
-                        .padding(.trailing, size.s4)
-
-                    DText(
-                        conclusion.date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits).hour().minute().second().locale(Locale(identifier: "ru_RU")))
-                    )
-                    .dStyle(
-                        font: typography.linkSmall,
-                    )
-                }
-                .padding(.bottom, size.s8)
-
-                DText(conclusion.description)
+                DText(.conclusionResponseDateLabel)
                     .dStyle(
                         font: typography.textSmall,
                     )
+                    .padding(.trailing, size.s4)
+
+                DText(conclusion.date.localized())
+                .dStyle(
+                    font: typography.linkSmall,
+                )
             }
+            .padding(.bottom, size.s8)
+
+            ExpandableText(
+                text: conclusion.description,
+                backgroundColor: color.grayscaleBackground
+            )
         }
         .padding(size.s16)
         .background(color.grayscaleBackground)

@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 @MainActor
 final class ConclusionViewModel: ObservableObject {
@@ -17,7 +17,13 @@ final class ConclusionViewModel: ObservableObject {
     
     @Published var conclusion: ResearchConclusion
     
-    func onPressedShare() -> Void {}
+    func onTapBack() -> Void {
+        router.pop()
+    }
     
-    func onPressedRepeatScan() -> Void {}
+    func onTapShare() -> Void {}
+    
+    func onTapRepeatScan(
+        proxy: ScrollViewProxy
+    ) -> Void {}
 }

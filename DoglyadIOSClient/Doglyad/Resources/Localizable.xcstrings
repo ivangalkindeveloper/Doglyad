@@ -205,19 +205,19 @@
         }
       }
     },
-    "conclusionModelReponsesTitle" : {
+    "conclusionActualModelReponseTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Model responses"
+            "value" : "Actual response"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ответы модели"
+            "value" : "Актуальный ответ"
           }
         }
       }
@@ -239,7 +239,41 @@
         }
       }
     },
-    "conslusionTitle" : {
+    "conclusionPreviosModelResponsesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous responses"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предыдущие ответы"
+          }
+        }
+      }
+    },
+    "conclusionResponseDateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Response date"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата ответа"
+          }
+        }
+      }
+    },
+    "conclusionTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -358,6 +392,23 @@
         }
       }
     },
+    "historyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History of research"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История исследований"
+          }
+        }
+      }
+    },
     "onBoardingIntroDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -426,6 +477,40 @@
         }
       }
     },
+    "researchTypeAbdominalCavity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abdominal cavity"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Брюшная полость"
+          }
+        }
+      }
+    },
+    "researchTypeBladder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bladder"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мочевой пузырь"
+          }
+        }
+      }
+    },
     "researchTypeFutureAddingDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -439,6 +524,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях"
+          }
+        }
+      }
+    },
+    "researchTypeKidneysAdrenalGlandsAndRetroperitonealSpace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kidneys, adrenal glands, and retroperitoneal space"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почки, надпочечники и забрюшинное пространство"
           }
         }
       }
@@ -524,23 +626,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Поместите изображение исследования в рамку и сфотографируйте его для дальнейшего сканирования"
-          }
-        }
-      }
-    },
-    "scanDateLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Date"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дата"
           }
         }
       }
@@ -711,6 +796,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Пациент#1"
+          }
+        }
+      }
+    },
+    "scanResearchDateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Research date"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата исследования"
           }
         }
       }

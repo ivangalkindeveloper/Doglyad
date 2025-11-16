@@ -28,32 +28,39 @@ struct SelectResearchTypeBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: .researchTypeTitle,
+            fraction: 0.5
         ) {
-            VStack(
-                spacing: .zero
+            ScrollView(
+                showsIndicators: false
             ) {
-                ForEach(container.researchTypes) { type in
-                    DListButtonCard(
-                        title: .forResearchType(type),
-                        action: {
-                            router.dismissSheet()
-                            arguments?.onSelected(type)
-                        },
-                        isSelected: arguments?.currentValue == type
+                VStack(
+                    spacing: .zero
+                ) {
+                    ForEach(container.researchTypes) { type in
+                        DListButtonCard(
+                            title: .forResearchType(type),
+                            action: {
+                                router.dismissSheet()
+                                arguments?.onSelected(type)
+                            },
+                            isSelected: arguments?.currentValue == type
+                        )
+                    }
+                    .padding(.bottom, size.s4)
+                    
+                    DText(
+                        .researchTypeFutureAddingDescription
                     )
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscalePlaceholder,
+                        alignment: .center
+                    )
+                    .padding(.top, size.s12)
+                    .padding(.bottom, size.s32)
                 }
-                .padding(.bottom, size.s16)
-                
-                DText(
-                    .researchTypeFutureAddingDescription
-                )
-                .dStyle(
-                    font: typography.textSmall,
-                    color: color.grayscalePlaceholder,
-                    alignment: .center
-                )
+                .padding(size.s16)
             }
-            .padding(size.s16)
         }
     }
 }

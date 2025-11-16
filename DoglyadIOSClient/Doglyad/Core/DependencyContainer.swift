@@ -15,7 +15,7 @@ final class DependencyContainer: ObservableObject {
         return DependencyContainer(
             environment: environment,
             diagnosticsRepository: diagnosticsRepository,
-            researchTypes: [.thyroidGland],
+            researchTypes: ResearchType.allCases,
             initialScreen: screenType,
             initialScreenArguments: arguments
         )
