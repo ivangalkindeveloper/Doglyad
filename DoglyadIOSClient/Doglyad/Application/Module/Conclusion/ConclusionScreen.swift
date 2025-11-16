@@ -47,16 +47,35 @@ private struct ConclusionScreenView: View {
                     alignment: .leading,
                     spacing: .zero
                 ) {
+                    DText(.forResearchType(viewModel.conclusion.researchType))
+                        .dStyle(
+                            font: typography.linkLarge
+                        )
+                        .padding(.horizontal, size.s16)
+                        .padding(.bottom, size.s16)
+                    
+                    ScrollView(
+                        .horizontal,
+                        showsIndicators: false
+                    ) {
+                        HStack(
+                            spacing: .zero
+                        ) {
+                            ForEach(viewModel.conclusion.photos) { photo in
+                                PhotoCard(
+                                    image: photo.image,
+                                )
+                            }
+                            .padding([.horizontal], size.s2)
+                        }
+                        .padding([.horizontal], size.s14)
+                    }
+                    .padding(.bottom, size.s16)
+                    
                     VStack(
                         alignment: .leading,
                         spacing: .zero
                     ) {
-                        DText(.forResearchType(viewModel.conclusion.researchType))
-                            .dStyle(
-                                font: typography.linkLarge
-                            )
-                            .padding(.bottom, size.s16)
-                        
                         DText(.scanDateLabel)
                             .dStyle(
                                 font: typography.linkSmall,
@@ -107,6 +126,7 @@ private struct ConclusionScreenView: View {
                                 color: color.grayscalePlaceholder
                             )
                         ExpandableCard(
+                            collapsedHeight: size.s64,
                             gradientColor: color.grayscaleBackgroundWeak,
                         ) {
                             DText(viewModel.conclusion.scanDescription + viewModel.conclusion.scanDescription)
@@ -123,6 +143,7 @@ private struct ConclusionScreenView: View {
                                     color: color.grayscalePlaceholder
                                 )
                             ExpandableCard(
+                                collapsedHeight: size.s64,
                                 gradientColor: color.grayscaleBackgroundWeak,
                             ) {
                                 DText(patientComplaint)
@@ -132,6 +153,7 @@ private struct ConclusionScreenView: View {
                             }
                             .padding(.bottom, size.s8)
                         }
+                        
                         if let additionalMedicalData = viewModel.conclusion.additionalMedicalData {
                             DText(.scanAdditionalMedicalData)
                                 .dStyle(
@@ -139,6 +161,7 @@ private struct ConclusionScreenView: View {
                                     color: color.grayscalePlaceholder
                                 )
                             ExpandableCard(
+                                collapsedHeight: size.s64,
                                 gradientColor: color.grayscaleBackgroundWeak,
                             ) {
                                 DText(additionalMedicalData)
@@ -148,32 +171,32 @@ private struct ConclusionScreenView: View {
                             }
                             .padding(.bottom, size.s8)
                         }
-                    }
-                    .padding(.bottom, size.s16)
-                    
-                    DText(.conclusionModelReponsesTitle)
-                        .dStyle(
-                            font: typography.linkLarge
-                        )
-                        .padding(.bottom, size.s16)
+                        
+                        DText(.conclusionModelReponsesTitle)
+                            .dStyle(
+                                font: typography.linkLarge
+                            )
+                            .padding(.top, size.s8)
+                            .padding(.bottom, size.s16)
 
-                    ForEach(viewModel.conclusion.modelConclusions) { modelConclusion in
-                        ModelConclusionCard(
-                            conclusion: modelConclusion
+                        ForEach(viewModel.conclusion.modelConclusions) { modelConclusion in
+                            ModelConclusionCard(
+                                conclusion: modelConclusion
+                            )
+                            .padding(.bottom, size.s8)
+                        }
+                        
+                        DButton(
+                            image: .refresh,
+                            title: .buttonRepeatScan,
+                            action: viewModel.onPressedRepeatScan
                         )
-                        .padding(.bottom, size.s8)
+                        .dStyle(.primaryButton)
+                        .padding(.top, size.s8)
                     }
-                    
-                    DButton(
-                        image: .refresh,
-                        title: .buttonRepeatScan,
-                        action: viewModel.onPressedRepeatScan
-                    )
-                    .dStyle(.primaryButton)
-                    .padding(.top, size.s8)
+                    .padding(.horizontal, size.s16)
                     .padding(.bottom, size.s128)
                 }
-                .padding(size.s16)
             }
         }
     }

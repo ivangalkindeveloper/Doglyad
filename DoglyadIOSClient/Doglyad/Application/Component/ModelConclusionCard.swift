@@ -11,6 +11,7 @@ struct ModelConclusionCard: View {
 
     var body: some View {
         ExpandableCard(
+            collapsedHeight: size.s128,
             gradientColor: color.grayscaleBackground
         ) {
             VStack(

@@ -7,6 +7,7 @@ struct ExpandableCard<Content: View>: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     
+    let collapsedHeight: Double
     let gradientColor: Color
     let content: () -> Content
     
@@ -14,9 +15,6 @@ struct ExpandableCard<Content: View>: View {
     @State private var contentHeight: CGFloat = 0
     private var isNeedsExpansion: Bool {
         contentHeight >= collapsedHeight
-    }
-    private var collapsedHeight: Double {
-        size.s128
     }
     
     var body: some View {
