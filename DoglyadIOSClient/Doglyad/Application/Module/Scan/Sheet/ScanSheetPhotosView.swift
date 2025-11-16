@@ -18,9 +18,11 @@ struct ScanSheetPhotosView: View {
                 .horizontal,
                 showsIndicators: false
             ) {
-                HStack(spacing: .zero) {
+                HStack(
+                    spacing: .zero
+                ) {
                     ForEach(viewModel.photos) { photo in
-                        DPhotoCard(
+                        PhotoCard(
                             image: photo.image,
                             actionDelete: {
                                 viewModel.onPressedDeletePhoto(photo: photo)
@@ -33,9 +35,7 @@ struct ScanSheetPhotosView: View {
             }
             .padding(.bottom, size.s8)
             
-            DText(
-                .scanMaxPhotoDescription(count: ScanViewModel.photoMaxCount)
-            )
+            DText(.scanMaxPhotoLabel(count: ScanViewModel.photoMaxCount))
             .dStyle(
                 font: typography.textSmall,
                 color: color.grayscalePlaceholder

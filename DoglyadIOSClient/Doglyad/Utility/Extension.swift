@@ -33,4 +33,15 @@ extension LocalizedStringResource {
                 .researchTypeThyroidGland
         }
     }
+    
+    static func forGender(
+        _ gender: PatientGender,
+    ) -> LocalizedStringResource {
+        switch gender {
+        case PatientGender.male:
+                .scanGenderMaleLabel
+        case PatientGender.female:
+                .scanGenderFemaleLabel
+        }
+    }
 }

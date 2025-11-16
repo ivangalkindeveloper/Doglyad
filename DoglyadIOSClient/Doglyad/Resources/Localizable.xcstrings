@@ -205,19 +205,19 @@
         }
       }
     },
-    "conclusionDateLabel" : {
+    "conclusionModelReponsesTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Date"
+            "value" : "Model responses"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дата"
+            "value" : "Ответы модели"
           }
         }
       }
@@ -358,278 +358,6 @@
         }
       }
     },
-    "fieldAdditionalMedicalData" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Additional medical data"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дополнительные мед. данные"
-          }
-        }
-      }
-    },
-    "fieldAdditionalMedicalDataPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The patient suffers from chronic diseases..."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пациент страдает хроническими заболеваниями..."
-          }
-        }
-      }
-    },
-    "fieldLengthMM" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Length (mm)"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Длина (мм)"
-          }
-        }
-      }
-    },
-    "fieldPatientComplaint" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patient complaint"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Жалоба пациента"
-          }
-        }
-      }
-    },
-    "fieldPatientComplaintPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The patient complains of pain in the area..."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пациент жалуется на боли в области..."
-          }
-        }
-      }
-    },
-    "fieldPatientHeightCM" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patient height (cm)"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Рост пациента (см)"
-          }
-        }
-      }
-    },
-    "fieldPatientHeightCMPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "180.0"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "180.0"
-          }
-        }
-      }
-    },
-    "fieldPatientName" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patient name"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Имя пациента"
-          }
-        }
-      }
-    },
-    "fieldPatientNamePlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patient#1"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пациент#1"
-          }
-        }
-      }
-    },
-    "fieldPatientWeightKG" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patient weight (kg)"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вес пациента (кг)"
-          }
-        }
-      }
-    },
-    "fieldPatientWeightKGPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "74.0"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "74.0"
-          }
-        }
-      }
-    },
-    "fieldResearchDescription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Research description"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Описание исследования"
-          }
-        }
-      }
-    },
-    "fieldResearchDescriptionPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The volume and shape of the objects under study, the state of curvature shows..."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Объем и форма исследуемых объектов, состояние кривизны показывает..."
-          }
-        }
-      }
-    },
-    "fieldThicknessMM" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thickness (mm)"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Толщина (мм)"
-          }
-        }
-      }
-    },
-    "fieldValuePlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "0.0"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "0.0"
-          }
-        }
-      }
-    },
-    "fieldWidthMM" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Width (mm)"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ширина (мм)"
-          }
-        }
-      }
-    },
     "onBoardingIntroDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -698,6 +426,23 @@
         }
       }
     },
+    "researchTypeFutureAddingDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We are already in the process of adding new research types, expect them in the next updates"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях"
+          }
+        }
+      }
+    },
     "researchTypeThyroidGland" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -715,6 +460,57 @@
         }
       }
     },
+    "researchTypeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Research type"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип исследования"
+          }
+        }
+      }
+    },
+    "scanAdditionalMedicalData" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Additional medical data"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительные мед. данные"
+          }
+        }
+      }
+    },
+    "scanAdditionalMedicalDataPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The patient suffers from chronic diseases..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пациент страдает хроническими заболеваниями..."
+          }
+        }
+      }
+    },
     "scanCaptureDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -728,6 +524,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Поместите изображение исследования в рамку и сфотографируйте его для дальнейшего сканирования"
+          }
+        }
+      }
+    },
+    "scanDateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата"
           }
         }
       }
@@ -761,7 +574,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дата рождения:"
+            "value" : "Дата рождения"
           }
         }
       }
@@ -783,6 +596,23 @@
         }
       }
     },
+    "scanGenderLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gender"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пол"
+          }
+        }
+      }
+    },
     "scanGenderMaleLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -800,7 +630,7 @@
         }
       }
     },
-    "scanMaxPhotoDescription" : {
+    "scanMaxPhotoLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -817,75 +647,109 @@
         }
       }
     },
-    "scanPatientDateOfBirthLabel" : {
+    "scanPatientComplaint" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Date of birth:"
+            "value" : "Patient complaint"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дата рождения:"
+            "value" : "Жалоба пациента"
           }
         }
       }
     },
-    "scanThyroidGlandIsthmusLabel" : {
+    "scanPatientComplaintPlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Isthmus"
+            "value" : "The patient complains of pain in the area..."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перешеек"
+            "value" : "Пациент жалуется на боли в области..."
           }
         }
       }
     },
-    "scanThyroidGlandLeftLobeLabel" : {
+    "scanPatientName" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Left lobe"
+            "value" : "Patient name"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Левая доля"
+            "value" : "Имя пациента"
           }
         }
       }
     },
-    "scanThyroidGlandRightLobeLabel" : {
+    "scanPatientNamePlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Right lobe"
+            "value" : "Patient#1"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Правая доля"
+            "value" : "Пациент#1"
           }
         }
       }
     },
-    "scanTurnedOffCameraDescription" : {
+    "scanResearchDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Research description"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание исследования"
+          }
+        }
+      }
+    },
+    "scanResearchDescriptionPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The volume and shape of the objects under study, the state of curvature shows..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объем и форма исследуемых объектов, состояние кривизны показывает..."
+          }
+        }
+      }
+    },
+    "scanTurnedOffCameraLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -915,40 +779,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата рождения"
-          }
-        }
-      }
-    },
-    "selectResearchTypeFutureAddingDescription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We are already in the process of adding new research types, expect them in the next updates"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Мы уже в процессе добавления новых типов исследований, ожидайте их в ближайших обновлениях"
-          }
-        }
-      }
-    },
-    "selectResearchTypeTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Research type"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тип исследования"
           }
         }
       }

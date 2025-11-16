@@ -2,14 +2,11 @@ import Foundation
 import SwiftUI
 import DoglyadUI
 
-public struct DDateOfBirthCard: View {
+public struct DateOfBirthCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
-    private let title: LocalizedStringResource = .scanDateOfBirthLabel
-    private let ageLabel: LocalizedStringResource = .scanDateOfBirthAgeLabel
     
     let date: Date
     let action: () -> Void
@@ -29,14 +26,13 @@ public struct DDateOfBirthCard: View {
             HStack(
                 spacing: 0
             ) {
-                DText("\(title) \(date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.twoDigits).locale(Locale(identifier: "ru_RU"))))"
-                )
+                DText("\(String(localized: .scanDateOfBirthLabel)): \(ageDate())")
                     .dStyle(
                         font: typography.linkSmall,
                     )
                     .padding(.trailing , size.s8)
                 
-                DText("(\(ageCount()) \(ageLabel))")
+                DText("(\(ageCount()) \(String(localized: .scanDateOfBirthAgeLabel)))")
                     .dStyle(
                         font: typography.textXSmall,
                         color: color.grayscalePlaceholder
@@ -48,7 +44,11 @@ public struct DDateOfBirthCard: View {
     }
 }
 
-private extension DDateOfBirthCard {
+private extension DateOfBirthCard {
+    func ageDate() -> String {
+        date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year(.defaultDigits).locale(Locale(identifier: "ru_RU")))
+    }
+    
     func ageCount() -> Int {
         let calendar = Calendar.current
         return calendar.dateComponents([.year], from: date, to: Date()).year!
@@ -65,7 +65,7 @@ private extension DDateOfBirthCard {
     }()
 
     DThemeWrapperView {
-        DDateOfBirthCard(
+        DateOfBirthCard(
             date: date,
             action: {}
         )

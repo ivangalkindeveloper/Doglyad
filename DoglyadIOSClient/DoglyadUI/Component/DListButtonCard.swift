@@ -25,7 +25,7 @@ public struct DListButtonCard: View {
             action: action
         ) {
             HStack {
-                DText(title)
+                DText(String(localized: title))
                     .dStyle(
                         font: typography.linkSmall,
                     )

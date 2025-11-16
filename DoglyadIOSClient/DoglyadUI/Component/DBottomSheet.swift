@@ -32,7 +32,7 @@ public struct DBottomSheet<Content: View>: View {
                 )
                 .padding(size.s8)
             
-            DText(title)
+            DText(String(localized: title))
                 .dStyle(
                     font: typography.linkSmall
                 )

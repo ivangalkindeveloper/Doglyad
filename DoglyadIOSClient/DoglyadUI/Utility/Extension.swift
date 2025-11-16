@@ -28,7 +28,8 @@ public extension Font {
 }
 
 public extension View {
-    @ViewBuilder func `if`<Content: View>(
+    @ViewBuilder
+    func `if`<Content: View>(
         _ condition: Bool,
         transform: (Self) -> Content
     ) -> some View {
@@ -39,7 +40,8 @@ public extension View {
         }
     }
     
-    @ViewBuilder func ifLet<T, Content: View>(
+    @ViewBuilder
+    func ifLet<T, Content: View>(
         _ value: T?,
         transform: (Self, T) -> Content
     ) -> some View {

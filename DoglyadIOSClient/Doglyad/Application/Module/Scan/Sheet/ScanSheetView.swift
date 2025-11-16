@@ -15,8 +15,8 @@ struct ScanSheetView: View {
             showsIndicators: false
         ) {
             DTextField<EmptyView>(
-                title: .fieldPatientName,
-                placeholder: .fieldPatientNamePlaceholder,
+                title: .scanPatientName,
+                placeholder: .scanPatientNamePlaceholder,
                 controller: viewModel.patientNameController
             )
             .padding(.vertical, size.s8)
@@ -40,32 +40,29 @@ struct ScanSheetView: View {
             )
             .padding(.bottom, size.s8)
             
-            DDateOfBirthCard(
+            DateOfBirthCard(
                 date: viewModel.patientDateOfBirth,
                 action: viewModel.onPressedPatientDateOfBirth
             )
             .padding(.bottom, size.s8)
             
-//            AnyView(viewModel.scanStrategy.view)
-//                .padding(.bottom, size.s8)
-            
             DTextField<EmptyView>(
-                title: .fieldResearchDescription,
-                placeholder: .fieldResearchDescriptionPlaceholder,
+                title: .scanResearchDescription,
+                placeholder: .scanResearchDescriptionPlaceholder,
                 controller: viewModel.researchDataController
             )
             .padding(.bottom, size.s8)
             
             DTextField<EmptyView>(
-                title: .fieldPatientComplaint,
-                placeholder: .fieldPatientComplaintPlaceholder,
+                title: .scanPatientComplaint,
+                placeholder: .scanPatientComplaintPlaceholder,
                 controller: viewModel.patientComplaintController
             )
             .padding(.bottom, size.s8)
             
             DTextField<EmptyView>(
-                title: .fieldAdditionalMedicalData,
-                placeholder: .fieldAdditionalMedicalDataPlaceholder,
+                title: .scanAdditionalMedicalData,
+                placeholder: .scanAdditionalMedicalDataPlaceholder,
                 controller: viewModel.additionalMedicalDataController
             )
             .padding(.bottom, size.s128 * 2)

@@ -16,7 +16,7 @@ final class ConnectionManager {
     
     init() {
         self.monitor.pathUpdateHandler = { path in
-            let status = path.status
+            _ = path.status
         }
     }
 }

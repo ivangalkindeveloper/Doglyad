@@ -27,7 +27,7 @@ struct SelectResearchTypeBottomSheet: View {
     
     var body: some View {
         DBottomSheet(
-            title: .selectResearchTypeTitle,
+            title: .researchTypeTitle,
         ) {
             VStack(
                 spacing: .zero
@@ -45,7 +45,7 @@ struct SelectResearchTypeBottomSheet: View {
                 .padding(.bottom, size.s16)
                 
                 DText(
-                    .selectResearchTypeFutureAddingDescription
+                    .researchTypeFutureAddingDescription
                 )
                 .dStyle(
                     font: typography.textSmall,

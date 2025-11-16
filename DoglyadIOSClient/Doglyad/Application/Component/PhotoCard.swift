@@ -1,7 +1,7 @@
 import SwiftUI
 import DoglyadUI
 
-public struct DPhotoCard: View {
+public struct PhotoCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -54,7 +54,7 @@ public struct DPhotoCard: View {
 
 #Preview {
     DThemeWrapperView {
-        DPhotoCard(
+        PhotoCard(
             image: .alertInfo,
             actionDelete: {}
         )

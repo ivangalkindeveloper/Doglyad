@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct DHistoryCard: View {
+public struct HistoryCard: View {
     public var body: some View {
         
     }
@@ -8,7 +8,7 @@ public struct DHistoryCard: View {
 
 //#Preview {
 //    DThemeWrapperView{
-//        DHistoryCard(
+//        HistoryCard(
 //            title: "Thyroid gland",
 //            action: {}
 //        )
