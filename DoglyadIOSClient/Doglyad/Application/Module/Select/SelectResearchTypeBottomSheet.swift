@@ -1,6 +1,6 @@
-import SwiftUI
-import Router
 import DoglyadUI
+import Router
+import SwiftUI
 
 final class SelectResearchTypeArguments: RouteArgumentsProtocol {
     let currentValue: ResearchType?
@@ -28,7 +28,7 @@ struct SelectResearchTypeBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: .researchTypeTitle,
-            fraction: 0.5
+            fraction: 0.8
         ) {
             ScrollView(
                 showsIndicators: false
@@ -46,21 +46,22 @@ struct SelectResearchTypeBottomSheet: View {
                             isSelected: arguments?.currentValue == type
                         )
                     }
-                    .padding(.bottom, size.s4)
-                    
-                    DText(
-                        .researchTypeFutureAddingDescription
-                    )
-                    .dStyle(
-                        font: typography.textSmall,
-                        color: color.grayscalePlaceholder,
-                        alignment: .center
-                    )
-                    .padding(.top, size.s12)
-                    .padding(.bottom, size.s32)
+                    .padding(.bottom, size.s8)
                 }
                 .padding(size.s16)
+                .padding(.bottom, size.s116)
             }
+        }
+        bottom: {
+            DText(
+                .researchTypeFutureAddingDescription
+            )
+            .dStyle(
+                font: typography.textSmall,
+                color: color.grayscalePlaceholder,
+                alignment: .center
+            )
+            .padding(size.s16)
         }
     }
 }

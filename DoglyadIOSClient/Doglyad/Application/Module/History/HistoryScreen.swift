@@ -21,6 +21,7 @@ struct HistoryScreen: View {
 
 private struct HistoryScreenView: View {
     @EnvironmentObject var theme: DTheme
+    var color: DColor { theme.color }
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
     
@@ -34,14 +35,41 @@ private struct HistoryScreenView: View {
             ScrollView(
                 showsIndicators: false
             ) {
-                
+                if viewModel.conclusions.isEmpty {
+                    DText(
+                        .historyEmptyLabel
+                    )
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscalePlaceholder,
+                        alignment: .center
+                    )
+                    .padding(.top, size.s128)
+                } else {
+                    VStack(
+                        spacing: .zero
+                    ) {
+                        ForEach(viewModel.conclusions) { conclusion in
+                            HistoryCard(
+                                conclusion: conclusion,
+                                action: {
+                                    viewModel.onTapConclusion(value: conclusion)
+                                }
+                            )
+                            .padding(size.s4)
+                            
+                        }
+                    }
+                    .padding(size.s16)
+                }
             }
         }
     }
 }
 
 #Preview {
-    HistoryScreen(
+    PreviewWrapperView(
+        screenType: .history,
         arguments: nil
     )
 }

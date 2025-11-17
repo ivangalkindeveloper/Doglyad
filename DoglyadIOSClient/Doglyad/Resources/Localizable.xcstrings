@@ -392,6 +392,23 @@
         }
       }
     },
+    "historyEmptyLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The list of recent findings is empty.\nPlease scan at least one study to view the responses history."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список последних заключений пуст.\nПожалуйста, просканируйте хотя бы одно исследование чтобы смотреть историю запросов."
+          }
+        }
+      }
+    },
     "historyTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -494,6 +511,57 @@
         }
       }
     },
+    "researchTypeAbdominalVessels" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abdominal vessels"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сосуды брюшной полости"
+          }
+        }
+      }
+    },
+    "researchTypeArteriesOfTheLowerExtremities" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arteries of the lower extremities"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Артерии нижних конечностей"
+          }
+        }
+      }
+    },
+    "researchTypeArteriesOfTheUpperExtremities" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arteries of the upper extremities"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Артерии верхних конечностей"
+          }
+        }
+      }
+    },
     "researchTypeBladder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -507,6 +575,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Мочевой пузырь"
+          }
+        }
+      }
+    },
+    "researchTypeBladderWithResidualUrineDetermination" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bladder with residual urine determination"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мочевой пузырь с определением остаточной мочи"
+          }
+        }
+      }
+    },
+    "researchTypeBrachiocephalicVessels" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brachiocephalic vessels"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Брахиоцефальные сосуды"
+          }
+        }
+      }
+    },
+    "researchTypeEchocardiography" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Echocardiography"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эхокардиография"
+          }
+        }
+      }
+    },
+    "researchTypeEye" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eye"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Глаз"
           }
         }
       }
@@ -528,6 +664,74 @@
         }
       }
     },
+    "researchTypeHipJointsInNewborns" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hip joints in newborns"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тазобедренные суставы у новорожденных"
+          }
+        }
+      }
+    },
+    "researchTypeHollowOrgansStomachAndIntestines" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hollow organs (stomach and intestines)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полые органы (желудок и кишечник)"
+          }
+        }
+      }
+    },
+    "researchTypeIntracanialArteries" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intracanial arteries"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Интраканиальные артерии"
+          }
+        }
+      }
+    },
+    "researchTypeJoints" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Joints"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суставы"
+          }
+        }
+      }
+    },
     "researchTypeKidneysAdrenalGlandsAndRetroperitonealSpace" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -541,6 +745,193 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Почки, надпочечники и забрюшинное пространство"
+          }
+        }
+      }
+    },
+    "researchTypeLymphNodes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lymph nodes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимфатические узлы"
+          }
+        }
+      }
+    },
+    "researchTypeMammaryGlands" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mammary glands"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Молочные железы"
+          }
+        }
+      }
+    },
+    "researchTypeNeurosonography" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neurosonography"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нейросонография"
+          }
+        }
+      }
+    },
+    "researchTypePelvicOrgans" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pelvic organs"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Органы малого таза"
+          }
+        }
+      }
+    },
+    "researchTypePleuralRegion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pleural region"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плевральная область"
+          }
+        }
+      }
+    },
+    "researchTypeRenalArteries" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renal arteries"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почечные артерии"
+          }
+        }
+      }
+    },
+    "researchTypeSalivaryGlands" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salivary glands"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Слюнные железы"
+          }
+        }
+      }
+    },
+    "researchTypeScrotum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrotum"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мошонка"
+          }
+        }
+      }
+    },
+    "researchTypeSinuses" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sinuses"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пазухи"
+          }
+        }
+      }
+    },
+    "researchTypeSoftTissues" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soft tissues"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мягкие ткани"
+          }
+        }
+      }
+    },
+    "researchTypeThymusGland" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thymus gland"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилочковая железа"
           }
         }
       }
@@ -575,6 +966,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Тип исследования"
+          }
+        }
+      }
+    },
+    "researchTypeVeinsOfTheLowerExtremities" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veins of the lower extremities"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вены нижних конечностей"
+          }
+        }
+      }
+    },
+    "researchTypeVeinsOfTheUpperExtremities" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veins of the upper extremities"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вены верхних конечностей"
           }
         }
       }

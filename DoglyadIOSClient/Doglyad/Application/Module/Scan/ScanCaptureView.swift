@@ -16,7 +16,7 @@ struct ScanCaptureView: View {
             ) {
                 DButton(
                     image: viewModel.captureIcon,
-                    action: viewModel.onPressedCapture,
+                    action: viewModel.onTapCapture,
                     isLoading: viewModel.cameraController.isCapturing
                 )
                 .dStyle(.primaryCircle)

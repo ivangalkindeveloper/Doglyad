@@ -71,7 +71,7 @@ final class ScanViewModel: ObservableObject {
         }
     }
     
-    func onPressedHistory() -> Void {
+    func onTapHistory() -> Void {
         router.push(
             route: RouteScreen(
                 type: .history
@@ -79,7 +79,7 @@ final class ScanViewModel: ObservableObject {
         )
     }
     
-    func onPressedResearchType() -> Void {
+    func onTapResearchType() -> Void {
         router.push(
             route: RouteSheet(
                 type: .selectResearchType,
@@ -102,7 +102,7 @@ final class ScanViewModel: ObservableObject {
         photos.count == ScanViewModel.photoMaxCount ? .down : .camera
     }
     
-    func onPressedCapture() -> Void {
+    func onTapCapture() -> Void {
         if photos.count == ScanViewModel.photoMaxCount {
             return sheetController.setTop()
         }
@@ -120,22 +120,20 @@ final class ScanViewModel: ObservableObject {
         )
     }
 
-    func onPressedDeletePhoto(
+    func onTapDeletePhoto(
         photo: ResearchScanPhoto
     ) -> Void {
         photos.remove(at: photos.firstIndex(of: photo)!)
     }
     
-    func onPressedPatientNameSpeech() -> Void {}
-    
-    func onPressedPatientGender(
+    func onTapPatientGender(
         value: PatientGender
     ) -> Void {
         guard patientGender != value else { return }
         patientGender = value
     }
     
-    func onPressedPatientDateOfBirth() -> Void {
+    func onTapPatientDateOfBirth() -> Void {
         router.push(
             route: RouteSheet(
                 type: .selectDateOfBirth,
@@ -151,7 +149,7 @@ final class ScanViewModel: ObservableObject {
         )
     }
     
-    func onPressedSpeech() -> Void {}
+    func onTapSpeech() -> Void {}
     
-    func onPressedScan() -> Void {}
+    func onTapScan() -> Void {}
 }

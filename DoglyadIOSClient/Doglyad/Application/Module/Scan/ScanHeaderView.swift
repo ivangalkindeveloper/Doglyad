@@ -15,7 +15,7 @@ struct ScanHeaderView: View {
         ) {
             DButton(
                 image: .hambergerMenu,
-                action: viewModel.onPressedHistory,
+                action: viewModel.onTapHistory,
             )
             .dStyle(.circle)
 
@@ -23,7 +23,7 @@ struct ScanHeaderView: View {
 
             DButton(
                 title: .forResearchType(viewModel.researchType),
-                action: viewModel.onPressedResearchType,
+                action: viewModel.onTapResearchType,
             )
             .dStyle(.primaryChip)
             .padding([.trailing, .leading], size.s16)

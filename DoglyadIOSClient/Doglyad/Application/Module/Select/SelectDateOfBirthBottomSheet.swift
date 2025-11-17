@@ -39,7 +39,7 @@ struct SelectDateOfBirthBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: .selectDateOfBirthTitle,
-            fraction: 0.4,
+            fraction: 0.5
         ) {
             VStack(
                 spacing: .zero
@@ -59,15 +59,16 @@ struct SelectDateOfBirthBottomSheet: View {
                 .padding(.bottom, size.s16)
                 
                 Spacer()
-                
-                DButton(
-                    title: .buttonSelect
-                ) {
-                    router.dismissSheet()
-                    arguments?.onSelected(date)
-                }
-                .dStyle(.primaryButton)
             }
+            .padding(size.s16)
+        } bottom: {
+            DButton(
+                title: .buttonSelect
+            ) {
+                router.dismissSheet()
+                arguments?.onSelected(date)
+            }
+            .dStyle(.primaryButton)
             .padding(size.s16)
         }
     }

@@ -1,4 +1,6 @@
 import Foundation
+import SwiftUI
+import Router
 
 @MainActor
 final class HistoryViewModel: ObservableObject {
@@ -11,16 +13,30 @@ final class HistoryViewModel: ObservableObject {
     ) {
         self.diagnosticRepository = diagnosticRepository
         self.router = router
-        loadConclusions()
+//        loadConclusions()
     }
     
     @Published var conclusions: [ResearchConclusion] = []
     
     private func loadConclusions() -> Void {
-        
+        let conclusions = diagnosticRepository.getConclusions()
+        self.conclusions = conclusions
     }
     
     func onTapBack() -> Void {
         router.pop()
+    }
+    
+    func onTapConclusion(
+        value: ResearchConclusion
+    ) -> Void {
+        router.push(
+            route: RouteScreen(
+                type: .conclusion,
+                arguments: ConclusionScreenArguments(
+                    conclusion: value
+                )
+            )
+        )
     }
 }

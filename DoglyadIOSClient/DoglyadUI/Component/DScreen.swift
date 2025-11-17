@@ -39,6 +39,7 @@ public struct DScreen<Content: View>: View {
                 }
                 content()
             }
+            .frame(maxWidth: .infinity)
             .background(backgroundColor ?? color.grayscaleBackgroundWeak)
         }
         .ifLet(title) { view, title in

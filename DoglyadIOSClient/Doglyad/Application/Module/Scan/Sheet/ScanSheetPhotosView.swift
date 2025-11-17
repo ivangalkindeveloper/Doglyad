@@ -25,7 +25,7 @@ struct ScanSheetPhotosView: View {
                         PhotoCard(
                             image: photo.image,
                             actionDelete: {
-                                viewModel.onPressedDeletePhoto(photo: photo)
+                                viewModel.onTapDeletePhoto(photo: photo)
                             }
                         )
                     }

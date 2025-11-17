@@ -1,44 +1,44 @@
 import Foundation
 
 enum ResearchType: String, CaseIterable {
-    case thyroidGland // Щитовидная железа
     case abdominalCavity // Брюшная полость
-    case kidneysAdrenalGlandsAndRetroperitonealSpace // Почки, надпочечники и забрюшинное пространство
-    case bladder // Мочевой пузырь
-    case pelvicOrgans // Органы малого таза
-    case scrotum // Мошонка
-    case lymphNodes // Лимфатические узлы
-    case salivaryGlands // Слюнные железы
-    case softTissues // Мягкие ткани
-    case neurosonography // Нейросонография
-    case hipJointsInNewborns // Тазобедренные суставы у новорожденных
-    case joints // Суставы
-    case hollowOrgansStomachAndIntestines // Полые органы (желудок и кишечник)
-    case eye // Глаз
-    case echocardiography // Эхокардиография
-    case veinsOfTheLowerExtremities // Вены нижних конечностей
-    case veinsOfTheUpperExtremities // Вены верхних конечностей
+    case abdominalVessels // Сосуды брюшной полости
     case arteriesOfTheLowerExtremities // Артерии нижних конечностей
     case arteriesOfTheUpperExtremities // Артерии верхних конечностей
-    case brachiocephalicVessels // Брахиоцефальные сосуды
-    case intracanialArteries // Интраканиальные артерии
-    case pleuralRegion // Плевральная область
-    case thymusGland // Вилочковая железа
-    case mammaryGlands // Молочные железы
-    case abdominalVessels // Сосуды брюшной полости
-    case renalArteries // Почечные артерии
-    case sinuses // Пазухи
+    case bladder // Мочевой пузырь
     case bladderWithResidualUrineDetermination // Мочевой пузырь с определением остаточной мочи
+    case brachiocephalicVessels // Брахиоцефальные сосуды
+    case echocardiography // Эхокардиография
+    case eye // Глаз
+    case hipJointsInNewborns // Тазобедренные суставы у новорожденных
+    case hollowOrgansStomachAndIntestines // Полые органы (желудок и кишечник)
+    case intracanialArteries // Интраканиальные артерии
+    case joints // Суставы
+    case kidneysAdrenalGlandsAndRetroperitonealSpace // Почки, надпочечники и забрюшинное пространство
+    case lymphNodes // Лимфатические узлы
+    case mammaryGlands // Молочные железы
+    case neurosonography // Нейросонография
+    case pelvicOrgans // Органы малого таза
+    case pleuralRegion // Плевральная область
+    case renalArteries // Почечные артерии
+    case salivaryGlands // Слюнные железы
+    case scrotum // Мошонка
+    case sinuses // Пазухи
+    case softTissues // Мягкие ткани
+    case thymusGland // Вилочковая железа
+    case thyroidGland // Щитовидная железа
+    case veinsOfTheLowerExtremities // Вены нижних конечностей
+    case veinsOfTheUpperExtremities // Вены верхних конечностей
     
     static let `default`: ResearchType = .thyroidGland
     
     static func fromString(_ value: String?) -> ResearchType? {
-        switch value {
-        case ResearchType.thyroidGland.rawValue:
-                .thyroidGland
-        default:
-            nil
+        for type in ResearchType.allCases {
+            if type.rawValue == value {
+                return type
+            }
         }
+        return nil
     }
 }
 

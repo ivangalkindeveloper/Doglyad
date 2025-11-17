@@ -14,7 +14,7 @@ struct ScanSheetView: View {
         ScrollView(
             showsIndicators: false
         ) {
-            DTextField<EmptyView>(
+            DTextField<EmptyView, EmptyView>(
                 title: .scanPatientName,
                 placeholder: .scanPatientNamePlaceholder,
                 controller: viewModel.patientNameController
@@ -28,13 +28,13 @@ struct ScanSheetView: View {
                         value: .male,
                         title: .scanGenderMaleLabel
                     ) {
-                        viewModel.onPressedPatientGender(value: .male)
+                        viewModel.onTapPatientGender(value: .male)
                     },
                     DSegmentItem<PatientGender>(
                         value: .female,
                         title: .scanGenderFemaleLabel
                     ) {
-                        viewModel.onPressedPatientGender(value: .female)
+                        viewModel.onTapPatientGender(value: .female)
                     }
                 ]
             )
@@ -42,25 +42,25 @@ struct ScanSheetView: View {
             
             DateOfBirthCard(
                 date: viewModel.patientDateOfBirth,
-                action: viewModel.onPressedPatientDateOfBirth
+                action: viewModel.onTapPatientDateOfBirth
             )
             .padding(.bottom, size.s8)
             
-            DTextField<EmptyView>(
+            DTextField<EmptyView, EmptyView>(
                 title: .scanResearchDescription,
                 placeholder: .scanResearchDescriptionPlaceholder,
                 controller: viewModel.researchDataController
             )
             .padding(.bottom, size.s8)
             
-            DTextField<EmptyView>(
+            DTextField<EmptyView, EmptyView>(
                 title: .scanPatientComplaint,
                 placeholder: .scanPatientComplaintPlaceholder,
                 controller: viewModel.patientComplaintController
             )
             .padding(.bottom, size.s8)
             
-            DTextField<EmptyView>(
+            DTextField<EmptyView, EmptyView>(
                 title: .scanAdditionalMedicalData,
                 placeholder: .scanAdditionalMedicalDataPlaceholder,
                 controller: viewModel.additionalMedicalDataController

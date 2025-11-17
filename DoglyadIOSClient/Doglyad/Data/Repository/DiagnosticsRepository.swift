@@ -1,15 +1,20 @@
 import DoglyadDB
 
 protocol DiagnosticsRepositoryProtocol {
-    // MARK: OnBoarding
+    // MARK: OnBoarding -
     func isOnBoardingCompleted() -> Bool
     
     func setOnBoardingCompleted(value: Bool) -> Void
     
-    // MARK: ResearchType
+    // MARK: ResearchType -
     func getSelectedResearchType() -> ResearchType?
     
     func setSelectedResearchType(type: ResearchType) -> Void
+    
+    // MARK: Conclusion -
+    func getConclusions() -> [ResearchConclusion]
+    
+    func setConclusions(_ conclusion: ResearchConclusion) -> Void
 }
 
 final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
@@ -22,7 +27,7 @@ final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
     }
 }
 
-// MARK: OnBoarding
+// MARK: OnBoarding -
 extension DiagnosticsRepository {
     func isOnBoardingCompleted() -> Bool {
         database.getOnBoardingCompleted()
@@ -33,7 +38,7 @@ extension DiagnosticsRepository {
     }
 }
 
-// MARK: ResearchType
+// MARK: ResearchType -
 extension DiagnosticsRepository {
     func getSelectedResearchType() -> ResearchType? {
         ResearchType.fromString(database.getSelectedUSResearchType())
@@ -42,4 +47,11 @@ extension DiagnosticsRepository {
     func setSelectedResearchType(type: ResearchType) -> Void {
         database.setSelectedUSResearchType(value: type.rawValue)
     }
+}
+
+// MARK: Conclusion -
+extension DiagnosticsRepository {
+    func getConclusions() -> [ResearchConclusion] { [] }
+    
+    func setConclusions(_ conclusion: ResearchConclusion) -> Void {}
 }

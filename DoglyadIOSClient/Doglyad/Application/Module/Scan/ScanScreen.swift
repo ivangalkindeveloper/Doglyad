@@ -86,14 +86,14 @@ private struct ScanScreenView: View {
                             DButton(
                                 image: .microphone,
                                 title: .buttonSpeech,
-                                action: viewModel.onPressedSpeech
+                                action: viewModel.onTapSpeech
                             )
                             .dStyle(.primaryChip)
                             .padding(.bottom, size.s8)
                             
                             DButton(
                                 title: .buttonScan,
-                                action: viewModel.onPressedScan
+                                action: viewModel.onTapScan
                             )
                             .dStyle(.primaryButton)
                             .padding(size.s16)
@@ -106,9 +106,9 @@ private struct ScanScreenView: View {
                                             corners: [.topLeft, .topRight]
                                         )
                                     )
+                                    .shadow(color: color.grayscaleBody.opacity(0.2), radius: size.s16)
                             )
                         }
-
                         .transition(.move(edge: .bottom))
                     }
                 }

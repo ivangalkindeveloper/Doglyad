@@ -24,7 +24,7 @@ struct DateOfBirthCard: View {
             action: action
         ) {
             HStack(
-                spacing: 0
+                spacing: .zero
             ) {
                 DText("\(String(localized: .scanDateOfBirthLabel)): \(date.localized())")
                     .dStyle(

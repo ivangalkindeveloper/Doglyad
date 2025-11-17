@@ -27,7 +27,7 @@ public class DTextFieldController: ObservableObject {
     }
 }
 
-public struct DTextField<Content: View>: View {
+public struct DTextField<Prefix: View, Postfix: View>: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -39,8 +39,8 @@ public struct DTextField<Content: View>: View {
     private let controller: DTextFieldController
     private let keyboardType: UIKeyboardType
     private let autocapitalization: TextInputAutocapitalization?
-    private let prefix: (() -> Content)?
-    private let postfix: (() -> Content)?
+    private let prefix: (() -> Prefix)?
+    private let postfix: (() -> Postfix)?
 
     public init(
         title: LocalizedStringResource,
@@ -64,8 +64,8 @@ public struct DTextField<Content: View>: View {
         controller: DTextFieldController,
         keyboardType: UIKeyboardType = .default,
         autocapitalization: TextInputAutocapitalization? = .sentences,
-        @ViewBuilder prefix: @escaping (() -> Content),
-        @ViewBuilder suffix: @escaping (() -> Content)
+        @ViewBuilder prefix: @escaping (() -> Prefix),
+        @ViewBuilder suffix: @escaping (() -> Postfix)
     ) {
         self.title = title
         self.placeholder = placeholder
@@ -182,7 +182,7 @@ private extension DTextField {
     DThemeWrapperView {
         VStack {
             Spacer()
-            DTextField<EmptyView>(
+            DTextField<EmptyView, EmptyView>(
                 title: "Some title",
                 placeholder: "Some placeholder for filling...",
                 controller: controller
