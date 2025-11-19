@@ -2,8 +2,6 @@ import SwiftUI
 import SwiftData
 import DoglyadUI
 
-
-
 @main
 struct Application: App {
     @StateObject private var viewModel = ApplicationViewModel()

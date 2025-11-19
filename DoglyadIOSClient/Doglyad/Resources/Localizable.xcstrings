@@ -1309,6 +1309,23 @@
           }
         }
       }
+    },
+    "speechProcessDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To fill out the form, click on the record button and dictate the data using the following words:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для заполнения формы нажмите на кнопку записи и продиктуйте голосом данные со следующими словами:"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

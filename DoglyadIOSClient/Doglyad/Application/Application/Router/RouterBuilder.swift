@@ -12,21 +12,29 @@ final class RouterBuilder: RouterBuilderProtocol {
     ) -> AnyView {
         switch route.type {
         case .onBoarding:
-            AnyView(OnBoardingScreen(
-                arguments: route.arguments as? OnBoardingScreenArguments
-            ))
+            AnyView(
+                OnBoardingScreen(
+                    arguments: route.arguments as? OnBoardingScreenArguments
+                )
+            )
         case .scan:
-            AnyView(ScanScreen(
-                arguments: route.arguments as? ScanScreenArguments
-            ))
+            AnyView(
+                ScanScreen(
+                    arguments: route.arguments as? ScanScreenArguments
+                )
+            )
         case .history:
-            AnyView(HistoryScreen(
-                arguments: route.arguments as? HistoryScreenArguments
-            ))
+            AnyView(
+                HistoryScreen(
+                    arguments: route.arguments as? HistoryScreenArguments
+                )
+            )
         case .conclusion:
-            AnyView(ConclusionScreen(
-                arguments: route.arguments as! ConclusionScreenArguments
-            ))
+            AnyView(
+                ConclusionScreen(
+                    arguments: route.arguments as! ConclusionScreenArguments
+                )
+            )
         }
     }
     
@@ -35,22 +43,29 @@ final class RouterBuilder: RouterBuilderProtocol {
     ) -> AnyView {
         switch route.type {
         case .selectResearchType:
-            AnyView(SelectResearchTypeBottomSheet(
-                arguments: route.arguments as? SelectResearchTypeArguments
-            ))
+            AnyView(
+                SelectResearchTypeBottomSheet(
+                    arguments: route.arguments as? SelectResearchTypeArguments
+                )
+            )
         case .selectDateOfBirth:
-            AnyView(SelectDateOfBirthBottomSheet(
-                arguments: route.arguments as? SelectDateOfBirthArguments
-            ))
+            AnyView(
+                SelectDateOfBirthBottomSheet(
+                    arguments: route.arguments as? SelectDateOfBirthArguments
+                )
+            )
+        case .speech:
+            AnyView(
+                SpeechBottomSheet(
+                    arguments: route.arguments as? SpeechBottomSheetArguments
+                )
+            )
         }
     }
     
     func build(
         route: RouteFullScreenCover<FullScreenCoverType>
     ) -> AnyView {
-        switch route.type {
-        case .speech:
-            AnyView(EmptyView())
-        }
+        switch route.type {}
     }
 }

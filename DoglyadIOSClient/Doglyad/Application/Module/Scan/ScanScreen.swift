@@ -41,9 +41,7 @@ private struct ScanScreenView: View {
                         spacing: .zero
                     ) {
                         ScanHeaderView()
-
                         Spacer()
-
                         ScanCaptureView()
                     }
                     .padding(size.s16)

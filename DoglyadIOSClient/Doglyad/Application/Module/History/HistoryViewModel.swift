@@ -13,7 +13,7 @@ final class HistoryViewModel: ObservableObject {
     ) {
         self.diagnosticRepository = diagnosticRepository
         self.router = router
-//        loadConclusions()
+        loadConclusions()
     }
     
     @Published var conclusions: [ResearchConclusion] = []

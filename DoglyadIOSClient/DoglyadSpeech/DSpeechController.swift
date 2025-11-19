@@ -11,7 +11,7 @@ public final class DSpeechController: ObservableObject {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
 
-    @Published var isRecording = false
+    @Published public var isRecording = false
     
     public init(
         locale: Locale
@@ -19,9 +19,9 @@ public final class DSpeechController: ObservableObject {
         self.speechRecognizer = SFSpeechRecognizer(locale: locale)
     }
     
-    func startRecording(
+    public func start(
         completion: @escaping (String) -> Void
-    ) {
+    ) -> Void {
         guard !audioEngine.isRunning else { return }
         
         try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
@@ -39,7 +39,7 @@ public final class DSpeechController: ObservableObject {
             }
             
             if error != nil || (result?.isFinal ?? false) {
-                self.stopRecording()
+                self.stop()
             }
         }
         
@@ -53,7 +53,7 @@ public final class DSpeechController: ObservableObject {
         isRecording = true
     }
     
-    func stopRecording() {
+    public func stop() -> Void {
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         recognitionRequest?.endAudio()

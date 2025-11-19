@@ -149,7 +149,16 @@ final class ScanViewModel: ObservableObject {
         )
     }
     
-    func onTapSpeech() -> Void {}
+    func onTapSpeech() -> Void {
+        router.push(
+            route: RouteSheet(
+                type: .speech,
+                arguments: SpeechBottomSheetArguments(
+                    completion: { value in }
+                )
+            )
+        )
+    }
     
     func onTapScan() -> Void {}
 }
