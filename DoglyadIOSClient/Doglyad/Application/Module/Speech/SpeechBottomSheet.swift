@@ -14,12 +14,13 @@ final class SpeechBottomSheetArguments: RouteArgumentsProtocol {
 
 struct SpeechBottomSheet: View {
     @EnvironmentObject private var router: DRouter
-    let arguments: SpeechBottomSheetArguments?
+    let arguments: SpeechBottomSheetArguments
     
     var body: some View {
         SpeechBottomSheetView(
             viewModel: SpeechViewModel(
-                router: router
+                router: router,
+                arguments: arguments
             )
         )
     }
@@ -37,7 +38,6 @@ private struct SpeechBottomSheetView: View {
         ZStack {
             Color.clear
                 .background(.ultraThinMaterial)
-//                .blur(radius: size.s16)
             
             VStack(
                 spacing: .zero
@@ -46,41 +46,54 @@ private struct SpeechBottomSheetView: View {
                     spacing: .zero
                 ) {
                     Spacer()
-                    
-                    Button {
+                    DCloseButton {
                         viewModel.onTapBack()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 22))
-                            .foregroundStyle(color.grayscaleLine)
-                            .padding(size.s10)
                     }
                 }
+                .padding(.top, size.s4)
+                .padding(.bottom, size.s16)
                 
                 Spacer()
                 
-                // Animation
-                
+                if viewModel.speechController.isRecording {
+                    if let speechText = viewModel.speechController.text {
+                        DText(speechText)
+                            .dStyle(
+                                font: typography.linkSmall,
+                                color: color.grayscaleBackgroundWeak,
+                                alignment: .center
+                            )
+                            .lineLimit(1)
+                            .truncationMode(.head)
+                            .clipped()
+                            .padding(.horizontal, size.s32)
+                            .padding(.bottom, size.s8)
+                    }
+                    
+                    SpeechAudioMeterView(
+                        level: viewModel.speechController.audioMeter
+                    )
+                    .padding(.bottom, size.s16)
+                }
+
                 DText(.speechProcessDescription)
                     .dStyle(
-                        font: typography.textMedium,
+                        font: typography.textSmall,
                         color: color.grayscaleBackgroundWeak,
                         alignment: .center
                     )
-                    .padding(.bottom, size.s16)
+                    .padding(.horizontal, size.s16)
+                    .padding(.bottom, size.s8)
                 
-                Grid(
-                    alignment: .center,
-                ) {
-                    ForEach(Array(viewModel.speechKeys.enumerated()), id: \.offset) { key in
-                        DText("\"\(String(localized: key.element))\"")
-                            .dStyle(
-                                font: typography.textMedium,
-                                color: color.grayscaleBackgroundWeak
-                            )
-                    }
-                }
-                .padding(.bottom, size.s32)
+                DText(viewModel.speechKeys.map({ value in
+                    "\"\(String(localized: value))\""
+                }).joined(separator: "   "))
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscaleBackgroundWeak,
+                        alignment: .center
+                    )
+                    .padding(.horizontal, size.s16)
                 
                 Spacer()
                 
@@ -94,6 +107,14 @@ private struct SpeechBottomSheetView: View {
         }
         .presentationBackground(.clear)
         .presentationCornerRadius(size.s32)
-        .presentationDetents([.fraction(0.6)])
+        .presentationDetents([.fraction(0.5)])
+        .animation(
+            theme.animation,
+            value: viewModel.speechController.isRecording
+        )
+        .animation(
+            theme.animation,
+            value: viewModel.speechController.text
+        )
     }
 }

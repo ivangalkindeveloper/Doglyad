@@ -52,12 +52,8 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                     )
                     .padding(size.s16)
                 Spacer()
-                Button {
+                DCloseButton {
                     dismiss()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 22))
-                        .foregroundStyle(color.grayscaleLine)
                 }
             }
             .padding(.top, size.s8)

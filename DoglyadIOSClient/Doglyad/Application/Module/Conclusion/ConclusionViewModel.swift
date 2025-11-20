@@ -2,8 +2,8 @@ import SwiftUI
 
 @MainActor
 final class ConclusionViewModel: ObservableObject {
-    private var diagnosticRepository: DiagnosticsRepositoryProtocol
-    private var router: DRouter
+    private let diagnosticRepository: DiagnosticsRepositoryProtocol
+    private let router: DRouter
     
     init(
         diagnosticRepository: DiagnosticsRepositoryProtocol,

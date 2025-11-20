@@ -14,6 +14,8 @@ final class DependencyContainer: ObservableObject {
         
         return DependencyContainer(
             environment: environment,
+            connectionManager: ConnectionManager(),
+            permissionmanager: PermissionManager(),
             diagnosticsRepository: diagnosticsRepository,
             researchTypes: ResearchType.allCases,
             initialScreen: screenType,
@@ -22,6 +24,8 @@ final class DependencyContainer: ObservableObject {
     }
     
     let environment: EnvironmentProtocol
+    let connectionManager: ConnectionManagerProtocol
+    let permissionmanager: PermissionManagerProtocol
     let diagnosticsRepository: DiagnosticsRepositoryProtocol
     let researchTypes: [ResearchType]
     let initialScreen: ScreenType
@@ -29,12 +33,16 @@ final class DependencyContainer: ObservableObject {
     
     init(
         environment: EnvironmentProtocol,
+        connectionManager: ConnectionManagerProtocol,
+        permissionmanager: PermissionManagerProtocol,
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
         researchTypes: [ResearchType],
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?,
     ) {
         self.environment = environment
+        self.connectionManager = connectionManager
+        self.permissionmanager = permissionmanager
         self.diagnosticsRepository = diagnosticsRepository
         self.researchTypes = researchTypes
         self.initialScreen = initialScreen

@@ -9,13 +9,16 @@ import DoglyadCamera
 final class ScanViewModel: ObservableObject {
     static let photoMaxCount: Int = 6
     
-    private var diagnosticRepository: DiagnosticsRepositoryProtocol
-    private var router: DRouter
+    private let permissionManager: PermissionManagerProtocol
+    private let diagnosticRepository: DiagnosticsRepositoryProtocol
+    private let router: DRouter
     
     init(
+        permissionManager: PermissionManagerProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
         router: DRouter
     ) {
+        self.permissionManager = permissionManager
         self.diagnosticRepository = diagnosticRepository
         self.router = router
         cameraController.startSession()
@@ -150,14 +153,20 @@ final class ScanViewModel: ObservableObject {
     }
     
     func onTapSpeech() -> Void {
-        router.push(
-            route: RouteSheet(
-                type: .speech,
-                arguments: SpeechBottomSheetArguments(
-                    completion: { value in }
+        Task {
+            guard await permissionManager.isGranted(.speech) else {
+                return
+            }
+            
+            router.push(
+                route: RouteSheet(
+                    type: .speech,
+                    arguments: SpeechBottomSheetArguments(
+                        completion: { value in }
+                    )
                 )
             )
-        )
+        }
     }
     
     func onTapScan() -> Void {}

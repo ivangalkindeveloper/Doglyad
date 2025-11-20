@@ -3,12 +3,15 @@ import DoglyadSpeech
 
 @MainActor
 final class SpeechViewModel: ObservableObject {
-    private var router: DRouter
+    private let router: DRouter
+    private let arguments: SpeechBottomSheetArguments
     
     init(
-        router: DRouter
+        router: DRouter,
+        arguments: SpeechBottomSheetArguments
     ) {
         self.router = router
+        self.arguments = arguments
     }
     
     @NestedObservableObject var speechController = DSpeechController(
@@ -19,7 +22,7 @@ final class SpeechViewModel: ObservableObject {
         router.dismissSheet()
     }
     
-    let columns = [GridItem(.flexible())]
+    let columns = [GridItem(.adaptive(minimum: 100))]
     let speechKeys: [LocalizedStringResource] = [
         .scanPatientName,
         .scanGenderLabel,
@@ -38,14 +41,16 @@ final class SpeechViewModel: ObservableObject {
     }
     
     private func onTapStart() -> Void {
-        speechController.start(completion: {
-            value in
-            print(value)
-        } )
+        speechController.start()
     }
     
     private func onTapStop() -> Void {
         speechController.stop()
+        guard let text = speechController.text else {
+            return
+        }
+        arguments.completion(text)
+        router.dismissSheet()
     }
 }
 

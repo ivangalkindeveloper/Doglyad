@@ -57,7 +57,7 @@ final class RouterBuilder: RouterBuilderProtocol {
         case .speech:
             AnyView(
                 SpeechBottomSheet(
-                    arguments: route.arguments as? SpeechBottomSheetArguments
+                    arguments: route.arguments as! SpeechBottomSheetArguments
                 )
             )
         }

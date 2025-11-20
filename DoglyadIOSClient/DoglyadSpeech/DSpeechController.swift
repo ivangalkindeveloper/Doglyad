@@ -12,6 +12,8 @@ public final class DSpeechController: ObservableObject {
     private var recognitionTask: SFSpeechRecognitionTask?
 
     @Published public var isRecording = false
+    @Published public var text: String? = nil
+    @Published public var audioMeter: Float = 0.0
     
     public init(
         locale: Locale
@@ -19,9 +21,7 @@ public final class DSpeechController: ObservableObject {
         self.speechRecognizer = SFSpeechRecognizer(locale: locale)
     }
     
-    public func start(
-        completion: @escaping (String) -> Void
-    ) -> Void {
+    public func start() -> Void {
         guard !audioEngine.isRunning else { return }
         
         try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
@@ -29,23 +29,26 @@ public final class DSpeechController: ObservableObject {
         
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else { return }
-        
-        let inputNode = audioEngine.inputNode
         recognitionRequest.shouldReportPartialResults = true
         
-        recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest) { result, error in
+        let inputNode = audioEngine.inputNode
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
+            recognitionRequest.append(buffer)
+            self.updateAudioMeter(buffer)
+        }
+        
+        guard let recognizer = speechRecognizer, recognizer.isAvailable else { return }
+        recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { result, error in
             if let result = result {
-                completion(result.bestTranscription.formattedString)
+                DispatchQueue.main.async {
+                    self.text = result.bestTranscription.formattedString
+                }
             }
             
             if error != nil || (result?.isFinal ?? false) {
                 self.stop()
             }
-        }
-        
-        let recordingFormat = inputNode.outputFormat(forBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
-            recognitionRequest.append(buffer)
         }
         
         audioEngine.prepare()
@@ -58,5 +61,23 @@ public final class DSpeechController: ObservableObject {
         audioEngine.inputNode.removeTap(onBus: 0)
         recognitionRequest?.endAudio()
         isRecording = false
+    }
+    
+    
+    private func updateAudioMeter(
+        _ buffer: AVAudioPCMBuffer
+    ) -> Void {
+        guard let channelData = buffer.floatChannelData?[0] else { return }
+        let channelDataArray = Array(UnsafeBufferPointer(
+            start: channelData,
+            count: Int(buffer.frameLength))
+        )
+
+        let rms = sqrt(channelDataArray.map { $0 * $0 }.reduce(0, +) / Float(buffer.frameLength))
+        let level = rms * 15
+
+        DispatchQueue.main.async {
+            self.audioMeter = min(max(level, 0), 1)
+        }
     }
 }

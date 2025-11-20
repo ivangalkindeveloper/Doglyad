@@ -14,6 +14,7 @@ struct ScanScreen: View {
     var body: some View {
         ScanScreenView(
             viewModel: ScanViewModel(
+                permissionManager: container.permissionmanager,
                 diagnosticRepository: container.diagnosticsRepository,
                 router: router
             )

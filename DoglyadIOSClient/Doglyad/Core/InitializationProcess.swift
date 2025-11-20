@@ -27,6 +27,8 @@ final class InitializationProcess: DependencyInitializationProcess {
         get {
             DependencyContainer(
                 environment: self.environment!,
+                connectionManager: self.connectionManager!,
+                permissionmanager: self.permissionmanager!,
                 diagnosticsRepository: self.diagnosticsRepository!,
                 researchTypes: self.researchTypes!,
                 initialScreen: self.initialScreen!,
@@ -59,7 +61,7 @@ extension InitializationProcess {
             }
         ),
         InitializationStep<InitializationProcess>(
-            title: "ModelContainer",
+            title: "Database",
             run: { process in
                 process.database = try DDatabase()
             }
