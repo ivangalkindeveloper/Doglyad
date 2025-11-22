@@ -38,6 +38,7 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
     private let placeholder: LocalizedStringResource
     private let controller: DTextFieldController
     private let keyboardType: UIKeyboardType
+    private let sumbitLabel: SubmitLabel
     private let autocapitalization: TextInputAutocapitalization?
     private let prefix: (() -> Prefix)?
     private let postfix: (() -> Postfix)?
@@ -47,12 +48,14 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
         placeholder: LocalizedStringResource,
         controller: DTextFieldController,
         keyboardType: UIKeyboardType = .default,
+        sumbitLabel: SubmitLabel = .done,
         autocapitalization: TextInputAutocapitalization? = .sentences,
     ) {
         self.title = title
         self.placeholder = placeholder
         self.controller = controller
         self.keyboardType = keyboardType
+        self.sumbitLabel = sumbitLabel
         self.autocapitalization = autocapitalization
         self.prefix = nil
         self.postfix = nil
@@ -63,6 +66,7 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
         placeholder: LocalizedStringResource,
         controller: DTextFieldController,
         keyboardType: UIKeyboardType = .default,
+        sumbitLabel: SubmitLabel = .done,
         autocapitalization: TextInputAutocapitalization? = .sentences,
         @ViewBuilder prefix: @escaping (() -> Prefix),
         @ViewBuilder suffix: @escaping (() -> Postfix)
@@ -71,6 +75,7 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
         self.placeholder = placeholder
         self.controller = controller
         self.keyboardType = keyboardType
+        self.sumbitLabel = sumbitLabel
         self.autocapitalization = autocapitalization
         self.prefix = prefix
         self.postfix = suffix
@@ -108,16 +113,17 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
                             ),
                             prompt: Text(placeholder)
                                 .foregroundStyle(color.grayscalePlaceholder),
-                            axis: .vertical,
+                            axis: .vertical
                         )
-                        .lineLimit(8)
                         .focused($isFocused)
-                        .keyboardType(keyboardType)
-                        .textInputAutocapitalization(autocapitalization)
                         .font(typography.textSmall)
                         .foregroundStyle(color.grayscaleHeader)
                         .multilineTextAlignment(.leading)
                         .tint(borderColor)
+                        .lineLimit(8)
+                        .keyboardType(keyboardType)
+                        .submitLabel(sumbitLabel)
+                        .textInputAutocapitalization(autocapitalization)
                     }
 
                     postfix?().fixedSize()

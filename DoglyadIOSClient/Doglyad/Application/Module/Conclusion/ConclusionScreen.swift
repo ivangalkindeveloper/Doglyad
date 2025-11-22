@@ -77,7 +77,7 @@ private struct ConclusionScreenView: View {
                                 )
                                 .padding(.bottom, size.s8)
                             
-                            DText(.scanPatientName)
+                            DText(.scanPatientNameLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
                                     color: color.grayscalePlaceholder
@@ -88,7 +88,7 @@ private struct ConclusionScreenView: View {
                                 )
                                 .padding(.bottom, size.s8)
                             
-                            DText(.scanGenderLabel)
+                            DText(.scanPatientGenderLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
                                     color: color.grayscalePlaceholder
@@ -99,7 +99,7 @@ private struct ConclusionScreenView: View {
                                 )
                                 .padding(.bottom, size.s8)
                             
-                            DText(.scanDateOfBirthLabel)
+                            DText(.scanPatientDateOfBirthLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
                                     color: color.grayscalePlaceholder
@@ -110,7 +110,7 @@ private struct ConclusionScreenView: View {
                                 )
                                 .padding(.bottom, size.s8)
                             
-                            DText(.scanResearchDescription)
+                            DText(.scanResearchDescriptionLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
                                     color: color.grayscalePlaceholder
@@ -122,7 +122,7 @@ private struct ConclusionScreenView: View {
                             .padding(.bottom, size.s8)
                             
                             if let patientComplaint = conclusion.patientComplaint {
-                                DText(.scanPatientComplaint)
+                                DText(.scanPatientComplaintLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
                                         color: color.grayscalePlaceholder
@@ -135,7 +135,7 @@ private struct ConclusionScreenView: View {
                             }
                             
                             if let additionalMedicalData = conclusion.additionalMedicalData {
-                                DText(.scanAdditionalMedicalData)
+                                DText(.scanAdditionalMedicalDataLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
                                         color: color.grayscalePlaceholder
@@ -147,7 +147,7 @@ private struct ConclusionScreenView: View {
                                 .padding(.bottom, size.s8)
                             }
                             
-                            DText(.conclusionActualModelReponseTitle)
+                            DText(.conclusionActualModelResponseTitle)
                                 .dStyle(
                                     font: typography.linkLarge
                                 )
@@ -208,19 +208,21 @@ private struct ConclusionScreenView: View {
                 patientName: "Пациент#0",
                 patientGender: .male,
                 patientDateOfBirth: Date(),
-                scanDescription: """
-                Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
-                Размеры долей симметричные, контуры ровные и чёткие.
-                Паренхима однородная, эхогенность умеренная.
-                Очаговых образований не выявлено.
-                Региональные лимфоузлы без особенностей.
-                """,
+                patientHeight: 180.0,
+                patientWeight: 80.0,
                 patientComplaint: """
                 Пациент отмечает периодическое чувство давления в области шеи.
                 Сообщает о небольшом дискомфорте при глотании в течение последних двух недель.
                 Также упоминает общую слабость и повышенную утомляемость.
                 Ранее подобные симптомы не наблюдались.
                 Жалоб на боль нет.
+                """,
+                scanDescription: """
+                Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
+                Размеры долей симметричные, контуры ровные и чёткие.
+                Паренхима однородная, эхогенность умеренная.
+                Очаговых образований не выявлено.
+                Региональные лимфоузлы без особенностей.
                 """,
                 additionalMedicalData: """
                 Исследование выполнено на ультразвуковом аппарате экспертного класса.

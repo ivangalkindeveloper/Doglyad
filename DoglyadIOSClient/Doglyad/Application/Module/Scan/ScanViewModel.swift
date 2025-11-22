@@ -33,10 +33,10 @@ final class ScanViewModel: ObservableObject {
     @NestedObservableObject var patientNameController = DTextFieldController(initialText: "Пациент#0")
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
-    //
-    @NestedObservableObject var researchDataController = DTextFieldController()
-    //
+    @NestedObservableObject var patientHeightController = DTextFieldController()
+    @NestedObservableObject var patientWeightController = DTextFieldController()
     @NestedObservableObject var patientComplaintController = DTextFieldController()
+    @NestedObservableObject var researchDescriptionController = DTextFieldController()
     @NestedObservableObject var additionalMedicalDataController = DTextFieldController()
     
     var isPhotoFilling: Bool {
@@ -53,7 +53,11 @@ final class ScanViewModel: ObservableObject {
     
     func unfocus() -> Void {
         patientNameController.unfocus()
+        patientHeightController.unfocus()
+        patientWeightController.unfocus()
         patientComplaintController.unfocus()
+        researchDescriptionController.unfocus()
+        additionalMedicalDataController.unfocus()
     }
     
     func onChangePhotosForSheet() -> Void {

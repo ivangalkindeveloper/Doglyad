@@ -26,13 +26,13 @@ struct DateOfBirthCard: View {
             HStack(
                 spacing: .zero
             ) {
-                DText("\(String(localized: .scanDateOfBirthLabel)): \(date.localized())")
+                DText("\(String(localized: .scanPatientDateOfBirthLabel)): \(date.localized())")
                     .dStyle(
                         font: typography.linkSmall,
                     )
                     .padding(.trailing , size.s8)
                 
-                DText("(\(ageCount()) \(String(localized: .scanDateOfBirthAgeLabel)))")
+                DText("(\(ageCount()) \(String(localized: .scanPatientDateOfBirthAgeLabel)))")
                     .dStyle(
                         font: typography.textXSmall,
                         color: color.grayscalePlaceholder

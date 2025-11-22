@@ -36,9 +36,7 @@ private struct HistoryScreenView: View {
                 showsIndicators: false
             ) {
                 if viewModel.conclusions.isEmpty {
-                    DText(
-                        .historyEmptyLabel
-                    )
+                    DText(.historyEmptyDescription)
                     .dStyle(
                         font: typography.textSmall,
                         color: color.grayscalePlaceholder,

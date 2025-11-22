@@ -48,7 +48,8 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                 Spacer()
                 DText(title)
                     .dStyle(
-                        font: typography.linkSmall
+                        font: typography.linkSmall,
+                        alignment: .center
                     )
                     .padding(size.s16)
                 Spacer()
@@ -86,7 +87,6 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
-        .ignoresSafeArea()
         .presentationBackground(color.grayscaleBackgroundWeak)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(size.s32)

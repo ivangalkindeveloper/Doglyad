@@ -17,7 +17,7 @@ struct SpeechAudioMeterView: View {
                 Capsule()
                     .fill(color.grayscaleBackgroundWeak)
                     .frame(
-                        width: 6,
+                        width: size.s4,
                         height: level == 0.0 ? 4 : CGFloat.random(in: 4 ... 56) * CGFloat(level + 0.2)
                     )
                     .animation(

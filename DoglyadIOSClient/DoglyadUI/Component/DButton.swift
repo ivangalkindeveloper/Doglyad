@@ -50,6 +50,10 @@ public struct DButton: View {
                 }
             }
         }
+        .animation(
+            theme.animation,
+            value: isLoading
+        )
     }
 }
 

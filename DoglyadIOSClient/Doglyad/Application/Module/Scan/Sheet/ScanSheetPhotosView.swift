@@ -35,13 +35,13 @@ struct ScanSheetPhotosView: View {
             }
             .padding(.bottom, size.s8)
             
-            DText(.scanMaxPhotoLabel(count: ScanViewModel.photoMaxCount))
-            .dStyle(
-                font: typography.textSmall,
-                color: color.grayscalePlaceholder
-            )
-            .padding(.horizontal, size.s16)
-            .padding(.bottom, size.s32)
+            DText(.scanMaxPhotoDescription(count: ScanViewModel.photoMaxCount))
+                .dStyle(
+                    font: typography.textSmall,
+                    color: color.grayscalePlaceholder
+                )
+                .padding(.horizontal, size.s16)
+                .padding(.bottom, size.s32)
         }
     }
 }

@@ -35,24 +35,13 @@ private struct SpeechBottomSheetView: View {
     @StateObject var viewModel: SpeechViewModel
 
     var body: some View {
-        ZStack {
-            Color.clear
-                .background(.ultraThinMaterial)
-            
+        DBlurBottomSheet(
+            title: .speechTitle,
+            fraction: 0.5
+        ) {
             VStack(
                 spacing: .zero
             ) {
-                HStack(
-                    spacing: .zero
-                ) {
-                    Spacer()
-                    DCloseButton {
-                        viewModel.onTapBack()
-                    }
-                }
-                .padding(.top, size.s4)
-                .padding(.bottom, size.s16)
-                
                 Spacer()
                 
                 if viewModel.speechController.isRecording {
@@ -67,7 +56,7 @@ private struct SpeechBottomSheetView: View {
                             .truncationMode(.head)
                             .clipped()
                             .padding(.horizontal, size.s32)
-                            .padding(.bottom, size.s8)
+                            .padding(.bottom, size.s4)
                     }
                     
                     SpeechAudioMeterView(
@@ -83,11 +72,11 @@ private struct SpeechBottomSheetView: View {
                         alignment: .center
                     )
                     .padding(.horizontal, size.s16)
-                    .padding(.bottom, size.s8)
+                    .padding(.bottom, size.s4)
                 
                 DText(viewModel.speechKeys.map({ value in
                     "\"\(String(localized: value))\""
-                }).joined(separator: "   "))
+                }).joined(separator: ", "))
                     .dStyle(
                         font: typography.textSmall,
                         color: color.grayscaleBackgroundWeak,
@@ -105,9 +94,6 @@ private struct SpeechBottomSheetView: View {
             }
             .padding(size.s16)
         }
-        .presentationBackground(.clear)
-        .presentationCornerRadius(size.s32)
-        .presentationDetents([.fraction(0.5)])
         .animation(
             theme.animation,
             value: viewModel.speechController.isRecording

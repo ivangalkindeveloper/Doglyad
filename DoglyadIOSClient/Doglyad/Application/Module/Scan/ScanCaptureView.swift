@@ -10,35 +10,45 @@ struct ScanCaptureView: View {
     @EnvironmentObject private var viewModel: ScanViewModel
     
     var body: some View {
-        if viewModel.isCaptureAvailable {
-            VStack(
-                spacing: .zero
-            ) {
+        VStack(
+            spacing: .zero
+        ) {
+            if viewModel.isPhotoFilling {
                 DButton(
-                    image: viewModel.captureIcon,
-                    action: viewModel.onTapCapture,
-                    isLoading: viewModel.cameraController.isCapturing
+                    image: .down,
+                    action: viewModel.onTapCapture
                 )
                 .dStyle(.primaryCircle)
-                
-                if !viewModel.isPhotoFilling {
-                    DText(
-                        .scanCaptureDescription,
+            } else if viewModel.isCaptureAvailable {
+                VStack(
+                    spacing: .zero
+                ) {
+                    DButton(
+                        image: viewModel.captureIcon,
+                        action: viewModel.onTapCapture,
+                        isLoading: viewModel.cameraController.isCapturing
                     )
-                    .dStyle(
-                        font: typography.textSmall,
-                        color: color.grayscaleLine,
-                        alignment: .center
-                    )
-                    .padding(.top, size.s16)
+                    .dStyle(.primaryCircle)
+                    
+                    if !viewModel.isPhotoFilling {
+                        DText(.scanCaptureDescription)
+                        .dStyle(
+                            font: typography.textSmall,
+                            color: color.grayscaleLine,
+                            alignment: .center
+                        )
+                        .padding(.top, size.s16)
+                    }
                 }
             }
-            .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s116 : .zero)
-            .animation(
-                theme.animation,
-                value: viewModel.sheetController.currentPosition
-            )
         }
+        .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s116 : .zero)
+        .animation(
+            theme.animation,
+            value: viewModel.sheetController.currentPosition
+        )
+        
+
     }
 }
 

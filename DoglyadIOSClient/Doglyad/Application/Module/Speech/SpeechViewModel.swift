@@ -24,12 +24,14 @@ final class SpeechViewModel: ObservableObject {
     
     let columns = [GridItem(.adaptive(minimum: 100))]
     let speechKeys: [LocalizedStringResource] = [
-        .scanPatientName,
-        .scanGenderLabel,
-        .scanDateOfBirthLabel,
-        .scanResearchDescription,
-        .scanPatientComplaint,
-        .scanAdditionalMedicalData
+        .scanPatientNameLabel,
+        .scanPatientGenderLabel,
+        .scanPatientDateOfBirthLabel,
+        .scanPatientHeightCMLabel,
+        .scanPatientWeightKGLabel,
+        .scanPatientComplaintLabel,
+        .scanResearchDescriptionLabel,
+        .scanAdditionalMedicalDataLabel
     ]
     
     var speechIcon: ImageResource {

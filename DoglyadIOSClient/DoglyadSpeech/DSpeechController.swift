@@ -47,7 +47,9 @@ public final class DSpeechController: ObservableObject {
             }
             
             if error != nil || (result?.isFinal ?? false) {
-                self.stop()
+                DispatchQueue.main.async {
+                    self.stop()
+                }
             }
         }
         

@@ -10,7 +10,7 @@ struct ScanScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
     let arguments: ScanScreenArguments?
-    
+
     var body: some View {
         ScanScreenView(
             viewModel: ScanViewModel(
@@ -37,15 +37,17 @@ private struct ScanScreenView: View {
             ZStack {
                 ZStack {
                     ScanCameraView()
-                    
+
                     VStack(
                         spacing: .zero
                     ) {
                         ScanHeaderView()
+                            .padding(.vertical, size.s4)
+                            .padding(.horizontal, size.s16)
                         Spacer()
                         ScanCaptureView()
+                            .padding(size.s16)
                     }
-                    .padding(size.s16)
                 }
                 .bottomSheet(
                     bottomSheetPosition: $viewModel.sheetController.currentPosition,
@@ -89,7 +91,7 @@ private struct ScanScreenView: View {
                             )
                             .dStyle(.primaryChip)
                             .padding(.bottom, size.s8)
-                            
+
                             DButton(
                                 title: .buttonScan,
                                 action: viewModel.onTapScan
@@ -130,5 +132,3 @@ private struct ScanScreenView: View {
         .environmentObject(viewModel)
     }
 }
-
-

@@ -8,8 +8,10 @@ struct ResearchConclusion: Identifiable {
     let patientName: String
     let patientGender: PatientGender
     let patientDateOfBirth: Date
-    let scanDescription: String
+    let patientHeight: Double
+    let patientWeight: Double
     let patientComplaint: String?
+    let scanDescription: String
     let additionalMedicalData: String?
     let actualModelConclusion: ResearchModelConclusion
     let previosModelConclusions: [ResearchModelConclusion]

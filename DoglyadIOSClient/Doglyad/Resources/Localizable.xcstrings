@@ -205,7 +205,7 @@
         }
       }
     },
-    "conclusionActualModelReponseTitle" : {
+    "conclusionActualModelResponseTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -392,7 +392,7 @@
         }
       }
     },
-    "historyEmptyLabel" : {
+    "historyEmptyDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1004,7 +1004,7 @@
         }
       }
     },
-    "scanAdditionalMedicalData" : {
+    "scanAdditionalMedicalDataLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1055,40 +1055,6 @@
         }
       }
     },
-    "scanDateOfBirthAgeLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "years old"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "лет"
-          }
-        }
-      }
-    },
-    "scanDateOfBirthLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Date of birth"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дата рождения"
-          }
-        }
-      }
-    },
     "scanGenderFemaleLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1102,23 +1068,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Женщина"
-          }
-        }
-      }
-    },
-    "scanGenderLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gender"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пол"
           }
         }
       }
@@ -1140,7 +1089,7 @@
         }
       }
     },
-    "scanMaxPhotoLabel" : {
+    "scanMaxPhotoDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1157,19 +1106,36 @@
         }
       }
     },
-    "scanPatientComplaint" : {
+    "scanNumberPlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Patient complaint"
+            "value" : "0.0"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Жалоба пациента"
+            "value" : "0.0"
+          }
+        }
+      }
+    },
+    "scanPatientComplaintLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Complaint"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жалоба"
           }
         }
       }
@@ -1191,19 +1157,87 @@
         }
       }
     },
-    "scanPatientName" : {
+    "scanPatientDateOfBirthAgeLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Patient name"
+            "value" : "years old"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Имя пациента"
+            "value" : "лет"
+          }
+        }
+      }
+    },
+    "scanPatientDateOfBirthLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date of birth"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата рождения"
+          }
+        }
+      }
+    },
+    "scanPatientGenderLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gender"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пол"
+          }
+        }
+      }
+    },
+    "scanPatientHeightCMLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Height (cm)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рост (см)"
+          }
+        }
+      }
+    },
+    "scanPatientNameLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
           }
         }
       }
@@ -1225,6 +1259,23 @@
         }
       }
     },
+    "scanPatientWeightKGLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weight (kg)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вес (кг)"
+          }
+        }
+      }
+    },
     "scanResearchDateLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1242,7 +1293,7 @@
         }
       }
     },
-    "scanResearchDescription" : {
+    "scanResearchDescriptionLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1276,7 +1327,7 @@
         }
       }
     },
-    "scanTurnedOffCameraLabel" : {
+    "scanTurnedOffCameraDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1323,6 +1374,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Для заполнения формы нажмите на кнопку записи и продиктуйте голосом данные со следующими словами:"
+          }
+        }
+      }
+    },
+    "speechTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice recording"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись голосом"
           }
         }
       }

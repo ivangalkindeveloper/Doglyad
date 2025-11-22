@@ -33,7 +33,7 @@ struct ScanCameraView: View {
                             alignment: .center
                         ) {
                             DText(
-                                .scanTurnedOffCameraLabel,
+                                .scanTurnedOffCameraDescription,
                             )
                             .dStyle(
                                 font: typography.textSmall,
