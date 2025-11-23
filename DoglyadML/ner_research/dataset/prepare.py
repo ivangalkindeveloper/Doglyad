@@ -29,13 +29,13 @@ def load_ner_dataset(csv_path):
     
     return sentences
 
-train_data = load_ner_dataset("research_ner/dataset/train.csv")
-validation_data = load_ner_dataset("research_ner/dataset/validation.csv")
+train_data = load_ner_dataset("DoglyadML/ner_research/dataset/train.csv")
+validation_data = load_ner_dataset("DoglyadML/ner_research/dataset/validation.csv")
 
 dataset = DatasetDict({
     "train": Dataset.from_list(train_data),
     "validation": Dataset.from_list(validation_data),
 })
 
-dataset.save_to_disk("research_ner/dataset")
-print("Dataset saved to research_ner/dataset/")
+dataset.save_to_disk("DoglyadML/ner_research/dataset")
+print("Dataset saved to DoglyadML/ner_research/dataset/")

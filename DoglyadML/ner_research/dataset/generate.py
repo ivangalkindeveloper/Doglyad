@@ -109,7 +109,7 @@ def write_dataset(path, n=2000):
                 writer.writerow([t, g])
             writer.writerow([])
 
-write_dataset("research_ner/dataset/train.csv", 8000)
-write_dataset("research_ner/dataset/validation.csv", 2000)
+write_dataset("DoglyadML/ner_research/dataset/train.csv", 8000)
+write_dataset("DoglyadML/ner_research/dataset/validation.csv", 2000)
 
 print("Dataset generated successfully")

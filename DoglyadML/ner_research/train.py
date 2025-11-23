@@ -11,9 +11,17 @@ import evaluate
 
 MODEL_NAME = "xlm-roberta-base"
 
-dataset = load_from_disk("./research_ner/dataset")
+dataset = load_from_disk("./DoglyadML/ner_research/dataset")
 
 label_list = sorted(list(set(tag for tags in dataset["train"]["tag"] for tag in tags)))
+# Добавляем все возможные I- метки, если их нет
+for label in label_list[:]:
+    if label.startswith("B-"):
+        i_label = label.replace("B-", "I-")
+        if i_label not in label_list:
+            label_list.append(i_label)
+
+label_list = sorted(label_list)
 label_to_id = {label: i for i, label in enumerate(label_list)}
 id_to_label = {i: label for label, i in label_to_id.items()}
 
@@ -22,11 +30,24 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 def tokenize_and_align_labels(example):
     tokenized = tokenizer(example["token"], truncation=True, is_split_into_words=True)
     labels = []
+    previous_word_idx = None
     for i, word_id in enumerate(tokenized.word_ids()):
         if word_id is None:
             labels.append(-100)
-        else:
+        elif word_id != previous_word_idx:
+            # Первый подтокен слова - используем оригинальную метку
             labels.append(label_to_id[example["tag"][word_id]])
+        else:
+            # Последующие подтокены того же слова
+            label = example["tag"][word_id]
+            if label.startswith("B-"):
+                # Если B- метка, то для подтокенов делаем I-
+                i_label = label.replace("B-", "I-")
+                labels.append(label_to_id.get(i_label, label_to_id[label]))
+            else:
+                # Если уже I- или O, оставляем как есть
+                labels.append(label_to_id[label])
+        previous_word_idx = word_id
     tokenized["labels"] = labels
     return tokenized
 
@@ -59,7 +80,7 @@ def compute_metrics(p):
     return metric.compute(predictions=true_predictions, references=true_labels)
 
 args = TrainingArguments(
-    output_dir="./research_ner/model",
+    output_dir="./DoglyadML/ner_research/model",
     eval_strategy="epoch",
     learning_rate=3e-5,
     per_device_train_batch_size=8,
@@ -79,5 +100,5 @@ trainer = Trainer(
 )
 
 trainer.train()
-trainer.save_model("./research_ner/model")
-tokenizer.save_pretrained("./research_ner/model")
+trainer.save_model("./DoglyadML/ner_research/model")
+tokenizer.save_pretrained("./DoglyadML/ner_research/model")

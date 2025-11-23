@@ -1,9 +1,9 @@
 from transformers import AutoTokenizer, AutoModelForTokenClassification
-import torch
+from transformers import pipeline
+from collections import defaultdict
+import json
 
-model = AutoModelForTokenClassification.from_pretrained("./research_ner/model")
-tokenizer = AutoTokenizer.from_pretrained("./research_ner/model")
-
+MODEL_PATH = "./DoglyadML/ner_research/model"
 TEST_TEXT = """
 Пациент номер 184562, женщина, дата рождения: 12 марта 1984 года, рост 167 сантиметров, вес 68 килограммов.
 Жалобы - периодические ощущения комка в горле, дискомфорт при глотании, эпизодические колебания уровня энергии.
@@ -11,13 +11,18 @@ TEST_TEXT = """
 Дополнительные данные об исследовании - исследование выполнено на аппарате GE Logiq P9 с использованием линейного датчика частотой 7–12 МГц. Запись и измерения сохранены в архиве системы. Технических артефактов, мешающих оценке структуры железы, не отмечено.
 """
 
-tokens = TEST_TEXT.split()
-inputs = tokenizer(tokens, is_split_into_words=True, return_tensors="pt")
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+model = AutoModelForTokenClassification.from_pretrained(MODEL_PATH)
 
-with torch.no_grad():
-    logits = model(**inputs).logits
+pipe = pipeline("token-classification", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
+result = pipe(TEST_TEXT)
+print(result)
 
-predictions = torch.argmax(logits, dim=-1).squeeze().tolist()
+entities = defaultdict(list)
+for ent in result:
+    tag = ent["entity_group"]
+    value = ent["word"]
+    entities[tag].append(value)
+print("\n=== NORMALIZED OUTPUT ===\n")
+print(json.dumps(entities, ensure_ascii=False, indent=2))
 
-for token, pred_id in zip(tokens, predictions):
-    print(token, model.config.id2label[pred_id])
