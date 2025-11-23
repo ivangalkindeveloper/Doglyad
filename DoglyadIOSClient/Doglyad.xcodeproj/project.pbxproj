@@ -11,7 +11,6 @@
 		771F41AF2EA430B400C4945A /* DoglyadDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 771F41A82EA430B400C4945A /* DoglyadDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; };
 		7720FEEC2E9ACE43002EA89E /* DoglyadUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		773A696D2E9C1207003C3643 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 773A696C2E9C1202003C3643 /* Makefile */; };
 		776889DD2EBD483B00880301 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 776889DC2EBD483B00880301 /* Shimmer */; };
 		77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77759AFA2E932B78007CC90C /* DependencyInitializer */; };
 		777B8DE52EB0020D007F5678 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 777B8DE42EB0020D007F5678 /* BottomSheet */; };
@@ -100,7 +99,6 @@
 /* Begin PBXFileReference section */
 		771F41A82EA430B400C4945A /* DoglyadDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		773A696C2E9C1202003C3643 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		77AC58B22E929E7E0028250A /* Doglyad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doglyad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58C12E929E800028250A /* DoglyadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58CB2E929E800028250A /* DoglyadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -302,7 +300,6 @@
 		77AC58A92E929E7E0028250A = {
 			isa = PBXGroup;
 			children = (
-				773A696C2E9C1202003C3643 /* Makefile */,
 				77BB12512E92C62A00B9FFC5 /* Config.xcconfig */,
 				77AC58B42E929E7E0028250A /* Doglyad */,
 				771F41A92EA430B400C4945A /* DoglyadDB */,
@@ -715,7 +712,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				773A696D2E9C1207003C3643 /* Makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

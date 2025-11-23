@@ -31,7 +31,7 @@ final class SpeechViewModel: ObservableObject {
         .scanPatientWeightKGLabel,
         .scanPatientComplaintLabel,
         .scanResearchDescriptionLabel,
-        .scanAdditionalMedicalDataLabel
+        .scanAdditionalDataLabel
     ]
     
     var speechIcon: ImageResource {

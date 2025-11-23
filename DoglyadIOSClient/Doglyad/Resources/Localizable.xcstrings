@@ -1004,24 +1004,24 @@
         }
       }
     },
-    "scanAdditionalMedicalDataLabel" : {
+    "scanAdditionalDataLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Additional medical data"
+            "value" : "Additional data"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дополнительные мед. данные"
+            "value" : "Дополнительные данные"
           }
         }
       }
     },
-    "scanAdditionalMedicalDataPlaceholder" : {
+    "scanAdditionalDataPlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

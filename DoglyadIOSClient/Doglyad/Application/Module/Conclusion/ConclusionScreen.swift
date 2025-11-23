@@ -116,7 +116,7 @@ private struct ConclusionScreenView: View {
                                     color: color.grayscalePlaceholder
                                 )
                             ExpandableText(
-                                text: conclusion.scanDescription,
+                                text: conclusion.researchDescription,
                                 backgroundColor: color.grayscaleBackgroundWeak
                             )
                             .padding(.bottom, size.s8)
@@ -134,14 +134,14 @@ private struct ConclusionScreenView: View {
                                 .padding(.bottom, size.s8)
                             }
                             
-                            if let additionalMedicalData = conclusion.additionalMedicalData {
-                                DText(.scanAdditionalMedicalDataLabel)
+                            if let additionalData = conclusion.additionalData {
+                                DText(.scanAdditionalDataLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
                                         color: color.grayscalePlaceholder
                                     )
                                 ExpandableText(
-                                    text: additionalMedicalData,
+                                    text: additionalData,
                                     backgroundColor: color.grayscaleBackgroundWeak,
                                 )
                                 .padding(.bottom, size.s8)
@@ -217,14 +217,14 @@ private struct ConclusionScreenView: View {
                 Ранее подобные симптомы не наблюдались.
                 Жалоб на боль нет.
                 """,
-                scanDescription: """
+                researchDescription: """
                 Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
                 Размеры долей симметричные, контуры ровные и чёткие.
                 Паренхима однородная, эхогенность умеренная.
                 Очаговых образований не выявлено.
                 Региональные лимфоузлы без особенностей.
                 """,
-                additionalMedicalData: """
+                additionalData: """
                 Исследование выполнено на ультразвуковом аппарате экспертного класса.
                 Использован линейный датчик высокой частоты 7–12 МГц.
                 Настройки оптимизированы для визуализации поверхностных структур.

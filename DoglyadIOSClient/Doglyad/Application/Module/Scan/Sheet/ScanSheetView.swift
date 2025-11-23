@@ -104,9 +104,9 @@ struct ScanSheetView: View {
             .padding(.bottom, size.s4)
             
             DTextField<EmptyView, EmptyView>(
-                title: .scanAdditionalMedicalDataLabel,
-                placeholder: .scanAdditionalMedicalDataPlaceholder,
-                controller: viewModel.additionalMedicalDataController,
+                title: .scanAdditionalDataLabel,
+                placeholder: .scanAdditionalDataPlaceholder,
+                controller: viewModel.additionalDataController,
                 keyboardType: .default,
                 sumbitLabel: .done
             )

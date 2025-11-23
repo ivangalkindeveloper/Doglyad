@@ -10,6 +10,6 @@ struct ResearchData {
     let patientHeight: Double
     let patientWeight: Double
     let patientComplaint: String?
-    let scanDescription: String
-    let additionalMedicalData: String?
+    let researchDescription: String
+    let additionalData: String?
 }

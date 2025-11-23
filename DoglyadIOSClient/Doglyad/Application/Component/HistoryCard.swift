@@ -51,7 +51,7 @@ struct HistoryCard: View {
                             font: typography.linkSmall,
                             color: color.grayscalePlaceholder
                         )
-                    DText(conclusion.scanDescription)
+                    DText(conclusion.researchDescription)
                         .dStyle(
                             font: typography.textSmall,
                             color: color.grayscaleLabel
@@ -89,14 +89,14 @@ struct HistoryCard: View {
                 Ранее подобные симптомы не наблюдались.
                 Жалоб на боль нет.
                 """,
-                scanDescription: """
+                researchDescription: """
                 Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
                 Размеры долей симметричные, контуры ровные и чёткие.
                 Паренхима однородная, эхогенность умеренная.
                 Очаговых образований не выявлено.
                 Региональные лимфоузлы без особенностей.
                 """,
-                additionalMedicalData: """
+                additionalData: """
                 Исследование выполнено на ультразвуковом аппарате экспертного класса.
                 Использован линейный датчик высокой частоты 7–12 МГц.
                 Настройки оптимизированы для визуализации поверхностных структур.

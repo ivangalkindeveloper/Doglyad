@@ -37,7 +37,7 @@ final class ScanViewModel: ObservableObject {
     @NestedObservableObject var patientWeightController = DTextFieldController()
     @NestedObservableObject var patientComplaintController = DTextFieldController()
     @NestedObservableObject var researchDescriptionController = DTextFieldController()
-    @NestedObservableObject var additionalMedicalDataController = DTextFieldController()
+    @NestedObservableObject var additionalDataController = DTextFieldController()
     
     var isPhotoFilling: Bool {
         photos.count == ScanViewModel.photoMaxCount
@@ -57,7 +57,7 @@ final class ScanViewModel: ObservableObject {
         patientWeightController.unfocus()
         patientComplaintController.unfocus()
         researchDescriptionController.unfocus()
-        additionalMedicalDataController.unfocus()
+        additionalDataController.unfocus()
     }
     
     func onChangePhotosForSheet() -> Void {
