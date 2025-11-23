@@ -11,9 +11,9 @@ import evaluate
 
 MODEL_NAME = "xlm-roberta-base"
 
-dataset = load_from_disk("ner_dataset")
+dataset = load_from_disk("./research_ner/dataset")
 
-label_list = sorted(list(set(dataset["train"]["tag"])))
+label_list = sorted(list(set(tag for tags in dataset["train"]["tag"] for tag in tags)))
 label_to_id = {label: i for i, label in enumerate(label_list)}
 id_to_label = {i: label for label, i in label_to_id.items()}
 
@@ -59,8 +59,8 @@ def compute_metrics(p):
     return metric.compute(predictions=true_predictions, references=true_labels)
 
 args = TrainingArguments(
-    output_dir="./ner_model",
-    evaluation_strategy="epoch",
+    output_dir="./research_ner/model",
+    eval_strategy="epoch",
     learning_rate=3e-5,
     per_device_train_batch_size=8,
     per_device_eval_batch_size=8,
@@ -79,5 +79,5 @@ trainer = Trainer(
 )
 
 trainer.train()
-trainer.save_model("./ner_model")
-tokenizer.save_pretrained("./ner_model")
+trainer.save_model("./research_ner/model")
+tokenizer.save_pretrained("./research_ner/model")

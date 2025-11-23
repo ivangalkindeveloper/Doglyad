@@ -35,7 +35,7 @@ final class SpeechViewModel: ObservableObject {
     ]
     
     var speechIcon: ImageResource {
-        speechController.isRecording ? .pause : .play
+        speechController.isRecording ? .check : .play
     }
     
     func onTapSpeech() -> Void {

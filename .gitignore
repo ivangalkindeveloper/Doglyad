@@ -1,0 +1,10 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+/.venv
+/.venv311
+/DoglyadML/ner_research/dataset/train
+/DoglyadML/ner_research/dataset/validation
+/DoglyadML/ner_research/dataset/dataset_dict.json
+/DoglyadML/ner_research/dataset/train.csv
+/DoglyadML/ner_research/dataset/validation.csv
+/DoglyadML/ner_research/model
