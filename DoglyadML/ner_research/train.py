@@ -9,7 +9,7 @@ from transformers import (
 import numpy as np
 import evaluate
 
-MODEL_NAME = "xlm-roberta-base"
+MODEL_NAME = "alexyalunin/RuBioRoBERTa"
 
 dataset = load_from_disk("./DoglyadML/ner_research/dataset")
 
@@ -25,14 +25,15 @@ label_list = sorted(label_list)
 label_to_id = {label: i for i, label in enumerate(label_list)}
 id_to_label = {i: label for label, i in label_to_id.items()}
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, add_prefix_space=True)
 
 def tokenize_and_align_labels(example):
-    tokenized = tokenizer(example["token"], truncation=True, is_split_into_words=True)
+    tokenized = tokenizer(example["token"], truncation=True, max_length=512, is_split_into_words=True)
     labels = []
     previous_word_idx = None
     for i, word_id in enumerate(tokenized.word_ids()):
         if word_id is None:
+            # Специальные токены (CLS, SEP, PAD) - игнорируем
             labels.append(-100)
         elif word_id != previous_word_idx:
             # Первый подтокен слова - используем оригинальную метку
@@ -44,8 +45,11 @@ def tokenize_and_align_labels(example):
                 # Если B- метка, то для подтокенов делаем I-
                 i_label = label.replace("B-", "I-")
                 labels.append(label_to_id.get(i_label, label_to_id[label]))
-            else:
+            elif label.startswith("I-") or label == "O":
                 # Если уже I- или O, оставляем как есть
+                labels.append(label_to_id[label])
+            else:
+                # Fallback - используем оригинальную метку
                 labels.append(label_to_id[label])
         previous_word_idx = word_id
     tokenized["labels"] = labels
