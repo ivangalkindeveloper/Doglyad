@@ -2,6 +2,9 @@
 
 /.venv
 /.venv311
+
+*.mlpackage
+
 /DoglyadML/llm_research/model
 
 /DoglyadML/ner_research/dataset/train
