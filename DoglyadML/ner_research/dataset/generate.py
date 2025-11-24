@@ -1,52 +1,26 @@
 import random
 import csv
+import os
 
-NAMES_RU = ["Иван", "Петр", "Анна", "Мария", "Сергей", "Александр", "Дарья"]
-NAMES_EN = ["John", "Michael", "Sarah", "Emily", "David", "Anna", "James"]
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
-GENDERS_RU = ["мужчина", "мужской", "женщина", "женский"]
-GENDERS_EN = ["male", "female"]
+def load_data(filename):
+    filepath = os.path.join(DATA_DIR, filename)
+    with open(filepath, "r", encoding="utf-8") as f:
+        return [line.strip() for line in f if line.strip()]
 
-MONTHS_RU = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
-MONTHS_EN = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
-
-COMPLAINT_RU = [
-    "периодические боли в животе",
-    "дискомфорт при глотании",
-    "ощущение комка в горле",
-    "неприятные покалывания в правом боку",
-]
-
-COMPLAINT_EN = [
-    "intermittent abdominal pain",
-    "discomfort when swallowing",
-    "a sensation of a lump in the throat",
-    "mild tingling in the right side",
-]
-
-RESEARCH_RU = [
-    "Проведено ультразвуковое исследование щитовидной железы",
-    "УЗИ органов брюшной полости",
-    "Ультразвуковое исследование почек",
-]
-
-RESEARCH_EN = [
-    "Ultrasound examination of the thyroid gland was performed",
-    "Ultrasound of the abdominal organs",
-    "Kidney ultrasound examination",
-]
-
-ADDITIONAL_RU = [
-    "исследование выполнено на аппарате GE Logiq P9",
-    "изображения сохранены",
-    "технических артефактов не выявлено",
-]
-
-ADDITIONAL_EN = [
-    "the study was performed on a GE Logiq P9 device",
-    "images were saved",
-    "no technical artifacts detected",
-]
+NAMES_RU = load_data("names_ru.txt")
+NAMES_EN = load_data("names_en.txt")
+GENDERS_RU = load_data("genders_ru.txt")
+GENDERS_EN = load_data("genders_en.txt")
+MONTHS_RU = load_data("months_ru.txt")
+MONTHS_EN = load_data("months_en.txt")
+COMPLAINT_RU = load_data("complaints_ru.txt")
+COMPLAINT_EN = load_data("complaints_en.txt")
+RESEARCH_RU = load_data("research_ru.txt")
+RESEARCH_EN = load_data("research_en.txt")
+ADDITIONAL_RU = load_data("additional_ru.txt")
+ADDITIONAL_EN = load_data("additional_en.txt")
 
 def tokenize(sentence):
     return sentence.replace(", ", " ").replace(". ", " ").replace(":", "").split()
@@ -60,7 +34,7 @@ def tag_entity(tokens, entity_tokens, tag, existing_tags):
                 tags[i] = f"B-{tag}"
                 for j in range(1, len(entity_tokens)):
                     tags[i + j] = f"I-{tag}"
-                break  # Помечаем только первое вхождение
+                break
     return tags
 
 def generate_example(lang="ru"):
@@ -87,7 +61,6 @@ def generate_example(lang="ru"):
     tokens = tokenize(sentence)
     tags = ["O"] * len(tokens)
 
-    # Применяем тегирование в правильном порядке
     entity_tokens = tokenize(name)
     tags = tag_entity(tokens, entity_tokens, "NAME", tags)
     

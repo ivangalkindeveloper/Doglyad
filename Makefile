@@ -4,7 +4,7 @@
 pip-install:
 	pip3 install -r DoglyadML/ner_research/requirements.txt
 
-source:
+set-source:
 	source .venv311/bin/activate
 
 generate-llm-research:
