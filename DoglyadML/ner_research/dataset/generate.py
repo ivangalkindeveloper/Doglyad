@@ -10,14 +10,14 @@ GENDERS_EN = ["male", "female"]
 MONTHS_RU = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 MONTHS_EN = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
 
-COMPLAINTS_RU = [
+COMPLAINT_RU = [
     "периодические боли в животе",
     "дискомфорт при глотании",
     "ощущение комка в горле",
     "неприятные покалывания в правом боку",
 ]
 
-COMPLAINTS_EN = [
+COMPLAINT_EN = [
     "intermittent abdominal pain",
     "discomfort when swallowing",
     "a sensation of a lump in the throat",
@@ -70,18 +70,18 @@ def generate_example(lang="ru"):
     if lang == "ru":
         name = random.choice(NAMES_RU)
         gender = random.choice(GENDERS_RU)
-        complaint = random.choice(COMPLAINTS_RU)
+        complaint = random.choice(COMPLAINT_RU)
         research = random.choice(RESEARCH_RU)
         additional = random.choice(ADDITIONAL_RU)
-        birthdate = f"{random.randint(1,28)} {random.choice(MONTHS_RU)} {random.randint(1970,2005)}"
+        birthdate = f"{random.randint(1,31)} {random.choice(MONTHS_RU)} {random.randint(1900,2025)}"
         sentence = f"Пациент {name}, {gender}, дата рождения {birthdate}, рост {height} см, вес {weight} кг. Жалобы: {complaint}. Описание исследования: {research}. Дополнительно: {additional}."
     else:
         name = random.choice(NAMES_EN)
         gender = random.choice(GENDERS_EN)
-        complaint = random.choice(COMPLAINTS_EN)
+        complaint = random.choice(COMPLAINT_EN)
         research = random.choice(RESEARCH_EN)
         additional = random.choice(ADDITIONAL_EN)
-        birthdate = f"{random.choice(MONTHS_EN)} {random.randint(1,28)}, {random.randint(1970,2005)}"
+        birthdate = f"{random.choice(MONTHS_EN)} {random.randint(1,31)}, {random.randint(1900,2025)}"
         sentence = f"Patient {name}, {gender}, date of birth {birthdate}, height {height} cm, weight {weight} kg. Complaints: {complaint}. Research description: {research}. Additional: {additional}."
 
     tokens = tokenize(sentence)
