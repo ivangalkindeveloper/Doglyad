@@ -6,9 +6,9 @@
 
 /DoglyadML/llm_research/model
 
-/DoglyadML/ner_research/dataset/train
-/DoglyadML/ner_research/dataset/validation
-/DoglyadML/ner_research/dataset/dataset_dict.json
-/DoglyadML/ner_research/dataset/train.csv
-/DoglyadML/ner_research/dataset/validation.csv
-/DoglyadML/ner_research/model
+/DoglyadML/research/ner/dataset/train
+/DoglyadML/research/ner/dataset/validation
+/DoglyadML/research/ner/dataset/dataset_dict.json
+/DoglyadML/research/ner/dataset/train.csv
+/DoglyadML/research/ner/dataset/validation.csv
+/DoglyadML/research/ner/model
