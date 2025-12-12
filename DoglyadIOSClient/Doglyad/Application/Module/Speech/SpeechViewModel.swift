@@ -55,15 +55,17 @@ final class SpeechViewModel: ObservableObject {
         guard let text = speechController.text else {
             return
         }
-        let response = researchNeuralModel.parseSpeech(
-            localizedPromt: "",
-            text: text
-        )
-        guard let answer = try? JSONDecoder().decode(PatientResearchNeuralModelReponse.self, from: response.data(using: .utf8)!) else {
-            return
+        Task {
+            let response = await researchNeuralModel.parsePatientResearchSpeech(
+                locale: Locale.current,
+                text: text
+            )
+            guard let answer = try? JSONDecoder().decode(PatientResearchNeuralModelResponse.self, from: response.data(using: .utf8)!) else {
+                return
+            }
+            arguments.completion(text)
+            router.dismissSheet()
         }
-        arguments.completion(text)
-        router.dismissSheet()
     }
 }
 

@@ -11,6 +11,9 @@
 		771F41AF2EA430B400C4945A /* DoglyadDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 771F41A82EA430B400C4945A /* DoglyadDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; };
 		7720FEEC2E9ACE43002EA89E /* DoglyadUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7766CFAE2EEC4659009A2AF7 /* Hub in Frameworks */ = {isa = PBXBuildFile; productRef = 7766CFAD2EEC4659009A2AF7 /* Hub */; };
+		7766CFB02EEC4659009A2AF7 /* Tokenizers in Frameworks */ = {isa = PBXBuildFile; productRef = 7766CFAF2EEC4659009A2AF7 /* Tokenizers */; };
+		7766CFB22EEC4659009A2AF7 /* Transformers in Frameworks */ = {isa = PBXBuildFile; productRef = 7766CFB12EEC4659009A2AF7 /* Transformers */; };
 		776889DD2EBD483B00880301 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 776889DC2EBD483B00880301 /* Shimmer */; };
 		77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77759AFA2E932B78007CC90C /* DependencyInitializer */; };
 		777B8DE52EB0020D007F5678 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 777B8DE42EB0020D007F5678 /* BottomSheet */; };
@@ -291,6 +294,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7766CFB22EEC4659009A2AF7 /* Transformers in Frameworks */,
+				7766CFB02EEC4659009A2AF7 /* Tokenizers in Frameworks */,
+				7766CFAE2EEC4659009A2AF7 /* Hub in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +564,9 @@
 			);
 			name = DoglyadML;
 			packageProductDependencies = (
+				7766CFAD2EEC4659009A2AF7 /* Hub */,
+				7766CFAF2EEC4659009A2AF7 /* Tokenizers */,
+				7766CFB12EEC4659009A2AF7 /* Transformers */,
 			);
 			productName = DoglyadML;
 			productReference = 77CB95232EB90C8500489F3E /* DoglyadML.framework */;
@@ -616,6 +625,7 @@
 				77E7F0AC2EA843F000E49A4E /* XCRemoteSwiftPackageReference "Router" */,
 				777B8DE32EB0020D007F5678 /* XCRemoteSwiftPackageReference "BottomSheet" */,
 				776889DB2EBD483B00880301 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				7766CFAC2EEC4659009A2AF7 /* XCRemoteSwiftPackageReference "swift-transformers" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 77AC58B32E929E7E0028250A /* Products */;
@@ -1595,6 +1605,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7766CFAC2EEC4659009A2AF7 /* XCRemoteSwiftPackageReference "swift-transformers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/huggingface/swift-transformers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.5;
+			};
+		};
 		776889DB2EBD483B00880301 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
@@ -1630,6 +1648,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7766CFAD2EEC4659009A2AF7 /* Hub */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7766CFAC2EEC4659009A2AF7 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Hub;
+		};
+		7766CFAF2EEC4659009A2AF7 /* Tokenizers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7766CFAC2EEC4659009A2AF7 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Tokenizers;
+		};
+		7766CFB12EEC4659009A2AF7 /* Transformers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7766CFAC2EEC4659009A2AF7 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Transformers;
+		};
 		776889DC2EBD483B00880301 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 776889DB2EBD483B00880301 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;

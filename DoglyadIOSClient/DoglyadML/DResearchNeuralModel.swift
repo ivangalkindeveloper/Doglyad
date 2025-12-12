@@ -1,113 +1,152 @@
 import CoreML
 import Foundation
+internal import Tokenizers
 
-private func fullPrompt(
-    text: String
-) -> String {
-"""
-You are a model that parses a medical study text obtained by a doctor's dictation.
-This text must be parsed into the following entities: patient name, patient gender, patient date of birth, patient height, patient weight, patient complaint, study description, and additional information about the medical study performed.
-The response must be returned in the JSON format described below; nothing else is required.
-Each parsed section of entities must be edited for syntax and spelling errors, as the text is simply dictated verbally.
-
-JSON format:
-{
-  "patientName":"Patient name",
-  "patientDateOfBirth": "male / female",
-  "patientHeight": 180.0,
-  "patientWeight": 64,
-  "patientComplaint": "Patient complaint",
-  "researchDescription": "Rsearch description",
-  "additionalData": "Additional data"
-}
-
-Text:
-\(text)
-"""
-}
+private let testText = "Пациент Иван мужчина родился 28 марта 1994г. рост 180 см 80 кг жалобы периодически боли животе дискомфорт при глотании боли в левом потребили и чья жесть в правом потреби исследования проведено ультразвуковой исследование органов брюшной полости а также ультразвуковой исследования почек дополнительную информацию о технических фотофактов не выявлено использован линейный да частотой 7,5 мегагерц сохранено 12 снимков исследования"
 
 public protocol DResearchNeuralModelProtocol {
-    func parseSpeech(
-        localizedPromt: String,
+    func parsePatientResearchSpeech(
+        locale: Locale,
         text: String
-    ) -> String
+    ) async -> String
 }
 
 public final class DResearchNeuralModelOpenELM: DResearchNeuralModelProtocol {
-    private let model = try! DoglyadOpenELM(configuration: MLModelConfiguration())
+    private lazy var model: DoglyadOpenELM = {
+        let config = MLModelConfiguration()
+        config.computeUnits = .cpuAndNeuralEngine
+        return try! DoglyadOpenELM(configuration: config)
+    }()
+    private var tokenizer: (any Tokenizer)?
     
     public init() {}
     
-    public func parseSpeech(
-        localizedPromt: String,
+    public func parsePatientResearchSpeech(
+        locale: Locale,
         text: String
-    ) -> String {
-        let fullPrompt = fullPrompt(text: text)
-        guard let inputIds = tokenize(text: fullPrompt) else {
-            return ""
-        }
-        guard let inputArray = createMLMultiArray(from: inputIds) else {
-            return ""
-        }
-        
-        do {
-            let input = DoglyadOpenELMInput(input_ids: inputArray)
-            let prediction = try model.prediction(input: input)
-            guard let outputIds = extractOutputIds(from: prediction) else {
+    ) async -> String {
+        await Task.detached(
+            priority: .high
+        ) {
+            do {
+                let fullPrompt = DResearchNeuralModelData.fullPrompt(
+                    locale: locale,
+                    text: testText
+                )
+                let tokenizer = try await self.getTokenizer()
+                
+                return autoreleasepool {
+                    var inputIds = self.tokenize(text: fullPrompt, tokenizer: tokenizer)
+                    let sequenceLength = DResearchNeuralModelData.sequenceLength
+                    if inputIds.count > sequenceLength {
+                        inputIds = Array(inputIds.prefix(sequenceLength))
+                    }
+                    
+                    let inputArray = self.createMLMultiArray(from: inputIds)
+                    let input = DoglyadOpenELMInput(input_ids: inputArray)
+                    
+                    let prediction = try! self.model.prediction(input: input)
+                    let outputIds = self.extractOutputIds(from: prediction)
+                    let detokenized = self.detokenize(ids: outputIds, tokenizer: tokenizer)
+                    
+                    return detokenized
+                }
+            } catch {
+                print(error)
                 return ""
             }
-            
-            return detokenize(ids: outputIds)
-        } catch {
-            return ""
+        }.value
+    }
+    
+    private func getTokenizer() async throws -> any Tokenizer {
+        if let existing = tokenizer {
+            return existing
         }
+        
+        let loaded = try await AutoTokenizer.from(pretrained: DResearchNeuralModelData.tokenizerName)
+        tokenizer = loaded
+        return loaded
     }
     
     private func tokenize(
-        text: String
-    ) -> [Int32]? {
-        return text.utf8.map { Int32($0) }
+        text: String,
+        tokenizer: any Tokenizer
+    ) -> [Int32] {
+        let tokenIds = tokenizer.encode(text: text)
+        return tokenIds.map { Int32($0) }
     }
     
     private func createMLMultiArray(
         from ids: [Int32]
-    ) -> MLMultiArray? {
+    ) -> MLMultiArray {
         let shape = [1, NSNumber(value: ids.count)]
         guard let array = try? MLMultiArray(shape: shape, dataType: .int32) else {
-            return nil
+            fatalError()
         }
         
         for (index, id) in ids.enumerated() {
             array[index] = NSNumber(value: id)
         }
-        
+
         return array
     }
     
     private func extractOutputIds(
         from prediction: MLFeatureProvider
-    ) -> [Int32]? {
+    ) -> [Int32] {
         let featureNames = prediction.featureNames
-        guard let outputName = featureNames.first(where: { $0.contains("output") || $0.contains("logits") || $0.contains("var") }) else {
-            return nil
+        var maxOutput: (name: String, array: MLMultiArray, count: Int)?
+        for name in featureNames {
+            guard let featureValue = prediction.featureValue(for: name),
+                  let multiArray = featureValue.multiArrayValue else {
+                continue
+            }
+            
+            let count = multiArray.count
+            if maxOutput == nil || count > maxOutput!.count {
+                maxOutput = (name: name, array: multiArray, count: count)
+            }
         }
         
-        guard let output = prediction.featureValue(for: outputName)?.multiArrayValue else {
-            return nil
+        guard let output = maxOutput?.array else {
+            fatalError("Не найден выходной параметр модели")
         }
         
-        var ids: [Int32] = []
-        let count = output.count
-        for i in 0..<count {
-            let value = output[i]
-            ids.append(Int32(truncating: value))
+        let shape = output.shape
+        guard shape.count >= 2 else {
+            fatalError("Неверная форма выходных данных")
         }
         
-        return ids
+        let batchSize = shape[0].intValue
+        let sequenceLength = shape[shape.count - 2].intValue
+        let vocabSize = shape[shape.count - 1].intValue
+        var tokenIds: [Int32] = []
+        
+        for seqIndex in 0 ..< sequenceLength {
+            var maxValue = Float.leastNormalMagnitude
+            var maxIndex = 0
+            
+            for vocabIndex in 0 ..< vocabSize {
+                let index = seqIndex * vocabSize + vocabIndex
+                let value = output[index].floatValue
+                
+                if value > maxValue {
+                    maxValue = value
+                    maxIndex = vocabIndex
+                }
+            }
+            
+            tokenIds.append(Int32(maxIndex))
+        }
+        
+        return tokenIds
     }
     
-    private func detokenize(ids: [Int32]) -> String {
-        let bytes = ids.compactMap { UInt8(exactly: $0) }
-        return String(bytes: bytes, encoding: .utf8) ?? ""
+    private func detokenize(
+        ids: [Int32],
+        tokenizer: any Tokenizer
+    ) -> String {
+        let tokens = ids.map { Int($0) }
+        return tokenizer.decode(tokens: tokens)
     }
 }

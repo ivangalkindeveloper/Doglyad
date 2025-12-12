@@ -1,0 +1,59 @@
+Ultrasound examination of the thyroid gland was performed
+Ultrasound of the abdominal organs
+Kidney ultrasound examination
+Abdominal cavity ultrasound examination was performed
+Abdominal vessels ultrasound examination was completed
+Lower extremity arteries ultrasound scan was performed
+Upper extremity arteries ultrasound examination was done
+Bladder ultrasound examination was performed
+Bladder ultrasound with residual urine determination was completed
+Brachiocephalic vessels ultrasound examination was performed
+Echocardiography was performed
+Eye ultrasound examination was completed
+Hip joints ultrasound in newborn was performed
+Hollow organs stomach and intestines ultrasound was done
+Intracranial arteries ultrasound examination was performed
+Joints ultrasound examination was completed
+Kidneys adrenal glands and retroperitoneal space ultrasound was performed
+Lymph nodes ultrasound examination was done
+Mammary glands ultrasound examination was performed
+Neurosonography was completed
+Pelvic organs ultrasound examination was performed
+Pleural region ultrasound examination was done
+Renal arteries ultrasound examination was performed
+Salivary glands ultrasound examination was completed
+Scrotum ultrasound examination was performed
+Sinuses ultrasound examination was done
+Soft tissues ultrasound examination was performed
+Thymus gland ultrasound examination was completed
+Lower extremity veins ultrasound examination was performed
+Upper extremity veins ultrasound examination was done
+Thyroid gland ultrasound scan completed
+Abdominal cavity scanning performed
+Renal ultrasound examination completed
+Abdominal vessels Doppler ultrasound performed
+Lower extremity arteries scan completed
+Upper extremity arteries examination done
+Bladder scanning performed
+Bladder with residual urine ultrasound completed
+Brachiocephalic vessels Doppler performed
+Echocardiogram completed
+Eye ultrasound scan done
+Infant hip joints examination performed
+Gastrointestinal tract ultrasound completed
+Transcranial Doppler ultrasound performed
+Joints scanning completed
+Kidneys and adrenal glands ultrasound done
+Lymph nodes ultrasound examination performed
+Breast ultrasound mammography completed
+Brain neurosonography performed
+Pelvic organs scan completed
+Pleural ultrasound examination done
+Renal arteries Doppler performed
+Salivary glands scan completed
+Scrotal scanning performed
+Paranasal sinuses ultrasound done
+Soft tissues examination completed
+Thymus ultrasound scan performed
+Lower extremity veins Doppler completed
+Upper extremity veins examination done
