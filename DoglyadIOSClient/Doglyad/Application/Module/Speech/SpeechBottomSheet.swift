@@ -13,12 +13,14 @@ final class SpeechBottomSheetArguments: RouteArgumentsProtocol {
 }
 
 struct SpeechBottomSheet: View {
+    @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
     let arguments: SpeechBottomSheetArguments
     
     var body: some View {
         SpeechBottomSheetView(
             viewModel: SpeechViewModel(
+                researchNeuralModel: container.researchNeuralModel,
                 router: router,
                 arguments: arguments
             )

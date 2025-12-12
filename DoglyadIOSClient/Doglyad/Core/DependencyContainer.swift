@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import DoglyadDB
+import DoglyadML
 import Router
 
 final class DependencyContainer: ObservableObject {
@@ -14,6 +15,7 @@ final class DependencyContainer: ObservableObject {
         
         return DependencyContainer(
             environment: environment,
+            researchNeuralModel: DResearchNeuralModelOpenELM(),
             connectionManager: ConnectionManager(),
             permissionmanager: PermissionManager(),
             diagnosticsRepository: diagnosticsRepository,
@@ -24,6 +26,7 @@ final class DependencyContainer: ObservableObject {
     }
     
     let environment: EnvironmentProtocol
+    let researchNeuralModel: DResearchNeuralModelProtocol
     let connectionManager: ConnectionManagerProtocol
     let permissionmanager: PermissionManagerProtocol
     let diagnosticsRepository: DiagnosticsRepositoryProtocol
@@ -33,6 +36,7 @@ final class DependencyContainer: ObservableObject {
     
     init(
         environment: EnvironmentProtocol,
+        researchNeuralModel: DResearchNeuralModelProtocol,
         connectionManager: ConnectionManagerProtocol,
         permissionmanager: PermissionManagerProtocol,
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
@@ -41,6 +45,7 @@ final class DependencyContainer: ObservableObject {
         initialScreenArguments: RouteArgumentsProtocol?,
     ) {
         self.environment = environment
+        self.researchNeuralModel = researchNeuralModel
         self.connectionManager = connectionManager
         self.permissionmanager = permissionmanager
         self.diagnosticsRepository = diagnosticsRepository

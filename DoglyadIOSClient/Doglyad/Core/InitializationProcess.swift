@@ -3,6 +3,7 @@ import SwiftData
 import DependencyInitializer
 import AVFoundation
 import DoglyadDB
+import DoglyadML
 import Router
 
 @MainActor
@@ -10,6 +11,8 @@ final class InitializationProcess: DependencyInitializationProcess {
     typealias T = DependencyContainer
     
     var environment: EnvironmentProtocol?
+    
+    var researchNeuralModel: DResearchNeuralModelProtocol?
 
     var connectionManager: ConnectionManagerProtocol?
     var permissionmanager: PermissionManagerProtocol?
@@ -27,6 +30,7 @@ final class InitializationProcess: DependencyInitializationProcess {
         get {
             DependencyContainer(
                 environment: self.environment!,
+                researchNeuralModel: self.researchNeuralModel!,
                 connectionManager: self.connectionManager!,
                 permissionmanager: self.permissionmanager!,
                 diagnosticsRepository: self.diagnosticsRepository!,
@@ -50,6 +54,12 @@ extension InitializationProcess {
                 process.environment = EnvironmentBase(
                     baseURL: baseUrl
                 )
+            }
+        ),
+        InitializationStep<InitializationProcess>(
+            title: "Research Neural Model",
+            run: { process in
+                process.researchNeuralModel = DResearchNeuralModelOpenELM()
             }
         ),
         InitializationStep<InitializationProcess>(

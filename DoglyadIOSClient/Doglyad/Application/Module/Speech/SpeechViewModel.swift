@@ -1,15 +1,19 @@
 import SwiftUI
 import DoglyadSpeech
+import DoglyadML
 
 @MainActor
 final class SpeechViewModel: ObservableObject {
+    private let researchNeuralModel: DResearchNeuralModelProtocol
     private let router: DRouter
     private let arguments: SpeechBottomSheetArguments
     
     init(
+        researchNeuralModel: DResearchNeuralModelProtocol,
         router: DRouter,
         arguments: SpeechBottomSheetArguments
     ) {
+        self.researchNeuralModel = researchNeuralModel
         self.router = router
         self.arguments = arguments
     }
@@ -49,6 +53,13 @@ final class SpeechViewModel: ObservableObject {
     private func onTapStop() -> Void {
         speechController.stop()
         guard let text = speechController.text else {
+            return
+        }
+        let response = researchNeuralModel.parseSpeech(
+            localizedPromt: "",
+            text: text
+        )
+        guard let answer = try? JSONDecoder().decode(PatientResearchNeuralModelReponse.self, from: response.data(using: .utf8)!) else {
             return
         }
         arguments.completion(text)
