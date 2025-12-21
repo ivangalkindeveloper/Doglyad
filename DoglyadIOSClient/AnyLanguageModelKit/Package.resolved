@@ -1,5 +1,5 @@
 {
-  "originHash" : "359028790a42ef341b5bf54d48b5752cfee6499e5a6f3616fca9fa23c78c62be",
+  "originHash" : "55725a8b19606e44bdb418376dcff9501908145dfca2afe65c04cf37d7fe7bee",
   "pins" : [
     {
       "identity" : "anylanguagemodel",
@@ -8,24 +8,6 @@
       "state" : {
         "revision" : "c2ce310532a8a33fdaaf099575568a48a0f66cbb",
         "version" : "0.5.1"
-      }
-    },
-    {
-      "identity" : "bottomsheet",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/lucaszischka/BottomSheet",
-      "state" : {
-        "revision" : "720ddbd1371fef2a09cc1ab65fc503df37767f9c",
-        "version" : "3.1.1"
-      }
-    },
-    {
-      "identity" : "dependencyinitializer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ivangalkindeveloper/DependencyInitializer",
-      "state" : {
-        "branch" : "master",
-        "revision" : "64c944650c13783bb805839dfe2773f5ee7c4806"
       }
     },
     {
@@ -74,15 +56,6 @@
       }
     },
     {
-      "identity" : "router",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ivangalkindeveloper/Router",
-      "state" : {
-        "branch" : "master",
-        "revision" : "b860a26a6498a5203686b8d8b4c58fe19d2d8b12"
-      }
-    },
-    {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-collections.git",
@@ -125,15 +98,6 @@
       "state" : {
         "branch" : "573e5c9",
         "revision" : "573e5c9036c2f136b3a8a071da8e8907322403d0"
-      }
-    },
-    {
-      "identity" : "swiftui-shimmer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/markiv/SwiftUI-Shimmer",
-      "state" : {
-        "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
-        "version" : "1.5.1"
       }
     }
   ],

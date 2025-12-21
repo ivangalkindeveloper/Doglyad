@@ -24,12 +24,14 @@ public final class DSpeechController: ObservableObject {
     public func start() -> Void {
         guard !audioEngine.isRunning else { return }
         
+
         try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else { return }
         recognitionRequest.shouldReportPartialResults = true
+        recognitionRequest.requiresOnDeviceRecognition = false
         
         let inputNode = audioEngine.inputNode
         let recordingFormat = inputNode.outputFormat(forBus: 0)
@@ -40,13 +42,17 @@ public final class DSpeechController: ObservableObject {
         
         guard let recognizer = speechRecognizer, recognizer.isAvailable else { return }
         recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { result, error in
+            if error != nil {
+                return
+            }
+            
             if let result = result {
                 DispatchQueue.main.async {
                     self.text = result.bestTranscription.formattedString
                 }
             }
             
-            if error != nil || (result?.isFinal ?? false) {
+            if result?.isFinal ?? false {
                 DispatchQueue.main.async {
                     self.stop()
                 }
@@ -54,14 +60,19 @@ public final class DSpeechController: ObservableObject {
         }
         
         audioEngine.prepare()
-        try? audioEngine.start()
         isRecording = true
+        text = nil
+        audioMeter = 0.0
+        try? audioEngine.start()
     }
     
     public func stop() -> Void {
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         recognitionRequest?.endAudio()
+        recognitionRequest = nil
+        recognitionTask?.cancel()
+        recognitionTask = nil
         isRecording = false
     }
     

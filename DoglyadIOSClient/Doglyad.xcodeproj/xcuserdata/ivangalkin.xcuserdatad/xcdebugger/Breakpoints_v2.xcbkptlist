@@ -23,97 +23,79 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "528B6CBF-5B33-4DAF-9B0D-7E51D077B9A7"
-            shouldBeEnabled = "Yes"
+            uuid = "1D6A20ED-6C02-4618-8839-75AF786F4846"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DoglyadML/DResearchNeuralModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "parsePatientResearchSpeech(locale:text:)"
-            landmarkType = "7">
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D577B428-B8D3-49F6-9ED6-C5170D269026"
+            uuid = "1394F235-D1C7-42CF-9D93-AE64BEE42855"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DoglyadML/DResearchNeuralModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "parsePatientResearchSpeech(locale:text:)"
-            landmarkType = "7">
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E5C41AFA-5C6B-4F32-83D9-1FA38D6E984E"
+            uuid = "9188A49D-A851-4FEC-8974-1DBCA468076C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DoglyadML/DResearchNeuralModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "parsePatientResearchSpeech(locale:text:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2A95FDAA-EC37-4CFC-BDE7-1FE3B4F717B9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DoglyadML/DResearchNeuralModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "parsePatientResearchSpeech(locale:text:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AE40CA80-43ED-48EE-9761-CD6E054535C3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DoglyadML/DResearchNeuralModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "parsePatientResearchSpeech(locale:text:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AFA82CB4-9476-4374-BE4F-A68C55B1ECE8"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DoglyadML/DResearchNeuralModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "parsePatientResearchSpeech(locale:text:)"
-            landmarkType = "7">
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "9188A49D-A851-4FEC-8974-1DBCA468076C - 755c49631a35b14d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(8) suspend resume partial function for DoglyadML.DResearchNeuralModelOpenELM.parsePatientResearchSpeech(locale: Foundation.Locale, text: Swift.String) async -&gt; Swift.String"
+                  moduleName = "DoglyadML"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkin/Development/My%20projects/Doglyad/DoglyadIOSClient/DoglyadML/DResearchNeuralModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81">
+               </Location>
+               <Location
+                  uuid = "9188A49D-A851-4FEC-8974-1DBCA468076C - 1145052f62e9334e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for DoglyadML.DResearchNeuralModelOpenELM.parsePatientResearchSpeech(locale: Foundation.Locale, text: Swift.String) async -&gt; Swift.String"
+                  moduleName = "DoglyadML"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkin/Development/My%20projects/Doglyad/DoglyadIOSClient/DoglyadML/DResearchNeuralModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

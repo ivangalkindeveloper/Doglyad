@@ -56,15 +56,15 @@ final class SpeechViewModel: ObservableObject {
             return
         }
         Task {
-            let response = await researchNeuralModel.parsePatientResearchSpeech(
+            let response = try await researchNeuralModel.parseResearchSpeech(
                 locale: Locale.current,
                 text: text
             )
-            guard let answer = try? JSONDecoder().decode(PatientResearchNeuralModelResponse.self, from: response.data(using: .utf8)!) else {
-                return
-            }
-            arguments.completion(text)
-            router.dismissSheet()
+//            guard let answer = try? JSONDecoder().decode(PatientResearchNeuralModelResponse.self, from: response.data(using: .utf8)!) else {
+//                return
+//            }
+//            arguments.completion(text)
+//            router.dismissSheet()
         }
     }
 }
