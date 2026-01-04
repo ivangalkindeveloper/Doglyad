@@ -1,15 +1,6 @@
 {
-  "originHash" : "359028790a42ef341b5bf54d48b5752cfee6499e5a6f3616fca9fa23c78c62be",
+  "originHash" : "ce51db0ff7613056cd08d522801774d1c26d5545688a6c40c199c7d4d6b6f44b",
   "pins" : [
-    {
-      "identity" : "anylanguagemodel",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mattt/AnyLanguageModel",
-      "state" : {
-        "revision" : "c2ce310532a8a33fdaaf099575568a48a0f66cbb",
-        "version" : "0.5.1"
-      }
-    },
     {
       "identity" : "bottomsheet",
       "kind" : "remoteSourceControl",
@@ -26,24 +17,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "64c944650c13783bb805839dfe2773f5ee7c4806"
-      }
-    },
-    {
-      "identity" : "eventsource",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mattt/EventSource",
-      "state" : {
-        "revision" : "ca2a9d90cbe49e09b92f4b6ebd922c03ebea51d0",
-        "version" : "1.3.0"
-      }
-    },
-    {
-      "identity" : "jsonschema",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mattt/JSONSchema",
-      "state" : {
-        "revision" : "4c6f2467d5bc72b062c7a9b7e4cd77a09635ea8b",
-        "version" : "1.3.1"
       }
     },
     {
@@ -65,12 +38,12 @@
       }
     },
     {
-      "identity" : "partialjsondecoder",
+      "identity" : "nestedobservableobject",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mattt/PartialJSONDecoder",
+      "location" : "https://github.com/ivangalkindeveloper/NestedObservableObject",
       "state" : {
-        "revision" : "e4d389e6bcc6771bb988d1a8a17695d8bfa97172",
-        "version" : "1.0.0"
+        "branch" : "main",
+        "revision" : "de6595bae3657fd0c32d2ef095a642149087e043"
       }
     },
     {
@@ -107,15 +80,6 @@
       "state" : {
         "revision" : "0c0290ff6b24942dadb83a929ffaaa1481df04a2",
         "version" : "1.1.1"
-      }
-    },
-    {
-      "identity" : "swift-syntax",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/swiftlang/swift-syntax",
-      "state" : {
-        "revision" : "0687f71944021d616d34d922343dcef086855920",
-        "version" : "600.0.1"
       }
     },
     {

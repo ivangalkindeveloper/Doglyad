@@ -1,15 +1,16 @@
 import SwiftUI
 import DoglyadSpeech
 import DoglyadML
+import NestedObservableObject
 
 @MainActor
 final class SpeechViewModel: ObservableObject {
-    private let researchNeuralModel: DResearchNeuralModelProtocol
+    private let researchNeuralModel: DResearchNeuralModelProtocol?
     private let router: DRouter
     private let arguments: SpeechBottomSheetArguments
     
     init(
-        researchNeuralModel: DResearchNeuralModelProtocol,
+        researchNeuralModel: DResearchNeuralModelProtocol?,
         router: DRouter,
         arguments: SpeechBottomSheetArguments
     ) {
@@ -21,6 +22,7 @@ final class SpeechViewModel: ObservableObject {
     @NestedObservableObject var speechController = DSpeechController(
         locale: Locale.current
     )
+    @Published var isLoading = false
     
     func onTapBack() -> Void {
         router.dismissSheet()
@@ -52,19 +54,22 @@ final class SpeechViewModel: ObservableObject {
     
     private func onTapStop() -> Void {
         speechController.stop()
+        guard let researchNeuralModel = self.researchNeuralModel else {
+            return
+        }
         guard let text = speechController.text else {
             return
         }
+        
         Task {
+            isLoading = true
             let response = try await researchNeuralModel.parseResearchSpeech(
                 locale: Locale.current,
                 text: text
             )
-//            guard let answer = try? JSONDecoder().decode(PatientResearchNeuralModelResponse.self, from: response.data(using: .utf8)!) else {
-//                return
-//            }
-//            arguments.completion(text)
-//            router.dismissSheet()
+            isLoading = false
+            arguments.onComplete?(response)
+            router.dismissSheet()
         }
     }
 }

@@ -1,14 +1,15 @@
 import DoglyadUI
 import Router
 import SwiftUI
+import DoglyadML
 
 final class SpeechBottomSheetArguments: RouteArgumentsProtocol {
-    let completion: (String) -> Void
+    let onComplete: ((DResearchNeuralModelResponse) -> Void)?
     
     init(
-        completion: @escaping (String) -> Void
+        onComplete: ((DResearchNeuralModelResponse) -> Void)?
     ) {
-        self.completion = completion
+        self.onComplete = onComplete
     }
 }
 
@@ -90,7 +91,8 @@ private struct SpeechBottomSheetView: View {
                 
                 DButton(
                     image: viewModel.speechIcon,
-                    action: viewModel.onTapSpeech
+                    action: viewModel.onTapSpeech,
+                    isLoading: viewModel.isLoading
                 )
                 .dStyle(.primaryCircle)
             }

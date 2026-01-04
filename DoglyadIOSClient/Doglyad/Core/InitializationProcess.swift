@@ -1,4 +1,5 @@
 import Foundation
+import FoundationModels
 import SwiftData
 import DependencyInitializer
 import AVFoundation
@@ -11,18 +12,12 @@ final class InitializationProcess: DependencyInitializationProcess {
     typealias T = DependencyContainer
     
     var environment: EnvironmentProtocol?
-    
     var researchNeuralModel: DResearchNeuralModelProtocol?
-
     var connectionManager: ConnectionManagerProtocol?
     var permissionmanager: PermissionManagerProtocol?
-    
     var database: DDatabase?
-    
     var diagnosticsRepository: DiagnosticsRepositoryProtocol?
-    
     var researchTypes: [ResearchType]?
-    
     var initialScreen: ScreenType?
     var initialScreenArguments: RouteArgumentsProtocol?
     
@@ -40,7 +35,6 @@ final class InitializationProcess: DependencyInitializationProcess {
             )
         }
     }
-    
 }
 
 extension InitializationProcess {
@@ -59,7 +53,14 @@ extension InitializationProcess {
         InitializationStep<InitializationProcess>(
             title: "Research Neural Model",
             run: { process in
-                process.researchNeuralModel = DResearchNeuralModelOpenELM()
+                if #available(iOS 26.0, *), DResearchNeuralModelFoundationModels.isAvailable {
+                    process.researchNeuralModel = DResearchNeuralModelFoundationModels()
+                    return
+                }
+                if DResearchNeuralModelMLX.isAvailable {
+                    process.researchNeuralModel = DResearchNeuralModelMLX()
+                    return
+                }
             }
         ),
         InitializationStep<InitializationProcess>(

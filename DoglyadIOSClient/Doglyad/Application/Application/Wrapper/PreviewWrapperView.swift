@@ -12,7 +12,7 @@ struct PreviewWrapperView: View {
         ) {
             DThemeWrapperView {
                 MainRootView(
-                    dependencyContainer: DependencyContainer.previewable(
+                    dependencyContainer: previewableContainer(
                         screenType: screenType,
                         arguments: arguments,
                     )

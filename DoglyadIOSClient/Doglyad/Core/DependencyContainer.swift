@@ -4,29 +4,29 @@ import DoglyadDB
 import DoglyadML
 import Router
 
-final class DependencyContainer: ObservableObject {
-    static func previewable(
-        screenType: ScreenType,
-        arguments: RouteArgumentsProtocol?
-    ) -> DependencyContainer {
-        let environment = EnvironmentBase(baseURL: URL(filePath: "")!)
-        let datebase = try! DDatabase()
-        let diagnosticsRepository = DiagnosticsRepository(database: datebase)
-        
-        return DependencyContainer(
-            environment: environment,
-            researchNeuralModel: DResearchNeuralModelOpenELM(),
-            connectionManager: ConnectionManager(),
-            permissionmanager: PermissionManager(),
-            diagnosticsRepository: diagnosticsRepository,
-            researchTypes: ResearchType.allCases,
-            initialScreen: screenType,
-            initialScreenArguments: arguments
-        )
-    }
+func previewableContainer(
+    screenType: ScreenType,
+    arguments: RouteArgumentsProtocol?
+) -> DependencyContainer {
+    let environment = EnvironmentBase(baseURL: URL(filePath: "")!)
+    let datebase = try! DDatabase()
+    let diagnosticsRepository = DiagnosticsRepository(database: datebase)
     
+    return DependencyContainer(
+        environment: environment,
+        researchNeuralModel: nil,
+        connectionManager: ConnectionManager(),
+        permissionmanager: PermissionManager(),
+        diagnosticsRepository: diagnosticsRepository,
+        researchTypes: ResearchType.allCases,
+        initialScreen: screenType,
+        initialScreenArguments: arguments
+    )
+}
+
+final class DependencyContainer: ObservableObject {
     let environment: EnvironmentProtocol
-    let researchNeuralModel: DResearchNeuralModelProtocol
+    let researchNeuralModel: DResearchNeuralModelProtocol?
     let connectionManager: ConnectionManagerProtocol
     let permissionmanager: PermissionManagerProtocol
     let diagnosticsRepository: DiagnosticsRepositoryProtocol
@@ -36,7 +36,7 @@ final class DependencyContainer: ObservableObject {
     
     init(
         environment: EnvironmentProtocol,
-        researchNeuralModel: DResearchNeuralModelProtocol,
+        researchNeuralModel: DResearchNeuralModelProtocol?,
         connectionManager: ConnectionManagerProtocol,
         permissionmanager: PermissionManagerProtocol,
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
@@ -53,4 +53,6 @@ final class DependencyContainer: ObservableObject {
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
     }
+    
+    var isResearchNeuralModelAvailable: Bool { researchNeuralModel != nil }
 }

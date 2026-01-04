@@ -23,6 +23,7 @@ struct ScanScreen: View {
 }
 
 private struct ScanScreenView: View {
+    @EnvironmentObject var container: DependencyContainer
     @EnvironmentObject var theme: DTheme
     var color: DColor { theme.color }
     var size: DSize { theme.size }
@@ -84,13 +85,15 @@ private struct ScanScreenView: View {
                         VStack(
                             spacing: .zero
                         ) {
-                            DButton(
-                                image: .microphone,
-                                title: .buttonSpeech,
-                                action: viewModel.onTapSpeech
-                            )
-                            .dStyle(.primaryChip)
-                            .padding(.bottom, size.s8)
+                            if container.isResearchNeuralModelAvailable {
+                                DButton(
+                                    image: .microphone,
+                                    title: .buttonSpeech,
+                                    action: viewModel.onTapSpeech
+                                )
+                                .dStyle(.primaryChip)
+                                .padding(.bottom, size.s8)
+                            }
 
                             DButton(
                                 title: .buttonScan,

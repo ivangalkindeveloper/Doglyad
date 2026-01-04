@@ -1,13 +1,13 @@
 {
-  "originHash" : "55725a8b19606e44bdb418376dcff9501908145dfca2afe65c04cf37d7fe7bee",
+  "originHash" : "afbe3ba16facfac0b6b8292ac915f93eedd141eeeac0d5460b751cbe18a72a27",
   "pins" : [
     {
       "identity" : "anylanguagemodel",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattt/AnyLanguageModel",
       "state" : {
-        "revision" : "c2ce310532a8a33fdaaf099575568a48a0f66cbb",
-        "version" : "0.5.1"
+        "revision" : "3565c1e97f8bfd830e1a0a0dea7fd8545204cf2b",
+        "version" : "0.5.2"
       }
     },
     {

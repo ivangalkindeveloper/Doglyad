@@ -1,8 +1,8 @@
 import Foundation
 
-public struct DResearchNeuralModelResponse {
+public struct DResearchNeuralModelResponse: Decodable {
     
-    public enum Gender {
+    public enum Gender: Decodable {
         case male
         case female
         
@@ -22,14 +22,14 @@ public struct DResearchNeuralModelResponse {
         
     }
 
-    let patientName: String?
-    let patientGender: Gender?
-    let patientDateOfBirth: Date?
-    let patientHeight: Double?
-    let patientWeight: Double?
-    let patientComplaint: String?
-    let researchDescription: String?
-    let additionalData: String?
+    public let patientName: String?
+    public let patientGender: Gender?
+    public let patientDateOfBirth: Date?
+    public let patientHeight: Double?
+    public let patientWeight: Double?
+    public let patientComplaint: String?
+    public let researchDescription: String?
+    public let additionalData: String?
     
     @available(iOS 26.0, *)
     static func fromFoudationModels(
@@ -38,7 +38,7 @@ public struct DResearchNeuralModelResponse {
         DResearchNeuralModelResponse(
             patientName: response.patientName,
             patientGender: Gender.fromFoudationModels(response.patientGender),
-            patientDateOfBirth: response.patientDateOfBirth,
+            patientDateOfBirth: DateFormatter().date(from: response.patientDateOfBirth ?? ""),
             patientHeight: response.patientHeight,
             patientWeight: response.patientWeight,
             patientComplaint: response.patientComplaint,

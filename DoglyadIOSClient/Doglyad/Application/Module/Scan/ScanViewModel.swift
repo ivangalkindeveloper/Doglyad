@@ -4,6 +4,7 @@ import Router
 import BottomSheet
 import DoglyadUI
 import DoglyadCamera
+import NestedObservableObject
 
 @MainActor
 final class ScanViewModel: ObservableObject {
@@ -166,7 +167,10 @@ final class ScanViewModel: ObservableObject {
                 route: RouteSheet(
                     type: .speech,
                     arguments: SpeechBottomSheetArguments(
-                        completion: { value in }
+                        onComplete: { [weak self] response in
+                            guard let self = self else { return }
+                            //TODO: onComplete
+                        }
                     )
                 )
             )

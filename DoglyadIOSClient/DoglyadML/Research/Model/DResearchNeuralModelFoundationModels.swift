@@ -3,23 +3,31 @@ import FoundationModels
 
 @available(iOS 26.0, *)
 public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelProtocol {
+    public static var isAvailable: Bool { SystemLanguageModel.default.isAvailable }
 
     @FoundationModels.Generable
     struct Response {
         @FoundationModels.Guide(description: "")
         let patientName: String?
+        
         @FoundationModels.Guide(description: "")
         let patientGender: Gender?
+        
         @FoundationModels.Guide(description: "")
-        let patientDateOfBirth: Date?
+        let patientDateOfBirth: String?
+        
         @FoundationModels.Guide(description: "")
         let patientHeight: Double?
+        
         @FoundationModels.Guide(description: "")
         let patientWeight: Double?
+        
         @FoundationModels.Guide(description: "")
         let patientComplaint: String?
+        
         @FoundationModels.Guide(description: "")
         let researchDescription: String?
+        
         @FoundationModels.Guide(description: "")
         let additionalData: String?
     }
@@ -39,7 +47,6 @@ public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelPro
         let session = LanguageModelSession(
             instructions: DResearchGenerationConfig.modelRole
         )
-        
         let taskPrompt = DResearchGenerationConfig.taskPrompt(
             locale,
             DResearchGenerationConfig.testText
@@ -49,6 +56,7 @@ public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelPro
             to: taskPrompt,
             generating: Response.self
         )
+        
         return DResearchNeuralModelResponse.fromFoudationModels(
             response.content
         )

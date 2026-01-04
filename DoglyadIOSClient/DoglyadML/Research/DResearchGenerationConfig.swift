@@ -1,8 +1,6 @@
 import Foundation
 
 struct DResearchGenerationConfig {
-    static let mlxModelId: String = "mlx-community/Qwen3-0.6B-4bit"
-    
     static let modelRole: String =
         """
         You are a model parsing a medical study text obtained by a doctor's dictation.
@@ -23,7 +21,7 @@ struct DResearchGenerationConfig {
             "patientWeight": 80.0,
             "patientComplaint": "Patient complaint",
             "researchDescription": "Research description",
-            "additionalData": "Additional data"
+            "additionalData": "Some additional data"
         }
         """
     
@@ -38,10 +36,6 @@ struct DResearchGenerationConfig {
         """
     }
     
-    static let testText = "Пациент Иван мужчина родился 28 марта 1994г. рост 180 см 80 кг жалобы периодически боли животе дискомфорт при глотании боли в левом потребили и чья жесть в правом потреби исследования проведено ультразвуковой исследование органов брюшной полости а также ультразвуковой исследования почек дополнительную информацию о технических фотофактов не выявлено использован линейный да частотой 7,5 мегагерц сохранено 12 снимков исследования"
-    
-    let sequenceLength = 1024
-    let maxNewTokens: Int = 512
-    let temperature: Float = 0.2
-    let topP: Float = 0.9
+//    static let testText = "Пациент Иван мужчина родился 28 марта 1994г. рост 180 см 80 кг жалобы периодически боли животе дискомфорт при глотании боли в левом потребили и чья жесть в правом потреби исследования проведено ультразвуковой исследование органов брюшной полости а также ультразвуковой исследования почек дополнительную информацию о технических фотофактов не выявлено использован линейный да частотой 7,5 мегагерц сохранено 12 снимков исследования"
+    static let testText = "patient Ivan male born March 28 1994 height 180 cm 80 kg complaints periodic abdominal pain discomfort when swallowing pain in the left abdomen and a tingling sensation in the right abdomen an ultrasound examination of the abdominal organs and an ultrasound examination of the kidneys were performed no additional information about technical photographic evidence was found a linear array with a frequency of 7.5 megahertz was used 12 images of the study were saved"
 }
