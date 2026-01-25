@@ -511,6 +511,40 @@
         }
       }
     },
+    "permissionSpeechDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grant the app permission to use the microphone to record your voice and recognize speech"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предоставьте приложению разрешение на использование микрофона для записи вашего голоса и распознование речи"
+          }
+        }
+      }
+    },
+    "permissionSpeechTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microphone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Микрофон"
+          }
+        }
+      }
+    },
     "researchTypeAbdominalCavity" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1204,6 +1238,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата рождения"
+          }
+        }
+      }
+    },
+    "scanPatientDefaultNameLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patient#%(count)lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пациент#%(count)lld"
           }
         }
       }

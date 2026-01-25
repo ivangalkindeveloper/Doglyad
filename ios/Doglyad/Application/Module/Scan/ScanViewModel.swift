@@ -36,7 +36,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
     //
-    @NestedObservableObject var patientNameController = DTextFieldController(initialText: "Пациент#0")
+    @NestedObservableObject var patientNameController = DTextFieldController()
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
     @NestedObservableObject var patientHeightCMController = DTextFieldController()
@@ -47,11 +47,14 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     //
     @Published var isLoading = false
     
-    private func onInit() {
+    private func onInit() -> Void {
         self.cameraController.startSession()
-        guard let selectedResearchType = diagnosticRepository.getSelectedResearchType() else { return }
+        if let selectedResearchType = diagnosticRepository.getSelectedResearchType() {
+            self.researchType = selectedResearchType
+        }
         
-        self.researchType = selectedResearchType
+        let patientCount = diagnosticRepository.getConclusions().count
+        self.patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
     }
     
     var isPhotoFilling: Bool {
@@ -62,11 +65,11 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.cameraController.isRunning && !isPhotoFilling
     }
     
-    func onDisappear() {
+    func onDisappear() -> Void {
         self.cameraController.stopSession()
     }
     
-    func unfocus() {
+    func unfocus() -> Void {
         self.patientNameController.unfocus()
         self.patientHeightCMController.unfocus()
         self.patientWeightKGController.unfocus()
@@ -75,7 +78,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.additionalDataController.unfocus()
     }
     
-    func onChangePhotosForSheet() {
+    func onChangePhotosForSheet() -> Void {
         if self.photos.isEmpty {
             return self.sheetController.setHidden()
         }
@@ -87,13 +90,13 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         }
     }
     
-    func onChangeSheetForCamera() {
+    func onChangeSheetForCamera() -> Void {
         if self.sheetController.isTop {
             self.cameraController.stopSession()
         }
     }
     
-    func onTapHistory() {
+    func onTapHistory() -> Void {
         self.router.push(
             route: RouteScreen(
                 type: .history
@@ -101,7 +104,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         )
     }
     
-    func onTapResearchType() {
+    func onTapResearchType() -> Void {
         self.router.push(
             route: RouteSheet(
                 type: .selectResearchType,
@@ -125,7 +128,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.photos.count == ScanViewModel.photoMaxCount ? .down : .camera
     }
     
-    func onTapCapture() {
+    func onTapCapture() -> Void {
         if self.photos.count == ScanViewModel.photoMaxCount {
             return self.sheetController.setTop()
         }
@@ -144,20 +147,20 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
 
     func onTapDeletePhoto(
         photo: ResearchScanPhoto
-    ) {
+    ) -> Void {
         self.photos.remove(at: photos.firstIndex(of: photo)!)
     }
     
     func onTapPatientGender(
         value: PatientGender
-    ) {
+    ) -> Void {
         guard self.patientGender != value else { return }
         
         self.patientGender = value
     }
     
-    func onTapPatientDateOfBirth() {
-        router.push(
+    func onTapPatientDateOfBirth() -> Void {
+        self.router.push(
             route: RouteSheet(
                 type: .selectDateOfBirth,
                 arguments: SelectDateOfBirthArguments(
@@ -173,9 +176,15 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         )
     }
     
-    func onTapSpeech() {
+    func onTapSpeech() -> Void {
         Task {
-            guard await self.permissionManager.isGranted(.speech) else { return }
+            guard await self.permissionManager.isGranted(.speech) else {
+                return self.router.push(
+                    route: RouteSheet(
+                        type: .permissionSpeech,
+                    )
+                )
+            }
             
             router.push(
                 route: RouteSheet(
@@ -215,7 +224,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         }
     }
     
-    func onTapScan() {
+    func onTapScan() -> Void {
         let data = ResearchData(
             researchType: self.researchType,
             photos: self.photos,

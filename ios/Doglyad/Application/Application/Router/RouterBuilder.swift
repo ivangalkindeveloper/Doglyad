@@ -60,6 +60,10 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as! ScanSpeechBottomSheetArguments
                 )
             )
+        case .permissionSpeech:
+            AnyView(
+                PermissionSpeechBottomSheet()
+            )
         }
     }
     

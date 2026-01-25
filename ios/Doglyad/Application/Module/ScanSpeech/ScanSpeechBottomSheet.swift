@@ -20,7 +20,7 @@ struct ScanSpeechBottomSheet: View {
     
     var body: some View {
         ScanSpeechBottomSheetView(
-            viewModel: SpeechViewModel(
+            viewModel: ScanSpeechViewModel(
                 researchNeuralModel: container.researchNeuralModel,
                 router: router,
                 arguments: arguments
@@ -35,7 +35,7 @@ private struct ScanSpeechBottomSheetView: View {
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
 
-    @StateObject var viewModel: SpeechViewModel
+    @StateObject var viewModel: ScanSpeechViewModel
 
     var body: some View {
         DBlurBottomSheet(
