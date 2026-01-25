@@ -1,0 +1,83 @@
+the study was performed on a GE Logiq P9 device
+images were saved
+no technical artifacts detected
+examination performed on Philips EPIQ 7 ultrasound scanner
+linear transducer 7.5 MHz frequency used
+convex transducer 3.5 MHz frequency applied
+sector transducer 2.5 MHz frequency used
+examination performed on Siemens Acuson S3000 device
+endocavitary transducer applied
+microconvex transducer used
+images obtained in real-time mode
+12 examination images saved
+no technical interference detected
+image quality is good
+visualization is satisfactory
+image contrast is sufficient
+image resolution is high
+artifacts from respiratory movements are minimal
+artifacts from intestinal peristalsis are insignificant
+acoustic shadow is pronounced
+enhancement effect behind structure is present
+Doppler signal is clear
+color Doppler mapping performed
+pulse wave Doppler applied
+continuous wave Doppler used
+examination performed on Toshiba Aplio 500 device
+high-frequency transducer 10 MHz applied
+low-frequency transducer 2 MHz used
+examination performed on Samsung Medison Accuvix V20 scanner
+matrix transducer applied
+phased array transducer used
+images saved in DICOM format
+images exported to JPEG format
+examination video recording saved
+no technical defects detected
+signal quality is excellent
+visualization of all structures is clear
+contrast is optimal
+resolution is sufficient for diagnosis
+reverberation artifacts are absent
+mirror reflection artifacts not detected
+acoustic window is sufficient
+tissue echogenicity is normal
+Doppler spectrum is of good quality
+velocity parameters are clearly registered
+examination performed on Mindray DC-8 device
+endovaginal transducer applied
+endorectal transducer used
+examination performed on Hitachi Aloka Noblus ultrasound scanner
+transabdominal transducer applied
+transvaginal transducer used
+images archived in the system
+images printed on thermal paper
+no technical limitations
+image quality is excellent
+visualization is excellent
+contrast is high
+resolution is maximum
+artifacts from patient movement are absent
+artifacts from intestinal gas are minimal
+acoustic shadowing is insignificant
+pseudoenhancement effect not detected
+Doppler curve is typical
+color flow is well registered
+examination performed on Canon Aplio i800 device
+superficial structures transducer applied
+deep structures transducer used
+examination performed on Esaote MyLab X8 scanner
+wideband transducer applied
+multifrequency transducer used
+images transferred to archive
+images sent over network
+no technical problems occurred
+quality meets standards
+visualization of all organs is adequate
+contrast is normal
+resolution is acceptable
+artifacts from bone structures do not interfere
+artifacts from metal implants are absent
+acoustic shadow from ribs is insignificant
+side lobe effect is minimal
+Doppler mode works stably
+spectral analysis performed with good quality

@@ -1,0 +1,16 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+/.venv311
+
+*.mlpackage
+
+/ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
+
+/ml/llm_research/model
+
+/ml/research/ner/dataset/train
+/ml/research/ner/dataset/validation
+/ml/research/ner/dataset/dataset_dict.json
+/ml/research/ner/dataset/train.csv
+/ml/research/ner/dataset/validation.csv
+/ml/research/ner/model

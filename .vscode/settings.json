@@ -1,0 +1,5 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv311/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "swift.terminalProfile.enabled": false
+}
