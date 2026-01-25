@@ -1,6 +1,6 @@
 import Foundation
 
-struct ResearchModelConclusion: Identifiable, Codable {
+struct ResearchModelConclusion: Identifiable, Codable, Sendable {
     let id = UUID()
     let date: Date
     let model: String

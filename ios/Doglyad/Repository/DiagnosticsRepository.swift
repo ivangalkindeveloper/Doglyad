@@ -1,5 +1,6 @@
 import DoglyadDatabase
 import DoglyadNetwork
+import Foundation
 
 protocol DiagnosticsRepositoryProtocol {
     static var conclusionEndpoint: String { get }
@@ -14,7 +15,8 @@ protocol DiagnosticsRepositoryProtocol {
     // MARK: Conclusion -
     func generateConclusion(
         researchData: ResearchData,
-    ) async throws -> ResearchConclusion
+        locale: Locale,
+    ) async throws -> ResearchModelConclusion
     
     func setConclusion(
         conclusion: ResearchConclusion
@@ -59,10 +61,14 @@ extension DiagnosticsRepository {
 extension DiagnosticsRepository {
     func generateConclusion(
         researchData: ResearchData,
-    ) async throws -> ResearchConclusion {
-        try await httpClient.get(
+        locale: Locale,
+    ) async throws -> ResearchModelConclusion {
+        try await httpClient.post(
             endPoint: DiagnosticsRepository.conclusionEndpoint,
-            body: researchData
+            body: researchData,
+            headers: [
+                "Accept-Language": locale.identifier
+            ]
         )
     }
     

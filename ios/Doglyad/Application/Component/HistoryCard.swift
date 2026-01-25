@@ -18,7 +18,7 @@ struct HistoryCard: View {
                 spacing: .zero
             ) {
                 ZStack {
-                    ForEach(Array(conclusion.photos.enumerated()), id: \.element.id) { index, photo in
+                    ForEach(Array(conclusion.data.photos.enumerated()), id: \.element.id) { index, photo in
                         PhotoCard(image: photo.image)
                              .offset(x: Double.random(in: -8...8), y: Double.random(in: -8...8))
                              .rotationEffect(.degrees(Double.random(in: -24...24)))
@@ -34,7 +34,7 @@ struct HistoryCard: View {
                     HStack(
                         spacing: .zero
                     ) {
-                        DText(conclusion.patientName)
+                        DText(conclusion.data.patientName)
                             .dStyle(
                                 font: typography.linkSmall
                             )
@@ -46,12 +46,12 @@ struct HistoryCard: View {
                             )
                     }
 
-                    DText(LocalizedStringResource.forResearchType(conclusion.researchType))
+                    DText(LocalizedStringResource.forResearchType(conclusion.data.researchType))
                         .dStyle(
                             font: typography.linkSmall,
                             color: color.grayscalePlaceholder
                         )
-                    DText(conclusion.researchDescription)
+                    DText(conclusion.data.researchDescription)
                         .dStyle(
                             font: typography.textSmall,
                             color: color.grayscaleLabel
@@ -71,6 +71,7 @@ struct HistoryCard: View {
         HistoryCard(
             conclusion: ResearchConclusion(
                 date: Date(),
+                data: ResearchData(
                 researchType: .thyroidGland,
                 photos: [
                     ResearchScanPhoto(image: UIImage(resource: .alertInfo)),
@@ -103,6 +104,7 @@ struct HistoryCard: View {
                 Качество изображения стабильное на протяжении всего исследования.
                 Архивирование изображения выполнено автоматически.
                 """,
+                ),
                 actualModelConclusion: ResearchModelConclusion(
                     date: Date(),
                     model: "medgemma-3-27B",

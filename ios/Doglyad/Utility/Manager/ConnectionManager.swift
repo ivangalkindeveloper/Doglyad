@@ -22,7 +22,7 @@ final class ConnectionManager {
 }
 
 extension ConnectionManager: ConnectionManagerProtocol {
-    func start() {
+    func start() -> Void {
         monitor.start(queue: queue)
     }
     
@@ -30,7 +30,7 @@ extension ConnectionManager: ConnectionManagerProtocol {
         monitor.currentPath.status == .satisfied
     }
     
-    func stop() {
+    func stop() -> Void {
         monitor.cancel()
     }
 }

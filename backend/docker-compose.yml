@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_NAME: ${MODEL_NAME:-google/medgemma-27b-it}
+      VLLM_URL: ${VLLM_URL:-http://vllm:8000}
+      STUB_MODE: ${STUB_MODE:-true}
+
+  vllm:
+    image: vllm/vllm-openai:latest
+    command: ["--model", "google/medgemma-27b-it"]
+    ports:
+      - "8001:8000"
+    profiles:
+      - vllm

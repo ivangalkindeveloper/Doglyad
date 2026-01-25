@@ -1,7 +1,6 @@
 import Foundation
 
 struct ResearchData: Codable {
-    let timestamp: Date
     let researchType: ResearchType
     let photos: [ResearchScanPhoto]
     let patientName: String

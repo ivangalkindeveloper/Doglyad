@@ -1,14 +1,18 @@
 import BottomSheet
 import DoglyadCamera
+import DoglyadNetwork
 import DoglyadUI
 import Foundation
+import Handler
 import NestedObservableObject
 import Router
 import SwiftUI
 
 @MainActor
-final class ScanViewModel: ObservableObject {
+final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, ObservableObject {
     static let photoMaxCount: Int = 6
+    private static let defaultPatientHeightCM: Double = 180
+    private static let defaultPatientWeightKG: Double = 60
     
     private let permissionManager: PermissionManagerProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
@@ -22,7 +26,8 @@ final class ScanViewModel: ObservableObject {
         self.permissionManager = permissionManager
         self.diagnosticRepository = diagnosticRepository
         self.router = router
-        cameraController.startSession()
+        super.init()
+        self.onInit()
     }
     
     @Published var researchType = ResearchType.default
@@ -39,48 +44,56 @@ final class ScanViewModel: ObservableObject {
     @NestedObservableObject var patientComplaintController = DTextFieldController()
     @NestedObservableObject var researchDescriptionController = DTextFieldController()
     @NestedObservableObject var additionalDataController = DTextFieldController()
+    @Published var isLoading = false
+    
+    private func onInit() {
+        self.cameraController.startSession()
+        guard let selectedResearchType = diagnosticRepository.getSelectedResearchType() else { return }
+        
+        self.researchType = selectedResearchType
+    }
     
     var isPhotoFilling: Bool {
-        photos.count == ScanViewModel.photoMaxCount
+        self.photos.count == ScanViewModel.photoMaxCount
     }
     
     var isCaptureAvailable: Bool {
-        cameraController.isRunning && !isPhotoFilling
+        self.cameraController.isRunning && !isPhotoFilling
     }
     
     func onDisappear() {
-        cameraController.stopSession()
+        self.cameraController.stopSession()
     }
     
     func unfocus() {
-        patientNameController.unfocus()
-        patientHeightCMController.unfocus()
-        patientWeightKGController.unfocus()
-        patientComplaintController.unfocus()
-        researchDescriptionController.unfocus()
-        additionalDataController.unfocus()
+        self.patientNameController.unfocus()
+        self.patientHeightCMController.unfocus()
+        self.patientWeightKGController.unfocus()
+        self.patientComplaintController.unfocus()
+        self.researchDescriptionController.unfocus()
+        self.additionalDataController.unfocus()
     }
     
     func onChangePhotosForSheet() {
-        if photos.isEmpty {
-            return sheetController.setHidden()
+        if self.photos.isEmpty {
+            return self.sheetController.setHidden()
         }
-        if !photos.isEmpty && sheetController.isHidden {
-            sheetController.setBottom()
+        if !self.photos.isEmpty && self.sheetController.isHidden {
+            self.sheetController.setBottom()
         }
-        if isPhotoFilling {
-            return sheetController.setTop()
+        if self.isPhotoFilling {
+            return self.sheetController.setTop()
         }
     }
     
     func onChangeSheetForCamera() {
-        if sheetController.isTop {
-            cameraController.stopSession()
+        if self.sheetController.isTop {
+            self.cameraController.stopSession()
         }
     }
     
     func onTapHistory() {
-        router.push(
+        self.router.push(
             route: RouteScreen(
                 type: .history
             )
@@ -88,7 +101,7 @@ final class ScanViewModel: ObservableObject {
     }
     
     func onTapResearchType() {
-        router.push(
+        self.router.push(
             route: RouteSheet(
                 type: .selectResearchType,
                 arguments: SelectResearchTypeArguments(
@@ -108,21 +121,21 @@ final class ScanViewModel: ObservableObject {
     }
     
     var captureIcon: ImageResource {
-        photos.count == ScanViewModel.photoMaxCount ? .down : .camera
+        self.photos.count == ScanViewModel.photoMaxCount ? .down : .camera
     }
     
     func onTapCapture() {
-        if photos.count == ScanViewModel.photoMaxCount {
-            return sheetController.setTop()
+        if self.photos.count == ScanViewModel.photoMaxCount {
+            return self.sheetController.setTop()
         }
         
-        cameraController.takePhoto(
+        self.cameraController.takePhoto(
             completion: { [weak self] image in
                 guard let self = self else { return }
                 
-                photos.append(ResearchScanPhoto(image: image))
-                if photos.count == ScanViewModel.photoMaxCount {
-                    sheetController.setTop()
+                self.photos.append(ResearchScanPhoto(image: image))
+                if self.photos.count == ScanViewModel.photoMaxCount {
+                    self.sheetController.setTop()
                 }
             }
         )
@@ -131,15 +144,15 @@ final class ScanViewModel: ObservableObject {
     func onTapDeletePhoto(
         photo: ResearchScanPhoto
     ) {
-        photos.remove(at: photos.firstIndex(of: photo)!)
+        self.photos.remove(at: photos.firstIndex(of: photo)!)
     }
     
     func onTapPatientGender(
         value: PatientGender
     ) {
-        guard patientGender != value else { return }
+        guard self.patientGender != value else { return }
         
-        patientGender = value
+        self.patientGender = value
     }
     
     func onTapPatientDateOfBirth() {
@@ -161,7 +174,7 @@ final class ScanViewModel: ObservableObject {
     
     func onTapSpeech() {
         Task {
-            guard await permissionManager.isGranted(.speech) else { return }
+            guard await self.permissionManager.isGranted(.speech) else { return }
             
             router.push(
                 route: RouteSheet(
@@ -201,5 +214,41 @@ final class ScanViewModel: ObservableObject {
         }
     }
     
-    func onTapScan() {}
+    func onTapScan() {
+        let data = ResearchData(
+            researchType: self.researchType,
+            photos: self.photos,
+            patientName: self.patientNameController.text,
+            patientGender: self.patientGender,
+            patientDateOfBirth: self.patientDateOfBirth,
+            patientHeight: Double(self.patientHeightCMController.text) ?? Self.defaultPatientHeightCM,
+            patientWeight: Double(self.patientWeightKGController.text) ?? Self.defaultPatientWeightKG,
+            patientComplaint: self.patientComplaintController.text,
+            researchDescription: self.researchDescriptionController.text,
+            additionalData: self.additionalDataController.text
+        )
+        self.handle({
+            self.isLoading = true
+            return try await self.diagnosticRepository.generateConclusion(
+                researchData: data,
+                locale: Locale.current
+            )
+        }, onDefer: {
+            self.isLoading = false
+        }, onMainSuccess: { modelConclusion in
+            self.router.push(
+                route: RouteScreen(
+                    type: .conclusion,
+                    arguments: ConclusionScreenArguments(
+                        conclusion: ResearchConclusion(
+                            date: Date(),
+                            data: data,
+                            actualModelConclusion: modelConclusion,
+                            previosModelConclusions: []
+                        )
+                    )
+                )
+            )
+        })
+    }
 }

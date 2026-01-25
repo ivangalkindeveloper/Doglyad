@@ -42,7 +42,7 @@ private struct ConclusionScreenView: View {
     var body: some View {
         DScreen(
             title: .conclusionTitle,
-            subTitle: "\(conclusion.patientName), \(conclusion.date.localized())",
+            subTitle: "\(conclusion.data.patientName), \(conclusion.date.localized())",
             onTapBack: viewModel.onTapBack
         ) { toolbarInset in
             ScrollViewReader { proxy in
@@ -53,7 +53,7 @@ private struct ConclusionScreenView: View {
                         alignment: .leading,
                         spacing: .zero
                     ) {
-                        DText(.forResearchType(conclusion.researchType))
+                        DText(.forResearchType(conclusion.data.researchType))
                             .dStyle(
                                 font: typography.linkLarge
                             )
@@ -82,7 +82,7 @@ private struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlaceholder
                                 )
-                            DText(conclusion.patientName)
+                            DText(conclusion.data.patientName)
                                 .dStyle(
                                     font: typography.textSmall,
                                 )
@@ -93,7 +93,7 @@ private struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlaceholder
                                 )
-                            DText(.forGender(conclusion.patientGender))
+                            DText(.forGender(conclusion.data.patientGender))
                                 .dStyle(
                                     font: typography.textSmall,
                                 )
@@ -104,7 +104,7 @@ private struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlaceholder
                                 )
-                            DText(conclusion.patientDateOfBirth.localized())
+                            DText(conclusion.data.patientDateOfBirth.localized())
                                 .dStyle(
                                     font: typography.textSmall,
                                 )
@@ -116,12 +116,12 @@ private struct ConclusionScreenView: View {
                                     color: color.grayscalePlaceholder
                                 )
                             ExpandableText(
-                                text: conclusion.researchDescription,
+                                text: conclusion.data.researchDescription,
                                 backgroundColor: color.grayscaleBackgroundWeak
                             )
                             .padding(.bottom, size.s8)
                             
-                            if let patientComplaint = conclusion.patientComplaint {
+                            if let patientComplaint = conclusion.data.patientComplaint {
                                 DText(.scanPatientComplaintLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
@@ -134,7 +134,7 @@ private struct ConclusionScreenView: View {
                                 .padding(.bottom, size.s8)
                             }
                             
-                            if let additionalData = conclusion.additionalData {
+                            if let additionalData = conclusion.data.additionalData {
                                 DText(.scanAdditionalDataLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
@@ -202,39 +202,41 @@ private struct ConclusionScreenView: View {
         arguments: ConclusionScreenArguments(
             conclusion: ResearchConclusion(
                 date: Date(),
-                researchType: .thyroidGland,
-                photos: [
-                    ResearchScanPhoto(image: UIImage(resource: .alertInfo))
-                ],
-                patientName: "Пациент#0",
-                patientGender: .male,
-                patientDateOfBirth: Date(),
-                patientHeight: 180.0,
-                patientWeight: 80.0,
-                patientComplaint: """
-                Пациент отмечает периодическое чувство давления в области шеи.
-                Сообщает о небольшом дискомфорте при глотании в течение последних двух недель.
-                Также упоминает общую слабость и повышенную утомляемость.
-                Ранее подобные симптомы не наблюдались.
-                Жалоб на боль нет.
-                """,
-                researchDescription: """
-                Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
-                Размеры долей симметричные, контуры ровные и чёткие.
-                Паренхима однородная, эхогенность умеренная.
-                Очаговых образований не выявлено.
-                Региональные лимфоузлы без особенностей.
-                """,
-                additionalData: """
-                Исследование выполнено на ультразвуковом аппарате экспертного класса.
-                Использован линейный датчик высокой частоты 7–12 МГц.
-                Настройки оптимизированы для визуализации поверхностных структур.
-                Качество изображения стабильное на протяжении всего исследования.
-                Архивирование изображения выполнено автоматически.
-                """,
+                data: ResearchData(
+                    researchType: .thyroidGland,
+                    photos: [
+                        ResearchScanPhoto(image: UIImage(resource: .alertInfo))
+                    ],
+                    patientName: "Пациент#0",
+                    patientGender: .male,
+                    patientDateOfBirth: Date(),
+                    patientHeight: 180.0,
+                    patientWeight: 80.0,
+                    patientComplaint: """
+                    Пациент отмечает периодическое чувство давления в области шеи.
+                    Сообщает о небольшом дискомфорте при глотании в течение последних двух недель.
+                    Также упоминает общую слабость и повышенную утомляемость.
+                    Ранее подобные симптомы не наблюдались.
+                    Жалоб на боль нет.
+                    """,
+                    researchDescription: """
+                    Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
+                    Размеры долей симметричные, контуры ровные и чёткие.
+                    Паренхима однородная, эхогенность умеренная.
+                    Очаговых образований не выявлено.
+                    Региональные лимфоузлы без особенностей.
+                    """,
+                    additionalData: """
+                    Исследование выполнено на ультразвуковом аппарате экспертного класса.
+                    Использован линейный датчик высокой частоты 7–12 МГц.
+                    Настройки оптимизированы для визуализации поверхностных структур.
+                    Качество изображения стабильное на протяжении всего исследования.
+                    Архивирование изображения выполнено автоматически.
+                    """,
+                ),
                 actualModelConclusion: ResearchModelConclusion(
                     date: Date(),
-                    model: "medgemma-3-27B",
+                    model: "google/medgemma-3-27B",
                     description: """
                     Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                     Размеры органа в пределах возрастной нормы.
@@ -246,7 +248,7 @@ private struct ConclusionScreenView: View {
                 previosModelConclusions: [
                     ResearchModelConclusion(
                         date: Date(),
-                        model: "medgemma-3-27B",
+                        model: "google/medgemma-3-27B",
                         description: """
                         Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                         Размеры органа в пределах возрастной нормы.
@@ -257,7 +259,7 @@ private struct ConclusionScreenView: View {
                     ),
                     ResearchModelConclusion(
                         date: Date(),
-                        model: "medgemma-3-27B",
+                        model: "google/medgemma-3-27B",
                         description: """
                         Щитовидная железа расположена типично, структура органа сохранена.
                         Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.

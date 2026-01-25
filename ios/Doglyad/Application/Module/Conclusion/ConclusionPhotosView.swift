@@ -17,7 +17,7 @@ struct ConclusionPhotosView: View {
             HStack(
                 spacing: .zero
             ) {
-                ForEach(viewModel.conclusion.photos) { photo in
+                ForEach(viewModel.conclusion.data.photos) { photo in
                     PhotoCard(
                         image: photo.image,
                     )
