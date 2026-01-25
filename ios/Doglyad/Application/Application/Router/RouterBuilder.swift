@@ -54,10 +54,10 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? SelectDateOfBirthArguments
                 )
             )
-        case .speech:
+        case .scanSpeech:
             AnyView(
-                SpeechBottomSheet(
-                    arguments: route.arguments as! SpeechBottomSheetArguments
+                ScanSpeechBottomSheet(
+                    arguments: route.arguments as! ScanSpeechBottomSheetArguments
                 )
             )
         }

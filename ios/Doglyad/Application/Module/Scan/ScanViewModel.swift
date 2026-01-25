@@ -44,6 +44,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     @NestedObservableObject var patientComplaintController = DTextFieldController()
     @NestedObservableObject var researchDescriptionController = DTextFieldController()
     @NestedObservableObject var additionalDataController = DTextFieldController()
+    //
     @Published var isLoading = false
     
     private func onInit() {
@@ -178,8 +179,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             
             router.push(
                 route: RouteSheet(
-                    type: .speech,
-                    arguments: SpeechBottomSheetArguments(
+                    type: .scanSpeech,
+                    arguments: ScanSpeechBottomSheetArguments(
                         onComplete: { [weak self] response in
                             guard let self = self else { return }
                             

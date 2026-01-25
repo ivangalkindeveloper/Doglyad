@@ -8,7 +8,7 @@ enum ScreenType: Hashable {
 enum SheetType: Hashable {
     case selectResearchType
     case selectDateOfBirth
-    case speech
+    case scanSpeech
 }
 
 enum FullScreenCoverType: Hashable {}

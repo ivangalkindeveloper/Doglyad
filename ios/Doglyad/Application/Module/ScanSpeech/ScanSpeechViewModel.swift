@@ -4,15 +4,15 @@ import DoglyadNeuralModel
 import NestedObservableObject
 
 @MainActor
-final class SpeechViewModel: ObservableObject {
+final class ScanSpeechViewModel: ObservableObject {
     private let researchNeuralModel: DResearchNeuralModelProtocol?
     private let router: DRouter
-    private let arguments: SpeechBottomSheetArguments
+    private let arguments: ScanSpeechBottomSheetArguments
     
     init(
         researchNeuralModel: DResearchNeuralModelProtocol?,
         router: DRouter,
-        arguments: SpeechBottomSheetArguments
+        arguments: ScanSpeechBottomSheetArguments
     ) {
         self.researchNeuralModel = researchNeuralModel
         self.router = router
@@ -26,33 +26,33 @@ final class SpeechViewModel: ObservableObject {
     let columns = [GridItem(.adaptive(minimum: 100))]
     
     func onTapBack() -> Void {
-        router.dismissSheet()
+        self.router.dismissSheet()
     }
     
     var speechIcon: ImageResource {
-        speechController.isRecording ? .check : .play
+        self.speechController.isRecording ? .check : .play
     }
     
     func onTapSpeech() -> Void {
-        guard !isLoading else { return }
+        guard !self.isLoading else { return }
         
         if speechController.isRecording {
             guard let researchNeuralModel = self.researchNeuralModel else { return }
-            guard let speech = speechController.text else { return }
+            guard let speech = self.speechController.text else { return }
             
             speechController.stop()
             Task {
-                isLoading = true
+                self.isLoading = true
                 let response = try await researchNeuralModel.parseResearchSpeech(
                     locale: Locale.current,
                     speech: speech
                 )
-                isLoading = false
-                arguments.onComplete?(response)
-                router.dismissSheet()
+                self.isLoading = false
+                self.arguments.onComplete?(response)
+                self.router.dismissSheet()
             }
         } else {
-            speechController.start()
+            self.speechController.start()
         }
     }
 }

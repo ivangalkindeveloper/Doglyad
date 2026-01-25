@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 import DoglyadNeuralModel
 
-final class SpeechBottomSheetArguments: RouteArgumentsProtocol {
+final class ScanSpeechBottomSheetArguments: RouteArgumentsProtocol {
     let onComplete: ((DResearchNeuralModelResponse) -> Void)?
     
     init(
@@ -13,13 +13,13 @@ final class SpeechBottomSheetArguments: RouteArgumentsProtocol {
     }
 }
 
-struct SpeechBottomSheet: View {
+struct ScanSpeechBottomSheet: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
-    let arguments: SpeechBottomSheetArguments
+    let arguments: ScanSpeechBottomSheetArguments
     
     var body: some View {
-        SpeechBottomSheetView(
+        ScanSpeechBottomSheetView(
             viewModel: SpeechViewModel(
                 researchNeuralModel: container.researchNeuralModel,
                 router: router,
@@ -29,7 +29,7 @@ struct SpeechBottomSheet: View {
     }
 }
 
-private struct SpeechBottomSheetView: View {
+private struct ScanSpeechBottomSheetView: View {
     @EnvironmentObject var theme: DTheme
     var color: DColor { theme.color }
     var size: DSize { theme.size }
@@ -62,7 +62,7 @@ private struct SpeechBottomSheetView: View {
                             .padding(.bottom, size.s8)
                     }
                     
-                    SpeechAudioMeterView(
+                    ScanSpeechAudioMeterView(
                         level: viewModel.speechController.audioMeter
                     )
                     .padding(.bottom, size.s16)
