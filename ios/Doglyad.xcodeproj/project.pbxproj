@@ -32,6 +32,7 @@
 		77A896D02F0C82B1006E6E41 /* DoglyadNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77A9DFD32F0E74F3003D5ECB /* DoglyadNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; };
 		77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77BB12232E92A87700B9FFC5 /* DependencyInitializer */; };
+		77BF28D22F26C27A00D9373C /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = 77BF28D12F26C27A00D9373C /* SwiftMessages */; };
 		77CB94F82EB8FED100489F3E /* DoglyadCamera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */; };
 		77CB94F92EB8FED100489F3E /* DoglyadCamera.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77CB95192EB90C4600489F3E /* DoglyadSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB95132EB90C4600489F3E /* DoglyadSpeech.framework */; };
@@ -180,12 +181,16 @@
 				Component/DButton.swift,
 				Component/DButtonCard.swift,
 				Component/DCloseButton.swift,
+				Component/DErrorMessage.swift,
 				Component/DIcon.swift,
 				Component/DListButtonCard.swift,
 				Component/DScreen.swift,
 				Component/DSegment.swift,
 				Component/DText.swift,
 				Component/DTextField.swift,
+				Message/DMessage.swift,
+				Message/DMessager.swift,
+				Message/DMessageView.swift,
 				Style/DButtonStyle.swift,
 				Theme/DTheme.swift,
 				Theme/DThemeWrapperView.swift,
@@ -209,12 +214,16 @@
 				Component/DButton.swift,
 				Component/DButtonCard.swift,
 				Component/DCloseButton.swift,
+				Component/DErrorMessage.swift,
 				Component/DIcon.swift,
 				Component/DListButtonCard.swift,
 				Component/DScreen.swift,
 				Component/DSegment.swift,
 				Component/DText.swift,
 				Component/DTextField.swift,
+				Message/DMessage.swift,
+				Message/DMessager.swift,
+				Message/DMessageView.swift,
 				Resources/Assets.xcassets,
 				"Resources/Montserrat-Bold.ttf",
 				"Resources/Montserrat-Medium.ttf",
@@ -300,6 +309,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77BF28D22F26C27A00D9373C /* SwiftMessages in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,6 +532,7 @@
 			);
 			name = DoglyadUI;
 			packageProductDependencies = (
+				77BF28D12F26C27A00D9373C /* SwiftMessages */,
 			);
 			productName = DoglyadUI;
 			productReference = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */;
@@ -783,6 +794,7 @@
 				77A896C12F0AD5EE006E6E41 /* XCRemoteSwiftPackageReference "Handler" */,
 				77783DC12F0E873800FFC217 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				770AEB5C2F1DA67D00C09C76 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				77BF28D02F26C27A00D9373C /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 77AC58B32E929E7E0028250A /* Products */;
@@ -1966,6 +1978,14 @@
 				kind = branch;
 			};
 		};
+		77BF28D02F26C27A00D9373C /* XCRemoteSwiftPackageReference "SwiftMessages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.2;
+			};
+		};
 		77E7F0AC2EA843F000E49A4E /* XCRemoteSwiftPackageReference "Router" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ivangalkindeveloper/Router";
@@ -2057,6 +2077,11 @@
 		77BB12232E92A87700B9FFC5 /* DependencyInitializer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DependencyInitializer;
+		};
+		77BF28D12F26C27A00D9373C /* SwiftMessages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77BF28D02F26C27A00D9373C /* XCRemoteSwiftPackageReference "SwiftMessages" */;
+			productName = SwiftMessages;
 		};
 		77E7F0AD2EA843F000E49A4E /* Router */ = {
 			isa = XCSwiftPackageProductDependency;

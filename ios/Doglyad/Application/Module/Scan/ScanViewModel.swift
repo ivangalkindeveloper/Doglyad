@@ -49,20 +49,20 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     
     private func onInit() -> Void {
         self.cameraController.startSession()
-        if let selectedResearchType = diagnosticRepository.getSelectedResearchType() {
+        if let selectedResearchType = self.diagnosticRepository.getSelectedResearchType() {
             self.researchType = selectedResearchType
         }
         
-        let patientCount = diagnosticRepository.getConclusions().count
+        let patientCount = self.diagnosticRepository.getConclusions().count
         self.patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
     }
     
     var isPhotoFilling: Bool {
-        self.photos.count == ScanViewModel.photoMaxCount
+        self.photos.count == Self.photoMaxCount
     }
     
     var isCaptureAvailable: Bool {
-        self.cameraController.isRunning && !isPhotoFilling
+        self.cameraController.isRunning && !self.isPhotoFilling
     }
     
     func onDisappear() -> Void {

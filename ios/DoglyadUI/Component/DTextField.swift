@@ -107,10 +107,7 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
                         
                         TextField(
                             placeholder,
-                            text: Binding(
-                                get: { controller.text },
-                                set: { controller.text = $0 }
-                            ),
+                            text: $controller.text,
                             prompt: Text(placeholder)
                                 .foregroundStyle(color.grayscalePlaceholder),
                             axis: .vertical
