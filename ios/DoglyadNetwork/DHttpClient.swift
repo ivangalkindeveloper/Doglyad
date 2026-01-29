@@ -1,5 +1,5 @@
-private import Foundation
-private import Alamofire
+internal import Foundation
+internal import Alamofire
 
 
 public final class DHttpClient: DHttpClientProtocol {

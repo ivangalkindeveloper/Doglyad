@@ -1,21 +1,30 @@
 import SwiftUI
-private import SwiftMessages
+internal import SwiftMessages
 
-struct DMessageView<Content: View>: View  {
+public struct DMessageView<Content: View>: View  {
+    @EnvironmentObject private var theme: DTheme
+    
     @StateObject var messager = DMessager()
     
     @ViewBuilder let content: () -> Content
     
-    init(
+    public init(
         content: @escaping () -> Content
     ) {
         self.content = content
     }
     
-    var body: some View {
+    public var body: some View {
         content()
-            .swiftMessage(message: $messager.message) { message in
-                DErrorMessage()
+            .swiftMessage(
+                message: $messager.message
+            ) { message in
+                DMessageCard(
+                    theme: theme,
+                    message: message
+                )
+                .padding(.top, theme.size.s4)
+                .padding(.horizontal, theme.size.s16)
             }
             .environmentObject(messager)
     }

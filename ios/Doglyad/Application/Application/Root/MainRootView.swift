@@ -1,5 +1,6 @@
 import SwiftUI
 import Router
+import DoglyadUI
 
 struct MainRootView: View {
     let dependencyContainer: DependencyContainer
@@ -8,13 +9,15 @@ struct MainRootView: View {
         DependencyWrapperView(
             dependencyContainer: dependencyContainer,
         ) {
-            RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
-                builder: RouterBuilder(),
-                initialRouteScreen: RouteScreen<ScreenType>(
-                    type: dependencyContainer.initialScreen,
-                    arguments: dependencyContainer.initialScreenArguments
+            DMessageView {
+                RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
+                    builder: RouterBuilder(),
+                    initialRouteScreen: RouteScreen<ScreenType>(
+                        type: dependencyContainer.initialScreen,
+                        arguments: dependencyContainer.initialScreenArguments
+                    )
                 )
-            )
+            }
         }
     }
 }

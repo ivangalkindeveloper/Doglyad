@@ -86,6 +86,7 @@ public extension DColor {
         dangerDefaultWeak: Color(hex: 0xFF75CB),
         dangerBackgroundStrong: Color(hex: 0xFFABE8),
         dangerBackground: Color(hex: 0xFFECFC),
+        
         gradientPrimary: LinearGradient(
             colors: [
                 Color(hex: 0x7433FF),

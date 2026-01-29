@@ -5,9 +5,15 @@ public final class DMessager: ObservableObject {
     @Published var message: DMessage?
     
     public func show(
-        message: DMessage
+        type: DMessageType,
+        title: LocalizedStringResource,
+        description: LocalizedStringResource
     ) -> Void {
-        self.message = message
+        self.message = DMessage(
+            type: type,
+            title: title,
+            description: description
+        )
     }
     
     public func hide() -> Void {

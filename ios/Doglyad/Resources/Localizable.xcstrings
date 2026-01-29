@@ -381,13 +381,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please try again later"
+            "value" : "An unknown error has occurred. Please try again later."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пожалуйста попробуйте снова"
+            "value" : "Произошла неизвестная ошибка. Пожалуйста попробуйте позже."
           }
         }
       }
