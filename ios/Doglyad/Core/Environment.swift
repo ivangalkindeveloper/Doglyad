@@ -6,7 +6,7 @@ protocol EnvironmentProtocol: AnyObject {
 
 final class EnvironmentBase: EnvironmentProtocol {
     let baseURL: URL
-    
+
     init(
         baseURL: URL
     ) {

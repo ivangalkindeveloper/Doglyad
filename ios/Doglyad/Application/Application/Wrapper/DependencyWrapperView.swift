@@ -2,7 +2,7 @@ import SwiftUI
 
 struct DependencyWrapperView<Content: View>: View {
     let dependencyContainer: DependencyContainer
-    @ViewBuilder  let content: () -> Content
+    @ViewBuilder let content: () -> Content
 
     init(
         dependencyContainer: DependencyContainer,

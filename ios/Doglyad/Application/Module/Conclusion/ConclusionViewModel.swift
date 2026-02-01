@@ -4,7 +4,7 @@ import SwiftUI
 final class ConclusionViewModel: ObservableObject {
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
     private let router: DRouter
-    
+
     init(
         diagnosticRepository: DiagnosticsRepositoryProtocol,
         router: DRouter,
@@ -12,18 +12,18 @@ final class ConclusionViewModel: ObservableObject {
     ) {
         self.diagnosticRepository = diagnosticRepository
         self.router = router
-        self._conclusion = .init(initialValue: initialConclusion)
+        _conclusion = .init(initialValue: initialConclusion)
     }
-    
+
     @Published var conclusion: ResearchConclusion
-    
-    func onTapBack() -> Void {
+
+    func onTapBack() {
         router.pop()
     }
-    
-    func onTapShare() -> Void {}
-    
+
+    func onTapShare() {}
+
     func onTapRepeatScan(
-        proxy: ScrollViewProxy
-    ) -> Void {}
+        proxy _: ScrollViewProxy
+    ) {}
 }

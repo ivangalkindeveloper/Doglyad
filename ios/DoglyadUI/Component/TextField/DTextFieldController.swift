@@ -9,25 +9,25 @@ public class DTextFieldController: ObservableObject {
 
     public init(
         initialText: String = "",
-        isRequired: Bool = false,
+        isRequired: Bool = false
     ) {
-        self.text = initialText
+        text = initialText
         self.isRequired = isRequired
     }
-    
+
     public func validate() -> Bool {
-        self.errorText = nil
-        if self.text.isEmpty && self.isRequired {
-            self.isError = true
+        errorText = nil
+        if text.isEmpty && isRequired {
+            isError = true
             return false
         }
-        self.isError = false
+        isError = false
         return true
     }
-    
+
     public func showError(
         text: String
-    ) -> Void {
-        self.errorText = text
+    ) {
+        errorText = text
     }
 }

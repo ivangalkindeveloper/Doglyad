@@ -1,13 +1,13 @@
-import SwiftUI
-import DoglyadUI
 import BottomSheet
+import DoglyadUI
+import SwiftUI
 
 struct ScanSheetBodyView: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
+
     @EnvironmentObject private var viewModel: ScanViewModel
     let focus: FocusState<ScanViewModel.Focus?>.Binding
 
@@ -16,7 +16,7 @@ struct ScanSheetBodyView: View {
             showsIndicators: false
         ) {
             VStack(
-                spacing: .zero,
+                spacing: .zero
             ) {
                 DTextField(
                     controller: viewModel.patientNameController,
@@ -30,7 +30,7 @@ struct ScanSheetBodyView: View {
                     sumbitLabel: .next
                 )
                 .padding(.vertical, size.s4)
-                
+
                 DSegment<PatientGender>(
                     currentValue: viewModel.patientGender,
                     items: [
@@ -45,17 +45,17 @@ struct ScanSheetBodyView: View {
                             title: .scanGenderFemaleLabel
                         ) {
                             viewModel.onTapPatientGender(value: .female)
-                        }
+                        },
                     ]
                 )
                 .padding(.bottom, size.s4)
-                
+
                 DateOfBirthCard(
                     date: viewModel.patientDateOfBirth,
                     action: viewModel.onTapPatientDateOfBirth
                 )
                 .padding(.bottom, size.s4)
-                
+
                 DTextField(
                     controller: viewModel.patientHeightCMController,
                     focus: DTextFieldFocus(
@@ -68,7 +68,7 @@ struct ScanSheetBodyView: View {
                     sumbitLabel: .next
                 )
                 .padding(.bottom, size.s4)
-                
+
                 DTextField(
                     controller: viewModel.patientWeightKGController,
                     focus: DTextFieldFocus(
@@ -81,7 +81,7 @@ struct ScanSheetBodyView: View {
                     sumbitLabel: .next
                 )
                 .padding(.bottom, size.s4)
-                
+
                 DTextField(
                     controller: viewModel.patientComplaintController,
                     focus: DTextFieldFocus(
@@ -94,7 +94,7 @@ struct ScanSheetBodyView: View {
                     sumbitLabel: .next
                 )
                 .padding(.bottom, size.s4)
-                
+
                 DTextField(
                     controller: viewModel.researchDescriptionController,
                     focus: DTextFieldFocus(
@@ -107,7 +107,7 @@ struct ScanSheetBodyView: View {
                     sumbitLabel: .next
                 )
                 .padding(.bottom, size.s4)
-                
+
                 DTextField(
                     controller: viewModel.additionalDataController,
                     focus: DTextFieldFocus(

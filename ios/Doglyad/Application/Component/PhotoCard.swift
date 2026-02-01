@@ -41,7 +41,7 @@ struct PhotoCard: View {
                                     .foregroundColor(color.dangerDefault)
                                     .frame(
                                         width: size.s16,
-                                        height: size.s16,
+                                        height: size.s16
                                     )
                             }
                         }

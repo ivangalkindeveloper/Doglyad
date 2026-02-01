@@ -4,7 +4,7 @@ import SwiftUI
 
 final class ConclusionScreenArguments: RouteArgumentsProtocol {
     let conclusion: ResearchConclusion
-    
+
     init(
         conclusion: ResearchConclusion
     ) {
@@ -16,7 +16,7 @@ struct ConclusionScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
     let arguments: ConclusionScreenArguments
-    
+
     var body: some View {
         ConclusionScreenView(
             viewModel: ConclusionViewModel(
@@ -33,12 +33,12 @@ private struct ConclusionScreenView: View {
     var color: DColor { theme.color }
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
-    
+
     @StateObject var viewModel: ConclusionViewModel
     var conclusion: ResearchConclusion {
         viewModel.conclusion
     }
-    
+
     var body: some View {
         DScreen(
             title: .conclusionTitle,
@@ -59,9 +59,9 @@ private struct ConclusionScreenView: View {
                             )
                             .padding(size.s16)
                             .padding(.horizontal, size.s8)
-                        
+
                         ConclusionPhotosView()
-                        
+
                         VStack(
                             alignment: .leading,
                             spacing: .zero
@@ -73,10 +73,10 @@ private struct ConclusionScreenView: View {
                                 )
                             DText(conclusion.date.localized())
                                 .dStyle(
-                                    font: typography.textSmall,
+                                    font: typography.textSmall
                                 )
                                 .padding(.bottom, size.s8)
-                            
+
                             DText(.scanPatientNameLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
@@ -84,10 +84,10 @@ private struct ConclusionScreenView: View {
                                 )
                             DText(conclusion.data.patientName)
                                 .dStyle(
-                                    font: typography.textSmall,
+                                    font: typography.textSmall
                                 )
                                 .padding(.bottom, size.s8)
-                            
+
                             DText(.scanPatientGenderLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
@@ -95,10 +95,10 @@ private struct ConclusionScreenView: View {
                                 )
                             DText(.forGender(conclusion.data.patientGender))
                                 .dStyle(
-                                    font: typography.textSmall,
+                                    font: typography.textSmall
                                 )
                                 .padding(.bottom, size.s8)
-                            
+
                             DText(.scanPatientDateOfBirthLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
@@ -106,10 +106,10 @@ private struct ConclusionScreenView: View {
                                 )
                             DText(conclusion.data.patientDateOfBirth.localized())
                                 .dStyle(
-                                    font: typography.textSmall,
+                                    font: typography.textSmall
                                 )
                                 .padding(.bottom, size.s8)
-                            
+
                             DText(.scanResearchDescriptionLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
@@ -120,7 +120,7 @@ private struct ConclusionScreenView: View {
                                 backgroundColor: color.grayscaleBackgroundWeak
                             )
                             .padding(.bottom, size.s8)
-                            
+
                             if let patientComplaint = conclusion.data.patientComplaint {
                                 DText(.scanPatientComplaintLabel)
                                     .dStyle(
@@ -129,11 +129,11 @@ private struct ConclusionScreenView: View {
                                     )
                                 ExpandableText(
                                     text: patientComplaint,
-                                    backgroundColor: color.grayscaleBackgroundWeak,
+                                    backgroundColor: color.grayscaleBackgroundWeak
                                 )
                                 .padding(.bottom, size.s8)
                             }
-                            
+
                             if let additionalData = conclusion.data.additionalData {
                                 DText(.scanAdditionalDataLabel)
                                     .dStyle(
@@ -142,11 +142,11 @@ private struct ConclusionScreenView: View {
                                     )
                                 ExpandableText(
                                     text: additionalData,
-                                    backgroundColor: color.grayscaleBackgroundWeak,
+                                    backgroundColor: color.grayscaleBackgroundWeak
                                 )
                                 .padding(.bottom, size.s8)
                             }
-                            
+
                             DText(.conclusionActualModelResponseTitle)
                                 .dStyle(
                                     font: typography.linkLarge
@@ -158,7 +158,7 @@ private struct ConclusionScreenView: View {
                                 conclusion: conclusion.actualModelConclusion
                             )
                             .padding(.bottom, size.s16)
-                            
+
                             DButton(
                                 image: .refresh,
                                 title: .buttonRepeatScan,
@@ -168,7 +168,7 @@ private struct ConclusionScreenView: View {
                             )
                             .dStyle(.primaryButton)
                             .padding(.bottom, size.s16)
-                            
+
                             if !conclusion.previosModelConclusions.isEmpty {
                                 DText(.conclusionPreviosModelResponsesTitle)
                                     .dStyle(
@@ -205,7 +205,7 @@ private struct ConclusionScreenView: View {
                 data: ResearchData(
                     researchType: .thyroidGland,
                     photos: [
-                        ResearchScanPhoto(image: UIImage(resource: .alertInfo))
+                        ResearchScanPhoto(image: UIImage(resource: .alertInfo)),
                     ],
                     patientName: "Пациент#0",
                     patientGender: .male,
@@ -232,7 +232,7 @@ private struct ConclusionScreenView: View {
                     Настройки оптимизированы для визуализации поверхностных структур.
                     Качество изображения стабильное на протяжении всего исследования.
                     Архивирование изображения выполнено автоматически.
-                    """,
+                    """
                 ),
                 actualModelConclusion: ResearchModelConclusion(
                     date: Date(),
@@ -272,7 +272,7 @@ private struct ConclusionScreenView: View {
                         Полученные данные соответствуют нормальной ультразвуковой картине щитовидной железы.
                         Рекомендуется плановое контрольное УЗИ по необходимости или по назначению врача.
                         """
-                    )
+                    ),
                 ]
             )
         )

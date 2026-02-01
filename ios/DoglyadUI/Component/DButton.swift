@@ -15,7 +15,7 @@ public struct DButton: View {
         image: ImageResource? = nil,
         title: LocalizedStringResource? = nil,
         action: @escaping () -> Void,
-        isLoading: Bool = false,
+        isLoading: Bool = false
     ) {
         self.image = image
         self.title = title
@@ -25,7 +25,7 @@ public struct DButton: View {
 
     public var body: some View {
         Button(
-            action: isLoading ? {} : action,
+            action: isLoading ? {} : action
         ) {
             if isLoading {
                 ProgressView()
@@ -60,33 +60,32 @@ public struct DButton: View {
 
 public extension DButton {
     func dStyle(
-        _ type: DButtonStyleType,
+        _ type: DButtonStyleType
     ) -> some View {
-        self.modifier(DTextModifier(type: type))
+        modifier(DTextModifier(type: type))
     }
 }
 
 private struct DTextModifier: ViewModifier {
     let type: DButtonStyleType
-    
+
     init(
         type: DButtonStyleType
     ) {
         self.type = type
     }
-    
+
     func body(content: Content) -> some View {
         content
             .buttonStyle(DButtonStyle(type))
     }
 }
 
-
 #Preview {
     @Previewable @State var isLoading = false
 
     DThemeWrapperView {
-        DScreen { toolbarInset in
+        DScreen { _ in
             VStack {
                 DButton(
                     image: .bag,
@@ -95,14 +94,14 @@ private struct DTextModifier: ViewModifier {
                     isLoading: isLoading
                 )
                 .dStyle(.primaryButton)
-                
+
                 DButton(
                     image: .camera,
                     action: { isLoading = isLoading },
                     isLoading: isLoading
                 )
                 .dStyle(.primaryCircle)
-    
+
                 DButton(
                     image: .alertInfo,
                     title: "Primary chip",
@@ -110,14 +109,14 @@ private struct DTextModifier: ViewModifier {
                     isLoading: isLoading
                 )
                 .dStyle(.primaryChip)
-    
+
                 DButton(
                     image: .alertInfo,
                     action: { isLoading = isLoading },
                     isLoading: isLoading
                 )
                 .dStyle(.circle)
-    
+
                 DButton(
                     image: .atSign,
                     title: "Some card",
@@ -130,7 +129,3 @@ private struct DTextModifier: ViewModifier {
         }
     }
 }
-
-
-
-

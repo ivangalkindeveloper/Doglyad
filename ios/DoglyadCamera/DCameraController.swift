@@ -1,43 +1,44 @@
-import SwiftUI
-import Combine
 import AVFoundation
+import Combine
+import SwiftUI
 
 @MainActor
 public final class DCameraController: NSObject, ObservableObject {
     @Published public var isLoading = true
     @Published public var isRunning = false
     @Published public var isCapturing = false
-    
-    nonisolated private let session = AVCaptureSession()
-    lazy var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(
+
+    private nonisolated let session = AVCaptureSession()
+    lazy var previewLayer: AVCaptureVideoPreviewLayer = .init(
         session: self.session
     )
     private var output = AVCapturePhotoOutput()
     private var capturePhotoCompletion: ((UIImage) -> Void)?
-    
-    public override init() {
+
+    override public init() {
         super.init()
-        self.session.beginConfiguration()
+        session.beginConfiguration()
         guard let device = AVCaptureDevice.default(
-                .builtInWideAngleCamera,
-                for: .video,
-                position: .back
-            ),
+            .builtInWideAngleCamera,
+            for: .video,
+            position: .back
+        ),
             let input = try? AVCaptureDeviceInput(device: device),
-            self.session.canAddInput(input),
-            self.session.canAddOutput(self.output) else {
+            session.canAddInput(input),
+            session.canAddOutput(self.output)
+        else {
             return
         }
-        self.session.addInput(input)
-        self.session.addOutput(self.output)
-        self.previewLayer.videoGravity = .resizeAspectFill
-        self.session.commitConfiguration()
-        self.isLoading = false
-        self.isRunning = true
+        session.addInput(input)
+        session.addOutput(output)
+        previewLayer.videoGravity = .resizeAspectFill
+        session.commitConfiguration()
+        isLoading = false
+        isRunning = true
     }
 
-    public func startSession() -> Void {
-        if self.session.isRunning { return }
+    public func startSession() {
+        if session.isRunning { return }
         DispatchQueue.global(qos: .background).async {
             self.session.startRunning()
             DispatchQueue.main.async {
@@ -46,8 +47,8 @@ public final class DCameraController: NSObject, ObservableObject {
         }
     }
 
-    public func stopSession() -> Void {
-        if !self.session.isRunning { return }
+    public func stopSession() {
+        if !session.isRunning { return }
         DispatchQueue.global(qos: .background).async {
             self.session.stopRunning()
             DispatchQueue.main.async {
@@ -58,9 +59,9 @@ public final class DCameraController: NSObject, ObservableObject {
 
     public func takePhoto(
         completion: @escaping (UIImage) -> Void
-    ) -> Void {
-        self.isCapturing = true
-        self.capturePhotoCompletion = completion
+    ) {
+        isCapturing = true
+        capturePhotoCompletion = completion
         let settings = AVCapturePhotoSettings()
         output.capturePhoto(
             with: settings,
@@ -71,15 +72,16 @@ public final class DCameraController: NSObject, ObservableObject {
 
 extension DCameraController: AVCapturePhotoCaptureDelegate {
     public func photoOutput(
-        _ output: AVCapturePhotoOutput,
+        _: AVCapturePhotoOutput,
         didFinishProcessingPhoto photo: AVCapturePhoto,
-        error: Error?
-    ) -> Void {
+        error _: Error?
+    ) {
         guard let data = photo.fileDataRepresentation(),
-           let image = UIImage(data: data) else {
+              let image = UIImage(data: data)
+        else {
             return
         }
-        self.capturePhotoCompletion?(image)
-        self.isCapturing = false
+        capturePhotoCompletion?(image)
+        isCapturing = false
     }
 }

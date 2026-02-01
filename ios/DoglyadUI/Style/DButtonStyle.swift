@@ -69,7 +69,7 @@ private extension DButtonStyle {
             return color.grayscaleBackground
         }
     }
-    
+
     @ViewBuilder
     var background: some View {
         let cornerRadius = self.cornerRadius ?? size.s16
@@ -78,8 +78,8 @@ private extension DButtonStyle {
             RoundedRectangle(
                 cornerRadius: cornerRadius
             )
-                .fill(backgroundGradient ?? DButtonStyle.defaultGradient)
-            
+            .fill(backgroundGradient ?? DButtonStyle.defaultGradient)
+
         case .primaryCircle:
             Circle()
                 .fill(backgroundGradient ?? DButtonStyle.defaultGradient)
@@ -91,13 +91,13 @@ private extension DButtonStyle {
         case .circle:
             Circle()
                 .fill(backgroundColor ?? DButtonStyle.defaultColor)
-            
+
         case .card:
             RoundedRectangle(
                 cornerRadius: cornerRadius
             )
-                .fill(backgroundColor ?? DButtonStyle.defaultColor)
-        
+            .fill(backgroundColor ?? DButtonStyle.defaultColor)
+
         case .chip:
             Capsule()
                 .fill(backgroundColor ?? DButtonStyle.defaultColor)

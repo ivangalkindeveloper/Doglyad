@@ -33,7 +33,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
         @ViewBuilder titleContent: @escaping (() -> Title) = { EmptyView() },
         @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
         onTapBody: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping (CGFloat) -> Content,
+        @ViewBuilder content: @escaping (CGFloat) -> Content
     ) {
         self.toolbarType = toolbarType
         self.title = title

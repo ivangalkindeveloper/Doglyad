@@ -10,6 +10,7 @@ public final class DResearchNeuralModelMLX: DResearchNeuralModelProtocol {
             maxTokens: 512
         )
     }
+
     private static let defaultModel = DNeuralModelData(
         modelId: "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
         params: 1_500_000_000, // 1.5B
@@ -25,21 +26,21 @@ public final class DResearchNeuralModelMLX: DResearchNeuralModelProtocol {
             forResource: "mlx-Qwen2.5-1.5B-Instruct-4bit",
             withExtension: nil
         )!
-        self.model = try await MLXLMCommon.loadModel(
-            directory: directory,
+        model = try await MLXLMCommon.loadModel(
+            directory: directory
         )
-        self.session = MLXLMCommon.ChatSession(
+        session = MLXLMCommon.ChatSession(
             model,
             instructions: """
             \(DResearchGenerationConfig.modelRole)
             \(DResearchGenerationConfig.outputJsonExample)
-            """,
+            """
         )
     }
 
     public func parseResearchSpeech(
         locale: Locale,
-        speech: String
+        speech _: String
     ) async throws -> DResearchNeuralModelResponse {
         let taskPrompt = DResearchGenerationConfig.taskPrompt(
             locale,
@@ -47,7 +48,7 @@ public final class DResearchNeuralModelMLX: DResearchNeuralModelProtocol {
         )
 
         let response = try await session.respond(
-            to: taskPrompt,
+            to: taskPrompt
         )
 
         let data = Data(response.utf8)

@@ -1,12 +1,11 @@
 import SwiftUI
 
-
 public struct DSegmentItem<T: Equatable>: Identifiable {
-    public let id: UUID = UUID()
+    public let id: UUID = .init()
     let value: T
     let title: LocalizedStringResource
     let action: () -> Void
-    
+
     public init(
         value: T,
         title: LocalizedStringResource,
@@ -23,10 +22,10 @@ public struct DSegment<T: Equatable>: View {
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
+
     let currentValue: T?
     let items: [DSegmentItem<T>]
-    
+
     public init(
         currentValue: T?,
         items: [DSegmentItem<T>]
@@ -34,14 +33,14 @@ public struct DSegment<T: Equatable>: View {
         self.currentValue = currentValue
         self.items = items
     }
-    
+
     public var body: some View {
         HStack(
             spacing: size.s8
         ) {
             ForEach(items) { item in
                 Button(
-                    action: item.action,
+                    action: item.action
                 ) {
                     Text(item.title)
                         .font(typography.linkSmall)
@@ -89,15 +88,15 @@ public struct DSegmentButtonStyle: ButtonStyle {
                 value: configuration.isPressed
             )
     }
-    
+
     @ViewBuilder
     var background: some View {
         if condition {
             Capsule()
-            .fill(color.gradientPrimaryWeak)
+                .fill(color.gradientPrimaryWeak)
         } else {
             Capsule()
-            .fill(color.grayscaleBackground)
+                .fill(color.grayscaleBackground)
         }
     }
 
@@ -108,9 +107,9 @@ public struct DSegmentButtonStyle: ButtonStyle {
 
 #Preview {
     @Previewable @State var value = ""
-    
+
     DThemeWrapperView {
-        DScreen { toolbarInset in
+        DScreen { _ in
             DSegment<String>(
                 currentValue: value,
                 items: [
@@ -119,7 +118,7 @@ public struct DSegmentButtonStyle: ButtonStyle {
                     }),
                     DSegmentItem<String>(value: "Cherry", title: "Value - Cherry", action: {
                         value = "Cherry"
-                    })
+                    }),
                 ]
             )
             .redacted(reason: .placeholder)

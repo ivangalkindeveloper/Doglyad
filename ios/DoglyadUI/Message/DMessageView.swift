@@ -1,19 +1,19 @@
 import SwiftUI
 internal import SwiftMessages
 
-public struct DMessageView<Content: View>: View  {
+public struct DMessageView<Content: View>: View {
     @EnvironmentObject private var theme: DTheme
-    
+
     @StateObject var messager = DMessager()
-    
+
     @ViewBuilder let content: () -> Content
-    
+
     public init(
         content: @escaping () -> Content
     ) {
         self.content = content
     }
-    
+
     public var body: some View {
         content()
             .swiftMessage(

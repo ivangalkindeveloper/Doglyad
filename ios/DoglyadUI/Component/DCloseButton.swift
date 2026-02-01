@@ -5,7 +5,7 @@ public struct DCloseButton: View {
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
+
     let action: () -> Void
 
     public init(
@@ -13,7 +13,7 @@ public struct DCloseButton: View {
     ) {
         self.action = action
     }
-    
+
     public var body: some View {
         Button {
             action()

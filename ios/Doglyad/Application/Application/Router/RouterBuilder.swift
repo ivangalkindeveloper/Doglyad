@@ -1,12 +1,12 @@
-import SwiftUI
 import Router
+import SwiftUI
 
 final class RouterBuilder: RouterBuilderProtocol {
     typealias Screen = ScreenType
     typealias Sheet = SheetType
     typealias FullScreenCover = FullScreenCoverType
     typealias Content = AnyView
-    
+
     func build(
         route: RouteScreen<ScreenType>
     ) -> AnyView {
@@ -37,7 +37,7 @@ final class RouterBuilder: RouterBuilderProtocol {
             )
         }
     }
-    
+
     func build(
         route: RouteSheet<SheetType>
     ) -> AnyView {
@@ -66,7 +66,7 @@ final class RouterBuilder: RouterBuilderProtocol {
             )
         }
     }
-    
+
     func build(
         route: RouteFullScreenCover<FullScreenCoverType>
     ) -> AnyView {

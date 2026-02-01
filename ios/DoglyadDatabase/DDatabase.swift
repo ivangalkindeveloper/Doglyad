@@ -12,8 +12,8 @@ public final class DDatabase: DDatabaseProtocol {
             ResearchScanPhotoDB.self,
             ResearchModelConclusionDB.self,
         ])
-        self.container = try ModelContainer(
-            for: schema,
+        container = try ModelContainer(
+            for: schema
         )
     }
 }

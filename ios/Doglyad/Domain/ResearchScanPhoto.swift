@@ -2,9 +2,9 @@ import DoglyadDatabase
 import UIKit
 
 struct ResearchScanPhoto: Identifiable, Equatable, Codable {
-    var id: UUID = UUID()
+    var id: UUID = .init()
     let imageData: Data
-    
+
     var image: UIImage { UIImage(data: imageData)! }
 
     init(
@@ -12,7 +12,7 @@ struct ResearchScanPhoto: Identifiable, Equatable, Codable {
         image: UIImage
     ) {
         self.id = id
-        self.imageData = image.jpegData(compressionQuality: 0.9) ?? Data()
+        imageData = image.jpegData(compressionQuality: 0.9) ?? Data()
     }
 }
 

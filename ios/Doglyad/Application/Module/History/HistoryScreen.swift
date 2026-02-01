@@ -1,9 +1,9 @@
-import SwiftUI
-import Router
 import DoglyadUI
+import Router
+import SwiftUI
 
 final class HistoryScreenArguments: RouteArgumentsProtocol {}
-    
+
 struct HistoryScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
@@ -13,7 +13,7 @@ struct HistoryScreen: View {
         HistoryScreenView(
             viewModel: HistoryViewModel(
                 diagnosticRepository: container.diagnosticsRepository,
-                router: router,
+                router: router
             )
         )
     }
@@ -24,9 +24,9 @@ private struct HistoryScreenView: View {
     var color: DColor { theme.color }
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
-    
+
     @StateObject var viewModel: HistoryViewModel
-    
+
     var body: some View {
         DScreen(
             title: .historyTitle,

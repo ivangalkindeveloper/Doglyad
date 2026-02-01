@@ -12,7 +12,7 @@ public extension View {
             self
         }
     }
-    
+
     @ViewBuilder
     func ifLet<T, Content: View>(
         _ value: T?,
@@ -24,11 +24,11 @@ public extension View {
             self
         }
     }
-    
+
     @ViewBuilder func ifLetElse<T, Content: View>(
         _ value: T?,
         transform: (Self, T) -> Content,
-        `else`: (Self) -> Content
+        else: (Self) -> Content
     ) -> some View {
         if let value = value {
             transform(self, value)

@@ -1,6 +1,6 @@
+import BottomSheet
 import Foundation
 import SwiftUI
-import BottomSheet
 
 @MainActor
 final class ScanSheetController: ObservableObject {
@@ -8,7 +8,7 @@ final class ScanSheetController: ObservableObject {
     private let sheetPositionHidden: BottomSheetPosition = .hidden
     private let sheetPositionBottom: BottomSheetPosition = .absolute(120)
     private let sheetPositionTop: BottomSheetPosition = .relativeTop(0.9)
-    
+
     var switchablePositions: [BottomSheetPosition] {
         [
             sheetPositionHidden,
@@ -16,41 +16,41 @@ final class ScanSheetController: ObservableObject {
             sheetPositionTop,
         ]
     }
-    
+
     var isSheetVisible: Bool {
         currentPosition != sheetPositionHidden
     }
-    
+
     var isHidden: Bool {
         currentPosition == sheetPositionHidden
     }
-    
+
     var isBottom: Bool {
         currentPosition == sheetPositionBottom
     }
-    
+
     var isTop: Bool {
         currentPosition == sheetPositionTop
     }
-    
-    func setHidden() -> Void {
-        self.setPosition(sheetPositionHidden)
+
+    func setHidden() {
+        setPosition(sheetPositionHidden)
     }
-    
-    func setBottom() -> Void {
-        self.setPosition(sheetPositionBottom)
+
+    func setBottom() {
+        setPosition(sheetPositionBottom)
     }
-    
-    func setTop() -> Void {
-        self.setPosition(sheetPositionTop)
+
+    func setTop() {
+        setPosition(sheetPositionTop)
     }
 }
 
 private extension ScanSheetController {
     func setPosition(
         _ newValue: BottomSheetPosition
-    ) -> Void {
-        guard self.currentPosition != newValue else { return }
-        self.currentPosition = newValue
+    ) {
+        guard currentPosition != newValue else { return }
+        currentPosition = newValue
     }
 }

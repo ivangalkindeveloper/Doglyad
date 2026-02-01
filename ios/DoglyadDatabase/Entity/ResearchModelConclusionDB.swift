@@ -7,7 +7,7 @@ public final class ResearchModelConclusionDB {
     public var date: Date
     public var model: String
     public var response: String
-    
+
     public init(
         id: UUID = UUID(),
         date: Date,

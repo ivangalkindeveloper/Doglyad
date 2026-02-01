@@ -41,14 +41,14 @@ private struct ScanScreenView: View {
             leading: {
                 DButton(
                     image: .hambergerMenu,
-                    action: viewModel.onTapHistory,
+                    action: viewModel.onTapHistory
                 )
                 .dStyle(.circle)
             },
             titleContent: {
                 DButton(
                     title: .forResearchType(viewModel.researchType),
-                    action: viewModel.onTapResearchType,
+                    action: viewModel.onTapResearchType
                 )
                 .dStyle(.primaryChip)
             },

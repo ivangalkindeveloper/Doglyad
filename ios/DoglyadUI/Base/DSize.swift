@@ -33,8 +33,6 @@ public extension DSize {
 
 public extension DSize {
     var adaptiveCornerRadius: CGFloat {
-        get {
-            UIScreen.main.cornerRadius < s16 ? s16 : UIScreen.main.cornerRadius
-        }
+        UIScreen.main.cornerRadius < s16 ? s16 : UIScreen.main.cornerRadius
     }
 }

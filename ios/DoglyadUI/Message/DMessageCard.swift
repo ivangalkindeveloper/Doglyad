@@ -7,7 +7,7 @@ struct DMessageCard: View {
     var body: some View {
         VStack(
             alignment: .leading,
-            spacing: .zero,
+            spacing: .zero
         ) {
             Text(
                 message.title
@@ -15,7 +15,7 @@ struct DMessageCard: View {
             .font(typography.linkSmall)
             .foregroundStyle(theme.color.grayscaleBackground)
             .multilineTextAlignment(.leading)
-            
+
             Text(
                 message.description
             )

@@ -1,13 +1,13 @@
 import AVFoundation
 import DependencyInitializer
 import DoglyadDatabase
-import DoglyadNeuralModel
 import DoglyadNetwork
+import DoglyadNeuralModel
+import FirebaseCore
 import Foundation
 import FoundationModels
 import Router
 import SwiftData
-import FirebaseCore
 
 @MainActor
 final class InitializationProcess: DependencyInitializationProcess {
@@ -27,15 +27,15 @@ final class InitializationProcess: DependencyInitializationProcess {
 
     var toContainer: DependencyContainer {
         DependencyContainer(
-            environment: self.environment!,
-            researchNeuralModel: self.researchNeuralModel,
-            connectionManager: self.connectionManager!,
-            permissionmanager: self.permissionmanager!,
-            sharedRepository: self.sharedRepository!,
-            diagnosticsRepository: self.diagnosticsRepository!,
-            researchTypes: self.researchTypes!,
-            initialScreen: self.initialScreen!,
-            initialScreenArguments: self.initialScreenArguments,
+            environment: environment!,
+            researchNeuralModel: researchNeuralModel,
+            connectionManager: connectionManager!,
+            permissionmanager: permissionmanager!,
+            sharedRepository: sharedRepository!,
+            diagnosticsRepository: diagnosticsRepository!,
+            researchTypes: researchTypes!,
+            initialScreen: initialScreen!,
+            initialScreenArguments: initialScreenArguments
         )
     }
 }
@@ -64,7 +64,7 @@ extension InitializationProcess {
 //                    process.researchNeuralModel = await DResearchNeuralModelMLX()
 //                    return
 //                }
-                
+
                 let model = try await DResearchNeuralModelMLX()
                 await MainActor.run {
                     process.researchNeuralModel = model
@@ -144,7 +144,7 @@ extension InitializationProcess {
         ),
         InitializationStep<InitializationProcess>(
             title: "Firebase",
-            run: { process in
+            run: { _ in
                 FirebaseApp.configure()
             }
         ),

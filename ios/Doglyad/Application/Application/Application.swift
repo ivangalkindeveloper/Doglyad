@@ -1,6 +1,6 @@
-import SwiftUI
-import SwiftData
 import DoglyadUI
+import SwiftData
+import SwiftUI
 
 @main
 struct Application: App {
@@ -9,19 +9,17 @@ struct Application: App {
     var body: some Scene {
         WindowGroup {
             ApplicationWrapperView(
-                viewModel: viewModel,
+                viewModel: viewModel
             ) {
                 DThemeWrapperView {
                     AnyView(
                         self.viewModel.root
                     )
-                        .onAppear {
-                            self.viewModel.initialize()
-                        }
+                    .onAppear {
+                        self.viewModel.initialize()
+                    }
                 }
             }
         }
     }
 }
-
-

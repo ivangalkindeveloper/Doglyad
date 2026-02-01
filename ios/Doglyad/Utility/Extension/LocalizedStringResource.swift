@@ -2,76 +2,76 @@ import Foundation
 
 extension LocalizedStringResource {
     static func forResearchType(
-        _ type: ResearchType,
+        _ type: ResearchType
     ) -> LocalizedStringResource {
         switch type {
         case ResearchType.abdominalCavity:
-                .researchTypeAbdominalCavity
+            .researchTypeAbdominalCavity
         case ResearchType.abdominalVessels:
-                .researchTypeAbdominalVessels
+            .researchTypeAbdominalVessels
         case ResearchType.arteriesOfTheLowerExtremities:
-                .researchTypeArteriesOfTheLowerExtremities
+            .researchTypeArteriesOfTheLowerExtremities
         case ResearchType.arteriesOfTheUpperExtremities:
-                .researchTypeArteriesOfTheUpperExtremities
+            .researchTypeArteriesOfTheUpperExtremities
         case ResearchType.bladder:
-                .researchTypeBladder
+            .researchTypeBladder
         case ResearchType.bladderWithResidualUrineDetermination:
-                .researchTypeBladderWithResidualUrineDetermination
+            .researchTypeBladderWithResidualUrineDetermination
         case ResearchType.brachiocephalicVessels:
-                .researchTypeBrachiocephalicVessels
+            .researchTypeBrachiocephalicVessels
         case ResearchType.echocardiography:
-                .researchTypeEchocardiography
+            .researchTypeEchocardiography
         case ResearchType.eye:
-                .researchTypeEye
+            .researchTypeEye
         case ResearchType.hipJointsInNewborns:
-                .researchTypeHipJointsInNewborns
+            .researchTypeHipJointsInNewborns
         case ResearchType.hollowOrgansStomachAndIntestines:
-                .researchTypeHollowOrgansStomachAndIntestines
+            .researchTypeHollowOrgansStomachAndIntestines
         case ResearchType.intracanialArteries:
-                .researchTypeIntracanialArteries
+            .researchTypeIntracanialArteries
         case ResearchType.joints:
-                .researchTypeJoints
+            .researchTypeJoints
         case ResearchType.kidneysAdrenalGlandsAndRetroperitonealSpace:
-                .researchTypeKidneysAdrenalGlandsAndRetroperitonealSpace
+            .researchTypeKidneysAdrenalGlandsAndRetroperitonealSpace
         case ResearchType.lymphNodes:
-                .researchTypeLymphNodes
+            .researchTypeLymphNodes
         case ResearchType.mammaryGlands:
-                .researchTypeMammaryGlands
+            .researchTypeMammaryGlands
         case ResearchType.neurosonography:
-                .researchTypeNeurosonography
+            .researchTypeNeurosonography
         case ResearchType.pelvicOrgans:
-                .researchTypePelvicOrgans
+            .researchTypePelvicOrgans
         case ResearchType.pleuralRegion:
-                .researchTypePleuralRegion
+            .researchTypePleuralRegion
         case ResearchType.renalArteries:
-                .researchTypeRenalArteries
+            .researchTypeRenalArteries
         case ResearchType.salivaryGlands:
-                .researchTypeSalivaryGlands
+            .researchTypeSalivaryGlands
         case ResearchType.scrotum:
-                .researchTypeScrotum
+            .researchTypeScrotum
         case ResearchType.sinuses:
-                .researchTypeSinuses
+            .researchTypeSinuses
         case ResearchType.softTissues:
-                .researchTypeSoftTissues
+            .researchTypeSoftTissues
         case ResearchType.thymusGland:
-                .researchTypeThymusGland
+            .researchTypeThymusGland
         case ResearchType.thyroidGland:
-                .researchTypeThyroidGland
+            .researchTypeThyroidGland
         case ResearchType.veinsOfTheLowerExtremities:
-                .researchTypeVeinsOfTheLowerExtremities
+            .researchTypeVeinsOfTheLowerExtremities
         case ResearchType.veinsOfTheUpperExtremities:
-                .researchTypeVeinsOfTheUpperExtremities
+            .researchTypeVeinsOfTheUpperExtremities
         }
     }
-    
+
     static func forGender(
-        _ gender: PatientGender,
+        _ gender: PatientGender
     ) -> LocalizedStringResource {
         switch gender {
         case PatientGender.male:
-                .scanGenderMaleLabel
+            .scanGenderMaleLabel
         case PatientGender.female:
-                .scanGenderFemaleLabel
+            .scanGenderFemaleLabel
         }
     }
 }

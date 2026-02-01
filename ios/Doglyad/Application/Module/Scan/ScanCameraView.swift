@@ -19,13 +19,13 @@ struct ScanCameraView: View {
             } else {
                 ZStack {
                     DCameraView(
-                        controller: viewModel.cameraController,
+                        controller: viewModel.cameraController
                     )
                     .if(!viewModel.cameraController.isRunning) { view in
                         view
                             .blur(radius: size.s16)
                     }
-                    
+
                     if viewModel.cameraController.isRunning {
                         ScanFrameView()
                     } else {
@@ -33,7 +33,7 @@ struct ScanCameraView: View {
                             alignment: .center
                         ) {
                             DText(
-                                .scanTurnedOffCameraDescription,
+                                .scanTurnedOffCameraDescription
                             )
                             .dStyle(
                                 font: typography.textSmall,
@@ -41,7 +41,7 @@ struct ScanCameraView: View {
                                 alignment: .center
                             )
                             .padding(.bottom, size.s16)
-                            
+
                             if !viewModel.isPhotoFilling {
                                 DButton(
                                     title: .buttonCameraTurnOn

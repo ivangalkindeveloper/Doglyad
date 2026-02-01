@@ -20,14 +20,14 @@ final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
 extension DiagnosticsRepository {
     func getSelectedResearchType() -> ResearchType? {
         ResearchType.fromString(
-            self.database.getSelectedUSResearchType()
+            database.getSelectedUSResearchType()
         )
     }
 
     func setSelectedResearchType(
         type: ResearchType
     ) {
-        self.database.setSelectedUSResearchType(
+        database.setSelectedUSResearchType(
             value: type.rawValue
         )
     }
@@ -40,30 +40,30 @@ extension DiagnosticsRepository {
 
     func generateConclusion(
         researchData: ResearchData,
-        locale: Locale,
+        locale: Locale
     ) async throws -> ResearchModelConclusion {
-        try await self.httpClient.post(
+        try await httpClient.post(
             endPoint: DiagnosticsRepository.conclusionEndpoint,
             body: researchData,
             headers: [
-                DHttpHeader.acceptLanguage: locale.identifier
+                DHttpHeader.acceptLanguage: locale.identifier,
             ]
         )
     }
 
     @MainActor func getConclusions() -> [ResearchConclusion] {
-        self.database.getResearchConclusions().map { ResearchConclusion.fromDB($0) }
+        database.getResearchConclusions().map { ResearchConclusion.fromDB($0) }
     }
 
     @MainActor func setConclusion(
         conclusion: ResearchConclusion
     ) {
-        self.database.setResearchConclusion(value: conclusion.toDB())
+        database.setResearchConclusion(value: conclusion.toDB())
     }
 
     @MainActor func updateConclusion(
         conclusion: ResearchConclusion
     ) {
-        self.database.updateResearchConclusion(value: conclusion.toDB())
+        database.updateResearchConclusion(value: conclusion.toDB())
     }
 }

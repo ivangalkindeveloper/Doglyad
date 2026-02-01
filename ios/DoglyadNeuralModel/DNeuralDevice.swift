@@ -2,7 +2,7 @@ import Foundation
 import Metal
 import os
 
-final class DNeuralDevice {
+enum DNeuralDevice {
     static func canRunLocally(model: DNeuralModelData, maxTokens: Int) -> Bool {
         guard deviceSupportsRequiredGPUFamily() else { return false }
 
@@ -18,13 +18,13 @@ final class DNeuralDevice {
         // Требуем, чтобы хватало хотя бы с 50% запасом
         return need < avail / 2
     }
-    
+
     @available(iOS 16.0, *)
-    static private func availableMemoryBytes() -> UInt64 {
+    private static func availableMemoryBytes() -> UInt64 {
         UInt64(os_proc_available_memory())
     }
 
-    static private func legacyAvailableMemoryBytes() -> UInt64 {
+    private static func legacyAvailableMemoryBytes() -> UInt64 {
         var stats = vm_statistics64()
         var size = mach_msg_type_number_t(MemoryLayout<vm_statistics64_data_t>.size / MemoryLayout<integer_t>.size)
         let HOST_VM_INFO64_COUNT: mach_msg_type_number_t = numericCast(MemoryLayout<vm_statistics64_data_t>.size / MemoryLayout<integer_t>.size)
@@ -39,7 +39,7 @@ final class DNeuralDevice {
         return freeBytes + inactiveBytes
     }
 
-    static private func deviceSupportsRequiredGPUFamily() -> Bool {
+    private static func deviceSupportsRequiredGPUFamily() -> Bool {
         guard let device = MTLCreateSystemDefaultDevice() else { return false }
         if #available(iOS 16.0, *) {
             // MLX на iOS практически требует не ниже Apple 7 (A14+)
@@ -50,7 +50,7 @@ final class DNeuralDevice {
         }
     }
 
-    static private func estimateFootprintBytes(model: DNeuralModelData, maxTokens: Int) -> UInt64 {
+    private static func estimateFootprintBytes(model: DNeuralModelData, maxTokens: Int) -> UInt64 {
         // Веса: params * (quantBits/8)
         let weightBytes = UInt64(model.params) * UInt64(model.quantBits) / 8
         // KV-cache: 2 (K/V) * numLayers * hiddenSize * bytesPerVal (fp16=2) * maxTokens

@@ -16,7 +16,7 @@ struct ModelConclusionCard: View {
         ) {
             DText(.conclusionModelResponseLabel)
                 .dStyle(
-                    font: typography.linkSmall,
+                    font: typography.linkSmall
                 )
 
             HStack(
@@ -25,14 +25,14 @@ struct ModelConclusionCard: View {
             ) {
                 DText(.conclusionResponseDateLabel)
                     .dStyle(
-                        font: typography.textSmall,
+                        font: typography.textSmall
                     )
                     .padding(.trailing, size.s4)
 
                 DText(conclusion.date.localized())
-                .dStyle(
-                    font: typography.linkSmall,
-                )
+                    .dStyle(
+                        font: typography.linkSmall
+                    )
             }
             .padding(.bottom, size.s8)
 

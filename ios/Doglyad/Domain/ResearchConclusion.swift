@@ -2,7 +2,7 @@ import DoglyadDatabase
 import Foundation
 
 struct ResearchConclusion: Identifiable, Codable {
-    var id: UUID = UUID()
+    var id: UUID = .init()
     let date: Date
     let data: ResearchData
     let actualModelConclusion: ResearchModelConclusion

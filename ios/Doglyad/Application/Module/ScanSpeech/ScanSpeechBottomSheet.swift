@@ -1,11 +1,11 @@
+import DoglyadNeuralModel
 import DoglyadUI
 import Router
 import SwiftUI
-import DoglyadNeuralModel
 
 final class ScanSpeechBottomSheetArguments: RouteArgumentsProtocol {
     let onComplete: ((DResearchNeuralModelResponse) -> Void)?
-    
+
     init(
         onComplete: ((DResearchNeuralModelResponse) -> Void)?
     ) {
@@ -17,7 +17,7 @@ struct ScanSpeechBottomSheet: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
     let arguments: ScanSpeechBottomSheetArguments
-    
+
     var body: some View {
         ScanSpeechBottomSheetView(
             viewModel: ScanSpeechViewModel(
@@ -46,7 +46,7 @@ private struct ScanSpeechBottomSheetView: View {
                 spacing: .zero
             ) {
                 Spacer()
-                
+
                 if viewModel.speechController.isRecording {
                     if let speechText = viewModel.speechController.text {
                         DText(speechText)
@@ -61,7 +61,7 @@ private struct ScanSpeechBottomSheetView: View {
                             .padding(.horizontal, size.s32)
                             .padding(.bottom, size.s8)
                     }
-                    
+
                     ScanSpeechAudioMeterView(
                         level: viewModel.speechController.audioMeter
                     )
@@ -86,9 +86,9 @@ private struct ScanSpeechBottomSheetView: View {
                         alignment: .center
                     )
                     .padding(.horizontal, size.s16)
-                
+
                 Spacer()
-                
+
                 DButton(
                     image: viewModel.speechIcon,
                     action: viewModel.onTapSpeech,

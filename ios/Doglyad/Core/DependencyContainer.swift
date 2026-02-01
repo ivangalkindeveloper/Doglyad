@@ -1,9 +1,9 @@
-import SwiftUI
-import SwiftData
 import DoglyadDatabase
 import DoglyadNetwork
 import DoglyadNeuralModel
 import Router
+import SwiftData
+import SwiftUI
 
 func previewableContainer(
     screenType: ScreenType,
@@ -21,9 +21,9 @@ func previewableContainer(
     )
     let diagnosticsRepository = DiagnosticsRepository(
         database: database,
-        httpClient: httpClient,
+        httpClient: httpClient
     )
-    
+
     return DependencyContainer(
         environment: environment,
         researchNeuralModel: nil,
@@ -47,7 +47,7 @@ final class DependencyContainer: ObservableObject {
     let researchTypes: [ResearchType]
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
-    
+
     init(
         environment: EnvironmentProtocol,
         researchNeuralModel: DResearchNeuralModelProtocol?,
@@ -57,7 +57,7 @@ final class DependencyContainer: ObservableObject {
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
         researchTypes: [ResearchType],
         initialScreen: ScreenType,
-        initialScreenArguments: RouteArgumentsProtocol?,
+        initialScreenArguments: RouteArgumentsProtocol?
     ) {
         self.environment = environment
         self.researchNeuralModel = researchNeuralModel
@@ -69,6 +69,6 @@ final class DependencyContainer: ObservableObject {
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
     }
-    
+
     var isResearchNeuralModelAvailable: Bool { researchNeuralModel != nil }
 }

@@ -1,5 +1,5 @@
-import SwiftUI
 import DoglyadUI
+import SwiftUI
 
 struct ScanCaptureView: View {
     @EnvironmentObject private var theme: DTheme
@@ -8,7 +8,7 @@ struct ScanCaptureView: View {
     private var typography: DTypography { theme.typography }
 
     @EnvironmentObject private var viewModel: ScanViewModel
-    
+
     var body: some View {
         VStack(
             spacing: .zero
@@ -29,15 +29,15 @@ struct ScanCaptureView: View {
                         isLoading: viewModel.cameraController.isCapturing
                     )
                     .dStyle(.primaryCircle)
-                    
+
                     if !viewModel.isPhotoFilling {
                         DText(.scanCaptureDescription)
-                        .dStyle(
-                            font: typography.textSmall,
-                            color: color.grayscaleLine,
-                            alignment: .center
-                        )
-                        .padding(.top, size.s16)
+                            .dStyle(
+                                font: typography.textSmall,
+                                color: color.grayscaleLine,
+                                alignment: .center
+                            )
+                            .padding(.top, size.s16)
                     }
                 }
             }
@@ -48,8 +48,6 @@ struct ScanCaptureView: View {
             theme.animation,
             value: viewModel.sheetController.currentPosition
         )
-        
-
     }
 }
 

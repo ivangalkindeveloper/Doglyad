@@ -1,14 +1,14 @@
-import SwiftUI
-import DoglyadSpeech
 import DoglyadNeuralModel
+import DoglyadSpeech
 import NestedObservableObject
+import SwiftUI
 
 @MainActor
 final class ScanSpeechViewModel: ObservableObject {
     private let researchNeuralModel: DResearchNeuralModelProtocol?
     private let router: DRouter
     private let arguments: ScanSpeechBottomSheetArguments
-    
+
     init(
         researchNeuralModel: DResearchNeuralModelProtocol?,
         router: DRouter,
@@ -18,28 +18,28 @@ final class ScanSpeechViewModel: ObservableObject {
         self.router = router
         self.arguments = arguments
     }
-    
+
     @NestedObservableObject var speechController = DSpeechController(
         locale: Locale.current
     )
     @Published var isLoading = false
     let columns = [GridItem(.adaptive(minimum: 100))]
-    
-    func onTapBack() -> Void {
-        self.router.dismissSheet()
+
+    func onTapBack() {
+        router.dismissSheet()
     }
-    
+
     var speechIcon: ImageResource {
-        self.speechController.isRecording ? .check : .play
+        speechController.isRecording ? .check : .play
     }
-    
-    func onTapSpeech() -> Void {
-        guard !self.isLoading else { return }
-        
+
+    func onTapSpeech() {
+        guard !isLoading else { return }
+
         if speechController.isRecording {
-            guard let researchNeuralModel = self.researchNeuralModel else { return }
-            guard let speech = self.speechController.text else { return }
-            
+            guard let researchNeuralModel = researchNeuralModel else { return }
+            guard let speech = speechController.text else { return }
+
             speechController.stop()
             Task {
                 self.isLoading = true
@@ -52,8 +52,7 @@ final class ScanSpeechViewModel: ObservableObject {
                 self.router.dismissSheet()
             }
         } else {
-            self.speechController.start()
+            speechController.start()
         }
     }
 }
-

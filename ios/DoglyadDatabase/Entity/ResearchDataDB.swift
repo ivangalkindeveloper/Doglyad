@@ -13,7 +13,7 @@ public final class ResearchDataDB {
     public var patientComplaint: String?
     public var researchDescription: String
     public var additionalData: String?
-    
+
     public init(
         researchTypeRawValue: String,
         photos: [ResearchScanPhotoDB] = [],

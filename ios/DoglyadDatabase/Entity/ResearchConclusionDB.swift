@@ -8,7 +8,7 @@ public final class ResearchConclusionDB {
     public var data: ResearchDataDB
     public var actualModelConclusion: ResearchModelConclusionDB
     @Relationship public var previosModelConclusions: [ResearchModelConclusionDB]
-    
+
     public init(
         id: UUID = UUID(),
         date: Date,

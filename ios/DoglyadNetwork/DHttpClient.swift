@@ -1,7 +1,6 @@
 internal import Foundation
 internal import Alamofire
 
-
 public final class DHttpClient: DHttpClientProtocol {
     public let baseUrl: String
     private let jsonEncoder: JSONEncoder = {
@@ -9,6 +8,7 @@ public final class DHttpClient: DHttpClientProtocol {
         encoder.dateEncodingStrategy = .iso8601
         return encoder
     }()
+
     private let jsonDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601

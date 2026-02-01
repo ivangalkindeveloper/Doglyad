@@ -1,13 +1,13 @@
-import SwiftUI
-import Router
 import DoglyadUI
+import Router
+import SwiftUI
 
 struct MainRootView: View {
     let dependencyContainer: DependencyContainer
-    
+
     var body: some View {
         DependencyWrapperView(
-            dependencyContainer: dependencyContainer,
+            dependencyContainer: dependencyContainer
         ) {
             DMessageView {
                 RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(

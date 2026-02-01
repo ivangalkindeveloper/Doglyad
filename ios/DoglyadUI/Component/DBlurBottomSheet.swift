@@ -6,11 +6,11 @@ public struct DBlurBottomSheet<Content>: View where Content: View {
     var color: DColor { theme.color }
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
-    
+
     let title: LocalizedStringResource
     let fraction: Double
     let content: () -> Content
-    
+
     public init(
         title: LocalizedStringResource,
         fraction: Double = 0.3,
@@ -20,7 +20,7 @@ public struct DBlurBottomSheet<Content>: View where Content: View {
         self.fraction = fraction
         self.content = content
     }
-    
+
     public var body: some View {
         VStack(
             spacing: .zero
@@ -46,7 +46,7 @@ public struct DBlurBottomSheet<Content>: View where Content: View {
             }
             .padding(.top, size.adaptiveCornerRadius / 4)
             .padding(.horizontal, size.adaptiveCornerRadius / 2)
-            
+
             content()
         }
         .presentationBackground(.ultraThinMaterial)

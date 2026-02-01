@@ -50,14 +50,13 @@ struct ExpandableText: View {
                                     LinearGradient(
                                         colors: [
                                             backgroundColor.opacity(0),
-                                            backgroundColor
+                                            backgroundColor,
                                         ],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
                                 )
                                 .frame(width: 80, height: 16)
-                                
 
                             Button(.buttonNext) {
                                 withAnimation(theme.animation) {

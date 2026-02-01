@@ -7,7 +7,7 @@ struct PermissionBottomSheet: View {
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
+
     let title: LocalizedStringResource
     let description: LocalizedStringResource
 
@@ -16,7 +16,7 @@ struct PermissionBottomSheet: View {
             title: title
         ) {
             VStack(
-                spacing: .zero,
+                spacing: .zero
             ) {
                 DText(description)
                     .dStyle(
@@ -26,7 +26,7 @@ struct PermissionBottomSheet: View {
                     .padding(.bottom, size.s32)
                 DButton(
                     title: .buttonOpenSettings,
-                    action: UIApplication.openSettings,
+                    action: UIApplication.openSettings
                 )
                 .dStyle(.primaryButton)
             }

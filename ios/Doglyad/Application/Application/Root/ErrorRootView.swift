@@ -3,7 +3,7 @@ import SwiftUI
 
 struct ErrorRootView: View {
     @EnvironmentObject private var viewModel: ApplicationViewModel
-    
+
     let error: Error
 
     var body: some View {
@@ -16,7 +16,7 @@ struct ErrorRootView: View {
                 title: .errorNoInternetConnectionTitle,
                 description: .errorNoInternetConnectionDescription,
                 buttonTitle: .buttonUpdate,
-                action: self.viewModel.initialize
+                action: viewModel.initialize
             )
         case .noCameraRequestDenied:
             ErrorView(
@@ -25,7 +25,7 @@ struct ErrorRootView: View {
                 title: .errorNoCameraPermissionTitle,
                 description: .errorNoCameraPermissionDescription,
                 buttonTitle: .buttonOpenSettings,
-                action: self.viewModel.openSettings
+                action: viewModel.openSettings
             )
         case .some(.common), .none:
             ErrorView(
@@ -34,7 +34,7 @@ struct ErrorRootView: View {
                 title: .errorUnknownTitle,
                 description: .errorUnknownDescription,
                 buttonTitle: .buttonUpdate,
-                action: self.viewModel.initialize
+                action: viewModel.initialize
             )
         }
     }
@@ -55,9 +55,9 @@ private struct ErrorView: View {
     let action: () -> Void
 
     var body: some View {
-        DScreen { toolbarInset in
+        DScreen { _ in
             VStack(
-                spacing: .zero,
+                spacing: .zero
             ) {
                 Spacer()
                 ZStack {
@@ -71,7 +71,7 @@ private struct ErrorView: View {
                 .frame(width: size.s64, height: size.s64)
                 .padding(.bottom, size.s16)
                 DText(
-                    title,
+                    title
                 )
                 .dStyle(
                     font: theme.typography.linkMedium,
@@ -79,7 +79,7 @@ private struct ErrorView: View {
                 )
                 .padding(.bottom, size.s10)
                 DText(
-                    description,
+                    description
                 )
                 .dStyle(
                     font: typography.textSmall,
@@ -105,7 +105,7 @@ private struct ErrorView: View {
     ApplicationWrapperView {
         DThemeWrapperView {
             ErrorRootView(
-                error: InitializationError.noInternetConnection,
+                error: InitializationError.noInternetConnection
             )
         }
     }

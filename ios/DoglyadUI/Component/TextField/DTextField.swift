@@ -4,7 +4,7 @@ import SwiftUI
 public class DTextFieldFocus<Focus: Hashable> {
     public let value: Focus
     public let state: FocusState<Focus?>.Binding
-    
+
     public init(
         value: Focus,
         state: FocusState<Focus?>.Binding
@@ -36,7 +36,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
 
     @FocusState private var internalFocus: Bool
     private var isFocused: Bool {
-        self.focus?.isFocused ?? internalFocus
+        focus?.isFocused ?? internalFocus
     }
 
     public init(
@@ -48,7 +48,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
         sumbitLabel: SubmitLabel = .done,
         autocapitalization: TextInputAutocapitalization? = .sentences,
         @ViewBuilder leading: @escaping (() -> Leading) = { EmptyView() },
-        @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
+        @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() }
     ) {
         self.controller = controller
         self.focus = focus
@@ -69,7 +69,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
         sumbitLabel: SubmitLabel = .done,
         autocapitalization: TextInputAutocapitalization? = .sentences,
         @ViewBuilder leading: @escaping (() -> Leading) = { EmptyView() },
-        @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
+        @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() }
     ) where Focus == Bool {
         self.init(
             controller: controller,
@@ -113,7 +113,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
                             placeholder,
                             text: $controller.text,
                             prompt: Text(placeholder)
-                                .foregroundStyle(color.grayscalePlaceholder),
+                                .foregroundStyle(color.grayscalePlaceholder)
                             // axis: .vertical
                         )
                         Group {
@@ -132,7 +132,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
                         .submitLabel(sumbitLabel)
                         .textInputAutocapitalization(autocapitalization)
                     }
-                    
+
                     if !(trailing is EmptyView) {
                         trailing.fixedSize()
                             .padding(.leading, size.s16)
@@ -164,25 +164,25 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
         }
         .animation(
             theme.animation,
-            value: self.isFocused
+            value: isFocused
         )
     }
 }
 
 private extension DTextField {
     var fillColor: Color {
-        if self.controller.isError || self.controller.errorText != nil { return self.color.dangerBackground }
-        return self.isFocused ? self.color.grayscaleBackground : self.color.grayscaleInput
+        if controller.isError || controller.errorText != nil { return color.dangerBackground }
+        return isFocused ? color.grayscaleBackground : color.grayscaleInput
     }
 
     var titleColor: Color {
-        if self.controller.isError || self.controller.errorText != nil { return self.color.dangerDefault }
-        return self.isFocused ? self.color.primaryDefault : self.color.grayscalePlaceholder
+        if controller.isError || controller.errorText != nil { return color.dangerDefault }
+        return isFocused ? color.primaryDefault : color.grayscalePlaceholder
     }
 
     var borderColor: Color {
-        if self.controller.isError || self.controller.errorText != nil { return self.color.dangerDefault }
-        return self.isFocused ? self.color.primaryDefault : .clear
+        if controller.isError || controller.errorText != nil { return color.dangerDefault }
+        return isFocused ? color.primaryDefault : .clear
     }
 }
 
@@ -196,7 +196,7 @@ private extension DTextField {
             DTextField(
                 controller: controller,
                 title: "Some title",
-                placeholder: "Some placeholder for filling...",
+                placeholder: "Some placeholder for filling..."
             )
             Spacer()
             Button(

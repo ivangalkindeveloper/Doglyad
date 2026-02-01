@@ -6,10 +6,10 @@ struct ScanSheetHeaderView: View {
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
+
     @EnvironmentObject private var viewModel: ScanViewModel
     @State private var isBottom: Bool = false
-    
+
     var body: some View {
         VStack(
             alignment: .leading,
@@ -35,7 +35,7 @@ struct ScanSheetHeaderView: View {
                 .padding([.horizontal], size.s14)
             }
             .padding(.bottom, size.s8)
-            
+
             DText(.scanMaxPhotoDescription(count: ScanViewModel.photoMaxCount))
                 .dStyle(
                     font: typography.textSmall,

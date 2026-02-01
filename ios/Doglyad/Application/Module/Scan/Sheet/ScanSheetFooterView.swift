@@ -1,5 +1,5 @@
-import SwiftUI
 import DoglyadUI
+import SwiftUI
 
 struct ScanSheetFooterView: View {
     @EnvironmentObject private var container: DependencyContainer
@@ -8,7 +8,7 @@ struct ScanSheetFooterView: View {
     private var size: DSize { theme.size }
 
     @EnvironmentObject private var viewModel: ScanViewModel
-    
+
     var body: some View {
         VStack(
             spacing: .zero
@@ -22,8 +22,7 @@ struct ScanSheetFooterView: View {
                         if !viewModel.isLoading {
                             DButton(
                                 image: .microphone,
-                                title: .buttonSpeech,
-                                action: viewModel.onTapSpeech
+                                title: .buttonSpeech, action: viewModel.onTapSpeech
                             )
                             .dStyle(.primaryChip)
                             .shimmering(
@@ -31,7 +30,7 @@ struct ScanSheetFooterView: View {
                                 gradient: Gradient(colors: [
                                     .white.opacity(0.3),
                                     .white,
-                                    .white.opacity(0.3)
+                                    .white.opacity(0.3),
                                 ]),
                                 bandSize: 0.6,
                                 mode: .overlay(blendMode: .overlay)

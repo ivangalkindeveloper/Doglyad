@@ -16,23 +16,23 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         title: LocalizedStringResource,
         fraction: Double = 0.3,
         @ViewBuilder content: @escaping () -> Content,
-        @ViewBuilder bottom: @escaping () -> Bottom,
+        @ViewBuilder bottom: @escaping () -> Bottom
     ) {
         self.title = title
         self.fraction = fraction
         self.content = content
         self.bottom = bottom
     }
-    
+
     public init(
         title: LocalizedStringResource,
         fraction: Double = 0.3,
-        @ViewBuilder content: @escaping () -> Content,
+        @ViewBuilder content: @escaping () -> Content
     ) where Bottom == EmptyView {
         self.title = title
         self.fraction = fraction
         self.content = content
-        self.bottom = nil
+        bottom = nil
     }
 
     public var body: some View {
@@ -59,33 +59,33 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
             }
             .padding(.top, size.adaptiveCornerRadius / 4)
             .padding(.horizontal, size.adaptiveCornerRadius / 2)
-            
+
             ZStack {
                 content()
-                
+
                 VStack(
                     spacing: .zero
                 ) {
                     Spacer()
                     if let bottom = self.bottom?() {
                         bottom
-                        .padding(.vertical, size.adaptiveCornerRadius / 6)
-                        .frame(maxWidth: .infinity)
-                        .safeAreaPadding(.bottom)
-                        .background(
-                            color.grayscaleBackground
-                                .clipShape(
-                                    DRoundedCorner(
-                                        radius: size.adaptiveCornerRadius,
-                                        corners: [.topLeft, .topRight]
+                            .padding(.vertical, size.adaptiveCornerRadius / 6)
+                            .frame(maxWidth: .infinity)
+                            .safeAreaPadding(.bottom)
+                            .background(
+                                color.grayscaleBackground
+                                    .clipShape(
+                                        DRoundedCorner(
+                                            radius: size.adaptiveCornerRadius,
+                                            corners: [.topLeft, .topRight]
+                                        )
                                     )
-                                )
-                                .shadow(
-                                    color: color.grayscaleBody.opacity(0.2),
-                                    radius: size.s16
-                                )
-                        )
-                        .transition(.move(edge: .bottom))
+                                    .shadow(
+                                        color: color.grayscaleBody.opacity(0.2),
+                                        radius: size.s16
+                                    )
+                            )
+                            .transition(.move(edge: .bottom))
                     }
                 }
                 .edgesIgnoringSafeArea(.bottom)

@@ -3,7 +3,7 @@ import DoglyadNeuralModel
 enum PatientGender: String, Codable {
     case male
     case female
-    
+
     static func fromResearchNeuralModelResponse(
         _ response: DResearchNeuralModelResponse.Gender?
     ) -> Self? {
@@ -14,9 +14,8 @@ enum PatientGender: String, Codable {
             return .female
         case nil:
             return nil
-        case .some(_):
+        case .some:
             return nil
         }
     }
-
 }

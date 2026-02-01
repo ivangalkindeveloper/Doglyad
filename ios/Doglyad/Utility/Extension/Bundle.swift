@@ -5,7 +5,7 @@ extension Bundle {
         case BASE_URL_SCHEMA
         case BASE_URL
     }
-    
+
     static func dictionaryString(
         _ key: KeyString
     ) -> String {

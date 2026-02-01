@@ -33,7 +33,7 @@ enum ResearchType: String, CaseIterable, Codable {
 
 extension ResearchType {
     static let `default`: ResearchType = .thyroidGland
-    
+
     static func fromString(
         _ value: String?
     ) -> ResearchType? {

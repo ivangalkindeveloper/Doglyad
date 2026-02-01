@@ -2,7 +2,7 @@ import DoglyadDatabase
 
 final class SharedRepository: SharedRepositoryProtocol {
     let database: DDatabaseProtocol
-    
+
     init(
         database: DDatabaseProtocol
     ) {
@@ -11,12 +11,13 @@ final class SharedRepository: SharedRepositoryProtocol {
 }
 
 // MARK: OnBoarding -
+
 extension SharedRepository {
     func isOnBoardingCompleted() -> Bool {
         database.getOnBoardingCompleted()
     }
-    
-    func setOnBoardingCompleted(value: Bool) -> Void {
+
+    func setOnBoardingCompleted(value: Bool) {
         database.setOnBoardingCompleted(
             value: value
         )

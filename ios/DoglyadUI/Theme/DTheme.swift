@@ -26,7 +26,7 @@ public extension DTheme {
     static let light = DTheme(
         color: DColor.light,
         size: DSize.shared,
-        typography: DTypography.shared,
+        typography: DTypography.shared
     )
 
     func changeColor(

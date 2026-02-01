@@ -1,6 +1,6 @@
-import SwiftUI
-import Router
 import DoglyadUI
+import Router
+import SwiftUI
 
 final class OnBoardingScreenArguments: RouteArgumentsProtocol {}
 
@@ -8,7 +8,7 @@ struct OnBoardingScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
     let arguments: OnBoardingScreenArguments?
-    
+
     var body: some View {
         OnBoardingScreenView(
             viewModel: OnBoardingViewModel(
@@ -19,26 +19,26 @@ struct OnBoardingScreen: View {
         )
     }
 }
-    
+
 private struct OnBoardingScreenView: View {
     @EnvironmentObject var theme: DTheme
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
-    
+
     @StateObject var viewModel: OnBoardingViewModel
-    
+
     var body: some View {
-        DScreen { toolbarInset in
+        DScreen { _ in
             VStack(
                 alignment: .leading,
-                spacing: .zero,
+                spacing: .zero
             ) {
                 DText(.onBoardingTitle)
-                .dStyle(
-                    font: typography.displayLargeBold,
-                )
-                .padding(size.s16)
-                
+                    .dStyle(
+                        font: typography.displayLargeBold
+                    )
+                    .padding(size.s16)
+
                 TabView(
                     selection: $viewModel.page
                 ) {
@@ -60,7 +60,7 @@ private struct OnBoardingScreenView: View {
                 .animation(.easeInOut, value: viewModel.page)
                 .allowsHitTesting(false)
                 .padding(.bottom, size.s16)
-                
+
                 DButton(
                     title: viewModel.buttonTitle(viewModel.page),
                     action: viewModel.onPressedNext
@@ -76,13 +76,13 @@ private struct OnBoardingScreenPage: View {
     @EnvironmentObject var theme: DTheme
     var size: DSize { theme.size }
     var typography: DTypography { theme.typography }
-    
+
     let description: LocalizedStringResource
     let tag: OnBoardingViewModel.Page
-    
+
     var body: some View {
         DText(
-            description,
+            description
         )
         .dStyle(
             font: typography.textMedium,

@@ -1,7 +1,6 @@
 import XCTest
 
 final class DoglyadUITestsLaunchTests: XCTestCase {
-
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }

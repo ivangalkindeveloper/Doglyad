@@ -4,11 +4,11 @@ public struct DText: View {
     private let text: Text
 
     public init(_ localized: LocalizedStringResource) {
-        self.text = Text(localized)
+        text = Text(localized)
     }
 
     public init(_ string: String) {
-        self.text = Text(verbatim: string)
+        text = Text(verbatim: string)
     }
 
     public var body: some View {
@@ -20,12 +20,12 @@ public extension DText {
     func dStyle(
         font: Font? = nil,
         color: Color? = nil,
-        alignment: TextAlignment? = nil,
+        alignment: TextAlignment? = nil
     ) -> some View {
-        self.modifier(DTextModifier(
+        modifier(DTextModifier(
             font: font,
             color: color,
-            alignment: alignment,
+            alignment: alignment
         ))
     }
 }
@@ -33,21 +33,21 @@ public extension DText {
 private struct DTextModifier: ViewModifier {
     @EnvironmentObject private var theme: DTheme
     private var typography: DTypography { theme.typography }
-    
+
     let font: Font?
     let color: Color?
     let alignment: TextAlignment?
-    
+
     init(
         font: Font?,
         color: Color?,
-        alignment: TextAlignment?,
+        alignment: TextAlignment?
     ) {
         self.font = font
         self.color = color
         self.alignment = alignment
     }
-    
+
     func body(content: Content) -> some View {
         content
             .font(font ?? typography.textMedium)
@@ -59,7 +59,7 @@ private struct DTextModifier: ViewModifier {
 #Preview {
     DThemeWrapperView {
         DText(
-            "Hello, World!",
+            "Hello, World!"
         )
     }
 }

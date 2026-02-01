@@ -18,12 +18,12 @@ extension PermissionManager: PermissionManagerProtocol {
     func isGranted(
         _ type: PermissionType
     ) async -> Bool {
-        switch(type) {
+        switch type {
         case .camera:
             await AVCaptureDevice.requestAccess(for: .video)
-            
+
         case .speech:
-            await withCheckedContinuation{ continuation in
+            await withCheckedContinuation { continuation in
                 SFSpeechRecognizer.requestAuthorization { status in
                     switch status {
                     case .authorized:

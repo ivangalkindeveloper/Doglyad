@@ -1,13 +1,13 @@
+import DoglyadUI
 import Foundation
 import SwiftUI
-import DoglyadUI
 
 struct DateOfBirthCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
+
     let date: Date
     let action: () -> Void
 
@@ -28,10 +28,10 @@ struct DateOfBirthCard: View {
             ) {
                 DText("\(String(localized: .scanPatientDateOfBirthLabel)): \(date.localized())")
                     .dStyle(
-                        font: typography.linkSmall,
+                        font: typography.linkSmall
                     )
-                    .padding(.trailing , size.s8)
-                
+                    .padding(.trailing, size.s8)
+
                 DText("(\(ageCount()) \(String(localized: .scanPatientDateOfBirthAgeLabel)))")
                     .dStyle(
                         font: typography.textXSmall,
@@ -44,7 +44,7 @@ struct DateOfBirthCard: View {
     }
 }
 
-private extension DateOfBirthCard {    
+private extension DateOfBirthCard {
     func ageCount() -> Int {
         let calendar = Calendar.current
         return calendar.dateComponents([.year], from: date, to: Date()).year!

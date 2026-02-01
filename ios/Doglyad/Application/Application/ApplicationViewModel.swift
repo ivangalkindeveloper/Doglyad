@@ -1,13 +1,13 @@
-import SwiftUI
 import DependencyInitializer
+import SwiftUI
 
 final class ApplicationViewModel: ObservableObject {
     @Published var root: any View = EmptyView()
     @Published var isLoading = false
 
     @MainActor
-    func initialize() -> Void {
-        self.isLoading = true
+    func initialize() {
+        isLoading = true
         DependencyInitializer<InitializationProcess, DependencyContainer>(
             createProcess: {
                 InitializationProcess()
@@ -15,24 +15,24 @@ final class ApplicationViewModel: ObservableObject {
             steps: InitializationProcess.steps,
             onSuccess: { [weak self] result, _ in
                 guard let self = self else { return }
-                
+
                 self.isLoading = false
                 self.root = MainRootView(
-                    dependencyContainer: result.container,
+                    dependencyContainer: result.container
                 )
             },
             onError: { [weak self] error, _, _, _ in
                 guard let self = self else { return }
-                
+
                 self.isLoading = false
                 self.root = ErrorRootView(
-                    error: error,
+                    error: error
                 )
             }
         ).run()
     }
-    
-    func openSettings() -> Void {
+
+    func openSettings() {
         UIApplication.openSettings()
     }
 }

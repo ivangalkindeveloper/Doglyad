@@ -18,16 +18,16 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         case researchDescription
         case additionalData
     }
-    
+
     static let photoMaxCount: Int = 6
     private static let defaultPatientHeightCM: Double = 180
     private static let defaultPatientWeightKG: Double = 60
-    
+
     private let permissionManager: PermissionManagerProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
     private let messanger: DMessager
     private let router: DRouter
-    
+
     init(
         permissionManager: PermissionManagerProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
@@ -39,9 +39,9 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.messanger = messanger
         self.router = router
         super.init()
-        self.onInit()
+        onInit()
     }
-    
+
     @Published var researchType = ResearchType.default
     @Published var photos: [ResearchScanPhoto] = []
     //
@@ -59,86 +59,86 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     @NestedObservableObject var additionalDataController = DTextFieldController()
     //
     @Published var isLoading = false
-    
+
     private func onInit() {
-        self.cameraController.startSession()
-        if let selectedResearchType = self.diagnosticRepository.getSelectedResearchType() {
-            self.researchType = selectedResearchType
+        cameraController.startSession()
+        if let selectedResearchType = diagnosticRepository.getSelectedResearchType() {
+            researchType = selectedResearchType
         }
-        
-        let patientCount = self.diagnosticRepository.getConclusions().count
-        self.patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
+
+        let patientCount = diagnosticRepository.getConclusions().count
+        patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
     }
-    
+
     var isPhotoFilling: Bool {
-        self.photos.count == Self.photoMaxCount
+        photos.count == Self.photoMaxCount
     }
-    
+
     var isCaptureAvailable: Bool {
-        self.cameraController.isRunning && !self.isPhotoFilling
+        cameraController.isRunning && !isPhotoFilling
     }
-    
+
     func unfocus() {
-        self.focus = nil
+        focus = nil
     }
-    
+
     func onSubmit() {
-        switch self.focus {
+        switch focus {
         case .patientName:
-            self.focus = .patientHeightCM
+            focus = .patientHeightCM
         case .patientHeightCM:
-            self.focus = .patientWeightKG
+            focus = .patientWeightKG
         case .patientWeightKG:
-            self.focus = .patientComplaint
+            focus = .patientComplaint
         case .patientComplaint:
-            self.focus = .researchDescription
+            focus = .researchDescription
         case .researchDescription:
-            self.focus = .additionalData
+            focus = .additionalData
         case .additionalData, .none:
-            self.focus = nil
+            focus = nil
         }
     }
-    
+
     func onDisappear() {
-        self.cameraController.stopSession()
+        cameraController.stopSession()
     }
-    
+
     func onChangePhotosForSheet() {
-        if self.photos.isEmpty {
-            return self.sheetController.setHidden()
+        if photos.isEmpty {
+            return sheetController.setHidden()
         }
-        if !self.photos.isEmpty && self.sheetController.isHidden {
-            self.sheetController.setBottom()
+        if !photos.isEmpty, sheetController.isHidden {
+            sheetController.setBottom()
         }
-        if self.isPhotoFilling {
-            return self.sheetController.setTop()
+        if isPhotoFilling {
+            return sheetController.setTop()
         }
     }
-    
+
     func onChangeSheetForCamera() {
-        if self.sheetController.isTop {
-            self.cameraController.stopSession()
+        if sheetController.isTop {
+            cameraController.stopSession()
         }
     }
-    
+
     func onTapHistory() {
-        self.router.push(
+        router.push(
             route: RouteScreen(
                 type: .history
             )
         )
     }
-    
+
     func onTapResearchType() {
-        self.router.push(
+        router.push(
             route: RouteSheet(
                 type: .selectResearchType,
                 arguments: SelectResearchTypeArguments(
-                    currentValue: self.researchType,
+                    currentValue: researchType,
                     onSelected: { [weak self] researchType in
                         guard let self = self else { return }
                         guard self.researchType != researchType else { return }
-                        
+
                         self.researchType = researchType
                         self.diagnosticRepository.setSelectedResearchType(
                             type: researchType
@@ -148,20 +148,20 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             )
         )
     }
-    
+
     var captureIcon: ImageResource {
-        self.photos.count == ScanViewModel.photoMaxCount ? .down : .camera
+        photos.count == ScanViewModel.photoMaxCount ? .down : .camera
     }
-    
+
     func onTapCapture() {
-        if self.photos.count == ScanViewModel.photoMaxCount {
-            return self.sheetController.setTop()
+        if photos.count == ScanViewModel.photoMaxCount {
+            return sheetController.setTop()
         }
-        
-        self.cameraController.takePhoto(
+
+        cameraController.takePhoto(
             completion: { [weak self] image in
                 guard let self = self else { return }
-                
+
                 self.photos.append(ResearchScanPhoto(image: image))
                 if self.photos.count == ScanViewModel.photoMaxCount {
                     self.sheetController.setTop()
@@ -173,51 +173,51 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     func onTapDeletePhoto(
         photo: ResearchScanPhoto
     ) {
-        self.photos.remove(at: self.photos.firstIndex(of: photo)!)
+        photos.remove(at: photos.firstIndex(of: photo)!)
     }
-    
+
     func onTapPatientGender(
         value: PatientGender
     ) {
-        guard self.patientGender != value else { return }
-        
-        self.patientGender = value
+        guard patientGender != value else { return }
+
+        patientGender = value
     }
-    
+
     func onTapPatientDateOfBirth() {
-        self.router.push(
+        router.push(
             route: RouteSheet(
                 type: .selectDateOfBirth,
                 arguments: SelectDateOfBirthArguments(
-                    currentValue: self.patientDateOfBirth,
+                    currentValue: patientDateOfBirth,
                     onSelected: { [weak self] date in
                         guard let self = self else { return }
                         guard self.patientDateOfBirth != date else { return }
-                        
+
                         self.patientDateOfBirth = date
                     }
                 )
             )
         )
     }
-    
+
     func onTapSpeech() {
         Task {
             guard await self.permissionManager.isGranted(.speech) else {
                 return self.router.push(
                     route: RouteSheet(
-                        type: .permissionSpeech,
+                        type: .permissionSpeech
                     )
                 )
             }
-            
+
             self.router.push(
                 route: RouteSheet(
                     type: .scanSpeech,
                     arguments: ScanSpeechBottomSheetArguments(
                         onComplete: { [weak self] response in
                             guard let self = self else { return }
-                            
+
                             if let patientName = response.patientName {
                                 self.patientNameController.text = patientName
                             }
@@ -248,46 +248,46 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             )
         }
     }
-    
+
     func onTapScan() {
-        let isPatientNameValid = self.patientNameController.validate()
-        let isPatientHeightCMValid = self.patientHeightCMController.validate()
-        let isPatientWeightKGValid = self.patientWeightKGController.validate()
-        let isPatientComplaintValid = self.patientComplaintController.validate()
-        let isResearchDescriptionValid = self.researchDescriptionController.validate()
-        let isAdditionalDataValid = self.additionalDataController.validate()
-        guard !self.photos.isEmpty
-            && isPatientNameValid
-            && isPatientHeightCMValid
-            && isPatientWeightKGValid
-            && isPatientComplaintValid
-            && isResearchDescriptionValid
-            && isAdditionalDataValid
+        let isPatientNameValid = patientNameController.validate()
+        let isPatientHeightCMValid = patientHeightCMController.validate()
+        let isPatientWeightKGValid = patientWeightKGController.validate()
+        let isPatientComplaintValid = patientComplaintController.validate()
+        let isResearchDescriptionValid = researchDescriptionController.validate()
+        let isAdditionalDataValid = additionalDataController.validate()
+        guard !photos.isEmpty,
+              isPatientNameValid,
+              isPatientHeightCMValid,
+              isPatientWeightKGValid,
+              isPatientComplaintValid,
+              isResearchDescriptionValid,
+              isAdditionalDataValid
         else {
             return
         }
-        
+
         let data = ResearchData(
-            researchType: self.researchType,
-            photos: self.photos,
-            patientName: self.patientNameController.text,
-            patientGender: self.patientGender,
-            patientDateOfBirth: self.patientDateOfBirth,
-            patientHeight: Double(self.patientHeightCMController.text) ?? Self.defaultPatientHeightCM,
-            patientWeight: Double(self.patientWeightKGController.text) ?? Self.defaultPatientWeightKG,
-            patientComplaint: self.patientComplaintController.text,
-            researchDescription: self.researchDescriptionController.text,
-            additionalData: self.additionalDataController.text
+            researchType: researchType,
+            photos: photos,
+            patientName: patientNameController.text,
+            patientGender: patientGender,
+            patientDateOfBirth: patientDateOfBirth,
+            patientHeight: Double(patientHeightCMController.text) ?? Self.defaultPatientHeightCM,
+            patientWeight: Double(patientWeightKGController.text) ?? Self.defaultPatientWeightKG,
+            patientComplaint: patientComplaintController.text,
+            researchDescription: researchDescriptionController.text,
+            additionalData: additionalDataController.text
         )
-        self.handle({
+        handle {
             self.isLoading = true
             return try await self.diagnosticRepository.generateConclusion(
                 researchData: data,
                 locale: Locale.current
             )
-        }, onDefer: {
+        } onDefer: {
             self.isLoading = false
-        }, onMainSuccess: { modelConclusion in
+        } onMainSuccess: { modelConclusion in
             let conclusion = ResearchConclusion(
                 date: Date(),
                 data: data,
@@ -305,8 +305,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                     )
                 )
             )
-        }, onUnknownError: { _ in
+        } onUnknownError: { _ in
             self.messanger.showUnknownError()
-        })
+        }
     }
 }

@@ -1,3 +1,3 @@
-public final class DHttpHeader {
+public enum DHttpHeader {
     public static let acceptLanguage: String = "Accept-Language"
 }

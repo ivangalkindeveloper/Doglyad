@@ -5,7 +5,7 @@ import SwiftUI
 final class SelectResearchTypeArguments: RouteArgumentsProtocol {
     let currentValue: ResearchType?
     let onSelected: (ResearchType) -> Void
-    
+
     init(
         currentValue: ResearchType? = nil,
         onSelected: @escaping (ResearchType) -> Void
@@ -14,7 +14,7 @@ final class SelectResearchTypeArguments: RouteArgumentsProtocol {
         self.onSelected = onSelected
     }
 }
-    
+
 struct SelectResearchTypeBottomSheet: View {
     @EnvironmentObject var container: DependencyContainer
     @EnvironmentObject var router: DRouter
@@ -22,9 +22,9 @@ struct SelectResearchTypeBottomSheet: View {
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
+
     let arguments: SelectResearchTypeArguments?
-    
+
     var body: some View {
         DBottomSheet(
             title: .researchTypeTitle,

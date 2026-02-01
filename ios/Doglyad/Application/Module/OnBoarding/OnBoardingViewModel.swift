@@ -1,13 +1,13 @@
 import Foundation
-import SwiftUI
 import Router
+import SwiftUI
 
 @MainActor
 final class OnBoardingViewModel: ObservableObject {
     private let sharedRepository: SharedRepositoryProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
     private let router: DRouter
-    
+
     init(
         sharedRepository: SharedRepositoryProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
@@ -16,11 +16,11 @@ final class OnBoardingViewModel: ObservableObject {
         self.sharedRepository = sharedRepository
         self.diagnosticRepository = diagnosticRepository
         self.router = router
-        self.page = page
+        page = page
     }
-    
+
     @Published var page: Page = .intro
-    
+
     func buttonTitle(
         _ page: OnBoardingViewModel.Page
     ) -> LocalizedStringResource {
@@ -33,12 +33,12 @@ final class OnBoardingViewModel: ObservableObject {
             .buttonStart
         }
     }
-    
-    func onPressedNext() -> Void {
+
+    func onPressedNext() {
         switch page {
         case .intro:
             page = .researchType
-            
+
         case .researchType:
             router.push(
                 route: RouteSheet(
@@ -46,7 +46,7 @@ final class OnBoardingViewModel: ObservableObject {
                     arguments: SelectResearchTypeArguments(
                         onSelected: { [weak self] researchType in
                             guard let self = self else { return }
-                            
+
                             self.page = .scan
                             self.diagnosticRepository.setSelectedResearchType(
                                 type: researchType
@@ -55,7 +55,7 @@ final class OnBoardingViewModel: ObservableObject {
                     )
                 )
             )
-            
+
         case .scan:
             sharedRepository.setOnBoardingCompleted(
                 value: true

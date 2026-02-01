@@ -5,11 +5,11 @@ public struct DListButtonCard: View {
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
-    
-    let title: LocalizedStringResource;
+
+    let title: LocalizedStringResource
     let action: () -> Void
     let isSelected: Bool
-    
+
     public init(
         title: LocalizedStringResource,
         action: @escaping () -> Void,
@@ -19,7 +19,7 @@ public struct DListButtonCard: View {
         self.action = action
         self.isSelected = isSelected
     }
-    
+
     public var body: some View {
         DButtonCard(
             action: action
@@ -27,7 +27,7 @@ public struct DListButtonCard: View {
             HStack {
                 DText(title)
                     .dStyle(
-                        font: typography.linkSmall,
+                        font: typography.linkSmall
                     )
                 Spacer()
                 if isSelected {

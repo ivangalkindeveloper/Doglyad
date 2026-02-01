@@ -4,7 +4,7 @@ public struct DResearchNeuralModelResponse: Codable {
     public enum Gender: String, Codable {
         case male
         case female
-        
+
         @available(iOS 26.0, *)
         static func fromFoudationModels(
             _ response: DResearchNeuralModelFoundationModels.Gender?
@@ -28,7 +28,7 @@ public struct DResearchNeuralModelResponse: Codable {
     public let patientComplaint: String?
     public let researchDescription: String?
     public let additionalData: String?
-    
+
     @available(iOS 26.0, *)
     static func fromFoudationModels(
         _ response: DResearchNeuralModelFoundationModels.Response
