@@ -1,32 +1,6 @@
 import Combine
 import SwiftUI
 
-public class DTextFieldController: ObservableObject {
-    @Published public var text: String = ""
-    @Published fileprivate var isFocused: Bool = false
-    @Published fileprivate var errorText: String? = nil
-
-    public init(
-        initialText: String = ""
-    ) {
-        self.text = initialText
-    }
-
-    public func focus() -> Void {
-        isFocused = true
-    }
-    
-    public func unfocus() -> Void {
-        isFocused = false
-    }
-    
-    public func showError(
-        text: String
-    ) -> Void {
-        errorText = text
-    }
-}
-
 public struct DTextField<Prefix: View, Postfix: View>: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
@@ -138,42 +112,46 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
             }
         }
         .fixedSize(horizontal: false, vertical: true)
-        .animation(
-            theme.animation,
-            value: isFocused
-        )
         .onTapGesture {
-            controller.focus()
+            self.controller.focus()
         }
         .onChange(of: isFocused) {
-            guard isFocused != controller.isFocused else { return }
-            controller.isFocused = isFocused
+            guard self.isFocused != self.controller.isFocused else { return }
+            self.controller.isFocused = self.isFocused
         }
-        .onReceive(controller.$isFocused) { newValue in
-            guard isFocused != controller.isFocused else { return }
-            isFocused = controller.isFocused
+        .onReceive(self.controller.$isFocused) { newValue in
+            guard self.isFocused != self.controller.isFocused else { return }
+            self.isFocused = controller.isFocused
         }
-        .onChange(of: controller.text) {
-            guard controller.errorText != nil else { return }
-            controller.errorText = nil
+        .onChange(of: self.controller.text) {
+            if self.controller.isError{
+                self.controller.isError = false
+            }
+            if self.controller.errorText != nil {
+                self.controller.errorText = nil
+            }
         }
+        .animation(
+            theme.animation,
+            value: self.isFocused
+        )
     }
 }
 
 private extension DTextField {
     var fillColor: Color {
-        if controller.errorText != nil { return color.dangerBackground }
-        return isFocused ? color.grayscaleBackground : color.grayscaleInput
+        if self.controller.isError || self.controller.errorText != nil { return color.dangerBackground }
+        return self.isFocused ? color.grayscaleBackground : color.grayscaleInput
     }
 
     var titleColor: Color {
-        if controller.errorText != nil { return color.dangerDefault }
-        return isFocused ? color.primaryDefault : color.grayscalePlaceholder
+        if self.controller.isError || self.controller.errorText != nil { return color.dangerDefault }
+        return self.isFocused ? color.primaryDefault : color.grayscalePlaceholder
     }
 
     var borderColor: Color {
-        if controller.errorText != nil { return color.dangerDefault }
-        return isFocused ? color.primaryDefault : .clear
+        if self.controller.isError || self.controller.errorText != nil { return color.dangerDefault }
+        return self.isFocused ? color.primaryDefault : .clear
     }
 }
 

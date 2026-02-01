@@ -39,13 +39,13 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
     //
-    @NestedObservableObject var patientNameController = DTextFieldController()
+    @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
-    @NestedObservableObject var patientHeightCMController = DTextFieldController()
-    @NestedObservableObject var patientWeightKGController = DTextFieldController()
-    @NestedObservableObject var patientComplaintController = DTextFieldController()
-    @NestedObservableObject var researchDescriptionController = DTextFieldController()
+    @NestedObservableObject var patientHeightCMController = DTextFieldController(isRequired: true)
+    @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
+    @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)
+    @NestedObservableObject var researchDescriptionController = DTextFieldController(isRequired: true)
     @NestedObservableObject var additionalDataController = DTextFieldController()
     //
     @Published var isLoading = false
@@ -228,6 +228,23 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     }
     
     func onTapScan() {
+        let isPatientNameValid = self.patientNameController.validate()
+        let isPatientHeightCMValid = self.patientHeightCMController.validate()
+        let isPatientWeightKGValid = self.patientWeightKGController.validate()
+        let isPatientComplaintValid = self.patientComplaintController.validate()
+        let isResearchDescriptionValid = self.researchDescriptionController.validate()
+        let isAdditionalDataValid = self.additionalDataController.validate()
+        guard !self.photos.isEmpty
+            && isPatientNameValid
+            && isPatientHeightCMValid
+            && isPatientWeightKGValid
+            && isPatientComplaintValid
+            && isResearchDescriptionValid
+            && isAdditionalDataValid
+        else {
+            return
+        }
+        
         let data = ResearchData(
             researchType: self.researchType,
             photos: self.photos,
