@@ -4,24 +4,15 @@ import SwiftUI
 public class DTextFieldController: ObservableObject {
     @Published public var text: String = ""
     private let isRequired: Bool
-    @Published var isFocused: Bool = false
     @Published var isError: Bool = false
     @Published var errorText: String? = nil
 
     public init(
         initialText: String = "",
-        isRequired: Bool = false
+        isRequired: Bool = false,
     ) {
         self.text = initialText
         self.isRequired = isRequired
-    }
-
-    public func focus() -> Void {
-        self.isFocused = true
-    }
-    
-    public func unfocus() -> Void {
-        self.isFocused = false
     }
     
     public func validate() -> Bool {

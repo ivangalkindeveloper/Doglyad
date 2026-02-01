@@ -1,58 +1,87 @@
 import Combine
 import SwiftUI
 
-public struct DTextField<Prefix: View, Postfix: View>: View {
+public class DTextFieldFocus<Focus: Hashable> {
+    public let value: Focus
+    public let state: FocusState<Focus?>.Binding
+    
+    public init(
+        value: Focus,
+        state: FocusState<Focus?>.Binding
+    ) {
+        self.value = value
+        self.state = state
+    }
+
+    public var isFocused: Bool {
+        state.wrappedValue == value
+    }
+}
+
+public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @FocusState private var isFocused: Bool
+    @ObservedObject private var controller: DTextFieldController
+    private let focus: DTextFieldFocus<Focus>?
     private let title: LocalizedStringResource
     private let placeholder: LocalizedStringResource
-    @ObservedObject private var controller: DTextFieldController
     private let keyboardType: UIKeyboardType
     private let sumbitLabel: SubmitLabel
     private let autocapitalization: TextInputAutocapitalization?
-    private let prefix: (() -> Prefix)?
-    private let postfix: (() -> Postfix)?
+    private let leading: Leading
+    private let trailing: Trailing
+
+    @FocusState private var internalFocus: Bool
+    private var isFocused: Bool {
+        self.focus?.isFocused ?? internalFocus
+    }
 
     public init(
+        controller: DTextFieldController,
+        focus: DTextFieldFocus<Focus>? = nil,
         title: LocalizedStringResource,
         placeholder: LocalizedStringResource,
-        controller: DTextFieldController,
         keyboardType: UIKeyboardType = .default,
         sumbitLabel: SubmitLabel = .done,
         autocapitalization: TextInputAutocapitalization? = .sentences,
+        @ViewBuilder leading: @escaping (() -> Leading) = { EmptyView() },
+        @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
     ) {
+        self.controller = controller
+        self.focus = focus
         self.title = title
         self.placeholder = placeholder
-        self.controller = controller
         self.keyboardType = keyboardType
         self.sumbitLabel = sumbitLabel
         self.autocapitalization = autocapitalization
-        self.prefix = nil
-        self.postfix = nil
+        self.leading = leading()
+        self.trailing = trailing()
     }
-    
+
     public init(
+        controller: DTextFieldController,
         title: LocalizedStringResource,
         placeholder: LocalizedStringResource,
-        controller: DTextFieldController,
         keyboardType: UIKeyboardType = .default,
         sumbitLabel: SubmitLabel = .done,
         autocapitalization: TextInputAutocapitalization? = .sentences,
-        @ViewBuilder prefix: @escaping (() -> Prefix),
-        @ViewBuilder suffix: @escaping (() -> Postfix)
-    ) {
-        self.title = title
-        self.placeholder = placeholder
-        self.controller = controller
-        self.keyboardType = keyboardType
-        self.sumbitLabel = sumbitLabel
-        self.autocapitalization = autocapitalization
-        self.prefix = prefix
-        self.postfix = suffix
+        @ViewBuilder leading: @escaping (() -> Leading) = { EmptyView() },
+        @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
+    ) where Focus == Bool {
+        self.init(
+            controller: controller,
+            focus: nil,
+            title: title,
+            placeholder: placeholder,
+            keyboardType: keyboardType,
+            sumbitLabel: sumbitLabel,
+            autocapitalization: autocapitalization,
+            leading: leading,
+            trailing: trailing
+        )
     }
 
     public var body: some View {
@@ -63,13 +92,14 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
             ZStack {
                 RoundedRectangle(cornerRadius: size.s16)
                     .fill(fillColor)
-                RoundedRectangle(cornerRadius: size.s16)
                     .stroke(borderColor, lineWidth: 1)
 
                 HStack(spacing: .zero) {
-                    prefix?().fixedSize()
-                        .padding(.leading, size.s16)
-                    
+                    if !(leading is EmptyView) {
+                        leading.fixedSize()
+                            .padding(.leading, size.s16)
+                    }
+
                     VStack(
                         alignment: .leading,
                         spacing: .zero
@@ -78,15 +108,21 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
                             .font(.custom(.MontserratRegular, size.s10))
                             .foregroundStyle(titleColor)
                             .padding(.bottom, size.s2)
-                        
-                        TextField(
+
+                        let field = TextField(
                             placeholder,
                             text: $controller.text,
                             prompt: Text(placeholder)
                                 .foregroundStyle(color.grayscalePlaceholder),
-                            axis: .vertical
+                            // axis: .vertical
                         )
-                        .focused($isFocused)
+                        Group {
+                            if let focus {
+                                field.focused(focus.state, equals: focus.value)
+                            } else {
+                                field.focused($internalFocus)
+                            }
+                        }
                         .font(typography.textSmall)
                         .foregroundStyle(color.grayscaleHeader)
                         .multilineTextAlignment(.leading)
@@ -96,9 +132,11 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
                         .submitLabel(sumbitLabel)
                         .textInputAutocapitalization(autocapitalization)
                     }
-
-                    postfix?().fixedSize()
-                        .padding(.leading, size.s16)
+                    
+                    if !(trailing is EmptyView) {
+                        trailing.fixedSize()
+                            .padding(.leading, size.s16)
+                    }
                 }
                 .padding(size.s10)
             }
@@ -113,18 +151,11 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
         }
         .fixedSize(horizontal: false, vertical: true)
         .onTapGesture {
-            self.controller.focus()
+            guard focus == nil && self.isFocused == false else { return }
+            self.internalFocus = true
         }
-        .onChange(of: isFocused) {
-            guard self.isFocused != self.controller.isFocused else { return }
-            self.controller.isFocused = self.isFocused
-        }
-        .onReceive(self.controller.$isFocused) { newValue in
-            guard self.isFocused != self.controller.isFocused else { return }
-            self.isFocused = controller.isFocused
-        }
-        .onChange(of: self.controller.text) {
-            if self.controller.isError{
+        .onChange(of: controller.text) {
+            if self.controller.isError {
                 self.controller.isError = false
             }
             if self.controller.errorText != nil {
@@ -140,18 +171,18 @@ public struct DTextField<Prefix: View, Postfix: View>: View {
 
 private extension DTextField {
     var fillColor: Color {
-        if self.controller.isError || self.controller.errorText != nil { return color.dangerBackground }
-        return self.isFocused ? color.grayscaleBackground : color.grayscaleInput
+        if self.controller.isError || self.controller.errorText != nil { return self.color.dangerBackground }
+        return self.isFocused ? self.color.grayscaleBackground : self.color.grayscaleInput
     }
 
     var titleColor: Color {
-        if self.controller.isError || self.controller.errorText != nil { return color.dangerDefault }
-        return self.isFocused ? color.primaryDefault : color.grayscalePlaceholder
+        if self.controller.isError || self.controller.errorText != nil { return self.color.dangerDefault }
+        return self.isFocused ? self.color.primaryDefault : self.color.grayscalePlaceholder
     }
 
     var borderColor: Color {
-        if self.controller.isError || self.controller.errorText != nil { return color.dangerDefault }
-        return self.isFocused ? color.primaryDefault : .clear
+        if self.controller.isError || self.controller.errorText != nil { return self.color.dangerDefault }
+        return self.isFocused ? self.color.primaryDefault : .clear
     }
 }
 
@@ -162,10 +193,10 @@ private extension DTextField {
     DThemeWrapperView {
         VStack {
             Spacer()
-            DTextField<EmptyView, EmptyView>(
+            DTextField(
+                controller: controller,
                 title: "Some title",
                 placeholder: "Some placeholder for filling...",
-                controller: controller
             )
             Spacer()
             Button(
@@ -181,8 +212,5 @@ private extension DTextField {
         }
         .padding()
         .background(.gray)
-        .onTapGesture {
-            controller.unfocus()
-        }
     }
 }

@@ -10,6 +10,15 @@ import SwiftUI
 
 @MainActor
 final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, ObservableObject {
+    enum Focus: Hashable {
+        case patientName
+        case patientHeightCM
+        case patientWeightKG
+        case patientComplaint
+        case researchDescription
+        case additionalData
+    }
+    
     static let photoMaxCount: Int = 6
     private static let defaultPatientHeightCM: Double = 180
     private static let defaultPatientWeightKG: Double = 60
@@ -38,6 +47,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     //
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
+    @Published var focus: Focus? = nil
     //
     @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
     @Published var patientGender = PatientGender.male
@@ -68,17 +78,29 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.cameraController.isRunning && !self.isPhotoFilling
     }
     
-    func onDisappear() {
-        self.cameraController.stopSession()
+    func unfocus() {
+        self.focus = nil
     }
     
-    func unfocus() {
-        self.patientNameController.unfocus()
-        self.patientHeightCMController.unfocus()
-        self.patientWeightKGController.unfocus()
-        self.patientComplaintController.unfocus()
-        self.researchDescriptionController.unfocus()
-        self.additionalDataController.unfocus()
+    func onSubmit() {
+        switch self.focus {
+        case .patientName:
+            self.focus = .patientHeightCM
+        case .patientHeightCM:
+            self.focus = .patientWeightKG
+        case .patientWeightKG:
+            self.focus = .patientComplaint
+        case .patientComplaint:
+            self.focus = .researchDescription
+        case .researchDescription:
+            self.focus = .additionalData
+        case .additionalData, .none:
+            self.focus = nil
+        }
+    }
+    
+    func onDisappear() {
+        self.cameraController.stopSession()
     }
     
     func onChangePhotosForSheet() {

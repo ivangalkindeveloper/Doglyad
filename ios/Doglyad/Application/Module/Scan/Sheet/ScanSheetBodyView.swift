@@ -9,6 +9,7 @@ struct ScanSheetBodyView: View {
     private var typography: DTypography { theme.typography }
     
     @EnvironmentObject private var viewModel: ScanViewModel
+    let focus: FocusState<ScanViewModel.Focus?>.Binding
 
     var body: some View {
         ScrollView(
@@ -17,16 +18,17 @@ struct ScanSheetBodyView: View {
             VStack(
                 spacing: .zero,
             ) {
-                DTextField<EmptyView, EmptyView>(
+                DTextField(
+                    controller: viewModel.patientNameController,
+                    focus: DTextFieldFocus(
+                        value: .patientName,
+                        state: focus
+                    ),
                     title: .scanPatientNameLabel,
                     placeholder: .scanPatientNamePlaceholder,
-                    controller: viewModel.patientNameController,
                     keyboardType: .default,
-                    sumbitLabel: .done
+                    sumbitLabel: .next
                 )
-                .onSubmit {
-                    viewModel.unfocus()
-                }
                 .padding(.vertical, size.s4)
                 
                 DSegment<PatientGender>(
@@ -54,70 +56,72 @@ struct ScanSheetBodyView: View {
                 )
                 .padding(.bottom, size.s4)
                 
-                DTextField<EmptyView, EmptyView>(
+                DTextField(
+                    controller: viewModel.patientHeightCMController,
+                    focus: DTextFieldFocus(
+                        value: .patientHeightCM,
+                        state: focus
+                    ),
                     title: .scanPatientHeightCMLabel,
                     placeholder: .scanNumberPlaceholder,
-                    controller: viewModel.patientHeightCMController,
                     keyboardType: .decimalPad,
-                    sumbitLabel: .done
+                    sumbitLabel: .next
                 )
-                .onSubmit {
-                    viewModel.unfocus()
-                }
                 .padding(.bottom, size.s4)
                 
-                DTextField<EmptyView, EmptyView>(
+                DTextField(
+                    controller: viewModel.patientWeightKGController,
+                    focus: DTextFieldFocus(
+                        value: .patientWeightKG,
+                        state: focus
+                    ),
                     title: .scanPatientWeightKGLabel,
                     placeholder: .scanNumberPlaceholder,
-                    controller: viewModel.patientWeightKGController,
                     keyboardType: .decimalPad,
-                    sumbitLabel: .done
+                    sumbitLabel: .next
                 )
-                .onSubmit {
-                    viewModel.unfocus()
-                }
                 .padding(.bottom, size.s4)
                 
-                DTextField<EmptyView, EmptyView>(
+                DTextField(
+                    controller: viewModel.patientComplaintController,
+                    focus: DTextFieldFocus(
+                        value: .patientComplaint,
+                        state: focus
+                    ),
                     title: .scanPatientComplaintLabel,
                     placeholder: .scanPatientComplaintPlaceholder,
-                    controller: viewModel.patientComplaintController,
                     keyboardType: .default,
-                    sumbitLabel: .done
+                    sumbitLabel: .next
                 )
-                .onSubmit {
-                    viewModel.unfocus()
-                }
                 .padding(.bottom, size.s4)
                 
-                DTextField<EmptyView, EmptyView>(
+                DTextField(
+                    controller: viewModel.researchDescriptionController,
+                    focus: DTextFieldFocus(
+                        value: .researchDescription,
+                        state: focus
+                    ),
                     title: .scanResearchDescriptionLabel,
                     placeholder: .scanResearchDescriptionPlaceholder,
-                    controller: viewModel.researchDescriptionController,
                     keyboardType: .default,
-                    sumbitLabel: .done
+                    sumbitLabel: .next
                 )
-                .onSubmit {
-                    viewModel.unfocus()
-                }
                 .padding(.bottom, size.s4)
                 
-                DTextField<EmptyView, EmptyView>(
+                DTextField(
+                    controller: viewModel.additionalDataController,
+                    focus: DTextFieldFocus(
+                        value: .additionalData,
+                        state: focus
+                    ),
                     title: .scanAdditionalDataLabel,
                     placeholder: .scanAdditionalDataPlaceholder,
-                    controller: viewModel.additionalDataController,
                     keyboardType: .default,
                     sumbitLabel: .done
                 )
-                .onSubmit {
-                    viewModel.unfocus()
-                }
             }
             .padding(.bottom, size.s128 * 3)
         }
         .padding(.horizontal, size.s16)
-        .onTapGesture {
-            viewModel.unfocus()
-        }
     }
 }

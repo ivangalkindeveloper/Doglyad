@@ -27,11 +27,12 @@ struct ScanScreen: View {
 private struct ScanScreenView: View {
     @EnvironmentObject var container: DependencyContainer
     @EnvironmentObject var theme: DTheme
-    var color: DColor { theme.color }
-    var size: DSize { theme.size }
-    var typography: DTypography { theme.typography }
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
 
     @StateObject var viewModel: ScanViewModel
+    @FocusState private var focus: ScanViewModel.Focus?
 
     var body: some View {
         DScreen(
@@ -51,11 +52,12 @@ private struct ScanScreenView: View {
                 )
                 .dStyle(.primaryChip)
             },
-            content: { toolbarInset in
+            onTapBody: viewModel.unfocus,
+            content: { _ in
                 ZStack {
                     ZStack {
                         ScanCameraView()
-                        
+
                         VStack(
                             spacing: .zero
                         ) {
@@ -70,7 +72,9 @@ private struct ScanScreenView: View {
                             ScanSheetHeaderView()
                         },
                         mainContent: {
-                            ScanSheetBodyView()
+                            ScanSheetBodyView(
+                                focus: $focus
+                            )
                         }
                     )
                     .enableBackgroundBlur(false)
@@ -89,12 +93,26 @@ private struct ScanScreenView: View {
                     .dragIndicatorColor(color.grayscaleLine)
                     .enableSwipeToDismiss(false)
                     .enableTapToDismiss(false)
-                    
+
                     ScanSheetFooterView()
                 }
                 .ignoresSafeArea(.keyboard)
             }
         )
+        .onSubmit {
+            viewModel.onSubmit()
+        }
+        .onTapGesture {
+            viewModel.unfocus()
+        }
+        .onChange(of: focus, initial: true) { _, newValue in
+            guard viewModel.focus != newValue else { return }
+            viewModel.focus = newValue
+        }
+        .onChange(of: viewModel.focus, initial: true) { _, newValue in
+            guard focus != newValue else { return }
+            focus = newValue
+        }
         .onChange(of: viewModel.photos, initial: true) {
             viewModel.onChangePhotosForSheet()
         }

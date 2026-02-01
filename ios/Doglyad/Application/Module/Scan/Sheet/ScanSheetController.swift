@@ -50,7 +50,7 @@ private extension ScanSheetController {
     func setPosition(
         _ newValue: BottomSheetPosition
     ) -> Void {
-        if self.currentPosition == newValue { return }
+        guard self.currentPosition != newValue else { return }
         self.currentPosition = newValue
     }
 }
