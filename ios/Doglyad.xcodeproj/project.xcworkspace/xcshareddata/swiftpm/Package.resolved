@@ -1,5 +1,5 @@
 {
-  "originHash" : "6534582a8d03108aa6462daef39e778660ea63fd6484b088cd465209c651cc1b",
+  "originHash" : "dd089fae3ca5d24e8a0beff2841def45cbc320689c2431fe59ae3a60c8565997",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -115,7 +115,7 @@
       "location" : "https://github.com/ivangalkindeveloper/Handler",
       "state" : {
         "branch" : "master",
-        "revision" : "ad26491705425e820975e38b73b9427c21727619"
+        "revision" : "3ba786d11a2697f9d2a1293519d0b09b1ce83b08"
       }
     },
     {

@@ -29,7 +29,9 @@ enum ResearchType: String, CaseIterable, Codable {
     case thyroidGland // Щитовидная железа
     case veinsOfTheLowerExtremities // Вены нижних конечностей
     case veinsOfTheUpperExtremities // Вены верхних конечностей
-    
+}
+
+extension ResearchType {
     static let `default`: ResearchType = .thyroidGland
     
     static func fromString(

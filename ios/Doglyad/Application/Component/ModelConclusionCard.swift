@@ -37,7 +37,7 @@ struct ModelConclusionCard: View {
             .padding(.bottom, size.s8)
 
             ExpandableText(
-                text: conclusion.description,
+                text: conclusion.response,
                 backgroundColor: color.grayscaleBackground
             )
         }
@@ -53,7 +53,7 @@ struct ModelConclusionCard: View {
             conclusion: ResearchModelConclusion(
                 date: Date(),
                 model: "medgemma-3-27B",
-                description: """
+                response: """
                 Щитовидная железа расположена типично, структура органа сохранена.
                 Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.
                 Эхогенность паренхимы равномерная, без участков патологического снижения или повышения.

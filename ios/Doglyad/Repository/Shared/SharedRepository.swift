@@ -1,11 +1,5 @@
 import DoglyadDatabase
 
-protocol SharedRepositoryProtocol {
-    func isOnBoardingCompleted() -> Bool
-    
-    func setOnBoardingCompleted(value: Bool) -> Void
-}
-
 final class SharedRepository: SharedRepositoryProtocol {
     let database: DDatabaseProtocol
     

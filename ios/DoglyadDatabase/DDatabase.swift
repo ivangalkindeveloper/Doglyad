@@ -1,62 +1,87 @@
 import Foundation
 import SwiftData
 
-public protocol DDatabaseProtocol: AnyObject {
-    func getOnBoardingCompleted() -> Bool
-    
-    func setOnBoardingCompleted(value: Bool) -> Void
-    
-    func getSelectedUSResearchType() -> String?
-    
-    func setSelectedUSResearchType(value: String) -> Void
-}
-
 public final class DDatabase: DDatabaseProtocol {
+    private let defaults: UserDefaults = .standard
     private var container: ModelContainer
-    private let defaults: UserDefaults = UserDefaults.standard
-    
+
     public init() throws {
         let schema = Schema([
-            // Model
+            ResearchConclusionDB.self,
+            ResearchDataDB.self,
+            ResearchScanPhotoDB.self,
+            ResearchModelConclusionDB.self,
         ])
-        let modelConfiguration = ModelConfiguration(
-            schema: schema,
-            isStoredInMemoryOnly: false
-        )
         self.container = try ModelContainer(
             for: schema,
-            configurations: [
-                modelConfiguration
-            ])
+        )
     }
-    
-    private func getBool(_ key: DUserDefaultsKey) -> Bool {
+}
+
+private extension DDatabase {
+    func getBool(_ key: DUserDefaultsKey) -> Bool {
         defaults.bool(forKey: key.rawValue)
     }
 
-    private func getString(_ key: DUserDefaultsKey) -> String? {
+    func getString(_ key: DUserDefaultsKey) -> String? {
         defaults.string(forKey: key.rawValue)
     }
 
-    private func setting<T>(_ value: T, _ key: DUserDefaultsKey) -> Void {
+    func setting<T>(_ value: T, _ key: DUserDefaultsKey) -> Void {
         defaults.set(value, forKey: key.rawValue)
     }
 }
+
+// MARK: OnBoarding -
 
 public extension DDatabase {
     func getOnBoardingCompleted() -> Bool {
         getBool(.isOnBoardingCompleted)
     }
-    
-    func setOnBoardingCompleted(value: Bool) -> Void {
+
+    func setOnBoardingCompleted(value: Bool) {
         setting(value, .isOnBoardingCompleted)
     }
-    
+}
+
+// MARK: ResearchType -
+
+public extension DDatabase {
     func getSelectedUSResearchType() -> String? {
-        getString(.selectedUSRecearchType)
+        getString(.selectedUSResearchType)
     }
-    
-    func setSelectedUSResearchType(value: String) -> Void {
-        setting(value, .selectedUSRecearchType)
+
+    func setSelectedUSResearchType(value: String) {
+        setting(value, .selectedUSResearchType)
+    }
+}
+
+// MARK: ModelConclusion -
+
+public extension DDatabase {
+    @MainActor func getResearchConclusions() -> [ResearchConclusionDB] {
+        let descriptor = FetchDescriptor<ResearchConclusionDB>(
+            sortBy: [SortDescriptor(\.date, order: .forward)]
+        )
+        return (try? container.mainContext.fetch(descriptor)) ?? []
+    }
+
+    @MainActor func setResearchConclusion(
+        value: ResearchConclusionDB
+    ) {
+        container.mainContext.insert(value)
+    }
+
+    @MainActor func updateResearchConclusion(
+        value: ResearchConclusionDB
+    ) {
+        let id = value.id
+        let descriptor = FetchDescriptor<ResearchConclusionDB>(
+            predicate: #Predicate<ResearchConclusionDB> { $0.id == id }
+        )
+        guard let conclusion = try? container.mainContext.fetch(descriptor).first else { return }
+
+        container.mainContext.delete(conclusion)
+        setResearchConclusion(value: value)
     }
 }

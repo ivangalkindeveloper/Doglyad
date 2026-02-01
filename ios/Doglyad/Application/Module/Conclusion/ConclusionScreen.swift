@@ -237,7 +237,7 @@ private struct ConclusionScreenView: View {
                 actualModelConclusion: ResearchModelConclusion(
                     date: Date(),
                     model: "google/medgemma-3-27B",
-                    description: """
+                    response: """
                     Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                     Размеры органа в пределах возрастной нормы.
                     Эхоструктура паренхимы сохранена, патологических включений нет.
@@ -249,7 +249,7 @@ private struct ConclusionScreenView: View {
                     ResearchModelConclusion(
                         date: Date(),
                         model: "google/medgemma-3-27B",
-                        description: """
+                        response: """
                         Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                         Размеры органа в пределах возрастной нормы.
                         Эхоструктура паренхимы сохранена, патологических включений нет.
@@ -260,7 +260,7 @@ private struct ConclusionScreenView: View {
                     ResearchModelConclusion(
                         date: Date(),
                         model: "google/medgemma-3-27B",
-                        description: """
+                        response: """
                         Щитовидная железа расположена типично, структура органа сохранена.
                         Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.
                         Эхогенность паренхимы равномерная, без участков патологического снижения или повышения.

@@ -249,20 +249,24 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         }, onDefer: {
             self.isLoading = false
         }, onMainSuccess: { modelConclusion in
+            let conclusion = ResearchConclusion(
+                date: Date(),
+                data: data,
+                actualModelConclusion: modelConclusion,
+                previosModelConclusions: []
+            )
+            self.diagnosticRepository.setConclusion(
+                conclusion: conclusion
+            )
             self.router.push(
                 route: RouteScreen(
                     type: .conclusion,
                     arguments: ConclusionScreenArguments(
-                        conclusion: ResearchConclusion(
-                            date: Date(),
-                            data: data,
-                            actualModelConclusion: modelConclusion,
-                            previosModelConclusions: []
-                        )
+                        conclusion: conclusion
                     )
                 )
             )
-        }, onUnknownError: { error in
+        }, onUnknownError: { _ in
             self.messanger.showUnknownError()
         })
     }

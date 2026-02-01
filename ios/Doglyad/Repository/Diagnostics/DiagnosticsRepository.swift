@@ -2,35 +2,10 @@ import DoglyadDatabase
 import DoglyadNetwork
 import Foundation
 
-protocol DiagnosticsRepositoryProtocol {
-    static var conclusionEndpoint: String { get }
-    
-    // MARK: ResearchType -
-    func getSelectedResearchType() -> ResearchType?
-    
-    func setSelectedResearchType(
-        type: ResearchType
-    ) -> Void
-    
-    // MARK: Conclusion -
-    func generateConclusion(
-        researchData: ResearchData,
-        locale: Locale,
-    ) async throws -> ResearchModelConclusion
-    
-    func setConclusion(
-        conclusion: ResearchConclusion
-    ) -> Void
-    
-    func getConclusions() -> [ResearchConclusion]
-}
-
 final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
-    static var conclusionEndpoint: String = "/conclusion"
-    
     let database: DDatabaseProtocol
     let httpClient: DHttpClientProtocol
-    
+
     init(
         database: DDatabaseProtocol,
         httpClient: DHttpClientProtocol
@@ -41,40 +16,54 @@ final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
 }
 
 // MARK: ResearchType -
+
 extension DiagnosticsRepository {
     func getSelectedResearchType() -> ResearchType? {
         ResearchType.fromString(
-            database.getSelectedUSResearchType()
+            self.database.getSelectedUSResearchType()
         )
     }
-    
+
     func setSelectedResearchType(
         type: ResearchType
-    ) -> Void {
-        database.setSelectedUSResearchType(
+    ) {
+        self.database.setSelectedUSResearchType(
             value: type.rawValue
         )
     }
 }
 
 // MARK: Conclusion -
+
 extension DiagnosticsRepository {
+    static var conclusionEndpoint: String = "/conclusion"
+
     func generateConclusion(
         researchData: ResearchData,
         locale: Locale,
     ) async throws -> ResearchModelConclusion {
-        try await httpClient.post(
+        try await self.httpClient.post(
             endPoint: DiagnosticsRepository.conclusionEndpoint,
             body: researchData,
             headers: [
-                "Accept-Language": locale.identifier
+                DHttpHeader.acceptLanguage: locale.identifier
             ]
         )
     }
-    
-    func setConclusion(
+
+    @MainActor func getConclusions() -> [ResearchConclusion] {
+        self.database.getResearchConclusions().map { ResearchConclusion.fromDB($0) }
+    }
+
+    @MainActor func setConclusion(
         conclusion: ResearchConclusion
-    ) -> Void {}
-    
-    func getConclusions() -> [ResearchConclusion] { [] }
+    ) {
+        self.database.setResearchConclusion(value: conclusion.toDB())
+    }
+
+    @MainActor func updateConclusion(
+        conclusion: ResearchConclusion
+    ) {
+        self.database.updateResearchConclusion(value: conclusion.toDB())
+    }
 }
