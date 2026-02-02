@@ -4,6 +4,12 @@ import SwiftUI
 
 @MainActor
 final class OnBoardingViewModel: ObservableObject {
+    enum Page {
+        case intro
+        case researchType
+        case scan
+    }
+
     private let sharedRepository: SharedRepositoryProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
     private let router: DRouter
@@ -68,13 +74,5 @@ final class OnBoardingViewModel: ObservableObject {
                 )
             }
         }
-    }
-}
-
-extension OnBoardingViewModel {
-    enum Page {
-        case intro
-        case researchType
-        case scan
     }
 }

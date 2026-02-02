@@ -13,7 +13,7 @@ public struct DListButtonCard: View {
     public init(
         title: LocalizedStringResource,
         action: @escaping () -> Void,
-        isSelected: Bool
+        isSelected: Bool = false
     ) {
         self.title = title
         self.action = action

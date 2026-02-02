@@ -3,9 +3,9 @@ import SwiftUI
 
 struct HistoryEmptyView: View {
     @EnvironmentObject var theme: DTheme
-    var color: DColor { theme.color }
-    var size: DSize { theme.size }
-    var typography: DTypography { theme.typography }
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
 
     @EnvironmentObject private var viewModel: HistoryViewModel
 

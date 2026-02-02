@@ -35,6 +35,18 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as! ConclusionScreenArguments
                 )
             )
+        case .settings:
+            AnyView(
+                SettingsScreen(
+                    arguments: route.arguments as? SettingsScreenArguments
+                )
+            )
+        case .neuralModel:
+            AnyView(
+                NeuralModelScreen(
+                    arguments: route.arguments as? NeuralModelScreenArguments
+                )
+            )
         }
     }
 

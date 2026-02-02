@@ -30,4 +30,8 @@ public class DTextFieldController: ObservableObject {
     ) {
         errorText = text
     }
+
+    public func clear() {
+        text = ""
+    }
 }

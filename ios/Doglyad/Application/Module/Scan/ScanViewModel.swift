@@ -20,6 +20,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     }
 
     static let photoMaxCount: Int = 6
+    private static let defaultPatientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
     private static let defaultPatientHeightCM: Double = 180
     private static let defaultPatientWeightKG: Double = 60
 
@@ -51,7 +52,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     //
     @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
     @Published var patientGender = PatientGender.male
-    @Published var patientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
+    @Published var patientDateOfBirth = defaultPatientDateOfBirth
     @NestedObservableObject var patientHeightCMController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)
@@ -121,10 +122,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         }
     }
 
-    func onTapHistory() {
+    func onTapSettings() {
         router.push(
             route: RouteScreen(
-                type: .history
+                type: .settings
             )
         )
     }
@@ -294,9 +295,21 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: []
             )
+
             self.diagnosticRepository.setConclusion(
                 conclusion: conclusion
             )
+
+            self.photos.removeAll()
+            self.patientNameController.clear()
+            self.patientGender = .male
+            self.patientDateOfBirth = Self.defaultPatientDateOfBirth
+            self.patientHeightCMController.clear()
+            self.patientWeightKGController.clear()
+            self.patientComplaintController.clear()
+            self.researchDescriptionController.clear()
+            self.additionalDataController.clear()
+
             self.router.push(
                 route: RouteScreen(
                     type: .conclusion,

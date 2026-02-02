@@ -22,19 +22,27 @@ struct ScanSheetFooterView: View {
                         if !viewModel.isLoading {
                             DButton(
                                 image: .microphone,
-                                title: .buttonSpeech, action: viewModel.onTapSpeech
+                                title: .buttonSpeech,
+                                action: viewModel.onTapSpeech
                             )
                             .dStyle(.primaryChip)
-                            .shimmering(
-                                animation: Animation.linear(duration: 1.5).delay(2.4).repeatForever(autoreverses: false),
-                                gradient: Gradient(colors: [
-                                    .white.opacity(0.3),
-                                    .white,
-                                    .white.opacity(0.3),
-                                ]),
-                                bandSize: 0.6,
-                                mode: .overlay(blendMode: .overlay)
-                            )
+                            .overlay {
+                                Color.clear
+                                    .shimmering(
+                                        animation: Animation.linear(duration: 1.5)
+                                            .delay(2.4)
+                                            .repeatForever(autoreverses: false),
+                                        gradient: Gradient(colors: [
+                                            .white.opacity(0.3),
+                                            .white,
+                                            .white.opacity(0.3),
+                                        ]),
+                                        bandSize: 0.6,
+                                        mode: .overlay(blendMode: .overlay)
+                                    )
+                                    .cornerRadius(.infinity)
+                                    .allowsHitTesting(false)
+                            }
                             .padding(.bottom, size.s8)
                             .transition(.move(edge: .bottom))
                         }

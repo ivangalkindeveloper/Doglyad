@@ -8,6 +8,9 @@ pip-install:
 	pip3 install -r backend/requirements.txt
 	pip3 install -r ml/requirements.txt
 
+ios-format:
+	cd ios && swiftformat .
+
 download-research:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir DoglyadIOSClient/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
 

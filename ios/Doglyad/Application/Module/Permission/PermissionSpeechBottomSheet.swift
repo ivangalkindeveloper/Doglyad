@@ -1,10 +1,3 @@
-//
-//  PermissionSpeechBottomSheet.swift
-//  Doglyad
-//
-//  Created by Иван Галкин on 25.01.2026.
-//
-
 import SwiftUI
 
 struct PermissionSpeechBottomSheet: View {

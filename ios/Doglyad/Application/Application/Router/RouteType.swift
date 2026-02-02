@@ -3,6 +3,8 @@ enum ScreenType: Hashable {
     case scan
     case history
     case conclusion
+    case settings
+    case neuralModel
 }
 
 enum SheetType: Hashable {
