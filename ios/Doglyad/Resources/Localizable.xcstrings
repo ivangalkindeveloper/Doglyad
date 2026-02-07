@@ -1440,8 +1440,42 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "О приложении"
+          }
+        }
+      }
+    },
+    "settingsHistoryDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conducted medical research: %(count)lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проведено медицинских исследований: %(count)lld"
+          }
+        }
+      }
+    },
+    "settingsHistoryEmptyDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No completed medical research yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершенных медицинских исследований пока нет"
           }
         }
       }
@@ -1463,6 +1497,23 @@
         }
       }
     },
+    "settingsNeuralModelDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings for configuring the model's response for medical researchers"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки для конфигурации ответа модели по медицинским исследованиям"
+          }
+        }
+      }
+    },
     "settingsNeuralModelTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1480,7 +1531,24 @@
         }
       }
     },
-    "settingsTermsTitle" : {
+    "settingsTermsAndConditionsDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms and conditions of use of the application, rights and obligations of the parties, ownership, and limitations of liability"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Условия и правила использования приложением, права и обязанности сторон, собственность и ограничения ответственности"
+          }
+        }
+      }
+    },
+    "settingsTermsAndConditionsTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1492,7 +1560,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Условия использования"
+            "value" : "Условия и Положения"
           }
         }
       }

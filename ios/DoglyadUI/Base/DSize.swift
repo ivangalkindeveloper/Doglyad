@@ -32,7 +32,14 @@ public extension DSize {
 }
 
 public extension DSize {
+    var screenHeight: CGFloat { UIScreen.main.bounds.height }
+    var screenWidth: CGFloat { UIScreen.main.bounds.width }
+    
     var adaptiveCornerRadius: CGFloat {
         UIScreen.main.cornerRadius < s16 ? s16 : UIScreen.main.cornerRadius
+    }
+    
+    var adaptiveCardCornerRadius: CGFloat {
+        UIScreen.main.cornerRadius < s32 ? UIScreen.main.cornerRadius : s32
     }
 }

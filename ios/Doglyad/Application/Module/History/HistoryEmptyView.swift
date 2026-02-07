@@ -25,6 +25,6 @@ struct HistoryEmptyView: View {
             )
             .dStyle(.primaryButton)
         }
-        .padding(.top, size.s128)
+        .padding(.top, size.screenHeight / 4)
     }
 }

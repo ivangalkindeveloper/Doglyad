@@ -7,15 +7,18 @@ public struct DListButtonCard: View {
     private var typography: DTypography { theme.typography }
 
     let title: LocalizedStringResource
+    let description: LocalizedStringResource?
     let action: () -> Void
     let isSelected: Bool
 
     public init(
         title: LocalizedStringResource,
+        description: LocalizedStringResource? = nil,
         action: @escaping () -> Void,
         isSelected: Bool = false
     ) {
         self.title = title
+        self.description = description
         self.action = action
         self.isSelected = isSelected
     }
@@ -24,18 +27,31 @@ public struct DListButtonCard: View {
         DButtonCard(
             action: action
         ) {
-            HStack {
-                DText(title)
-                    .dStyle(
-                        font: typography.linkSmall
-                    )
-                Spacer()
-                if isSelected {
-                    DIcon(
-                        .check,
-                        color: color.successDefault
-                    )
-                    .padding(.leading, size.s16)
+            VStack(
+                alignment: .leading,
+                spacing: .zero
+            ) {
+                HStack {
+                    DText(title)
+                        .dStyle(
+                            font: typography.linkSmall
+                        )
+                    Spacer()
+                    if self.isSelected {
+                        DIcon(
+                            .check,
+                            color: color.successDefault
+                        )
+                        .padding(.leading, size.s16)
+                    }
+                }
+                if let description = self.description {
+                    DText(description)
+                        .dStyle(
+                            font: typography.textXSmall,
+                            color: color.grayscalePlaceholder,
+                        )
+                        .padding(.top, size.s4)
                 }
             }
         }

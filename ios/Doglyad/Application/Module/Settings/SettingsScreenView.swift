@@ -25,15 +25,18 @@ struct SettingsScreenView: View {
                     ) {
                         DListButtonCard(
                             title: .settingsHistoryTitle,
+                            description: viewModel.historyDescription(),
                             action: viewModel.onTapHistory
                         )
                         DListButtonCard(
                             title: .settingsNeuralModelTitle,
+                            description: .settingsNeuralModelDescription,
                             action: viewModel.onTapNeuralModel
                         )
                         DListButtonCard(
-                            title: .settingsTermsTitle,
-                            action: viewModel.onTapTerms
+                            title: .settingsTermsAndConditionsTitle,
+                            description: .settingsTermsAndConditionsDescription,
+                            action: viewModel.onTapTermsAndConditions
                         )
                     }
                     .padding(.bottom, size.s48)

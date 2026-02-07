@@ -115,8 +115,10 @@ private extension DButtonStyle {
 
     var cornerRadius: CGFloat? {
         switch type {
-        case .primaryButton, .card:
+        case .primaryButton:
             return size.adaptiveCornerRadius
+        case .card:
+            return size.adaptiveCardCornerRadius
         case .primaryCircle, .primaryChip, .circle, .chip:
             return nil
         }
