@@ -18,7 +18,7 @@ struct HistoryCard: View {
                 spacing: .zero
             ) {
                 ZStack {
-                    ForEach(Array(conclusion.data.photos.enumerated()), id: \.element.id) { index, photo in
+                    ForEach(Array(conclusion.researchData.photos.enumerated()), id: \.element.id) { index, photo in
                         PhotoCard(image: photo.image)
                             .offset(x: Double.random(in: -8 ... 8), y: Double.random(in: -8 ... 8))
                             .rotationEffect(.degrees(Double.random(in: -24 ... 24)))
@@ -34,11 +34,12 @@ struct HistoryCard: View {
                     HStack(
                         spacing: .zero
                     ) {
-                        DText(conclusion.data.patientName)
+                        DText(conclusion.researchData.patientName)
                             .dStyle(
                                 font: typography.linkSmall
                             )
                             .padding(.trailing, size.s8)
+                        
                         DText(conclusion.date.localized())
                             .dStyle(
                                 font: typography.textSmall,
@@ -46,12 +47,13 @@ struct HistoryCard: View {
                             )
                     }
 
-                    DText(LocalizedStringResource.forResearchType(conclusion.data.researchType))
+                    DText(LocalizedStringResource.forResearchType(conclusion.researchData.researchType))
                         .dStyle(
                             font: typography.linkSmall,
-                            color: color.grayscalePlaceholder
+                            color: color.grayscalePlacehold
                         )
-                    DText(conclusion.data.researchDescription)
+                    
+                    DText(conclusion.researchData.researchDescription)
                         .dStyle(
                             font: typography.textSmall,
                             color: color.grayscaleLabel
@@ -71,7 +73,8 @@ struct HistoryCard: View {
         HistoryCard(
             conclusion: ResearchConclusion(
                 date: Date(),
-                data: ResearchData(
+                neuralModelSettings: nil,
+                researchData: ResearchData(
                     researchType: .thyroidGland,
                     photos: [
                         ResearchScanPhoto(image: UIImage(resource: .alertInfo)),

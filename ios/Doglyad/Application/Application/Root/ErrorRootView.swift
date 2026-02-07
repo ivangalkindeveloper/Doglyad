@@ -83,7 +83,7 @@ private struct ErrorView: View {
                 )
                 .dStyle(
                     font: typography.textSmall,
-                    color: color.grayscalePlaceholder,
+                    color: color.grayscalePlacehold,
                     alignment: .center
                 )
                 .padding(.horizontal, size.s14)

@@ -16,7 +16,7 @@ struct HistoryEmptyView: View {
             DText(.historyEmptyDescription)
                 .dStyle(
                     font: typography.textSmall,
-                    color: color.grayscalePlaceholder,
+                    color: color.grayscalePlacehold,
                     alignment: .center
                 ).padding(.bottom, size.s16)
             DButton(

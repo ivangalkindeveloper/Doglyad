@@ -15,7 +15,7 @@ struct ConclusionScreenView: View {
     var body: some View {
         DScreen(
             title: .conclusionTitle,
-            subTitle: "\(conclusion.data.patientName), \(conclusion.date.localized())",
+            subTitle: "\(conclusion.researchData.patientName), \(conclusion.date.localized())",
             onTapBack: viewModel.onTapBack
         ) { toolbarInset in
             ScrollViewReader { proxy in
@@ -26,7 +26,7 @@ struct ConclusionScreenView: View {
                         alignment: .leading,
                         spacing: .zero
                     ) {
-                        DText(.forResearchType(conclusion.data.researchType))
+                        DText(.forResearchType(conclusion.researchData.researchType))
                             .dStyle(
                                 font: typography.linkLarge
                             )
@@ -42,8 +42,9 @@ struct ConclusionScreenView: View {
                             DText(.scanResearchDateLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
-                                    color: color.grayscalePlaceholder
+                                    color: color.grayscalePlacehold
                                 )
+                            
                             DText(conclusion.date.localized())
                                 .dStyle(
                                     font: typography.textSmall
@@ -53,9 +54,10 @@ struct ConclusionScreenView: View {
                             DText(.scanPatientNameLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
-                                    color: color.grayscalePlaceholder
+                                    color: color.grayscalePlacehold
                                 )
-                            DText(conclusion.data.patientName)
+                            
+                            DText(conclusion.researchData.patientName)
                                 .dStyle(
                                     font: typography.textSmall
                                 )
@@ -64,9 +66,10 @@ struct ConclusionScreenView: View {
                             DText(.scanPatientGenderLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
-                                    color: color.grayscalePlaceholder
+                                    color: color.grayscalePlacehold
                                 )
-                            DText(.forGender(conclusion.data.patientGender))
+                            
+                            DText(.forGender(conclusion.researchData.patientGender))
                                 .dStyle(
                                     font: typography.textSmall
                                 )
@@ -75,9 +78,10 @@ struct ConclusionScreenView: View {
                             DText(.scanPatientDateOfBirthLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
-                                    color: color.grayscalePlaceholder
+                                    color: color.grayscalePlacehold
                                 )
-                            DText(conclusion.data.patientDateOfBirth.localized())
+                            
+                            DText(conclusion.researchData.patientDateOfBirth.localized())
                                 .dStyle(
                                     font: typography.textSmall
                                 )
@@ -86,20 +90,22 @@ struct ConclusionScreenView: View {
                             DText(.scanResearchDescriptionLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
-                                    color: color.grayscalePlaceholder
+                                    color: color.grayscalePlacehold
                                 )
+                            
                             ExpandableText(
-                                text: conclusion.data.researchDescription,
+                                text: conclusion.researchData.researchDescription,
                                 backgroundColor: color.grayscaleBackgroundWeak
                             )
                             .padding(.bottom, size.s8)
 
-                            if let patientComplaint = conclusion.data.patientComplaint {
+                            if let patientComplaint = conclusion.researchData.patientComplaint {
                                 DText(.scanPatientComplaintLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
-                                        color: color.grayscalePlaceholder
+                                        color: color.grayscalePlacehold
                                     )
+                                
                                 ExpandableText(
                                     text: patientComplaint,
                                     backgroundColor: color.grayscaleBackgroundWeak
@@ -107,12 +113,13 @@ struct ConclusionScreenView: View {
                                 .padding(.bottom, size.s8)
                             }
 
-                            if let additionalData = conclusion.data.additionalData {
+                            if let additionalData = conclusion.researchData.additionalData {
                                 DText(.scanAdditionalDataLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
-                                        color: color.grayscalePlaceholder
+                                        color: color.grayscalePlacehold
                                     )
+                                
                                 ExpandableText(
                                     text: additionalData,
                                     backgroundColor: color.grayscaleBackgroundWeak
@@ -127,6 +134,7 @@ struct ConclusionScreenView: View {
                                 .padding(.top, size.s16)
                                 .padding(.horizontal, size.s8)
                                 .padding(.bottom, size.s16)
+                            
                             ModelConclusionCard(
                                 conclusion: conclusion.actualModelConclusion
                             )
@@ -150,6 +158,7 @@ struct ConclusionScreenView: View {
                                     .padding(.top, size.s8)
                                     .padding(.horizontal, size.s8)
                                     .padding(.bottom, size.s16)
+                                
                                 ForEach(conclusion.previosModelConclusions) { modelConclusion in
                                     ModelConclusionCard(
                                         conclusion: modelConclusion

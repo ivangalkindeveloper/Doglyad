@@ -120,7 +120,7 @@ struct ScanSheetBodyView: View {
                     sumbitLabel: .done
                 )
             }
-            .padding(.bottom, size.s128 * 3)
+            .padding(.bottom, size.screenHeight / 4)
         }
         .padding(.horizontal, size.s16)
     }

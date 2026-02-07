@@ -39,12 +39,12 @@ extension DiagnosticsRepository {
     static var conclusionEndpoint: String = "/conclusion"
 
     func generateConclusion(
-        researchData: ResearchData,
+        request: ResearchRequest,
         locale: Locale
     ) async throws -> ResearchModelConclusion {
         try await httpClient.post(
             endPoint: DiagnosticsRepository.conclusionEndpoint,
-            body: researchData,
+            body: request,
             headers: [
                 DHttpHeader.acceptLanguage: locale.identifier,
             ]

@@ -13,9 +13,9 @@ final class SettingsViewModel: ObservableObject {
     ) {
         self.diagnosticRepository = diagnosticRepository
         self.router = router
-        self.load()
+        load()
     }
-    
+
     @Published var conclusions: [ResearchConclusion] = []
 
     private func load() {
@@ -26,9 +26,9 @@ final class SettingsViewModel: ObservableObject {
     func onTapBack() {
         router.pop()
     }
-    
+
     func historyDescription() -> LocalizedStringResource {
-        self.conclusions.isEmpty ? .settingsHistoryEmptyDescription : .settingsHistoryDescription(count: self.conclusions.count)
+        conclusions.isEmpty ? .settingsHistoryEmptyDescription : .settingsHistoryDescription(count: conclusions.count)
     }
 
     func onTapHistory() {

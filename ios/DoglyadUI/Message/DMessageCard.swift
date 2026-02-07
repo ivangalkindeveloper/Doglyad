@@ -15,20 +15,22 @@ struct DMessageCard: View {
             .font(typography.linkSmall)
             .foregroundStyle(theme.color.grayscaleBackground)
             .multilineTextAlignment(.leading)
-
-            Text(
-                message.description
-            )
-            .font(typography.textXSmall)
-            .foregroundStyle(theme.color.grayscaleBackground)
-            .multilineTextAlignment(.leading)
+            
+            if let description = message.description {
+                Text(
+                    description
+                )
+                .font(typography.textXSmall)
+                .foregroundStyle(theme.color.grayscaleBackground)
+                .multilineTextAlignment(.leading)
+            }
         }
         .padding(.horizontal, size.s16)
         .padding(.vertical, size.s12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(
-                cornerRadius: theme.size.adaptiveCornerRadius
+                cornerRadius: theme.size.adaptiveCardCornerRadius
             )
             .fill(backgroundColor)
         )

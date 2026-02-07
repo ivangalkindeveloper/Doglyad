@@ -7,7 +7,7 @@ public final class DMessager: ObservableObject {
     public func show(
         type: DMessageType,
         title: LocalizedStringResource,
-        description: LocalizedStringResource
+        description: LocalizedStringResource? = nil
     ) {
         message = DMessage(
             type: type,

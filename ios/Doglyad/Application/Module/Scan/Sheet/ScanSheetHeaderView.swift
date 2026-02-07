@@ -39,7 +39,7 @@ struct ScanSheetHeaderView: View {
             DText(.scanMaxPhotoDescription(count: ScanViewModel.photoMaxCount))
                 .dStyle(
                     font: typography.textSmall,
-                    color: color.grayscalePlaceholder
+                    color: color.grayscalePlacehold
                 )
                 .padding(.horizontal, size.s16)
                 .padding(.bottom, isBottom ? size.s32 : size.s8)

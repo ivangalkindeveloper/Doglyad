@@ -25,22 +25,25 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     private static let defaultPatientWeightKG: Double = 60
 
     private let permissionManager: PermissionManagerProtocol
+    private let modelRepository: ModelRepositoryProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
     private let messanger: DMessager
     private let router: DRouter
 
     init(
         permissionManager: PermissionManagerProtocol,
+        modelRepository: ModelRepositoryProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
         messanger: DMessager,
         router: DRouter
     ) {
         self.permissionManager = permissionManager
+        self.modelRepository = modelRepository
         self.diagnosticRepository = diagnosticRepository
         self.messanger = messanger
         self.router = router
         super.init()
-        onInit()
+        self.onInit()
     }
 
     @Published var researchType = ResearchType.default
@@ -48,8 +51,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     //
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
-    @Published var focus: Focus? = nil
     //
+    @Published var focus: Focus? = nil
     @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
     @Published var patientGender = PatientGender.male
     @Published var patientDateOfBirth = defaultPatientDateOfBirth
@@ -268,7 +271,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             return
         }
 
-        let data = ResearchData(
+        let neuralModelSettings = self.modelRepository.getNeuralModelSettings()
+        let researchData = ResearchData(
             researchType: researchType,
             photos: photos,
             patientName: patientNameController.text,
@@ -280,10 +284,14 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             researchDescription: researchDescriptionController.text,
             additionalData: additionalDataController.text
         )
+        let request = ResearchRequest(
+            neuralModelSettings: neuralModelSettings,
+            researchData: researchData
+        )
         handle {
             self.isLoading = true
             return try await self.diagnosticRepository.generateConclusion(
-                researchData: data,
+                request: request,
                 locale: Locale.current
             )
         } onDefer: {
@@ -291,7 +299,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         } onMainSuccess: { modelConclusion in
             let conclusion = ResearchConclusion(
                 date: Date(),
-                data: data,
+                neuralModelSettings: neuralModelSettings,
+                researchData: researchData,
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: []
             )

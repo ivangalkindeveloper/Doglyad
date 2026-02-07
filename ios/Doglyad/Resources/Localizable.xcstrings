@@ -120,6 +120,23 @@
         }
       }
     },
+    "buttonSave" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        }
+      }
+    },
     "buttonScan" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -439,6 +456,159 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "История исследований"
+          }
+        }
+      }
+    },
+    "neuralModelResponseLengthDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum number of characters in the model response.\nLeave empty for default length."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Максимальное количество символов в ответе модели.\nОставьте пустым для длины по умолчанию."
+          }
+        }
+      }
+    },
+    "neuralModelResponseLengthLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Response length"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Длина ответа"
+          }
+        }
+      }
+    },
+    "neuralModelResponseLengthPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0"
+          }
+        }
+      }
+    },
+    "neuralModelSettingsSavedSuccessDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neural model settings saved successfully"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки нейронной модели успешно сохранены"
+          }
+        }
+      }
+    },
+    "neuralModelTemplateDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The template is used by the neural model to generate a medical report.\nExample:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Шаблон используется нейронной моделью для формирования медицинского заключения.\nПример:"
+          }
+        }
+      }
+    },
+    "neuralModelTemplateExampleDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Based on the ultrasound data provided:\n\nOrgan(s) under examination: {{organ}}\nPosition and contours: {{position_and_contours}}\nDimensions: {{sizes}}\nEchostructure: {{echogenicity}}\nFocal lesions: {{lesions}}\n\nConclusion:\nUltrasound features: {{diagnostic_findings}}.\n\nRecommendations:\n{{recommendations}}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "На основании представленных данных УЗИ-исследования:\n\nОрган(ы) исследования: {{organ}}\nПоложение и контуры: {{position_and_contours}}\nРазмеры: {{sizes}}\nЭхоструктура: {{echogenicity}}\nОчаговые образования: {{lesions}}\n\nЗаключение:\nУЗ-признаки {{diagnostic_findings}}.\n\nРекомендации:\n{{recommendations}}"
+          }
+        }
+      }
+    },
+    "neuralModelTemplateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Response template"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблон ответа"
+          }
+        }
+      }
+    },
+    "neuralModelTemplatePlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter template..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите шаблон..."
+          }
+        }
+      }
+    },
+    "neuralModelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neural model"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нейронная модель"
           }
         }
       }
@@ -1537,12 +1707,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terms and conditions of use of the application, rights and obligations of the parties, ownership, and limitations of liability"
+            "value" : "Terms and conditions of use of the application, rights and obligations of the parties, ownership and limitations of liability"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Условия и правила использования приложением, права и обязанности сторон, собственность и ограничения ответственности"
           }
         }

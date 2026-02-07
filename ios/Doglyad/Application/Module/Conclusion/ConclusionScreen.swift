@@ -34,7 +34,8 @@ struct ConclusionScreen: View {
         arguments: ConclusionScreenArguments(
             conclusion: ResearchConclusion(
                 date: Date(),
-                data: ResearchData(
+                neuralModelSettings: nil,
+                researchData: ResearchData(
                     researchType: .thyroidGland,
                     photos: [
                         ResearchScanPhoto(image: UIImage(resource: .alertInfo)),

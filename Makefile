@@ -8,7 +8,7 @@ pip-install:
 	pip3 install -r backend/requirements.txt
 	pip3 install -r ml/requirements.txt
 
-ios-format:
+format:
 	cd ios && swiftformat .
 
 download-research:

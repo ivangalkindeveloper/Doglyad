@@ -58,7 +58,7 @@ struct SelectResearchTypeBottomSheet: View {
             )
             .dStyle(
                 font: typography.textSmall,
-                color: color.grayscalePlaceholder,
+                color: color.grayscalePlacehold,
                 alignment: .center
             )
             .padding(size.s16)

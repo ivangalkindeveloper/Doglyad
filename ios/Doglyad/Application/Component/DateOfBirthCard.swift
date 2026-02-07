@@ -35,7 +35,7 @@ struct DateOfBirthCard: View {
                 DText("(\(ageCount()) \(String(localized: .scanPatientDateOfBirthAgeLabel)))")
                     .dStyle(
                         font: typography.textXSmall,
-                        color: color.grayscalePlaceholder
+                        color: color.grayscalePlacehold
                     )
             }
             .frame(maxWidth: .infinity)

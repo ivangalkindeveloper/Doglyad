@@ -10,7 +10,7 @@ public struct DColor {
     public let grayscaleHeaderWeak: Color
     public let grayscaleBody: Color
     public let grayscaleLabel: Color
-    public let grayscalePlaceholder: Color
+    public let grayscalePlacehold: Color
     public let grayscaleLine: Color
     public let grayscaleInput: Color
     public let grayscaleBackgroundWeak: Color
@@ -57,7 +57,7 @@ public extension DColor {
         grayscaleHeaderWeak: Color(hex: 0x262338),
         grayscaleBody: Color(hex: 0x4E4B66),
         grayscaleLabel: Color(hex: 0x6E7191),
-        grayscalePlaceholder: Color(hex: 0xA0A3BD),
+        grayscalePlacehold: Color(hex: 0xA0A3BD),
         grayscaleLine: Color(hex: 0xD9DBE9),
         grayscaleInput: Color(hex: 0xEFF0F6),
         grayscaleBackgroundWeak: Color(hex: 0xF7F7FC),

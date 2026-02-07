@@ -11,6 +11,7 @@ public final class DDatabase: DDatabaseProtocol {
             ResearchDataDB.self,
             ResearchScanPhotoDB.self,
             ResearchModelConclusionDB.self,
+            NeuralModelSettingsDB.self,
         ])
         container = try ModelContainer(
             for: schema
@@ -30,6 +31,14 @@ private extension DDatabase {
     func setting<T>(_ value: T, _ key: DUserDefaultsKey) -> Void {
         defaults.set(value, forKey: key.rawValue)
     }
+
+    func removeValue(_ key: DUserDefaultsKey) {
+        defaults.removeObject(forKey: key.rawValue)
+    }
+
+    func getInt(_ key: DUserDefaultsKey) -> Int? {
+        defaults.object(forKey: key.rawValue) as? Int
+    }
 }
 
 // MARK: OnBoarding -
@@ -41,6 +50,34 @@ public extension DDatabase {
 
     func setOnBoardingCompleted(value: Bool) {
         setting(value, .isOnBoardingCompleted)
+    }
+}
+
+// MARK: NeuralModelSettings -
+
+public extension DDatabase {
+    func getNeuralModelTemplate() -> String? {
+        getString(.neuralModelTemplate)
+    }
+
+    func setNeuralModelTemplate(value: String?) {
+        if let value {
+            setting(value, .neuralModelTemplate)
+        } else {
+            removeValue(.neuralModelTemplate)
+        }
+    }
+
+    func getNeuralModelResponseLength() -> Int? {
+        getInt(.neuralModelResponseLength)
+    }
+
+    func setNeuralModelResponseLength(value: Int?) {
+        if let value {
+            setting(value, .neuralModelResponseLength)
+        } else {
+            removeValue(.neuralModelResponseLength)
+        }
     }
 }
 

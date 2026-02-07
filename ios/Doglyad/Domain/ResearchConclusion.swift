@@ -4,7 +4,8 @@ import Foundation
 struct ResearchConclusion: Identifiable, Codable {
     var id: UUID = .init()
     let date: Date
-    let data: ResearchData
+    let neuralModelSettings: NeuralModelSettings?
+    let researchData: ResearchData
     let actualModelConclusion: ResearchModelConclusion
     let previosModelConclusions: [ResearchModelConclusion]
 }
@@ -12,7 +13,8 @@ struct ResearchConclusion: Identifiable, Codable {
 private extension ResearchConclusion {
     enum CodingKeys: String, CodingKey {
         case date,
-             data,
+             researchData,
+             neuralModelSettings,
              actualModelConclusion,
              previosModelConclusions
     }
@@ -25,9 +27,10 @@ extension ResearchConclusion {
         ResearchConclusion(
             id: db.id,
             date: db.date,
-            data: ResearchData.fromDB(db.data),
+            neuralModelSettings: NeuralModelSettings.fromDB(db.neuralModelSettings),
+            researchData: ResearchData.fromDB(db.researchData),
             actualModelConclusion: ResearchModelConclusion.fromDB(db.actualModelConclusion),
-            previosModelConclusions: db.previosModelConclusions.map { ResearchModelConclusion.fromDB($0) }
+            previosModelConclusions: db.previosModelConclusions.map { ResearchModelConclusion.fromDB($0) },
         )
     }
 
@@ -35,7 +38,8 @@ extension ResearchConclusion {
         ResearchConclusionDB(
             id: id,
             date: date,
-            data: data.toDB(),
+            neuralModelSettings: neuralModelSettings?.toDB(),
+            researchData: researchData.toDB(),
             actualModelConclusion: actualModelConclusion.toDB(),
             previosModelConclusions: previosModelConclusions.map { $0.toDB() }
         )

@@ -77,11 +77,11 @@ struct ScanScreenView: View {
                 .ignoresSafeArea(.keyboard)
             }
         )
-        .onSubmit {
-            viewModel.onSubmit()
-        }
         .onTapGesture {
             viewModel.unfocus()
+        }
+        .onSubmit {
+            viewModel.onSubmit()
         }
         .onChange(of: focus, initial: true) { _, newValue in
             guard viewModel.focus != newValue else { return }

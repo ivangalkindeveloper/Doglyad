@@ -113,7 +113,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
                             placeholder,
                             text: $controller.text,
                             prompt: Text(placeholder)
-                                .foregroundStyle(color.grayscalePlaceholder)
+                                .foregroundStyle(color.grayscalePlacehold)
                             // axis: .vertical
                         )
                         Group {
@@ -177,7 +177,7 @@ private extension DTextField {
 
     var titleColor: Color {
         if controller.isError || controller.errorText != nil { return color.dangerDefault }
-        return isFocused ? color.primaryDefault : color.grayscalePlaceholder
+        return isFocused ? color.primaryDefault : color.grayscalePlacehold
     }
 
     var borderColor: Color {

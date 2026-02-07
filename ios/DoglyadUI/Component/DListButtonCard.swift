@@ -49,7 +49,7 @@ public struct DListButtonCard: View {
                     DText(description)
                         .dStyle(
                             font: typography.textXSmall,
-                            color: color.grayscalePlaceholder,
+                            color: color.grayscalePlacehold
                         )
                         .padding(.top, size.s4)
                 }

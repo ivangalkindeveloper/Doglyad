@@ -20,6 +20,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var database: DDatabase?
     var httpClient: DHttpClientProtocol?
     var sharedRepository: SharedRepositoryProtocol?
+    var modelRepository: ModelRepositoryProtocol?
     var diagnosticsRepository: DiagnosticsRepositoryProtocol?
     var researchTypes: [ResearchType]?
     var initialScreen: ScreenType?
@@ -32,6 +33,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             connectionManager: connectionManager!,
             permissionmanager: permissionmanager!,
             sharedRepository: sharedRepository!,
+            modelRepository: modelRepository!,
             diagnosticsRepository: diagnosticsRepository!,
             researchTypes: researchTypes!,
             initialScreen: initialScreen!,
@@ -97,6 +99,9 @@ extension InitializationProcess {
             title: "Repository",
             run: { process in
                 process.sharedRepository = SharedRepository(
+                    database: process.database!
+                )
+                process.modelRepository = ModelRepository(
                     database: process.database!
                 )
                 process.diagnosticsRepository = DiagnosticsRepository(

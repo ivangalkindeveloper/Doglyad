@@ -19,6 +19,9 @@ func previewableContainer(
     let sharedRepository = SharedRepository(
         database: database
     )
+    let modelRepository = ModelRepository(
+        database: database
+    )
     let diagnosticsRepository = DiagnosticsRepository(
         database: database,
         httpClient: httpClient
@@ -30,6 +33,7 @@ func previewableContainer(
         connectionManager: ConnectionManager(),
         permissionmanager: PermissionManager(),
         sharedRepository: sharedRepository,
+        modelRepository: modelRepository,
         diagnosticsRepository: diagnosticsRepository,
         researchTypes: ResearchType.allCases,
         initialScreen: screenType,
@@ -43,6 +47,7 @@ final class DependencyContainer: ObservableObject {
     let connectionManager: ConnectionManagerProtocol
     let permissionmanager: PermissionManagerProtocol
     let sharedRepository: SharedRepositoryProtocol
+    let modelRepository: ModelRepositoryProtocol
     let diagnosticsRepository: DiagnosticsRepositoryProtocol
     let researchTypes: [ResearchType]
     let initialScreen: ScreenType
@@ -54,6 +59,7 @@ final class DependencyContainer: ObservableObject {
         connectionManager: ConnectionManagerProtocol,
         permissionmanager: PermissionManagerProtocol,
         sharedRepository: SharedRepositoryProtocol,
+        modelRepository: ModelRepositoryProtocol,
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
         researchTypes: [ResearchType],
         initialScreen: ScreenType,
@@ -64,6 +70,7 @@ final class DependencyContainer: ObservableObject {
         self.connectionManager = connectionManager
         self.permissionmanager = permissionmanager
         self.sharedRepository = sharedRepository
+        self.modelRepository = modelRepository
         self.diagnosticsRepository = diagnosticsRepository
         self.researchTypes = researchTypes
         self.initialScreen = initialScreen

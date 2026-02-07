@@ -11,6 +11,16 @@ public protocol DDatabaseProtocol: AnyObject {
 
     func setSelectedUSResearchType(value: String)
 
+    // MARK: NeuralModelSettings -
+
+    func getNeuralModelTemplate() -> String?
+
+    func setNeuralModelTemplate(value: String?)
+
+    func getNeuralModelResponseLength() -> Int?
+
+    func setNeuralModelResponseLength(value: Int?)
+
     // MARK: ModelConclusion -
 
     @MainActor func getResearchConclusions() -> [ResearchConclusionDB]

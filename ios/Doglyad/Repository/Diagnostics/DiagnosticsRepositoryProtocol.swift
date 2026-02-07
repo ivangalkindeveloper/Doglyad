@@ -13,7 +13,7 @@ protocol DiagnosticsRepositoryProtocol: AnyObject {
     // MARK: Conclusion -
 
     func generateConclusion(
-        researchData: ResearchData,
+        request: ResearchRequest,
         locale: Locale
     ) async throws -> ResearchModelConclusion
 
