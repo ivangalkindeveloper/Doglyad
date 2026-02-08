@@ -2,8 +2,6 @@ import DoglyadUI
 import Router
 import SwiftUI
 
-final class HistoryScreenArguments: RouteArgumentsProtocol {}
-
 struct HistoryScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter

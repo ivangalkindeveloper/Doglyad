@@ -1,17 +1,6 @@
-import DoglyadNeuralModel
 import DoglyadUI
 import Router
 import SwiftUI
-
-final class ScanSpeechBottomSheetArguments: RouteArgumentsProtocol {
-    let onComplete: ((DResearchNeuralModelResponse) -> Void)?
-
-    init(
-        onComplete: ((DResearchNeuralModelResponse) -> Void)?
-    ) {
-        self.onComplete = onComplete
-    }
-}
 
 struct ScanSpeechBottomSheet: View {
     @EnvironmentObject private var container: DependencyContainer

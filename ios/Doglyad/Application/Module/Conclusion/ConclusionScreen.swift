@@ -2,16 +2,6 @@ import DoglyadUI
 import Router
 import SwiftUI
 
-final class ConclusionScreenArguments: RouteArgumentsProtocol {
-    let conclusion: ResearchConclusion
-
-    init(
-        conclusion: ResearchConclusion
-    ) {
-        self.conclusion = conclusion
-    }
-}
-
 struct ConclusionScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
