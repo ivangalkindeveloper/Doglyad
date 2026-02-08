@@ -10,11 +10,11 @@ func previewableContainer(
     arguments: RouteArgumentsProtocol?
 ) -> DependencyContainer {
     let environment = EnvironmentBase(
-        baseURL: URL(filePath: "")!
+        baseUrl: URL(filePath: "")!
     )
     let database = try! DDatabase()
     let httpClient = DHttpClient(
-        baseUrl: environment.baseURL.absoluteString
+        baseUrl: environment.baseUrl.absoluteString
     )
     let sharedRepository = SharedRepository(
         database: database

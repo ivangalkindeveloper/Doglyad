@@ -76,6 +76,12 @@ final class RouterBuilder: RouterBuilderProtocol {
             AnyView(
                 PermissionSpeechBottomSheet()
             )
+        case .webDocument:
+            AnyView(
+                WebDocumentBottomSheet(
+                    arguments: route.arguments as! WebDocumentBottomSheetArguments
+                )
+            )
         }
     }
 

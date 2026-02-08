@@ -12,6 +12,7 @@ enum SheetType: Hashable {
     case selectDateOfBirth
     case scanSpeech
     case permissionSpeech
+    case webDocument
 }
 
 enum FullScreenCoverType: Hashable {}

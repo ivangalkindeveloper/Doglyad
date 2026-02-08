@@ -715,6 +715,23 @@
         }
       }
     },
+    "privacyPolicyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy policy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Политика конфиденциальности"
+          }
+        }
+      }
+    },
     "researchTypeAbdominalCavity" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1701,19 +1718,53 @@
         }
       }
     },
+    "settingsPrivacyPolicyDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collection, use, storage, and protection of users' personal data"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сбор, использование, хранение и защиту персональных данных пользователей"
+          }
+        }
+      }
+    },
+    "settingsPrivacyPolicyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy policy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Политика конфиденциальности"
+          }
+        }
+      }
+    },
     "settingsTermsAndConditionsDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terms and conditions of use of the application, rights and obligations of the parties, ownership and limitations of liability"
+            "value" : "Terms and conditions of use of the application, rights, obligations of the parties and limitations of liability"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Условия и правила использования приложением, права и обязанности сторон, собственность и ограничения ответственности"
+            "value" : "Условия и правила использования приложением, права, обязанности сторон и ограничения ответственности"
           }
         }
       }
@@ -1799,6 +1850,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Запись голосом"
+          }
+        }
+      }
+    },
+    "termsAndConditionsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms & Conditions"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Условия и Положения"
           }
         }
       }

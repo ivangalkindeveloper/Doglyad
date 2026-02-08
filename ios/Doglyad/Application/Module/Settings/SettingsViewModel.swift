@@ -4,13 +4,16 @@ import SwiftUI
 
 @MainActor
 final class SettingsViewModel: ObservableObject {
+    private let environment: EnvironmentProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
     private let router: DRouter
 
     init(
+        environment: EnvironmentProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
         router: DRouter
     ) {
+        self.environment = environment
         self.diagnosticRepository = diagnosticRepository
         self.router = router
         load()
@@ -47,7 +50,29 @@ final class SettingsViewModel: ObservableObject {
         )
     }
 
-    func onTapTermsAndConditions() {}
+    func onTapPrivacyPolicy() {
+        router.push(
+            route: RouteSheet(
+                type: .webDocument,
+                arguments: WebDocumentBottomSheetArguments(
+                    url: environment.privacyPolicyUrl,
+                    title: .privacyPolicyTitle
+                )
+            )
+        )
+    }
+
+    func onTapTermsAndConditions() {
+        router.push(
+            route: RouteSheet(
+                type: .webDocument,
+                arguments: WebDocumentBottomSheetArguments(
+                    url: environment.termsAndConditionsUrl,
+                    title: .termsAndConditionsTitle
+                )
+            )
+        )
+    }
 
     func onTapAboutApp() {}
 }

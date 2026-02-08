@@ -12,6 +12,7 @@ struct SettingsScreen: View {
     var body: some View {
         SettingsScreenView(
             viewModel: SettingsViewModel(
+                environment: container.environment,
                 diagnosticRepository: container.diagnosticsRepository,
                 router: router
             )

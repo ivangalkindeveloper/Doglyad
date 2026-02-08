@@ -51,7 +51,7 @@ extension InitializationProcess {
                 let baseUrlString = Bundle.dictionaryString(.BASE_URL)
                 let baseUrl = URL(string: "\(baseUrlSchemaString)://\(baseUrlString)")!
                 process.environment = EnvironmentBase(
-                    baseURL: baseUrl
+                    baseUrl: baseUrl
                 )
             }
         ),
@@ -91,7 +91,7 @@ extension InitializationProcess {
             title: "HttpClient",
             run: { process in
                 process.httpClient = DHttpClient(
-                    baseUrl: process.environment!.baseURL.absoluteString
+                    baseUrl: process.environment!.baseUrl.absoluteString
                 )
             }
         ),
