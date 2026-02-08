@@ -45,7 +45,8 @@ struct WebDocumentBottomSheetWebView: UIViewRepresentable {
             decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
         ) {
             if let url = navigationAction.request.url,
-               url.scheme == "mailto" {
+               url.scheme == "mailto"
+            {
                 UIApplication.shared.open(url)
                 decisionHandler(.cancel)
                 return
