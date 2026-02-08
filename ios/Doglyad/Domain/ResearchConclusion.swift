@@ -30,7 +30,7 @@ extension ResearchConclusion {
             neuralModelSettings: NeuralModelSettings.fromDB(db.neuralModelSettings),
             researchData: ResearchData.fromDB(db.researchData),
             actualModelConclusion: ResearchModelConclusion.fromDB(db.actualModelConclusion),
-            previosModelConclusions: db.previosModelConclusions.map { ResearchModelConclusion.fromDB($0) },
+            previosModelConclusions: db.previosModelConclusions.map { ResearchModelConclusion.fromDB($0) }
         )
     }
 

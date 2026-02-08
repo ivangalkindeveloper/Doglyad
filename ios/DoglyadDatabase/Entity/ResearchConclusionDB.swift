@@ -16,7 +16,7 @@ public final class ResearchConclusionDB {
         neuralModelSettings: NeuralModelSettingsDB? = nil,
         researchData: ResearchDataDB,
         actualModelConclusion: ResearchModelConclusionDB,
-        previosModelConclusions: [ResearchModelConclusionDB] = [],
+        previosModelConclusions: [ResearchModelConclusionDB] = []
     ) {
         self.id = id
         self.date = date

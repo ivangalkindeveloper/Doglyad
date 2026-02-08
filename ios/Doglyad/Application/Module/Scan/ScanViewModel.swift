@@ -43,7 +43,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.messanger = messanger
         self.router = router
         super.init()
-        self.onInit()
+        onInit()
     }
 
     @Published var researchType = ResearchType.default
@@ -271,7 +271,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             return
         }
 
-        let neuralModelSettings = self.modelRepository.getNeuralModelSettings()
+        let neuralModelSettings = modelRepository.getNeuralModelSettings()
         let researchData = ResearchData(
             researchType: researchType,
             photos: photos,

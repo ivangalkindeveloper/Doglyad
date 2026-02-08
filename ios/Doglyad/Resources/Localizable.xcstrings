@@ -539,7 +539,7 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Шаблон используется нейронной моделью для формирования медицинского заключения.\nПример:"
           }
         }
@@ -556,7 +556,7 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "На основании представленных данных УЗИ-исследования:\n\nОрган(ы) исследования: {{organ}}\nПоложение и контуры: {{position_and_contours}}\nРазмеры: {{sizes}}\nЭхоструктура: {{echogenicity}}\nОчаговые образования: {{lesions}}\n\nЗаключение:\nУЗ-признаки {{diagnostic_findings}}.\n\nРекомендации:\n{{recommendations}}"
           }
         }

@@ -1,0 +1,55 @@
+---
+description: Project Overview
+alwaysApply: false
+---
+# Doglyad — AI-ассистент для анализа УЗИ-исследований
+
+Проект представляет собой AI-ассистента, который анализирует ультразвуковые снимки вместе с описанием анамнеза пациентов и генерирует медицинское заключение.
+
+## Архитектура
+
+- **Мобильное приложение** (iOS - SwiftUI, MVVM) — захват снимков, голосовой ввод для заполнения данных медицинского исследования, отображение заключений.
+- **Бэкенд** (Pyhton, FastAPI, Docker) — генерация заключений через LLM модели через vLLM.
+- **ML-пайплайны** — обучение NER-моделей и экспорт трансформеров c HuggingFace.
+
+## Структура директорий
+
+### `backend/` — Бэкенд
+
+- `backend/app/model/` — Pydantic-модели.
+- `backend/app/main.py` — FastAPI-приложение и эндпоинты.
+- `backend/docker-compose.yml`, `backend/Dockerfile` — контейнеризация.
+- `backend/requirements.txt` — зависимости бэкенда.
+
+### `ios/` — iOS-приложение
+
+- `ios/Doglyad/Application/Application/Application/` — точка входа и основные корневые вью и роутер.
+- `ios/Doglyad/Application/Component/` — переиспользуемые UI-компоненты на уровне приложения.
+- `ios/Doglyad/Application/Module/` — отображаемые модули, содержание экраны и вьюмодели приложения.
+- `ios/Doglyad/Assets.xcassets/` — иконка приложения и ассеты.
+- `ios/Doglyad/Core/` — DI-контейнер, Environment, инициализация и процесс инициализации.
+- `ios/Doglyad/Domain/` — доменные модели.
+- `ios/Doglyad/Repository/` — репозитории данных.
+- `ios/Doglyad/Resources/Localizable.xcstrings` — локализация проекта.
+- `ios/Doglyad/Utility/` — расширения и менеджеры.
+- `ios/DoglyadCamera/` — сущности для работы с камерой.
+- `ios/DoglyadDatabase/` — база данных на SwiftData, протоколы, сущности БД.
+- `ios/DoglyadNetwork/` — HTTP-клиент и реализация на Alamofire.
+- `ios/DoglyadNeuralModel/` — интеграция ML-моделей на MLX, Foundation Models.
+- `ios/DoglyadSpeech/` — сущности для распознавания речи.
+- `ios/DoglyadUI/` — базовая UI-библиотека и дизайн-система с темой и компонентами.
+- `ios/DoglyadUI/Resources/Assets.xcassets/Icon/` — SVG-иконки.
+- `ios/DoglyadUI/Resources/` — шрифты.
+- `ios/Config.xcconfig` — конфигурация сборки (BASE_URL).
+- `ios/GoogleService-Info.plist` — конфигурация для Firebase.
+
+### `ml/` — ML-пайплайны
+
+- `ml/research/ner/` — обучение и экспорт NER-модели.
+- `ml/research/ner/dataset/` — данные для обучения NER-модели.
+- `ml/research/transformer/` — экспорт трансформер-моделей.
+- `ml/requirements.txt` — зависимости ML-пайпайнов.
+
+### Корень проекта
+
+- `Makefile` — команды сборки, форматирования, скачивания моделей, запуска бэкенда

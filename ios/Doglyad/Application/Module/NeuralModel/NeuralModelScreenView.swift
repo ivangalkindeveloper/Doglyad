@@ -9,7 +9,7 @@ struct NeuralModelScreenView: View {
 
     @StateObject var viewModel: NeuralModelViewModel
     @FocusState private var focus: NeuralModelViewModel.Focus?
-    
+
     var body: some View {
         DScreen(
             title: .neuralModelTitle,
@@ -41,7 +41,7 @@ struct NeuralModelScreenView: View {
                         )
                         .padding(.horizontal, size.s8)
                         .padding(.bottom, size.s4)
-                    
+
                     DText(.neuralModelTemplateExampleDescription)
                         .dStyle(
                             font: typography.textXSmall,

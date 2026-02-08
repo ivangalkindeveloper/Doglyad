@@ -44,7 +44,7 @@ struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlacehold
                                 )
-                            
+
                             DText(conclusion.date.localized())
                                 .dStyle(
                                     font: typography.textSmall
@@ -56,7 +56,7 @@ struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlacehold
                                 )
-                            
+
                             DText(conclusion.researchData.patientName)
                                 .dStyle(
                                     font: typography.textSmall
@@ -68,7 +68,7 @@ struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlacehold
                                 )
-                            
+
                             DText(.forGender(conclusion.researchData.patientGender))
                                 .dStyle(
                                     font: typography.textSmall
@@ -80,7 +80,7 @@ struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlacehold
                                 )
-                            
+
                             DText(conclusion.researchData.patientDateOfBirth.localized())
                                 .dStyle(
                                     font: typography.textSmall
@@ -92,7 +92,7 @@ struct ConclusionScreenView: View {
                                     font: typography.linkSmall,
                                     color: color.grayscalePlacehold
                                 )
-                            
+
                             ExpandableText(
                                 text: conclusion.researchData.researchDescription,
                                 backgroundColor: color.grayscaleBackgroundWeak
@@ -105,7 +105,7 @@ struct ConclusionScreenView: View {
                                         font: typography.linkSmall,
                                         color: color.grayscalePlacehold
                                     )
-                                
+
                                 ExpandableText(
                                     text: patientComplaint,
                                     backgroundColor: color.grayscaleBackgroundWeak
@@ -119,7 +119,7 @@ struct ConclusionScreenView: View {
                                         font: typography.linkSmall,
                                         color: color.grayscalePlacehold
                                     )
-                                
+
                                 ExpandableText(
                                     text: additionalData,
                                     backgroundColor: color.grayscaleBackgroundWeak
@@ -134,7 +134,7 @@ struct ConclusionScreenView: View {
                                 .padding(.top, size.s16)
                                 .padding(.horizontal, size.s8)
                                 .padding(.bottom, size.s16)
-                            
+
                             ModelConclusionCard(
                                 conclusion: conclusion.actualModelConclusion
                             )
@@ -158,7 +158,7 @@ struct ConclusionScreenView: View {
                                     .padding(.top, size.s8)
                                     .padding(.horizontal, size.s8)
                                     .padding(.bottom, size.s16)
-                                
+
                                 ForEach(conclusion.previosModelConclusions) { modelConclusion in
                                     ModelConclusionCard(
                                         conclusion: modelConclusion

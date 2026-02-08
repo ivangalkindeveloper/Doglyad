@@ -15,7 +15,7 @@ struct DMessageCard: View {
             .font(typography.linkSmall)
             .foregroundStyle(theme.color.grayscaleBackground)
             .multilineTextAlignment(.leading)
-            
+
             if let description = message.description {
                 Text(
                     description

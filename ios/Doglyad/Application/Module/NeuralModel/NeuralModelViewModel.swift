@@ -23,7 +23,7 @@ final class NeuralModelViewModel: ObservableObject {
         self.modelRepository = modelRepository
         self.messanger = messanger
         self.router = router
-        self.onInit()
+        onInit()
     }
 
     @Published var focus: Focus? = nil

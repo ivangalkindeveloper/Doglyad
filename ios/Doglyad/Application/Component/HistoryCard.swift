@@ -39,7 +39,7 @@ struct HistoryCard: View {
                                 font: typography.linkSmall
                             )
                             .padding(.trailing, size.s8)
-                        
+
                         DText(conclusion.date.localized())
                             .dStyle(
                                 font: typography.textSmall,
@@ -52,7 +52,7 @@ struct HistoryCard: View {
                             font: typography.linkSmall,
                             color: color.grayscalePlacehold
                         )
-                    
+
                     DText(conclusion.researchData.researchDescription)
                         .dStyle(
                             font: typography.textSmall,
