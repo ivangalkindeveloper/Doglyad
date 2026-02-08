@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doglyad — Terms &amp; Conditions / Условия и Положения</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1d1d1f;
+            --muted: #6e6e73;
+            --border: #d2d2d7;
+            --accent: #610BEF;
+            --section-bg: #f5f5f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .effective-date {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        p, li {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        ul, ol {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .highlight {
+            background: var(--section-bg);
+            border-left: 3px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+        }
+
+        .highlight p {
+            margin-bottom: 0;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 3px solid #e6a817;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+        }
+
+        .warning p {
+            margin-bottom: 0;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer a {
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="switchLang('ru')">RU</button>
+            <button class="lang-btn" onclick="switchLang('en')">EN</button>
+        </div>
+
+        <!-- Russian Version -->
+        <div id="content-ru">
+            <h1>Условия и Положения</h1>
+            <p class="effective-date">Дата вступления в силу: 8 февраля 2026 г.</p>
+
+            <p>Настоящие Условия и Положения (далее — «Условия») регулируют использование мобильного приложения <strong>Doglyad</strong> (далее — «Приложение»). Загружая, устанавливая или используя Приложение, вы подтверждаете, что прочитали, поняли и согласны соблюдать настоящие Условия.</p>
+
+            <h2>1. Описание Приложения</h2>
+            <p>Doglyad — это AI-ассистент для медицинских специалистов, выполняющих ультразвуковые исследования (УЗИ). Приложение позволяет:</p>
+            <ul>
+                <li>Делать и прикреплять фотографии ультразвуковых сканов;</li>
+                <li>Вводить данные пациента и параметры исследования (имя, пол, дата рождения, рост, вес, жалобы, тип исследования, описание);</li>
+                <li>Генерировать медицинское заключение на основе введённых данных с помощью моделей искусственного интеллекта.</li>
+            </ul>
+
+            <h2>2. Целевая аудитория</h2>
+            <p>Приложение предназначено исключительно для использования квалифицированными медицинскими специалистами. Приложение не предназначено для использования пациентами или лицами без соответствующего медицинского образования.</p>
+
+            <h2>3. Отказ от медицинской ответственности</h2>
+            <div class="warning">
+                <p><strong>ВАЖНО:</strong> Приложение использует модели искусственного интеллекта для генерации медицинских заключений. Результаты генерации носят исключительно рекомендательный и вспомогательный характер.</p>
+            </div>
+            <ul>
+                <li>Сгенерированные заключения <strong>не являются окончательным медицинским диагнозом</strong> и не могут заменить профессиональное медицинское заключение;</li>
+                <li>Результаты работы искусственного интеллекта <strong>могут содержать неточности, ошибки и упущения</strong>;</li>
+                <li>Разработчик <strong>не несёт ответственности</strong> за корректность, полноту и точность сгенерированных заключений;</li>
+                <li>Разработчик <strong>не несёт ответственности</strong> за любые медицинские решения, принятые на основе результатов работы Приложения;</li>
+                <li>Разработчик <strong>не несёт ответственности</strong> за любой прямой, косвенный, случайный или последующий ущерб, возникший в результате использования или невозможности использования Приложения;</li>
+                <li>Ответственность за верификацию сгенерированного заключения и принятие окончательного медицинского решения <strong>несёт исключительно квалифицированный медицинский специалист</strong>.</li>
+            </ul>
+
+            <h2>4. Обязанности пользователя</h2>
+            <p>Используя Приложение, вы обязуетесь:</p>
+            <ul>
+                <li>Являться квалифицированным медицинским специалистом или действовать под руководством такового;</li>
+                <li>Не полагаться исключительно на результаты генерации ИИ при принятии медицинских решений;</li>
+                <li>Самостоятельно проверять и верифицировать все сгенерированные заключения перед их использованием;</li>
+                <li>Обеспечивать надлежащую защиту данных пациентов на своём устройстве;</li>
+                <li>Соблюдать применимое законодательство в области защиты персональных данных и медицинской тайны;</li>
+                <li>Не использовать Приложение в противоречии с его назначением.</li>
+            </ul>
+
+            <h2>5. Интеллектуальная собственность</h2>
+            <p>Все права на Приложение, включая его дизайн, код, алгоритмы и модели искусственного интеллекта, принадлежат разработчику. Пользователю предоставляется ограниченная, неисключительная, непередаваемая лицензия на использование Приложения в соответствии с настоящими Условиями.</p>
+
+            <h2>6. Ограничение ответственности</h2>
+            <div class="highlight">
+                <p>Приложение предоставляется «как есть» (as is) без каких-либо гарантий, явных или подразумеваемых, включая, но не ограничиваясь, гарантиями пригодности для конкретной цели, точности результатов и отсутствия ошибок. Разработчик не гарантирует бесперебойную и безошибочную работу Приложения.</p>
+            </div>
+            <p>В максимальной степени, допускаемой применимым законодательством, разработчик не несёт ответственности за любые убытки, возникшие в связи с использованием Приложения.</p>
+
+            <h2>7. Обработка данных</h2>
+            <p>Информация о сборе и обработке персональных данных приведена в нашей <a href="privacy-policy.html">Политике конфиденциальности</a>. Используя Приложение, вы подтверждаете своё согласие с Политикой конфиденциальности.</p>
+
+            <h2>8. Прекращение использования</h2>
+            <p>Мы оставляем за собой право ограничить или прекратить доступ к Приложению без предварительного уведомления в случае нарушения настоящих Условий. Пользователь может прекратить использование Приложения в любое время, удалив его со своего устройства.</p>
+
+            <h2>9. Изменения Условий</h2>
+            <p>Мы оставляем за собой право изменять настоящие Условия в любое время. Актуальная версия Условий всегда доступна на данной странице. Продолжая использовать Приложение после внесения изменений, вы принимаете обновлённые Условия.</p>
+
+            <h2>10. Применимое право</h2>
+            <p>Настоящие Условия регулируются и толкуются в соответствии с действующим законодательством. Все споры подлежат разрешению в соответствии с применимым законодательством.</p>
+
+            <h2>11. Контактная информация</h2>
+            <p>Если у вас есть вопросы относительно настоящих Условий, свяжитесь с нами:</p>
+            <p>Email: <a href="mailto:ivangalkindeveloper@gmail.com">ivangalkindeveloper@gmail.com</a></p>
+
+        </div>
+
+        <!-- English Version -->
+        <div id="content-en" class="hidden">
+            <h1>Terms &amp; Conditions</h1>
+            <p class="effective-date">Effective Date: February 8, 2026</p>
+
+            <p>These Terms and Conditions (hereinafter — the "Terms") govern the use of the <strong>Doglyad</strong> mobile application (hereinafter — the "Application"). By downloading, installing, or using the Application, you confirm that you have read, understood, and agree to comply with these Terms.</p>
+
+            <h2>1. Application Description</h2>
+            <p>Doglyad is an AI assistant for medical professionals performing ultrasound examinations. The Application allows users to:</p>
+            <ul>
+                <li>Capture and attach photographs of ultrasound scans;</li>
+                <li>Enter patient data and examination parameters (name, gender, date of birth, height, weight, complaints, examination type, description);</li>
+                <li>Generate medical reports based on the entered data using artificial intelligence models.</li>
+            </ul>
+
+            <h2>2. Target Audience</h2>
+            <p>The Application is intended exclusively for use by qualified medical professionals. The Application is not intended for use by patients or individuals without appropriate medical education.</p>
+
+            <h2>3. Medical Disclaimer</h2>
+            <div class="warning">
+                <p><strong>IMPORTANT:</strong> The Application uses artificial intelligence models to generate medical reports. The generated results are solely advisory and supplementary in nature.</p>
+            </div>
+            <ul>
+                <li>Generated reports <strong>do not constitute a final medical diagnosis</strong> and cannot replace a professional medical opinion;</li>
+                <li>Artificial intelligence results <strong>may contain inaccuracies, errors, and omissions</strong>;</li>
+                <li>The developer <strong>bears no responsibility</strong> for the correctness, completeness, or accuracy of generated reports;</li>
+                <li>The developer <strong>bears no responsibility</strong> for any medical decisions made based on the Application's results;</li>
+                <li>The developer <strong>bears no responsibility</strong> for any direct, indirect, incidental, or consequential damages arising from the use or inability to use the Application;</li>
+                <li>The responsibility for verifying the generated report and making the final medical decision <strong>rests solely with a qualified medical professional</strong>.</li>
+            </ul>
+
+            <h2>4. User Obligations</h2>
+            <p>By using the Application, you agree to:</p>
+            <ul>
+                <li>Be a qualified medical professional or act under the supervision of one;</li>
+                <li>Not rely solely on AI-generated results when making medical decisions;</li>
+                <li>Independently review and verify all generated reports before use;</li>
+                <li>Ensure proper protection of patient data on your device;</li>
+                <li>Comply with applicable data protection and medical confidentiality legislation;</li>
+                <li>Not use the Application in a manner inconsistent with its intended purpose.</li>
+            </ul>
+
+            <h2>5. Intellectual Property</h2>
+            <p>All rights to the Application, including its design, code, algorithms, and artificial intelligence models, belong to the developer. The user is granted a limited, non-exclusive, non-transferable license to use the Application in accordance with these Terms.</p>
+
+            <h2>6. Limitation of Liability</h2>
+            <div class="highlight">
+                <p>The Application is provided "as is" without any warranties, express or implied, including but not limited to warranties of fitness for a particular purpose, accuracy of results, and absence of errors. The developer does not guarantee uninterrupted or error-free operation of the Application.</p>
+            </div>
+            <p>To the maximum extent permitted by applicable law, the developer shall not be liable for any losses arising in connection with the use of the Application.</p>
+
+            <h2>7. Data Processing</h2>
+            <p>Information about the collection and processing of personal data is provided in our <a href="privacy-policy.html">Privacy Policy</a>. By using the Application, you confirm your agreement with the Privacy Policy.</p>
+
+            <h2>8. Termination</h2>
+            <p>We reserve the right to restrict or terminate access to the Application without prior notice in case of violation of these Terms. The user may discontinue use of the Application at any time by deleting it from their device.</p>
+
+            <h2>9. Changes to Terms</h2>
+            <p>We reserve the right to modify these Terms at any time. The current version of the Terms is always available on this page. By continuing to use the Application after changes are made, you accept the updated Terms.</p>
+
+            <h2>10. Governing Law</h2>
+            <p>These Terms shall be governed by and construed in accordance with applicable law. All disputes shall be resolved in accordance with applicable legislation.</p>
+
+            <h2>11. Contact Information</h2>
+            <p>If you have questions regarding these Terms, please contact us:</p>
+            <p>Email: <a href="mailto:ivangalkindeveloper@gmail.com">ivangalkindeveloper@gmail.com</a></p>
+
+        </div>
+    </div>
+
+    <script>
+        function switchLang(lang) {
+            document.getElementById('content-ru').classList.toggle('hidden', lang !== 'ru');
+            document.getElementById('content-en').classList.toggle('hidden', lang !== 'en');
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            document.querySelector('.lang-btn[onclick="switchLang(\'' + lang + '\')"]').classList.add('active');
+            document.documentElement.lang = lang;
+            localStorage.setItem('doglyad-lang', lang);
+        }
+
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var lang = params.get('lang') || localStorage.getItem('doglyad-lang') || 'ru';
+            if (lang !== 'ru' && lang !== 'en') lang = 'ru';
+            switchLang(lang);
+        })();
+    </script>
+</body>
+</html>

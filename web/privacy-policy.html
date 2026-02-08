@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doglyad — Privacy Policy / Политика конфиденциальности</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1d1d1f;
+            --muted: #6e6e73;
+            --border: #d2d2d7;
+            --accent: #610BEF;
+            --section-bg: #f5f5f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .effective-date {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        p, li {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        ul {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .highlight {
+            background: var(--section-bg);
+            border-left: 3px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+        }
+
+        .highlight p {
+            margin-bottom: 0;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer a {
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="switchLang('ru')">RU</button>
+            <button class="lang-btn" onclick="switchLang('en')">EN</button>
+        </div>
+
+        <!-- Russian Version -->
+        <div id="content-ru">
+            <h1>Политика конфиденциальности</h1>
+            <p class="effective-date">Дата вступления в силу: 8 февраля 2026 г.</p>
+
+            <p>Настоящая Политика конфиденциальности описывает, каким образом мобильное приложение <strong>Doglyad</strong> (далее — «Приложение») осуществляет сбор, использование, хранение и защиту персональных данных пользователей. Используя Приложение, вы соглашаетесь с условиями данной Политики.</p>
+
+            <h2>1. Какие данные мы собираем</h2>
+            <p>Приложение предназначено для помощи медицинским специалистам в формировании заключений по результатам ультразвуковых исследований (УЗИ). В процессе работы Приложение может собирать и обрабатывать следующие данные пациентов:</p>
+            <ul>
+                <li><strong>Тип ультразвукового исследования</strong> (например: щитовидная железа, брюшная полость, эхокардиография, суставы и др.);</li>
+                <li><strong>Снимки УЗИ</strong> — фотографии ультразвуковых сканов;</li>
+                <li><strong>Имя пациента</strong> — используется для идентификации исследования в рамках рабочего процесса врача;</li>
+                <li><strong>Пол пациента</strong> (мужской/женский);</li>
+                <li><strong>Дата рождения пациента</strong>;</li>
+                <li><strong>Рост и вес пациента</strong>;</li>
+                <li><strong>Жалобы пациента</strong>;</li>
+                <li><strong>Описание исследования</strong> — текстовое описание результатов УЗИ;</li>
+                <li><strong>Дополнительные данные</strong> — любая дополнительная информация, введённая специалистом.</li>
+            </ul>
+
+            <h2>2. Цели обработки данных</h2>
+            <p>Собранные данные используются исключительно для:</p>
+            <ul>
+                <li>Генерации медицинского заключения на основе предоставленных данных исследования с помощью моделей искусственного интеллекта;</li>
+                <li>Хранения истории исследований на устройстве пользователя для последующего доступа;</li>
+                <li>Повышения качества работы Приложения.</li>
+            </ul>
+
+            <h2>3. Хранение данных</h2>
+            <p>Данные исследований хранятся локально на устройстве пользователя. Для генерации заключений данные могут передаваться на сервер для обработки моделью искусственного интеллекта. Передача данных осуществляется по защищённому каналу связи (HTTPS).</p>
+            <p>Мы не храним данные пациентов на серверах дольше, чем это необходимо для генерации медицинского заключения.</p>
+
+            <h2>4. Передача данных третьим лицам</h2>
+            <p>Мы не продаём, не передаём и не раскрываем персональные данные пациентов третьим лицам, за исключением случаев, когда это:</p>
+            <ul>
+                <li>Необходимо для функционирования Приложения (передача данных на сервер для генерации медицинского заключения);</li>
+                <li>Требуется в соответствии с законодательством.</li>
+            </ul>
+
+            <h2>5. Безопасность данных</h2>
+            <p>Мы принимаем разумные технические и организационные меры для защиты данных от несанкционированного доступа, утраты или изменения. Однако ни одна система передачи данных через Интернет не может гарантировать абсолютную безопасность.</p>
+
+            <h2>6. Права пользователя</h2>
+            <p>Пользователь имеет право:</p>
+            <ul>
+                <li>Удалить все данные исследований из Приложения в любое время;</li>
+                <li>Запросить информацию о собранных данных;</li>
+                <li>Отказаться от использования Приложения.</li>
+            </ul>
+
+            <h2>7. Данные детей</h2>
+            <p>Приложение предназначено для использования медицинскими специалистами. Мы не собираем намеренно данные от лиц младше 18 лет в качестве пользователей Приложения. Данные несовершеннолетних пациентов вносятся исключительно медицинским специалистом в рамках профессиональной деятельности.</p>
+
+            <h2>8. Использование искусственного интеллекта</h2>
+            <div class="highlight">
+                <p>Приложение использует модели искусственного интеллекта для генерации медицинских заключений. Сгенерированные заключения носят рекомендательный характер и <strong>не являются окончательным медицинским диагнозом</strong>. Результаты работы ИИ могут содержать неточности. Ответственность за принятие медицинских решений несёт исключительно квалифицированный медицинский специалист.</p>
+            </div>
+
+            <h2>9. Изменения в Политике конфиденциальности</h2>
+            <p>Мы оставляем за собой право вносить изменения в настоящую Политику. Актуальная версия всегда доступна на данной странице. При существенных изменениях мы уведомим пользователей через Приложение.</p>
+
+            <h2>10. Контактная информация</h2>
+            <p>Если у вас есть вопросы относительно данной Политики конфиденциальности, свяжитесь с нами:</p>
+            <p>Email: <a href="mailto:ivangalkindeveloper@gmail.com">ivangalkindeveloper@gmail.com</a></p>
+
+        </div>
+
+        <!-- English Version -->
+        <div id="content-en" class="hidden">
+            <h1>Privacy Policy</h1>
+            <p class="effective-date">Effective Date: February 8, 2026</p>
+
+            <p>This Privacy Policy describes how the <strong>Doglyad</strong> mobile application (hereinafter — the "Application") collects, uses, stores, and protects users' personal data. By using the Application, you agree to the terms of this Policy.</p>
+
+            <h2>1. Data We Collect</h2>
+            <p>The Application is designed to assist medical professionals in generating reports based on ultrasound examination (ultrasound) results. During operation, the Application may collect and process the following patient data:</p>
+            <ul>
+                <li><strong>Type of ultrasound examination</strong> (e.g., thyroid gland, abdominal cavity, echocardiography, joints, etc.);</li>
+                <li><strong>Ultrasound images</strong> — photographs of ultrasound scans;</li>
+                <li><strong>Patient name</strong> — used to identify the examination within the physician's workflow;</li>
+                <li><strong>Patient gender</strong> (male/female);</li>
+                <li><strong>Patient date of birth</strong>;</li>
+                <li><strong>Patient height and weight</strong>;</li>
+                <li><strong>Patient complaints</strong>;</li>
+                <li><strong>Examination description</strong> — textual description of ultrasound results;</li>
+                <li><strong>Additional data</strong> — any supplementary information entered by the specialist.</li>
+            </ul>
+
+            <h2>2. Purposes of Data Processing</h2>
+            <p>The collected data is used exclusively for:</p>
+            <ul>
+                <li>Generating medical reports based on the provided examination data using artificial intelligence models;</li>
+                <li>Storing examination history on the user's device for subsequent access;</li>
+                <li>Improving the quality of the Application.</li>
+            </ul>
+
+            <h2>3. Data Storage</h2>
+            <p>Examination data is stored locally on the user's device. To generate reports, data may be transmitted to a server for processing by an artificial intelligence model. Data transmission is carried out over a secure communication channel (HTTPS).</p>
+            <p>We do not store patient data on servers longer than necessary for medical report generation.</p>
+
+            <h2>4. Data Sharing with Third Parties</h2>
+            <p>We do not sell, transfer, or disclose patients' personal data to third parties, except when:</p>
+            <ul>
+                <li>It is necessary for the functioning of the Application (data transmission to the server for medical report generation);</li>
+                <li>It is required by applicable law.</li>
+            </ul>
+
+            <h2>5. Data Security</h2>
+            <p>We take reasonable technical and organizational measures to protect data from unauthorized access, loss, or alteration. However, no data transmission system over the Internet can guarantee absolute security.</p>
+
+            <h2>6. User Rights</h2>
+            <p>The user has the right to:</p>
+            <ul>
+                <li>Delete all examination data from the Application at any time;</li>
+                <li>Request information about collected data;</li>
+                <li>Discontinue use of the Application.</li>
+            </ul>
+
+            <h2>7. Children's Data</h2>
+            <p>The Application is intended for use by medical professionals. We do not knowingly collect data from individuals under the age of 18 as Application users. Data of minor patients is entered exclusively by medical professionals in the course of their professional activities.</p>
+
+            <h2>8. Use of Artificial Intelligence</h2>
+            <div class="highlight">
+                <p>The Application uses artificial intelligence models to generate medical reports. Generated reports are advisory in nature and <strong>do not constitute a final medical diagnosis</strong>. AI-generated results may contain inaccuracies. The responsibility for making medical decisions rests solely with a qualified medical professional.</p>
+            </div>
+
+            <h2>9. Changes to the Privacy Policy</h2>
+            <p>We reserve the right to make changes to this Policy. The current version is always available on this page. In case of significant changes, we will notify users through the Application.</p>
+
+            <h2>10. Contact Information</h2>
+            <p>If you have questions regarding this Privacy Policy, please contact us:</p>
+            <p>Email: <a href="mailto:ivangalkindeveloper@gmail.com">ivangalkindeveloper@gmail.com</a></p>
+
+        </div>
+    </div>
+
+    <script>
+        function switchLang(lang) {
+            document.getElementById('content-ru').classList.toggle('hidden', lang !== 'ru');
+            document.getElementById('content-en').classList.toggle('hidden', lang !== 'en');
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            document.querySelector('.lang-btn[onclick="switchLang(\'' + lang + '\')"]').classList.add('active');
+            document.documentElement.lang = lang;
+            localStorage.setItem('doglyad-lang', lang);
+        }
+
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var lang = params.get('lang') || localStorage.getItem('doglyad-lang') || 'ru';
+            if (lang !== 'ru' && lang !== 'en') lang = 'ru';
+            switchLang(lang);
+        })();
+    </script>
+</body>
+</html>
