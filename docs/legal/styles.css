@@ -181,31 +181,31 @@ a:hover {
 
 @media (max-width: 480px) {
     .container {
-        padding: 16px 12px 40px;
+        padding: 16px 20px 40px;
     }
 
     h1 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     h2 {
-        font-size: 16px;
+        font-size: 14px;
         margin-top: 24px;
         margin-bottom: 8px;
     }
 
     p, li {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .effective-date {
-        font-size: 12px;
+        font-size: 11px;
         margin-bottom: 24px;
     }
 
     .lang-btn {
         padding: 6px 14px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .lang-switch {
