@@ -29,6 +29,7 @@ struct WebDocumentBottomSheetView: View {
                         .shimmering()
                 }
             }
+            .edgesIgnoringSafeArea(.bottom)
         }
         .animation(
             theme.animation,
