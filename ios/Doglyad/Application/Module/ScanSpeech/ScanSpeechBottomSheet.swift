@@ -97,3 +97,12 @@ private struct ScanSpeechBottomSheetView: View {
         )
     }
 }
+
+#Preview {
+    ScanSpeechBottomSheet(
+        arguments: ScanSpeechBottomSheetArguments(
+            onComplete: nil
+        )
+    )
+    .previewable()
+}

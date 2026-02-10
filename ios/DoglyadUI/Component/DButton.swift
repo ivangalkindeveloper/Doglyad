@@ -84,48 +84,47 @@ private struct DTextModifier: ViewModifier {
 #Preview {
     @Previewable @State var isLoading = false
 
-    DThemeWrapperView {
-        DScreen { _ in
-            VStack {
-                DButton(
-                    image: .bag,
-                    title: "Primary button",
-                    action: { isLoading = isLoading },
-                    isLoading: isLoading
-                )
-                .dStyle(.primaryButton)
+    DScreen { _ in
+        VStack {
+            DButton(
+                image: .bag,
+                title: "Primary button",
+                action: { isLoading = isLoading },
+                isLoading: isLoading
+            )
+            .dStyle(.primaryButton)
 
-                DButton(
-                    image: .camera,
-                    action: { isLoading = isLoading },
-                    isLoading: isLoading
-                )
-                .dStyle(.primaryCircle)
+            DButton(
+                image: .camera,
+                action: { isLoading = isLoading },
+                isLoading: isLoading
+            )
+            .dStyle(.primaryCircle)
 
-                DButton(
-                    image: .alertInfo,
-                    title: "Primary chip",
-                    action: { isLoading = isLoading },
-                    isLoading: isLoading
-                )
-                .dStyle(.primaryChip)
+            DButton(
+                image: .alertInfo,
+                title: "Primary chip",
+                action: { isLoading = isLoading },
+                isLoading: isLoading
+            )
+            .dStyle(.primaryChip)
 
-                DButton(
-                    image: .alertInfo,
-                    action: { isLoading = isLoading },
-                    isLoading: isLoading
-                )
-                .dStyle(.circle)
+            DButton(
+                image: .alertInfo,
+                action: { isLoading = isLoading },
+                isLoading: isLoading
+            )
+            .dStyle(.circle)
 
-                DButton(
-                    image: .atSign,
-                    title: "Some card",
-                    action: { isLoading = isLoading },
-                    isLoading: isLoading
-                )
-                .dStyle(.card)
-            }
-            .padding()
+            DButton(
+                image: .atSign,
+                title: "Some card",
+                action: { isLoading = isLoading },
+                isLoading: isLoading
+            )
+            .dStyle(.card)
         }
+        .padding()
     }
+    .dThemeWrapper()
 }

@@ -60,11 +60,10 @@ private extension DateOfBirthCard {
         return formatter.date(from: dateString)!
     }()
 
-    DThemeWrapperView {
-        DateOfBirthCard(
-            date: date,
-            action: {}
-        )
-        .padding()
-    }
+    DateOfBirthCard(
+        date: date,
+        action: {}
+    )
+    .padding()
+    .dThemeWrapper()
 }

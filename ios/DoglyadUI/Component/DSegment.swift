@@ -108,21 +108,20 @@ public struct DSegmentButtonStyle: ButtonStyle {
 #Preview {
     @Previewable @State var value = ""
 
-    DThemeWrapperView {
-        DScreen { _ in
-            DSegment<String>(
-                currentValue: value,
-                items: [
-                    DSegmentItem<String>(value: "Apple", title: "Value - Apple", action: {
-                        value = "Apple"
-                    }),
-                    DSegmentItem<String>(value: "Cherry", title: "Value - Cherry", action: {
-                        value = "Cherry"
-                    }),
-                ]
-            )
-            .redacted(reason: .placeholder)
-            .padding()
-        }
+    DScreen { _ in
+        DSegment<String>(
+            currentValue: value,
+            items: [
+                DSegmentItem<String>(value: "Apple", title: "Value - Apple", action: {
+                    value = "Apple"
+                }),
+                DSegmentItem<String>(value: "Cherry", title: "Value - Cherry", action: {
+                    value = "Cherry"
+                }),
+            ]
+        )
+        .redacted(reason: .placeholder)
+        .padding()
     }
+    .dThemeWrapper()
 }

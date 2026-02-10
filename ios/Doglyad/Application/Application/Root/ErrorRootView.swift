@@ -102,11 +102,8 @@ private struct ErrorView: View {
 }
 
 #Preview {
-    ApplicationWrapperView {
-        DThemeWrapperView {
-            ErrorRootView(
-                error: InitializationError.noInternetConnection
-            )
-        }
-    }
+    ErrorRootView(
+        error: InitializationError.noInternetConnection
+    )
+    .previewable()
 }

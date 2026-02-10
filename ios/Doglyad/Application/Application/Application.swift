@@ -8,18 +8,14 @@ struct Application: App {
 
     var body: some Scene {
         WindowGroup {
-            ApplicationWrapperView(
-                viewModel: viewModel
-            ) {
-                DThemeWrapperView {
-                    AnyView(
-                        self.viewModel.root
-                    )
-                    .onAppear {
-                        self.viewModel.initialize()
-                    }
-                }
+            AnyView(
+                self.viewModel.root
+            )
+            .onAppear {
+                self.viewModel.initialize()
             }
+            .dThemeWrapper()
         }
+        .environmentObject(viewModel)
     }
 }

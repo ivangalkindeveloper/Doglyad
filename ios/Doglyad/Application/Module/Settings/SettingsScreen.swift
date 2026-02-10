@@ -17,3 +17,10 @@ struct SettingsScreen: View {
         )
     }
 }
+
+#Preview {
+    SettingsScreen(
+        arguments: nil
+    )
+    .previewable()
+}

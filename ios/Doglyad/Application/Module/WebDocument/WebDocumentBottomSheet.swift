@@ -12,3 +12,13 @@ struct WebDocumentBottomSheet: View {
         )
     }
 }
+
+#Preview {
+    WebDocumentBottomSheet(
+        arguments: WebDocumentBottomSheetArguments(
+            url: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy/")!,
+            title: .privacyPolicyTitle
+        )
+    )
+    .previewable()
+}

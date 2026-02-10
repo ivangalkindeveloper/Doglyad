@@ -59,14 +59,13 @@ public struct DListButtonCard: View {
 }
 
 #Preview {
-    DThemeWrapperView {
-        DListButtonCard(
-            title: "Gland research",
-            action: {
-                print("Gland")
-            },
-            isSelected: true
-        )
-        .padding()
-    }
+    DListButtonCard(
+        title: "Gland research",
+        action: {
+            print("Gland")
+        },
+        isSelected: true
+    )
+    .padding()
+    .dThemeWrapper()
 }

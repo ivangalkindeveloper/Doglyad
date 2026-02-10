@@ -52,3 +52,10 @@ struct SelectResearchTypeBottomSheet: View {
         }
     }
 }
+
+#Preview {
+    SelectResearchTypeBottomSheet(
+        arguments: nil
+    )
+    .previewable()
+}

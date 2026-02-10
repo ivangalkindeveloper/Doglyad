@@ -5,42 +5,6 @@ import Router
 import SwiftData
 import SwiftUI
 
-func previewableContainer(
-    screenType: ScreenType,
-    arguments: RouteArgumentsProtocol?
-) -> DependencyContainer {
-    let environment = EnvironmentBase(
-        baseUrl: URL(filePath: "")!
-    )
-    let database = try! DDatabase()
-    let httpClient = DHttpClient(
-        baseUrl: environment.baseUrl.absoluteString
-    )
-    let sharedRepository = SharedRepository(
-        database: database
-    )
-    let modelRepository = ModelRepository(
-        database: database
-    )
-    let diagnosticsRepository = DiagnosticsRepository(
-        database: database,
-        httpClient: httpClient
-    )
-
-    return DependencyContainer(
-        environment: environment,
-        researchNeuralModel: nil,
-        connectionManager: ConnectionManager(),
-        permissionmanager: PermissionManager(),
-        sharedRepository: sharedRepository,
-        modelRepository: modelRepository,
-        diagnosticsRepository: diagnosticsRepository,
-        researchTypes: ResearchType.allCases,
-        initialScreen: screenType,
-        initialScreenArguments: arguments
-    )
-}
-
 final class DependencyContainer: ObservableObject {
     let environment: EnvironmentProtocol
     let researchNeuralModel: DResearchNeuralModelProtocol?
@@ -78,4 +42,39 @@ final class DependencyContainer: ObservableObject {
     }
 
     var isResearchNeuralModelAvailable: Bool { researchNeuralModel != nil }
+}
+
+extension DependencyContainer {
+    static var previewable: DependencyContainer {
+        let environment = EnvironmentBase(
+            baseUrl: URL(filePath: "")!
+        )
+        let database = try! DDatabase()
+        let httpClient = DHttpClient(
+            baseUrl: environment.baseUrl.absoluteString
+        )
+        let sharedRepository = SharedRepository(
+            database: database
+        )
+        let modelRepository = ModelRepository(
+            database: database
+        )
+        let diagnosticsRepository = DiagnosticsRepository(
+            database: database,
+            httpClient: httpClient
+        )
+
+        return DependencyContainer(
+            environment: environment,
+            researchNeuralModel: nil,
+            connectionManager: ConnectionManager(),
+            permissionmanager: PermissionManager(),
+            sharedRepository: sharedRepository,
+            modelRepository: modelRepository,
+            diagnosticsRepository: diagnosticsRepository,
+            researchTypes: ResearchType.allCases,
+            initialScreen: .onBoarding,
+            initialScreenArguments: nil
+        )
+    }
 }

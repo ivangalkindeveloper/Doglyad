@@ -1,21 +1,13 @@
 import SwiftUI
 internal import SwiftMessages
 
-public struct DMessageView<Content: View>: View {
+private struct DMessageModifier: ViewModifier {
     @EnvironmentObject private var theme: DTheme
 
     @StateObject var messager = DMessager()
 
-    @ViewBuilder let content: () -> Content
-
-    public init(
-        content: @escaping () -> Content
-    ) {
-        self.content = content
-    }
-
-    public var body: some View {
-        content()
+    func body(content: Content) -> some View {
+        content
             .swiftMessage(
                 message: $messager.message
             ) { message in
@@ -27,5 +19,11 @@ public struct DMessageView<Content: View>: View {
                 .padding(.horizontal, theme.size.s16)
             }
             .environmentObject(messager)
+    }
+}
+
+public extension View {
+    func dMessage() -> some View {
+        modifier(DMessageModifier())
     }
 }

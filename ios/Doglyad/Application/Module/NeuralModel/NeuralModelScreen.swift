@@ -18,3 +18,10 @@ struct NeuralModelScreen: View {
         )
     }
 }
+
+#Preview {
+    NeuralModelScreen(
+        arguments: nil
+    )
+    .previewable()
+}

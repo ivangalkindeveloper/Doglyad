@@ -19,8 +19,7 @@ struct ConclusionScreen: View {
 }
 
 #Preview {
-    PreviewWrapperView(
-        screenType: .conclusion,
+    ConclusionScreen(
         arguments: ConclusionScreenArguments(
             conclusion: ResearchConclusion(
                 date: Date(),
@@ -100,4 +99,5 @@ struct ConclusionScreen: View {
             )
         )
     )
+    .previewable()
 }

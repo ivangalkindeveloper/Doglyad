@@ -19,8 +19,8 @@ struct OnBoardingScreen: View {
 }
 
 #Preview {
-    PreviewWrapperView(
-        screenType: .onBoarding,
+    OnBoardingScreen(
         arguments: nil
     )
+    .previewable()
 }

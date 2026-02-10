@@ -20,3 +20,10 @@ struct ScanScreen: View {
         )
     }
 }
+
+#Preview {
+    ScanScreen(
+        arguments: nil
+    )
+    .previewable()
+}

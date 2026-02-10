@@ -53,15 +53,14 @@ private extension DMessageCard {
 }
 
 #Preview {
-    DThemeWrapperView {
-        DMessageCard(
-            theme: DTheme.light,
-            message: DMessage(
-                type: .error,
-                title: "Title",
-                description: "Description"
-            )
+    DMessageCard(
+        theme: DTheme.light,
+        message: DMessage(
+            type: .error,
+            title: "Title",
+            description: "Description"
         )
-        .padding()
-    }
+    )
+    .padding()
+    .dThemeWrapper()
 }

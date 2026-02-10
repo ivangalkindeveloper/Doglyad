@@ -9,9 +9,7 @@ final class ApplicationViewModel: ObservableObject {
     func initialize() {
         isLoading = true
         DependencyInitializer<InitializationProcess, DependencyContainer>(
-            createProcess: {
-                InitializationProcess()
-            },
+            createProcess: { InitializationProcess() },
             steps: InitializationProcess.steps,
             onSuccess: { [weak self] result, _ in
                 guard let self = self else { return }

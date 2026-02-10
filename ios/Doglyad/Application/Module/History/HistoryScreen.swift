@@ -18,8 +18,8 @@ struct HistoryScreen: View {
 }
 
 #Preview {
-    PreviewWrapperView(
-        screenType: .history,
+    HistoryScreen(
         arguments: nil
     )
+    .previewable()
 }

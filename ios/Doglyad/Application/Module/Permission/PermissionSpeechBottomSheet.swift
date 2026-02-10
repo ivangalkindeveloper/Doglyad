@@ -8,3 +8,8 @@ struct PermissionSpeechBottomSheet: View {
         )
     }
 }
+
+#Preview {
+    PermissionSpeechBottomSheet()
+        .previewable()
+}

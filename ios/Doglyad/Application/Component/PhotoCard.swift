@@ -56,11 +56,10 @@ struct PhotoCard: View {
 }
 
 #Preview {
-    DThemeWrapperView {
-        PhotoCard(
-            image: .alertInfo,
-            actionDelete: {}
-        )
-        .padding()
-    }
+    PhotoCard(
+        image: .alertInfo,
+        actionDelete: {}
+    )
+    .padding()
+    .dThemeWrapper()
 }
