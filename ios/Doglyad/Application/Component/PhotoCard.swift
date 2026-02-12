@@ -21,11 +21,12 @@ struct PhotoCard: View {
     var body: some View {
         Image(uiImage: image)
             .resizable()
+            .aspectRatio(contentMode: .fill)
             .frame(
                 width: size.s64,
                 height: size.s64
             )
-            .aspectRatio(contentMode: .fill)
+            .clipped()
             .cornerRadius(size.adaptiveCornerRadius / 4)
             .if(actionDelete != nil) { view in
                 view

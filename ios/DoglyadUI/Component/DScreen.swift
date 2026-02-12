@@ -48,10 +48,10 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
     }
 
     public var body: some View {
-        NavigationView {
-            GeometryReader { proxy in
-                let safeAreaInsetTop = proxy.safeAreaInsets.top
+        GeometryReader { proxy in
+            let safeAreaInsetTop = proxy.safeAreaInsets.top
 
+            NavigationView {
                 ZStack(
                     alignment: .top
                 ) {
@@ -59,21 +59,21 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
                     if isShowsToolbar {
                         toolbarView(safeAreaInsetTop)
                             .onPreferenceChange(ToolbarHeightPreferenceKey.self) { value in
-                                if toolbarHeight != value {
-                                    toolbarHeight = value
-                                }
+                                guard toolbarHeight != value else { return }
+                                toolbarHeight = value
                             }
                             .onChange(of: isShowsToolbar) { _, value in
                                 if !value {
                                     toolbarHeight = 0
                                 }
                             }
+                            .ignoresSafeArea(.container, edges: [.top])
                     }
                 }
             }
+            .navigationBarBackButtonHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
         }
-        .navigationBarBackButtonHidden(true)
-        .toolbar(.hidden, for: .navigationBar)
     }
 
     private var isShowsToolbar: Bool {
@@ -136,7 +136,6 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
                     )
             }
         }
-        .ignoresSafeArea(.container, edges: [.top])
     }
 
     @ViewBuilder

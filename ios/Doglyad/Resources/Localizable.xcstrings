@@ -296,13 +296,30 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Response date"
+            "value" : "Response date:"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дата ответа"
+            "value" : "Дата ответа:"
+          }
+        }
+      }
+    },
+    "conclusionResponseModelLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель:"
           }
         }
       }

@@ -30,8 +30,8 @@ struct ConclusionScreenView: View {
                             .dStyle(
                                 font: typography.linkLarge
                             )
-                            .padding(size.s16)
-                            .padding(.horizontal, size.s8)
+                            .padding(.horizontal, size.s16)
+                            .padding(.bottom, size.s16)
 
                         ConclusionPhotosView()
 
@@ -167,10 +167,10 @@ struct ConclusionScreenView: View {
                                 }
                             }
                         }
-                        .padding(.top, size.s16 + toolbarInset)
                         .padding(.horizontal, size.s16)
-                        .padding(.bottom, size.s128)
                     }
+                    .padding(.top, size.s16 + toolbarInset)
+                    .padding(.bottom, size.s128)
                 }
             }
         }

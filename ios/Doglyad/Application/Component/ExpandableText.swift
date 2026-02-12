@@ -9,8 +9,19 @@ struct ExpandableText: View {
 
     let text: String
     let backgroundColor: Color
-
-    private let collapsedLineLimit: Int = 3
+    let collapsedLineLimit: Int
+    
+    init(
+        text: String,
+        backgroundColor: Color,
+        collapsedLineLimit: Int = 3
+    ) {
+        self.text = text
+        self.backgroundColor = backgroundColor
+        self.collapsedLineLimit = collapsedLineLimit
+        self.isExpanded = isExpanded
+    }
+    
     @State private var isExpanded = false
 
     var body: some View {

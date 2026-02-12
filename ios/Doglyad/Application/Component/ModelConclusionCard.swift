@@ -18,11 +18,29 @@ struct ModelConclusionCard: View {
                 .dStyle(
                     font: typography.linkSmall
                 )
-
+            
             HStack(
                 alignment: .bottom,
                 spacing: .zero
             ) {
+                
+                DText(.conclusionResponseModelLabel)
+                    .dStyle(
+                        font: typography.textSmall
+                    )
+                    .padding(.trailing, size.s4)
+
+                DText(conclusion.model)
+                    .dStyle(
+                        font: typography.linkSmall
+                    )
+            }
+            
+            HStack(
+                alignment: .bottom,
+                spacing: .zero
+            ) {
+                
                 DText(.conclusionResponseDateLabel)
                     .dStyle(
                         font: typography.textSmall
@@ -38,7 +56,8 @@ struct ModelConclusionCard: View {
 
             ExpandableText(
                 text: conclusion.response,
-                backgroundColor: color.grayscaleBackground
+                backgroundColor: color.grayscaleBackground,
+                collapsedLineLimit: 5
             )
         }
         .padding(size.s16)
@@ -51,7 +70,7 @@ struct ModelConclusionCard: View {
     ModelConclusionCard(
         conclusion: ResearchModelConclusion(
             date: Date(),
-            model: "medgemma-3-27B",
+            model: "google/medgemma-3-27B",
             response: """
             Щитовидная железа расположена типично, структура органа сохранена.
             Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.
