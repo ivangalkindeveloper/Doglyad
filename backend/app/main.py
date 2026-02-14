@@ -6,8 +6,10 @@ from datetime import datetime, timezone
 import httpx
 from fastapi import FastAPI, Request
 
+from app.model.neural_model_settings import NeuralModelSettings
 from app.model.research_data import ResearchData
 from app.model.research_model_conclusion import ResearchModelConclusion
+from app.model.research_request import ResearchRequest
 
 MODEL_ID = "google/medgemma-27b-it"
 MODEL_NAME = os.getenv("MODEL_NAME", MODEL_ID)
@@ -17,14 +19,17 @@ STUB_MODE = os.getenv("STUB_MODE", "false").lower() in ("0", "false", "no")
 app = FastAPI()
 
 @app.post("/conclusion", response_model=ResearchModelConclusion)
-async def conclusion(research: ResearchData, request: Request) -> ResearchModelConclusion:
+async def conclusion(body: ResearchRequest, request: Request) -> ResearchModelConclusion:
     accept_language = request.headers.get("accept-language", "en")
     locale = accept_language.split(",")[0].strip()
+
+    research = body.researchData
+    settings = body.neuralModelSettings
 
     if STUB_MODE:
         description = build_stub(research, locale)
     else:
-        prompt = build_prompt(research, locale)
+        prompt = build_prompt(research, settings, locale)
         description = await call_vllm(prompt)
 
     return ResearchModelConclusion(
@@ -39,12 +44,16 @@ def build_stub(research: ResearchData, locale: str) -> str:
         f"Clinical correlation is recommended. Locale: {locale or 'en'}."
     )
 
-def build_prompt(research: ResearchData, locale: str) -> str:
-    locale = locale or "en"
+def build_prompt(
+    research: ResearchData,
+    settings: NeuralModelSettings,
+    locale: str,
+) -> str:
     photos_count = len(research.photos)
     complaint = research.patientComplaint or ""
     additional = research.additionalData or ""
-    return (
+
+    base = (
         "Generate a medical ultrasound conclusion.\n"
         f"Answer in locale: {locale}\n"
         f"Research type: {research.researchType}\n"
@@ -55,8 +64,15 @@ def build_prompt(research: ResearchData, locale: str) -> str:
         f"Research description: {research.researchDescription}\n"
         f"Additional data: {additional}\n"
         f"Photos count: {photos_count}\n"
-        "Return a full clinical conclusion."
     )
+
+    if settings.template:
+        base += f"Response template: {settings.template}\n"
+    if settings.responseLength is not None:
+        base += f"Maximum response length (tokens): {settings.responseLength}\n"
+
+    base += "Return a full clinical conclusion."
+    return base
 
 async def call_vllm(prompt: str) -> str:
     system_prompt = "You are a medical assistant."

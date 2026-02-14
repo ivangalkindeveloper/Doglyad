@@ -7,7 +7,6 @@ from app.model.research_scan_photo import ResearchScanPhoto
 
 
 class ResearchData(BaseModel):
-    timestamp: datetime
     researchType: str
     photos: List[ResearchScanPhoto]
     patientName: str
