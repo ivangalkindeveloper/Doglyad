@@ -11,6 +11,7 @@ public enum DButtonStyleType {
 
 public struct DButtonStyle: ButtonStyle {
     @EnvironmentObject private var theme: DTheme
+    @Environment(\.isEnabled) private var isEnabled
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
 
@@ -33,11 +34,11 @@ public struct DButtonStyle: ButtonStyle {
                 maxWidth: maxWidth
             )
             .progressViewStyle(
-                CircularProgressViewStyle(tint: foregroundColor)
+                CircularProgressViewStyle(tint: currentForegroundColor)
             )
-            .foregroundColor(foregroundColor)
-            .foregroundStyle(foregroundColor)
-            .background(background)
+            .foregroundColor(currentForegroundColor)
+            .foregroundStyle(currentForegroundColor)
+            .background(currentBackground)
             .opacity(
                 configuration.isPressed ? 0.6 : 1
             )
@@ -52,55 +53,21 @@ private extension DButtonStyle {
     static let defaultGradient: LinearGradient = .init(colors: [], startPoint: .top, endPoint: .top)
     static let defaultColor: Color = .clear
 
-    var backgroundGradient: LinearGradient? {
+    var backgroundGradient: LinearGradient {
         switch type {
         case .primaryButton, .primaryCircle, .primaryChip:
             return color.gradientPrimaryWeak
         case .circle, .card, .chip:
-            return nil
+            return Self.defaultGradient
         }
     }
 
-    var backgroundColor: Color? {
+    var backgroundColor: Color {
         switch type {
         case .primaryButton, .primaryCircle, .primaryChip:
-            return nil
+            return Self.defaultColor
         case .circle, .card, .chip:
             return color.grayscaleBackground
-        }
-    }
-
-    @ViewBuilder
-    var background: some View {
-        let cornerRadius = self.cornerRadius ?? size.s16
-        switch type {
-        case .primaryButton:
-            RoundedRectangle(
-                cornerRadius: cornerRadius
-            )
-            .fill(backgroundGradient ?? DButtonStyle.defaultGradient)
-
-        case .primaryCircle:
-            Circle()
-                .fill(backgroundGradient ?? DButtonStyle.defaultGradient)
-
-        case .primaryChip:
-            Capsule()
-                .fill(backgroundGradient ?? DButtonStyle.defaultGradient)
-
-        case .circle:
-            Circle()
-                .fill(backgroundColor ?? DButtonStyle.defaultColor)
-
-        case .card:
-            RoundedRectangle(
-                cornerRadius: cornerRadius
-            )
-            .fill(backgroundColor ?? DButtonStyle.defaultColor)
-
-        case .chip:
-            Capsule()
-                .fill(backgroundColor ?? DButtonStyle.defaultColor)
         }
     }
 
@@ -110,6 +77,69 @@ private extension DButtonStyle {
             return color.grayscaleBackground
         case .circle, .card, .chip:
             return color.grayscaleHeader
+        }
+    }
+
+    var currentForegroundColor: Color {
+        isEnabled ? foregroundColor : color.grayscalePlacehold
+    }
+
+    @ViewBuilder
+    var currentBackground: some View {
+        if isEnabled {
+            enabledBackground
+        } else {
+            disabledBackground
+        }
+    }
+
+    @ViewBuilder
+    var enabledBackground: some View {
+        let cornerRadius = self.cornerRadius ?? size.s16
+        switch type {
+        case .primaryButton:
+            RoundedRectangle(cornerRadius: cornerRadius)
+            .fill(backgroundGradient)
+        case .primaryCircle:
+            Circle()
+                .fill(backgroundGradient)
+        case .primaryChip:
+            Capsule()
+                .fill(backgroundGradient)
+        case .circle:
+            Circle()
+                .fill(backgroundColor)
+        case .card:
+            RoundedRectangle(cornerRadius: cornerRadius)
+            .fill(backgroundColor)
+        case .chip:
+            Capsule()
+                .fill(backgroundColor)
+        }
+    }
+
+    @ViewBuilder
+    var disabledBackground: some View {
+        let cornerRadius = self.cornerRadius ?? size.s16
+        switch type {
+        case .primaryButton:
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .fill(color.grayscaleInput)
+        case .primaryCircle:
+            Circle()
+                .fill(color.grayscaleInput)
+        case .primaryChip:
+            Capsule()
+                .fill(color.grayscaleInput)
+        case .circle:
+            Circle()
+                .fill(color.grayscaleInput)
+        case .card:
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .fill(color.grayscaleInput)
+        case .chip:
+            Capsule()
+                .fill(color.grayscaleInput)
         }
     }
 

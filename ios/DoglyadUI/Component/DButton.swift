@@ -10,22 +10,25 @@ public struct DButton: View {
     let title: LocalizedStringResource?
     let action: () -> Void
     let isLoading: Bool
+    let isDisabled: Bool
 
     public init(
         image: ImageResource? = nil,
         title: LocalizedStringResource? = nil,
         action: @escaping () -> Void,
-        isLoading: Bool = false
+        isLoading: Bool = false,
+        isDisabled: Bool = false
     ) {
         self.image = image
         self.title = title
         self.action = action
         self.isLoading = isLoading
+        self.isDisabled = isDisabled
     }
 
     public var body: some View {
         Button(
-            action: isLoading ? {} : action
+            action: isLoading || isDisabled ? {} : action
         ) {
             if isLoading {
                 ProgressView()
@@ -51,6 +54,7 @@ public struct DButton: View {
                 }
             }
         }
+        .disabled(isDisabled)
         .animation(
             theme.animation,
             value: isLoading
@@ -89,14 +93,14 @@ private struct DTextModifier: ViewModifier {
             DButton(
                 image: .bag,
                 title: "Primary button",
-                action: { isLoading = isLoading },
+                action: { isLoading.toggle() },
                 isLoading: isLoading
             )
             .dStyle(.primaryButton)
 
             DButton(
                 image: .camera,
-                action: { isLoading = isLoading },
+                action: { isLoading.toggle() },
                 isLoading: isLoading
             )
             .dStyle(.primaryCircle)
@@ -104,14 +108,14 @@ private struct DTextModifier: ViewModifier {
             DButton(
                 image: .alertInfo,
                 title: "Primary chip",
-                action: { isLoading = isLoading },
+                action: { isLoading.toggle() },
                 isLoading: isLoading
             )
             .dStyle(.primaryChip)
 
             DButton(
                 image: .alertInfo,
-                action: { isLoading = isLoading },
+                action: { isLoading.toggle() },
                 isLoading: isLoading
             )
             .dStyle(.circle)
@@ -119,10 +123,18 @@ private struct DTextModifier: ViewModifier {
             DButton(
                 image: .atSign,
                 title: "Some card",
-                action: { isLoading = isLoading },
+                action: { isLoading.toggle() },
                 isLoading: isLoading
             )
             .dStyle(.card)
+
+            DButton(
+                image: .bag,
+                title: "Disabled button",
+                action: {},
+                isDisabled: true
+            )
+            .dStyle(.primaryButton)
         }
         .padding()
     }

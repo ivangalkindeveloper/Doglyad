@@ -5,6 +5,7 @@ private struct DThemeWrapperModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            .preferredColorScheme(.light)
             .environmentObject(theme)
     }
 }

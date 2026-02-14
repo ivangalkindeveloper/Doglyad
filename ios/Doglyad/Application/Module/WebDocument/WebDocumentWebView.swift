@@ -3,6 +3,7 @@ import SwiftUI
 import WebKit
 
 struct WebDocumentBottomSheetWebView: UIViewRepresentable {
+    @Environment(\.locale) private var locale
     @EnvironmentObject var theme: DTheme
     var color: DColor { theme.color }
 
@@ -21,7 +22,7 @@ struct WebDocumentBottomSheetWebView: UIViewRepresentable {
         webView.scrollView.backgroundColor = backgroundColor
         webView.underPageBackgroundColor = backgroundColor
         webView.navigationDelegate = context.coordinator
-        let language = Locale.current.language.languageCode?.identifier ?? "en"
+        let language = locale.language.languageCode?.identifier ?? "en"
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         components?.queryItems = [URLQueryItem(name: "lang", value: language)]
         var request = URLRequest(url: components?.url ?? url)
