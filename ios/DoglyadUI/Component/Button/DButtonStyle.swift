@@ -99,7 +99,7 @@ private extension DButtonStyle {
         switch type {
         case .primaryButton:
             RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(backgroundGradient)
+                .fill(backgroundGradient)
         case .primaryCircle:
             Circle()
                 .fill(backgroundGradient)
@@ -111,7 +111,7 @@ private extension DButtonStyle {
                 .fill(backgroundColor)
         case .card:
             RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(backgroundColor)
+                .fill(backgroundColor)
         case .chip:
             Capsule()
                 .fill(backgroundColor)

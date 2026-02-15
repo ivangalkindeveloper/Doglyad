@@ -7,11 +7,11 @@ struct OnBoardingScreenView: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     private var color: DColor { theme.color }
-    
+
     @StateObject var viewModel: OnBoardingViewModel
 
     var body: some View {
-        DScreen { toolbarInset in
+        DScreen { _ in
             VStack(
                 alignment: .leading,
                 spacing: .zero

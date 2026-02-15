@@ -24,3 +24,11 @@ public struct DCloseButton: View {
         }
     }
 }
+
+#Preview {
+    DCloseButton {
+        print("Close")
+    }
+    .padding()
+    .dThemeWrapper()
+}

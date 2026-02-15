@@ -13,9 +13,9 @@ public protocol DDatabaseProtocol: AnyObject {
 
     // MARK: NeuralModelSettings -
 
-    func getNeuralModelTemplate() -> String?
+    func getNeuralModelResponseTemplate() -> String?
 
-    func setNeuralModelTemplate(value: String?)
+    func setNeuralModelResponseTemplate(value: String?)
 
     func getNeuralModelResponseLength() -> Int?
 

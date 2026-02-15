@@ -28,16 +28,16 @@ private extension DDatabase {
         defaults.string(forKey: key.rawValue)
     }
 
-    func setting<T>(_ value: T, _ key: DUserDefaultsKey) -> Void {
+    func getInt(_ key: DUserDefaultsKey) -> Int? {
+        defaults.object(forKey: key.rawValue) as? Int
+    }
+
+    func setValue<T>(_ value: T, _ key: DUserDefaultsKey) -> Void {
         defaults.set(value, forKey: key.rawValue)
     }
 
     func removeValue(_ key: DUserDefaultsKey) {
         defaults.removeObject(forKey: key.rawValue)
-    }
-
-    func getInt(_ key: DUserDefaultsKey) -> Int? {
-        defaults.object(forKey: key.rawValue) as? Int
     }
 }
 
@@ -49,22 +49,22 @@ public extension DDatabase {
     }
 
     func setOnBoardingCompleted(value: Bool) {
-        setting(value, .isOnBoardingCompleted)
+        setValue(value, .isOnBoardingCompleted)
     }
 }
 
 // MARK: NeuralModelSettings -
 
 public extension DDatabase {
-    func getNeuralModelTemplate() -> String? {
-        getString(.neuralModelTemplate)
+    func getNeuralModelResponseTemplate() -> String? {
+        getString(.neuralModelResponseTemplate)
     }
 
-    func setNeuralModelTemplate(value: String?) {
+    func setNeuralModelResponseTemplate(value: String?) {
         if let value {
-            setting(value, .neuralModelTemplate)
+            setValue(value, .neuralModelResponseTemplate)
         } else {
-            removeValue(.neuralModelTemplate)
+            removeValue(.neuralModelResponseTemplate)
         }
     }
 
@@ -74,7 +74,7 @@ public extension DDatabase {
 
     func setNeuralModelResponseLength(value: Int?) {
         if let value {
-            setting(value, .neuralModelResponseLength)
+            setValue(value, .neuralModelResponseLength)
         } else {
             removeValue(.neuralModelResponseLength)
         }
@@ -89,7 +89,7 @@ public extension DDatabase {
     }
 
     func setSelectedUSResearchType(value: String) {
-        setting(value, .selectedUSResearchType)
+        setValue(value, .selectedUSResearchType)
     }
 }
 

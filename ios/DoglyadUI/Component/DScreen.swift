@@ -215,3 +215,41 @@ private struct ToolbarHeightPreferenceKey: PreferenceKey {
         value = nextValue()
     }
 }
+
+#Preview("With toolbar") {
+    DScreen(
+        title: "Screen Title",
+        subTitle: "Subtitle",
+        onTapBack: { print("Back") },
+        trailing: {
+            DButton(
+                image: .alertInfo,
+                action: { print("Info") }
+            )
+            .dStyle(.circle)
+        }
+    ) { toolbarHeight in
+        ScrollView {
+            VStack(spacing: 16) {
+                ForEach(0 ..< 10, id: \.self) { index in
+                    DText("Item \(index)")
+                        .dStyle()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+            }
+            .padding(.top, toolbarHeight)
+        }
+    }
+    .dThemeWrapper()
+}
+
+#Preview("Without toolbar") {
+    DScreen { _ in
+        VStack {
+            DText("Content without toolbar")
+                .dStyle()
+        }
+    }
+    .dThemeWrapper()
+}

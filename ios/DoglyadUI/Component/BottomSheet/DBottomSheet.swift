@@ -97,3 +97,33 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         .presentationDetents([.fraction(fraction)])
     }
 }
+
+#Preview {
+    @Previewable @State var isPresented = false
+
+    Button("Show Sheet") {
+        isPresented = true
+    }
+    .sheet(isPresented: $isPresented) {
+        DBottomSheet(
+            title: "Sheet Title",
+            fraction: 0.4
+        ) {
+            VStack(spacing: 12) {
+                DText("Bottom sheet content")
+                    .dStyle()
+                DText("Some description text")
+                    .dStyle()
+            }
+            .padding()
+        } bottom: {
+            DButton(
+                title: "Confirm",
+                action: { isPresented = false }
+            )
+            .dStyle(.primaryButton)
+            .padding(.horizontal)
+        }
+        .dThemeWrapper()
+    }
+}

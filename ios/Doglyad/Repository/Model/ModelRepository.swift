@@ -15,13 +15,13 @@ final class ModelRepository: ModelRepositoryProtocol {
 extension ModelRepository {
     func getNeuralModelSettings() -> NeuralModelSettings {
         NeuralModelSettings(
-            template: database.getNeuralModelTemplate(),
+            template: database.getNeuralModelResponseTemplate(),
             responseLength: database.getNeuralModelResponseLength()
         )
     }
 
     func setNeuralModelSettings(settings: NeuralModelSettings) {
-        database.setNeuralModelTemplate(value: settings.template)
+        database.setNeuralModelResponseTemplate(value: settings.template)
         database.setNeuralModelResponseLength(value: settings.responseLength)
     }
 }

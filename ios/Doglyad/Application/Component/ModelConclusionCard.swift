@@ -18,12 +18,11 @@ struct ModelConclusionCard: View {
                 .dStyle(
                     font: typography.linkSmall
                 )
-            
+
             HStack(
                 alignment: .bottom,
                 spacing: .zero
             ) {
-                
                 DText(.conclusionResponseModelLabel)
                     .dStyle(
                         font: typography.textSmall
@@ -35,12 +34,11 @@ struct ModelConclusionCard: View {
                         font: typography.linkSmall
                     )
             }
-            
+
             HStack(
                 alignment: .bottom,
                 spacing: .zero
             ) {
-                
                 DText(.conclusionResponseDateLabel)
                     .dStyle(
                         font: typography.textSmall

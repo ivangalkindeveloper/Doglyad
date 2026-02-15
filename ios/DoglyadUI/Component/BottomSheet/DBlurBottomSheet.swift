@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 public struct DBlurBottomSheet<Content>: View where Content: View {
     @Environment(\.dismiss) private var dismiss
@@ -46,12 +47,44 @@ public struct DBlurBottomSheet<Content>: View where Content: View {
             }
             .padding(.top, size.adaptiveCornerRadius / 4)
             .padding(.horizontal, size.adaptiveCornerRadius / 2)
+            
+            Spacer()
 
             content()
+            
+            Spacer()
         }
         .presentationBackground(.ultraThinMaterial)
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(size.adaptiveCornerRadius)
         .presentationDetents([.fraction(fraction)])
+        .preferredColorScheme(.dark)
+    }
+}
+
+#Preview {
+    @Previewable @State var isPresented = false
+
+    Button("Show Blur Sheet") {
+        isPresented = true
+    }
+    .sheet(isPresented: $isPresented) {
+        DBlurBottomSheet(
+            title: "Blur Sheet",
+            fraction: 0.4
+        ) {
+            VStack(spacing: 12) {
+                DText("Blur bottom sheet content")
+                    .dStyle(
+                        color: Color.white
+                    )
+                DText("With translucent background")
+                    .dStyle(
+                        color: Color.white
+                    )
+            }
+            .padding()
+        }
+        .dThemeWrapper()
     }
 }

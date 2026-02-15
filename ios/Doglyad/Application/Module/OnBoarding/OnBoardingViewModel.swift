@@ -28,7 +28,7 @@ final class OnBoardingViewModel: ObservableObject {
 
     @Published var page: Page = .first
     @Published var isLegalAccepted: Bool = false
-    
+
     var isLegalDisabled: Bool {
         page == .third && isLegalAccepted == false
     }

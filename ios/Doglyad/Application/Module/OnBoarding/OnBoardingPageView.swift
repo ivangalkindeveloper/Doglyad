@@ -26,18 +26,18 @@ struct OnBoardingPageView<BottomContent: View>: View {
     var body: some View {
         VStack(
             spacing: .zero
-        ) {            
+        ) {
             Spacer()
-            
+
             Image(image)
                 .resizable()
                 .scaledToFit()
                 .frame(
                     maxWidth: size.s128,
-                    maxHeight: size.s128,
+                    maxHeight: size.s128
                 )
                 .padding(size.s16)
-            
+
             Spacer()
 
             DText(
