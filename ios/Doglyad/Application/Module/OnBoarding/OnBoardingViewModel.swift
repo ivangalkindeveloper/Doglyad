@@ -140,7 +140,7 @@ extension OnBoardingViewModel {
         var terms = AttributedString(localizedResource(.onBoardingTermsAndConditionsLabel, locale: locale))
         terms.font = typography.textSmall
         terms.foregroundColor = color.primaryDefault
-        terms.link = URL(string: AttributedLinks.privacy.rawValue)
+        terms.link = URL(string: AttributedLinks.terms.rawValue)
 
         return accept + privacy + and + terms
     }
@@ -161,7 +161,7 @@ extension OnBoardingViewModel {
         case AttributedLinks.privacy.rawValue:
             onTapPrivacyPolicy()
             return .handled
-        case AttributedLinks.privacy.rawValue:
+        case AttributedLinks.terms.rawValue:
             onTapTermsAndConditions()
             return .handled
         default:

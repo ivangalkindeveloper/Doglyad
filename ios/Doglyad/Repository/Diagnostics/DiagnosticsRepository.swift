@@ -66,4 +66,16 @@ extension DiagnosticsRepository {
     ) {
         database.updateResearchConclusion(value: conclusion.toDB())
     }
+
+    @MainActor func clearAllConclusions() {
+        database.clearAllResearchConclusions()
+    }
+}
+
+// MARK: Common -
+
+extension DiagnosticsRepository {
+    @MainActor func clearAll() {
+        database.clearAll()
+    }
 }

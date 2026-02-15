@@ -56,7 +56,7 @@ struct SelectDateOfBirthBottomSheet: View {
                 arguments?.onSelected(date)
             }
             .dStyle(.primaryButton)
-            .padding(size.s16)
+            .padding(.horizontal, size.s16)
         }
     }
 }

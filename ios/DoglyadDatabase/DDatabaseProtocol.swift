@@ -32,4 +32,10 @@ public protocol DDatabaseProtocol: AnyObject {
     @MainActor func updateResearchConclusion(
         value: ResearchConclusionDB
     )
+
+    @MainActor func clearAllResearchConclusions()
+
+    // MARK: Clear -
+
+    @MainActor func clearAll()
 }

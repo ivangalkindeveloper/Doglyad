@@ -47,11 +47,11 @@ public struct DBlurBottomSheet<Content>: View where Content: View {
             }
             .padding(.top, size.adaptiveCornerRadius / 4)
             .padding(.horizontal, size.adaptiveCornerRadius / 2)
-            
+
             Spacer()
 
             content()
-            
+
             Spacer()
         }
         .presentationBackground(.ultraThinMaterial)

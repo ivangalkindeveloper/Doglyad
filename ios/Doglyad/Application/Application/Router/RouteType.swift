@@ -5,6 +5,7 @@ enum ScreenType: Hashable {
     case conclusion
     case settings
     case neuralModel
+    case storage
 }
 
 enum SheetType: Hashable {
@@ -13,6 +14,8 @@ enum SheetType: Hashable {
     case scanSpeech
     case permissionSpeech
     case webDocument
+    case storageClearConclusions
+    case storageClearAll
 }
 
 enum FullScreenCoverType: Hashable {}

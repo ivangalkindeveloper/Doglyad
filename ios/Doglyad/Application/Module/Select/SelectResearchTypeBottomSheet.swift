@@ -48,7 +48,7 @@ struct SelectResearchTypeBottomSheet: View {
                 color: color.grayscalePlacehold,
                 alignment: .center
             )
-            .padding(size.s16)
+            .padding(.horizontal, size.s16)
         }
     }
 }

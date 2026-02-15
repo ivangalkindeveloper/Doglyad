@@ -26,4 +26,10 @@ protocol DiagnosticsRepositoryProtocol: AnyObject {
     @MainActor func updateConclusion(
         conclusion: ResearchConclusion
     )
+
+    @MainActor func clearAllConclusions()
+
+    // MARK: Common -
+
+    @MainActor func clearAll()
 }

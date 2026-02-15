@@ -121,4 +121,23 @@ public extension DDatabase {
         container.mainContext.delete(conclusion)
         setResearchConclusion(value: value)
     }
+
+    @MainActor func clearAllResearchConclusions() {
+        let conclusions = getResearchConclusions()
+        for conclusion in conclusions {
+            container.mainContext.delete(conclusion)
+        }
+    }
+}
+
+// MARK: Clear -
+
+public extension DDatabase {
+    @MainActor func clearAll() {
+        for key in DUserDefaultsKey.allCases {
+            removeValue(key)
+        }
+        
+        clearAllResearchConclusions()
+    }
 }

@@ -47,6 +47,12 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? NeuralModelScreenArguments
                 )
             )
+        case .storage:
+            AnyView(
+                StorageScreen(
+                    arguments: route.arguments as? StorageScreenArguments
+                )
+            )
         }
     }
 
@@ -80,6 +86,18 @@ final class RouterBuilder: RouterBuilderProtocol {
             AnyView(
                 WebDocumentBottomSheet(
                     arguments: route.arguments as! WebDocumentBottomSheetArguments
+                )
+            )
+        case .storageClearConclusions:
+            AnyView(
+                StorageClearConclusionsBottomSheet(
+                    arguments: route.arguments as? StorageClearConclusionsArguments
+                )
+            )
+        case .storageClearAll:
+            AnyView(
+                StorageClearAllBottomSheet(
+                    arguments: route.arguments as? StorageClearAllArguments
                 )
             )
         }

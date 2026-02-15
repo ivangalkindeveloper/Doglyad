@@ -34,6 +34,11 @@ struct SettingsScreenView: View {
                             action: viewModel.onTapNeuralModel
                         )
                         DListButtonCard(
+                            title: .settingsStorageTitle,
+                            description: .settingsStorageDescription,
+                            action: viewModel.onTapStorage
+                        )
+                        DListButtonCard(
                             title: .settingsPrivacyPolicyTitle,
                             description: .settingsPrivacyPolicyDescription,
                             action: viewModel.onTapPrivacyPolicy

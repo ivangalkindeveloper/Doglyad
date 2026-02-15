@@ -57,7 +57,7 @@ struct OnBoardingScreenView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, size.s16)
-                        .padding(.horizontal, size.s8)
+                        .padding(.horizontal, size.s16)
                     }
                     OnBoardingPageView(
                         tag: .fourth,

@@ -50,6 +50,14 @@ final class SettingsViewModel: ObservableObject {
         )
     }
 
+    func onTapStorage() {
+        router.push(
+            route: RouteScreen(
+                type: .storage
+            )
+        )
+    }
+
     func onTapPrivacyPolicy() {
         router.push(
             route: RouteSheet(
