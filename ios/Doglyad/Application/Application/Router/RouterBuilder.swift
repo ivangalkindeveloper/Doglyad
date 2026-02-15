@@ -100,6 +100,8 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? StorageClearAllArguments
                 )
             )
+        case .about:
+            AnyView(AboutBottomSheet())
         }
     }
 

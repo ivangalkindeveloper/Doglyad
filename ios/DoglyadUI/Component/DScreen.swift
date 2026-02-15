@@ -70,9 +70,13 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
                             .ignoresSafeArea(.container, edges: [.top])
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .navigationViewStyle(.stack)
             .navigationBarBackButtonHidden(true)
             .toolbar(.hidden, for: .navigationBar)
+            .toolbarBackground(.hidden, for: .navigationBar)
+            .background(backgroundColor ?? color.grayscaleBackgroundWeak)
         }
     }
 
@@ -96,7 +100,6 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
             content(toolbarHeight)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(backgroundColor ?? color.grayscaleBackgroundWeak)
     }
 
     private func toolbarView(

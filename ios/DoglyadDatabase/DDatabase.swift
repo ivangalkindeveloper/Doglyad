@@ -137,7 +137,7 @@ public extension DDatabase {
         for key in DUserDefaultsKey.allCases {
             removeValue(key)
         }
-        
+
         clearAllResearchConclusions()
     }
 }

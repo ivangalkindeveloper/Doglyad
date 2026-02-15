@@ -82,5 +82,11 @@ final class SettingsViewModel: ObservableObject {
         )
     }
 
-    func onTapAboutApp() {}
+    func onTapAboutApp() {
+        router.push(
+            route: RouteSheet(
+                type: .about
+            )
+        )
+    }
 }

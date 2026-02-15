@@ -4,6 +4,7 @@ final class EnvironmentBase: EnvironmentProtocol {
     let baseUrl: URL
     let privacyPolicyUrl: URL = .init(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy/")!
     let termsAndConditionsUrl: URL = .init(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions/")!
+    let contactEmail: String = "ivangalkindeveloper@gmail.com"
 
     init(
         baseUrl: URL

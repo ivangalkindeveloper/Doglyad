@@ -16,6 +16,7 @@ enum SheetType: Hashable {
     case webDocument
     case storageClearConclusions
     case storageClearAll
+    case about
 }
 
 enum FullScreenCoverType: Hashable {}
