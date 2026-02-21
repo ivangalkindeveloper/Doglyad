@@ -392,6 +392,40 @@
         }
       }
     },
+    "conclusionModelResponseUpdatedMessageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The response from the neural model was successfully updated"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ от нейронной модели был успешно обновлен"
+          }
+        }
+      }
+    },
+    "conclusionModelResponseUpdatedMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Response updated"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ обновлен"
+          }
+        }
+      }
+    },
     "conclusionPreviosModelResponsesTitle" : {
       "extractionState" : "manual",
       "localizations" : {

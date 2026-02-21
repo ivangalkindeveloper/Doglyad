@@ -11,6 +11,7 @@ struct ConclusionScreen: View {
     var body: some View {
         ConclusionScreenView(
             viewModel: ConclusionViewModel(
+                modelRepository: container.modelRepository,
                 diagnosticRepository: container.diagnosticsRepository,
                 messager: messager,
                 router: router,

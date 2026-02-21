@@ -151,14 +151,18 @@ struct ConclusionScreenView: View {
                                 conclusion: conclusion.actualModelConclusion,
                                 onTapCopy: { viewModel.onTapCopy(conclusion: conclusion.actualModelConclusion) },
                             )
+                            .id(ConclusionViewModel.actualModelConclusionCardScrollId)
                             .padding(.bottom, size.s16)
 
                             DButton(
                                 image: .refresh,
                                 title: .buttonRepeatScan,
                                 action: {
-                                    viewModel.onTapRepeatScan(proxy: proxy)
-                                }
+                                    viewModel.onTapRepeatScan(
+                                        proxy: proxy,
+                                    )
+                                },
+                                isLoading: viewModel.isLoading
                             )
                             .dStyle(.primaryButton)
                             .padding(.bottom, size.s16)
