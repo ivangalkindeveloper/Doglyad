@@ -4,6 +4,7 @@ import SwiftUI
 
 struct ConclusionScreen: View {
     @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     let arguments: ConclusionScreenArguments
 
@@ -11,6 +12,7 @@ struct ConclusionScreen: View {
         ConclusionScreenView(
             viewModel: ConclusionViewModel(
                 diagnosticRepository: container.diagnosticsRepository,
+                messager: messager,
                 router: router,
                 initialConclusion: arguments.conclusion
             )

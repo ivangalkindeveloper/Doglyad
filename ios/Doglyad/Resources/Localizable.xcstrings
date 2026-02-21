@@ -341,6 +341,40 @@
         }
       }
     },
+    "conclusionModelResponseCopyMessageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The model's response has been copied to the clipboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ модели скопирован в буфер обмена"
+          }
+        }
+      }
+    },
+    "conclusionModelResponseCopyMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Response copied"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ скопирован"
+          }
+        }
+      }
+    },
     "conclusionModelResponseLabel" : {
       "extractionState" : "manual",
       "localizations" : {

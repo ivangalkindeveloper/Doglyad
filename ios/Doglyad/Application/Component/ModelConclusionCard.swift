@@ -8,47 +8,72 @@ struct ModelConclusionCard: View {
     private var typography: DTypography { theme.typography }
 
     let conclusion: ResearchModelConclusion
+    let onTapCopy: (() -> Void)
 
     var body: some View {
         VStack(
             alignment: .leading,
             spacing: .zero
         ) {
-            DText(.conclusionModelResponseLabel)
-                .dStyle(
-                    font: typography.linkSmall
-                )
-
             HStack(
-                alignment: .bottom,
+                alignment: .top,
                 spacing: .zero
             ) {
-                DText(.conclusionResponseModelLabel)
-                    .dStyle(
-                        font: typography.textSmall
-                    )
-                    .padding(.trailing, size.s4)
+                VStack(
+                    alignment: .leading,
+                    spacing: .zero
+                ) {
+                    DText(.conclusionModelResponseLabel)
+                        .dStyle(
+                            font: typography.linkSmall
+                        )
 
-                DText(conclusion.model)
-                    .dStyle(
-                        font: typography.linkSmall
-                    )
-            }
+                    HStack(
+                        alignment: .bottom,
+                        spacing: .zero
+                    ) {
+                        DText(.conclusionResponseModelLabel)
+                            .dStyle(
+                                font: typography.textSmall
+                            )
+                            .padding(.trailing, size.s4)
 
-            HStack(
-                alignment: .bottom,
-                spacing: .zero
-            ) {
-                DText(.conclusionResponseDateLabel)
-                    .dStyle(
-                        font: typography.textSmall
-                    )
-                    .padding(.trailing, size.s4)
+                        DText(conclusion.model)
+                            .dStyle(
+                                font: typography.linkSmall
+                            )
+                    }
 
-                DText(conclusion.date.localized())
-                    .dStyle(
-                        font: typography.linkSmall
+                    HStack(
+                        alignment: .bottom,
+                        spacing: .zero
+                    ) {
+                        DText(.conclusionResponseDateLabel)
+                            .dStyle(
+                                font: typography.textSmall
+                            )
+                            .padding(.trailing, size.s4)
+
+                        DText(conclusion.date.localized())
+                            .dStyle(
+                                font: typography.linkSmall
+                            )
+                    }
+                }
+                
+                Spacer()
+
+                Button(
+                    action: onTapCopy
+                ) {
+                    DIcon(
+                        .copy,
+                        color: color.primaryDefault,
+                        height: size.s20,
                     )
+                }
+                .buttonStyle(.plain)
+                .padding(.leading, size.s8)
             }
             .padding(.bottom, size.s8)
 
@@ -61,6 +86,9 @@ struct ModelConclusionCard: View {
         .padding(size.s16)
         .background(color.grayscaleBackground)
         .cornerRadius(size.s16)
+        
+
+
     }
 }
 
@@ -81,7 +109,8 @@ struct ModelConclusionCard: View {
             Полученные данные соответствуют нормальной ультразвуковой картине щитовидной железы.
             Рекомендуется плановое контрольное УЗИ по необходимости или по назначению врача.
             """
-        )
+        ),
+        onTapCopy: {}
     )
     .padding()
     .dThemeWrapper()

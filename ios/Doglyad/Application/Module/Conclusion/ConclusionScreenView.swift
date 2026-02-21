@@ -16,7 +16,19 @@ struct ConclusionScreenView: View {
         DScreen(
             title: .conclusionTitle,
             subTitle: "\(conclusion.researchData.patientName), \(conclusion.date.localized())",
-            onTapBack: viewModel.onTapBack
+            onTapBack: viewModel.onTapBack,
+            trailing: {
+                ShareLink(
+                    item: viewModel.conclusionShareContent
+                ) {
+                    DButton(
+                        image: .export,
+                        action: {}
+                    )
+                    .dStyle(.circle)
+                    .allowsHitTesting(false)
+                }
+            }
         ) { toolbarInset in
             ScrollViewReader { proxy in
                 ScrollView(
@@ -95,7 +107,7 @@ struct ConclusionScreenView: View {
 
                             ExpandableText(
                                 text: conclusion.researchData.researchDescription,
-                                backgroundColor: color.grayscaleBackgroundWeak
+                                backgroundColor: color.grayscaleBackground
                             )
                             .padding(.bottom, size.s8)
 
@@ -108,7 +120,7 @@ struct ConclusionScreenView: View {
 
                                 ExpandableText(
                                     text: patientComplaint,
-                                    backgroundColor: color.grayscaleBackgroundWeak
+                                    backgroundColor: color.grayscaleBackground
                                 )
                                 .padding(.bottom, size.s8)
                             }
@@ -122,7 +134,7 @@ struct ConclusionScreenView: View {
 
                                 ExpandableText(
                                     text: additionalData,
-                                    backgroundColor: color.grayscaleBackgroundWeak
+                                    backgroundColor: color.grayscaleBackground
                                 )
                                 .padding(.bottom, size.s8)
                             }
@@ -136,7 +148,8 @@ struct ConclusionScreenView: View {
                                 .padding(.bottom, size.s16)
 
                             ModelConclusionCard(
-                                conclusion: conclusion.actualModelConclusion
+                                conclusion: conclusion.actualModelConclusion,
+                                onTapCopy: { viewModel.onTapCopy(conclusion: conclusion.actualModelConclusion) },
                             )
                             .padding(.bottom, size.s16)
 
@@ -161,7 +174,8 @@ struct ConclusionScreenView: View {
 
                                 ForEach(conclusion.previosModelConclusions) { modelConclusion in
                                     ModelConclusionCard(
-                                        conclusion: modelConclusion
+                                        conclusion: modelConclusion,
+                                        onTapCopy: { viewModel.onTapCopy(conclusion: modelConclusion) },
                                     )
                                     .padding(.bottom, size.s8)
                                 }
