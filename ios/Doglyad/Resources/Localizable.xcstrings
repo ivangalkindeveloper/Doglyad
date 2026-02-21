@@ -613,7 +613,7 @@
         }
       }
     },
-    "neuralModelSettingsSavedSuccessDescription" : {
+    "neuralModelSettingsSavedSuccessMessageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -626,6 +626,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Настройки нейронной модели успешно сохранены"
+          }
+        }
+      }
+    },
+    "neuralModelSettingsSavedSuccessMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings saved"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки сохранены"
           }
         }
       }
@@ -2109,7 +2126,7 @@
         }
       }
     },
-    "storageClearAllSuccessMessage" : {
+    "storageClearAllSuccessMessageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2121,7 +2138,24 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все данные приложения успешно удалены"
+            "value" : "Все сохраненные данные приложения успешно удалены"
+          }
+        }
+      }
+    },
+    "storageClearAllSuccessMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data deleted"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные удалены"
           }
         }
       }
@@ -2194,19 +2228,36 @@
         }
       }
     },
-    "storageClearConclusionsSuccessMessage" : {
+    "storageClearConclusionsSuccessMessageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conclusion history has been successfully deleted"
+            "value" : "All conclusion history has been successfully deleted"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "История заключений успешно удалена"
+            "value" : "Вся история заключений успешно удалена"
+          }
+        }
+      }
+    },
+    "storageClearConclusionsSuccessMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History deleted"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История удалена"
           }
         }
       }

@@ -12,16 +12,16 @@ final class NeuralModelViewModel: ObservableObject {
     }
 
     private let modelRepository: ModelRepositoryProtocol
-    private let messanger: DMessager
+    private let messager: DMessager
     private let router: DRouter
 
     init(
         modelRepository: ModelRepositoryProtocol,
-        messanger: DMessager,
+        messager: DMessager,
         router: DRouter
     ) {
         self.modelRepository = modelRepository
-        self.messanger = messanger
+        self.messager = messager
         self.router = router
         onInit()
     }
@@ -62,9 +62,10 @@ final class NeuralModelViewModel: ObservableObject {
                 responseLength: responseLength
             )
         )
-        messanger.show(
+        messager.show(
             type: .success,
-            title: .neuralModelSettingsSavedSuccessDescription
+            title: .neuralModelSettingsSavedSuccessMessageTitle,
+            description: .neuralModelSettingsSavedSuccessMessageDescription
         )
         router.pop()
     }

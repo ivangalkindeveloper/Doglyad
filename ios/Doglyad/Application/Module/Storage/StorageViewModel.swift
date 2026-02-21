@@ -6,16 +6,16 @@ import SwiftUI
 @MainActor
 final class StorageViewModel: ObservableObject {
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
-    private let messanger: DMessager
+    private let messager: DMessager
     private let router: DRouter
 
     init(
         diagnosticRepository: DiagnosticsRepositoryProtocol,
-        messanger: DMessager,
+        messager: DMessager,
         router: DRouter
     ) {
         self.diagnosticRepository = diagnosticRepository
-        self.messanger = messanger
+        self.messager = messager
         self.router = router
     }
 
@@ -32,9 +32,10 @@ final class StorageViewModel: ObservableObject {
                         guard let self = self else { return }
 
                         self.diagnosticRepository.clearAllConclusions()
-                        self.messanger.show(
+                        self.messager.show(
                             type: .success,
-                            title: .storageClearConclusionsSuccessMessage
+                            title: .storageClearConclusionsSuccessMessageTitle,
+                            description: .storageClearConclusionsSuccessMessageDescription
                         )
                         self.router.pop()
                     }
@@ -52,9 +53,10 @@ final class StorageViewModel: ObservableObject {
                         guard let self = self else { return }
 
                         self.diagnosticRepository.clearAll()
-                        self.messanger.show(
+                        self.messager.show(
                             type: .success,
-                            title: .storageClearAllSuccessMessage
+                            title: .storageClearAllSuccessMessageTitle,
+                            description: .storageClearAllSuccessMessageDescription
                         )
                         self.router.popRoot()
                         withAnimation {

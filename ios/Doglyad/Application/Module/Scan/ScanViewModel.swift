@@ -27,20 +27,20 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     private let permissionManager: PermissionManagerProtocol
     private let modelRepository: ModelRepositoryProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
-    private let messanger: DMessager
+    private let messager: DMessager
     private let router: DRouter
 
     init(
         permissionManager: PermissionManagerProtocol,
         modelRepository: ModelRepositoryProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
-        messanger: DMessager,
+        messager: DMessager,
         router: DRouter
     ) {
         self.permissionManager = permissionManager
         self.modelRepository = modelRepository
         self.diagnosticRepository = diagnosticRepository
-        self.messanger = messanger
+        self.messager = messager
         self.router = router
         super.init()
         onInit()
@@ -328,7 +328,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                 )
             )
         } onUnknownError: { _ in
-            self.messanger.showUnknownError()
+            self.messager.showUnknownError()
         }
     }
 }

@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ScanScreen: View {
     @EnvironmentObject private var container: DependencyContainer
-    @EnvironmentObject private var messanger: DMessager
+    @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     let arguments: ScanScreenArguments?
 
@@ -14,7 +14,7 @@ struct ScanScreen: View {
                 permissionManager: container.permissionmanager,
                 modelRepository: container.modelRepository,
                 diagnosticRepository: container.diagnosticsRepository,
-                messanger: messanger,
+                messager: messager,
                 router: router
             )
         )

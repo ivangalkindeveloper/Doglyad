@@ -56,9 +56,9 @@ private extension DMessageCard {
     DMessageCard(
         theme: DTheme.light,
         message: DMessage(
-            type: .error,
-            title: "Title",
-            description: "Description"
+            type: .success,
+            title: "Data deleted",
+            description: "All application data has been successfully deleted"
         )
     )
     .padding()
