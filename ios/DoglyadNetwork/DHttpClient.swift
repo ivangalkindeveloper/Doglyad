@@ -1,4 +1,4 @@
-internal import Foundation
+public import Foundation
 internal import Alamofire
 
 public final class DHttpClient: DHttpClientProtocol {
@@ -19,6 +19,19 @@ public final class DHttpClient: DHttpClientProtocol {
         baseUrl: String
     ) {
         self.baseUrl = baseUrl
+    }
+    
+    public func get<Response: Decodable>(
+        url: URL
+    ) async throws -> Response {
+        await AF.request(
+            url,
+            method: .get
+        )
+            .validate()
+            .serializingDecodable(Response.self, decoder: jsonDecoder)
+            .response
+            .value!
     }
 
     public func get<Body: Encodable & Sendable, Response: Decodable>(

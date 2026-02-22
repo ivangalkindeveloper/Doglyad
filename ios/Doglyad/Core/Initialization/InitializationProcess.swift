@@ -14,6 +14,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     typealias T = DependencyContainer
 
     var environment: EnvironmentProtocol?
+    var applicationConfig: ApplicationConfig?
     var researchNeuralModel: DResearchNeuralModelProtocol?
     var connectionManager: ConnectionManagerProtocol?
     var permissionmanager: PermissionManagerProtocol?
@@ -29,6 +30,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var toContainer: DependencyContainer {
         DependencyContainer(
             environment: environment!,
+            applicationConfig: applicationConfig!,
             researchNeuralModel: researchNeuralModel,
             connectionManager: connectionManager!,
             permissionmanager: permissionmanager!,
@@ -46,7 +48,7 @@ extension InitializationProcess {
     static let steps: [DependencyInitializationStep] = [
         InitializationStep<InitializationProcess>(
             title: "Environment",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 let baseUrlSchemaString = Bundle.dictionaryString(.BASE_URL_SCHEMA)
                 let baseUrlString = Bundle.dictionaryString(.BASE_URL)
                 let baseUrl = URL(string: "\(baseUrlSchemaString)://\(baseUrlString)")!
@@ -56,26 +58,42 @@ extension InitializationProcess {
             }
         ),
         AsyncInitializationStep<InitializationProcess>(
+            title: "Application config",
+            run: { (process: InitializationProcess) async -> Void in
+                do {
+                    let configUrl = await process.environment!.contentUrl
+                        .appendingPathComponent("config")
+                        .appendingPathComponent("application.json")
+                    let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: configUrl)
+                    await MainActor.run {
+                        process.applicationConfig = applicationConfig
+                    }
+                } catch {
+                    await MainActor.run {
+                        process.applicationConfig = .default
+                    }
+                }
+            }
+        ),
+        AsyncInitializationStep<InitializationProcess>(
             title: "Research Neural Model",
-            run: { process in
-//                if #available(iOS 26.0, *), DResearchNeuralModelFoundationModels.isAvailable {
-//                    process.researchNeuralModel = DResearchNeuralModelFoundationModels()
-//                    return
-//                }
-//                if DResearchNeuralModelMLX.isAvailable {
-//                    process.researchNeuralModel = await DResearchNeuralModelMLX()
-//                    return
-//                }
-
-                let model = try await DResearchNeuralModelMLX()
-                await MainActor.run {
-                    process.researchNeuralModel = model
+            run: { (process: InitializationProcess) -> Void in
+                if #available(iOS 26.0, *), DResearchNeuralModelFoundationModels.isAvailable {
+                    return await MainActor.run {
+                        process.researchNeuralModel = DResearchNeuralModelFoundationModels()
+                    }
+                }
+                if DResearchNeuralModelMLX.isAvailable {
+                    let model = try await DResearchNeuralModelMLX()
+                    return await MainActor.run {
+                        process.researchNeuralModel = model
+                    }
                 }
             }
         ),
         InitializationStep<InitializationProcess>(
             title: "Manager",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 process.connectionManager = ConnectionManager()
                 process.connectionManager?.start()
                 process.permissionmanager = PermissionManager()
@@ -83,13 +101,13 @@ extension InitializationProcess {
         ),
         InitializationStep<InitializationProcess>(
             title: "Database",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 process.database = try DDatabase()
             }
         ),
         InitializationStep<InitializationProcess>(
             title: "HttpClient",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 process.httpClient = DHttpClient(
                     baseUrl: process.environment!.baseUrl.absoluteString
                 )
@@ -97,7 +115,7 @@ extension InitializationProcess {
         ),
         InitializationStep<InitializationProcess>(
             title: "Repository",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 process.sharedRepository = SharedRepository(
                     database: process.database!
                 )
@@ -111,8 +129,15 @@ extension InitializationProcess {
             }
         ),
         InitializationStep<InitializationProcess>(
+            title: "Firebase",
+            run: { (process: InitializationProcess) -> Void in
+                FirebaseApp.configure()
+            }
+        ),
+
+        InitializationStep<InitializationProcess>(
             title: "Internet connection",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 let isConnected = process.connectionManager!.isConnected
                 if !isConnected {
                     throw InitializationError.noInternetConnection
@@ -121,7 +146,7 @@ extension InitializationProcess {
         ),
         AsyncInitializationStep<InitializationProcess>(
             title: "Permission",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 let isGranted = await process.permissionmanager!.isGranted(.camera)
                 if !isGranted {
                     throw InitializationError.noCameraRequestDenied
@@ -130,27 +155,23 @@ extension InitializationProcess {
         ),
         InitializationStep<InitializationProcess>(
             title: "Research types",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
                 process.researchTypes = ResearchType.allCases
             }
         ),
         InitializationStep<InitializationProcess>(
             title: "Initial screen",
-            run: { process in
+            run: { (process: InitializationProcess) -> Void in
+                if Bundle.shortVersion.major < process.applicationConfig!.actualVersion.major && process.applicationConfig?.appStoreId != nil {
+                    return process.initialScreen = .newVersion
+                }
+                
                 let isOnBoardingCompleted = process.database!.getOnBoardingCompleted()
                 let selectedUSResearchType = process.database!.getSelectedUSResearchType()
                 if isOnBoardingCompleted, selectedUSResearchType != nil {
-                    process.initialScreen = .scan
-                } else {
-                    process.initialScreen = .onBoarding
+                    return process.initialScreen = .scan
                 }
-                process.initialScreenArguments = nil
-            }
-        ),
-        InitializationStep<InitializationProcess>(
-            title: "Firebase",
-            run: { _ in
-                FirebaseApp.configure()
+                process.initialScreen = .onBoarding
             }
         ),
     ]

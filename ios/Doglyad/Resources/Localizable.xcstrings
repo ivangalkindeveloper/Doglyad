@@ -800,6 +800,57 @@
         }
       }
     },
+    "newVersionDescription0" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new version of the app is available.\nPlease update application, to continue using service."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступна новая версия приложения.\nПожалуйста, обновите приложение, чтобы продолжить использовать сервис."
+          }
+        }
+      }
+    },
+    "newVersionDescription1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The new version contains improvements, critical bug fixes, and new features."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая версия содержит улучшения, исправление кртичиных ошибок и новые удобства."
+          }
+        }
+      }
+    },
+    "newVersionTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New version"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая версия"
+          }
+        }
+      }
+    },
     "onBoardingDescriptionFifth" : {
       "extractionState" : "manual",
       "localizations" : {

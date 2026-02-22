@@ -1,4 +1,5 @@
 enum ScreenType: Hashable {
+    case newVersion
     case onBoarding
     case scan
     case history

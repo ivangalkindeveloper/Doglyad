@@ -11,6 +11,12 @@ final class RouterBuilder: RouterBuilderProtocol {
         route: RouteScreen<ScreenType>
     ) -> AnyView {
         switch route.type {
+        case .newVersion:
+            AnyView(
+                NewVersionScreen(
+                    arguments: route.arguments as? NewVersionScreenArguments
+                )
+            )
         case .onBoarding:
             AnyView(
                 OnBoardingScreen(

@@ -7,6 +7,7 @@ import SwiftUI
 
 final class DependencyContainer: ObservableObject {
     let environment: EnvironmentProtocol
+    let applicationConfig: ApplicationConfig
     let researchNeuralModel: DResearchNeuralModelProtocol?
     let connectionManager: ConnectionManagerProtocol
     let permissionmanager: PermissionManagerProtocol
@@ -19,6 +20,7 @@ final class DependencyContainer: ObservableObject {
 
     init(
         environment: EnvironmentProtocol,
+        applicationConfig: ApplicationConfig,
         researchNeuralModel: DResearchNeuralModelProtocol?,
         connectionManager: ConnectionManagerProtocol,
         permissionmanager: PermissionManagerProtocol,
@@ -30,6 +32,7 @@ final class DependencyContainer: ObservableObject {
         initialScreenArguments: RouteArgumentsProtocol?
     ) {
         self.environment = environment
+        self.applicationConfig = applicationConfig
         self.researchNeuralModel = researchNeuralModel
         self.connectionManager = connectionManager
         self.permissionmanager = permissionmanager
@@ -66,6 +69,7 @@ extension DependencyContainer {
 
         return DependencyContainer(
             environment: environment,
+            applicationConfig: .default,
             researchNeuralModel: nil,
             connectionManager: ConnectionManager(),
             permissionmanager: PermissionManager(),
