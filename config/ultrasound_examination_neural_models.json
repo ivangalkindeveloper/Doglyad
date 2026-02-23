@@ -1,0 +1,10 @@
+[
+    {
+        "id": "google/medgemma-27b-it",
+        "title": "Google MedGemma 27B",
+        "description": {
+            "en_US": "Google's multimodal medical AI (Gemma 3). Trained on de-identified medical data: X-rays, dermatology, ophthalmology, histopathology, medical text and EHR. Handles images and text.",
+            "ru_RU": "Мультимодальная медицинская ИИ Google (Gemma 3). Обучена на обезличенных данных: рентген, дерматология, офтальмология, гистология, медицинские тексты и ЭМК. Работает с изображениями и текстом."
+        }
+    }
+]
