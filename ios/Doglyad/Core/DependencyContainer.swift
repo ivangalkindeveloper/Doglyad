@@ -7,38 +7,38 @@ import SwiftUI
 
 final class DependencyContainer: ObservableObject {
     let environment: EnvironmentProtocol
-    let applicationConfig: ApplicationConfig
-    let researchNeuralModel: DResearchNeuralModelProtocol?
     let connectionManager: ConnectionManagerProtocol
     let permissionmanager: PermissionManagerProtocol
     let sharedRepository: SharedRepositoryProtocol
     let modelRepository: ModelRepositoryProtocol
     let diagnosticsRepository: DiagnosticsRepositoryProtocol
+    let applicationConfig: ApplicationConfig
+    let researchNeuralModel: DResearchNeuralModelProtocol?
     let researchTypes: [ResearchType]
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
     init(
         environment: EnvironmentProtocol,
-        applicationConfig: ApplicationConfig,
-        researchNeuralModel: DResearchNeuralModelProtocol?,
         connectionManager: ConnectionManagerProtocol,
         permissionmanager: PermissionManagerProtocol,
         sharedRepository: SharedRepositoryProtocol,
         modelRepository: ModelRepositoryProtocol,
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
+        applicationConfig: ApplicationConfig,
+        researchNeuralModel: DResearchNeuralModelProtocol?,
         researchTypes: [ResearchType],
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
     ) {
         self.environment = environment
-        self.applicationConfig = applicationConfig
-        self.researchNeuralModel = researchNeuralModel
         self.connectionManager = connectionManager
         self.permissionmanager = permissionmanager
         self.sharedRepository = sharedRepository
         self.modelRepository = modelRepository
         self.diagnosticsRepository = diagnosticsRepository
+        self.applicationConfig = applicationConfig
+        self.researchNeuralModel = researchNeuralModel
         self.researchTypes = researchTypes
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
@@ -69,13 +69,13 @@ extension DependencyContainer {
 
         return DependencyContainer(
             environment: environment,
-            applicationConfig: .default,
-            researchNeuralModel: nil,
             connectionManager: ConnectionManager(),
             permissionmanager: PermissionManager(),
             sharedRepository: sharedRepository,
             modelRepository: modelRepository,
             diagnosticsRepository: diagnosticsRepository,
+            applicationConfig: .default,
+            researchNeuralModel: nil,
             researchTypes: ResearchType.allCases,
             initialScreen: .onBoarding,
             initialScreenArguments: nil
