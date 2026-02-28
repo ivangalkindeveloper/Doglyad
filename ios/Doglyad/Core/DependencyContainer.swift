@@ -13,8 +13,9 @@ final class DependencyContainer: ObservableObject {
     let modelRepository: ModelRepositoryProtocol
     let diagnosticsRepository: DiagnosticsRepositoryProtocol
     let applicationConfig: ApplicationConfig
-    let researchNeuralModel: DResearchNeuralModelProtocol?
-    let researchTypes: [ResearchType]
+    let examinationNeuralModel: DExaminationNeuralModelProtocol?
+    let usExaminationTypes: [USExaminationType]
+    let usExaminationTypesById: [String:USExaminationType]
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
@@ -26,8 +27,9 @@ final class DependencyContainer: ObservableObject {
         modelRepository: ModelRepositoryProtocol,
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
         applicationConfig: ApplicationConfig,
-        researchNeuralModel: DResearchNeuralModelProtocol?,
-        researchTypes: [ResearchType],
+        usExaminationTypes: [USExaminationType],
+        usExaminationTypesById: [String:USExaminationType],
+        examinationNeuralModel: DExaminationNeuralModelProtocol?,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
     ) {
@@ -38,13 +40,24 @@ final class DependencyContainer: ObservableObject {
         self.modelRepository = modelRepository
         self.diagnosticsRepository = diagnosticsRepository
         self.applicationConfig = applicationConfig
-        self.researchNeuralModel = researchNeuralModel
-        self.researchTypes = researchTypes
+        self.usExaminationTypes = usExaminationTypes
+        self.usExaminationTypesById = usExaminationTypesById
+        self.examinationNeuralModel = examinationNeuralModel
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
     }
+}
 
-    var isResearchNeuralModelAvailable: Bool { researchNeuralModel != nil }
+extension DependencyContainer {
+    var isUSExaminationNeuralModelAvailable: Bool {
+        examinationNeuralModel != nil
+    }
+    
+    func getUSExaminationTypeById(
+        id: String
+    ) -> USExaminationType? {
+        usExaminationTypesById[id]
+    }
 }
 
 extension DependencyContainer {
@@ -75,8 +88,9 @@ extension DependencyContainer {
             modelRepository: modelRepository,
             diagnosticsRepository: diagnosticsRepository,
             applicationConfig: .default,
-            researchNeuralModel: nil,
-            researchTypes: ResearchType.allCases,
+            usExaminationTypes: [],
+            usExaminationTypesById: [:],
+            examinationNeuralModel: nil,
             initialScreen: .onBoarding,
             initialScreenArguments: nil
         )

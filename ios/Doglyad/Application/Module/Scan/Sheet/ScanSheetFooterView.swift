@@ -18,7 +18,7 @@ struct ScanSheetFooterView: View {
                 VStack(
                     spacing: .zero
                 ) {
-                    if container.isResearchNeuralModelAvailable {
+                    if container.isUSExaminationNeuralModelAvailable {
                         if !viewModel.isLoading {
                             DButton(
                                 image: .microphone,

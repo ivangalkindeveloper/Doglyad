@@ -2,29 +2,29 @@ import DoglyadDatabase
 import Foundation
 
 protocol DiagnosticsRepositoryProtocol: AnyObject {
-    // MARK: ResearchType -
+    // MARK: USExaminationType -
 
-    func getSelectedResearchType() -> ResearchType?
+    func getSelectedUSExaminationTypeId() -> String?
 
-    func setSelectedResearchType(
-        type: ResearchType
+    func setSelectedUSExaminationTypeId(
+        id: String
     )
 
     // MARK: Conclusion -
 
     func generateConclusion(
-        request: ResearchRequest,
+        request: USExaminationRequest,
         locale: Locale
-    ) async throws -> ResearchModelConclusion
+    ) async throws -> USExaminationModelConclusion
 
-    @MainActor func getConclusions() -> [ResearchConclusion]
+    @MainActor func getConclusions() -> [USExaminationConclusion]
 
     @MainActor func setConclusion(
-        conclusion: ResearchConclusion
+        conclusion: USExaminationConclusion
     )
 
     @MainActor func updateConclusion(
-        conclusion: ResearchConclusion
+        conclusion: USExaminationConclusion
     )
 
     @MainActor func clearAllConclusions()

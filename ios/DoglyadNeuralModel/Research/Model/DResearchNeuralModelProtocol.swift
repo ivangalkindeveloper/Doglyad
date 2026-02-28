@@ -1,10 +1,10 @@
 import Foundation
 
-public protocol DResearchNeuralModelProtocol {
+public protocol DExaminationNeuralModelProtocol {
     static var isAvailable: Bool { get }
 
-    func parseResearchSpeech(
+    func parseExaminationSpeech(
         locale: Locale,
         speech: String
-    ) async throws -> DResearchNeuralModelResponse
+    ) async throws -> DExaminationNeuralModelResponse
 }

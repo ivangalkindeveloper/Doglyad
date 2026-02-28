@@ -2,20 +2,24 @@ import DoglyadUI
 import SwiftUI
 
 struct ConclusionScreenView: View {
+    @EnvironmentObject var container: DependencyContainer
     @EnvironmentObject var theme: DTheme
-    var color: DColor { theme.color }
-    var size: DSize { theme.size }
-    var typography: DTypography { theme.typography }
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
 
     @StateObject var viewModel: ConclusionViewModel
-    var conclusion: ResearchConclusion {
+    private var conclusion: USExaminationConclusion {
         viewModel.conclusion
+    }
+    private var examinationData: USExaminationData {
+        viewModel.conclusion.examinationData
     }
 
     var body: some View {
         DScreen(
             title: .conclusionTitle,
-            subTitle: "\(conclusion.researchData.patientName), \(conclusion.date.localized())",
+            subTitle: "\(examinationData.patientName), \(conclusion.date.localized())",
             onTapBack: viewModel.onTapBack,
             trailing: {
                 ShareLink(
@@ -38,7 +42,13 @@ struct ConclusionScreenView: View {
                         alignment: .leading,
                         spacing: .zero
                     ) {
-                        DText(.forResearchType(conclusion.researchData.researchType))
+                        DText(
+                            LocalizedStringResource.forExaminationTypeById(
+                                types: container.usExaminationTypesById,
+                                id: examinationData.usExaminationTypeId,
+                                locale: Locale.current
+                            )
+                        )
                             .dStyle(
                                 font: typography.linkLarge
                             )
@@ -51,7 +61,7 @@ struct ConclusionScreenView: View {
                             alignment: .leading,
                             spacing: .zero
                         ) {
-                            DText(.scanResearchDateLabel)
+                            DText(.scanExaminationDateLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
                                     color: color.grayscalePlacehold
@@ -69,7 +79,7 @@ struct ConclusionScreenView: View {
                                     color: color.grayscalePlacehold
                                 )
 
-                            DText(conclusion.researchData.patientName)
+                            DText(examinationData.patientName)
                                 .dStyle(
                                     font: typography.textSmall
                                 )
@@ -81,7 +91,7 @@ struct ConclusionScreenView: View {
                                     color: color.grayscalePlacehold
                                 )
 
-                            DText(.forGender(conclusion.researchData.patientGender))
+                            DText(.forGender(examinationData.patientGender))
                                 .dStyle(
                                     font: typography.textSmall
                                 )
@@ -93,25 +103,25 @@ struct ConclusionScreenView: View {
                                     color: color.grayscalePlacehold
                                 )
 
-                            DText(conclusion.researchData.patientDateOfBirth.localized())
+                            DText(examinationData.patientDateOfBirth.localized())
                                 .dStyle(
                                     font: typography.textSmall
                                 )
                                 .padding(.bottom, size.s8)
 
-                            DText(.scanResearchDescriptionLabel)
+                            DText(.scanExaminationDescriptionLabel)
                                 .dStyle(
                                     font: typography.linkSmall,
                                     color: color.grayscalePlacehold
                                 )
 
                             ExpandableText(
-                                text: conclusion.researchData.researchDescription,
+                                text: examinationData.examinationDescription,
                                 backgroundColor: color.grayscaleBackground
                             )
                             .padding(.bottom, size.s8)
 
-                            if let patientComplaint = conclusion.researchData.patientComplaint {
+                            if let patientComplaint = examinationData.patientComplaint {
                                 DText(.scanPatientComplaintLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
@@ -125,7 +135,7 @@ struct ConclusionScreenView: View {
                                 .padding(.bottom, size.s8)
                             }
 
-                            if let additionalData = conclusion.researchData.additionalData {
+                            if let additionalData = examinationData.additionalData {
                                 DText(.scanAdditionalDataLabel)
                                     .dStyle(
                                         font: typography.linkSmall,
@@ -149,7 +159,7 @@ struct ConclusionScreenView: View {
 
                             ModelConclusionCard(
                                 conclusion: conclusion.actualModelConclusion,
-                                onTapCopy: { viewModel.onTapCopy(conclusion: conclusion.actualModelConclusion) },
+                                onTapCopy: { viewModel.onTapCopy(conclusion: conclusion.actualModelConclusion) }
                             )
                             .id(ConclusionViewModel.actualModelConclusionCardScrollId)
                             .padding(.bottom, size.s16)
@@ -159,7 +169,7 @@ struct ConclusionScreenView: View {
                                 title: .buttonRepeatScan,
                                 action: {
                                     viewModel.onTapRepeatScan(
-                                        proxy: proxy,
+                                        proxy: proxy
                                     )
                                 },
                                 isLoading: viewModel.isLoading
@@ -179,7 +189,7 @@ struct ConclusionScreenView: View {
                                 ForEach(conclusion.previosModelConclusions) { modelConclusion in
                                     ModelConclusionCard(
                                         conclusion: modelConclusion,
-                                        onTapCopy: { viewModel.onTapCopy(conclusion: modelConclusion) },
+                                        onTapCopy: { viewModel.onTapCopy(conclusion: modelConclusion) }
                                     )
                                     .padding(.bottom, size.s8)
                                 }

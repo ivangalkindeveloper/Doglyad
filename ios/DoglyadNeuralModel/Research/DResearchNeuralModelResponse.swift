@@ -1,13 +1,13 @@
 import Foundation
 
-public struct DResearchNeuralModelResponse: Codable {
+public struct DExaminationNeuralModelResponse: Codable {
     public enum Gender: String, Codable {
         case male
         case female
 
         @available(iOS 26.0, *)
         static func fromFoudationModels(
-            _ response: DResearchNeuralModelFoundationModels.Gender?
+            _ response: DExaminationNeuralModelFoundationModels.Gender?
         ) -> Self? {
             switch response {
             case .male:
@@ -26,25 +26,25 @@ public struct DResearchNeuralModelResponse: Codable {
     public let patientHeightCM: Double?
     public let patientWeightKG: Double?
     public let patientComplaint: String?
-    public let researchDescription: String?
+    public let examinationDescription: String?
     public let additionalData: String?
 
     @available(iOS 26.0, *)
     static func fromFoudationModels(
-        _ response: DResearchNeuralModelFoundationModels.Response
+        _ response: DExaminationNeuralModelFoundationModels.Response
     ) -> Self {
-        DResearchNeuralModelResponse(
+        DExaminationNeuralModelResponse(
             patientName: response.patientName,
             patientGender: Gender.fromFoudationModels(
                 response.patientGender
             ),
-            patientDateOfBirth: DResearchGenerationConfig.dateFormatter.date(
+            patientDateOfBirth: DExaminationGenerationConfig.dateFormatter.date(
                 from: response.patientDateOfBirth ?? ""
             ),
             patientHeightCM: response.patientHeightCM,
             patientWeightKG: response.patientWeightKG,
             patientComplaint: response.patientComplaint,
-            researchDescription: response.researchDescription,
+            examinationDescription: response.examinationDescription,
             additionalData: response.additionalData
         )
     }

@@ -1,40 +1,40 @@
 import DoglyadDatabase
 import Foundation
 
-struct ResearchData: Codable {
-    let researchType: ResearchType
-    let photos: [ResearchScanPhoto]
+struct USExaminationData: Codable {
+    let usExaminationTypeId: String
+    let photos: [USExaminationScanPhoto]
     let patientName: String
     let patientGender: PatientGender
     let patientDateOfBirth: Date
     let patientHeight: Double
     let patientWeight: Double
     let patientComplaint: String?
-    let researchDescription: String
+    let examinationDescription: String
     let additionalData: String?
 }
 
-extension ResearchData {
+extension USExaminationData {
     static func fromDB(
-        _ db: ResearchDataDB
-    ) -> ResearchData {
-        ResearchData(
-            researchType: ResearchType.fromString(db.researchTypeRawValue) ?? .default,
-            photos: db.photos.map { ResearchScanPhoto.fromDB($0) },
+        _ db: USExaminationDataDB
+    ) -> USExaminationData {
+        USExaminationData(
+            usExaminationTypeId: db.usExaminationTypeId,
+            photos: db.photos.map { USExaminationScanPhoto.fromDB($0) },
             patientName: db.patientName,
             patientGender: PatientGender(rawValue: db.patientGenderRawValue) ?? .male,
             patientDateOfBirth: db.patientDateOfBirth,
             patientHeight: db.patientHeight,
             patientWeight: db.patientWeight,
             patientComplaint: db.patientComplaint,
-            researchDescription: db.researchDescription,
+            examinationDescription: db.examinationDescription,
             additionalData: db.additionalData
         )
     }
 
-    func toDB() -> ResearchDataDB {
-        ResearchDataDB(
-            researchTypeRawValue: researchType.rawValue,
+    func toDB() -> USExaminationDataDB {
+        USExaminationDataDB(
+            usExaminationTypeId: usExaminationTypeId,
             photos: photos.map { $0.toDB() },
             patientName: patientName,
             patientGenderRawValue: patientGender.rawValue,
@@ -42,7 +42,7 @@ extension ResearchData {
             patientHeight: patientHeight,
             patientWeight: patientWeight,
             patientComplaint: patientComplaint,
-            researchDescription: researchDescription,
+            examinationDescription: examinationDescription,
             additionalData: additionalData
         )
     }

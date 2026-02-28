@@ -1392,9 +1392,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Doglyad/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Догляд";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Need for research pictures capture";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need for research pictures capture";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Need for voice reconginition research data";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need for examination pictures capture";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need for examination pictures capture";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Need for voice reconginition examination data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1437,9 +1437,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Doglyad/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Догляд";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Need for research pictures capture";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need for research pictures capture";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Need for voice reconginition research data";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need for examination pictures capture";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need for examination pictures capture";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Need for voice reconginition examination data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

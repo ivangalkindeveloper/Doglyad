@@ -5,11 +5,11 @@ public protocol DDatabaseProtocol: AnyObject {
 
     func setOnBoardingCompleted(value: Bool)
 
-    // MARK: ResearchType -
+    // MARK: USExaminationType -
 
-    func getSelectedUSResearchType() -> String?
+    func getSelectedUSExaminationTypeId() -> String?
 
-    func setSelectedUSResearchType(value: String)
+    func setSelectedUSExaminationTypeId(value: String)
 
     // MARK: NeuralModelSettings -
 
@@ -23,17 +23,17 @@ public protocol DDatabaseProtocol: AnyObject {
 
     // MARK: ModelConclusion -
 
-    @MainActor func getResearchConclusions() -> [ResearchConclusionDB]
+    @MainActor func getExaminationConclusions() -> [USExaminationConclusionDB]
 
-    @MainActor func setResearchConclusion(
-        value: ResearchConclusionDB
+    @MainActor func setExaminationConclusion(
+        value: USExaminationConclusionDB
     )
 
-    @MainActor func updateResearchConclusion(
-        value: ResearchConclusionDB
+    @MainActor func updateExaminationConclusion(
+        value: USExaminationConclusionDB
     )
 
-    @MainActor func clearAllResearchConclusions()
+    @MainActor func clearAllExaminationConclusions()
 
     // MARK: Clear -
 

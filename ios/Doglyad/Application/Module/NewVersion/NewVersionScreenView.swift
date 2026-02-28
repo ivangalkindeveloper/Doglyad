@@ -31,7 +31,7 @@ struct NewVersionScreenView: View {
                         )
                     }
                     .frame(width: size.s64, height: size.s64)
-                    
+
                     DText(.newVersionDescription0)
                         .dStyle(
                             font: typography.linkSmall,

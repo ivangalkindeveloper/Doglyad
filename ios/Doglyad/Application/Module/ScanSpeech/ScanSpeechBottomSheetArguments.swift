@@ -2,10 +2,10 @@ import DoglyadNeuralModel
 import Router
 
 final class ScanSpeechBottomSheetArguments: RouteArgumentsProtocol {
-    let onComplete: ((DResearchNeuralModelResponse) -> Void)?
+    let onComplete: ((DExaminationNeuralModelResponse) -> Void)?
 
     init(
-        onComplete: ((DResearchNeuralModelResponse) -> Void)?
+        onComplete: ((DExaminationNeuralModelResponse) -> Void)?
     ) {
         self.onComplete = onComplete
     }

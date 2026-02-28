@@ -2,7 +2,7 @@ import Foundation
 import FoundationModels
 
 @available(iOS 26.0, *)
-public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelProtocol {
+public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralModelProtocol {
     @FoundationModels.Generable
     struct Response {
         @FoundationModels.Guide(description: "Patient name, number, or nickname")
@@ -11,7 +11,7 @@ public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelPro
         @FoundationModels.Guide(description: "Patient gender")
         let patientGender: Gender?
 
-        @FoundationModels.Guide(description: "Patient date of birth in the following format \(DResearchGenerationConfig.dateFormat)")
+        @FoundationModels.Guide(description: "Patient date of birth in the following format \(DExaminationGenerationConfig.dateFormat)")
         let patientDateOfBirth: String?
 
         @FoundationModels.Guide(description: "Patient height in centimeters")
@@ -23,8 +23,8 @@ public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelPro
         @FoundationModels.Guide(description: "Patient complaints")
         let patientComplaint: String?
 
-        @FoundationModels.Guide(description: "Patient examination details")
-        let researchDescription: String?
+        @FoundationModels.Guide(description: "Patient examination description")
+        let examinationDescription: String?
 
         @FoundationModels.Guide(description: "Additional patient-independent examination details, such as device model, sensor types, and number of photographs and videos")
         let additionalData: String?
@@ -39,20 +39,20 @@ public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelPro
     public static var isAvailable: Bool { SystemLanguageModel.default.isAvailable }
     private let session: LanguageModelSession = .init(
         instructions: """
-        \(DResearchGenerationConfig.modelRole)
-        \(DResearchGenerationConfig.answerExamples)
+        \(DExaminationGenerationConfig.modelRole)
+        \(DExaminationGenerationConfig.answerExamples)
         """
     )
 
     public init() {}
 
-    public func parseResearchSpeech(
+    public func parseExaminationSpeech(
         locale: Locale,
         speech _: String
-    ) async throws -> DResearchNeuralModelResponse {
-        let taskPrompt = DResearchGenerationConfig.taskPrompt(
+    ) async throws -> DExaminationNeuralModelResponse {
+        let taskPrompt = DExaminationGenerationConfig.taskPrompt(
             locale,
-            DResearchGenerationConfig.testText
+            DExaminationGenerationConfig.testText
         )
 
         let response = try await session.respond(
@@ -60,7 +60,7 @@ public final class DResearchNeuralModelFoundationModels: DResearchNeuralModelPro
             generating: Response.self
         )
 
-        return DResearchNeuralModelResponse.fromFoudationModels(
+        return DExaminationNeuralModelResponse.fromFoudationModels(
             response.content
         )
     }

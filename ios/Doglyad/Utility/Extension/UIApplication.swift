@@ -6,7 +6,7 @@ extension UIApplication {
         guard shared.canOpenURL(settingsURL) else { return }
         shared.open(settingsURL)
     }
-    
+
     static func openAppStore(
         environment: EnvironmentProtocol,
         id: String

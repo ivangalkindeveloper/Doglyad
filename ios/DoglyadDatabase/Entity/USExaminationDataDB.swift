@@ -2,31 +2,31 @@ import Foundation
 import SwiftData
 
 @Model
-public final class ResearchDataDB {
-    public var researchTypeRawValue: String
-    @Relationship public var photos: [ResearchScanPhotoDB]
+public final class USExaminationDataDB {
+    public var usExaminationTypeId: String
+    @Relationship public var photos: [USExaminationScanPhotoDB]
     public var patientName: String
     public var patientGenderRawValue: String
     public var patientDateOfBirth: Date
     public var patientHeight: Double
     public var patientWeight: Double
     public var patientComplaint: String?
-    public var researchDescription: String
+    public var examinationDescription: String
     public var additionalData: String?
 
     public init(
-        researchTypeRawValue: String,
-        photos: [ResearchScanPhotoDB] = [],
+        usExaminationTypeId: String,
+        photos: [USExaminationScanPhotoDB] = [],
         patientName: String,
         patientGenderRawValue: String,
         patientDateOfBirth: Date,
         patientHeight: Double,
         patientWeight: Double,
         patientComplaint: String?,
-        researchDescription: String,
+        examinationDescription: String,
         additionalData: String?
     ) {
-        self.researchTypeRawValue = researchTypeRawValue
+        self.usExaminationTypeId = usExaminationTypeId
         self.photos = photos
         self.patientName = patientName
         self.patientGenderRawValue = patientGenderRawValue
@@ -34,7 +34,7 @@ public final class ResearchDataDB {
         self.patientHeight = patientHeight
         self.patientWeight = patientWeight
         self.patientComplaint = patientComplaint
-        self.researchDescription = researchDescription
+        self.examinationDescription = examinationDescription
         self.additionalData = additionalData
     }
 }

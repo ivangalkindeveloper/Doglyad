@@ -2,7 +2,7 @@ import DoglyadUI
 import Router
 import SwiftUI
 
-struct SelectResearchTypeBottomSheet: View {
+struct SelectUSExaminationTypeBottomSheet: View {
     @EnvironmentObject var container: DependencyContainer
     @EnvironmentObject var router: DRouter
     @EnvironmentObject private var theme: DTheme
@@ -10,11 +10,11 @@ struct SelectResearchTypeBottomSheet: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    let arguments: SelectResearchTypeArguments?
+    let arguments: SelectUSExaminationTypeArguments?
 
     var body: some View {
         DBottomSheet(
-            title: .researchTypeTitle,
+            title: .usExaminationTypeTitle,
             fraction: 0.8
         ) {
             ScrollView(
@@ -23,9 +23,9 @@ struct SelectResearchTypeBottomSheet: View {
                 VStack(
                     spacing: .zero
                 ) {
-                    ForEach(container.researchTypes) { type in
+                    ForEach(container.usExaminationTypes) { type in
                         DListButtonCard(
-                            title: .forResearchType(type),
+                            title: type.getLocalizedTitle(for: Locale.current),
                             action: {
                                 router.dismissSheet()
                                 arguments?.onSelected(type)
@@ -41,7 +41,7 @@ struct SelectResearchTypeBottomSheet: View {
         }
         bottom: {
             DText(
-                .researchTypeFutureAddingDescription
+                .usExaminationTypeAddingDescription
             )
             .dStyle(
                 font: typography.textSmall,
@@ -54,7 +54,7 @@ struct SelectResearchTypeBottomSheet: View {
 }
 
 #Preview {
-    SelectResearchTypeBottomSheet(
+    SelectUSExaminationTypeBottomSheet(
         arguments: nil
     )
     .previewable()

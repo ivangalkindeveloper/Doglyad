@@ -1,6 +1,6 @@
 import Foundation
 
-enum DResearchGenerationConfig {
+enum DExaminationGenerationConfig {
     static let dateFormat: String = "YYYY-MM-DD"
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -21,13 +21,13 @@ enum DResearchGenerationConfig {
     patient height,
     patient weight,
     patient complaint,
-    research description,
+    examination description,
     additional information
     """
     static let modelRole: String =
         """
         You are a model parsing a medical study text obtained by a doctor's dictation.
-        Dictation text must be parsed into the following entitiesabout the medical research performed: \(entities).
+        Dictation text must be parsed into the following entitiesabout the medical examination performed: \(entities).
         Don't invent anything of your own or add from the examples below, the main task is to parse only the transmitted dictated text.
         Each entity must be text-normalized — split into logical sentences, restore punctuation, correct slurred speech, convert word forms to literary forms, and correct syntax and spelling errors, as the text is dictated by a doctor's voice.
         Ignore noise, filler words, dictation errors, and incomplete or repeated phrases in the parsed text.
@@ -41,7 +41,7 @@ enum DResearchGenerationConfig {
     PatientHeightCM": 174.0
     PatientWeightKG": 68.0
     PatientComplaint": "Intermittent abdominal pain, difficulty swallowing."
-    ResearchDescription": "An abdominal ultrasound and a renal ultrasound were performed with preliminary preparation. The examination was complicated by increased gas production."
+    ExaminationDescription": "An abdominal ultrasound and a renal ultrasound were performed with preliminary preparation. The examination was complicated by increased gas production."
     AdditionalData": "A 3-5 MHz convex probe and a 7.5 MHz linear probe were used. 12 images and 3 video loops were saved."
     """
     static let outputJsonExample: String =
@@ -56,7 +56,7 @@ enum DResearchGenerationConfig {
             "patientHeightCM": 174.0,
             "patientWeightKG": 68.0,
             "patientComplaint": "Intermittent abdominal pain, difficulty swallowing.",
-            "researchDescription": "An abdominal ultrasound and a renal ultrasound were performed with preliminary preparation. The examination was complicated by increased gas production.",
+            "examinationDescription": "An abdominal ultrasound and a renal ultrasound were performed with preliminary preparation. The examination was complicated by increased gas production.",
             "additionalData": "A 3-5 MHz convex probe and a 7.5 MHz linear probe were used. 12 images and 3 video loops were saved."
         }
         """

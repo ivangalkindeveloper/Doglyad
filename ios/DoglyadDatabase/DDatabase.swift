@@ -7,11 +7,11 @@ public final class DDatabase: DDatabaseProtocol {
 
     public init() throws {
         let schema = Schema([
-            ResearchConclusionDB.self,
-            ResearchDataDB.self,
-            ResearchScanPhotoDB.self,
-            ResearchModelConclusionDB.self,
             NeuralModelSettingsDB.self,
+            USExaminationConclusionDB.self,
+            USExaminationDataDB.self,
+            USExaminationScanPhotoDB.self,
+            USExaminationModelConclusionDB.self,
         ])
         container = try ModelContainer(
             for: schema
@@ -81,49 +81,49 @@ public extension DDatabase {
     }
 }
 
-// MARK: ResearchType -
+// MARK: USExaminationType -
 
 public extension DDatabase {
-    func getSelectedUSResearchType() -> String? {
-        getString(.selectedUSResearchType)
+    func getSelectedUSExaminationTypeId() -> String? {
+        getString(.selectedUSExaminationTypeId)
     }
 
-    func setSelectedUSResearchType(value: String) {
-        setValue(value, .selectedUSResearchType)
+    func setSelectedUSExaminationTypeId(value: String) {
+        setValue(value, .selectedUSExaminationTypeId)
     }
 }
 
 // MARK: ModelConclusion -
 
 public extension DDatabase {
-    @MainActor func getResearchConclusions() -> [ResearchConclusionDB] {
-        let descriptor = FetchDescriptor<ResearchConclusionDB>(
+    @MainActor func getExaminationConclusions() -> [USExaminationConclusionDB] {
+        let descriptor = FetchDescriptor<USExaminationConclusionDB>(
             sortBy: [SortDescriptor(\.date, order: .forward)]
         )
         return (try? container.mainContext.fetch(descriptor)) ?? []
     }
 
-    @MainActor func setResearchConclusion(
-        value: ResearchConclusionDB
+    @MainActor func setExaminationConclusion(
+        value: USExaminationConclusionDB
     ) {
         container.mainContext.insert(value)
     }
 
-    @MainActor func updateResearchConclusion(
-        value: ResearchConclusionDB
+    @MainActor func updateExaminationConclusion(
+        value: USExaminationConclusionDB
     ) {
         let id = value.id
-        let descriptor = FetchDescriptor<ResearchConclusionDB>(
-            predicate: #Predicate<ResearchConclusionDB> { $0.id == id }
+        let descriptor = FetchDescriptor<USExaminationConclusionDB>(
+            predicate: #Predicate<USExaminationConclusionDB> { $0.id == id }
         )
         guard let conclusion = try? container.mainContext.fetch(descriptor).first else { return }
 
         container.mainContext.delete(conclusion)
-        setResearchConclusion(value: value)
+        setExaminationConclusion(value: value)
     }
 
-    @MainActor func clearAllResearchConclusions() {
-        let conclusions = getResearchConclusions()
+    @MainActor func clearAllExaminationConclusions() {
+        let conclusions = getExaminationConclusions()
         for conclusion in conclusions {
             container.mainContext.delete(conclusion)
         }
@@ -138,6 +138,6 @@ public extension DDatabase {
             removeValue(key)
         }
 
-        clearAllResearchConclusions()
+        clearAllExaminationConclusions()
     }
 }

@@ -19,7 +19,7 @@ final class SettingsViewModel: ObservableObject {
         load()
     }
 
-    @Published var conclusions: [ResearchConclusion] = []
+    @Published var conclusions: [USExaminationConclusion] = []
 
     private func load() {
         let conclusions = diagnosticRepository.getConclusions()

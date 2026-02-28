@@ -24,13 +24,13 @@ struct ConclusionScreen: View {
 #Preview {
     ConclusionScreen(
         arguments: ConclusionScreenArguments(
-            conclusion: ResearchConclusion(
+            conclusion: USExaminationConclusion(
                 date: Date(),
                 neuralModelSettings: nil,
-                researchData: ResearchData(
-                    researchType: .thyroidGland,
+                examinationData: USExaminationData(
+                    usExaminationTypeId: "abdominalCavity",
                     photos: [
-                        ResearchScanPhoto(image: UIImage(resource: .alertInfo)),
+                        USExaminationScanPhoto(image: UIImage(resource: .alertInfo)),
                     ],
                     patientName: "Пациент#0",
                     patientGender: .male,
@@ -44,7 +44,7 @@ struct ConclusionScreen: View {
                     Ранее подобные симптомы не наблюдались.
                     Жалоб на боль нет.
                     """,
-                    researchDescription: """
+                    examinationDescription: """
                     Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
                     Размеры долей симметричные, контуры ровные и чёткие.
                     Паренхима однородная, эхогенность умеренная.
@@ -59,7 +59,7 @@ struct ConclusionScreen: View {
                     Архивирование изображения выполнено автоматически.
                     """
                 ),
-                actualModelConclusion: ResearchModelConclusion(
+                actualModelConclusion: USExaminationModelConclusion(
                     date: Date(),
                     model: "google/medgemma-3-27B",
                     response: """
@@ -71,7 +71,7 @@ struct ConclusionScreen: View {
                     """
                 ),
                 previosModelConclusions: [
-                    ResearchModelConclusion(
+                    USExaminationModelConclusion(
                         date: Date(),
                         model: "google/medgemma-3-27B",
                         response: """
@@ -82,7 +82,7 @@ struct ConclusionScreen: View {
                         УЗ-картина соответствует норме.
                         """
                     ),
-                    ResearchModelConclusion(
+                    USExaminationModelConclusion(
                         date: Date(),
                         model: "google/medgemma-3-27B",
                         response: """

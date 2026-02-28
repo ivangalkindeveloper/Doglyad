@@ -1,5 +1,5 @@
-import DoglyadUI
 import DoglyadNetwork
+import DoglyadUI
 import Foundation
 import Handler
 import SwiftUI
@@ -19,7 +19,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
         diagnosticRepository: DiagnosticsRepositoryProtocol,
         messager: DMessager,
         router: DRouter,
-        initialConclusion: ResearchConclusion
+        initialConclusion: USExaminationConclusion
     ) {
         self.modelRepository = modelRepository
         self.diagnosticRepository = diagnosticRepository
@@ -28,9 +28,9 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
         _conclusion = .init(initialValue: initialConclusion)
     }
 
-    @Published var conclusion: ResearchConclusion
+    @Published var conclusion: USExaminationConclusion
     @Published var isLoading = false
-    
+
     func onTapBack() {
         router.pop()
     }
@@ -46,7 +46,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
     }
 
     func onTapCopy(
-        conclusion: ResearchModelConclusion
+        conclusion: USExaminationModelConclusion
     ) {
         UIPasteboard.general.string = conclusion.response
         messager.show(
@@ -59,12 +59,12 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
     func onTapRepeatScan(
         proxy: ScrollViewProxy
     ) {
-        let neuralModelSettings = self.modelRepository.getNeuralModelSettings()
-        let request = ResearchRequest(
+        let neuralModelSettings = modelRepository.getNeuralModelSettings()
+        let request = USExaminationRequest(
             neuralModelSettings: neuralModelSettings,
-            researchData: self.conclusion.researchData
+            examinationData: conclusion.examinationData
         )
-        
+
         handle {
             self.isLoading = true
             return try await self.diagnosticRepository.generateConclusion(
@@ -74,19 +74,19 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
         } onDefer: {
             self.isLoading = false
         } onMainSuccess: { modelConclusion in
-            let updatedConclusion = ResearchConclusion(
+            let updatedConclusion = USExaminationConclusion(
                 id: self.conclusion.id,
                 date: self.conclusion.date,
                 neuralModelSettings: neuralModelSettings,
-                researchData: self.conclusion.researchData,
+                examinationData: self.conclusion.examinationData,
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: [self.conclusion.actualModelConclusion] + self.conclusion.previosModelConclusions
             )
-            
+
             self.diagnosticRepository.updateConclusion(
                 conclusion: updatedConclusion
             )
-            
+
             self.conclusion = updatedConclusion
             withAnimation {
                 proxy.scrollTo(Self.actualModelConclusionCardScrollId, anchor: .top)

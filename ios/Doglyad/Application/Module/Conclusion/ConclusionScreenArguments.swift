@@ -1,10 +1,10 @@
 import Router
 
 final class ConclusionScreenArguments: RouteArgumentsProtocol {
-    let conclusion: ResearchConclusion
+    let conclusion: USExaminationConclusion
 
     init(
-        conclusion: ResearchConclusion
+        conclusion: USExaminationConclusion
     ) {
         self.conclusion = conclusion
     }

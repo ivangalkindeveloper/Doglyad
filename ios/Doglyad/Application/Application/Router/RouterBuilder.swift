@@ -66,10 +66,10 @@ final class RouterBuilder: RouterBuilderProtocol {
         route: RouteSheet<SheetType>
     ) -> AnyView {
         switch route.type {
-        case .selectResearchType:
+        case .selectUSExaminationType:
             AnyView(
-                SelectResearchTypeBottomSheet(
-                    arguments: route.arguments as? SelectResearchTypeArguments
+                SelectUSExaminationTypeBottomSheet(
+                    arguments: route.arguments as? SelectUSExaminationTypeArguments
                 )
             )
         case .selectDateOfBirth:

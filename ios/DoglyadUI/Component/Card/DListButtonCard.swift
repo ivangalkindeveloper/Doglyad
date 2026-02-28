@@ -60,10 +60,8 @@ public struct DListButtonCard: View {
 
 #Preview {
     DListButtonCard(
-        title: "Gland research",
-        action: {
-            print("Gland")
-        },
+        title: "Thyroid gland",
+        action: {},
         isSelected: true
     )
     .padding()

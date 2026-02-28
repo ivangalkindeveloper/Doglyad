@@ -1,14 +1,14 @@
 import DependencyInitializer
-import FirebaseCore
-import DoglyadNetwork
 import DoglyadDatabase
+import DoglyadNetwork
+import FirebaseCore
 import Foundation
 
 extension InitializationProcess {
     static let preSyncSteps: [SyncInitializationStep<InitializationProcess>] = [
         SyncInitializationStep<InitializationProcess>(
             title: "Environment",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (process: InitializationProcess) in
                 let baseUrlSchemaString = Bundle.dictionaryString(.BASE_URL_SCHEMA)
                 let baseUrlString = Bundle.dictionaryString(.BASE_URL)
                 let baseUrl = URL(string: "\(baseUrlSchemaString)://\(baseUrlString)")!
@@ -19,7 +19,7 @@ extension InitializationProcess {
         ),
         SyncInitializationStep<InitializationProcess>(
             title: "Manager",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (process: InitializationProcess) in
                 process.connectionManager = ConnectionManager()
                 process.connectionManager?.start()
                 process.permissionmanager = PermissionManager()
@@ -27,13 +27,13 @@ extension InitializationProcess {
         ),
         SyncInitializationStep<InitializationProcess>(
             title: "Database",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (process: InitializationProcess) in
                 process.database = try DDatabase()
             }
         ),
         SyncInitializationStep<InitializationProcess>(
             title: "Network",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (process: InitializationProcess) in
                 process.httpClient = DHttpClient(
                     baseUrl: process.environment!.baseUrl.absoluteString
                 )
@@ -41,7 +41,7 @@ extension InitializationProcess {
         ),
         SyncInitializationStep<InitializationProcess>(
             title: "Repository",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (process: InitializationProcess) in
                 process.sharedRepository = SharedRepository(
                     database: process.database!
                 )
@@ -56,13 +56,13 @@ extension InitializationProcess {
         ),
         SyncInitializationStep<InitializationProcess>(
             title: "Firebase",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (_: InitializationProcess) in
                 FirebaseApp.configure()
             }
         ),
         SyncInitializationStep<InitializationProcess>(
             title: "Internet connection",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (process: InitializationProcess) in
                 let isConnected = process.connectionManager!.isConnected
                 if !isConnected {
                     throw InitializationError.noInternetConnection

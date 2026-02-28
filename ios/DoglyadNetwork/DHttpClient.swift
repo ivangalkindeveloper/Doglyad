@@ -20,7 +20,7 @@ public final class DHttpClient: DHttpClientProtocol {
     ) {
         self.baseUrl = baseUrl
     }
-    
+
     public func get<Response: Decodable>(
         url: URL
     ) async throws -> Response {
@@ -28,10 +28,10 @@ public final class DHttpClient: DHttpClientProtocol {
             url,
             method: .get
         )
-            .validate()
-            .serializingDecodable(Response.self, decoder: jsonDecoder)
-            .response
-            .value!
+        .validate()
+        .serializingDecodable(Response.self, decoder: jsonDecoder)
+        .response
+        .value!
     }
 
     public func get<Body: Encodable & Sendable, Response: Decodable>(

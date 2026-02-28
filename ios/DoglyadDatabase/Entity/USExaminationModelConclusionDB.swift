@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-public final class ResearchModelConclusionDB {
+public final class USExaminationModelConclusionDB {
     public var id: UUID
     public var date: Date
     public var model: String

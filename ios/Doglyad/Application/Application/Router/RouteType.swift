@@ -10,7 +10,7 @@ enum ScreenType: Hashable {
 }
 
 enum SheetType: Hashable {
-    case selectResearchType
+    case selectUSExaminationType
     case selectDateOfBirth
     case scanSpeech
     case permissionSpeech

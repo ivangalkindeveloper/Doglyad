@@ -3,7 +3,7 @@ internal import MLXLMCommon
 internal import MLX
 internal import MLXLLM
 
-public final class DResearchNeuralModelMLX: DResearchNeuralModelProtocol {
+public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
     public static var isAvailable: Bool {
         DNeuralDevice.canRunLocally(
             model: defaultModel,
@@ -32,19 +32,19 @@ public final class DResearchNeuralModelMLX: DResearchNeuralModelProtocol {
         session = MLXLMCommon.ChatSession(
             model,
             instructions: """
-            \(DResearchGenerationConfig.modelRole)
-            \(DResearchGenerationConfig.outputJsonExample)
+            \(DExaminationGenerationConfig.modelRole)
+            \(DExaminationGenerationConfig.outputJsonExample)
             """
         )
     }
 
-    public func parseResearchSpeech(
+    public func parseExaminationSpeech(
         locale: Locale,
         speech _: String
-    ) async throws -> DResearchNeuralModelResponse {
-        let taskPrompt = DResearchGenerationConfig.taskPrompt(
+    ) async throws -> DExaminationNeuralModelResponse {
+        let taskPrompt = DExaminationGenerationConfig.taskPrompt(
             locale,
-            DResearchGenerationConfig.testText
+            DExaminationGenerationConfig.testText
         )
 
         let response = try await session.respond(
@@ -52,8 +52,8 @@ public final class DResearchNeuralModelMLX: DResearchNeuralModelProtocol {
         )
 
         let data = Data(response.utf8)
-        let decoded = try DResearchGenerationConfig.jsonDecoder.decode(
-            DResearchNeuralModelResponse.self,
+        let decoded = try DExaminationGenerationConfig.jsonDecoder.decode(
+            DExaminationNeuralModelResponse.self,
             from: data
         )
         return decoded

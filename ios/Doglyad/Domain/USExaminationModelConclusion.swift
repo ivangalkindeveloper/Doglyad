@@ -1,14 +1,14 @@
 import DoglyadDatabase
 import Foundation
 
-struct ResearchModelConclusion: Identifiable, Codable, Sendable {
+struct USExaminationModelConclusion: Identifiable, Codable, Sendable {
     var id: UUID = .init()
     let date: Date
     let model: String
     let response: String
 }
 
-private extension ResearchModelConclusion {
+private extension USExaminationModelConclusion {
     enum CodingKeys: String, CodingKey {
         case date,
              model,
@@ -16,11 +16,11 @@ private extension ResearchModelConclusion {
     }
 }
 
-extension ResearchModelConclusion {
+extension USExaminationModelConclusion {
     static func fromDB(
-        _ db: ResearchModelConclusionDB
-    ) -> ResearchModelConclusion {
-        ResearchModelConclusion(
+        _ db: USExaminationModelConclusionDB
+    ) -> USExaminationModelConclusion {
+        USExaminationModelConclusion(
             id: db.id,
             date: db.date,
             model: db.model,
@@ -28,8 +28,8 @@ extension ResearchModelConclusion {
         )
     }
 
-    func toDB() -> ResearchModelConclusionDB {
-        ResearchModelConclusionDB(
+    func toDB() -> USExaminationModelConclusionDB {
+        USExaminationModelConclusionDB(
             id: id,
             date: date,
             model: model,

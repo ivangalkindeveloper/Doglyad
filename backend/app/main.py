@@ -18,7 +18,7 @@ STUB_MODE = os.getenv("STUB_MODE", "false").lower() in ("0", "false", "no")
 
 app = FastAPI()
 
-@app.post("/conclusion", response_model=ResearchModelConclusion)
+@app.post("/ultrasound_conclusion", response_model=ResearchModelConclusion)
 async def conclusion(body: ResearchRequest, request: Request) -> ResearchModelConclusion:
     accept_language = request.headers.get("accept-language", "en")
     locale = accept_language.split(",")[0].strip()
@@ -40,7 +40,7 @@ async def conclusion(body: ResearchRequest, request: Request) -> ResearchModelCo
 
 def build_stub(research: ResearchData, locale: str) -> str:
     return (
-        f"Ultrasound {research.researchType}: no significant pathology detected. "
+        f"Ultrasound {research.researchType}: no significant pathology detected."
         f"Clinical correlation is recommended. Locale: {locale or 'en'}."
     )
 

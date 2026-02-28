@@ -96,13 +96,13 @@ struct ScanSheetBodyView: View {
                 .padding(.bottom, size.s4)
 
                 DTextField(
-                    controller: viewModel.researchDescriptionController,
+                    controller: viewModel.examinationDescriptionController,
                     focus: DTextFieldFocus(
-                        value: .researchDescription,
+                        value: .examinationDescription,
                         state: focus
                     ),
-                    title: .scanResearchDescriptionLabel,
-                    placeholder: .scanResearchDescriptionPlaceholder,
+                    title: .scanExaminationDescriptionLabel,
+                    placeholder: .scanExaminationDescriptionPlaceholder,
                     keyboardType: .default,
                     sumbitLabel: .next
                 )

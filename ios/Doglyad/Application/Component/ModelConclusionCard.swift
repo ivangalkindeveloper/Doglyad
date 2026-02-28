@@ -7,8 +7,8 @@ struct ModelConclusionCard: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    let conclusion: ResearchModelConclusion
-    let onTapCopy: (() -> Void)
+    let conclusion: USExaminationModelConclusion
+    let onTapCopy: () -> Void
 
     var body: some View {
         VStack(
@@ -60,7 +60,7 @@ struct ModelConclusionCard: View {
                             )
                     }
                 }
-                
+
                 Spacer()
 
                 Button(
@@ -69,7 +69,7 @@ struct ModelConclusionCard: View {
                     DIcon(
                         .copy,
                         color: color.primaryDefault,
-                        height: size.s20,
+                        height: size.s20
                     )
                 }
                 .buttonStyle(.plain)
@@ -86,15 +86,12 @@ struct ModelConclusionCard: View {
         .padding(size.s16)
         .background(color.grayscaleBackground)
         .cornerRadius(size.s16)
-        
-
-
     }
 }
 
 #Preview {
     ModelConclusionCard(
-        conclusion: ResearchModelConclusion(
+        conclusion: USExaminationModelConclusion(
             date: Date(),
             model: "google/medgemma-3-27B",
             response: """

@@ -1,7 +1,7 @@
 import DoglyadDatabase
 import UIKit
 
-struct ResearchScanPhoto: Identifiable, Equatable, Codable {
+struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
     var id: UUID = .init()
     let imageData: Data
 
@@ -16,24 +16,24 @@ struct ResearchScanPhoto: Identifiable, Equatable, Codable {
     }
 }
 
-private extension ResearchScanPhoto {
+private extension USExaminationScanPhoto {
     enum CodingKeys: String, CodingKey {
         case imageData
     }
 }
 
-extension ResearchScanPhoto {
+extension USExaminationScanPhoto {
     static func fromDB(
-        _ db: ResearchScanPhotoDB
-    ) -> ResearchScanPhoto {
-        ResearchScanPhoto(
+        _ db: USExaminationScanPhotoDB
+    ) -> USExaminationScanPhoto {
+        USExaminationScanPhoto(
             id: db.id,
             image: UIImage(data: db.imageData) ?? UIImage()
         )
     }
 
-    func toDB() -> ResearchScanPhotoDB {
-        ResearchScanPhotoDB(
+    func toDB() -> USExaminationScanPhotoDB {
+        USExaminationScanPhotoDB(
             id: id,
             imageData: imageData
         )

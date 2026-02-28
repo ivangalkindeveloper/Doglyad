@@ -1,6 +1,6 @@
 enum DUserDefaultsKey: String, CaseIterable {
     case isOnBoardingCompleted
-    case selectedUSResearchType
+    case selectedUSExaminationTypeId
     case neuralModelResponseTemplate
     case neuralModelResponseLength
 }

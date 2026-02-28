@@ -1,8 +1,8 @@
 import DependencyInitializer
-import Router
-import DoglyadNeuralModel
-import DoglyadNetwork
 import DoglyadDatabase
+import DoglyadNetwork
+import DoglyadNeuralModel
+import Router
 
 @MainActor
 final class InitializationProcess: DependencyInitializationProcess {
@@ -17,8 +17,9 @@ final class InitializationProcess: DependencyInitializationProcess {
     var modelRepository: ModelRepositoryProtocol?
     var diagnosticsRepository: DiagnosticsRepositoryProtocol?
     var applicationConfig: ApplicationConfig?
-    var researchNeuralModel: DResearchNeuralModelProtocol?
-    var researchTypes: [ResearchType]?
+    var usExaminationTypes: [USExaminationType]?
+    var usExaminationTypesById: [String:USExaminationType]?
+    var examinationNeuralModel: DExaminationNeuralModelProtocol?
     var initialScreen: ScreenType?
     var initialScreenArguments: RouteArgumentsProtocol?
 
@@ -31,8 +32,9 @@ final class InitializationProcess: DependencyInitializationProcess {
             modelRepository: modelRepository!,
             diagnosticsRepository: diagnosticsRepository!,
             applicationConfig: applicationConfig!,
-            researchNeuralModel: researchNeuralModel,
-            researchTypes: researchTypes!,
+            usExaminationTypes: usExaminationTypes!,
+            usExaminationTypesById: usExaminationTypesById!,
+            examinationNeuralModel: examinationNeuralModel,
             initialScreen: initialScreen!,
             initialScreenArguments: initialScreenArguments
         )

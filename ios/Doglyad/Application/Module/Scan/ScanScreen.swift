@@ -14,6 +14,7 @@ struct ScanScreen: View {
                 permissionManager: container.permissionmanager,
                 modelRepository: container.modelRepository,
                 diagnosticRepository: container.diagnosticsRepository,
+                usExaminationTypesById: container.usExaminationTypesById,
                 messager: messager,
                 router: router
             )

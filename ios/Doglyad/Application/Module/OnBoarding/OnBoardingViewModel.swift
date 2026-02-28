@@ -86,14 +86,14 @@ final class OnBoardingViewModel: ObservableObject {
         case .fourth:
             router.push(
                 route: RouteSheet(
-                    type: .selectResearchType,
-                    arguments: SelectResearchTypeArguments(
-                        onSelected: { [weak self] researchType in
+                    type: .selectUSExaminationType,
+                    arguments: SelectUSExaminationTypeArguments(
+                        onSelected: { [weak self] type in
                             guard let self = self else { return }
 
                             self.page = .fifth
-                            self.diagnosticRepository.setSelectedResearchType(
-                                type: researchType
+                            self.diagnosticRepository.setSelectedUSExaminationTypeId(
+                                id: type.id
                             )
                         }
                     )

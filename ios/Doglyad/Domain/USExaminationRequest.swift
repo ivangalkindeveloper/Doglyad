@@ -1,0 +1,4 @@
+struct USExaminationRequest: Codable {
+    let neuralModelSettings: NeuralModelSettings
+    let examinationData: USExaminationData
+}

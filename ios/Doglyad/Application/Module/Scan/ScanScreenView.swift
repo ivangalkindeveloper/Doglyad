@@ -25,8 +25,8 @@ struct ScanScreenView: View {
             },
             titleContent: {
                 DButton(
-                    title: .forResearchType(viewModel.researchType),
-                    action: viewModel.onTapResearchType
+                    title: viewModel.usExaminationType.getLocalizedTitle(for: Locale.current),
+                    action: viewModel.onTapUSExaminationType
                 )
                 .dStyle(.primaryChip)
             },

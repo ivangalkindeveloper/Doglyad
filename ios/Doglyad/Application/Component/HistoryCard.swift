@@ -2,13 +2,17 @@ import DoglyadUI
 import SwiftUI
 
 struct HistoryCard: View {
+    @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    let conclusion: ResearchConclusion
+    let conclusion: USExaminationConclusion
     let action: () -> Void
+    private var examinationData: USExaminationData {
+        conclusion.examinationData
+    }
 
     var body: some View {
         DButtonCard(
@@ -18,7 +22,7 @@ struct HistoryCard: View {
                 spacing: .zero
             ) {
                 ZStack {
-                    ForEach(Array(conclusion.researchData.photos.enumerated()), id: \.element.id) { index, photo in
+                    ForEach(Array(examinationData.photos.enumerated()), id: \.element.id) { index, photo in
                         PhotoCard(image: photo.image)
                             .offset(x: Double.random(in: -8 ... 8), y: Double.random(in: -8 ... 8))
                             .rotationEffect(.degrees(Double.random(in: -24 ... 24)))
@@ -34,7 +38,7 @@ struct HistoryCard: View {
                     HStack(
                         spacing: .zero
                     ) {
-                        DText(conclusion.researchData.patientName)
+                        DText(examinationData.patientName)
                             .dStyle(
                                 font: typography.linkSmall
                             )
@@ -47,13 +51,19 @@ struct HistoryCard: View {
                             )
                     }
 
-                    DText(LocalizedStringResource.forResearchType(conclusion.researchData.researchType))
+                    DText(
+                        LocalizedStringResource.forExaminationTypeById(
+                            types: container.usExaminationTypesById,
+                            id: examinationData.usExaminationTypeId,
+                            locale: Locale.current
+                        )
+                    )
                         .dStyle(
                             font: typography.linkSmall,
                             color: color.grayscalePlacehold
                         )
 
-                    DText(conclusion.researchData.researchDescription)
+                    DText(examinationData.examinationDescription)
                         .dStyle(
                             font: typography.textSmall,
                             color: color.grayscaleLabel
@@ -70,15 +80,15 @@ struct HistoryCard: View {
 
 #Preview {
     HistoryCard(
-        conclusion: ResearchConclusion(
+        conclusion: USExaminationConclusion(
             date: Date(),
             neuralModelSettings: nil,
-            researchData: ResearchData(
-                researchType: .thyroidGland,
+            examinationData: USExaminationData(
+                usExaminationTypeId: "thyroidGland",
                 photos: [
-                    ResearchScanPhoto(image: UIImage(resource: .alertInfo)),
-                    ResearchScanPhoto(image: UIImage(resource: .alertInfo)),
-                    ResearchScanPhoto(image: UIImage(resource: .alertInfo)),
+                    USExaminationScanPhoto(image: UIImage(resource: .alertInfo)),
+                    USExaminationScanPhoto(image: UIImage(resource: .alertInfo)),
+                    USExaminationScanPhoto(image: UIImage(resource: .alertInfo)),
                 ],
                 patientName: "Пациент#0",
                 patientGender: .male,
@@ -92,7 +102,7 @@ struct HistoryCard: View {
                 Ранее подобные симптомы не наблюдались.
                 Жалоб на боль нет.
                 """,
-                researchDescription: """
+                examinationDescription: """
                 Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
                 Размеры долей симметричные, контуры ровные и чёткие.
                 Паренхима однородная, эхогенность умеренная.
@@ -107,9 +117,9 @@ struct HistoryCard: View {
                 Архивирование изображения выполнено автоматически.
                 """
             ),
-            actualModelConclusion: ResearchModelConclusion(
+            actualModelConclusion: USExaminationModelConclusion(
                 date: Date(),
-                model: "medgemma-3-27B",
+                model: "google/medgemma-3-27B",
                 response: """
                 Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                 Размеры органа в пределах возрастной нормы.
@@ -119,9 +129,9 @@ struct HistoryCard: View {
                 """
             ),
             previosModelConclusions: [
-                ResearchModelConclusion(
+                USExaminationModelConclusion(
                     date: Date(),
-                    model: "medgemma-3-27B",
+                    model: "google/medgemma-3-27B",
                     response: """
                     Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                     Размеры органа в пределах возрастной нормы.
@@ -130,9 +140,9 @@ struct HistoryCard: View {
                     УЗ-картина соответствует норме.
                     """
                 ),
-                ResearchModelConclusion(
+                USExaminationModelConclusion(
                     date: Date(),
-                    model: "medgemma-3-27B",
+                    model: "google/medgemma-3-27B",
                     response: """
                     Щитовидная железа расположена типично, структура органа сохранена.
                     Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.

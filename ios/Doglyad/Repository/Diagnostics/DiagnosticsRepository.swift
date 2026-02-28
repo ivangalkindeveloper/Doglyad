@@ -15,20 +15,18 @@ final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
     }
 }
 
-// MARK: ResearchType -
+// MARK: USExaminationType -
 
 extension DiagnosticsRepository {
-    func getSelectedResearchType() -> ResearchType? {
-        ResearchType.fromString(
-            database.getSelectedUSResearchType()
-        )
+    func getSelectedUSExaminationTypeId() -> String? {
+        database.getSelectedUSExaminationTypeId()
     }
 
-    func setSelectedResearchType(
-        type: ResearchType
+    func setSelectedUSExaminationTypeId(
+        id: String
     ) {
-        database.setSelectedUSResearchType(
-            value: type.rawValue
+        database.setSelectedUSExaminationTypeId(
+            value: id
         )
     }
 }
@@ -36,12 +34,12 @@ extension DiagnosticsRepository {
 // MARK: Conclusion -
 
 extension DiagnosticsRepository {
-    static var conclusionEndpoint: String = "/conclusion"
+    static var conclusionEndpoint: String = "/ultrasound_conclusion"
 
     func generateConclusion(
-        request: ResearchRequest,
+        request: USExaminationRequest,
         locale: Locale
-    ) async throws -> ResearchModelConclusion {
+    ) async throws -> USExaminationModelConclusion {
         try await httpClient.post(
             endPoint: DiagnosticsRepository.conclusionEndpoint,
             body: request,
@@ -51,24 +49,24 @@ extension DiagnosticsRepository {
         )
     }
 
-    @MainActor func getConclusions() -> [ResearchConclusion] {
-        database.getResearchConclusions().map { ResearchConclusion.fromDB($0) }
+    @MainActor func getConclusions() -> [USExaminationConclusion] {
+        database.getExaminationConclusions().map { USExaminationConclusion.fromDB($0) }
     }
 
     @MainActor func setConclusion(
-        conclusion: ResearchConclusion
+        conclusion: USExaminationConclusion
     ) {
-        database.setResearchConclusion(value: conclusion.toDB())
+        database.setExaminationConclusion(value: conclusion.toDB())
     }
 
     @MainActor func updateConclusion(
-        conclusion: ResearchConclusion
+        conclusion: USExaminationConclusion
     ) {
-        database.updateResearchConclusion(value: conclusion.toDB())
+        database.updateExaminationConclusion(value: conclusion.toDB())
     }
 
     @MainActor func clearAllConclusions() {
-        database.clearAllResearchConclusions()
+        database.clearAllExaminationConclusions()
     }
 }
 

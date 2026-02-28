@@ -3,7 +3,7 @@ import SwiftUI
 public struct DIcon: View {
     @EnvironmentObject private var theme: DTheme
     private var size: DSize { theme.size }
-    
+
     let resource: ImageResource
     let color: Color?
     let height: CGFloat?

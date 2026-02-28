@@ -1,11 +1,12 @@
 import DependencyInitializer
 import DoglyadNeuralModel
+import Foundation
 
 extension InitializationProcess {
     static let asyncSteps: [AsyncInitializationStep<InitializationProcess>] = [
         AsyncInitializationStep<InitializationProcess>(
             title: "Permission",
-            run: { (process: InitializationProcess) -> Void in
+            run: { (process: InitializationProcess) in
                 let isGranted = await process.permissionmanager!.isGranted(.camera)
                 if !isGranted {
                     throw InitializationError.noCameraRequestDenied
@@ -14,11 +15,10 @@ extension InitializationProcess {
         ),
         AsyncInitializationStep<InitializationProcess>(
             title: "Application config",
-            run: { (process: InitializationProcess) async -> Void in
+            run: { (process: InitializationProcess) async in
                 do {
                     let configUrl = await process.environment!.contentUrl
-                        .appendingPathComponent("config")
-                        .appendingPathComponent("application.json")
+                        .appendingPathComponent("config/application.json")
                     let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: configUrl)
                     await MainActor.run {
                         process.applicationConfig = applicationConfig
@@ -31,17 +31,37 @@ extension InitializationProcess {
             }
         ),
         AsyncInitializationStep<InitializationProcess>(
-            title: "Research Neural Model",
-            run: { (process: InitializationProcess) -> Void in
-                if #available(iOS 26.0, *), DResearchNeuralModelFoundationModels.isAvailable {
+            title: "Ultrasound examination types",
+            run: { (process: InitializationProcess) async throws in
+                let configUrl = await process.environment!.contentUrl
+                    .appendingPathComponent("config/ultrasound_examination_types.json")
+                let usExaminationTypes: [USExaminationType] = try await process.httpClient!.get(url: configUrl)
+                if usExaminationTypes.isEmpty {
+                    throw InitializationError.USExaminationTypesEmpty
+                }
+                
+                let usExaminationTypesById = Dictionary(
+                    uniqueKeysWithValues: usExaminationTypes.map { ($0.id, $0) }
+                )
+                
+                await MainActor.run {
+                    process.usExaminationTypes = usExaminationTypes
+                    process.usExaminationTypesById = usExaminationTypesById
+                }
+            }
+        ),
+        AsyncInitializationStep<InitializationProcess>(
+            title: "Ultrasound Examination Neural Model",
+            run: { (process: InitializationProcess) in
+                if #available(iOS 26.0, *), DExaminationNeuralModelFoundationModels.isAvailable {
                     return await MainActor.run {
-                        process.researchNeuralModel = DResearchNeuralModelFoundationModels()
+                        process.examinationNeuralModel = DExaminationNeuralModelFoundationModels()
                     }
                 }
-                if DResearchNeuralModelMLX.isAvailable {
-                    let model = try await DResearchNeuralModelMLX()
+                if DExaminationNeuralModelMLX.isAvailable {
+                    let model = try await DExaminationNeuralModelMLX()
                     return await MainActor.run {
-                        process.researchNeuralModel = model
+                        process.examinationNeuralModel = model
                     }
                 }
             }

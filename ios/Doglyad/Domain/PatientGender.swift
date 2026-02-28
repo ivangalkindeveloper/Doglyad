@@ -4,8 +4,8 @@ enum PatientGender: String, Codable {
     case male
     case female
 
-    static func fromResearchNeuralModelResponse(
-        _ response: DResearchNeuralModelResponse.Gender?
+    static func fromUSExaminationNeuralModelResponse(
+        _ response: DExaminationNeuralModelResponse.Gender?
     ) -> Self? {
         switch response {
         case .male:

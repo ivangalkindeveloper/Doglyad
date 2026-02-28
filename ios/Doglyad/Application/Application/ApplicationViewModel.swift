@@ -14,9 +14,6 @@ final class ApplicationViewModel: ObservableObject {
                 preSyncSteps: InitializationProcess.preSyncSteps,
                 asyncSteps: InitializationProcess.asyncSteps,
                 postSyncSteps: InitializationProcess.postSyncSteps,
-                onStartStep: { step in
-                    print(step.title ?? "")
-                },
                 onSuccess: { [weak self] result, _ in
                     guard let self = self else { return }
 

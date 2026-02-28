@@ -15,7 +15,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         case patientHeightCM
         case patientWeightKG
         case patientComplaint
-        case researchDescription
+        case examinationDescription
         case additionalData
     }
 
@@ -27,6 +27,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     private let permissionManager: PermissionManagerProtocol
     private let modelRepository: ModelRepositoryProtocol
     private let diagnosticRepository: DiagnosticsRepositoryProtocol
+    private let usExaminationTypesById: [String: USExaminationType]
     private let messager: DMessager
     private let router: DRouter
 
@@ -34,20 +35,22 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         permissionManager: PermissionManagerProtocol,
         modelRepository: ModelRepositoryProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
+        usExaminationTypesById: [String: USExaminationType],
         messager: DMessager,
         router: DRouter
     ) {
         self.permissionManager = permissionManager
         self.modelRepository = modelRepository
         self.diagnosticRepository = diagnosticRepository
+        self.usExaminationTypesById = usExaminationTypesById
         self.messager = messager
         self.router = router
         super.init()
         onInit()
     }
 
-    @Published var researchType = ResearchType.default
-    @Published var photos: [ResearchScanPhoto] = []
+    @Published var usExaminationType = USExaminationType.default
+    @Published var photos: [USExaminationScanPhoto] = []
     //
     @NestedObservableObject var cameraController = DCameraController()
     @NestedObservableObject var sheetController = ScanSheetController()
@@ -59,15 +62,16 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     @NestedObservableObject var patientHeightCMController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)
-    @NestedObservableObject var researchDescriptionController = DTextFieldController(isRequired: true)
+    @NestedObservableObject var examinationDescriptionController = DTextFieldController(isRequired: true)
     @NestedObservableObject var additionalDataController = DTextFieldController()
     //
     @Published var isLoading = false
 
     private func onInit() {
         cameraController.startSession()
-        if let selectedResearchType = diagnosticRepository.getSelectedResearchType() {
-            researchType = selectedResearchType
+        if let usExaminationTypeId = diagnosticRepository.getSelectedUSExaminationTypeId(),
+           let usExaminationType = usExaminationTypesById[usExaminationTypeId] {
+            self.usExaminationType = usExaminationType
         }
 
         let patientCount = diagnosticRepository.getConclusions().count
@@ -95,8 +99,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         case .patientWeightKG:
             focus = .patientComplaint
         case .patientComplaint:
-            focus = .researchDescription
-        case .researchDescription:
+            focus = .examinationDescription
+        case .examinationDescription:
             focus = .additionalData
         case .additionalData, .none:
             focus = nil
@@ -133,19 +137,19 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         )
     }
 
-    func onTapResearchType() {
+    func onTapUSExaminationType() {
         router.push(
             route: RouteSheet(
-                type: .selectResearchType,
-                arguments: SelectResearchTypeArguments(
-                    currentValue: researchType,
-                    onSelected: { [weak self] researchType in
+                type: .selectUSExaminationType,
+                arguments: SelectUSExaminationTypeArguments(
+                    currentValue: usExaminationType,
+                    onSelected: { [weak self] usExaminationType in
                         guard let self = self else { return }
-                        guard self.researchType != researchType else { return }
+                        guard self.usExaminationType != usExaminationType else { return }
 
-                        self.researchType = researchType
-                        self.diagnosticRepository.setSelectedResearchType(
-                            type: researchType
+                        self.usExaminationType = usExaminationType
+                        self.diagnosticRepository.setSelectedUSExaminationTypeId(
+                            id: usExaminationType.id
                         )
                     }
                 )
@@ -166,7 +170,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             completion: { [weak self] image in
                 guard let self = self else { return }
 
-                self.photos.append(ResearchScanPhoto(image: image))
+                self.photos.append(USExaminationScanPhoto(image: image))
                 if self.photos.count == ScanViewModel.photoMaxCount {
                     self.sheetController.setTop()
                 }
@@ -175,7 +179,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     }
 
     func onTapDeletePhoto(
-        photo: ResearchScanPhoto
+        photo: USExaminationScanPhoto
     ) {
         photos.remove(at: photos.firstIndex(of: photo)!)
     }
@@ -225,7 +229,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                             if let patientName = response.patientName {
                                 self.patientNameController.text = patientName
                             }
-                            if let patientGender = PatientGender.fromResearchNeuralModelResponse(response.patientGender) {
+                            if let patientGender = PatientGender.fromUSExaminationNeuralModelResponse(response.patientGender) {
                                 self.patientGender = patientGender
                             }
                             if let patientDateOfBirth = response.patientDateOfBirth {
@@ -240,8 +244,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                             if let patientComplaint = response.patientComplaint {
                                 self.patientComplaintController.text = patientComplaint
                             }
-                            if let researchDescription = response.researchDescription {
-                                self.researchDescriptionController.text = researchDescription
+                            if let examinationDescription = response.examinationDescription {
+                                self.examinationDescriptionController.text = examinationDescription
                             }
                             if let additionalData = response.additionalData {
                                 self.additionalDataController.text = additionalData
@@ -258,22 +262,22 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         let isPatientHeightCMValid = patientHeightCMController.validate()
         let isPatientWeightKGValid = patientWeightKGController.validate()
         let isPatientComplaintValid = patientComplaintController.validate()
-        let isResearchDescriptionValid = researchDescriptionController.validate()
+        let isExaminationDescriptionValid = examinationDescriptionController.validate()
         let isAdditionalDataValid = additionalDataController.validate()
         guard !photos.isEmpty,
               isPatientNameValid,
               isPatientHeightCMValid,
               isPatientWeightKGValid,
               isPatientComplaintValid,
-              isResearchDescriptionValid,
+              isExaminationDescriptionValid,
               isAdditionalDataValid
         else {
             return
         }
 
         let neuralModelSettings = modelRepository.getNeuralModelSettings()
-        let researchData = ResearchData(
-            researchType: researchType,
+        let examinationData = USExaminationData(
+            usExaminationTypeId: usExaminationType.id,
             photos: photos,
             patientName: patientNameController.text,
             patientGender: patientGender,
@@ -281,12 +285,12 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             patientHeight: Double(patientHeightCMController.text) ?? Self.defaultPatientHeightCM,
             patientWeight: Double(patientWeightKGController.text) ?? Self.defaultPatientWeightKG,
             patientComplaint: patientComplaintController.text,
-            researchDescription: researchDescriptionController.text,
+            examinationDescription: examinationDescriptionController.text,
             additionalData: additionalDataController.text
         )
-        let request = ResearchRequest(
+        let request = USExaminationRequest(
             neuralModelSettings: neuralModelSettings,
-            researchData: researchData
+            examinationData: examinationData
         )
         handle {
             self.isLoading = true
@@ -297,10 +301,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         } onDefer: {
             self.isLoading = false
         } onMainSuccess: { modelConclusion in
-            let conclusion = ResearchConclusion(
+            let conclusion = USExaminationConclusion(
                 date: Date(),
                 neuralModelSettings: neuralModelSettings,
-                researchData: researchData,
+                examinationData: examinationData,
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: []
             )
@@ -316,7 +320,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             self.patientHeightCMController.clear()
             self.patientWeightKGController.clear()
             self.patientComplaintController.clear()
-            self.researchDescriptionController.clear()
+            self.examinationDescriptionController.clear()
             self.additionalDataController.clear()
 
             self.router.push(

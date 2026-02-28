@@ -16,7 +16,7 @@ final class HistoryViewModel: ObservableObject {
         onInit()
     }
 
-    @Published var conclusions: [ResearchConclusion] = []
+    @Published var conclusions: [USExaminationConclusion] = []
 
     private func onInit() {
         let conclusions = diagnosticRepository.getConclusions()
@@ -28,7 +28,7 @@ final class HistoryViewModel: ObservableObject {
     }
 
     func onTapConclusion(
-        value: ResearchConclusion
+        value: USExaminationConclusion
     ) {
         router.push(
             route: RouteScreen(
