@@ -2,6 +2,7 @@ import DoglyadUI
 import SwiftUI
 
 struct ModelConclusionCard: View {
+    @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -37,11 +38,12 @@ struct ModelConclusionCard: View {
                                 font: typography.textSmall
                             )
                             .padding(.trailing, size.s4)
-
-                        DText(conclusion.model)
-                            .dStyle(
-                                font: typography.linkSmall
-                            )
+                        if let modelTitle = container.getUSExaminationNeuralModelById(id: conclusion.modelId)?.title {
+                            DText(modelTitle)
+                                .dStyle(
+                                    font: typography.linkSmall
+                                )
+                        }
                     }
 
                     HStack(
@@ -93,7 +95,7 @@ struct ModelConclusionCard: View {
     ModelConclusionCard(
         conclusion: USExaminationModelConclusion(
             date: Date(),
-            model: "google/medgemma-3-27B",
+            modelId: "google/medgemma-27b-it",
             response: """
             Щитовидная железа расположена типично, структура органа сохранена.
             Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.

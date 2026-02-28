@@ -70,6 +70,12 @@ extension DependencyContainer {
     ) -> USExaminationType? {
         usExaminationTypesById[id]
     }
+
+    func getUSExaminationNeuralModelById(
+        id: String
+    ) -> USExaminationNeuralModel? {
+        usExaminationNeuralModelsById[id]
+    }
 }
 
 extension DependencyContainer {
