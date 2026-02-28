@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 
 from app.model.neural_model_settings import NeuralModelSettings
-from app.model.research_data import ResearchData
+from app.model.us_examination_data import USExaminationData
 
 
-class ResearchRequest(BaseModel):
+class USExaminationRequest(BaseModel):
     neuralModelSettings: NeuralModelSettings
-    researchData: ResearchData
+    examinationData: USExaminationData

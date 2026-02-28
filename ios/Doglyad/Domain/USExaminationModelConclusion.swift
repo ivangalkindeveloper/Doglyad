@@ -4,14 +4,14 @@ import Foundation
 struct USExaminationModelConclusion: Identifiable, Codable, Sendable {
     var id: UUID = .init()
     let date: Date
-    let model: String
+    let modelId: String
     let response: String
 }
 
 private extension USExaminationModelConclusion {
     enum CodingKeys: String, CodingKey {
         case date,
-             model,
+             modelId,
              response
     }
 }
@@ -23,7 +23,7 @@ extension USExaminationModelConclusion {
         USExaminationModelConclusion(
             id: db.id,
             date: db.date,
-            model: db.model,
+            modelId: db.modelId,
             response: db.response
         )
     }
@@ -32,7 +32,7 @@ extension USExaminationModelConclusion {
         USExaminationModelConclusionDB(
             id: id,
             date: date,
-            model: model,
+            modelId: modelId,
             response: response
         )
     }

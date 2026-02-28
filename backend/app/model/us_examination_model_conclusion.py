@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class ResearchModelConclusion(BaseModel):
+class USExaminationModelConclusion(BaseModel):
     date: datetime
-    model: str
-    description: str
+    modelId: str
+    response: str

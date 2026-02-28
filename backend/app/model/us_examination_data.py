@@ -3,17 +3,17 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from app.model.research_scan_photo import ResearchScanPhoto
+from app.model.us_examination_scan_photo import USExaminationScanPhoto
 
 
-class ResearchData(BaseModel):
-    researchType: str
-    photos: List[ResearchScanPhoto]
+class USExaminationData(BaseModel):
+    usExaminationTypeId: str
+    photos: List[USExaminationScanPhoto]
     patientName: str
     patientGender: str
     patientDateOfBirth: datetime
     patientHeight: float
     patientWeight: float
     patientComplaint: Optional[str] = None
-    researchDescription: str
+    examinationDescription: str
     additionalData: Optional[str] = None

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class ResearchScanPhoto(BaseModel):
+class USExaminationScanPhoto(BaseModel):
     imageData: str

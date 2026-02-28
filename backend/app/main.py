@@ -7,9 +7,9 @@ import httpx
 from fastapi import FastAPI, Request
 
 from app.model.neural_model_settings import NeuralModelSettings
-from app.model.research_data import ResearchData
-from app.model.research_model_conclusion import ResearchModelConclusion
-from app.model.research_request import ResearchRequest
+from app.model.us_examination_data import USExaminationData
+from app.model.us_examination_model_conclusion import USExaminationModelConclusion
+from app.model.us_examination_request import USExaminationRequest
 
 MODEL_ID = "google/medgemma-27b-it"
 MODEL_NAME = os.getenv("MODEL_NAME", MODEL_ID)
@@ -18,50 +18,50 @@ STUB_MODE = os.getenv("STUB_MODE", "false").lower() in ("0", "false", "no")
 
 app = FastAPI()
 
-@app.post("/ultrasound_conclusion", response_model=ResearchModelConclusion)
-async def conclusion(body: ResearchRequest, request: Request) -> ResearchModelConclusion:
+@app.post("/ultrasound_conclusion", response_model=USExaminationModelConclusion)
+async def conclusion(body: USExaminationRequest, request: Request) -> USExaminationModelConclusion:
     accept_language = request.headers.get("accept-language", "en")
     locale = accept_language.split(",")[0].strip()
 
-    research = body.researchData
     settings = body.neuralModelSettings
+    examination = body.examinationData
 
     if STUB_MODE:
-        description = build_stub(research, locale)
+        response_text = build_stub(examination)
     else:
-        prompt = build_prompt(research, settings, locale)
-        description = await call_vllm(prompt)
+        prompt = build_prompt(settings, examination, locale)
+        response_text = await call_vllm(prompt)
 
-    return ResearchModelConclusion(
+    return USExaminationModelConclusion(
         date=datetime.now(timezone.utc),
-        model=MODEL_NAME,
-        description=description,
+        modelId=MODEL_NAME,
+        response=response_text,
     )
 
-def build_stub(research: ResearchData, locale: str) -> str:
+def build_stub(examination: USExaminationData) -> str:
     return (
-        f"Ultrasound {research.researchType}: no significant pathology detected."
-        f"Clinical correlation is recommended. Locale: {locale or 'en'}."
+        f"STUB: Ultrasound conclusion for {examination.usExaminationTypeId} - no significant pathology detected."
+        f"Clinical correlation is recommended."
     )
 
 def build_prompt(
-    research: ResearchData,
     settings: NeuralModelSettings,
+    examination: USExaminationData,
     locale: str,
 ) -> str:
-    photos_count = len(research.photos)
-    complaint = research.patientComplaint or ""
-    additional = research.additionalData or ""
+    photos_count = len(examination.photos)
+    complaint = examination.patientComplaint or ""
+    additional = examination.additionalData or ""
 
     base = (
         "Generate a medical ultrasound conclusion.\n"
         f"Answer in locale: {locale}\n"
-        f"Research type: {research.researchType}\n"
-        f"Patient: {research.patientName}, gender: {research.patientGender}\n"
-        f"Date of birth: {research.patientDateOfBirth.date().isoformat()}\n"
-        f"Height: {research.patientHeight}, weight: {research.patientWeight}\n"
+        f"Examination type: {examination.usExaminationTypeId}\n"
+        f"Patient: {examination.patientName}, gender: {examination.patientGender}\n"
+        f"Date of birth: {examination.patientDateOfBirth.date().isoformat()}\n"
+        f"Height: {examination.patientHeight}, weight: {examination.patientWeight}\n"
         f"Complaint: {complaint}\n"
-        f"Research description: {research.researchDescription}\n"
+        f"Examination description: {examination.examinationDescription}\n"
         f"Additional data: {additional}\n"
         f"Photos count: {photos_count}\n"
     )

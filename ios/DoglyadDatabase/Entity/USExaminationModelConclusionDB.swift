@@ -5,18 +5,18 @@ import SwiftData
 public final class USExaminationModelConclusionDB {
     public var id: UUID
     public var date: Date
-    public var model: String
+    public var modelId: String
     public var response: String
 
     public init(
         id: UUID = UUID(),
         date: Date,
-        model: String,
+        modelId: String,
         response: String
     ) {
         self.id = id
         self.date = date
-        self.model = model
+        self.modelId = modelId
         self.response = response
     }
 }
