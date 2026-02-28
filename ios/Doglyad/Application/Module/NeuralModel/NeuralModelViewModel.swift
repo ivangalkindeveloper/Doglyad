@@ -37,7 +37,8 @@ final class NeuralModelViewModel: ObservableObject {
     func onInit() {
         let settings = modelRepository.getNeuralModelSettings()
         if let selectedModelId = settings.selectedNeuralModelId,
-           let selectedModel = usExaminationNeuralModelsById[selectedModelId] {
+           let selectedModel = usExaminationNeuralModelsById[selectedModelId]
+        {
             usExaminationNeuralModel = selectedModel
         }
 

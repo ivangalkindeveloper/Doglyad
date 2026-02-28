@@ -18,9 +18,9 @@ final class InitializationProcess: DependencyInitializationProcess {
     var diagnosticsRepository: DiagnosticsRepositoryProtocol?
     var applicationConfig: ApplicationConfig?
     var usExaminationTypes: [USExaminationType]?
-    var usExaminationTypesById: [String:USExaminationType]?
+    var usExaminationTypesById: [String: USExaminationType]?
     var usExaminationNeuralModels: [USExaminationNeuralModel]?
-    var usExaminationNeuralModelsById: [String:USExaminationNeuralModel]?
+    var usExaminationNeuralModelsById: [String: USExaminationNeuralModel]?
     var examinationNeuralModel: DExaminationNeuralModelProtocol?
     var initialScreen: ScreenType?
     var initialScreenArguments: RouteArgumentsProtocol?

@@ -8,7 +8,7 @@ extension LocalizedStringResource {
     ) -> LocalizedStringResource {
         types[id]?.getLocalizedTitle(for: locale) ?? LocalizedStringResource("")
     }
-    
+
     static func forGender(
         _ gender: PatientGender
     ) -> LocalizedStringResource {

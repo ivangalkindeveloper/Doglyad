@@ -12,6 +12,7 @@ struct ConclusionScreenView: View {
     private var conclusion: USExaminationConclusion {
         viewModel.conclusion
     }
+
     private var examinationData: USExaminationData {
         viewModel.conclusion.examinationData
     }
@@ -49,11 +50,11 @@ struct ConclusionScreenView: View {
                                 locale: Locale.current
                             )
                         )
-                            .dStyle(
-                                font: typography.linkLarge
-                            )
-                            .padding(.horizontal, size.s16)
-                            .padding(.bottom, size.s16)
+                        .dStyle(
+                            font: typography.linkLarge
+                        )
+                        .padding(.horizontal, size.s16)
+                        .padding(.bottom, size.s16)
 
                         ConclusionPhotosView()
 

@@ -27,9 +27,9 @@ struct SelectNeuralModelBottomSheet: View {
                         DListButtonCard(
                             title: LocalizedStringResource(stringLiteral: model.title),
                             description: """
-                                "\(model.id)"
-                                \(model.getLocalizedDescription(for: Locale.current))
-                                """,
+                            "\(model.id)"
+                            \(model.getLocalizedDescription(for: Locale.current))
+                            """,
                             action: {
                                 router.dismissSheet()
                                 arguments?.onSelected(model)

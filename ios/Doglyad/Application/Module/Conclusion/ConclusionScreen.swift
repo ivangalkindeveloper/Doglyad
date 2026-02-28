@@ -29,7 +29,7 @@ struct ConclusionScreen: View {
                 neuralModelSettings: NeuralModelSettings(
                     selectedNeuralModelId: "google/medgemma-3-27B",
                     template: nil,
-                    responseLength: nil,
+                    responseLength: nil
                 ),
                 examinationData: USExaminationData(
                     usExaminationTypeId: "abdominalCavity",

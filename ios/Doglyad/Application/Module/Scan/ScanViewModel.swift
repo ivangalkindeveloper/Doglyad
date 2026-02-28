@@ -70,7 +70,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     private func onInit() {
         cameraController.startSession()
         if let usExaminationTypeId = diagnosticRepository.getSelectedUSExaminationTypeId(),
-           let usExaminationType = usExaminationTypesById[usExaminationTypeId] {
+           let usExaminationType = usExaminationTypesById[usExaminationTypeId]
+        {
             self.usExaminationType = usExaminationType
         }
 

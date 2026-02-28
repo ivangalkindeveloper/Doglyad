@@ -58,10 +58,10 @@ struct HistoryCard: View {
                             locale: Locale.current
                         )
                     )
-                        .dStyle(
-                            font: typography.linkSmall,
-                            color: color.grayscalePlacehold
-                        )
+                    .dStyle(
+                        font: typography.linkSmall,
+                        color: color.grayscalePlacehold
+                    )
 
                     DText(examinationData.examinationDescription)
                         .dStyle(
@@ -85,7 +85,7 @@ struct HistoryCard: View {
             neuralModelSettings: NeuralModelSettings(
                 selectedNeuralModelId: "google/medgemma-3-27B",
                 template: nil,
-                responseLength: nil,
+                responseLength: nil
             ),
             examinationData: USExaminationData(
                 usExaminationTypeId: "thyroidGland",

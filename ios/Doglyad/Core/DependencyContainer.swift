@@ -15,9 +15,9 @@ final class DependencyContainer: ObservableObject {
     let applicationConfig: ApplicationConfig
     let examinationNeuralModel: DExaminationNeuralModelProtocol?
     let usExaminationTypes: [USExaminationType]
-    let usExaminationTypesById: [String:USExaminationType]
+    let usExaminationTypesById: [String: USExaminationType]
     let usExaminationNeuralModels: [USExaminationNeuralModel]
-    let usExaminationNeuralModelsById: [String:USExaminationNeuralModel]
+    let usExaminationNeuralModelsById: [String: USExaminationNeuralModel]
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
@@ -30,9 +30,9 @@ final class DependencyContainer: ObservableObject {
         diagnosticsRepository: DiagnosticsRepositoryProtocol,
         applicationConfig: ApplicationConfig,
         usExaminationTypes: [USExaminationType],
-        usExaminationTypesById: [String:USExaminationType],
+        usExaminationTypesById: [String: USExaminationType],
         usExaminationNeuralModels: [USExaminationNeuralModel],
-        usExaminationNeuralModelsById: [String:USExaminationNeuralModel],
+        usExaminationNeuralModelsById: [String: USExaminationNeuralModel],
         examinationNeuralModel: DExaminationNeuralModelProtocol?,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
@@ -58,7 +58,7 @@ extension DependencyContainer {
     var isUSExaminationNeuralModelAvailable: Bool {
         examinationNeuralModel != nil
     }
-    
+
     func getUSExaminationTypeById(
         id: String
     ) -> USExaminationType? {

@@ -39,11 +39,11 @@ extension InitializationProcess {
                 if usExaminationTypes.isEmpty {
                     throw InitializationError.usExaminationTypesEmpty
                 }
-                
+
                 let usExaminationTypesById = Dictionary(
                     uniqueKeysWithValues: usExaminationTypes.map { ($0.id, $0) }
                 )
-                
+
                 await MainActor.run {
                     process.usExaminationTypes = usExaminationTypes
                     process.usExaminationTypesById = usExaminationTypesById

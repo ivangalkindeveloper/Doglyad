@@ -31,7 +31,7 @@ struct NeuralModelScreenView: View {
                         ),
                         action: viewModel.onTapNeuralModel
                     )
-                    .padding(.bottom, size.s12)
+                    .padding(.bottom, size.s4)
 
                     DTextField(
                         controller: viewModel.templateController,

@@ -16,7 +16,7 @@ extension USExaminationType {
         id: "abdominalCavity",
         title: [
             "en_US": "Abdominal cavity",
-            "ru_RU": "Брюшная полость"
+            "ru_RU": "Брюшная полость",
         ]
     )
 }
