@@ -43,10 +43,12 @@ extension InitializationProcess {
                 let usExaminationTypesById = Dictionary(
                     uniqueKeysWithValues: usExaminationTypes.map { ($0.id, $0) }
                 )
+                let usExaminationTypeDefault = usExaminationTypes.first!
 
                 await MainActor.run {
                     process.usExaminationTypes = usExaminationTypes
                     process.usExaminationTypesById = usExaminationTypesById
+                    process.usExaminationTypeDefault = usExaminationTypeDefault
                 }
             }
         ),
@@ -63,10 +65,12 @@ extension InitializationProcess {
                 let usExaminationNeuralModelsById = Dictionary(
                     uniqueKeysWithValues: usExaminationNeuralModels.map { ($0.id, $0) }
                 )
+                let usExaminationNeuralModelDefault = usExaminationNeuralModels.first!
 
                 await MainActor.run {
                     process.usExaminationNeuralModels = usExaminationNeuralModels
                     process.usExaminationNeuralModelsById = usExaminationNeuralModelsById
+                    process.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
                 }
             }
         ),

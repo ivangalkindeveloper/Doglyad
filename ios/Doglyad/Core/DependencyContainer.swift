@@ -16,8 +16,10 @@ final class DependencyContainer: ObservableObject {
     let examinationNeuralModel: DExaminationNeuralModelProtocol?
     let usExaminationTypes: [USExaminationType]
     let usExaminationTypesById: [String: USExaminationType]
+    let usExaminationTypeDefault: USExaminationType
     let usExaminationNeuralModels: [USExaminationNeuralModel]
     let usExaminationNeuralModelsById: [String: USExaminationNeuralModel]
+    let usExaminationNeuralModelDefault: USExaminationNeuralModel
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
@@ -31,8 +33,10 @@ final class DependencyContainer: ObservableObject {
         applicationConfig: ApplicationConfig,
         usExaminationTypes: [USExaminationType],
         usExaminationTypesById: [String: USExaminationType],
+        usExaminationTypeDefault: USExaminationType,
         usExaminationNeuralModels: [USExaminationNeuralModel],
         usExaminationNeuralModelsById: [String: USExaminationNeuralModel],
+        usExaminationNeuralModelDefault: USExaminationNeuralModel,
         examinationNeuralModel: DExaminationNeuralModelProtocol?,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
@@ -46,8 +50,10 @@ final class DependencyContainer: ObservableObject {
         self.applicationConfig = applicationConfig
         self.usExaminationTypes = usExaminationTypes
         self.usExaminationTypesById = usExaminationTypesById
+        self.usExaminationTypeDefault = usExaminationTypeDefault
         self.usExaminationNeuralModels = usExaminationNeuralModels
         self.usExaminationNeuralModelsById = usExaminationNeuralModelsById
+        self.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
         self.examinationNeuralModel = examinationNeuralModel
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
@@ -96,8 +102,17 @@ extension DependencyContainer {
             applicationConfig: .default,
             usExaminationTypes: [],
             usExaminationTypesById: [:],
+            usExaminationTypeDefault: .init(
+                id: "",
+                title: [:]
+            ),
             usExaminationNeuralModels: [],
             usExaminationNeuralModelsById: [:],
+            usExaminationNeuralModelDefault: .init(
+                id: "",
+                title: "",
+                description: [:]
+            ),
             examinationNeuralModel: nil,
             initialScreen: .onBoarding,
             initialScreenArguments: nil

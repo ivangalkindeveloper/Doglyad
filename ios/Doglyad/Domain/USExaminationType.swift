@@ -10,13 +10,3 @@ struct USExaminationType: Codable, Identifiable, Equatable {
         return LocalizedStringResource(stringLiteral: title)
     }
 }
-
-extension USExaminationType {
-    static let `default`: Self = .init(
-        id: "abdominalCavity",
-        title: [
-            "en_US": "Abdominal cavity",
-            "ru_RU": "Брюшная полость",
-        ]
-    )
-}

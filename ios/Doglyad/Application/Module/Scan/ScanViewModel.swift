@@ -36,6 +36,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         modelRepository: ModelRepositoryProtocol,
         diagnosticRepository: DiagnosticsRepositoryProtocol,
         usExaminationTypesById: [String: USExaminationType],
+        usExaminationTypeDefault: USExaminationType,
         messager: DMessager,
         router: DRouter
     ) {
@@ -43,13 +44,14 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.modelRepository = modelRepository
         self.diagnosticRepository = diagnosticRepository
         self.usExaminationTypesById = usExaminationTypesById
+        usExaminationType = usExaminationTypeDefault
         self.messager = messager
         self.router = router
         super.init()
         onInit()
     }
 
-    @Published var usExaminationType = USExaminationType.default
+    @Published var usExaminationType: USExaminationType
     @Published var photos: [USExaminationScanPhoto] = []
     //
     @NestedObservableObject var cameraController = DCameraController()

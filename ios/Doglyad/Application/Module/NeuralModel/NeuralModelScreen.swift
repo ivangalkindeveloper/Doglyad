@@ -13,6 +13,7 @@ struct NeuralModelScreen: View {
             viewModel: NeuralModelViewModel(
                 modelRepository: container.modelRepository,
                 usExaminationNeuralModelsById: container.usExaminationNeuralModelsById,
+                usExaminationNeuralModelDefault: container.usExaminationNeuralModelDefault,
                 messager: messager,
                 router: router
             )

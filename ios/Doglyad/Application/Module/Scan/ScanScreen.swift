@@ -15,6 +15,7 @@ struct ScanScreen: View {
                 modelRepository: container.modelRepository,
                 diagnosticRepository: container.diagnosticsRepository,
                 usExaminationTypesById: container.usExaminationTypesById,
+                usExaminationTypeDefault: container.usExaminationTypeDefault,
                 messager: messager,
                 router: router
             )

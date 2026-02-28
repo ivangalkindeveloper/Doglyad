@@ -19,17 +19,19 @@ final class NeuralModelViewModel: ObservableObject {
     init(
         modelRepository: ModelRepositoryProtocol,
         usExaminationNeuralModelsById: [String: USExaminationNeuralModel],
+        usExaminationNeuralModelDefault: USExaminationNeuralModel,
         messager: DMessager,
         router: DRouter
     ) {
         self.modelRepository = modelRepository
         self.usExaminationNeuralModelsById = usExaminationNeuralModelsById
+        usExaminationNeuralModel = usExaminationNeuralModelDefault
         self.messager = messager
         self.router = router
         onInit()
     }
 
-    @Published var usExaminationNeuralModel: USExaminationNeuralModel = .default
+    @Published var usExaminationNeuralModel: USExaminationNeuralModel
     @Published var focus: Focus? = nil
     @NestedObservableObject var templateController = DTextFieldController()
     @NestedObservableObject var responseLengthController = DTextFieldController()
