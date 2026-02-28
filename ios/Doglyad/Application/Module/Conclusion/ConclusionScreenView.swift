@@ -2,8 +2,8 @@ import DoglyadUI
 import SwiftUI
 
 struct ConclusionScreenView: View {
-    @EnvironmentObject var container: DependencyContainer
-    @EnvironmentObject var theme: DTheme
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }

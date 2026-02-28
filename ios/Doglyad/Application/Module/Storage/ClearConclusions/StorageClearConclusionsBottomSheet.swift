@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 
 struct StorageClearConclusionsBottomSheet: View {
-    @EnvironmentObject var router: DRouter
+    @EnvironmentObject private var router: DRouter
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }

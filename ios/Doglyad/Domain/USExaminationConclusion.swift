@@ -4,7 +4,7 @@ import Foundation
 struct USExaminationConclusion: Identifiable, Codable {
     var id: UUID = .init()
     let date: Date
-    let neuralModelSettings: NeuralModelSettings?
+    let neuralModelSettings: NeuralModelSettings
     let examinationData: USExaminationData
     let actualModelConclusion: USExaminationModelConclusion
     let previosModelConclusions: [USExaminationModelConclusion]
@@ -38,7 +38,7 @@ extension USExaminationConclusion {
         USExaminationConclusionDB(
             id: id,
             date: date,
-            neuralModelSettings: neuralModelSettings?.toDB(),
+            neuralModelSettings: neuralModelSettings.toDB(),
             examinationData: examinationData.toDB(),
             actualModelConclusion: actualModelConclusion.toDB(),
             previosModelConclusions: previosModelConclusions.map { $0.toDB() }

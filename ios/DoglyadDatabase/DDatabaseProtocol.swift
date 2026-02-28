@@ -11,6 +11,12 @@ public protocol DDatabaseProtocol: AnyObject {
 
     func setSelectedUSExaminationTypeId(value: String)
 
+    // MARK: USExaminationNeuralModel -
+
+    func getSelectedUSExaminationNeuralModelId() -> String?
+
+    func setSelectedUSExaminationNeuralModelId(value: String)
+
     // MARK: NeuralModelSettings -
 
     func getNeuralModelResponseTemplate() -> String?

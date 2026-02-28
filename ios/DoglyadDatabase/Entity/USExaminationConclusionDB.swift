@@ -5,7 +5,7 @@ import SwiftData
 public final class USExaminationConclusionDB {
     public var id: UUID
     public var date: Date
-    public var neuralModelSettings: NeuralModelSettingsDB?
+    public var neuralModelSettings: NeuralModelSettingsDB
     public var examinationData: USExaminationDataDB
     public var actualModelConclusion: USExaminationModelConclusionDB
     @Relationship public var previosModelConclusions: [USExaminationModelConclusionDB]
@@ -13,10 +13,10 @@ public final class USExaminationConclusionDB {
     public init(
         id: UUID = UUID(),
         date: Date,
-        neuralModelSettings: NeuralModelSettingsDB? = nil,
+        neuralModelSettings: NeuralModelSettingsDB,
         examinationData: USExaminationDataDB,
         actualModelConclusion: USExaminationModelConclusionDB,
-        previosModelConclusions: [USExaminationModelConclusionDB] = []
+        previosModelConclusions: [USExaminationModelConclusionDB]
     ) {
         self.id = id
         self.date = date

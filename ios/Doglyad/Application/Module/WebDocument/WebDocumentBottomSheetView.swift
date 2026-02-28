@@ -3,9 +3,9 @@ import Shimmer
 import SwiftUI
 
 struct WebDocumentBottomSheetView: View {
-    @EnvironmentObject var theme: DTheme
-    var color: DColor { theme.color }
-    var size: DSize { theme.size }
+    @EnvironmentObject private var theme: DTheme
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
 
     let url: URL
     let title: LocalizedStringResource

@@ -11,6 +11,7 @@ enum ScreenType: Hashable {
 
 enum SheetType: Hashable {
     case selectUSExaminationType
+    case selectNeuralModel
     case selectDateOfBirth
     case scanSpeech
     case permissionSpeech

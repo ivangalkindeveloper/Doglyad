@@ -93,6 +93,18 @@ public extension DDatabase {
     }
 }
 
+// MARK: USExaminationNeuralModel -
+
+public extension DDatabase {
+    func getSelectedUSExaminationNeuralModelId() -> String? {
+        getString(.selectedUSExaminationNeuralModelId)
+    }
+
+    func setSelectedUSExaminationNeuralModelId(value: String) {
+        setValue(value, .selectedUSExaminationNeuralModelId)
+    }
+}
+
 // MARK: ModelConclusion -
 
 public extension DDatabase {

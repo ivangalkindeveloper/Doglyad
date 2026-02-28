@@ -3,8 +3,8 @@ import Router
 import SwiftUI
 
 struct SelectUSExaminationTypeBottomSheet: View {
-    @EnvironmentObject var container: DependencyContainer
-    @EnvironmentObject var router: DRouter
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var router: DRouter
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }

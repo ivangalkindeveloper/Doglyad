@@ -3,7 +3,7 @@ import SwiftUI
 
 struct OnBoardingScreenView: View {
     @Environment(\.locale) private var locale
-    @EnvironmentObject var theme: DTheme
+    @EnvironmentObject private var theme: DTheme
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     private var color: DColor { theme.color }

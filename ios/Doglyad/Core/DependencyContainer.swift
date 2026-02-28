@@ -16,6 +16,8 @@ final class DependencyContainer: ObservableObject {
     let examinationNeuralModel: DExaminationNeuralModelProtocol?
     let usExaminationTypes: [USExaminationType]
     let usExaminationTypesById: [String:USExaminationType]
+    let usExaminationNeuralModels: [USExaminationNeuralModel]
+    let usExaminationNeuralModelsById: [String:USExaminationNeuralModel]
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
@@ -29,6 +31,8 @@ final class DependencyContainer: ObservableObject {
         applicationConfig: ApplicationConfig,
         usExaminationTypes: [USExaminationType],
         usExaminationTypesById: [String:USExaminationType],
+        usExaminationNeuralModels: [USExaminationNeuralModel],
+        usExaminationNeuralModelsById: [String:USExaminationNeuralModel],
         examinationNeuralModel: DExaminationNeuralModelProtocol?,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
@@ -42,6 +46,8 @@ final class DependencyContainer: ObservableObject {
         self.applicationConfig = applicationConfig
         self.usExaminationTypes = usExaminationTypes
         self.usExaminationTypesById = usExaminationTypesById
+        self.usExaminationNeuralModels = usExaminationNeuralModels
+        self.usExaminationNeuralModelsById = usExaminationNeuralModelsById
         self.examinationNeuralModel = examinationNeuralModel
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
@@ -90,6 +96,8 @@ extension DependencyContainer {
             applicationConfig: .default,
             usExaminationTypes: [],
             usExaminationTypesById: [:],
+            usExaminationNeuralModels: [],
+            usExaminationNeuralModelsById: [:],
             examinationNeuralModel: nil,
             initialScreen: .onBoarding,
             initialScreenArguments: nil

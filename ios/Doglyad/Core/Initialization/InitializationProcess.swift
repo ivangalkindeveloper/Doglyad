@@ -19,6 +19,8 @@ final class InitializationProcess: DependencyInitializationProcess {
     var applicationConfig: ApplicationConfig?
     var usExaminationTypes: [USExaminationType]?
     var usExaminationTypesById: [String:USExaminationType]?
+    var usExaminationNeuralModels: [USExaminationNeuralModel]?
+    var usExaminationNeuralModelsById: [String:USExaminationNeuralModel]?
     var examinationNeuralModel: DExaminationNeuralModelProtocol?
     var initialScreen: ScreenType?
     var initialScreenArguments: RouteArgumentsProtocol?
@@ -34,6 +36,8 @@ final class InitializationProcess: DependencyInitializationProcess {
             applicationConfig: applicationConfig!,
             usExaminationTypes: usExaminationTypes!,
             usExaminationTypesById: usExaminationTypesById!,
+            usExaminationNeuralModels: usExaminationNeuralModels!,
+            usExaminationNeuralModelsById: usExaminationNeuralModelsById!,
             examinationNeuralModel: examinationNeuralModel,
             initialScreen: initialScreen!,
             initialScreenArguments: initialScreenArguments

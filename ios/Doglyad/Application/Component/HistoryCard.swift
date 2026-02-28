@@ -82,7 +82,11 @@ struct HistoryCard: View {
     HistoryCard(
         conclusion: USExaminationConclusion(
             date: Date(),
-            neuralModelSettings: nil,
+            neuralModelSettings: NeuralModelSettings(
+                selectedNeuralModelId: "google/medgemma-3-27B",
+                template: nil,
+                responseLength: nil,
+            ),
             examinationData: USExaminationData(
                 usExaminationTypeId: "thyroidGland",
                 photos: [

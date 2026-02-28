@@ -27,7 +27,7 @@ struct ErrorRootView: View {
                 buttonTitle: .buttonOpenSettings,
                 action: viewModel.openSettings
             )
-        case .USExaminationTypesEmpty, .some(.common), .none:
+        case .usExaminationTypesEmpty, .usExaminationNeuralModelsEmpty, .some(.common), .none:
             ErrorView(
                 error: self.error,
                 image: .alertInfo,

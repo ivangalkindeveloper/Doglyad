@@ -4,8 +4,8 @@ import WebKit
 
 struct WebDocumentBottomSheetWebView: UIViewRepresentable {
     @Environment(\.locale) private var locale
-    @EnvironmentObject var theme: DTheme
-    var color: DColor { theme.color }
+    @EnvironmentObject private var theme: DTheme
+    private var color: DColor { theme.color }
 
     let url: URL
     @Binding var isLoading: Bool

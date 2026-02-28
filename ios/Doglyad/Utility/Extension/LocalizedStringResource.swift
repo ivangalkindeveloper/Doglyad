@@ -6,7 +6,7 @@ extension LocalizedStringResource {
         id: String,
         locale: Locale
     ) -> LocalizedStringResource {
-        types[id]?.getLocalizedTitle(for: locale) ?? ""
+        types[id]?.getLocalizedTitle(for: locale) ?? LocalizedStringResource("")
     }
     
     static func forGender(

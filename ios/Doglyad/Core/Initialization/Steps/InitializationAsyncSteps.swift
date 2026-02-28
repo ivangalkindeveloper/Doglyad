@@ -17,9 +17,9 @@ extension InitializationProcess {
             title: "Application config",
             run: { (process: InitializationProcess) async in
                 do {
-                    let configUrl = await process.environment!.contentUrl
+                    let url = await process.environment!.contentUrl
                         .appendingPathComponent("config/application.json")
-                    let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: configUrl)
+                    let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: url)
                     await MainActor.run {
                         process.applicationConfig = applicationConfig
                     }
@@ -33,11 +33,11 @@ extension InitializationProcess {
         AsyncInitializationStep<InitializationProcess>(
             title: "Ultrasound examination types",
             run: { (process: InitializationProcess) async throws in
-                let configUrl = await process.environment!.contentUrl
+                let url = await process.environment!.contentUrl
                     .appendingPathComponent("config/ultrasound_examination_types.json")
-                let usExaminationTypes: [USExaminationType] = try await process.httpClient!.get(url: configUrl)
+                let usExaminationTypes: [USExaminationType] = try await process.httpClient!.get(url: url)
                 if usExaminationTypes.isEmpty {
-                    throw InitializationError.USExaminationTypesEmpty
+                    throw InitializationError.usExaminationTypesEmpty
                 }
                 
                 let usExaminationTypesById = Dictionary(
@@ -47,6 +47,26 @@ extension InitializationProcess {
                 await MainActor.run {
                     process.usExaminationTypes = usExaminationTypes
                     process.usExaminationTypesById = usExaminationTypesById
+                }
+            }
+        ),
+        AsyncInitializationStep<InitializationProcess>(
+            title: "Ultrasound examination neural models",
+            run: { (process: InitializationProcess) async throws in
+                let url = await process.environment!.contentUrl
+                    .appendingPathComponent("config/ultrasound_examination_neural_models.json")
+                let usExaminationNeuralModels: [USExaminationNeuralModel] = try await process.httpClient!.get(url: url)
+                if usExaminationNeuralModels.isEmpty {
+                    throw InitializationError.usExaminationNeuralModelsEmpty
+                }
+
+                let usExaminationNeuralModelsById = Dictionary(
+                    uniqueKeysWithValues: usExaminationNeuralModels.map { ($0.id, $0) }
+                )
+
+                await MainActor.run {
+                    process.usExaminationNeuralModels = usExaminationNeuralModels
+                    process.usExaminationNeuralModelsById = usExaminationNeuralModelsById
                 }
             }
         ),

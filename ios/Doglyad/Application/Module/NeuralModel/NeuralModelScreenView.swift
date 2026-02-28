@@ -22,6 +22,17 @@ struct NeuralModelScreenView: View {
                     alignment: .leading,
                     spacing: .zero
                 ) {
+                    DListButtonCard(
+                        title: LocalizedStringResource(
+                            stringLiteral: viewModel.usExaminationNeuralModel.title
+                        ),
+                        description: LocalizedStringResource(
+                            stringLiteral: viewModel.usExaminationNeuralModel.id
+                        ),
+                        action: viewModel.onTapNeuralModel
+                    )
+                    .padding(.bottom, size.s12)
+
                     DTextField(
                         controller: viewModel.templateController,
                         focus: DTextFieldFocus(
@@ -76,7 +87,7 @@ struct NeuralModelScreenView: View {
                         .padding(.bottom, size.s32)
 
                     DButton(
-                        title: .buttonScan,
+                        title: .buttonSave,
                         action: viewModel.onTapSave
                     )
                     .dStyle(.primaryButton)
