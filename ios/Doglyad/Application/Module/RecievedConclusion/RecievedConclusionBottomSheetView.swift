@@ -2,6 +2,7 @@ import DoglyadUI
 import SwiftUI
 
 struct RecievedConclusionBottomSheetView: View {
+    @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -17,8 +18,17 @@ struct RecievedConclusionBottomSheetView: View {
             VStack(
                 spacing: .zero
             ) {
+                if let modelTitle = container.getUSExaminationNeuralModelById(id: viewModel.model.modelId)?.title {
+                    DText(modelTitle)
+                        .dStyle(
+                            font: typography.linkSmall,
+                            color: color.grayscaleBackgroundWeak,
+                        )
+                        .padding(.bottom, size.s8)
+                }
+                
                 ScrollView {
-                    DText(viewModel.conclusionResponse)
+                    DText(viewModel.response)
                         .dStyle(
                             font: typography.textSmall,
                             color: color.grayscaleBackgroundWeak,

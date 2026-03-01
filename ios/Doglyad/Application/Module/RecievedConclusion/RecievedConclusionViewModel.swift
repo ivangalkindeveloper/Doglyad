@@ -19,8 +19,12 @@ final class RecievedConclusionViewModel: ObservableObject {
     }
 
     @Published var isAppeared = false
+    
+    var model: USExaminationModelConclusion {
+        arguments.conclusion.actualModelConclusion
+    }
 
-    var conclusionResponse: String {
+    var response: String {
         arguments.conclusion.actualModelConclusion.response
     }
 
@@ -29,7 +33,7 @@ final class RecievedConclusionViewModel: ObservableObject {
     }
 
     func onTapCopy() {
-        UIPasteboard.general.string = conclusionResponse
+        UIPasteboard.general.string = response
         messager.show(
             type: .success,
             title: .conclusionModelResponseCopyMessageTitle,
