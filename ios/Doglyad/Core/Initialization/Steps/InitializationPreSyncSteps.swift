@@ -48,7 +48,7 @@ extension InitializationProcess {
                 process.modelRepository = ModelRepository(
                     database: process.database!
                 )
-                process.diagnosticsRepository = DiagnosticsRepository(
+                process.usExaminationRepository = USExaminationRepository(
                     database: process.database!,
                     httpClient: process.httpClient!
                 )

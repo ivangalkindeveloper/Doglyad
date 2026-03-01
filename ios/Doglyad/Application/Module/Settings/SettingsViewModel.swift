@@ -5,16 +5,16 @@ import SwiftUI
 @MainActor
 final class SettingsViewModel: ObservableObject {
     private let environment: EnvironmentProtocol
-    private let diagnosticRepository: DiagnosticsRepositoryProtocol
+    private let usExaminationRepository: USExaminationRepositoryProtocol
     private let router: DRouter
 
     init(
         environment: EnvironmentProtocol,
-        diagnosticRepository: DiagnosticsRepositoryProtocol,
+        usExaminationRepository: USExaminationRepositoryProtocol,
         router: DRouter
     ) {
         self.environment = environment
-        self.diagnosticRepository = diagnosticRepository
+        self.usExaminationRepository = usExaminationRepository
         self.router = router
         load()
     }
@@ -22,7 +22,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var conclusions: [USExaminationConclusion] = []
 
     private func load() {
-        let conclusions = diagnosticRepository.getConclusions()
+        let conclusions = usExaminationRepository.getConclusions()
         self.conclusions = conclusions
     }
 

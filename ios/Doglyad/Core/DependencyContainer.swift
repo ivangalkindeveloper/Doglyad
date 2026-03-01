@@ -11,7 +11,7 @@ final class DependencyContainer: ObservableObject {
     let permissionmanager: PermissionManagerProtocol
     let sharedRepository: SharedRepositoryProtocol
     let modelRepository: ModelRepositoryProtocol
-    let diagnosticsRepository: DiagnosticsRepositoryProtocol
+    let usExaminationRepository: USExaminationRepositoryProtocol
     let applicationConfig: ApplicationConfig
     let examinationNeuralModel: DExaminationNeuralModelProtocol?
     let usExaminationTypes: [USExaminationType]
@@ -29,7 +29,7 @@ final class DependencyContainer: ObservableObject {
         permissionmanager: PermissionManagerProtocol,
         sharedRepository: SharedRepositoryProtocol,
         modelRepository: ModelRepositoryProtocol,
-        diagnosticsRepository: DiagnosticsRepositoryProtocol,
+        usExaminationRepository: USExaminationRepositoryProtocol,
         applicationConfig: ApplicationConfig,
         usExaminationTypes: [USExaminationType],
         usExaminationTypesById: [String: USExaminationType],
@@ -46,7 +46,7 @@ final class DependencyContainer: ObservableObject {
         self.permissionmanager = permissionmanager
         self.sharedRepository = sharedRepository
         self.modelRepository = modelRepository
-        self.diagnosticsRepository = diagnosticsRepository
+        self.usExaminationRepository = usExaminationRepository
         self.applicationConfig = applicationConfig
         self.usExaminationTypes = usExaminationTypes
         self.usExaminationTypesById = usExaminationTypesById
@@ -93,7 +93,7 @@ extension DependencyContainer {
         let modelRepository = ModelRepository(
             database: database
         )
-        let diagnosticsRepository = DiagnosticsRepository(
+        let usExaminationRepository = USExaminationRepository(
             database: database,
             httpClient: httpClient
         )
@@ -104,7 +104,7 @@ extension DependencyContainer {
             permissionmanager: PermissionManager(),
             sharedRepository: sharedRepository,
             modelRepository: modelRepository,
-            diagnosticsRepository: diagnosticsRepository,
+            usExaminationRepository: usExaminationRepository,
             applicationConfig: .default,
             usExaminationTypes: [],
             usExaminationTypesById: [:],

@@ -11,7 +11,7 @@ struct SettingsScreen: View {
         SettingsScreenView(
             viewModel: SettingsViewModel(
                 environment: container.environment,
-                diagnosticRepository: container.diagnosticsRepository,
+                usExaminationRepository: container.usExaminationRepository,
                 router: router
             )
         )

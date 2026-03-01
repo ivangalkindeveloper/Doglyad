@@ -26,7 +26,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
 
     private let permissionManager: PermissionManagerProtocol
     private let modelRepository: ModelRepositoryProtocol
-    private let diagnosticRepository: DiagnosticsRepositoryProtocol
+    private let usExaminationRepository: USExaminationRepositoryProtocol
     private let usExaminationTypesById: [String: USExaminationType]
     private let messager: DMessager
     private let router: DRouter
@@ -34,7 +34,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     init(
         permissionManager: PermissionManagerProtocol,
         modelRepository: ModelRepositoryProtocol,
-        diagnosticRepository: DiagnosticsRepositoryProtocol,
+        usExaminationRepository: USExaminationRepositoryProtocol,
         usExaminationTypesById: [String: USExaminationType],
         usExaminationTypeDefault: USExaminationType,
         messager: DMessager,
@@ -42,7 +42,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     ) {
         self.permissionManager = permissionManager
         self.modelRepository = modelRepository
-        self.diagnosticRepository = diagnosticRepository
+        self.usExaminationRepository = usExaminationRepository
         self.usExaminationTypesById = usExaminationTypesById
         usExaminationType = usExaminationTypeDefault
         self.messager = messager
@@ -71,13 +71,13 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
 
     private func onInit() {
         cameraController.startSession()
-        if let usExaminationTypeId = diagnosticRepository.getSelectedUSExaminationTypeId(),
+        if let usExaminationTypeId = usExaminationRepository.getSelectedUSExaminationTypeId(),
            let usExaminationType = usExaminationTypesById[usExaminationTypeId]
         {
             self.usExaminationType = usExaminationType
         }
 
-        let patientCount = diagnosticRepository.getConclusions().count
+        let patientCount = usExaminationRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
     }
 
@@ -151,7 +151,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                         guard self.usExaminationType != usExaminationType else { return }
 
                         self.usExaminationType = usExaminationType
-                        self.diagnosticRepository.setSelectedUSExaminationTypeId(
+                        self.usExaminationRepository.setSelectedUSExaminationTypeId(
                             id: usExaminationType.id
                         )
                     }
@@ -297,7 +297,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         )
         handle {
             self.isLoading = true
-            return try await self.diagnosticRepository.generateConclusion(
+            return try await self.usExaminationRepository.generateConclusion(
                 request: request,
                 locale: Locale.current
             )
@@ -312,7 +312,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                 previosModelConclusions: []
             )
 
-            self.diagnosticRepository.setConclusion(
+            self.usExaminationRepository.setConclusion(
                 conclusion: conclusion
             )
 

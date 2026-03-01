@@ -2,7 +2,7 @@ import DoglyadDatabase
 import DoglyadNetwork
 import Foundation
 
-final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
+final class USExaminationRepository: USExaminationRepositoryProtocol {
     let database: DDatabaseProtocol
     let httpClient: DHttpClientProtocol
 
@@ -17,7 +17,7 @@ final class DiagnosticsRepository: DiagnosticsRepositoryProtocol {
 
 // MARK: USExaminationType -
 
-extension DiagnosticsRepository {
+extension USExaminationRepository {
     func getSelectedUSExaminationTypeId() -> String? {
         database.getSelectedUSExaminationTypeId()
     }
@@ -33,7 +33,7 @@ extension DiagnosticsRepository {
 
 // MARK: Conclusion -
 
-extension DiagnosticsRepository {
+extension USExaminationRepository {
     static var conclusionEndpoint: String = "/ultrasound_conclusion"
 
     func generateConclusion(
@@ -41,7 +41,7 @@ extension DiagnosticsRepository {
         locale: Locale
     ) async throws -> USExaminationModelConclusion {
         try await httpClient.post(
-            endPoint: DiagnosticsRepository.conclusionEndpoint,
+            endPoint: USExaminationRepository.conclusionEndpoint,
             body: request,
             headers: [
                 DHttpHeader.acceptLanguage: locale.identifier,
@@ -72,7 +72,7 @@ extension DiagnosticsRepository {
 
 // MARK: Common -
 
-extension DiagnosticsRepository {
+extension USExaminationRepository {
     @MainActor func clearAll() {
         database.clearAll()
     }

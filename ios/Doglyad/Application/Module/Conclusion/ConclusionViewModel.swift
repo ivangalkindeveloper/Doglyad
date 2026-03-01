@@ -10,19 +10,19 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
     static let actualModelConclusionCardScrollId = "actualModelConclusionCard"
 
     private let modelRepository: ModelRepositoryProtocol
-    private let diagnosticRepository: DiagnosticsRepositoryProtocol
+    private let usExaminationRepository: USExaminationRepositoryProtocol
     private let messager: DMessager
     private let router: DRouter
 
     init(
         modelRepository: ModelRepositoryProtocol,
-        diagnosticRepository: DiagnosticsRepositoryProtocol,
+        usExaminationRepository: USExaminationRepositoryProtocol,
         messager: DMessager,
         router: DRouter,
         initialConclusion: USExaminationConclusion
     ) {
         self.modelRepository = modelRepository
-        self.diagnosticRepository = diagnosticRepository
+        self.usExaminationRepository = usExaminationRepository
         self.messager = messager
         self.router = router
         _conclusion = .init(initialValue: initialConclusion)
@@ -67,7 +67,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
 
         handle {
             self.isLoading = true
-            return try await self.diagnosticRepository.generateConclusion(
+            return try await self.usExaminationRepository.generateConclusion(
                 request: request,
                 locale: Locale.current
             )
@@ -83,7 +83,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
                 previosModelConclusions: [self.conclusion.actualModelConclusion] + self.conclusion.previosModelConclusions
             )
 
-            self.diagnosticRepository.updateConclusion(
+            self.usExaminationRepository.updateConclusion(
                 conclusion: updatedConclusion
             )
 

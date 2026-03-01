@@ -10,7 +10,7 @@ struct HistoryScreen: View {
     var body: some View {
         HistoryScreenView(
             viewModel: HistoryViewModel(
-                diagnosticRepository: container.diagnosticsRepository,
+                usExaminationRepository: container.usExaminationRepository,
                 router: router
             )
         )

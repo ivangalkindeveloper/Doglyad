@@ -15,7 +15,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var httpClient: DHttpClientProtocol?
     var sharedRepository: SharedRepositoryProtocol?
     var modelRepository: ModelRepositoryProtocol?
-    var diagnosticsRepository: DiagnosticsRepositoryProtocol?
+    var usExaminationRepository: USExaminationRepositoryProtocol?
     var applicationConfig: ApplicationConfig?
     var usExaminationTypes: [USExaminationType]?
     var usExaminationTypesById: [String: USExaminationType]?
@@ -34,7 +34,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             permissionmanager: permissionmanager!,
             sharedRepository: sharedRepository!,
             modelRepository: modelRepository!,
-            diagnosticsRepository: diagnosticsRepository!,
+            usExaminationRepository: usExaminationRepository!,
             applicationConfig: applicationConfig!,
             usExaminationTypes: usExaminationTypes!,
             usExaminationTypesById: usExaminationTypesById!,

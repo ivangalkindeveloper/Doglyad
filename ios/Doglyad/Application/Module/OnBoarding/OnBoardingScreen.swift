@@ -12,7 +12,7 @@ struct OnBoardingScreen: View {
             viewModel: OnBoardingViewModel(
                 environment: container.environment,
                 sharedRepository: container.sharedRepository,
-                diagnosticRepository: container.diagnosticsRepository,
+                usExaminationRepository: container.usExaminationRepository,
                 router: router
             )
         )

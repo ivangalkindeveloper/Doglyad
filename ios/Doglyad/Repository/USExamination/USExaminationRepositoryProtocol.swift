@@ -1,7 +1,7 @@
 import DoglyadDatabase
 import Foundation
 
-protocol DiagnosticsRepositoryProtocol: AnyObject {
+protocol USExaminationRepositoryProtocol: AnyObject {
     // MARK: USExaminationType -
 
     func getSelectedUSExaminationTypeId() -> String?

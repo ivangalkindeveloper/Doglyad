@@ -11,18 +11,18 @@ final class OnBoardingViewModel: ObservableObject {
 
     private let environment: EnvironmentProtocol
     private let sharedRepository: SharedRepositoryProtocol
-    private let diagnosticRepository: DiagnosticsRepositoryProtocol
+    private let usExaminationRepository: USExaminationRepositoryProtocol
     private let router: DRouter
 
     init(
         environment: EnvironmentProtocol,
         sharedRepository: SharedRepositoryProtocol,
-        diagnosticRepository: DiagnosticsRepositoryProtocol,
+        usExaminationRepository: USExaminationRepositoryProtocol,
         router: DRouter
     ) {
         self.environment = environment
         self.sharedRepository = sharedRepository
-        self.diagnosticRepository = diagnosticRepository
+        self.usExaminationRepository = usExaminationRepository
         self.router = router
     }
 
@@ -92,7 +92,7 @@ final class OnBoardingViewModel: ObservableObject {
                             guard let self = self else { return }
 
                             self.page = .fifth
-                            self.diagnosticRepository.setSelectedUSExaminationTypeId(
+                            self.usExaminationRepository.setSelectedUSExaminationTypeId(
                                 id: type.id
                             )
                         }

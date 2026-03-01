@@ -13,7 +13,7 @@ struct ScanScreen: View {
             viewModel: ScanViewModel(
                 permissionManager: container.permissionmanager,
                 modelRepository: container.modelRepository,
-                diagnosticRepository: container.diagnosticsRepository,
+                usExaminationRepository: container.usExaminationRepository,
                 usExaminationTypesById: container.usExaminationTypesById,
                 usExaminationTypeDefault: container.usExaminationTypeDefault,
                 messager: messager,
