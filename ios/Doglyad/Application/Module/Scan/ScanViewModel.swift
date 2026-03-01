@@ -327,9 +327,9 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             self.additionalDataController.clear()
 
             self.router.push(
-                route: RouteScreen(
-                    type: .conclusion,
-                    arguments: ConclusionScreenArguments(
+                route: RouteSheet(
+                    type: .recievedConclusion,
+                    arguments: RecievedConclusionBottomSheetArguments(
                         conclusion: conclusion
                     )
                 )

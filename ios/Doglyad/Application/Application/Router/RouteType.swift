@@ -15,6 +15,7 @@ enum SheetType: Hashable {
     case selectDateOfBirth
     case scanSpeech
     case permissionSpeech
+    case recievedConclusion
     case webDocument
     case storageClearConclusions
     case storageClearAll

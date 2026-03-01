@@ -152,6 +152,23 @@
         }
       }
     },
+    "buttonCopy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Копировать"
+          }
+        }
+      }
+    },
     "buttonExpand" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -318,6 +335,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Давайте начнем!"
+          }
+        }
+      }
+    },
+    "buttonToConclusion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To conclusion"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "К заключению"
           }
         }
       }
@@ -1999,7 +2033,7 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Если Вы не обнаружили необходимые типы УЗИ исследований, пожалуйста, обратитесь в поддержку для их добавления"
           }
         }
