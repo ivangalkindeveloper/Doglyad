@@ -14,7 +14,7 @@ from app.model.us_examination_request import USExaminationRequest
 MODEL_ID = "google/medgemma-27b-it"
 MODEL_NAME = os.getenv("MODEL_NAME", MODEL_ID)
 VLLM_URL = os.getenv("VLLM_URL", "http://localhost:8000")
-STUB_MODE = os.getenv("STUB_MODE", "false").lower() in ("0", "false", "no")
+STUB_MODE = os.getenv("STUB_MODE", "false").lower() in ("1", "true", "yes")
 
 app = FastAPI()
 

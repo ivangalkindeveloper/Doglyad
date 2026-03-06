@@ -1,0 +1,3 @@
+ENVIRONMENT = stage
+BASE_URL_SCHEMA = https
+BASE_URL = stage.doglyad.com

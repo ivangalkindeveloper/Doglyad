@@ -2,6 +2,7 @@ import Foundation
 
 extension Bundle {
     enum KeyString: String {
+        case ENVIRONMENT
         case BASE_URL_SCHEMA
         case BASE_URL
         case CFBundleShortVersionString

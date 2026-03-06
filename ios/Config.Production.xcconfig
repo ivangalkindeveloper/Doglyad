@@ -1,0 +1,3 @@
+ENVIRONMENT = production
+BASE_URL_SCHEMA = https
+BASE_URL = api.doglyad.com

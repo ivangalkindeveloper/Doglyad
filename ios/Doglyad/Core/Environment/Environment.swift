@@ -1,6 +1,7 @@
 import Foundation
 
 final class EnvironmentBase: EnvironmentProtocol {
+    let type: EnvironmentType
     let baseUrl: URL
     let contentUrl: URL = .init(string: "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/")!
     let updateUrl: URL = .init(string: "https://apps.apple.com/app/id")!
@@ -9,8 +10,10 @@ final class EnvironmentBase: EnvironmentProtocol {
     let contactEmail: String = "ivangalkindeveloper@gmail.com"
 
     init(
+        type: EnvironmentType,
         baseUrl: URL
     ) {
+        self.type = type
         self.baseUrl = baseUrl
     }
 }

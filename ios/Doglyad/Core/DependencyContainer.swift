@@ -81,6 +81,7 @@ extension DependencyContainer {
 extension DependencyContainer {
     static var previewable: DependencyContainer {
         let environment = EnvironmentBase(
+            type: .local,
             baseUrl: URL(filePath: "")!
         )
         let database = try! DDatabase()
