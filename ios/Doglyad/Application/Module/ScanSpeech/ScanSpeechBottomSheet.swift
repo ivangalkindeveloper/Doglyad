@@ -27,7 +27,8 @@ private struct ScanSpeechBottomSheetView: View {
     @StateObject var viewModel: ScanSpeechViewModel
 
     var body: some View {
-        DBlurBottomSheet(
+        DBottomSheet(
+            type: .blur,
             title: .speechTitle,
             fraction: 0.5
         ) {

@@ -124,7 +124,8 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
         }
         .frame(maxWidth: .infinity, alignment: .top)
         .background {
-            toolbarTypeBackground()
+            Rectangle()
+                .fill(.ultraThinMaterial)
                 .clipShape(DRoundedCorner(
                     radius: size.adaptiveCornerRadius,
                     corners: [.bottomLeft, .bottomRight]
@@ -138,21 +139,6 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
                         value: proxy.size.height
                     )
             }
-        }
-    }
-
-    @ViewBuilder
-    private func toolbarTypeBackground() -> some View {
-        switch toolbarType {
-        case .solid:
-            ZStack {
-                Rectangle().fill(.ultraThinMaterial)
-                    .opacity(0.8)
-                Rectangle().fill(color.grayscaleBackground)
-                    .opacity(0.8)
-            }
-        case .blur:
-            Rectangle().fill(.ultraThinMaterial)
         }
     }
 

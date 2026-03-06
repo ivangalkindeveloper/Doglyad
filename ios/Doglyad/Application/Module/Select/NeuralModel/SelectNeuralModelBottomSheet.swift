@@ -52,6 +52,7 @@ struct SelectNeuralModelBottomSheet: View {
                 color: color.grayscalePlacehold,
                 alignment: .center
             )
+            .padding(.top, size.s16)
             .padding(.horizontal, size.s16)
         }
     }

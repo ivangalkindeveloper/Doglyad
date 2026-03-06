@@ -18,8 +18,10 @@ final class RecievedConclusionViewModel: ObservableObject {
         self.arguments = arguments
     }
 
-    @Published var isAppeared = false
-    
+    @Published var displayedResponse = ""
+
+    private var typewriterTask: Task<Void, Never>?
+
     var model: USExaminationModelConclusion {
         arguments.conclusion.actualModelConclusion
     }
@@ -29,7 +31,22 @@ final class RecievedConclusionViewModel: ObservableObject {
     }
 
     func onAppear() {
-        isAppeared = true
+        startTypewriterAnimation()
+    }
+
+    private func startTypewriterAnimation() {
+        typewriterTask?.cancel()
+        let words = response.components(separatedBy: " ")
+        typewriterTask = Task {
+            for (index, word) in words.enumerated() {
+                if Task.isCancelled { return }
+                let separator = index == 0 ? "" : " "
+                withAnimation(.easeIn(duration: 0.1)) {
+                    displayedResponse.append(separator + word)
+                }
+                try? await Task.sleep(nanoseconds: 40_000_000)
+            }
+        }
     }
 
     func onTapCopy() {

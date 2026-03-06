@@ -1,5 +1,10 @@
 import SwiftUI
 
+public enum DBottomSheetType {
+    case `default`
+    case blur
+}
+
 public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var theme: DTheme
@@ -7,17 +12,20 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
+    let type: DBottomSheetType
     let title: LocalizedStringResource
     let fraction: Double
     let content: () -> Content
     let bottom: (() -> Bottom)?
 
     public init(
+        type: DBottomSheetType = .default,
         title: LocalizedStringResource,
         fraction: Double = 0.3,
         @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder bottom: @escaping () -> Bottom
     ) {
+        self.type = type
         self.title = title
         self.fraction = fraction
         self.content = content
@@ -25,10 +33,12 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     }
 
     public init(
+        type: DBottomSheetType = .default,
         title: LocalizedStringResource,
         fraction: Double = 0.3,
         @ViewBuilder content: @escaping () -> Content
     ) where Bottom == EmptyView {
+        self.type = type
         self.title = title
         self.fraction = fraction
         self.content = content
@@ -49,6 +59,7 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                 DText(title)
                     .dStyle(
                         font: typography.linkSmall,
+                        color: type == .blur ? color.grayscaleBackgroundWeak : nil,
                         alignment: .center
                     )
                     .padding(size.s16)
@@ -73,16 +84,13 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                             .frame(maxWidth: .infinity)
                             .safeAreaPadding(.bottom)
                             .background(
-                                color.grayscaleBackground
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
                                     .clipShape(
                                         DRoundedCorner(
                                             radius: size.adaptiveCornerRadius,
                                             corners: [.topLeft, .topRight]
                                         )
-                                    )
-                                    .shadow(
-                                        color: color.grayscaleBody.opacity(0.2),
-                                        radius: size.s16
                                     )
                             )
                             .transition(.move(edge: .bottom))
@@ -91,10 +99,23 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
-        .presentationBackground(color.grayscaleBackgroundWeak)
+        .presentationBackground { presentationBackgroundView }
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(size.adaptiveCornerRadius)
         .presentationDetents([.fraction(fraction)])
+        .if(type == .blur) {
+            $0.preferredColorScheme(.dark)
+        }
+    }
+
+    @ViewBuilder
+    private var presentationBackgroundView: some View {
+        switch type {
+        case .default:
+            color.grayscaleBackgroundWeak
+        case .blur:
+            Rectangle().fill(.ultraThinMaterial)
+        }
     }
 }
 
