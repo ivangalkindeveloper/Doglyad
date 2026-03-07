@@ -14,7 +14,7 @@ struct RecievedConclusionBottomSheetView: View {
         DBottomSheet(
             type: .blur,
             title: .conclusionTitle,
-            fraction: 0.75,
+            fraction: 0.8,
             content: {
                 VStack(
                     spacing: .zero
@@ -36,6 +36,7 @@ struct RecievedConclusionBottomSheetView: View {
                                 alignment: .leading
                             )
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, size.s4)
                             .padding(.vertical, size.s8)
                             .padding(.horizontal, size.s16)
                             .padding(.bottom, size.s128)
@@ -55,20 +56,36 @@ struct RecievedConclusionBottomSheetView: View {
                 }
             },
             bottom: {
-                HStack(
-                    spacing: size.s8
+                VStack(
+                    spacing: size.s18
                 ) {
-                    DButton(
-                        title: .buttonCopy,
-                        action: viewModel.onTapCopy
-                    )
-                    .dStyle(.primaryButton)
-
                     DButton(
                         title: .buttonToConclusion,
                         action: viewModel.onTapConclusion
                     )
                     .dStyle(.primaryButton)
+                    
+                    Button(
+                        action: viewModel.onTapCopy
+                    ) {
+                        HStack(
+                            spacing: size.s8
+                        ) {
+                            DIcon(
+                                .copy,
+                                color: color.grayscaleBackgroundWeak
+                            )
+                            DText(.buttonCopy)
+                                .dStyle(
+                                    font: typography.linkSmall,
+                                    color: color.grayscaleBackgroundWeak,
+                                    alignment: .center
+                                )
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.bottom, size.s8)
                 }
                 .padding(.top, size.s8)
                 .padding(.horizontal, size.s16)

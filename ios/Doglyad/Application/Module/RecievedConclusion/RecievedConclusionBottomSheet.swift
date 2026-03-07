@@ -55,5 +55,6 @@ struct RecievedConclusionBottomSheet: View {
             )
         )
     )
+    .background(.black)
     .previewable()
 }

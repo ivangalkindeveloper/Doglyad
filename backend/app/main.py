@@ -40,8 +40,33 @@ async def conclusion(body: USExaminationRequest, request: Request) -> USExaminat
 
 def build_stub(examination: USExaminationData) -> str:
     return (
-        f"STUB: Ultrasound conclusion for {examination.usExaminationTypeId} - no significant pathology detected."
-        f"Clinical correlation is recommended."
+        f"Ultrasound Examination Report ({examination.usExaminationTypeId}).\n\n"
+        f"Patient: {examination.patientName}. "
+        f"The examination was performed using an expert-class ultrasound system "
+        f"equipped with a multifrequency convex transducer (3.5–7.5 MHz) "
+        f"and a linear transducer (7.5–12 MHz). "
+        f"Scanning was carried out in standard longitudinal, transverse, and oblique planes "
+        f"utilizing B-mode grayscale imaging, color Doppler flow mapping (CDFM), "
+        f"and pulsed-wave Doppler.\n\n"
+        f"Findings: the visualized structures are located in their typical anatomical positions "
+        f"with preserved topographic relationships. "
+        f"Organ contours are smooth and well-defined; the capsule is clearly delineated throughout. "
+        f"Parenchymal echogenicity is within normal limits and comparable to that of surrounding tissues. "
+        f"The echostructure is homogeneous and finely granular with no focal abnormalities identified. "
+        f"Color Doppler flow mapping demonstrates a normal vascular pattern "
+        f"with symmetric blood flow and no hemodynamically significant disturbances. "
+        f"Peak systolic velocities and resistive indices are within reference ranges. "
+        f"The ductal system shows no signs of dilation; no calculi are detected. "
+        f"The perivisceral fat appears unremarkable with no infiltrative changes. "
+        f"Regional lymph nodes are not enlarged, displaying a normal oval morphology "
+        f"with preserved corticomedullary differentiation.\n\n"
+        f"Conclusion: the ultrasound examination reveals no evidence of focal "
+        f"or diffuse pathology in the examined region. "
+        f"The sonographic findings are consistent with age-appropriate normal anatomy. "
+        f"No pathological free gas or fluid is identified within the scanning field. "
+        f"Clinical and laboratory correlation of the obtained results is recommended. "
+        f"If clinically indicated, a follow-up ultrasound examination "
+        f"in 6 to 12 months is advisable."
     )
 
 def build_prompt(
