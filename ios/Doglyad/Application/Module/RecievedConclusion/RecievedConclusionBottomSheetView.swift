@@ -14,7 +14,7 @@ struct RecievedConclusionBottomSheetView: View {
         DBottomSheet(
             type: .blur,
             title: .conclusionTitle,
-            fraction: 0.8,
+            fraction: 0.9,
             content: {
                 VStack(
                     spacing: .zero

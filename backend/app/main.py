@@ -40,8 +40,9 @@ async def conclusion(body: USExaminationRequest, request: Request) -> USExaminat
 
 def build_stub(examination: USExaminationData) -> str:
     return (
-        f"Ultrasound Examination Report ({examination.usExaminationTypeId}).\n\n"
-        f"Patient: {examination.patientName}. "
+        f"STUB:\n"
+        f"Ultrasound Examination Report ({examination.usExaminationTypeId}).\n"
+        f"Patient: {examination.patientName}.\n"
         f"The examination was performed using an expert-class ultrasound system "
         f"equipped with a multifrequency convex transducer (3.5–7.5 MHz) "
         f"and a linear transducer (7.5–12 MHz). "
