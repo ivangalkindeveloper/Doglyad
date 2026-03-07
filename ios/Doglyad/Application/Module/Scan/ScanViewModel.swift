@@ -24,6 +24,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     private static let defaultPatientHeightCM: Double = 180
     private static let defaultPatientWeightKG: Double = 60
 
+    private let environment: EnvironmentProtocol
     private let permissionManager: PermissionManagerProtocol
     private let modelRepository: ModelRepositoryProtocol
     private let usExaminationRepository: USExaminationRepositoryProtocol
@@ -32,6 +33,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     private let router: DRouter
 
     init(
+        environment: EnvironmentProtocol,
         permissionManager: PermissionManagerProtocol,
         modelRepository: ModelRepositoryProtocol,
         usExaminationRepository: USExaminationRepositoryProtocol,
@@ -40,6 +42,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         messager: DMessager,
         router: DRouter
     ) {
+        self.environment = environment
         self.permissionManager = permissionManager
         self.modelRepository = modelRepository
         self.usExaminationRepository = usExaminationRepository
@@ -79,6 +82,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
 
         let patientCount = usExaminationRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
+        patientHeightCMController.text = String(Self.defaultPatientHeightCM)
+        patientWeightKGController.text = String(Self.defaultPatientWeightKG)
     }
 
     var isPhotoFilling: Bool {
@@ -261,6 +266,39 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     }
 
     func onTapScan() {
+        if [EnvironmentType.local, EnvironmentType.stage].contains(environment.type) {
+            patientComplaintController.text = """
+                        Пациент предъявляет жалобы на периодическое ощущение давления и дискомфорта в передней области шеи, \
+                        возникающее преимущественно в утренние часы и при физической нагрузке. \
+                        Отмечает затруднение при глотании твёрдой пищи, появившееся около трёх недель назад. \
+                        Со слов пациента, в последний месяц наблюдается выраженная общая слабость, \
+                        повышенная утомляемость и снижение работоспособности во второй половине дня. \
+                        Эпизодически фиксирует субфебрильную температуру до 37,2 °C. \
+                        Потери веса не отмечает. Ранее подобных жалоб не предъявлял. \
+                        Наследственный анамнез по заболеваниям щитовидной железы не отягощён.
+                        """
+            examinationDescriptionController.text = """
+                        Проведено ультразвуковое исследование щитовидной железы линейным датчиком \
+                        в стандартных продольных и поперечных проекциях с оценкой обеих долей и перешейка. \
+                        Правая доля: 52×18×16 мм, объём 7,4 мл. Левая доля: 50×17×15 мм, объём 6,3 мл. \
+                        Общий объём железы — 13,7 мл, что соответствует верхней границе нормы. \
+                        Контуры долей ровные, чёткие, капсула не утолщена. \
+                        Эхогенность паренхимы средняя, структура однородная, без очаговых изменений. \
+                        Перешеек толщиной 4 мм, без особенностей. \
+                        Кровоток при цветовом допплеровском картировании симметричный, не усилен. \
+                        Региональные лимфатические узлы шеи не увеличены, обычной структуры.
+                        """
+            additionalDataController.text = """
+                        Исследование выполнено на стационарном ультразвуковом аппарате экспертного класса \
+                        с использованием линейного мультичастотного датчика 7,5–12 МГц. \
+                        Настройки глубины сканирования и фокусировки оптимизированы \
+                        для визуализации поверхностно расположенных структур шеи. \
+                        Качество визуализации хорошее на протяжении всего исследования. \
+                        Пациент находился в положении лёжа на спине с запрокинутой головой. \
+                        Архивирование ключевых изображений выполнено в формате DICOM.
+                        """
+        }
+        
         let isPatientNameValid = patientNameController.validate()
         let isPatientHeightCMValid = patientHeightCMController.validate()
         let isPatientWeightKGValid = patientWeightKGController.validate()
@@ -316,15 +354,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                 conclusion: conclusion
             )
 
-            self.photos.removeAll()
-            self.patientNameController.clear()
-            self.patientGender = .male
-            self.patientDateOfBirth = Self.defaultPatientDateOfBirth
-            self.patientHeightCMController.clear()
-            self.patientWeightKGController.clear()
-            self.patientComplaintController.clear()
-            self.examinationDescriptionController.clear()
-            self.additionalDataController.clear()
+            self.reset()
 
             self.router.push(
                 route: RouteSheet(
@@ -334,8 +364,23 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                     )
                 )
             )
-        } onUnknownError: { _ in
+        } onUnknownError: { error in
             self.messager.showUnknownError()
         }
     }
+    
+    private func reset() {
+        sheetController.setHidden()
+        photos.removeAll()
+        let patientCount = usExaminationRepository.getConclusions().count
+        patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
+        patientGender = .male
+        patientDateOfBirth = Self.defaultPatientDateOfBirth
+        patientHeightCMController.text = String(Self.defaultPatientHeightCM)
+        patientWeightKGController.text = String(Self.defaultPatientWeightKG)
+        patientComplaintController.clear()
+        examinationDescriptionController.clear()
+        additionalDataController.clear()
+    }
 }
+

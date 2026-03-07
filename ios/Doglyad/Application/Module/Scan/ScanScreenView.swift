@@ -15,7 +15,7 @@ struct ScanScreenView: View {
     var body: some View {
         DScreen(
             toolbarType: .blur,
-            backgroundColor: color.grayscaleHeader,
+            backgroundColor: .black,
             leading: {
                 DButton(
                     image: .hambergerMenu,

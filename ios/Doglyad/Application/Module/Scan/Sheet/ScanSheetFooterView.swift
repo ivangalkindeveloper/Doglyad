@@ -50,22 +50,20 @@ struct ScanSheetFooterView: View {
 
                     DButton(
                         title: .buttonScan,
-                        action: viewModel.onTapScan
+                        action: viewModel.onTapScan,
+                        isLoading: viewModel.isLoading
                     )
                     .dStyle(.primaryButton)
                     .padding(size.s16)
                     .safeAreaPadding(.bottom)
                     .background(
-                        color.grayscaleBackground
+                        Rectangle()
+                            .fill(.ultraThinMaterial)
                             .clipShape(
                                 DRoundedCorner(
                                     radius: size.adaptiveCornerRadius,
                                     corners: [.topLeft, .topRight]
                                 )
-                            )
-                            .shadow(
-                                color: color.grayscaleBody.opacity(0.2),
-                                radius: size.s16
                             )
                     )
                 }

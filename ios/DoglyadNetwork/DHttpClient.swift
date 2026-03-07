@@ -24,14 +24,14 @@ public final class DHttpClient: DHttpClientProtocol {
     public func get<Response: Decodable>(
         url: URL
     ) async throws -> Response {
-        await AF.request(
+        let response = await AF.request(
             url,
             method: .get
         )
         .validate()
         .serializingDecodable(Response.self, decoder: jsonDecoder)
         .response
-        .value!
+        return response.value!
     }
 
     public func get<Body: Encodable & Sendable, Response: Decodable>(
@@ -39,7 +39,7 @@ public final class DHttpClient: DHttpClientProtocol {
         body: Body? = nil,
         headers: [String: String]? = nil
     ) async throws -> Response {
-        await AF.request(
+        let response = await AF.request(
             baseUrl + endPoint,
             method: .get,
             parameters: body,
@@ -49,7 +49,7 @@ public final class DHttpClient: DHttpClientProtocol {
         .validate()
         .serializingDecodable(Response.self, decoder: jsonDecoder)
         .response
-        .value!
+        return response.value!
     }
 
     public func post<Body: Encodable & Sendable, Response: Decodable>(
@@ -57,7 +57,7 @@ public final class DHttpClient: DHttpClientProtocol {
         body: Body? = nil,
         headers: [String: String]? = nil
     ) async throws -> Response {
-        await AF.request(
+        let response = await AF.request(
             baseUrl + endPoint,
             method: .post,
             parameters: body,
@@ -67,6 +67,6 @@ public final class DHttpClient: DHttpClientProtocol {
         .validate()
         .serializingDecodable(Response.self, decoder: jsonDecoder)
         .response
-        .value!
+        return response.value!
     }
 }

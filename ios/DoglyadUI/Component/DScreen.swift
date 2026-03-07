@@ -70,13 +70,13 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
                             .ignoresSafeArea(.container, edges: [.top])
                     }
                 }
+                .background(backgroundColor ?? color.grayscaleBackgroundWeak)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .navigationViewStyle(.stack)
             .navigationBarBackButtonHidden(true)
             .toolbar(.hidden, for: .navigationBar)
             .toolbarBackground(.hidden, for: .navigationBar)
-            .background(backgroundColor ?? color.grayscaleBackgroundWeak)
         }
     }
 

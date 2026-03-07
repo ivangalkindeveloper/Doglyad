@@ -1,4 +1,4 @@
-.PHONY: set-venv pip-install generate-research-ner-model export-research-transformer-model backend-stub backend-vllm ios-env-local ios-env-staging ios-env-production
+.PHONY: set-venv pip-install generate-research-ner-model export-research-transformer-model backend-stub backend-vllm ios-env-local ios-env-staging ios-env-production start-locale start-stage start-production
 .SILENT:
 
 venv:
@@ -14,15 +14,11 @@ format:
 download-research:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir DoglyadIOSClient/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
 
-start-locale:
-	ios-env-local
-	backend-stub
+start-locale: ios-env-local backend-stub
 
-start-stage:
-	backend-stub
+start-stage: backend-stub
 
-start-producation:
-	backend-vllm
+start-production: backend-vllm
 
 ios-env-local:
 	@IP=$$(ipconfig getifaddr en0 2>/dev/null) && \
