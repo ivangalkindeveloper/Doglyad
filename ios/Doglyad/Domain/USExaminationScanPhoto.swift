@@ -12,7 +12,7 @@ struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
         image: UIImage
     ) {
         self.id = id
-        imageData = image.jpegData(compressionQuality: 0.9) ?? Data()
+        imageData = image.jpegData(compressionQuality: 1) ?? Data()
     }
 }
 

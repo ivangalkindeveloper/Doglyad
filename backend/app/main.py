@@ -17,6 +17,7 @@ from app.model.us_examination_data import USExaminationData
 from app.model.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.us_examination_neural_model import USExaminationNeuralModel
 from app.model.us_examination_request import USExaminationRequest
+from app.model.us_examination_scan_photo import USExaminationScanPhoto
 from app.model.us_examination_type import USExaminationType
 
 class RunMode(str, Enum):
@@ -90,10 +91,24 @@ async def ultrasound_conclusion(
 
     match RUN_MODE:
         case RunMode.STUB:
-            response_text = build_stub(examination, examination_title)
+            response_text = build_stub(
+                examination,
+                examination_title,
+            )
         case RunMode.MODEL:
-            prompt = build_prompt(settings, examination, examination_title, locale)
-            response_text = await call_vllm(prompt, model_id)
+            system_prompt = build_system_prompt()
+            prompt = build_prompt(
+                settings,
+                examination,
+                examination_title,
+                locale,
+            )
+            response_text = await call_vllm(
+                model_id,
+                system_prompt,
+                prompt,
+                examination.photos,
+            )
 
     return USExaminationModelConclusion(
         date=datetime.now(timezone.utc),
@@ -133,50 +148,74 @@ def build_stub(examination: USExaminationData, examination_title: str) -> str:
         f"in 6 to 12 months is advisable."
     )
 
+def build_system_prompt() -> str:
+    return (
+        "You are an AI assistant specialized in generating medical ultrasound examination reports. "
+        "Your task is to produce clinical conclusions that physicians rely on "
+        "for diagnosis and treatment planning. "
+        "Write only the medical conclusion based strictly on the provided examination data and images. "
+        "Do not infer, assume, or fabricate any findings that are not supported by the input. "
+        "Use precise medical terminology appropriate for a formal radiology report. "
+        "If the provided data is insufficient to assess a specific structure, "
+        "state that it was not adequately visualized rather than speculating. "
+        "Structure the report with findings followed by a conclusion."
+    )
+
 def build_prompt(
     settings: NeuralModelSettings,
     examination: USExaminationData,
     examination_title: str,
     locale: str,
 ) -> str:
-    photos_count = len(examination.photos)
-    complaint = examination.patientComplaint or ""
-    additional = examination.additionalData or ""
-
     base = (
-        "Generate a medical ultrasound conclusion.\n"
-        f"Answer in locale: {locale}\n"
-        f"Examination type: {examination_title}\n"
-        f"Patient: {examination.patientName}, gender: {examination.patientGender}\n"
-        f"Date of birth: {examination.patientDateOfBirth.date().isoformat()}\n"
-        f"Height: {examination.patientHeight}, weight: {examination.patientWeight}\n"
-        f"Complaint: {complaint}\n"
-        f"Examination description: {examination.examinationDescription}\n"
-        f"Additional data: {additional}\n"
-        f"Photos count: {photos_count}\n"
+        f"Generate a medical ultrasound conclusion.\n"
+        f"Ultrasound examination type: {examination_title}\n"
+        f"Patient name: {examination.patientName}\n"
+        f"Patient gender: {examination.patientGender}\n"
+        f"Patient date of birth: {examination.patientDateOfBirth.date().isoformat()}\n"
+        f"Patient height: {examination.patientHeight}\n"
+        f"Patient weight: {examination.patientWeight}\n"
+        f"Ultrasound examination description: {examination.examinationDescription}\n"
     )
+
+    if examination.patientComplaint:
+        base += f"Patient complaint: {examination.patientComplaint}\n"
+    if examination.additionalData:
+        base += f"Additional data: {examination.additionalData}\n"
 
     if settings.template:
         base += f"Response template: {settings.template}\n"
-    if settings.responseLength is not None:
+    if settings.responseLength:
         base += f"Maximum response length (tokens): {settings.responseLength}\n"
-
+        
+    base += "Answer in locale: {locale}\n"
     base += "Return a full clinical conclusion."
     return base
 
 
-async def call_vllm(prompt: str, model_id: str) -> str:
-    system_prompt = "You are a medical assistant."
+async def call_vllm(
+    model_id: str,
+    system_prompt: str,
+    prompt: str,
+    photos: list[USExaminationScanPhoto],
+) -> str:
+    user_content: list[dict] = [{"type": "text", "text": prompt}]
+    for photo in photos:
+        user_content.append({
+            "type": "image_url",
+            "image_url": {"url": f"data:image/jpeg;base64,{photo.imageData}"},
+        })
+
     payload = {
         "model": model_id,
         "messages": [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt},
+            {"role": "user", "content": user_content},
         ],
         "temperature": 0.2,
         "max_tokens": 512,
     }
-    async with httpx.AsyncClient(timeout=60) as client:
+    async with httpx.AsyncClient(timeout=120) as client:
         response = await client.post(f"{VLLM_URL}/v1/chat/completions", json=payload)
         response.raise_for_status()
         data = response.json()
