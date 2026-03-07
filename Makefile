@@ -35,10 +35,10 @@ ios-env-production:
 	cat ios/Config.xcconfig
 
 backend-stub:
-	STUB_MODE=true docker compose -f backend/docker-compose.yml up --build
+	RUN_MODE=stub docker compose -f backend/docker-compose.yml up --build
 
 backend-vllm:
-	STUB_MODE=false docker compose -f backend/docker-compose.yml --profile vllm up --build
+	RUN_MODE=model docker compose -f backend/docker-compose.yml --profile vllm up --build
 
 backend-stop:
 	docker compose -f backend/docker-compose.yml down
