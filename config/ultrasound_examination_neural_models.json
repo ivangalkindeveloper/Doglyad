@@ -19,8 +19,8 @@
         "id": "google/medgemma-27b-it",
         "title": "Google MedGemma 27B",
         "description": {
-            "en": "First generation (2025) full-size medical AI model. Highest accuracy among the first generation models. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology, medical text and EHR. Requires significant computational resources (54 GB RAM in FP16).",
-            "ru": "Первое поколение (2025) полноразмерной медицинской ИИ-модели. Наивысшая точность среди моделей первого поколения. Поддерживает 2D-снимки: рентген, дерматология, офтальмология, гистология, медицинские тексты и ЭМК. Требует значительных вычислительных ресурсов (54 ГБ RAM в FP16)."
+            "en": "First generation (2025) full-size medical AI model. Highest accuracy among the first generation models. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology, medical text and EHR. Requires significant computational resources.",
+            "ru": "Первое поколение (2025) полноразмерной медицинской ИИ-модели. Наивысшая точность среди моделей первого поколения. Поддерживает 2D-снимки: рентген, дерматология, офтальмология, гистология, медицинские тексты и ЭМК. Требует значительных вычислительных ресурсов."
         }
     }
 ]

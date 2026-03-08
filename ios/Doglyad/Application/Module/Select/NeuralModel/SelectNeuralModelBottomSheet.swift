@@ -15,7 +15,7 @@ struct SelectNeuralModelBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: .neuralModelTitle,
-            fraction: 0.5
+            fraction: 0.8
         ) {
             ScrollView(
                 showsIndicators: false
