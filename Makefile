@@ -36,7 +36,7 @@ start-backend-local-stub:
 	RUN_MODE=stub docker compose -f backend/docker-compose.yml up --build
 start-backend-local-model:
 	RUN_MODE=model docker compose -f backend/docker-compose.yml up --build
-	./scripts/start_vllm_mlx.sh
+	./backend/scripts/start_vllm_mlx.sh
 start-backend-production-stub:
 	RUN_MODE=stub docker compose -f backend/docker-compose.yml up --build
 start-backend-production-model:

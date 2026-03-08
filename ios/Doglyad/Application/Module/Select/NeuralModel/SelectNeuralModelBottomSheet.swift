@@ -27,7 +27,7 @@ struct SelectNeuralModelBottomSheet: View {
                         DListButtonCard(
                             title: LocalizedStringResource(stringLiteral: model.title),
                             description: """
-                            "\(model.id)"
+                            (\(model.id))
                             \(model.getLocalizedDescription(for: Locale.current))
                             """,
                             action: {

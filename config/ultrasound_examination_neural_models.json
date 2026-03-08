@@ -16,14 +16,5 @@
             "en": "Second generation (2026) lightweight medical AI model. Supports 2D and 3D medical images: CT, MRI, ultrasound, X-rays, histopathology. Improved accuracy, medical document understanding, anatomical localization. Outperforms the first generation 27B model on some benchmarks.",
             "ru": "Второе поколение (2026) легковесной медицинской ИИ-модели. Поддерживает 2D и 3D-снимки: КТ, МРТ, УЗИ, рентген, гистология. Улучшенная точность, понимание медицинских документов, анатомическая локализация. На некоторых бенчмарках превосходит модель первого поколения 27B."
         }
-    },
-    {
-        "id": "google/medgemma-27b-it",
-        "port": 8103,
-        "title": "Google MedGemma 27B",
-        "description": {
-            "en": "First generation (2025) full-size medical AI model. Highest accuracy among the first generation models. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology, medical text and EHR. Requires significant computational resources.",
-            "ru": "Первое поколение (2025) полноразмерной медицинской ИИ-модели. Наивысшая точность среди моделей первого поколения. Поддерживает 2D-снимки: рентген, дерматология, офтальмология, гистология, медицинские тексты и ЭМК. Требует значительных вычислительных ресурсов."
-        }
     }
 ]
