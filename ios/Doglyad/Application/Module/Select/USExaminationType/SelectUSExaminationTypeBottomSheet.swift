@@ -16,7 +16,7 @@ struct SelectUSExaminationTypeBottomSheet: View {
         DBottomSheet(
             title: .usExaminationTypeTitle,
             fraction: 0.8
-        ) {
+        ) { toolbarHeight in
             ScrollView(
                 showsIndicators: false
             ) {
@@ -36,6 +36,7 @@ struct SelectUSExaminationTypeBottomSheet: View {
                     .padding(.bottom, size.s8)
                 }
                 .padding(size.s16)
+                .padding(.top, toolbarHeight)
                 .padding(.bottom, size.s116)
             }
         }

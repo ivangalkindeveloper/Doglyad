@@ -35,7 +35,7 @@ struct AboutBottomSheet: View {
         DBottomSheet(
             title: .settingsAboutAppTitle,
             fraction: 0.55
-        ) {
+        ) { toolbarHeight in
             VStack(
                 spacing: .zero
             ) {
@@ -46,7 +46,7 @@ struct AboutBottomSheet: View {
                         maxWidth: size.s64,
                         maxHeight: size.s64
                     )
-                    .padding(.top, size.s16)
+                    .padding(.top, toolbarHeight + size.s16)
                     .padding(size.s16)
 
                 DText(.aboutDescription)

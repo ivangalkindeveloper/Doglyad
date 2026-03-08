@@ -16,7 +16,7 @@ struct SelectNeuralModelBottomSheet: View {
         DBottomSheet(
             title: .neuralModelTitle,
             fraction: 0.8
-        ) {
+        ) { toolbarHeight in
             ScrollView(
                 showsIndicators: false
             ) {
@@ -40,6 +40,7 @@ struct SelectNeuralModelBottomSheet: View {
                     .padding(.bottom, size.s8)
                 }
                 .padding(size.s16)
+                .padding(.top, toolbarHeight)
                 .padding(.bottom, size.s116)
             }
         }

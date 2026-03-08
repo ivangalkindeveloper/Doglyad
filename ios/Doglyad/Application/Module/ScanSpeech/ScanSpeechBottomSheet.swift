@@ -31,7 +31,7 @@ private struct ScanSpeechBottomSheetView: View {
             type: .blur,
             title: .speechTitle,
             fraction: 0.5
-        ) {
+        ) { toolbarHeight in
             VStack(
                 spacing: .zero
             ) {
@@ -87,6 +87,7 @@ private struct ScanSpeechBottomSheetView: View {
                 .dStyle(.primaryCircle)
             }
             .padding(size.s16)
+            .padding(.top, toolbarHeight)
         }
         .animation(
             theme.animation,

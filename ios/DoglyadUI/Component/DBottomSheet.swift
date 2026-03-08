@@ -12,17 +12,19 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
+    @State private var toolbarHeight: CGFloat = 0
+
     let type: DBottomSheetType
     let title: LocalizedStringResource
     let fraction: Double
-    let content: () -> Content
+    let content: (CGFloat) -> Content
     let bottom: (() -> Bottom)?
 
     public init(
         type: DBottomSheetType = .default,
         title: LocalizedStringResource,
         fraction: Double = 0.3,
-        @ViewBuilder content: @escaping () -> Content,
+        @ViewBuilder content: @escaping (CGFloat) -> Content,
         @ViewBuilder bottom: @escaping () -> Bottom
     ) {
         self.type = type
@@ -36,7 +38,7 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         type: DBottomSheetType = .default,
         title: LocalizedStringResource,
         fraction: Double = 0.3,
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: @escaping (CGFloat) -> Content
     ) where Bottom == EmptyView {
         self.type = type
         self.title = title
@@ -46,33 +48,11 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     }
 
     public var body: some View {
-        VStack(
-            spacing: .zero
+        ZStack(
+            alignment: .top
         ) {
-            HStack {
-                Color.clear
-                    .frame(
-                        width: 22,
-                        height: .zero
-                    )
-                Spacer()
-                DText(title)
-                    .dStyle(
-                        font: typography.linkSmall,
-                        color: type == .blur ? color.grayscaleBackgroundWeak : nil,
-                        alignment: .center
-                    )
-                    .padding(size.s16)
-                Spacer()
-                DCloseButton {
-                    dismiss()
-                }
-            }
-            .padding(.top, size.adaptiveCornerRadius / 4)
-            .padding(.horizontal, size.adaptiveCornerRadius / 2)
-
             ZStack {
-                content()
+                content(toolbarHeight)
 
                 VStack(
                     spacing: .zero
@@ -98,6 +78,12 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                 }
                 .edgesIgnoringSafeArea(.bottom)
             }
+
+            toolbarView
+                .onPreferenceChange(BottomSheetToolbarHeightPreferenceKey.self) { value in
+                    guard toolbarHeight != value else { return }
+                    toolbarHeight = value
+                }
         }
         .presentationBackground { presentationBackgroundView }
         .presentationDragIndicator(.hidden)
@@ -105,6 +91,52 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         .presentationDetents([.fraction(fraction)])
         .if(type == .blur) {
             $0.preferredColorScheme(.dark)
+        }
+    }
+
+    private var toolbarView: some View {
+        VStack(
+            spacing: .zero
+        ) {
+            HStack {
+                Color.clear
+                    .frame(
+                        width: 22,
+                        height: .zero
+                    )
+                Spacer()
+                DText(title)
+                    .dStyle(
+                        font: typography.linkSmall,
+                        color: type == .blur ? color.grayscaleBackgroundWeak : nil,
+                        alignment: .center
+                    )
+                    .padding(size.s16)
+                Spacer()
+                DCloseButton {
+                    dismiss()
+                }
+            }
+            .padding(.top, size.adaptiveCornerRadius / 4)
+            .padding(.horizontal, size.adaptiveCornerRadius / 2)
+        }
+        .frame(maxWidth: .infinity, alignment: .top)
+        .background {
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .clipShape(DRoundedCorner(
+                    radius: size.adaptiveCornerRadius,
+                    corners: [.bottomLeft, .bottomRight]
+                ))
+        }
+        .overlay {
+            GeometryReader { proxy in
+                Color.clear
+                    .preference(
+                        key: BottomSheetToolbarHeightPreferenceKey.self,
+                        value: proxy.size.height
+                    )
+            }
         }
     }
 
@@ -119,6 +151,14 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     }
 }
 
+private struct BottomSheetToolbarHeightPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 #Preview {
     @Previewable @State var isPresented = false
 
@@ -129,14 +169,17 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         DBottomSheet(
             title: "Sheet Title",
             fraction: 0.4
-        ) {
-            VStack(spacing: 12) {
-                DText("Bottom sheet content")
-                    .dStyle()
-                DText("Some description text")
-                    .dStyle()
+        ) { toolbarHeight in
+            ScrollView {
+                VStack(spacing: 12) {
+                    DText("Bottom sheet content")
+                        .dStyle()
+                    DText("Some description text")
+                        .dStyle()
+                }
+                .padding()
+                .padding(.top, toolbarHeight)
             }
-            .padding()
         } bottom: {
             DButton(
                 title: "Confirm",

@@ -27,7 +27,7 @@ struct SelectDateOfBirthBottomSheet: View {
         DBottomSheet(
             title: .selectDateOfBirthTitle,
             fraction: 0.5
-        ) {
+        ) { toolbarHeight in
             VStack(
                 spacing: .zero
             ) {
@@ -48,6 +48,7 @@ struct SelectDateOfBirthBottomSheet: View {
                 Spacer()
             }
             .padding(size.s16)
+            .padding(.top, toolbarHeight)
         } bottom: {
             DButton(
                 title: .buttonSelect

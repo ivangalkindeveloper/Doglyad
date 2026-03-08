@@ -12,14 +12,14 @@ extension InitializationProcess {
                         id: process.usExaminationTypeDefault!.id
                     )
                 }
-                
+
                 let usExaminationTypeId = process.usExaminationRepository!.getSelectedUSExaminationTypeId()
-                guard (usExaminationTypeId != nil) else {
+                guard usExaminationTypeId != nil else {
                     return
                 }
-                
+
                 let matchedId = process.usExaminationTypesById![usExaminationTypeId!]
-                guard (matchedId != nil) else {
+                guard matchedId != nil else {
                     return setDefault()
                 }
             }
@@ -33,14 +33,14 @@ extension InitializationProcess {
                         id: process.usExaminationNeuralModelDefault!.id
                     )
                 }
-                
+
                 let selectedUSExaminationNeuralModelId = process.modelRepository!.getSelectedUSExaminationNeuralModelId()
-                guard (selectedUSExaminationNeuralModelId != nil) else {
+                guard selectedUSExaminationNeuralModelId != nil else {
                     return setDefault()
                 }
-                
+
                 let matchedId = process.usExaminationNeuralModelsById![selectedUSExaminationNeuralModelId!]
-                guard (matchedId != nil) else {
+                guard matchedId != nil else {
                     return setDefault()
                 }
             }

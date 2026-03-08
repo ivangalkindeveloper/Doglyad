@@ -14,7 +14,7 @@ struct PermissionBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: title
-        ) {
+        ) { toolbarHeight in
             VStack(
                 spacing: .zero
             ) {
@@ -31,6 +31,7 @@ struct PermissionBottomSheet: View {
                 .dStyle(.primaryButton)
             }
             .padding(size.s16)
+            .padding(.top, toolbarHeight)
         }
     }
 }
