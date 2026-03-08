@@ -25,7 +25,7 @@ class RunMode(str, Enum):
     MODEL = "model"
 
 RUN_MODE = RunMode(os.getenv("RUN_MODE", "stub").lower())
-VLLM_URL = os.getenv("VLLM_URL", "http://localhost:8000")
+VLLM_HOST = os.getenv("VLLM_HOST", "http://host.docker.internal")
 CONFIG_DIR = Path(__file__).resolve().parent.parent / "config"
 
 neural_models: dict[str, USExaminationNeuralModel] = {}
@@ -51,16 +51,16 @@ def load_configs() -> None:
             examination_type = USExaminationType(**item)
             examination_types[examination_type.id] = examination_type
 
-def resolve_neural_model_id(selected_id: str | None) -> str:
+def resolve_neural_model(selected_id: str | None) -> USExaminationNeuralModel:
     if not selected_id:
-        first = next(iter(neural_models))
-        return first
-    if selected_id not in neural_models:
+        return next(iter(neural_models.values()))
+    model = neural_models.get(selected_id)
+    if not model:
         raise HTTPException(
             status_code=400,
             detail=f"Unknown neural model id: {selected_id}",
         )
-    return selected_id
+    return model
 
 
 def resolve_examination_title(type_id: str, locale: str) -> str:
@@ -84,10 +84,10 @@ async def ultrasound_conclusion(
     settings = body.neuralModelSettings
     examination = body.examinationData
 
-    model_id = resolve_neural_model_id(settings.selectedNeuralModelId)
+    neural_model = resolve_neural_model(settings.selectedNeuralModelId)
     examination_title = resolve_examination_title(
         examination.usExaminationTypeId,
-        locale
+        locale,
     )
 
     match RUN_MODE:
@@ -97,23 +97,21 @@ async def ultrasound_conclusion(
                 examination_title,
             )
         case RunMode.MODEL:
-            system_prompt = build_system_prompt()
-            prompt = build_prompt(
-                settings,
-                examination,
-                examination_title,
-                locale,
-            )
             response_text = await call_vllm(
-                model_id,
-                system_prompt,
-                prompt,
+                neural_model,
+                build_system_prompt(),
+                build_prompt(
+                    settings,
+                    examination,
+                    examination_title,
+                    locale,
+                ),
                 examination.photos,
             )
 
     return USExaminationModelConclusion(
         date=datetime.now(timezone.utc),
-        modelId=model_id,
+        modelId=neural_model.id,
         response=response_text,
     )
 
@@ -169,7 +167,7 @@ def build_prompt(
     locale: str,
 ) -> str:
     base = (
-        f"Generate a medical ultrasound conclusion.\n"
+        f"Generate a medical ultrasound conclusion for data:\n"
         f"Ultrasound examination type: {examination_title}\n"
         f"Patient name: {examination.patientName}\n"
         f"Patient gender: {examination.patientGender}\n"
@@ -195,7 +193,7 @@ def build_prompt(
 
 
 async def call_vllm(
-    model_id: str,
+    neural_model: USExaminationNeuralModel,
     system_prompt: str,
     prompt: str,
     photos: list[USExaminationScanPhoto],
@@ -208,7 +206,7 @@ async def call_vllm(
         })
 
     payload = {
-        "model": model_id,
+        "model": neural_model.id,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_content},
@@ -216,8 +214,9 @@ async def call_vllm(
         "temperature": 0.2,
         "max_tokens": 512,
     }
+    url = f"{VLLM_HOST}:{neural_model.port}/v1/chat/completions"
     async with httpx.AsyncClient(timeout=120) as client:
-        response = await client.post(f"{VLLM_URL}/v1/chat/completions", json=payload)
+        response = await client.post(url, json=payload)
         response.raise_for_status()
         data = response.json()
         return data["choices"][0]["message"]["content"].strip()

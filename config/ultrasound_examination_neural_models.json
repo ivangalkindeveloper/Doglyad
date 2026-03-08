@@ -1,6 +1,7 @@
 [
     {
         "id": "google/medgemma-4b-it",
+        "port": 8101,
         "title": "Google MedGemma 4B",
         "description": {
             "en": "First generation (2025) lightweight medical AI model. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology. Handles images and text. Fast inference, suitable for resource-constrained environments.",
@@ -9,6 +10,7 @@
     },
     {
         "id": "google/medgemma-1.5-4b-it",
+        "port": 8102,
         "title": "Google MedGemma 1.5 4B",
         "description": {
             "en": "Second generation (2026) lightweight medical AI model. Supports 2D and 3D medical images: CT, MRI, ultrasound, X-rays, histopathology. Improved accuracy, medical document understanding, anatomical localization. Outperforms the first generation 27B model on some benchmarks.",
@@ -17,6 +19,7 @@
     },
     {
         "id": "google/medgemma-27b-it",
+        "port": 8103,
         "title": "Google MedGemma 27B",
         "description": {
             "en": "First generation (2025) full-size medical AI model. Highest accuracy among the first generation models. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology, medical text and EHR. Requires significant computational resources.",

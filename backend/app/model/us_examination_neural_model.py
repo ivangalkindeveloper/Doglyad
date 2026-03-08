@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class USExaminationNeuralModel(BaseModel):
     id: str
     title: str
+    port: int
     description: dict[str, str]
 
     def get_localized_description(self, locale: str) -> str:

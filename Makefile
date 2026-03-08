@@ -1,4 +1,8 @@
-.PHONY: set-venv pip-install generate-research-ner-model export-research-transformer-model backend-stub backend-vllm ios-env-local ios-env-staging ios-env-production start-locale start-stage start-production
+.PHONY: venv pip-install format download-examination \
+	init-local-stub init-local-model init-production-stub init-production-model \
+	init-ios-local init-ios-production \
+	start-backend-local-stub start-backend-local-model start-backend-production-stub start-backend-production-model \
+	stop-backend
 .SILENT:
 
 venv:
@@ -14,43 +18,29 @@ format:
 download-examination:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir DoglyadIOSClient/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
 
+init-local-stub: init-ios-local start-backend-local-stub
+init-local-model: init-ios-local start-backend-local-model
+init-production-stub: init-ios-production start-backend-production-stub
+init-production-model: init-ios-production start-backend-production-model
 
-
-init-locale: init-ios-env-local start-backend-local start-vllm-mlx-local 
-
-init-stage: init-ios-env-stage start-backend-stub
-
-init-production: init-ios-env-production start-backend-model
-
-
-
-init-ios-env-local:
+init-ios-local:
 	@IP=$$(ipconfig getifaddr en0 2>/dev/null) && \
 	if [ -z "$$IP" ]; then echo "Error: no Wi-Fi connection (en0)"; exit 1; fi && \
 	sed "s|127.0.0.1|$$IP|" ios/Config.Local.xcconfig > ios/Config.xcconfig && \
 	cat ios/Config.xcconfig
-
-init-ios-env-stage:
-	cp ios/Config.Staging.xcconfig ios/Config.xcconfig && \
+init-ios-production:
+	cp ios/Config.Production.xcconfig ios/Config.xcconfig
 	cat ios/Config.xcconfig
 
-init-ios-env-production:
-	cp ios/Config.Production.xcconfig ios/Config.xcconfig && \
-	cat ios/Config.xcconfig
-
-
-
-start-backend-local:
-	RUN_MODE=model docker compose -f backend/docker-compose.yml up --build
-	
-start-vllm-mlx-local:
-	vllm-mlx serve google/medgemma-4b-it --port 8001
-
-start-backend-stub:
+start-backend-local-stub:
 	RUN_MODE=stub docker compose -f backend/docker-compose.yml up --build
-
-start-backend-model:
+start-backend-local-model:
+	RUN_MODE=model docker compose -f backend/docker-compose.yml up --build
+	./scripts/start_vllm_mlx.sh
+start-backend-production-stub:
+	RUN_MODE=stub docker compose -f backend/docker-compose.yml up --build
+start-backend-production-model:
 	RUN_MODE=model docker compose -f backend/docker-compose.yml --profile vllm up --build
 
-backend-stop:
+stop-backend:
 	docker compose -f backend/docker-compose.yml down

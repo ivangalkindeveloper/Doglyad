@@ -1,11 +1,5 @@
 import Foundation
 
-enum EnvironmentType: String {
-    case local
-    case stage
-    case production
-}
-
 protocol EnvironmentProtocol: AnyObject {
     var type: EnvironmentType { get }
     var baseUrl: URL { get }
