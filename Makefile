@@ -11,33 +11,45 @@ pip-install:
 format:
 	cd ios && swiftformat .
 
-download-research:
+download-examination:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir DoglyadIOSClient/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
 
-start-locale: ios-env-local backend-stub
 
-start-stage: backend-stub
 
-start-production: backend-vllm
+init-locale: init-ios-env-local start-backend-local start-vllm-mlx-local 
 
-ios-env-local:
+init-stage: init-ios-env-stage start-backend-stub
+
+init-production: init-ios-env-production start-backend-model
+
+
+
+init-ios-env-local:
 	@IP=$$(ipconfig getifaddr en0 2>/dev/null) && \
 	if [ -z "$$IP" ]; then echo "Error: no Wi-Fi connection (en0)"; exit 1; fi && \
 	sed "s|127.0.0.1|$$IP|" ios/Config.Local.xcconfig > ios/Config.xcconfig && \
 	cat ios/Config.xcconfig
 
-ios-env-stage:
+init-ios-env-stage:
 	cp ios/Config.Staging.xcconfig ios/Config.xcconfig && \
 	cat ios/Config.xcconfig
 
-ios-env-production:
+init-ios-env-production:
 	cp ios/Config.Production.xcconfig ios/Config.xcconfig && \
 	cat ios/Config.xcconfig
 
-backend-stub:
+
+
+start-backend-local:
+	RUN_MODE=model docker compose -f backend/docker-compose.yml up --build
+	
+start-vllm-mlx-local:
+	vllm-mlx serve google/medgemma-4b-it --port 8001
+
+start-backend-stub:
 	RUN_MODE=stub docker compose -f backend/docker-compose.yml up --build
 
-backend-vllm:
+start-backend-model:
 	RUN_MODE=model docker compose -f backend/docker-compose.yml --profile vllm up --build
 
 backend-stop:

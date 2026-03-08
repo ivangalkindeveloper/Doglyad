@@ -4,12 +4,12 @@ services:
   backend:
     build: .
     ports:
-      - "8000:8000"
+      - "8000:8001"
     volumes:
       - ../config:/app/config:ro
     environment:
       RUN_MODE: ${RUN_MODE:-stub}
-      VLLM_URL: ${VLLM_URL:-http://vllm:8000}
+      VLLM_URL: ${VLLM_URL:-http://vllm:8001}
 
   vllm:
     image: vllm/vllm-openai:latest

@@ -64,7 +64,7 @@ struct RecievedConclusionBottomSheetView: View {
                         action: viewModel.onTapConclusion
                     )
                     .dStyle(.primaryButton)
-                    
+
                     Button(
                         action: viewModel.onTapCopy
                     ) {

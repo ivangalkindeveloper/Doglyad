@@ -75,7 +75,8 @@ def resolve_examination_title(type_id: str, locale: str) -> str:
 
 @app.post("/ultrasound_conclusion", response_model=USExaminationModelConclusion)
 async def ultrasound_conclusion(
-    body: USExaminationRequest, request: Request
+    body: USExaminationRequest,
+    request: Request
 ) -> USExaminationModelConclusion:
     accept_language = request.headers.get("accept-language", "en")
     locale = accept_language.split(",")[0].strip()

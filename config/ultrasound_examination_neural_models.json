@@ -1,10 +1,26 @@
 [
     {
+        "id": "google/medgemma-4b-it",
+        "title": "Google MedGemma 4B",
+        "description": {
+            "en": "First generation (2025) lightweight medical AI model. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology. Handles images and text. Fast inference, suitable for resource-constrained environments.",
+            "ru": "Первое поколение (2025) легковесной медицинской ИИ-модели. Поддерживает 2D-снимки: рентген, дерматология, офтальмология, гистология. Работает с изображениями и текстом. Быстрая генерация, подходит для ограниченных ресурсов."
+        }
+    },
+    {
+        "id": "google/medgemma-1.5-4b-it",
+        "title": "Google MedGemma 1.5 4B",
+        "description": {
+            "en": "Second generation (2026) lightweight medical AI model. Supports 2D and 3D medical images: CT, MRI, ultrasound, X-rays, histopathology. Improved accuracy, medical document understanding, anatomical localization. Outperforms the first generation 27B model on some benchmarks.",
+            "ru": "Второе поколение (2026) легковесной медицинской ИИ-модели. Поддерживает 2D и 3D-снимки: КТ, МРТ, УЗИ, рентген, гистология. Улучшенная точность, понимание медицинских документов, анатомическая локализация. На некоторых бенчмарках превосходит модель первого поколения 27B."
+        }
+    },
+    {
         "id": "google/medgemma-27b-it",
         "title": "Google MedGemma 27B",
         "description": {
-            "en": "Google's multimodal medical AI-model Gemma 3. Trained on de-identified medical data: X-rays, dermatology, ophthalmology, histopathology, medical text and EHR. Handles images and text.",
-            "ru": "Мультимодальная медицинская ИИ-модель Google Gemma 3. Обучена на обезличенных данных: рентген, дерматология, офтальмология, гистология, медицинские тексты и ЭМК. Работает с изображениями и текстом."
+            "en": "First generation (2025) full-size medical AI model. Highest accuracy among the first generation models. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology, medical text and EHR. Requires significant computational resources (54 GB RAM in FP16).",
+            "ru": "Первое поколение (2025) полноразмерной медицинской ИИ-модели. Наивысшая точность среди моделей первого поколения. Поддерживает 2D-снимки: рентген, дерматология, офтальмология, гистология, медицинские тексты и ЭМК. Требует значительных вычислительных ресурсов (54 ГБ RAM в FP16)."
         }
     }
 ]
