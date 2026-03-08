@@ -266,7 +266,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     }
 
     func onTapScan() {
-        if environment.type = EnvironmentType.local {
+        if environment.type == EnvironmentType.local {
             patientComplaintController.text = """
             Пациент предъявляет жалобы на периодическое ощущение давления и дискомфорта в передней области шеи, \
             возникающее преимущественно в утренние часы и при физической нагрузке. \
