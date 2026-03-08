@@ -5,6 +5,5 @@ class USExaminationType(BaseModel):
     id: str
     title: dict[str, str]
 
-    def get_localized_title(self, locale: str) -> str:
-        lang = locale.split("-")[0]
-        return self.title.get(lang) or next(iter(self.title.values()), "")
+    def get_localized_title(self, language_code: str) -> str:
+        return self.title.get(language_code) or next(iter(self.title.values()), "")

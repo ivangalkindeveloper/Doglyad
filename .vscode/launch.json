@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Backend: Stub",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "app.main:app",
+                "--host", "0.0.0.0",
+                "--port", "8000",
+                "--reload"
+            ],
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "LLM_MODE": "stub",
+                "VLLM_HOST": "http://127.0.0.1",
+                "CONFIG_DIR": "${workspaceFolder}/config"
+            }
+        },
+        {
+            "name": "Backend: Inference",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "app.main:app",
+                "--host", "0.0.0.0",
+                "--port", "8000",
+                "--reload"
+            ],
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "LLM_MODE": "inference",
+                "VLLM_HOST": "http://127.0.0.1",
+                "CONFIG_DIR": "${workspaceFolder}/config"
+            }
+        }
+    ]
+}

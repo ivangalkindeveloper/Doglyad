@@ -32,5 +32,4 @@ while read -r model_id port; do
     PIDS+=($!)
 done <<< "$MODELS"
 
-echo "All models started. Press Ctrl+C to stop."
 wait

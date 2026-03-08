@@ -6,7 +6,7 @@ from enum import Enum
 
 class RunMode(str, Enum):
     STUB = "stub"
-    MODEL = "model"
+    INFERENCE = "inference"
 
 
-RUN_MODE = RunMode(os.getenv("RUN_MODE", "stub").lower())
+LLM_MODE = RunMode(os.getenv("LLM_MODE", "stub").lower())

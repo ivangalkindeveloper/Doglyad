@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.core import load_configs
+from app.core.config import load_configs
 from app.route.ultrasound_conclusion import router as ultrasound_conclusion_router
 
 

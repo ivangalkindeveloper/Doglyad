@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import httpx
 from fastapi import APIRouter, Request
 
-from app.config import (
+from app.core.config import (
     VLLM_HOST,
     resolve_examination_title,
     resolve_neural_model,
@@ -16,7 +16,7 @@ from app.model.us_examination_model_conclusion import USExaminationModelConclusi
 from app.model.us_examination_neural_model import USExaminationNeuralModel
 from app.model.us_examination_request import USExaminationRequest
 from app.model.us_examination_scan_photo import USExaminationScanPhoto
-from app.run_mode import RUN_MODE, RunMode
+from app.core.llm_mode import LLM_MODE, RunMode
 
 router = APIRouter()
 
@@ -27,25 +27,32 @@ async def ultrasound_conclusion(
     request: Request,
 ) -> USExaminationModelConclusion:
     accept_language = request.headers.get("accept-language", "en")
-    locale = accept_language.split(",")[0].strip()
+    language_code = accept_language.split("_")[0].strip()
 
     settings = body.neuralModelSettings
     examination = body.examinationData
 
-    neural_model = resolve_neural_model(settings.selectedNeuralModelId)
+    neural_model = resolve_neural_model(
+        settings.selectedNeuralModelId
+    )
     examination_title = resolve_examination_title(
         examination.usExaminationTypeId,
-        locale,
+        language_code,
     )
 
-    match RUN_MODE:
+    match LLM_MODE:
         case RunMode.STUB:
-            response_text = _build_stub(examination, examination_title)
-        case RunMode.MODEL:
+            response_text = _build_stub()
+        case RunMode.INFERENCE:
             response_text = await _call_vllm(
                 neural_model,
                 _build_system_prompt(),
-                _build_prompt(settings, examination, examination_title, locale),
+                _build_prompt(
+                    settings,
+                    examination,
+                    examination_title,
+                    language_code,
+                ),
                 examination.photos,
             )
 
@@ -56,10 +63,9 @@ async def ultrasound_conclusion(
     )
 
 
-def _build_stub(examination: USExaminationData, examination_title: str) -> str:
+def _build_stub() -> str:
     return (
-        f"STUB Ultrasound Examination Report: {examination_title}.\n"
-        f"Patient: {examination.patientName}.\n"
+        f"STUB: Ultrasound Examination Report\n"
         f"The examination was performed using an expert-class ultrasound system "
         f"equipped with a multifrequency convex transducer (3.5–7.5 MHz) "
         f"and a linear transducer (7.5–12 MHz). "
@@ -106,7 +112,7 @@ def _build_prompt(
     settings: NeuralModelSettings,
     examination: USExaminationData,
     examination_title: str,
-    locale: str,
+    language_code: str,
 ) -> str:
     base = (
         f"Generate a medical ultrasound conclusion for data:\n"
@@ -129,7 +135,7 @@ def _build_prompt(
     if settings.responseLength:
         base += f"Maximum response length (tokens): {settings.responseLength}\n"
 
-    base += f"Answer in locale: {locale}\n"
+    base += f"Answer in language: {language_code}\n"
     base += "Return a full clinical conclusion."
     return base
 

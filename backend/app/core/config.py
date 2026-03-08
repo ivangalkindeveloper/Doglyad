@@ -10,7 +10,7 @@ from app.model.us_examination_neural_model import USExaminationNeuralModel
 from app.model.us_examination_type import USExaminationType
 
 VLLM_HOST = os.getenv("VLLM_HOST", "http://host.docker.internal")
-CONFIG_DIR = Path(__file__).resolve().parent.parent / "config"
+CONFIG_DIR = Path(os.getenv("CONFIG_DIR", Path(__file__).resolve().parent.parent.parent / "config"))
 
 neural_models: dict[str, USExaminationNeuralModel] = {}
 examination_types: dict[str, USExaminationType] = {}
@@ -42,11 +42,11 @@ def resolve_neural_model(selected_id: str | None) -> USExaminationNeuralModel:
     return model
 
 
-def resolve_examination_title(type_id: str, locale: str) -> str:
+def resolve_examination_title(type_id: str, language_code: str) -> str:
     examination_type = examination_types.get(type_id)
     if not examination_type:
         raise HTTPException(
             status_code=400,
             detail=f"Unknown examination type id: {type_id}",
         )
-    return examination_type.get_localized_title(locale)
+    return examination_type.get_localized_title(language_code)

@@ -40,15 +40,12 @@ extension InitializationProcess {
                     throw InitializationError.usExaminationTypesEmpty
                 }
 
-                let usExaminationTypesById = Dictionary(
-                    uniqueKeysWithValues: usExaminationTypes.map { ($0.id, $0) }
-                )
-                let usExaminationTypeDefault = usExaminationTypes.first!
-
                 await MainActor.run {
                     process.usExaminationTypes = usExaminationTypes
-                    process.usExaminationTypesById = usExaminationTypesById
-                    process.usExaminationTypeDefault = usExaminationTypeDefault
+                    process.usExaminationTypesById = Dictionary(
+                        uniqueKeysWithValues: usExaminationTypes.map { ($0.id, $0) }
+                    )
+                    process.usExaminationTypeDefault = usExaminationTypes.first!
                 }
             }
         ),
@@ -62,20 +59,17 @@ extension InitializationProcess {
                     throw InitializationError.usExaminationNeuralModelsEmpty
                 }
 
-                let usExaminationNeuralModelsById = Dictionary(
-                    uniqueKeysWithValues: usExaminationNeuralModels.map { ($0.id, $0) }
-                )
-                let usExaminationNeuralModelDefault = usExaminationNeuralModels.first!
-
                 await MainActor.run {
                     process.usExaminationNeuralModels = usExaminationNeuralModels
-                    process.usExaminationNeuralModelsById = usExaminationNeuralModelsById
-                    process.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
+                    process.usExaminationNeuralModelsById = Dictionary(
+                        uniqueKeysWithValues: usExaminationNeuralModels.map { ($0.id, $0) }
+                    )
+                    process.usExaminationNeuralModelDefault = usExaminationNeuralModels.first!
                 }
             }
         ),
         AsyncInitializationStep<InitializationProcess>(
-            title: "Ultrasound Examination Neural Model",
+            title: "Local ultrasound examination neural model",
             run: { (process: InitializationProcess) in
                 if #available(iOS 26.0, *), DExaminationNeuralModelFoundationModels.isAvailable {
                     return await MainActor.run {
