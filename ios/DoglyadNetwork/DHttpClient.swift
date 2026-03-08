@@ -31,7 +31,7 @@ public final class DHttpClient: DHttpClientProtocol {
         .validate()
         .serializingDecodable(Response.self, decoder: jsonDecoder)
         .response
-        return response.value!
+        return try response.result.get()
     }
 
     public func get<Body: Encodable & Sendable, Response: Decodable>(
@@ -49,7 +49,7 @@ public final class DHttpClient: DHttpClientProtocol {
         .validate()
         .serializingDecodable(Response.self, decoder: jsonDecoder)
         .response
-        return response.value!
+        return try response.result.get()
     }
 
     public func post<Body: Encodable & Sendable, Response: Decodable>(
@@ -67,6 +67,6 @@ public final class DHttpClient: DHttpClientProtocol {
         .validate()
         .serializingDecodable(Response.self, decoder: jsonDecoder)
         .response
-        return response.value!
+        return try response.result.get()
     }
 }
