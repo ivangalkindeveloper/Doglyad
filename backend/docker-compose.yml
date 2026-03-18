@@ -4,7 +4,7 @@ services:
   backend:
     build: .
     ports:
-      - "${BACKEND_PORT:-8000}:8000"
+      - "${BACKEND_PORT:-8000:8000}"
     volumes:
       - ../config:/app/config:ro
     extra_hosts:
