@@ -2,6 +2,7 @@ public import Foundation
 
 public protocol DHttpClientProtocol {
     var baseUrl: String { get }
+    var baseVersionPrefix: String { get }
 
     func get<Response: Decodable>(
         url: URL

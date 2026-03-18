@@ -33,7 +33,7 @@ init-ios-production:
 	cat ios/Config.xcconfig
 
 start-backend-local-stub:
-	LLM_MODE=stub docker compose -f backend/docker-compose.yml up --build -dd
+	LLM_MODE=stub docker compose -f backend/docker-compose.yml up --build -d
 	$(MAKE) start-logs
 start-backend-local-inference:
 	LLM_MODE=inference docker compose -f backend/docker-compose.yml up --build -d

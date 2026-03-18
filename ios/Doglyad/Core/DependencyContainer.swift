@@ -86,7 +86,8 @@ extension DependencyContainer {
         )
         let database = try! DDatabase()
         let httpClient = DHttpClient(
-            baseUrl: environment.baseUrl.absoluteString
+            baseUrl: environment.baseUrl.absoluteString,
+            baseVersionPrefix: environment.baseVersionPrefix
         )
         let sharedRepository = SharedRepository(
             database: database

@@ -3,6 +3,7 @@ internal import Alamofire
 
 public final class DHttpClient: DHttpClientProtocol {
     public let baseUrl: String
+    public let baseVersionPrefix: String
     private let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
@@ -15,10 +16,16 @@ public final class DHttpClient: DHttpClientProtocol {
         return decoder
     }()
 
+    private var baseApiUrl: String {
+        baseUrl + baseVersionPrefix
+    }
+
     public init(
-        baseUrl: String
+        baseUrl: String,
+        baseVersionPrefix: String
     ) {
         self.baseUrl = baseUrl
+        self.baseVersionPrefix = baseVersionPrefix
     }
 
     public func get<Response: Decodable>(
@@ -40,7 +47,7 @@ public final class DHttpClient: DHttpClientProtocol {
         headers: [String: String]? = nil
     ) async throws -> Response {
         let response = await AF.request(
-            baseUrl + endPoint,
+            baseApiUrl + endPoint,
             method: .get,
             parameters: body,
             encoder: JSONParameterEncoder(encoder: jsonEncoder),
@@ -58,7 +65,7 @@ public final class DHttpClient: DHttpClientProtocol {
         headers: [String: String]? = nil
     ) async throws -> Response {
         let response = await AF.request(
-            baseUrl + endPoint,
+            baseApiUrl + endPoint,
             method: .post,
             parameters: body,
             encoder: JSONParameterEncoder(encoder: jsonEncoder),

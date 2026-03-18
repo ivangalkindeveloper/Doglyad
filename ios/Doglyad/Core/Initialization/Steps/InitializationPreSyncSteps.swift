@@ -37,7 +37,8 @@ extension InitializationProcess {
             title: "Network",
             run: { (process: InitializationProcess) in
                 process.httpClient = DHttpClient(
-                    baseUrl: process.environment!.baseUrl.absoluteString
+                    baseUrl: process.environment!.baseUrl.absoluteString,
+                    baseVersionPrefix: process.environment!.baseVersionPrefix
                 )
             }
         ),

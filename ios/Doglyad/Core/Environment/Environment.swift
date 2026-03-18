@@ -3,6 +3,7 @@ import Foundation
 final class EnvironmentBase: EnvironmentProtocol {
     let type: EnvironmentType
     let baseUrl: URL
+    let baseVersionPrefix: String = "/v1"
     let contentUrl: URL = .init(string: "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/")!
     let updateUrl: URL = .init(string: "https://apps.apple.com/app/id")!
     let privacyPolicyUrl: URL = .init(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy/")!

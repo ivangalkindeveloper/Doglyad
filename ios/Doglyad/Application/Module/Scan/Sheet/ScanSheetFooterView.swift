@@ -75,5 +75,9 @@ struct ScanSheetFooterView: View {
             theme.animation,
             value: viewModel.sheetController.currentPosition
         )
+        .animation(
+            theme.animation,
+            value: viewModel.isLoading
+        )
     }
 }
