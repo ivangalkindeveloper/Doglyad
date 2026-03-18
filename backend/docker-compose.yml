@@ -4,7 +4,7 @@ services:
   backend:
     build: .
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT:-8000}:8000"
     volumes:
       - ../config:/app/config:ro
     extra_hosts:
@@ -12,6 +12,21 @@ services:
     environment:
       LLM_MODE: ${LLM_MODE:-stub}
       VLLM_HOST: ${VLLM_HOST:-http://host.docker.internal}
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    profiles:
+      - caddy
+    depends_on:
+      - backend
 
   vllm-medgemma-4b:
     image: vllm/vllm-openai:latest
@@ -57,3 +72,7 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+
+volumes:
+  caddy_data:
+  caddy_config:

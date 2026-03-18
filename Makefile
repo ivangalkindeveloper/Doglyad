@@ -40,14 +40,14 @@ start-backend-local-inference:
 	./backend/scripts/start_vllm_mlx.sh
 	$(MAKE) start-logs
 start-backend-production-stub:
-	LLM_MODE=stub docker compose -f backend/docker-compose.yml up --build -d
+	LLM_MODE=stub BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy up --build -d
 	$(MAKE) start-logs
 start-backend-production-inference:
-	LLM_MODE=inference docker compose -f backend/docker-compose.yml --profile vllm up --build -d
+	LLM_MODE=inference BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy --profile vllm up --build -d
 	$(MAKE) start-logs
 
 start-logs:
 	docker compose -f backend/docker-compose.yml logs -f
 
 stop-backend:
-	docker compose -f backend/docker-compose.yml down
+	docker compose -f backend/docker-compose.yml --profile caddy --profile vllm down
