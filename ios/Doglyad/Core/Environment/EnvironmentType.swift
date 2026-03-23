@@ -1,4 +1,4 @@
 enum EnvironmentType: String {
-    case local
+    case development
     case production
 }

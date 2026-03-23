@@ -5,6 +5,7 @@ protocol EnvironmentProtocol: AnyObject {
     var baseUrl: URL { get }
     var baseVersionPrefix: String { get }
     var contentUrl: URL { get }
+    var contentConfigPathPrefix: String { get }
     var updateUrl: URL { get }
     var privacyPolicyUrl: URL { get }
     var termsAndConditionsUrl: URL { get }

@@ -9,7 +9,7 @@ __pycache__/
 /backend/Caddyfile
 
 /ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
-/ios/Config.Local.xcconfig
+/ios/Config.Development.xcconfig
 /ios/Config.Production.xcconfig
 
 /ml/research/ner/dataset/train

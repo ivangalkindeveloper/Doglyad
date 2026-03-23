@@ -3,6 +3,7 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanSheetBodyView: View {
+    @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -119,6 +120,14 @@ struct ScanSheetBodyView: View {
                     keyboardType: .default,
                     sumbitLabel: .done
                 )
+                .padding(.bottom, size.s32)
+
+                if container.environment.type == EnvironmentType.development {
+                    DButton(
+                        title: "Заполнить",
+                        action: viewModel.onTapFill
+                    )
+                }
             }
             .padding(.bottom, size.screenHeight / 4)
         }

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timezone
 
 import httpx
 from fastapi import APIRouter, Request
+
+logger = logging.getLogger(__name__)
 
 from app.core.config import (
     VLLM_HOST,
@@ -17,6 +20,7 @@ from app.model.us_examination_neural_model import USExaminationNeuralModel
 from app.model.us_examination_request import USExaminationRequest
 from app.model.us_examination_scan_photo import USExaminationScanPhoto
 from app.core.llm_mode import LLM_MODE, RunMode
+from app.util.language import resolve_language_name
 
 router = APIRouter()
 
@@ -40,21 +44,30 @@ async def ultrasound_conclusion(
         language_code,
     )
 
+    logger.info(
+        "Request: model=%s, lang=%s, exam=%s, photos=%d, mode=%s",
+        neural_model.id, language_code, examination_title,
+        len(examination.photos), LLM_MODE,
+    )
+
     match LLM_MODE:
         case RunMode.STUB:
             response_text = _build_stub()
         case RunMode.INFERENCE:
             response_text = await _call_vllm(
                 neural_model,
-                _build_system_prompt(),
+                _build_system_prompt(
+                    language_code,
+                ),
                 _build_prompt(
                     settings,
                     examination,
                     examination_title,
-                    language_code,
                 ),
                 examination.photos,
             )
+
+    logger.info("Response (first 200 chars): %.200s", response_text)
 
     return USExaminationModelConclusion(
         date=datetime.now(timezone.utc),
@@ -94,17 +107,21 @@ def _build_stub() -> str:
     )
 
 
-def _build_system_prompt() -> str:
+def _build_system_prompt(
+       language_code: str,
+) -> str:
+    language_name = resolve_language_name(language_code)
     return (
         "You are an AI assistant specialized in generating medical ultrasound examination reports. "
-        "Your task is to produce clinical conclusions that physicians rely on "
-        "for diagnosis and treatment planning. "
+        f"Answer in {language_name}. "
+        "Generate without markdown formatting. "
+        "Your task is to produce clinical conclusions that physicians rely on for diagnosis and treatment planning. "
         "Write only the medical conclusion based strictly on the provided examination data and images. "
         "Do not infer, assume, or fabricate any findings that are not supported by the input. "
         "Use precise medical terminology appropriate for a formal radiology report. "
         "If the provided data is insufficient to assess a specific structure, "
         "state that it was not adequately visualized rather than speculating. "
-        "Structure the report with findings followed by a conclusion."
+        "Structure the report with findings followed by a conclusion. "
     )
 
 
@@ -112,10 +129,9 @@ def _build_prompt(
     settings: NeuralModelSettings,
     examination: USExaminationData,
     examination_title: str,
-    language_code: str,
 ) -> str:
     base = (
-        f"Generate a medical ultrasound conclusion for data:\n"
+        f"Generate a full medical ultrasound conclusion for data:\n"
         f"Ultrasound examination type: {examination_title}\n"
         f"Patient name: {examination.patientName}\n"
         f"Patient gender: {examination.patientGender}\n"
@@ -135,8 +151,6 @@ def _build_prompt(
     if settings.responseLength:
         base += f"Maximum response length (tokens): {settings.responseLength}\n"
 
-    base += f"Answer in language: {language_code}\n"
-    base += "Return a full clinical conclusion."
     return base
 
 
@@ -163,8 +177,10 @@ async def _call_vllm(
         "max_tokens": 512,
     }
     url = f"{VLLM_HOST}:{neural_model.port}/v1/chat/completions"
+    logger.info("vLLM request: url=%s, model=%s", url, neural_model.id)
     async with httpx.AsyncClient(timeout=120) as client:
         response = await client.post(url, json=payload)
+        logger.info("vLLM response: status=%d", response.status_code)
         response.raise_for_status()
         data = response.json()
         return data["choices"][0]["message"]["content"].strip()

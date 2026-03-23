@@ -1,8 +1,8 @@
 .PHONY: venv pip-install format download-examination \
-	init-local-stub init-local-inference init-production-stub init-production-inference \
-	init-ios-local init-ios-production \
-	start-backend-local-stub start-backend-local-inference start-backend-production-stub start-backend-production-inference \
-	stop-backend
+	init-domain init-ios-local init-ios-production \
+	start-backend-stub start-backend-stub-caddy \
+	start-backend-inference-caddy-vllm start-backend-inference-vllm-mlx start-backend-inference-caddy-vllm-mlx \
+	start-logs stop-backend
 .SILENT:
 
 venv:
@@ -18,31 +18,27 @@ format:
 download-examination:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir DoglyadIOSClient/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
 
-init-local-stub: init-ios-local start-backend-local-stub
-init-local-inference: init-ios-local start-backend-local-inference
-init-production-stub: init-ios-production start-backend-production-stub
-init-production-inference: init-ios-production start-backend-production-inference
+init-domain:
+	./scripts/init_domain.sh
 
 init-ios-local:
-	@IP=$$(ipconfig getifaddr en0 2>/dev/null) && \
-	if [ -z "$$IP" ]; then echo "Error: no Wi-Fi connection (en0)"; exit 1; fi && \
-	sed "s|127.0.0.1|$$IP|" ios/Config.Local.xcconfig > ios/Config.xcconfig && \
+	cp ios/Config.Development.xcconfig ios/Config.xcconfig
 	cat ios/Config.xcconfig
 init-ios-production:
 	cp ios/Config.Production.xcconfig ios/Config.xcconfig
 	cat ios/Config.xcconfig
 
-init-domain:
-	./scripts/init_domain.sh
-
-start-backend-stub-local:
-	LLM_MODE=stub docker compose -f backend/docker-compose.yml up --build -d
 start-backend-stub:
+	LLM_MODE=stub BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml up --build -d
+start-backend-stub-caddy:
 	LLM_MODE=stub BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy up --build -d
-start-backend-inference:
+start-backend-inference-caddy-vllm:
 	LLM_MODE=inference BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy --profile vllm up --build -d
-start-backend-inference-mlx:
+start-backend-inference-vllm-mlx:
 	LLM_MODE=inference docker compose -f backend/docker-compose.yml up --build -d
+	./backend/scripts/start_vllm_mlx.sh
+start-backend-inference-caddy-vllm-mlx:
+	LLM_MODE=inference BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy --profile vllm up --build -d
 	./backend/scripts/start_vllm_mlx.sh
 
 start-logs:

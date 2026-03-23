@@ -18,7 +18,7 @@ extension InitializationProcess {
             run: { (process: InitializationProcess) async in
                 do {
                     let url = await process.environment!.contentUrl
-                        .appendingPathComponent("config/application.json")
+                        .appendingPathComponent(process.environment!.contentConfigPathPrefix + "/application.json")
                     let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: url)
                     await MainActor.run {
                         process.applicationConfig = applicationConfig
@@ -34,7 +34,7 @@ extension InitializationProcess {
             title: "Ultrasound examination types",
             run: { (process: InitializationProcess) async throws in
                 let url = await process.environment!.contentUrl
-                    .appendingPathComponent("config/ultrasound_examination_types.json")
+                    .appendingPathComponent(process.environment!.contentConfigPathPrefix + "/ultrasound_examination_types.json")
                 let usExaminationTypes: [USExaminationType] = try await process.httpClient!.get(url: url)
                 if usExaminationTypes.isEmpty {
                     throw InitializationError.usExaminationTypesEmpty
@@ -53,7 +53,7 @@ extension InitializationProcess {
             title: "Ultrasound examination neural models",
             run: { (process: InitializationProcess) async throws in
                 let url = await process.environment!.contentUrl
-                    .appendingPathComponent("config/ultrasound_examination_neural_models.json")
+                    .appendingPathComponent(process.environment!.contentConfigPathPrefix + "/ultrasound_examination_neural_models.json")
                 let usExaminationNeuralModels: [USExaminationNeuralModel] = try await process.httpClient!.get(url: url)
                 if usExaminationNeuralModels.isEmpty {
                     throw InitializationError.usExaminationNeuralModelsEmpty

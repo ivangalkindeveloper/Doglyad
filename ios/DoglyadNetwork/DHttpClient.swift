@@ -4,6 +4,14 @@ internal import Alamofire
 public final class DHttpClient: DHttpClientProtocol {
     public let baseUrl: String
     public let baseVersionPrefix: String
+
+    private let session: Session = {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 300
+        configuration.timeoutIntervalForResource = 300
+        return Session(configuration: configuration)
+    }()
+
     private let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
@@ -31,7 +39,7 @@ public final class DHttpClient: DHttpClientProtocol {
     public func get<Response: Decodable>(
         url: URL
     ) async throws -> Response {
-        let response = await AF.request(
+        let response = await session.request(
             url,
             method: .get
         )
@@ -46,7 +54,7 @@ public final class DHttpClient: DHttpClientProtocol {
         body: Body? = nil,
         headers: [String: String]? = nil
     ) async throws -> Response {
-        let response = await AF.request(
+        let response = await session.request(
             baseApiUrl + endPoint,
             method: .get,
             parameters: body,
@@ -64,7 +72,7 @@ public final class DHttpClient: DHttpClientProtocol {
         body: Body? = nil,
         headers: [String: String]? = nil
     ) async throws -> Response {
-        let response = await AF.request(
+        let response = await session.request(
             baseApiUrl + endPoint,
             method: .post,
             parameters: body,
