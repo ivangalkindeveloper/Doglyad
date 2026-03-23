@@ -21,7 +21,7 @@ services:
     ports:
       - "${BACKEND_PORT:-8000:8000}"
     volumes:
-      - ../config:/app/config:ro
+      - ./config:/app/config:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:

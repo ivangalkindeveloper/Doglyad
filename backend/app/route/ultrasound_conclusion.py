@@ -164,7 +164,7 @@ async def _call_vllm(
     for photo in photos:
         user_content.append({
             "type": "image_url",
-            "image_url": {"url": f"data:image/jpeg;base64,{photo.imageData}"},
+            "image_url": {"url": f"data:image/jpeg;base64,{photo.data}"},
         })
 
     payload = {

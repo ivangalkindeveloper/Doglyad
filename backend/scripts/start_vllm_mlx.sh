@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONFIG_FILE="$(dirname "$0")/../../config/ultrasound_examination_neural_models.json"
+CONFIG_FILE="$(dirname "$0")/../config/ultrasound_examination_neural_models.json"
 
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "Error: config not found at $CONFIG_FILE"

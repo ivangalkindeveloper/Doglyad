@@ -10,7 +10,7 @@ from app.model.us_examination_neural_model import USExaminationNeuralModel
 from app.model.us_examination_type import USExaminationType
 
 VLLM_HOST = os.getenv("VLLM_HOST", "http://host.docker.internal")
-CONFIG_DIR = Path(os.getenv("CONFIG_DIR", Path(__file__).resolve().parent.parent.parent / "config"))
+CONFIG_DIR = Path(os.getenv("CONFIG_DIR", str(Path(__file__).resolve().parent.parent.parent / "config")))
 
 neural_models: dict[str, USExaminationNeuralModel] = {}
 examination_types: dict[str, USExaminationType] = {}

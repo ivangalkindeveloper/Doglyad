@@ -4,13 +4,13 @@ import SwiftData
 @Model
 public final class USExaminationScanPhotoDB {
     public var id: UUID
-    public var imageData: Data
+    public var data: Data
 
     public init(
         id: UUID = UUID(),
-        imageData: Data
+        data: Data
     ) {
         self.id = id
-        self.imageData = imageData
+        self.data = data
     }
 }
