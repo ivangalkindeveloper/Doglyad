@@ -24,11 +24,6 @@ struct ModelConclusionCard: View {
                     alignment: .leading,
                     spacing: .zero
                 ) {
-                    DText(.conclusionModelResponseLabel)
-                        .dStyle(
-                            font: typography.linkSmall
-                        )
-
                     HStack(
                         alignment: .bottom,
                         spacing: .zero

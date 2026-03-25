@@ -15,9 +15,9 @@ struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = UUID()
+        id = UUID()
         let data = try container.decode(Data.self, forKey: .data)
-        self.image = UIImage(data: data) ?? UIImage()
+        image = UIImage(data: data) ?? UIImage()
     }
 
     func encode(to encoder: Encoder) throws {

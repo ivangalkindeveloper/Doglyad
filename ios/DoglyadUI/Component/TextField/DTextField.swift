@@ -113,8 +113,8 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
                             placeholder,
                             text: $controller.text,
                             prompt: Text(placeholder)
-                                .foregroundStyle(color.grayscalePlacehold)
-                            // axis: .vertical
+                                .foregroundStyle(color.grayscalePlacehold),
+                            axis: .vertical
                         )
                         Group {
                             if let focus {
@@ -172,7 +172,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
 private extension DTextField {
     var fillColor: Color {
         if controller.isError || controller.errorText != nil { return color.dangerBackground }
-        return isFocused ? color.grayscaleBackground : color.grayscaleInput
+        return color.grayscaleBackground
     }
 
     var titleColor: Color {
@@ -206,7 +206,7 @@ private extension DTextField {
         Button(
             "Set sample text"
         ) {
-            controller.text = "\(Date())"
+            controller.text = sampleText
         }
     }
     .padding()

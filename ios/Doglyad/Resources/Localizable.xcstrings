@@ -424,23 +424,6 @@
         }
       }
     },
-    "conclusionModelResponseLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Model response"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ответ модели"
-          }
-        }
-      }
-    },
     "conclusionModelResponseUpdatedMessageDescription" : {
       "extractionState" : "manual",
       "localizations" : {

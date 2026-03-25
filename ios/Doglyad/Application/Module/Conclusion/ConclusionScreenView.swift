@@ -118,7 +118,7 @@ struct ConclusionScreenView: View {
 
                             ExpandableText(
                                 text: examinationData.examinationDescription,
-                                backgroundColor: color.grayscaleBackground
+                                backgroundColor: color.grayscaleBackgroundWeak
                             )
                             .padding(.bottom, size.s8)
 
@@ -131,7 +131,7 @@ struct ConclusionScreenView: View {
 
                                 ExpandableText(
                                     text: patientComplaint,
-                                    backgroundColor: color.grayscaleBackground
+                                    backgroundColor: color.grayscaleBackgroundWeak
                                 )
                                 .padding(.bottom, size.s8)
                             }
@@ -145,7 +145,7 @@ struct ConclusionScreenView: View {
 
                                 ExpandableText(
                                     text: additionalData,
-                                    backgroundColor: color.grayscaleBackground
+                                    backgroundColor: color.grayscaleBackgroundWeak
                                 )
                                 .padding(.bottom, size.s8)
                             }
