@@ -1,0 +1,198 @@
+[
+    {
+        "id": "abdominalCavity",
+        "title": {
+            "en": "Abdominal cavity",
+            "ru": "Брюшная полость"
+        }
+    },
+    {
+        "id": "abdominalVessels",
+        "title": {
+            "en": "Abdominal vessels",
+            "ru": "Сосуды брюшной полости"
+        }
+    },
+    {
+        "id": "arteriesOfTheLowerExtremities",
+        "title": {
+            "en": "Arteries of the lower extremities",
+            "ru": "Артерии нижних конечностей"
+        }
+    },
+    {
+        "id": "arteriesOfTheUpperExtremities",
+        "title": {
+            "en": "Arteries of the upper extremities",
+            "ru": "Артерии верхних конечностей"
+        }
+    },
+    {
+        "id": "bladder",
+        "title": {
+            "en": "Bladder",
+            "ru": "Мочевой пузырь"
+        }
+    },
+    {
+        "id": "bladderWithResidualUrineDetermination",
+        "title": {
+            "en": "Bladder with residual urine determination",
+            "ru": "Мочевой пузырь с определением остаточной мочи"
+        }
+    },
+    {
+        "id": "brachiocephalicVessels",
+        "title": {
+            "en": "Brachiocephalic vessels",
+            "ru": "Брахиоцефальные сосуды"
+        }
+    },
+    {
+        "id": "echocardiography",
+        "title": {
+            "en": "Echocardiography",
+            "ru": "Эхокардиография"
+        }
+    },
+    {
+        "id": "eye",
+        "title": {
+            "en": "Eye",
+            "ru": "Глаз"
+        }
+    },
+    {
+        "id": "hipJointsInNewborns",
+        "title": {
+            "en": "Hip joints in newborns",
+            "ru": "Тазобедренные суставы у новорожденных"
+        }
+    },
+    {
+        "id": "hollowOrgansStomachAndIntestines",
+        "title": {
+            "en": "Hollow organs (stomach and intestines)",
+            "ru": "Полые органы (желудок и кишечник)"
+        }
+    },
+    {
+        "id": "intracanialArteries",
+        "title": {
+            "en": "Intracanial arteries",
+            "ru": "Интраканиальные артерии"
+        }
+    },
+    {
+        "id": "joints",
+        "title": {
+            "en": "Joints",
+            "ru": "Суставы"
+        }
+    },
+    {
+        "id": "kidneysAdrenalGlandsAndRetroperitonealSpace",
+        "title": {
+            "en": "Kidneys, adrenal glands, and retroperitoneal space",
+            "ru": "Почки, надпочечники и забрюшинное пространство"
+        }
+    },
+    {
+        "id": "lymphNodes",
+        "title": {
+            "en": "Lymph nodes",
+            "ru": "Лимфатические узлы"
+        }
+    },
+    {
+        "id": "mammaryGlands",
+        "title": {
+            "en": "Mammary glands",
+            "ru": "Молочные железы"
+        }
+    },
+    {
+        "id": "neurosonography",
+        "title": {
+            "en": "Neurosonography",
+            "ru": "Нейросонография"
+        }
+    },
+    {
+        "id": "pelvicOrgans",
+        "title": {
+            "en": "Pelvic organs",
+            "ru": "Органы малого таза"
+        }
+    },
+    {
+        "id": "pleuralRegion",
+        "title": {
+            "en": "Pleural region",
+            "ru": "Плевральная область"
+        }
+    },
+    {
+        "id": "renalArteries",
+        "title": {
+            "en": "Renal arteries",
+            "ru": "Почечные артерии"
+        }
+    },
+    {
+        "id": "salivaryGlands",
+        "title": {
+            "en": "Salivary glands",
+            "ru": "Слюнные железы"
+        }
+    },
+    {
+        "id": "scrotum",
+        "title": {
+            "en": "Scrotum",
+            "ru": "Мошонка"
+        }
+    },
+    {
+        "id": "sinuses",
+        "title": {
+            "en": "Sinuses",
+            "ru": "Пазухи"
+        }
+    },
+    {
+        "id": "softTissues",
+        "title": {
+            "en": "Soft tissues",
+            "ru": "Мягкие ткани"
+        }
+    },
+    {
+        "id": "thymusGland",
+        "title": {
+            "en": "Thymus gland",
+            "ru": "Вилочковая железа"
+        }
+    },
+    {
+        "id": "thyroidGland",
+        "title": {
+            "en": "Thyroid gland",
+            "ru": "Щитовидная железа"
+        }
+    },
+    {
+        "id": "veinsOfTheLowerExtremities",
+        "title": {
+            "en": "Veins of the lower extremities",
+            "ru": "Вены нижних конечностей"
+        }
+    },
+    {
+        "id": "veinsOfTheUpperExtremities",
+        "title": {
+            "en": "Veins of the upper extremities",
+            "ru": "Вены верхних конечностей"
+        }
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "id": "google/medgemma-4b-it",
+        "port": 8101,
+        "title": "Google MedGemma 4B",
+        "description": {
+            "en": "First generation (2025) lightweight medical AI model. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology. Handles images and text. Fast inference, suitable for resource-constrained environments.",
+            "ru": "Первое поколение (2025) легковесной медицинской ИИ-модели. Поддерживает 2D-снимки: рентген, дерматология, офтальмология, гистология. Работает с изображениями и текстом. Быстрая генерация, подходит для ограниченных ресурсов."
+        }
+    }
+]
