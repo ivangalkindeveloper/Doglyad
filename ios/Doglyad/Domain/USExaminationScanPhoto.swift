@@ -23,7 +23,7 @@ struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         let resizedImage = image.resized(maxDimension: 128)
-        let data = resizedImage.jpegData(compressionQuality: 0.1) ?? Data()
+        let data = resizedImage.jpegData(compressionQuality: 0.3) ?? Data()
         try container.encode(data, forKey: .data)
     }
 

@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import APIRouter, FastAPI
 
 from app.core.config import load_configs
+
+logging.basicConfig(level=logging.INFO)
 from app.route.ultrasound_conclusion import router as ultrasound_conclusion_router
 
 
