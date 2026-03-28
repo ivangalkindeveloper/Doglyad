@@ -6,8 +6,6 @@ __pycache__/
 
 /.venv311
 
-/backend/Caddyfile
-
 /ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
 /ios/Config.Development.xcconfig
 /ios/Config.Production.xcconfig

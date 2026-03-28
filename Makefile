@@ -29,20 +29,15 @@ init-ios-production:
 	cat ios/Config.xcconfig
 
 start-backend-stub:
-	LLM_MODE=stub BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml up --build -d
-start-backend-stub-caddy:
-	LLM_MODE=stub BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy up --build -d
-start-backend-inference-caddy-vllm:
-	LLM_MODE=inference BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy --profile vllm up --build -d
-start-backend-inference-vllm-mlx:
-	LLM_MODE=inference docker compose -f backend/docker-compose.yml up --build -d
-	./backend/scripts/start_vllm_mlx.sh
-start-backend-inference-caddy-vllm-mlx:
-	LLM_MODE=inference BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml --profile caddy --profile vllm up --build -d
+	LLM_MODE=stub docker compose -f backend/docker-compose.yml up --build -d
+start-backend-inference-vllm:
+	LLM_MODE=inference docker compose -f backend/docker-compose.yml --profile vllm up --build -d
+start-local-backend-inference-vllm-mlx:
+	LLM_MODE=inference BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml up --build -d
 	./backend/scripts/start_vllm_mlx.sh
 
 start-logs:
 	docker compose -f backend/docker-compose.yml logs -f
 
 stop-backend:
-	docker compose -f backend/docker-compose.yml --profile caddy --profile vllm down
+	docker compose -f backend/docker-compose.yml --profile vllm down
