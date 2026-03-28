@@ -28,20 +28,20 @@ init-ios-production:
 	cp ios/Config.Production.xcconfig ios/Config.xcconfig
 	cat ios/Config.xcconfig
 
-start-development-backend-stub:
+start-backend- development-stub:
 	ENVIRONMENT=development
 	LLM_MODE=stub
 	docker compose -f backend/docker-compose.yml up --build -d
-start-production-backend-inference-vllm:
+start-backend-production-inference-vllm:
 	ENVIRONMENT=production
 	LLM_MODE=inference
 	docker compose -f backend/docker-compose.yml --profile vllm up --build -d
-start-development-local-backend-inference-vllm-mlx:
+start-local-backend-development-inference-vllm-mlx:
 	ENVIRONMENT=development
 	LLM_MODE=inference
 	docker compose -f backend/docker-compose.yml up --build -d
 	./backend/scripts/start_vllm_mlx.sh development
-start-production-local-backend-inference-vllm-mlx:
+start-local-backend-production-inference-vllm-mlx:
 	ENVIRONMENT=production
 	LLM_MODE=inference
 	docker compose -f backend/docker-compose.yml up --build -d
