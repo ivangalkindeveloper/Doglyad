@@ -28,13 +28,24 @@ init-ios-production:
 	cp ios/Config.Production.xcconfig ios/Config.xcconfig
 	cat ios/Config.xcconfig
 
-start-backend-stub:
-	LLM_MODE=stub docker compose -f backend/docker-compose.yml up --build -d
-start-backend-inference-vllm:
-	LLM_MODE=inference docker compose -f backend/docker-compose.yml --profile vllm up --build -d
-start-local-backend-inference-vllm-mlx:
-	LLM_MODE=inference BACKEND_PORT=127.0.0.1:8000:8000 docker compose -f backend/docker-compose.yml up --build -d
-	./backend/scripts/start_vllm_mlx.sh
+start-development-backend-stub:
+	ENVIRONMENT=development
+	LLM_MODE=stub
+	docker compose -f backend/docker-compose.yml up --build -d
+start-production-backend-inference-vllm:
+	ENVIRONMENT=production
+	LLM_MODE=inference
+	docker compose -f backend/docker-compose.yml --profile vllm up --build -d
+start-development-local-backend-inference-vllm-mlx:
+	ENVIRONMENT=development
+	LLM_MODE=inference
+	docker compose -f backend/docker-compose.yml up --build -d
+	./backend/scripts/start_vllm_mlx.sh development
+start-production-local-backend-inference-vllm-mlx:
+	ENVIRONMENT=production
+	LLM_MODE=inference
+	docker compose -f backend/docker-compose.yml up --build -d
+	./backend/scripts/start_vllm_mlx.sh production
 
 start-logs:
 	docker compose -f backend/docker-compose.yml logs -f

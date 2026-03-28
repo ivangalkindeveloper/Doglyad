@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONFIG_FILE="$(dirname "$0")/../config/ultrasound_examination_neural_models.json"
+ENVIRONMENT="${1:?Usage: $0 <development|production>}"
+
+if [[ "$ENVIRONMENT" != "development" && "$ENVIRONMENT" != "production" ]]; then
+    echo "Error: ENVIRONMENT must be 'development' or 'production', got '$ENVIRONMENT'"
+    exit 1
+fi
+
+CONFIG_FILE="$(dirname "$0")/../config/${ENVIRONMENT}/ultrasound_examination_neural_models.json"
 
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "Error: config not found at $CONFIG_FILE"

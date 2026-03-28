@@ -10,6 +10,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
+      ENVIRONMENT: ${ENVIRONMENT:-development}
       LLM_MODE: ${LLM_MODE:-stub}
       VLLM_HOST: ${VLLM_HOST:-http://host.docker.internal}
 
