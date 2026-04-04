@@ -11,8 +11,7 @@ struct ConclusionScreen: View {
     var body: some View {
         ConclusionScreenView(
             viewModel: ConclusionViewModel(
-                modelRepository: container.modelRepository,
-                usExaminationRepository: container.usExaminationRepository,
+                container: container,
                 messager: messager,
                 router: router,
                 initialConclusion: arguments.conclusion

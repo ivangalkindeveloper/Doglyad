@@ -9,20 +9,17 @@ import UIKit
 final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, ObservableObject {
     static let actualModelConclusionCardScrollId = "actualModelConclusionCard"
 
-    private let modelRepository: ModelRepositoryProtocol
-    private let usExaminationRepository: USExaminationRepositoryProtocol
+    private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
 
     init(
-        modelRepository: ModelRepositoryProtocol,
-        usExaminationRepository: USExaminationRepositoryProtocol,
+        container: DependencyContainer,
         messager: DMessager,
         router: DRouter,
         initialConclusion: USExaminationConclusion
     ) {
-        self.modelRepository = modelRepository
-        self.usExaminationRepository = usExaminationRepository
+        self.container = container
         self.messager = messager
         self.router = router
         _conclusion = .init(initialValue: initialConclusion)
@@ -59,7 +56,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
     func onTapRepeatScan(
         proxy: ScrollViewProxy
     ) {
-        let neuralModelSettings = modelRepository.getNeuralModelSettings()
+        let neuralModelSettings = container.modelRepository.getNeuralModelSettings()
         let request = USExaminationRequest(
             neuralModelSettings: neuralModelSettings,
             examinationData: conclusion.examinationData
@@ -67,7 +64,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
 
         handle {
             self.isLoading = true
-            return try await self.usExaminationRepository.generateConclusion(
+            return try await self.container.usExaminationRepository.generateConclusion(
                 request: request,
                 locale: Locale.current
             )
@@ -83,7 +80,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
                 previosModelConclusions: [self.conclusion.actualModelConclusion] + self.conclusion.previosModelConclusions
             )
 
-            self.usExaminationRepository.updateConclusion(
+            self.container.usExaminationRepository.updateConclusion(
                 conclusion: updatedConclusion
             )
 

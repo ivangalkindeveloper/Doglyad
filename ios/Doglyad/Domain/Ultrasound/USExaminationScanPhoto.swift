@@ -4,16 +4,24 @@ import UIKit
 struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
     var id: UUID = .init()
     let image: UIImage
+    let scanPhotoResizeMaxDimension: Int
+    let scanPhotoCompressionQuality: Double
 
     init(
         id: UUID = UUID(),
-        image: UIImage
+        image: UIImage,
+        scanPhotoResizeMaxDimension: Int,
+        scanPhotoCompressionQuality: Double
     ) {
         self.id = id
         self.image = image
+        self.scanPhotoResizeMaxDimension = scanPhotoResizeMaxDimension
+        self.scanPhotoCompressionQuality = scanPhotoCompressionQuality
     }
 
-    init(from decoder: Decoder) throws {
+    init(
+        from decoder: Decoder
+    ) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = UUID()
         let data = try container.decode(Data.self, forKey: .data)
@@ -22,8 +30,8 @@ struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let resizedImage = image.resized(maxDimension: 128)
-        let data = resizedImage.jpegData(compressionQuality: 0.3) ?? Data()
+        let resizedImage = image.resized(maxDimension: scanPhotoResizeMaxDimension)
+        let data = resizedImage.jpegData(compressionQuality: scanPhotoCompressionQuality) ?? Data()
         try container.encode(data, forKey: .data)
     }
 

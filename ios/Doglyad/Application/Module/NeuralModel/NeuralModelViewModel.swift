@@ -11,21 +11,17 @@ final class NeuralModelViewModel: ObservableObject {
         case length
     }
 
-    private let modelRepository: ModelRepositoryProtocol
-    private let usExaminationNeuralModelsById: [String: USExaminationNeuralModel]
+    private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
 
     init(
-        modelRepository: ModelRepositoryProtocol,
-        usExaminationNeuralModelsById: [String: USExaminationNeuralModel],
-        usExaminationNeuralModelDefault: USExaminationNeuralModel,
+        container: DependencyContainer,
         messager: DMessager,
         router: DRouter
     ) {
-        self.modelRepository = modelRepository
-        self.usExaminationNeuralModelsById = usExaminationNeuralModelsById
-        usExaminationNeuralModel = usExaminationNeuralModelDefault
+        self.container = container
+        usExaminationNeuralModel = container.usExaminationNeuralModelDefault
         self.messager = messager
         self.router = router
         onInit()
@@ -37,9 +33,9 @@ final class NeuralModelViewModel: ObservableObject {
     @NestedObservableObject var responseLengthController = DTextFieldController()
 
     func onInit() {
-        let settings = modelRepository.getNeuralModelSettings()
+        let settings = container.modelRepository.getNeuralModelSettings()
         if let selectedModelId = settings.selectedNeuralModelId,
-           let selectedModel = usExaminationNeuralModelsById[selectedModelId]
+           let selectedModel = container.usExaminationNeuralModelsById[selectedModelId]
         {
             usExaminationNeuralModel = selectedModel
         }
@@ -76,7 +72,7 @@ final class NeuralModelViewModel: ObservableObject {
                         guard self.usExaminationNeuralModel != model else { return }
 
                         self.usExaminationNeuralModel = model
-                        self.modelRepository.setSelectedUSExaminationNeuralModelId(
+                        self.container.modelRepository.setSelectedUSExaminationNeuralModelId(
                             id: model.id
                         )
                     }
@@ -88,7 +84,7 @@ final class NeuralModelViewModel: ObservableObject {
     func onTapSave() {
         let template = templateController.text.isEmpty ? nil : templateController.text
         let responseLength = Int(responseLengthController.text)
-        modelRepository.setNeuralModelSettings(
+        container.modelRepository.setNeuralModelSettings(
             settings: NeuralModelSettings(
                 selectedNeuralModelId: usExaminationNeuralModel.id,
                 template: template,

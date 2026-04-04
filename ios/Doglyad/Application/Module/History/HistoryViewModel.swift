@@ -4,14 +4,14 @@ import SwiftUI
 
 @MainActor
 final class HistoryViewModel: ObservableObject {
-    private let usExaminationRepository: USExaminationRepositoryProtocol
+    private let container: DependencyContainer
     private let router: DRouter
 
     init(
-        usExaminationRepository: USExaminationRepositoryProtocol,
+        container: DependencyContainer,
         router: DRouter
     ) {
-        self.usExaminationRepository = usExaminationRepository
+        self.container = container
         self.router = router
         onInit()
     }
@@ -19,7 +19,7 @@ final class HistoryViewModel: ObservableObject {
     @Published var conclusions: [USExaminationConclusion] = []
 
     private func onInit() {
-        let conclusions = usExaminationRepository.getConclusions()
+        let conclusions = container.usExaminationRepository.getConclusions()
         self.conclusions = conclusions
     }
 

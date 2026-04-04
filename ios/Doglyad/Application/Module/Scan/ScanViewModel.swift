@@ -19,39 +19,40 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         case additionalData
     }
 
-    static let photoMaxCount: Int = 6
-    private static let defaultPatientDateOfBirth = Calendar.current.date(byAdding: .year, value: -25, to: Date())!
-    private static let defaultPatientHeightCM: Double = 180
-    private static let defaultPatientWeightKG: Double = 60
-
-    private let environment: EnvironmentProtocol
-    private let permissionManager: PermissionManagerProtocol
-    private let modelRepository: ModelRepositoryProtocol
-    private let usExaminationRepository: USExaminationRepositoryProtocol
-    private let usExaminationTypesById: [String: USExaminationType]
+    private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
 
     init(
-        environment: EnvironmentProtocol,
-        permissionManager: PermissionManagerProtocol,
-        modelRepository: ModelRepositoryProtocol,
-        usExaminationRepository: USExaminationRepositoryProtocol,
-        usExaminationTypesById: [String: USExaminationType],
-        usExaminationTypeDefault: USExaminationType,
+        container: DependencyContainer,
         messager: DMessager,
         router: DRouter
     ) {
-        self.environment = environment
-        self.permissionManager = permissionManager
-        self.modelRepository = modelRepository
-        self.usExaminationRepository = usExaminationRepository
-        self.usExaminationTypesById = usExaminationTypesById
-        usExaminationType = usExaminationTypeDefault
+        self.container = container
         self.messager = messager
         self.router = router
         super.init()
         onInit()
+    }
+
+    private var ultrasoundConfig: UltrasoundConfig {
+        container.applicationConfig.ultrasound
+    }
+
+    var photoMaxCount: Int {
+        ultrasoundConfig.scanPhotoMaxNumber
+    }
+
+    private var defaultPatientDateOfBirth: Date {
+        Calendar.current.date(byAdding: .year, value: -ultrasoundConfig.defaultPatientDateOfBirthGap, to: Date())!
+    }
+
+    private var defaultPatientHeightCM: Double {
+        Double(ultrasoundConfig.defaultPatientHeightCM)
+    }
+
+    private var defaultPatientWeightKG: Double {
+        Double(ultrasoundConfig.defaultPatientWeightKG)
     }
 
     @Published var usExaminationType: USExaminationType
@@ -63,7 +64,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     @Published var focus: Focus? = nil
     @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
     @Published var patientGender = PatientGender.male
-    @Published var patientDateOfBirth = defaultPatientDateOfBirth
+    @Published var patientDateOfBirth: Date = defaultPatientDateOfBirth
     @NestedObservableObject var patientHeightCMController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)
@@ -74,20 +75,20 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
 
     private func onInit() {
         cameraController.startSession()
-        if let usExaminationTypeId = usExaminationRepository.getSelectedUSExaminationTypeId(),
-           let usExaminationType = usExaminationTypesById[usExaminationTypeId]
+        if let usExaminationTypeId = self.container.usExaminationRepository.getSelectedUSExaminationTypeId(),
+           let usExaminationType = self.container.usExaminationTypesById[usExaminationTypeId]
         {
             self.usExaminationType = usExaminationType
         }
 
-        let patientCount = usExaminationRepository.getConclusions().count
+        let patientCount = self.container.usExaminationRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
-        patientHeightCMController.text = String(Self.defaultPatientHeightCM)
-        patientWeightKGController.text = String(Self.defaultPatientWeightKG)
+        patientHeightCMController.text = String(defaultPatientHeightCM)
+        patientWeightKGController.text = String(defaultPatientWeightKG)
     }
 
     var isPhotoFilling: Bool {
-        photos.count == Self.photoMaxCount
+        photos.count == photoMaxCount
     }
 
     var isCaptureAvailable: Bool {
@@ -156,7 +157,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                         guard self.usExaminationType != usExaminationType else { return }
 
                         self.usExaminationType = usExaminationType
-                        self.usExaminationRepository.setSelectedUSExaminationTypeId(
+                        self.container.usExaminationRepository.setSelectedUSExaminationTypeId(
                             id: usExaminationType.id
                         )
                     }
@@ -166,11 +167,11 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     }
 
     var captureIcon: ImageResource {
-        photos.count == ScanViewModel.photoMaxCount ? .down : .camera
+        photos.count == photoMaxCount ? .down : .camera
     }
 
     func onTapCapture() {
-        if photos.count == ScanViewModel.photoMaxCount {
+        if photos.count == photoMaxCount {
             return sheetController.setTop()
         }
 
@@ -179,7 +180,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                 guard let self = self else { return }
 
                 self.photos.append(USExaminationScanPhoto(image: image))
-                if self.photos.count == ScanViewModel.photoMaxCount {
+                if self.photos.count == self.photoMaxCount {
                     self.sheetController.setTop()
                 }
             }
@@ -219,7 +220,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
 
     func onTapSpeech() {
         Task {
-            guard await self.permissionManager.isGranted(.speech) else {
+            guard await self.container.permissionManager.isGranted(.speech) else {
                 return self.router.push(
                     route: RouteSheet(
                         type: .permissionSpeech
@@ -316,6 +317,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             return
         }
 
+        let modelRepository: PermissionManagerProtocol = comtainer.modelRepository
         let neuralModelSettings = modelRepository.getNeuralModelSettings()
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,
@@ -323,8 +325,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             patientName: patientNameController.text,
             patientGender: patientGender,
             patientDateOfBirth: patientDateOfBirth,
-            patientHeight: Double(patientHeightCMController.text) ?? Self.defaultPatientHeightCM,
-            patientWeight: Double(patientWeightKGController.text) ?? Self.defaultPatientWeightKG,
+            patientHeight: Double(patientHeightCMController.text) ?? defaultPatientHeightCM,
+            patientWeight: Double(patientWeightKGController.text) ?? defaultPatientWeightKG,
             patientComplaint: patientComplaintController.text,
             examinationDescription: examinationDescriptionController.text,
             additionalData: additionalDataController.text
@@ -335,7 +337,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         )
         handle {
             self.isLoading = true
-            return try await self.usExaminationRepository.generateConclusion(
+            return try await self.container.usExaminationRepository.generateConclusion(
                 request: request,
                 locale: Locale.current
             )
@@ -350,7 +352,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
                 previosModelConclusions: []
             )
 
-            self.usExaminationRepository.setConclusion(
+            self.container.usExaminationRepository.setConclusion(
                 conclusion: conclusion
             )
 
@@ -372,12 +374,12 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     private func reset() {
         sheetController.setHidden()
         photos.removeAll()
-        let patientCount = usExaminationRepository.getConclusions().count
+        let patientCount = container.usExaminationRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
         patientGender = .male
-        patientDateOfBirth = Self.defaultPatientDateOfBirth
-        patientHeightCMController.text = String(Self.defaultPatientHeightCM)
-        patientWeightKGController.text = String(Self.defaultPatientWeightKG)
+        patientDateOfBirth = defaultPatientDateOfBirth
+        patientHeightCMController.text = String(defaultPatientHeightCM)
+        patientWeightKGController.text = String(defaultPatientWeightKG)
         patientComplaintController.clear()
         examinationDescriptionController.clear()
         additionalDataController.clear()

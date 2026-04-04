@@ -10,7 +10,7 @@ struct ScanSpeechBottomSheet: View {
     var body: some View {
         ScanSpeechBottomSheetView(
             viewModel: ScanSpeechViewModel(
-                examinationNeuralModel: container.examinationNeuralModel,
+                container: container,
                 router: router,
                 arguments: arguments
             )

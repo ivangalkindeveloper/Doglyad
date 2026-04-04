@@ -9,20 +9,14 @@ final class OnBoardingViewModel: ObservableObject {
         case first, second, third, fourth, fifth
     }
 
-    private let environment: EnvironmentProtocol
-    private let sharedRepository: SharedRepositoryProtocol
-    private let usExaminationRepository: USExaminationRepositoryProtocol
+    private let container: DependencyContainer
     private let router: DRouter
 
     init(
-        environment: EnvironmentProtocol,
-        sharedRepository: SharedRepositoryProtocol,
-        usExaminationRepository: USExaminationRepositoryProtocol,
+        container: DependencyContainer,
         router: DRouter
     ) {
-        self.environment = environment
-        self.sharedRepository = sharedRepository
-        self.usExaminationRepository = usExaminationRepository
+        self.container = container
         self.router = router
     }
 
@@ -38,7 +32,7 @@ final class OnBoardingViewModel: ObservableObject {
             route: RouteSheet(
                 type: .webDocument,
                 arguments: WebDocumentBottomSheetArguments(
-                    url: environment.privacyPolicyUrl,
+                    url: container.environment.privacyPolicyUrl,
                     title: .privacyPolicyTitle
                 )
             )
@@ -50,7 +44,7 @@ final class OnBoardingViewModel: ObservableObject {
             route: RouteSheet(
                 type: .webDocument,
                 arguments: WebDocumentBottomSheetArguments(
-                    url: environment.termsAndConditionsUrl,
+                    url: container.environment.termsAndConditionsUrl,
                     title: .termsAndConditionsTitle
                 )
             )
@@ -92,7 +86,7 @@ final class OnBoardingViewModel: ObservableObject {
                             guard let self = self else { return }
 
                             self.page = .fifth
-                            self.usExaminationRepository.setSelectedUSExaminationTypeId(
+                            self.container.usExaminationRepository.setSelectedUSExaminationTypeId(
                                 id: type.id
                             )
                         }
@@ -101,7 +95,7 @@ final class OnBoardingViewModel: ObservableObject {
             )
 
         case .fifth:
-            sharedRepository.setOnBoardingCompleted(
+            container.sharedRepository.setOnBoardingCompleted(
                 value: true
             )
             withAnimation {

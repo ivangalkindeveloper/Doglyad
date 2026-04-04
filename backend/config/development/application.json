@@ -5,5 +5,13 @@
         "major": 1,
         "minor": 0,
         "patch": 0
+    },
+    "ultrasound": {
+        "scanPhotoMaxNumber": 6,
+        "scanPhotoResizeMaxDimension": 128,
+        "scanPhotoCompressionQuality": 0.3,
+        "defaultPatientDateOfBirthGap": 25,
+        "defaultPatientHeightCM": 180,
+        "defaultPatientWeightKG": 60
     }
 }

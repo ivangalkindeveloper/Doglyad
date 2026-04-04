@@ -4,17 +4,14 @@ import SwiftUI
 
 @MainActor
 final class SettingsViewModel: ObservableObject {
-    private let environment: EnvironmentProtocol
-    private let usExaminationRepository: USExaminationRepositoryProtocol
+    private let container: DependencyContainer
     private let router: DRouter
 
     init(
-        environment: EnvironmentProtocol,
-        usExaminationRepository: USExaminationRepositoryProtocol,
+        container: DependencyContainer,
         router: DRouter
     ) {
-        self.environment = environment
-        self.usExaminationRepository = usExaminationRepository
+        self.container = container
         self.router = router
         load()
     }
@@ -22,7 +19,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var conclusions: [USExaminationConclusion] = []
 
     private func load() {
-        let conclusions = usExaminationRepository.getConclusions()
+        let conclusions = container.usExaminationRepository.getConclusions()
         self.conclusions = conclusions
     }
 
@@ -63,7 +60,7 @@ final class SettingsViewModel: ObservableObject {
             route: RouteSheet(
                 type: .webDocument,
                 arguments: WebDocumentBottomSheetArguments(
-                    url: environment.privacyPolicyUrl,
+                    url: container.environment.privacyPolicyUrl,
                     title: .privacyPolicyTitle
                 )
             )
@@ -75,7 +72,7 @@ final class SettingsViewModel: ObservableObject {
             route: RouteSheet(
                 type: .webDocument,
                 arguments: WebDocumentBottomSheetArguments(
-                    url: environment.termsAndConditionsUrl,
+                    url: container.environment.termsAndConditionsUrl,
                     title: .termsAndConditionsTitle
                 )
             )

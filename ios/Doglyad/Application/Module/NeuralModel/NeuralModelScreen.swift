@@ -11,9 +11,7 @@ struct NeuralModelScreen: View {
     var body: some View {
         NeuralModelScreenView(
             viewModel: NeuralModelViewModel(
-                modelRepository: container.modelRepository,
-                usExaminationNeuralModelsById: container.usExaminationNeuralModelsById,
-                usExaminationNeuralModelDefault: container.usExaminationNeuralModelDefault,
+                container: container,
                 messager: messager,
                 router: router
             )

@@ -5,16 +5,16 @@ import SwiftUI
 
 @MainActor
 final class StorageViewModel: ObservableObject {
-    private let usExaminationRepository: USExaminationRepositoryProtocol
+    private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
 
     init(
-        usExaminationRepository: USExaminationRepositoryProtocol,
+        container: DependencyContainer,
         messager: DMessager,
         router: DRouter
     ) {
-        self.usExaminationRepository = usExaminationRepository
+        self.container = container
         self.messager = messager
         self.router = router
     }
@@ -31,7 +31,7 @@ final class StorageViewModel: ObservableObject {
                     onConfirm: { [weak self] in
                         guard let self = self else { return }
 
-                        self.usExaminationRepository.clearAllConclusions()
+                        self.container.usExaminationRepository.clearAllConclusions()
                         self.messager.show(
                             type: .success,
                             title: .storageClearConclusionsSuccessMessageTitle,
@@ -52,7 +52,7 @@ final class StorageViewModel: ObservableObject {
                     onConfirm: { [weak self] in
                         guard let self = self else { return }
 
-                        self.usExaminationRepository.clearAll()
+                        self.container.usExaminationRepository.clearAll()
                         self.messager.show(
                             type: .success,
                             title: .storageClearAllSuccessMessageTitle,

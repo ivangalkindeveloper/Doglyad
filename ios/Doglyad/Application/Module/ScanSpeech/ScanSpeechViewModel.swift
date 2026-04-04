@@ -5,16 +5,16 @@ import SwiftUI
 
 @MainActor
 final class ScanSpeechViewModel: ObservableObject {
-    private let examinationNeuralModel: DExaminationNeuralModelProtocol?
+    private let container: DependencyContainer
     private let router: DRouter
     private let arguments: ScanSpeechBottomSheetArguments
 
     init(
-        examinationNeuralModel: DExaminationNeuralModelProtocol?,
+        container: DependencyContainer,
         router: DRouter,
         arguments: ScanSpeechBottomSheetArguments
     ) {
-        self.examinationNeuralModel = examinationNeuralModel
+        self.container = container
         self.router = router
         self.arguments = arguments
     }
@@ -37,7 +37,7 @@ final class ScanSpeechViewModel: ObservableObject {
         guard !isLoading else { return }
 
         if speechController.isRecording {
-            guard let examinationNeuralModel = examinationNeuralModel else { return }
+            guard let examinationNeuralModel = container.examinationNeuralModel else { return }
             guard let speech = speechController.text else { return }
 
             speechController.stop()

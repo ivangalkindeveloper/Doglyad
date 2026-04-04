@@ -3,21 +3,18 @@ import UIKit
 
 @MainActor
 final class NewVersionViewModel: ObservableObject {
-    private let environment: EnvironmentProtocol
-    private let applicationConfig: ApplicationConfig
+    private let container: DependencyContainer
 
     init(
-        environment: EnvironmentProtocol,
-        applicationConfig: ApplicationConfig
+        container: DependencyContainer
     ) {
-        self.environment = environment
-        self.applicationConfig = applicationConfig
+        self.container = container
     }
 
     func onTapUpdate() {
-        guard let id = applicationConfig.appStoreId else { return }
+        guard let id = container.applicationConfig.appStoreId else { return }
         UIApplication.openAppStore(
-            environment: environment,
+            environment: container.environment,
             id: id
         )
     }

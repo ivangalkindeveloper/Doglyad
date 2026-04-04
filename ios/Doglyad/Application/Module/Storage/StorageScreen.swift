@@ -11,7 +11,7 @@ struct StorageScreen: View {
     var body: some View {
         StorageScreenView(
             viewModel: StorageViewModel(
-                usExaminationRepository: container.usExaminationRepository,
+                container: container,
                 messager: messager,
                 router: router
             )

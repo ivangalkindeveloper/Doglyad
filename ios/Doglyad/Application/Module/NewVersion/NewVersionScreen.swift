@@ -9,8 +9,7 @@ struct NewVersionScreen: View {
     var body: some View {
         NewVersionScreenView(
             viewModel: NewVersionViewModel(
-                environment: container.environment,
-                applicationConfig: container.applicationConfig
+                container: container
             )
         )
     }

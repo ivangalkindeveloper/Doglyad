@@ -10,9 +10,7 @@ struct OnBoardingScreen: View {
     var body: some View {
         OnBoardingScreenView(
             viewModel: OnBoardingViewModel(
-                environment: container.environment,
-                sharedRepository: container.sharedRepository,
-                usExaminationRepository: container.usExaminationRepository,
+                container: container,
                 router: router
             )
         )

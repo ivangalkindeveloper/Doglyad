@@ -10,8 +10,7 @@ struct SettingsScreen: View {
     var body: some View {
         SettingsScreenView(
             viewModel: SettingsViewModel(
-                environment: container.environment,
-                usExaminationRepository: container.usExaminationRepository,
+                container: container,
                 router: router
             )
         )
