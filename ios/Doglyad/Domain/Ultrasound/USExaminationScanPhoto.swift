@@ -1,22 +1,25 @@
 import DoglyadDatabase
 import UIKit
 
+struct ScanPhotoEncodingOptions {
+    let resizeMaxDimension: Double
+    let compressionQuality: Double
+}
+
+extension CodingUserInfoKey {
+    static let scanPhotoEncodingOptions = CodingUserInfoKey(rawValue: "scanPhotoEncodingOptions")!
+}
+
 struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
     var id: UUID = .init()
     let image: UIImage
-    let scanPhotoResizeMaxDimension: Int
-    let scanPhotoCompressionQuality: Double
 
     init(
         id: UUID = UUID(),
-        image: UIImage,
-        scanPhotoResizeMaxDimension: Int,
-        scanPhotoCompressionQuality: Double
+        image: UIImage
     ) {
         self.id = id
         self.image = image
-        self.scanPhotoResizeMaxDimension = scanPhotoResizeMaxDimension
-        self.scanPhotoCompressionQuality = scanPhotoCompressionQuality
     }
 
     init(
@@ -30,8 +33,15 @@ struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let resizedImage = image.resized(maxDimension: scanPhotoResizeMaxDimension)
-        let data = resizedImage.jpegData(compressionQuality: scanPhotoCompressionQuality) ?? Data()
+
+        guard let options = encoder.userInfo[.scanPhotoEncodingOptions] as? ScanPhotoEncodingOptions else {
+            let data = image.pngData() ?? Data()
+            try container.encode(data, forKey: .data)
+            return
+        }
+
+        let resizedImage = image.resized(maxDimension: options.resizeMaxDimension)
+        let data = resizedImage.jpegData(compressionQuality: options.compressionQuality) ?? Data()
         try container.encode(data, forKey: .data)
     }
 

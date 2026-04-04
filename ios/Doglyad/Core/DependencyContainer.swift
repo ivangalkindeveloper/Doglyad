@@ -8,7 +8,7 @@ import SwiftUI
 final class DependencyContainer: ObservableObject {
     let environment: EnvironmentProtocol
     let connectionManager: ConnectionManagerProtocol
-    let permissionmanager: PermissionManagerProtocol
+    let permissionManager: PermissionManagerProtocol
     let sharedRepository: SharedRepositoryProtocol
     let modelRepository: ModelRepositoryProtocol
     let usExaminationRepository: USExaminationRepositoryProtocol
@@ -26,7 +26,7 @@ final class DependencyContainer: ObservableObject {
     init(
         environment: EnvironmentProtocol,
         connectionManager: ConnectionManagerProtocol,
-        permissionmanager: PermissionManagerProtocol,
+        permissionManager: PermissionManagerProtocol,
         sharedRepository: SharedRepositoryProtocol,
         modelRepository: ModelRepositoryProtocol,
         usExaminationRepository: USExaminationRepositoryProtocol,
@@ -43,7 +43,7 @@ final class DependencyContainer: ObservableObject {
     ) {
         self.environment = environment
         self.connectionManager = connectionManager
-        self.permissionmanager = permissionmanager
+        self.permissionManager = permissionManager
         self.sharedRepository = sharedRepository
         self.modelRepository = modelRepository
         self.usExaminationRepository = usExaminationRepository
@@ -103,11 +103,26 @@ extension DependencyContainer {
         return DependencyContainer(
             environment: environment,
             connectionManager: ConnectionManager(),
-            permissionmanager: PermissionManager(),
+            permissionManager: PermissionManager(),
             sharedRepository: sharedRepository,
             modelRepository: modelRepository,
             usExaminationRepository: usExaminationRepository,
-            applicationConfig: .default,
+            applicationConfig: ApplicationConfig(
+                appStoreId: "",
+                actualVersion: Version(
+                    major: 1,
+                    minor: 0,
+                    patch: 0,
+                ),
+                ultrasound: UltrasoundConfig(
+                    scanPhotoMaxNumber: 0,
+                    scanPhotoResizeMaxDimension: 0,
+                    scanPhotoCompressionQuality: 0,
+                    defaultPatientDateOfBirthGap: 0,
+                    defaultPatientHeightCM: 0,
+                    defaultPatientWeightKG: 0
+                )
+            ),
             usExaminationTypes: [],
             usExaminationTypesById: [:],
             usExaminationTypeDefault: .init(

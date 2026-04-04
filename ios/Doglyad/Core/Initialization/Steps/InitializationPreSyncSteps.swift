@@ -24,7 +24,7 @@ extension InitializationProcess {
             run: { (process: InitializationProcess) in
                 process.connectionManager = ConnectionManager()
                 process.connectionManager?.start()
-                process.permissionmanager = PermissionManager()
+                process.permissionManager = PermissionManager()
             }
         ),
         SyncInitializationStep<InitializationProcess>(

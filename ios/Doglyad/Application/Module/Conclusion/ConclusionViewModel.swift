@@ -64,9 +64,14 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
 
         handle {
             self.isLoading = true
+            let ultrasoundConfig = self.container.applicationConfig.ultrasound
             return try await self.container.usExaminationRepository.generateConclusion(
+                locale: Locale.current,
                 request: request,
-                locale: Locale.current
+                scanPhotoEncodingOptions: ScanPhotoEncodingOptions(
+                    resizeMaxDimension: ultrasoundConfig.scanPhotoResizeMaxDimension,
+                    compressionQuality: ultrasoundConfig.scanPhotoCompressionQuality
+                )
             )
         } onDefer: {
             self.isLoading = false

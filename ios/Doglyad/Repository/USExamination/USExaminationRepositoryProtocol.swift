@@ -13,8 +13,9 @@ protocol USExaminationRepositoryProtocol: AnyObject {
     // MARK: Conclusion -
 
     func generateConclusion(
+        locale: Locale,
         request: USExaminationRequest,
-        locale: Locale
+        scanPhotoEncodingOptions: ScanPhotoEncodingOptions
     ) async throws -> USExaminationModelConclusion
 
     @MainActor func getConclusions() -> [USExaminationConclusion]

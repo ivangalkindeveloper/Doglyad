@@ -10,7 +10,7 @@ final class InitializationProcess: DependencyInitializationProcess {
 
     var environment: EnvironmentProtocol?
     var connectionManager: ConnectionManagerProtocol?
-    var permissionmanager: PermissionManagerProtocol?
+    var permissionManager: PermissionManagerProtocol?
     var database: DDatabase?
     var httpClient: DHttpClientProtocol?
     var sharedRepository: SharedRepositoryProtocol?
@@ -31,7 +31,7 @@ final class InitializationProcess: DependencyInitializationProcess {
         DependencyContainer(
             environment: environment!,
             connectionManager: connectionManager!,
-            permissionmanager: permissionmanager!,
+            permissionManager: permissionManager!,
             sharedRepository: sharedRepository!,
             modelRepository: modelRepository!,
             usExaminationRepository: usExaminationRepository!,

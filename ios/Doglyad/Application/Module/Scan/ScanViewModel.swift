@@ -31,6 +31,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         self.container = container
         self.messager = messager
         self.router = router
+        self.usExaminationType = container.usExaminationTypeDefault
         super.init()
         onInit()
     }
@@ -64,7 +65,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
     @Published var focus: Focus? = nil
     @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
     @Published var patientGender = PatientGender.male
-    @Published var patientDateOfBirth: Date = defaultPatientDateOfBirth
+    @Published var patientDateOfBirth: Date = Date()
     @NestedObservableObject var patientHeightCMController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)
@@ -83,6 +84,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
 
         let patientCount = self.container.usExaminationRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
+        patientDateOfBirth = defaultPatientDateOfBirth
         patientHeightCMController.text = String(defaultPatientHeightCM)
         patientWeightKGController.text = String(defaultPatientWeightKG)
     }
@@ -317,7 +319,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
             return
         }
 
-        let modelRepository: PermissionManagerProtocol = comtainer.modelRepository
+        let modelRepository: ModelRepositoryProtocol = container.modelRepository
         let neuralModelSettings = modelRepository.getNeuralModelSettings()
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,
@@ -338,8 +340,12 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         handle {
             self.isLoading = true
             return try await self.container.usExaminationRepository.generateConclusion(
+                locale: Locale.current,
                 request: request,
-                locale: Locale.current
+                scanPhotoEncodingOptions: ScanPhotoEncodingOptions(
+                    resizeMaxDimension: self.ultrasoundConfig.scanPhotoResizeMaxDimension,
+                    compressionQuality: self.ultrasoundConfig.scanPhotoCompressionQuality
+                )
             )
         } onDefer: {
             self.isLoading = false

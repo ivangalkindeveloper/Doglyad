@@ -7,7 +7,7 @@ extension InitializationProcess {
         AsyncInitializationStep<InitializationProcess>(
             title: "Permission",
             run: { (process: InitializationProcess) in
-                let isGranted = await process.permissionmanager!.isGranted(.camera)
+                let isGranted = await process.permissionManager!.isGranted(.camera)
                 if !isGranted {
                     throw InitializationError.noCameraRequestDenied
                 }
@@ -15,7 +15,7 @@ extension InitializationProcess {
         ),
         AsyncInitializationStep<InitializationProcess>(
             title: "Application config",
-            run: { (process: InitializationProcess) async in
+            run: { (process: InitializationProcess) async throws in
                 let url = await process.environment!.contentUrl
                     .appendingPathComponent("\(process.environment!.contentConfigPathPrefix)/\(process.environment!.type)/application.json")
                 let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: url)

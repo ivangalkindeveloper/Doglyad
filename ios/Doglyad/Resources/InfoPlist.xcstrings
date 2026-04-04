@@ -1,50 +1,89 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "NSCameraUsageDescription" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Required for capturing ultrasound examination photos"
+            "state" : "new",
+            "value" : "Doglyad"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Необходим для съёмки фотографий ультразвукового исследования"
+            "value" : "Догляд"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Doglyad"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doglyad"
+          }
+        }
+      }
+    },
+    "NSCameraUsageDescription" : {
+      "comment" : "Privacy - Camera Usage Description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Required to take photos of the ultrasound examination."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Необходимо для съёмки фотографий ультразвукового исследования."
           }
         }
       }
     },
     "NSMicrophoneUsageDescription" : {
+      "comment" : "Privacy - Microphone Usage Description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Required for voice recording to fill in examination data"
+            "value" : "Required for recording voice when filling in medical research data."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Необходим для записи голоса при заполнении данных исследования"
+            "value" : "Необходимо для записи голоса при заполнении данных медицинского исследования."
           }
         }
       }
     },
     "NSSpeechRecognitionUsageDescription" : {
+      "comment" : "Privacy - Speech Recognition Usage Description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Required for speech recognition to fill in examination data"
+            "value" : "Required for speech recognition when filling in medical research data."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Необходим для распознавания речи при заполнении данных исследования"
+            "value" : "Необходимо для распознавания речи при заполнении данных медицинского исследования."
           }
         }
       }

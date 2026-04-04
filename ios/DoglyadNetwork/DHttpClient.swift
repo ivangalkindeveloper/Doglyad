@@ -70,13 +70,23 @@ public final class DHttpClient: DHttpClientProtocol {
     public func post<Body: Encodable & Sendable, Response: Decodable>(
         endPoint: String,
         body: Body? = nil,
-        headers: [String: String]? = nil
+        headers: [String: String]? = nil,
+        encoderUserInfo: [CodingUserInfoKey: Any]? = nil
     ) async throws -> Response {
+        let encoder: JSONEncoder
+        if let encoderUserInfo {
+            encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            encoder.userInfo = encoderUserInfo
+        } else {
+            encoder = jsonEncoder
+        }
+
         let response = await session.request(
             baseApiUrl + endPoint,
             method: .post,
             parameters: body,
-            encoder: JSONParameterEncoder(encoder: jsonEncoder),
+            encoder: JSONParameterEncoder(encoder: encoder),
             headers: headers.map(HTTPHeaders.init) ?? HTTPHeaders()
         )
         .validate()

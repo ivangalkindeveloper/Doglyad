@@ -12,7 +12,7 @@ final class NewVersionViewModel: ObservableObject {
     }
 
     func onTapUpdate() {
-        guard let id = container.applicationConfig.appStoreId else { return }
+        let id = container.applicationConfig.appStoreId
         UIApplication.openAppStore(
             environment: container.environment,
             id: id

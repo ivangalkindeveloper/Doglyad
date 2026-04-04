@@ -37,14 +37,18 @@ extension USExaminationRepository {
     static var conclusionEndpoint: String = "/ultrasound_conclusion"
 
     func generateConclusion(
+        locale: Locale,
         request: USExaminationRequest,
-        locale: Locale
+        scanPhotoEncodingOptions: ScanPhotoEncodingOptions
     ) async throws -> USExaminationModelConclusion {
         try await httpClient.post(
             endPoint: USExaminationRepository.conclusionEndpoint,
             body: request,
             headers: [
                 DHttpHeader.acceptLanguage: locale.identifier,
+            ],
+            encoderUserInfo: [
+                .scanPhotoEncodingOptions: scanPhotoEncodingOptions,
             ]
         )
     }
