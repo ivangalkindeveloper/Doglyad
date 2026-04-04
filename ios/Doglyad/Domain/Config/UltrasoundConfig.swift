@@ -1,4 +1,5 @@
 struct UltrasoundConfig: Codable {
+    let requestCountPerDay: Int
     let scanPhotoMaxNumber: Int
     let scanPhotoResizeMaxDimension: Double
     let scanPhotoCompressionQuality: Double

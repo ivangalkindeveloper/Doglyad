@@ -74,6 +74,26 @@ extension USExaminationRepository {
     }
 }
 
+// MARK: RequestLimit -
+
+extension USExaminationRepository {
+    @MainActor func isRequestLimitReached(limit: Int) -> Bool {
+        guard let requestLimit = database.getRequestLimit() else { return false }
+        guard Calendar.current.isDateInToday(requestLimit.date) else { return false }
+        return requestLimit.count >= limit
+    }
+
+    @MainActor func incrementRequestCount() {
+        if let requestLimit = database.getRequestLimit(),
+           Calendar.current.isDateInToday(requestLimit.date)
+        {
+            requestLimit.count += 1
+        } else {
+            database.setRequestLimit(value: RequestLimitDB(count: 1, date: Date()))
+        }
+    }
+}
+
 // MARK: Common -
 
 extension USExaminationRepository {

@@ -594,6 +594,40 @@
         }
       }
     },
+    "errorRequestLimitDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have reached the daily request limit. Please try again tomorrow."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы достигли дневного лимита запросов. Пожалуйста, попробуйте завтра."
+          }
+        }
+      }
+    },
+    "errorRequestLimitTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Request limit reached"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит запросов достигнут"
+          }
+        }
+      }
+    },
     "errorUnknownDescription" : {
       "extractionState" : "manual",
       "localizations" : {

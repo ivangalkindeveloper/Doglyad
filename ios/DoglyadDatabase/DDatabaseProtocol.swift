@@ -41,6 +41,14 @@ public protocol DDatabaseProtocol: AnyObject {
 
     @MainActor func clearAllExaminationConclusions()
 
+    // MARK: RequestLimit -
+
+    @MainActor func getRequestLimit() -> RequestLimitDB?
+
+    @MainActor func setRequestLimit(value: RequestLimitDB)
+
+    @MainActor func clearRequestLimit()
+
     // MARK: Clear -
 
     @MainActor func clearAll()

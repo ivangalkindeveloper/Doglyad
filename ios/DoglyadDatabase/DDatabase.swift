@@ -12,6 +12,7 @@ public final class DDatabase: DDatabaseProtocol {
             USExaminationDataDB.self,
             USExaminationScanPhotoDB.self,
             USExaminationModelConclusionDB.self,
+            RequestLimitDB.self,
         ])
         container = try ModelContainer(
             for: schema
@@ -142,6 +143,28 @@ public extension DDatabase {
     }
 }
 
+// MARK: RequestLimit -
+
+public extension DDatabase {
+    @MainActor func getRequestLimit() -> RequestLimitDB? {
+        let descriptor = FetchDescriptor<RequestLimitDB>()
+        return try? container.mainContext.fetch(descriptor).first
+    }
+
+    @MainActor func setRequestLimit(value: RequestLimitDB) {
+        clearRequestLimit()
+        container.mainContext.insert(value)
+    }
+
+    @MainActor func clearRequestLimit() {
+        let descriptor = FetchDescriptor<RequestLimitDB>()
+        guard let items = try? container.mainContext.fetch(descriptor) else { return }
+        for item in items {
+            container.mainContext.delete(item)
+        }
+    }
+}
+
 // MARK: Clear -
 
 public extension DDatabase {
@@ -151,5 +174,6 @@ public extension DDatabase {
         }
 
         clearAllExaminationConclusions()
+        clearRequestLimit()
     }
 }

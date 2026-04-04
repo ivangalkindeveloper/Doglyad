@@ -30,6 +30,12 @@ protocol USExaminationRepositoryProtocol: AnyObject {
 
     @MainActor func clearAllConclusions()
 
+    // MARK: RequestLimit -
+
+    @MainActor func isRequestLimitReached(limit: Int) -> Bool
+
+    @MainActor func incrementRequestCount()
+
     // MARK: Common -
 
     @MainActor func clearAll()

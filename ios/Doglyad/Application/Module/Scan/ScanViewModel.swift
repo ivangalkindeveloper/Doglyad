@@ -319,6 +319,11 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             return
         }
 
+        let usExaminationRepository: USExaminationRepositoryProtocol = container.usExaminationRepository
+        if usExaminationRepository.isRequestLimitReached(limit: ultrasoundConfig.requestCountPerDay) {
+            return
+        }
+
         let modelRepository: ModelRepositoryProtocol = container.modelRepository
         let neuralModelSettings = modelRepository.getNeuralModelSettings()
         let examinationData = USExaminationData(
@@ -337,9 +342,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             neuralModelSettings: neuralModelSettings,
             examinationData: examinationData
         )
+
         handle {
             self.isLoading = true
-            return try await self.container.usExaminationRepository.generateConclusion(
+            return try await usExaminationRepository.generateConclusion(
                 locale: Locale.current,
                 request: request,
                 scanPhotoEncodingOptions: ScanPhotoEncodingOptions(
@@ -350,6 +356,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         } onDefer: {
             self.isLoading = false
         } onMainSuccess: { modelConclusion in
+            usExaminationRepository.incrementRequestCount()
             let conclusion = USExaminationConclusion(
                 date: Date(),
                 neuralModelSettings: neuralModelSettings,

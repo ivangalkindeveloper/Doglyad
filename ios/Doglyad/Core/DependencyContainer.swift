@@ -116,6 +116,7 @@ extension DependencyContainer {
                     patch: 0,
                 ),
                 ultrasound: UltrasoundConfig(
+                    requestCountPerDay: 10,
                     scanPhotoMaxNumber: 0,
                     scanPhotoResizeMaxDimension: 0,
                     scanPhotoCompressionQuality: 0,
