@@ -1,7 +1,7 @@
 import SwiftUI
 
 public struct DIcon: View {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var size: DSize { theme.size }
 
     let resource: ImageResource

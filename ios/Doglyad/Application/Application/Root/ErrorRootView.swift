@@ -2,7 +2,7 @@ import DoglyadUI
 import SwiftUI
 
 struct ErrorRootView: View {
-    @EnvironmentObject private var viewModel: ApplicationViewModel
+    @Environment(ApplicationViewModel.self) private var viewModel
 
     let error: Error
 
@@ -41,8 +41,8 @@ struct ErrorRootView: View {
 }
 
 private struct ErrorView: View {
-    @EnvironmentObject private var viewModel: ApplicationViewModel
-    @EnvironmentObject private var theme: DTheme
+    @Environment(ApplicationViewModel.self) private var viewModel
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }

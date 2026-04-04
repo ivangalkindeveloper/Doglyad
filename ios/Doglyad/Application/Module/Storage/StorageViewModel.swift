@@ -4,7 +4,8 @@ import Router
 import SwiftUI
 
 @MainActor
-final class StorageViewModel: ObservableObject {
+@Observable
+final class StorageViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter

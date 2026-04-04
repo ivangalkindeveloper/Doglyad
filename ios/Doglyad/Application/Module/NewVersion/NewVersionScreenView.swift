@@ -2,12 +2,12 @@ import DoglyadUI
 import SwiftUI
 
 struct NewVersionScreenView: View {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @StateObject var viewModel: NewVersionViewModel
+    @State var viewModel: NewVersionViewModel
 
     var body: some View {
         DScreen(

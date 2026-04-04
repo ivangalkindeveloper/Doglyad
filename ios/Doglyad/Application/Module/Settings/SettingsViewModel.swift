@@ -3,7 +3,8 @@ import Router
 import SwiftUI
 
 @MainActor
-final class SettingsViewModel: ObservableObject {
+@Observable
+final class SettingsViewModel {
     private let container: DependencyContainer
     private let router: DRouter
 
@@ -16,7 +17,7 @@ final class SettingsViewModel: ObservableObject {
         load()
     }
 
-    @Published var conclusions: [USExaminationConclusion] = []
+    var conclusions: [USExaminationConclusion] = []
 
     private func load() {
         let conclusions = container.usExaminationRepository.getConclusions()

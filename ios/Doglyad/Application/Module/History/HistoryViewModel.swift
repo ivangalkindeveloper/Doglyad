@@ -3,7 +3,8 @@ import Router
 import SwiftUI
 
 @MainActor
-final class HistoryViewModel: ObservableObject {
+@Observable
+final class HistoryViewModel {
     private let container: DependencyContainer
     private let router: DRouter
 
@@ -16,7 +17,7 @@ final class HistoryViewModel: ObservableObject {
         onInit()
     }
 
-    @Published var conclusions: [USExaminationConclusion] = []
+    var conclusions: [USExaminationConclusion] = []
 
     private func onInit() {
         let conclusions = container.usExaminationRepository.getConclusions()

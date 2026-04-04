@@ -2,12 +2,12 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanSheetHeaderView: View {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @EnvironmentObject private var viewModel: ScanViewModel
+    @Environment(ScanViewModel.self) private var viewModel
     @State private var isBottom: Bool = false
 
     var body: some View {
@@ -44,7 +44,7 @@ struct ScanSheetHeaderView: View {
                 .padding(.horizontal, size.s16)
                 .padding(.bottom, isBottom ? size.s32 : size.s8)
         }
-        .onReceive(viewModel.sheetController.$currentPosition) { _ in
+        .onChange(of: viewModel.sheetController.currentPosition) {
             isBottom = viewModel.sheetController.isBottom
         }
     }

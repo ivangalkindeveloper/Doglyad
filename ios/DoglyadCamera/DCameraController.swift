@@ -1,22 +1,23 @@
 import AVFoundation
-import Combine
 import SwiftUI
 
 @MainActor
-public final class DCameraController: NSObject, ObservableObject {
-    @Published public var isLoading = true
-    @Published public var isRunning = false
-    @Published public var isCapturing = false
+@Observable
+public final class DCameraController {
+    public var isLoading = true
+    public var isRunning = false
+    public var isCapturing = false
 
     private nonisolated let session = AVCaptureSession()
-    lazy var previewLayer: AVCaptureVideoPreviewLayer = .init(
+    @ObservationIgnored lazy var previewLayer: AVCaptureVideoPreviewLayer = .init(
         session: self.session
     )
-    private var output = AVCapturePhotoOutput()
-    private var capturePhotoCompletion: ((UIImage) -> Void)?
+    @ObservationIgnored private var output = AVCapturePhotoOutput()
+    @ObservationIgnored private var capturePhotoCompletion: ((UIImage) -> Void)?
+    @ObservationIgnored private lazy var delegate = PhotoCaptureDelegate(controller: self)
+    @ObservationIgnored private let sessionQueue = DispatchQueue(label: "com.doglyad.camera.session", qos: .background)
 
-    override public init() {
-        super.init()
+    public init() {
         session.beginConfiguration()
         guard let device = AVCaptureDevice.default(
             .builtInWideAngleCamera,
@@ -34,25 +35,26 @@ public final class DCameraController: NSObject, ObservableObject {
         previewLayer.videoGravity = .resizeAspectFill
         session.commitConfiguration()
         isLoading = false
-        isRunning = true
     }
 
     public func startSession() {
-        if session.isRunning { return }
-        DispatchQueue.global(qos: .background).async {
+        guard !isRunning else { return }
+        isRunning = true
+        sessionQueue.async {
             self.session.startRunning()
             DispatchQueue.main.async {
-                self.isRunning = true
+                self.previewLayer.connection?.isEnabled = true
             }
         }
     }
 
     public func stopSession() {
-        if !session.isRunning { return }
-        DispatchQueue.global(qos: .background).async {
+        guard isRunning else { return }
+        isRunning = false
+        sessionQueue.async {
             self.session.stopRunning()
             DispatchQueue.main.async {
-                self.isRunning = false
+                self.previewLayer.connection?.isEnabled = false
             }
         }
     }
@@ -65,13 +67,24 @@ public final class DCameraController: NSObject, ObservableObject {
         let settings = AVCapturePhotoSettings()
         output.capturePhoto(
             with: settings,
-            delegate: self
+            delegate: delegate
         )
+    }
+
+    fileprivate func handlePhotoCaptured(image: UIImage) {
+        capturePhotoCompletion?(image)
+        isCapturing = false
     }
 }
 
-extension DCameraController: AVCapturePhotoCaptureDelegate {
-    public func photoOutput(
+private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
+    private weak var controller: DCameraController?
+
+    init(controller: DCameraController) {
+        self.controller = controller
+    }
+
+    func photoOutput(
         _: AVCapturePhotoOutput,
         didFinishProcessingPhoto photo: AVCapturePhoto,
         error _: Error?
@@ -81,7 +94,8 @@ extension DCameraController: AVCapturePhotoCaptureDelegate {
         else {
             return
         }
-        capturePhotoCompletion?(image)
-        isCapturing = false
+        Task { @MainActor in
+            controller?.handlePhotoCaptured(image: image)
+        }
     }
 }

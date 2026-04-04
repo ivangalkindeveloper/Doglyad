@@ -1,7 +1,7 @@
 import SwiftUI
 
 public struct DButtonCard<Content: View>: View {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var typography: DTypography { theme.typography }
 

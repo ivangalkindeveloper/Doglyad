@@ -2,13 +2,13 @@ import DoglyadUI
 import SwiftUI
 
 struct ConclusionScreenView: View {
-    @EnvironmentObject private var container: DependencyContainer
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DependencyContainer.self) private var container
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @StateObject var viewModel: ConclusionViewModel
+    @State var viewModel: ConclusionViewModel
     private var conclusion: USExaminationConclusion {
         viewModel.conclusion
     }
@@ -203,6 +203,6 @@ struct ConclusionScreenView: View {
                 }
             }
         }
-        .environmentObject(viewModel)
+        .environment(viewModel)
     }
 }

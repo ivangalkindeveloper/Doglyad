@@ -31,7 +31,7 @@ public extension DText {
 }
 
 private struct DTextModifier: ViewModifier {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var typography: DTypography { theme.typography }
 
     let font: Font?

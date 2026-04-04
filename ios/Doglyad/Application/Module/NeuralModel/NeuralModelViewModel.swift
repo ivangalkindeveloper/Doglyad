@@ -1,11 +1,11 @@
 import DoglyadUI
 import Foundation
-import NestedObservableObject
 import Router
 import SwiftUI
 
 @MainActor
-final class NeuralModelViewModel: ObservableObject {
+@Observable
+final class NeuralModelViewModel {
     enum Focus: Hashable {
         case template
         case length
@@ -27,10 +27,10 @@ final class NeuralModelViewModel: ObservableObject {
         onInit()
     }
 
-    @Published var usExaminationNeuralModel: USExaminationNeuralModel
-    @Published var focus: Focus? = nil
-    @NestedObservableObject var templateController = DTextFieldController()
-    @NestedObservableObject var responseLengthController = DTextFieldController()
+    var usExaminationNeuralModel: USExaminationNeuralModel
+    var focus: Focus? = nil
+    var templateController = DTextFieldController()
+    var responseLengthController = DTextFieldController()
 
     func onInit() {
         let settings = container.modelRepository.getNeuralModelSettings()

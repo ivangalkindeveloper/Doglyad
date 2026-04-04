@@ -1,10 +1,10 @@
 import DoglyadNeuralModel
 import DoglyadSpeech
-import NestedObservableObject
 import SwiftUI
 
 @MainActor
-final class ScanSpeechViewModel: ObservableObject {
+@Observable
+final class ScanSpeechViewModel {
     private let container: DependencyContainer
     private let router: DRouter
     private let arguments: ScanSpeechBottomSheetArguments
@@ -19,10 +19,10 @@ final class ScanSpeechViewModel: ObservableObject {
         self.arguments = arguments
     }
 
-    @NestedObservableObject var speechController = DSpeechController(
+    var speechController = DSpeechController(
         locale: Locale.current
     )
-    @Published var isLoading = false
+    var isLoading = false
     let columns = [GridItem(.adaptive(minimum: 100))]
 
     func onTapBack() {

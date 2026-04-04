@@ -5,7 +5,8 @@ import Router
 import SwiftData
 import SwiftUI
 
-final class DependencyContainer: ObservableObject {
+@Observable
+final class DependencyContainer {
     let environment: EnvironmentProtocol
     let connectionManager: ConnectionManagerProtocol
     let permissionManager: PermissionManagerProtocol

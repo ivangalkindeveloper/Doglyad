@@ -12,8 +12,8 @@ private struct PreviewableModifier: ViewModifier {
             )))
             .dMessage()
             .dThemeWrapper()
-            .environmentObject(DependencyContainer.previewable)
-            .environmentObject(ApplicationViewModel())
+            .environment(DependencyContainer.previewable)
+            .environment(ApplicationViewModel())
     }
 }
 

@@ -1,8 +1,10 @@
 import Foundation
+import Observation
 import UIKit
 
 @MainActor
-final class NewVersionViewModel: ObservableObject {
+@Observable
+final class NewVersionViewModel {
     private let container: DependencyContainer
 
     init(

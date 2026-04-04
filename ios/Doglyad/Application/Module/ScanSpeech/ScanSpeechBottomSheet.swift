@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 
 struct ScanSpeechBottomSheet: View {
-    @EnvironmentObject private var container: DependencyContainer
+    @Environment(DependencyContainer.self) private var container
     @EnvironmentObject private var router: DRouter
     let arguments: ScanSpeechBottomSheetArguments
 
@@ -19,12 +19,12 @@ struct ScanSpeechBottomSheet: View {
 }
 
 private struct ScanSpeechBottomSheetView: View {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @StateObject var viewModel: ScanSpeechViewModel
+    @State var viewModel: ScanSpeechViewModel
 
     var body: some View {
         DBottomSheet(

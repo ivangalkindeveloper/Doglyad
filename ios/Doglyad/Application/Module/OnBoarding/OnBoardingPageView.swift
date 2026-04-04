@@ -2,7 +2,7 @@ import DoglyadUI
 import SwiftUI
 
 struct OnBoardingPageView<BottomContent: View>: View {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 

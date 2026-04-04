@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 
 struct OnBoardingScreen: View {
-    @EnvironmentObject private var container: DependencyContainer
+    @Environment(DependencyContainer.self) private var container
     @EnvironmentObject private var router: DRouter
     let arguments: OnBoardingScreenArguments?
 

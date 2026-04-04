@@ -14,6 +14,6 @@ struct MainRootView: View {
             )
         )
         .dMessage()
-        .environmentObject(dependencyContainer)
+        .environment(dependencyContainer)
     }
 }

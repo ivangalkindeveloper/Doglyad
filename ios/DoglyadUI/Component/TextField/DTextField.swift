@@ -1,4 +1,3 @@
-import Combine
 import SwiftUI
 
 public class DTextFieldFocus<Focus: Hashable> {
@@ -19,12 +18,12 @@ public class DTextFieldFocus<Focus: Hashable> {
 }
 
 public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @ObservedObject private var controller: DTextFieldController
+    private var controller: DTextFieldController
     private let focus: DTextFieldFocus<Focus>?
     private let title: LocalizedStringResource
     private let placeholder: LocalizedStringResource
@@ -85,6 +84,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
     }
 
     public var body: some View {
+        @Bindable var controller = controller
         VStack(
             alignment: .leading,
             spacing: .zero
@@ -188,7 +188,7 @@ private extension DTextField {
 
 #Preview {
     @Previewable let sampleText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-    @Previewable @StateObject var controller = DTextFieldController()
+    @Previewable @State var controller = DTextFieldController()
 
     VStack {
         Spacer()

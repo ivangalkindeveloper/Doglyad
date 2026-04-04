@@ -3,7 +3,8 @@ import Router
 import SwiftUI
 
 @MainActor
-final class RecievedConclusionViewModel: ObservableObject {
+@Observable
+final class RecievedConclusionViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: RecievedConclusionBottomSheetArguments
@@ -18,9 +19,8 @@ final class RecievedConclusionViewModel: ObservableObject {
         self.arguments = arguments
     }
 
-    @Published var displayedResponse = ""
-
-    private var typewriterTask: Task<Void, Never>?
+    var displayedResponse = ""
+    @ObservationIgnored private var typewriterTask: Task<Void, Never>?
 
     var model: USExaminationModelConclusion {
         arguments.conclusion.actualModelConclusion

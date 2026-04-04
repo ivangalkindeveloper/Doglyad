@@ -10,7 +10,7 @@ public enum DButtonStyleType {
 }
 
 public struct DButtonStyle: ButtonStyle {
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     @Environment(\.isEnabled) private var isEnabled
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }

@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 
 struct NewVersionScreen: View {
-    @EnvironmentObject private var container: DependencyContainer
+    @Environment(DependencyContainer.self) private var container
     let arguments: NewVersionScreenArguments?
 
     var body: some View {

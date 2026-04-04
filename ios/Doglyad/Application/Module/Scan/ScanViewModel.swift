@@ -4,12 +4,12 @@ import DoglyadNetwork
 import DoglyadUI
 import Foundation
 import Handler
-import NestedObservableObject
 import Router
 import SwiftUI
 
 @MainActor
-final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, ObservableObject {
+@Observable
+final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     enum Focus: Hashable {
         case patientName
         case patientHeightCM
@@ -56,23 +56,23 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError>, Observa
         Double(ultrasoundConfig.defaultPatientWeightKG)
     }
 
-    @Published var usExaminationType: USExaminationType
-    @Published var photos: [USExaminationScanPhoto] = []
+    var usExaminationType: USExaminationType
+    var photos: [USExaminationScanPhoto] = []
     //
-    @NestedObservableObject var cameraController = DCameraController()
-    @NestedObservableObject var sheetController = ScanSheetController()
+    var cameraController = DCameraController()
+    var sheetController = ScanSheetController()
     //
-    @Published var focus: Focus? = nil
-    @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
-    @Published var patientGender = PatientGender.male
-    @Published var patientDateOfBirth: Date = Date()
-    @NestedObservableObject var patientHeightCMController = DTextFieldController(isRequired: true)
-    @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
-    @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)
-    @NestedObservableObject var examinationDescriptionController = DTextFieldController(isRequired: true)
-    @NestedObservableObject var additionalDataController = DTextFieldController()
+    var focus: Focus? = nil
+    var patientNameController = DTextFieldController(isRequired: true)
+    var patientGender = PatientGender.male
+    var patientDateOfBirth: Date = Date()
+    var patientHeightCMController = DTextFieldController(isRequired: true)
+    var patientWeightKGController = DTextFieldController(isRequired: true)
+    var patientComplaintController = DTextFieldController(isRequired: true)
+    var examinationDescriptionController = DTextFieldController(isRequired: true)
+    var additionalDataController = DTextFieldController()
     //
-    @Published var isLoading = false
+    var isLoading = false
 
     private func onInit() {
         cameraController.startSession()

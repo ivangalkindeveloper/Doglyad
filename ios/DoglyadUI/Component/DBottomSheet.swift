@@ -7,7 +7,7 @@ public enum DBottomSheetType {
 
 public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }

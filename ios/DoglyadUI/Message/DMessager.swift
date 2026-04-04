@@ -1,8 +1,8 @@
-import Combine
 import SwiftUI
 
-public final class DMessager: ObservableObject {
-    @Published var message: DMessage?
+@Observable
+public final class DMessager {
+    var message: DMessage?
 
     public func show(
         type: DMessageType,

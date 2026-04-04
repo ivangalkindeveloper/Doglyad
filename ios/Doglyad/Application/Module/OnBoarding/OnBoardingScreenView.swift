@@ -3,14 +3,15 @@ import SwiftUI
 
 struct OnBoardingScreenView: View {
     @Environment(\.locale) private var locale
-    @EnvironmentObject private var theme: DTheme
+    @Environment(DTheme.self) private var theme
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
     private var color: DColor { theme.color }
 
-    @StateObject var viewModel: OnBoardingViewModel
+    @State var viewModel: OnBoardingViewModel
 
     var body: some View {
+        @Bindable var viewModel = viewModel
         DScreen { _ in
             VStack(
                 alignment: .leading,

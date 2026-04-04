@@ -1,11 +1,11 @@
-import Combine
 import SwiftUI
 
-public class DTextFieldController: ObservableObject {
-    @Published public var text: String = ""
+@Observable
+public class DTextFieldController {
+    public var text: String = ""
     private let isRequired: Bool
-    @Published var isError: Bool = false
-    @Published var errorText: String? = nil
+    var isError: Bool = false
+    var errorText: String? = nil
 
     public init(
         initialText: String = "",

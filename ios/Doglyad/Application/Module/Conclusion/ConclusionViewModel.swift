@@ -6,7 +6,8 @@ import SwiftUI
 import UIKit
 
 @MainActor
-final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, ObservableObject {
+@Observable
+final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     static let actualModelConclusionCardScrollId = "actualModelConclusionCard"
 
     private let container: DependencyContainer
@@ -22,11 +23,11 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError>, O
         self.container = container
         self.messager = messager
         self.router = router
-        _conclusion = .init(initialValue: initialConclusion)
+        self.conclusion = initialConclusion
     }
 
-    @Published var conclusion: USExaminationConclusion
-    @Published var isLoading = false
+    var conclusion: USExaminationConclusion
+    var isLoading = false
 
     func onTapBack() {
         router.pop()
