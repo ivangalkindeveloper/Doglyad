@@ -17,6 +17,7 @@ struct ScanSheetBodyView: View {
             showsIndicators: false
         ) {
             VStack(
+                alignment: .leading,
                 spacing: .zero
             ) {
                 DTextField(
@@ -120,16 +121,21 @@ struct ScanSheetBodyView: View {
                     keyboardType: .default,
                     sumbitLabel: .done
                 )
-                .padding(.bottom, size.s32)
+                .padding(.bottom, size.s16)
+                
+                ScanSheetModelSettingsCardView()
+                    .padding(.bottom, size.s4)
 
                 if container.environment.type == EnvironmentType.development {
                     DButton(
-                        title: "Заполнить",
+                        title: .buttonFill,
                         action: viewModel.onTapFill
                     )
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, size.s32)
                 }
             }
-            .padding(.bottom, size.screenHeight / 4)
+            .padding(.bottom, size.s32 + size.screenHeight / 4)
         }
         .padding(.horizontal, size.s16)
     }

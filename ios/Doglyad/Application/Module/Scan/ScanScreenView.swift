@@ -33,6 +33,7 @@ struct ScanScreenView: View {
             onTapBody: viewModel.unfocus,
             content: { _ in
                 @Bindable var viewModel = self.viewModel
+                
                 ZStack {
                     ZStack {
                         ScanCameraView()

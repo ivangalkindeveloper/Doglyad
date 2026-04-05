@@ -77,10 +77,13 @@ extension USExaminationRepository {
 // MARK: RequestLimit -
 
 extension USExaminationRepository {
-    @MainActor func isRequestLimitReached(limit: Int) -> Bool {
-        guard let requestLimit = database.getRequestLimit() else { return false }
-        guard Calendar.current.isDateInToday(requestLimit.date) else { return false }
-        return requestLimit.count >= limit
+    @MainActor func remainingRequestCount(
+        limit: Int
+    ) -> Int {
+        guard let requestLimit = database.getRequestLimit(),
+              Calendar.current.isDateInToday(requestLimit.date)
+        else { return limit }
+        return max(limit - requestLimit.count, 0)
     }
 
     @MainActor func incrementRequestCount() {

@@ -32,6 +32,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         self.messager = messager
         self.router = router
         self.usExaminationType = container.usExaminationTypeDefault
+        self.neuralModelSettings = container.modelRepository.getNeuralModelSettings()
+        self.availableRequestCount = container.applicationConfig.ultrasound.requestCountPerDay
         super.init()
         onInit()
     }
@@ -58,7 +60,6 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
 
     var usExaminationType: USExaminationType
     var photos: [USExaminationScanPhoto] = []
-    //
     var cameraController = DCameraController()
     var sheetController = ScanSheetController()
     //
@@ -72,8 +73,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     var examinationDescriptionController = DTextFieldController(isRequired: true)
     var additionalDataController = DTextFieldController()
     //
+    var neuralModelSettings: NeuralModelSettings
+    var availableRequestCount: Int
     var isLoading = false
-
+    
     private func onInit() {
         cameraController.startSession()
         if let usExaminationTypeId = self.container.usExaminationRepository.getSelectedUSExaminationTypeId(),
@@ -87,6 +90,9 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         patientDateOfBirth = defaultPatientDateOfBirth
         patientHeightCMController.text = String(defaultPatientHeightCM)
         patientWeightKGController.text = String(defaultPatientWeightKG)
+        availableRequestCount = container.usExaminationRepository.remainingRequestCount(
+            limit: ultrasoundConfig.requestCountPerDay
+        )
     }
 
     var isPhotoFilling: Bool {
@@ -219,6 +225,47 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             )
         )
     }
+    
+    func onTapNeuralModelSettings() {
+        router.push(
+            route: RouteScreen(
+                type: .neuralModel
+            )
+        )
+    }
+    
+    func onTapFill() {
+        patientComplaintController.text = """
+        Пациент предъявляет жалобы на периодическое ощущение давления и дискомфорта в передней области шеи, \
+        возникающее преимущественно в утренние часы и при физической нагрузке. \
+        Отмечает затруднение при глотании твёрдой пищи, появившееся около трёх недель назад. \
+        Со слов пациента, в последний месяц наблюдается выраженная общая слабость, \
+        повышенная утомляемость и снижение работоспособности во второй половине дня. \
+        Эпизодически фиксирует субфебрильную температуру до 37,2 °C. \
+        Потери веса не отмечает. Ранее подобных жалоб не предъявлял. \
+        Наследственный анамнез по заболеваниям щитовидной железы не отягощён.
+        """
+        examinationDescriptionController.text = """
+        Проведено ультразвуковое исследование щитовидной железы линейным датчиком \
+        в стандартных продольных и поперечных проекциях с оценкой обеих долей и перешейка. \
+        Правая доля: 52×18×16 мм, объём 7,4 мл. Левая доля: 50×17×15 мм, объём 6,3 мл. \
+        Общий объём железы — 13,7 мл, что соответствует верхней границе нормы. \
+        Контуры долей ровные, чёткие, капсула не утолщена. \
+        Эхогенность паренхимы средняя, структура однородная, без очаговых изменений. \
+        Перешеек толщиной 4 мм, без особенностей. \
+        Кровоток при цветовом допплеровском картировании симметричный, не усилен. \
+        Региональные лимфатические узлы шеи не увеличены, обычной структуры.
+        """
+        additionalDataController.text = """
+        Исследование выполнено на стационарном ультразвуковом аппарате экспертного класса \
+        с использованием линейного мультичастотного датчика 7,5–12 МГц. \
+        Настройки глубины сканирования и фокусировки оптимизированы \
+        для визуализации поверхностно расположенных структур шеи. \
+        Качество визуализации хорошее на протяжении всего исследования. \
+        Пациент находился в положении лёжа на спине с запрокинутой головой. \
+        Архивирование ключевых изображений выполнено в формате DICOM.
+        """
+    }
 
     func onTapSpeech() {
         Task {
@@ -268,39 +315,6 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         }
     }
 
-    func onTapFill() {
-        patientComplaintController.text = """
-        Пациент предъявляет жалобы на периодическое ощущение давления и дискомфорта в передней области шеи, \
-        возникающее преимущественно в утренние часы и при физической нагрузке. \
-        Отмечает затруднение при глотании твёрдой пищи, появившееся около трёх недель назад. \
-        Со слов пациента, в последний месяц наблюдается выраженная общая слабость, \
-        повышенная утомляемость и снижение работоспособности во второй половине дня. \
-        Эпизодически фиксирует субфебрильную температуру до 37,2 °C. \
-        Потери веса не отмечает. Ранее подобных жалоб не предъявлял. \
-        Наследственный анамнез по заболеваниям щитовидной железы не отягощён.
-        """
-        examinationDescriptionController.text = """
-        Проведено ультразвуковое исследование щитовидной железы линейным датчиком \
-        в стандартных продольных и поперечных проекциях с оценкой обеих долей и перешейка. \
-        Правая доля: 52×18×16 мм, объём 7,4 мл. Левая доля: 50×17×15 мм, объём 6,3 мл. \
-        Общий объём железы — 13,7 мл, что соответствует верхней границе нормы. \
-        Контуры долей ровные, чёткие, капсула не утолщена. \
-        Эхогенность паренхимы средняя, структура однородная, без очаговых изменений. \
-        Перешеек толщиной 4 мм, без особенностей. \
-        Кровоток при цветовом допплеровском картировании симметричный, не усилен. \
-        Региональные лимфатические узлы шеи не увеличены, обычной структуры.
-        """
-        additionalDataController.text = """
-        Исследование выполнено на стационарном ультразвуковом аппарате экспертного класса \
-        с использованием линейного мультичастотного датчика 7,5–12 МГц. \
-        Настройки глубины сканирования и фокусировки оптимизированы \
-        для визуализации поверхностно расположенных структур шеи. \
-        Качество визуализации хорошее на протяжении всего исследования. \
-        Пациент находился в положении лёжа на спине с запрокинутой головой. \
-        Архивирование ключевых изображений выполнено в формате DICOM.
-        """
-    }
-
     func onTapScan() {
         let isPatientNameValid = patientNameController.validate()
         let isPatientHeightCMValid = patientHeightCMController.validate()
@@ -320,12 +334,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         }
 
         let usExaminationRepository: USExaminationRepositoryProtocol = container.usExaminationRepository
-        if usExaminationRepository.isRequestLimitReached(limit: ultrasoundConfig.requestCountPerDay) {
+        if availableRequestCount <= 0 {
             return
         }
 
-        let modelRepository: ModelRepositoryProtocol = container.modelRepository
-        let neuralModelSettings = modelRepository.getNeuralModelSettings()
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,
             photos: photos,
@@ -357,9 +369,12 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             self.isLoading = false
         } onMainSuccess: { modelConclusion in
             usExaminationRepository.incrementRequestCount()
+            self.availableRequestCount = usExaminationRepository.remainingRequestCount(
+                limit: self.ultrasoundConfig.requestCountPerDay
+            )
             let conclusion = USExaminationConclusion(
                 date: Date(),
-                neuralModelSettings: neuralModelSettings,
+                neuralModelSettings: self.neuralModelSettings,
                 examinationData: examinationData,
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: []

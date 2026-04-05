@@ -8,7 +8,7 @@ struct ScanSheetHeaderView: View {
     private var typography: DTypography { theme.typography }
 
     @Environment(ScanViewModel.self) private var viewModel
-    @State private var isBottom: Bool = false
+    private var isBottom: Bool { viewModel.sheetController.isBottom }
 
     var body: some View {
         VStack(
@@ -41,11 +41,9 @@ struct ScanSheetHeaderView: View {
                     font: typography.textSmall,
                     color: color.grayscalePlacehold
                 )
-                .padding(.horizontal, size.s16)
+                .padding(.horizontal, size.s24)
                 .padding(.bottom, isBottom ? size.s32 : size.s8)
-        }
-        .onChange(of: viewModel.sheetController.currentPosition) {
-            isBottom = viewModel.sheetController.isBottom
+                
         }
     }
 }

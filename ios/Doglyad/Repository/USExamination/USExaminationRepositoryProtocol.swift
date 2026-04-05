@@ -32,7 +32,9 @@ protocol USExaminationRepositoryProtocol: AnyObject {
 
     // MARK: RequestLimit -
 
-    @MainActor func isRequestLimitReached(limit: Int) -> Bool
+    @MainActor func remainingRequestCount(
+        limit: Int
+    ) -> Int
 
     @MainActor func incrementRequestCount()
 

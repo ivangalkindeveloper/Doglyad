@@ -12,6 +12,7 @@ struct OnBoardingScreenView: View {
 
     var body: some View {
         @Bindable var viewModel = viewModel
+        
         DScreen { _ in
             VStack(
                 alignment: .leading,
