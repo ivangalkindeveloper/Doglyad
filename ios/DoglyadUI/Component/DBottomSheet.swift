@@ -16,6 +16,7 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
 
     let type: DBottomSheetType
     let title: LocalizedStringResource
+    let isCloseButtonVisible: Bool
     let fraction: Double
     let content: (CGFloat) -> Content
     let bottom: (() -> Bottom)?
@@ -23,12 +24,14 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     public init(
         type: DBottomSheetType = .default,
         title: LocalizedStringResource,
+        isCloseButtonVisible: Bool = true,
         fraction: Double = 0.3,
         @ViewBuilder content: @escaping (CGFloat) -> Content,
         @ViewBuilder bottom: @escaping () -> Bottom
     ) {
         self.type = type
         self.title = title
+        self.isCloseButtonVisible = isCloseButtonVisible
         self.fraction = fraction
         self.content = content
         self.bottom = bottom
@@ -37,11 +40,13 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     public init(
         type: DBottomSheetType = .default,
         title: LocalizedStringResource,
+        isCloseButtonVisible: Bool = true,
         fraction: Double = 0.3,
         @ViewBuilder content: @escaping (CGFloat) -> Content
     ) where Bottom == EmptyView {
         self.type = type
         self.title = title
+        self.isCloseButtonVisible = isCloseButtonVisible
         self.fraction = fraction
         self.content = content
         bottom = nil
@@ -89,9 +94,18 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(size.adaptiveCornerRadius)
         .presentationDetents([.fraction(fraction)])
+        .interactiveDismissDisabled(!isCloseButtonVisible)
         .if(type == .blur) {
             $0.preferredColorScheme(.dark)
         }
+    }
+
+    private var toolbarSpacer: some View {
+        Color.clear
+            .frame(
+                width: 22,
+                height: .zero
+            )
     }
 
     private var toolbarView: some View {
@@ -99,11 +113,7 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
             spacing: .zero
         ) {
             HStack {
-                Color.clear
-                    .frame(
-                        width: 22,
-                        height: .zero
-                    )
+                toolbarSpacer
                 Spacer()
                 DText(title)
                     .dStyle(
@@ -113,8 +123,12 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
                     )
                     .padding(size.s16)
                 Spacer()
-                DCloseButton {
-                    dismiss()
+                if isCloseButtonVisible {
+                    DCloseButton {
+                        dismiss()
+                    }
+                } else {
+                    toolbarSpacer
                 }
             }
             .padding(.top, size.adaptiveCornerRadius / 4)

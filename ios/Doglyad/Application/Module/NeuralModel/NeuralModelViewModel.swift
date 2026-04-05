@@ -21,7 +21,7 @@ final class NeuralModelViewModel {
         router: DRouter
     ) {
         self.container = container
-        usExaminationNeuralModel = container.usExaminationNeuralModelDefault
+        self.usExaminationNeuralModel = container.usExaminationNeuralModelDefault
         self.messager = messager
         self.router = router
         onInit()
@@ -84,12 +84,13 @@ final class NeuralModelViewModel {
     func onTapSave() {
         let template = templateController.text.isEmpty ? nil : templateController.text
         let responseLength = Int(responseLengthController.text)
+        let settings = NeuralModelSettings(
+            selectedNeuralModelId: usExaminationNeuralModel.id,
+            template: template,
+            responseLength: responseLength
+        )
         container.modelRepository.setNeuralModelSettings(
-            settings: NeuralModelSettings(
-                selectedNeuralModelId: usExaminationNeuralModel.id,
-                template: template,
-                responseLength: responseLength
-            )
+            settings: settings
         )
         messager.show(
             type: .success,

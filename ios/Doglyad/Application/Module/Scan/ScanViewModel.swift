@@ -315,7 +315,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         }
     }
 
-    func onTapScan() {
+    func onTapScan() {        
         let isPatientNameValid = patientNameController.validate()
         let isPatientHeightCMValid = patientHeightCMController.validate()
         let isPatientWeightKGValid = patientWeightKGController.validate()
@@ -335,7 +335,11 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
 
         let usExaminationRepository: USExaminationRepositoryProtocol = container.usExaminationRepository
         if availableRequestCount <= 0 {
-            return
+            return router.push(
+                route: RouteSheet(
+                    type: .scanRequestLimitExceeded
+                )
+            )
         }
 
         let examinationData = USExaminationData(
