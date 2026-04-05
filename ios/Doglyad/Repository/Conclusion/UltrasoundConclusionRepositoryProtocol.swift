@@ -1,12 +1,12 @@
 import DoglyadDatabase
 import Foundation
 
-protocol USExaminationRepositoryProtocol: AnyObject {
-    // MARK: USExaminationType -
+protocol UltrasoundConclusionRepositoryProtocol: AnyObject {
+    // MARK: ExaminationType -
 
-    func getSelectedUSExaminationTypeId() -> String?
+    func getSelectedExaminationTypeId() -> String?
 
-    func setSelectedUSExaminationTypeId(
+    func setSelectedExaminationTypeId(
         id: String
     )
 
@@ -29,14 +29,6 @@ protocol USExaminationRepositoryProtocol: AnyObject {
     )
 
     @MainActor func clearAllConclusions()
-
-    // MARK: RequestLimit -
-
-    @MainActor func remainingRequestCount(
-        limit: Int
-    ) -> Int
-
-    @MainActor func incrementRequestCount()
 
     // MARK: Common -
 

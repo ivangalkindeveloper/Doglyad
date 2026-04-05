@@ -48,10 +48,10 @@ extension InitializationProcess {
                 process.sharedRepository = SharedRepository(
                     database: process.database!
                 )
-                process.modelRepository = ModelRepository(
+                process.ultrasoundModelRepository = UltrasoundModelRepository(
                     database: process.database!
                 )
-                process.usExaminationRepository = USExaminationRepository(
+                process.ultrasoundConclusionRepository = UltrasoundConclusionRepository(
                     database: process.database!,
                     httpClient: process.httpClient!
                 )

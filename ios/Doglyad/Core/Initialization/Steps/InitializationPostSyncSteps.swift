@@ -8,12 +8,12 @@ extension InitializationProcess {
             run: { (process: InitializationProcess) in
                 @MainActor
                 func setDefault() {
-                    process.usExaminationRepository!.setSelectedUSExaminationTypeId(
+                    process.ultrasoundConclusionRepository!.setSelectedExaminationTypeId(
                         id: process.usExaminationTypeDefault!.id
                     )
                 }
 
-                let usExaminationTypeId = process.usExaminationRepository!.getSelectedUSExaminationTypeId()
+                let usExaminationTypeId = process.ultrasoundConclusionRepository!.getSelectedExaminationTypeId()
                 guard usExaminationTypeId != nil else {
                     return
                 }
@@ -29,12 +29,12 @@ extension InitializationProcess {
             run: { (process: InitializationProcess) in
                 @MainActor
                 func setDefault() {
-                    process.modelRepository!.setSelectedUSExaminationNeuralModelId(
+                    process.ultrasoundModelRepository!.setSelectedModelId(
                         id: process.usExaminationNeuralModelDefault!.id
                     )
                 }
 
-                let selectedUSExaminationNeuralModelId = process.modelRepository!.getSelectedUSExaminationNeuralModelId()
+                let selectedUSExaminationNeuralModelId = process.ultrasoundModelRepository!.getSelectedModelId()
                 guard selectedUSExaminationNeuralModelId != nil else {
                     return setDefault()
                 }

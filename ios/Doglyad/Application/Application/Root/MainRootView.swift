@@ -5,6 +5,15 @@ import SwiftUI
 struct MainRootView: View {
     let dependencyContainer: DependencyContainer
 
+    @State private var ultrasoundViewModel: UltrasoundViewModel
+
+    init(dependencyContainer: DependencyContainer) {
+        self.dependencyContainer = dependencyContainer
+        self._ultrasoundViewModel = State(initialValue: UltrasoundViewModel(
+            container: dependencyContainer
+        ))
+    }
+
     var body: some View {
         RouterView<ScreenType, SheetType, FullScreenCoverType, RouterBuilder>(
             builder: RouterBuilder(),
@@ -15,5 +24,6 @@ struct MainRootView: View {
         )
         .dMessage()
         .environment(dependencyContainer)
+        .environment(ultrasoundViewModel)
     }
 }

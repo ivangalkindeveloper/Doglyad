@@ -11,38 +11,30 @@ final class NeuralModelViewModel {
         case length
     }
 
-    private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
+    private let onSave: (USExaminationNeuralModel, String?, Int?) -> Void
 
     init(
-        container: DependencyContainer,
+        initialNeuralModel: USExaminationNeuralModel,
+        initialTemplate: String?,
+        initialResponseLength: Int?,
         messager: DMessager,
-        router: DRouter
+        router: DRouter,
+        onSave: @escaping (USExaminationNeuralModel, String?, Int?) -> Void
     ) {
-        self.container = container
-        self.usExaminationNeuralModel = container.usExaminationNeuralModelDefault
+        self.usExaminationNeuralModel = initialNeuralModel
         self.messager = messager
         self.router = router
-        onInit()
+        self.onSave = onSave
+        templateController.text = initialTemplate ?? ""
+        responseLengthController.text = initialResponseLength.map(String.init) ?? ""
     }
 
     var usExaminationNeuralModel: USExaminationNeuralModel
     var focus: Focus? = nil
     var templateController = DTextFieldController()
     var responseLengthController = DTextFieldController()
-
-    func onInit() {
-        let settings = container.modelRepository.getNeuralModelSettings()
-        if let selectedModelId = settings.selectedNeuralModelId,
-           let selectedModel = container.usExaminationNeuralModelsById[selectedModelId]
-        {
-            usExaminationNeuralModel = selectedModel
-        }
-
-        templateController.text = settings.template ?? ""
-        responseLengthController.text = settings.responseLength.map(String.init) ?? ""
-    }
 
     func unfocus() {
         focus = nil
@@ -72,9 +64,7 @@ final class NeuralModelViewModel {
                         guard self.usExaminationNeuralModel != model else { return }
 
                         self.usExaminationNeuralModel = model
-                        self.container.modelRepository.setSelectedUSExaminationNeuralModelId(
-                            id: model.id
-                        )
+                        onSave(model, nil, nil)
                     }
                 )
             )
@@ -84,14 +74,7 @@ final class NeuralModelViewModel {
     func onTapSave() {
         let template = templateController.text.isEmpty ? nil : templateController.text
         let responseLength = Int(responseLengthController.text)
-        let settings = NeuralModelSettings(
-            selectedNeuralModelId: usExaminationNeuralModel.id,
-            template: template,
-            responseLength: responseLength
-        )
-        container.modelRepository.setNeuralModelSettings(
-            settings: settings
-        )
+        onSave(usExaminationNeuralModel, template, responseLength)
         messager.show(
             type: .success,
             title: .neuralModelSettingsSavedSuccessMessageTitle,

@@ -32,8 +32,6 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         self.messager = messager
         self.router = router
         self.usExaminationType = container.usExaminationTypeDefault
-        self.neuralModelSettings = container.modelRepository.getNeuralModelSettings()
-        self.availableRequestCount = container.applicationConfig.ultrasound.requestCountPerDay
         super.init()
         onInit()
     }
@@ -73,26 +71,21 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     var examinationDescriptionController = DTextFieldController(isRequired: true)
     var additionalDataController = DTextFieldController()
     //
-    var neuralModelSettings: NeuralModelSettings
-    var availableRequestCount: Int
     var isLoading = false
     
     private func onInit() {
         cameraController.startSession()
-        if let usExaminationTypeId = self.container.usExaminationRepository.getSelectedUSExaminationTypeId(),
+        if let usExaminationTypeId = self.container.ultrasoundConclusionRepository.getSelectedExaminationTypeId(),
            let usExaminationType = self.container.usExaminationTypesById[usExaminationTypeId]
         {
             self.usExaminationType = usExaminationType
         }
 
-        let patientCount = self.container.usExaminationRepository.getConclusions().count
+        let patientCount = self.container.ultrasoundConclusionRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
         patientDateOfBirth = defaultPatientDateOfBirth
         patientHeightCMController.text = String(defaultPatientHeightCM)
         patientWeightKGController.text = String(defaultPatientWeightKG)
-        availableRequestCount = container.usExaminationRepository.remainingRequestCount(
-            limit: ultrasoundConfig.requestCountPerDay
-        )
     }
 
     var isPhotoFilling: Bool {
@@ -165,7 +158,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                         guard self.usExaminationType != usExaminationType else { return }
 
                         self.usExaminationType = usExaminationType
-                        self.container.usExaminationRepository.setSelectedUSExaminationTypeId(
+                        self.container.ultrasoundConclusionRepository.setSelectedExaminationTypeId(
                             id: usExaminationType.id
                         )
                     }
@@ -315,7 +308,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         }
     }
 
-    func onTapScan() {        
+    func onTapScan(ultrasoundViewModel: UltrasoundViewModel) {
         let isPatientNameValid = patientNameController.validate()
         let isPatientHeightCMValid = patientHeightCMController.validate()
         let isPatientWeightKGValid = patientWeightKGController.validate()
@@ -333,8 +326,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             return
         }
 
-        let usExaminationRepository: USExaminationRepositoryProtocol = container.usExaminationRepository
-        if availableRequestCount <= 0 {
+        if ultrasoundViewModel.availableRequestCount <= 0 {
             return router.push(
                 route: RouteSheet(
                     type: .scanRequestLimitExceeded
@@ -342,6 +334,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             )
         }
 
+        let neuralModelSettings = ultrasoundViewModel.neuralModelSettings
+        let ultrasoundConclusionRepository = container.ultrasoundConclusionRepository
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,
             photos: photos,
@@ -361,7 +355,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
 
         handle {
             self.isLoading = true
-            return try await usExaminationRepository.generateConclusion(
+            return try await ultrasoundConclusionRepository.generateConclusion(
                 locale: Locale.current,
                 request: request,
                 scanPhotoEncodingOptions: ScanPhotoEncodingOptions(
@@ -372,19 +366,16 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         } onDefer: {
             self.isLoading = false
         } onMainSuccess: { modelConclusion in
-            usExaminationRepository.incrementRequestCount()
-            self.availableRequestCount = usExaminationRepository.remainingRequestCount(
-                limit: self.ultrasoundConfig.requestCountPerDay
-            )
+            ultrasoundViewModel.incrementRequestCount()
             let conclusion = USExaminationConclusion(
                 date: Date(),
-                neuralModelSettings: self.neuralModelSettings,
+                neuralModelSettings: neuralModelSettings,
                 examinationData: examinationData,
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: []
             )
 
-            self.container.usExaminationRepository.setConclusion(
+            self.container.ultrasoundConclusionRepository.setConclusion(
                 conclusion: conclusion
             )
 
@@ -406,7 +397,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     private func reset() {
         sheetController.setHidden()
         photos.removeAll()
-        let patientCount = container.usExaminationRepository.getConclusions().count
+        let patientCount = container.ultrasoundConclusionRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
         patientGender = .male
         patientDateOfBirth = defaultPatientDateOfBirth

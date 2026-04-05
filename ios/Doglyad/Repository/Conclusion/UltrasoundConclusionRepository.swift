@@ -2,7 +2,7 @@ import DoglyadDatabase
 import DoglyadNetwork
 import Foundation
 
-final class USExaminationRepository: USExaminationRepositoryProtocol {
+final class UltrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol {
     let database: DDatabaseProtocol
     let httpClient: DHttpClientProtocol
 
@@ -15,14 +15,14 @@ final class USExaminationRepository: USExaminationRepositoryProtocol {
     }
 }
 
-// MARK: USExaminationType -
+// MARK: ExaminationType -
 
-extension USExaminationRepository {
-    func getSelectedUSExaminationTypeId() -> String? {
+extension UltrasoundConclusionRepository {
+    func getSelectedExaminationTypeId() -> String? {
         database.getSelectedUSExaminationTypeId()
     }
 
-    func setSelectedUSExaminationTypeId(
+    func setSelectedExaminationTypeId(
         id: String
     ) {
         database.setSelectedUSExaminationTypeId(
@@ -33,7 +33,7 @@ extension USExaminationRepository {
 
 // MARK: Conclusion -
 
-extension USExaminationRepository {
+extension UltrasoundConclusionRepository {
     static var conclusionEndpoint: String = "/ultrasound_conclusion"
 
     func generateConclusion(
@@ -42,7 +42,7 @@ extension USExaminationRepository {
         scanPhotoEncodingOptions: ScanPhotoEncodingOptions
     ) async throws -> USExaminationModelConclusion {
         try await httpClient.post(
-            endPoint: USExaminationRepository.conclusionEndpoint,
+            endPoint: UltrasoundConclusionRepository.conclusionEndpoint,
             body: request,
             headers: [
                 DHttpHeader.acceptLanguage: locale.identifier,
@@ -74,32 +74,9 @@ extension USExaminationRepository {
     }
 }
 
-// MARK: RequestLimit -
-
-extension USExaminationRepository {
-    @MainActor func remainingRequestCount(
-        limit: Int
-    ) -> Int {
-        guard let requestLimit = database.getRequestLimit(),
-              Calendar.current.isDateInToday(requestLimit.date)
-        else { return limit }
-        return max(limit - requestLimit.count, 0)
-    }
-
-    @MainActor func incrementRequestCount() {
-        if let requestLimit = database.getRequestLimit(),
-           Calendar.current.isDateInToday(requestLimit.date)
-        {
-            requestLimit.count += 1
-        } else {
-            database.setRequestLimit(value: RequestLimitDB(count: 1, date: Date()))
-        }
-    }
-}
-
 // MARK: Common -
 
-extension USExaminationRepository {
+extension UltrasoundConclusionRepository {
     @MainActor func clearAll() {
         database.clearAll()
     }

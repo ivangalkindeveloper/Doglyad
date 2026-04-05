@@ -20,7 +20,7 @@ final class SettingsViewModel {
     var conclusions: [USExaminationConclusion] = []
 
     private func load() {
-        let conclusions = container.usExaminationRepository.getConclusions()
+        let conclusions = container.ultrasoundConclusionRepository.getConclusions()
         self.conclusions = conclusions
     }
 

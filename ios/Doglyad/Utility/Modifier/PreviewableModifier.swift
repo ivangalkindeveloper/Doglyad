@@ -5,6 +5,7 @@ import SwiftUI
 private struct PreviewableModifier: ViewModifier {
     @ViewBuilder
     func body(content: Content) -> some View {
+        let container = DependencyContainer.previewable
         content
             .environmentObject(DRouter(initialRoute: RouteScreen(
                 type: .onBoarding,
@@ -12,8 +13,11 @@ private struct PreviewableModifier: ViewModifier {
             )))
             .dMessage()
             .dThemeWrapper()
-            .environment(DependencyContainer.previewable)
             .environment(ApplicationViewModel())
+            .environment(container)
+            .environment(UltrasoundViewModel(
+                container: container
+            ))
     }
 }
 

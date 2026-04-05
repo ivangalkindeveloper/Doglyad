@@ -20,7 +20,7 @@ final class HistoryViewModel {
     var conclusions: [USExaminationConclusion] = []
 
     private func onInit() {
-        let conclusions = container.usExaminationRepository.getConclusions()
+        let conclusions = container.ultrasoundConclusionRepository.getConclusions()
         self.conclusions = conclusions
     }
 

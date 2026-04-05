@@ -32,7 +32,7 @@ final class StorageViewModel {
                     onConfirm: { [weak self] in
                         guard let self = self else { return }
 
-                        self.container.usExaminationRepository.clearAllConclusions()
+                        self.container.ultrasoundConclusionRepository.clearAllConclusions()
                         self.messager.show(
                             type: .success,
                             title: .storageClearConclusionsSuccessMessageTitle,
@@ -53,7 +53,7 @@ final class StorageViewModel {
                     onConfirm: { [weak self] in
                         guard let self = self else { return }
 
-                        self.container.usExaminationRepository.clearAll()
+                        self.container.ultrasoundConclusionRepository.clearAll()
                         self.messager.show(
                             type: .success,
                             title: .storageClearAllSuccessMessageTitle,

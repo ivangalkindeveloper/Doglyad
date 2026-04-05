@@ -11,8 +11,8 @@ final class DependencyContainer {
     let connectionManager: ConnectionManagerProtocol
     let permissionManager: PermissionManagerProtocol
     let sharedRepository: SharedRepositoryProtocol
-    let modelRepository: ModelRepositoryProtocol
-    let usExaminationRepository: USExaminationRepositoryProtocol
+    let ultrasoundModelRepository: UltrasoundModelRepositoryProtocol
+    let ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol
     let applicationConfig: ApplicationConfig
     let examinationNeuralModel: DExaminationNeuralModelProtocol?
     let usExaminationTypes: [USExaminationType]
@@ -29,8 +29,8 @@ final class DependencyContainer {
         connectionManager: ConnectionManagerProtocol,
         permissionManager: PermissionManagerProtocol,
         sharedRepository: SharedRepositoryProtocol,
-        modelRepository: ModelRepositoryProtocol,
-        usExaminationRepository: USExaminationRepositoryProtocol,
+        ultrasoundModelRepository: UltrasoundModelRepositoryProtocol,
+        ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol,
         applicationConfig: ApplicationConfig,
         usExaminationTypes: [USExaminationType],
         usExaminationTypesById: [String: USExaminationType],
@@ -46,8 +46,8 @@ final class DependencyContainer {
         self.connectionManager = connectionManager
         self.permissionManager = permissionManager
         self.sharedRepository = sharedRepository
-        self.modelRepository = modelRepository
-        self.usExaminationRepository = usExaminationRepository
+        self.ultrasoundModelRepository = ultrasoundModelRepository
+        self.ultrasoundConclusionRepository = ultrasoundConclusionRepository
         self.applicationConfig = applicationConfig
         self.usExaminationTypes = usExaminationTypes
         self.usExaminationTypesById = usExaminationTypesById
@@ -93,10 +93,10 @@ extension DependencyContainer {
         let sharedRepository = SharedRepository(
             database: database
         )
-        let modelRepository = ModelRepository(
+        let ultrasoundModelRepository = UltrasoundModelRepository(
             database: database
         )
-        let usExaminationRepository = USExaminationRepository(
+        let ultrasoundConclusionRepository = UltrasoundConclusionRepository(
             database: database,
             httpClient: httpClient
         )
@@ -106,8 +106,8 @@ extension DependencyContainer {
             connectionManager: ConnectionManager(),
             permissionManager: PermissionManager(),
             sharedRepository: sharedRepository,
-            modelRepository: modelRepository,
-            usExaminationRepository: usExaminationRepository,
+            ultrasoundModelRepository: ultrasoundModelRepository,
+            ultrasoundConclusionRepository: ultrasoundConclusionRepository,
             applicationConfig: ApplicationConfig(
                 appStoreId: "",
                 actualVersion: Version(

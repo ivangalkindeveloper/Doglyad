@@ -87,7 +87,7 @@ final class OnBoardingViewModel {
                             guard let self = self else { return }
 
                             self.page = .fifth
-                            self.container.usExaminationRepository.setSelectedUSExaminationTypeId(
+                            self.container.ultrasoundConclusionRepository.setSelectedExaminationTypeId(
                                 id: type.id
                             )
                         }

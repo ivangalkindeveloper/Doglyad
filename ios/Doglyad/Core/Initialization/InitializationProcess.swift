@@ -14,8 +14,8 @@ final class InitializationProcess: DependencyInitializationProcess {
     var database: DDatabase?
     var httpClient: DHttpClientProtocol?
     var sharedRepository: SharedRepositoryProtocol?
-    var modelRepository: ModelRepositoryProtocol?
-    var usExaminationRepository: USExaminationRepositoryProtocol?
+    var ultrasoundModelRepository: UltrasoundModelRepositoryProtocol?
+    var ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol?
     var applicationConfig: ApplicationConfig?
     var usExaminationTypes: [USExaminationType]?
     var usExaminationTypesById: [String: USExaminationType]?
@@ -33,8 +33,8 @@ final class InitializationProcess: DependencyInitializationProcess {
             connectionManager: connectionManager!,
             permissionManager: permissionManager!,
             sharedRepository: sharedRepository!,
-            modelRepository: modelRepository!,
-            usExaminationRepository: usExaminationRepository!,
+            ultrasoundModelRepository: ultrasoundModelRepository!,
+            ultrasoundConclusionRepository: ultrasoundConclusionRepository!,
             applicationConfig: applicationConfig!,
             usExaminationTypes: usExaminationTypes!,
             usExaminationTypesById: usExaminationTypesById!,

@@ -9,10 +9,9 @@ struct ScanSheetModelSettingsCardView: View {
     private var typography: DTypography { theme.typography }
 
     @Environment(ScanViewModel.self) private var viewModel
+    @Environment(UltrasoundViewModel.self) private var ultrasoundViewModel
 
     var body: some View {
-        let settings = viewModel.neuralModelSettings
-        
         DText(.scanNeuralModelSettingsTitleLabel)
             .dStyle(
                 font: typography.textSmall,
@@ -28,23 +27,19 @@ struct ScanSheetModelSettingsCardView: View {
                 alignment: .leading,
                 spacing: size.s4
             ) {
-                if let modelId = settings.selectedNeuralModelId,
-                   let model = container.usExaminationNeuralModelsById[modelId]
-                {
-                    row(
-                        title: .scanNerualModelSettingsModelLabel,
-                        value: model.title
-                    )
-                }
+                row(
+                    title: .scanNerualModelSettingsModelLabel,
+                    value: ultrasoundViewModel.neuralModel.title
+                )
 
-                if let template = settings.template, !template.isEmpty {
+                if let template = ultrasoundViewModel.template, !template.isEmpty {
                     row(
                         title: .scanNeuralModelSettingsTemplateLabel,
                         value: template
                     )
                 }
 
-                if let responseLength = settings.responseLength {
+                if let responseLength = ultrasoundViewModel.responseLength {
                     row(
                         title: .scanNeuralModelSettingsResponseLengthLabel,
                         value: "\(responseLength)"
@@ -53,7 +48,7 @@ struct ScanSheetModelSettingsCardView: View {
 
                 row(
                     title: .scanNeuralModelSettingsAvailableRequestsLabel,
-                    value: "\(viewModel.availableRequestCount)"
+                    value: "\(ultrasoundViewModel.availableRequestCount)"
                 )
             }
             .frame(maxWidth: .infinity, alignment: .leading)
