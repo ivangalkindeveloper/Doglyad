@@ -55,6 +55,9 @@ extension InitializationProcess {
                     database: process.database!,
                     httpClient: process.httpClient!
                 )
+                process.templateRepository = TemplateRepository(
+                    database: process.database!
+                )
             }
         ),
         SyncInitializationStep<InitializationProcess>(

@@ -53,6 +53,24 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? NeuralModelScreenArguments
                 )
             )
+        case .templateList:
+            AnyView(
+                TemplateListScreen(
+                    arguments: route.arguments as? TemplateListScreenArguments
+                )
+            )
+        case .templateAdd:
+            AnyView(
+                TemplateAddScreen(
+                    arguments: route.arguments as? TemplateAddScreenArguments
+                )
+            )
+        case .templateEdit:
+            AnyView(
+                TemplateEditScreen(
+                    arguments: route.arguments as! TemplateEditScreenArguments
+                )
+            )
         case .storage:
             AnyView(
                 StorageScreen(

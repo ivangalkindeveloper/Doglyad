@@ -13,6 +13,7 @@ public final class DDatabase: DDatabaseProtocol {
             USExaminationScanPhotoDB.self,
             USExaminationModelConclusionDB.self,
             RequestLimitDB.self,
+            USExaminationTemplateDB.self,
         ])
         container = try ModelContainer(
             for: schema
@@ -80,6 +81,21 @@ public extension DDatabase {
             removeValue(.neuralModelResponseLength)
         }
     }
+
+    func getSelectedTemplateIdByExaminationType() -> [String: String] {
+        guard let data = defaults.data(forKey: DUserDefaultsKey.selectedTemplateIdByExaminationTypeMap.rawValue),
+              let decoded = try? JSONDecoder().decode([String: String].self, from: data)
+        else { return [:] }
+        return decoded
+    }
+
+    func setSelectedTemplateIdByExaminationType(value: [String: String]) {
+        if value.isEmpty {
+            removeValue(.selectedTemplateIdByExaminationTypeMap)
+        } else if let data = try? JSONEncoder().encode(value) {
+            defaults.set(data, forKey: DUserDefaultsKey.selectedTemplateIdByExaminationTypeMap.rawValue)
+        }
+    }
 }
 
 // MARK: USExaminationType -
@@ -103,6 +119,46 @@ public extension DDatabase {
 
     func setSelectedUSExaminationNeuralModelId(value: String) {
         setValue(value, .selectedUSExaminationNeuralModelId)
+    }
+}
+
+// MARK: USExaminationTemplate -
+
+public extension DDatabase {
+    @MainActor func getExaminationTemplates() -> [USExaminationTemplateDB] {
+        let descriptor = FetchDescriptor<USExaminationTemplateDB>(
+            sortBy: [SortDescriptor(\.usExaminationTypeId, order: .forward)]
+        )
+        return (try? container.mainContext.fetch(descriptor)) ?? []
+    }
+
+    @MainActor func upsertExaminationTemplate(
+        value: USExaminationTemplateDB
+    ) {
+        let id = value.id
+        let descriptor = FetchDescriptor<USExaminationTemplateDB>(
+            predicate: #Predicate<USExaminationTemplateDB> { $0.id == id }
+        )
+        if let existing = try? container.mainContext.fetch(descriptor).first {
+            existing.usExaminationTypeId = value.usExaminationTypeId
+            existing.content = value.content
+        } else {
+            container.mainContext.insert(value)
+        }
+    }
+
+    @MainActor func deleteExaminationTemplate(id: String) {
+        let descriptor = FetchDescriptor<USExaminationTemplateDB>(
+            predicate: #Predicate<USExaminationTemplateDB> { $0.id == id }
+        )
+        guard let item = try? container.mainContext.fetch(descriptor).first else { return }
+        container.mainContext.delete(item)
+    }
+
+    @MainActor func clearAllExaminationTemplates() {
+        for item in getExaminationTemplates() {
+            container.mainContext.delete(item)
+        }
     }
 }
 
@@ -174,6 +230,7 @@ public extension DDatabase {
         }
 
         clearAllExaminationConclusions()
+        clearAllExaminationTemplates()
         clearRequestLimit()
     }
 }

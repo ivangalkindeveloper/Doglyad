@@ -13,6 +13,7 @@ final class DependencyContainer {
     let sharedRepository: SharedRepositoryProtocol
     let ultrasoundModelRepository: UltrasoundModelRepositoryProtocol
     let ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol
+    let templateRepository: TemplateRepositoryProtocol
     let applicationConfig: ApplicationConfig
     let examinationNeuralModel: DExaminationNeuralModelProtocol?
     let usExaminationTypes: [USExaminationType]
@@ -31,6 +32,7 @@ final class DependencyContainer {
         sharedRepository: SharedRepositoryProtocol,
         ultrasoundModelRepository: UltrasoundModelRepositoryProtocol,
         ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol,
+        templateRepository: TemplateRepositoryProtocol,
         applicationConfig: ApplicationConfig,
         usExaminationTypes: [USExaminationType],
         usExaminationTypesById: [String: USExaminationType],
@@ -48,6 +50,7 @@ final class DependencyContainer {
         self.sharedRepository = sharedRepository
         self.ultrasoundModelRepository = ultrasoundModelRepository
         self.ultrasoundConclusionRepository = ultrasoundConclusionRepository
+        self.templateRepository = templateRepository
         self.applicationConfig = applicationConfig
         self.usExaminationTypes = usExaminationTypes
         self.usExaminationTypesById = usExaminationTypesById
@@ -100,6 +103,9 @@ extension DependencyContainer {
             database: database,
             httpClient: httpClient
         )
+        let templateRepository = TemplateRepository(
+            database: database
+        )
 
         return DependencyContainer(
             environment: environment,
@@ -108,6 +114,7 @@ extension DependencyContainer {
             sharedRepository: sharedRepository,
             ultrasoundModelRepository: ultrasoundModelRepository,
             ultrasoundConclusionRepository: ultrasoundConclusionRepository,
+            templateRepository: templateRepository,
             applicationConfig: ApplicationConfig(
                 appStoreId: "",
                 actualVersion: Version(

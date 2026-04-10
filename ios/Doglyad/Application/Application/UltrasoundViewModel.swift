@@ -19,6 +19,8 @@ final class UltrasoundViewModel {
         }
         self.template = settings.template
         self.responseLength = settings.responseLength
+        self.selectedTemplateIdByExaminationTypeId = container.templateRepository
+            .getSelectedTemplateIdByExaminationType()
         self.availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
             limit: container.applicationConfig.ultrasound.requestCountPerDay
         )
@@ -27,15 +29,8 @@ final class UltrasoundViewModel {
     var neuralModel: USExaminationNeuralModel
     var template: String?
     var responseLength: Int?
+    var selectedTemplateIdByExaminationTypeId: [String: String]
     var availableRequestCount: Int
-
-    var neuralModelSettings: NeuralModelSettings {
-        NeuralModelSettings(
-            selectedNeuralModelId: neuralModel.id,
-            template: template,
-            responseLength: responseLength
-        )
-    }
 
     func update(
         neuralModel: USExaminationNeuralModel,
@@ -53,5 +48,35 @@ final class UltrasoundViewModel {
         availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
             limit: container.applicationConfig.ultrasound.requestCountPerDay
         )
+    }
+
+    func saveTemplate(
+        _ template: USExaminationTemplate
+    ) {
+        container.templateRepository.saveTemplate(template)
+        container.templateRepository.setSelectedTemplateId(
+            template.id,
+            forExaminationTypeId: template.usExaminationType.id
+        )
+        syncTemplates()
+    }
+
+    func updateTemplate(
+        _ template: USExaminationTemplate
+    ) {
+        container.templateRepository.saveTemplate(template)
+        syncTemplates()
+    }
+
+    func deleteTemplate(
+        id: String
+    ) {
+        container.templateRepository.deleteTemplate(id: id)
+        syncTemplates()
+    }
+
+    private func syncTemplates() {
+        selectedTemplateIdByExaminationTypeId = container.templateRepository
+            .getSelectedTemplateIdByExaminationType()
     }
 }

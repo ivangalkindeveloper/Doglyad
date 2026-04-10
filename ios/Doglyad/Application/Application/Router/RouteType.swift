@@ -6,6 +6,9 @@ enum ScreenType: Hashable {
     case conclusion
     case settings
     case neuralModel
+    case templateList
+    case templateAdd
+    case templateEdit
     case storage
 }
 

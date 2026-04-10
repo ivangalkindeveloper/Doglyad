@@ -40,6 +40,14 @@ final class SettingsViewModel {
         )
     }
 
+    func onTapTemplates() {
+        router.push(
+            route: RouteScreen(
+                type: .templateList
+            )
+        )
+    }
+
     func onTapNeuralModel() {
         router.push(
             route: RouteScreen(

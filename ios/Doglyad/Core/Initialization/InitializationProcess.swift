@@ -16,6 +16,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var sharedRepository: SharedRepositoryProtocol?
     var ultrasoundModelRepository: UltrasoundModelRepositoryProtocol?
     var ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol?
+    var templateRepository: TemplateRepositoryProtocol?
     var applicationConfig: ApplicationConfig?
     var usExaminationTypes: [USExaminationType]?
     var usExaminationTypesById: [String: USExaminationType]?
@@ -35,6 +36,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             sharedRepository: sharedRepository!,
             ultrasoundModelRepository: ultrasoundModelRepository!,
             ultrasoundConclusionRepository: ultrasoundConclusionRepository!,
+            templateRepository: templateRepository!,
             applicationConfig: applicationConfig!,
             usExaminationTypes: usExaminationTypes!,
             usExaminationTypesById: usExaminationTypesById!,

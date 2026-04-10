@@ -27,6 +27,22 @@ public protocol DDatabaseProtocol: AnyObject {
 
     func setNeuralModelResponseLength(value: Int?)
 
+    func getSelectedTemplateIdByExaminationType() -> [String: String]
+
+    func setSelectedTemplateIdByExaminationType(value: [String: String])
+
+    // MARK: USExaminationTemplate -
+
+    @MainActor func getExaminationTemplates() -> [USExaminationTemplateDB]
+
+    @MainActor func upsertExaminationTemplate(
+        value: USExaminationTemplateDB
+    )
+
+    @MainActor func deleteExaminationTemplate(id: String)
+
+    @MainActor func clearAllExaminationTemplates()
+
     // MARK: ModelConclusion -
 
     @MainActor func getExaminationConclusions() -> [USExaminationConclusionDB]
