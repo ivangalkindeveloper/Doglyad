@@ -28,7 +28,7 @@ final class UltrasoundViewModel {
         if let responseLength = ultrasoundModelRepository.getResponseLength() {
             self.responseLength = responseLength
         } else {
-            self.responseLength = ultrasoundConfig.defalultNeuralModelResponseLength
+            self.responseLength = ultrasoundConfig.defaultNeuralModelResponseLength
         }
         
         self.selectedTemplateIdByExaminationTypeId = container.templateRepository
@@ -75,9 +75,11 @@ final class UltrasoundViewModel {
     func saveTemplate(
         _ template: USExaminationTemplate
     ) {
-        container.templateRepository.saveTemplate(template)
+        container.templateRepository.saveTemplate(
+            template: template
+        )
         container.templateRepository.setSelectedTemplateId(
-            template.id,
+            id: template.id,
             forExaminationTypeId: template.usExaminationType.id
         )
         syncTemplates()
@@ -86,12 +88,14 @@ final class UltrasoundViewModel {
     func updateTemplate(
         _ template: USExaminationTemplate
     ) {
-        container.templateRepository.saveTemplate(template)
+        container.templateRepository.saveTemplate(
+            template: template
+        )
         syncTemplates()
     }
 
     func deleteTemplate(
-        id: String
+        id: UUID
     ) {
         container.templateRepository.deleteTemplate(id: id)
         syncTemplates()

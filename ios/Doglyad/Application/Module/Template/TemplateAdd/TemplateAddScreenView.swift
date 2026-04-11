@@ -9,55 +9,85 @@ struct TemplateAddScreenView: View {
     private var typography: DTypography { theme.typography }
 
     @State var viewModel: TemplateAddViewModel
-
+    @FocusState private var focus: TemplateAddViewModel.Focus?
+    
     var body: some View {
         DScreen(
             title: .templateAddTitle,
-            onTapBack: viewModel.onTapBack
-        ) { toolbarInset in
-            ScrollView(
-                showsIndicators: false
-            ) {
-                VStack(
-                    alignment: .leading,
-                    spacing: .zero
+            onTapBack: viewModel.onTapBack,
+            onTapBody: viewModel.unfocus,
+            content: { toolbarInset in
+                ScrollView(
+                    showsIndicators: false
                 ) {
-                    DListButtonCard(
-                        title: .templateExaminationTypeLabel,
-                        description: viewModel.usExaminationType.getLocalizedTitle(for: Locale.current),
-                        action: viewModel.onTapExaminationType
-                    )
-                    .padding(.bottom, size.s4)
-
-                    DTextField(
-                        controller: viewModel.templateController,
-                        title: .templateContentLabel,
-                        placeholder: .templateContentPlaceholder,
-                        sumbitLabel: .done
-                    )
-                    .padding(.bottom, size.s4)
-
-                    DText(.templateContentDescription)
-                        .dStyle(
-                            font: typography.textXSmall,
-                            color: color.grayscalePlacehold
+                    VStack(
+                        alignment: .leading,
+                        spacing: .zero
+                    ) {
+                        DListButtonCard(
+                            title: .templateExaminationTypeLabel,
+                            description: viewModel.usExaminationType.getLocalizedTitle(for: Locale.current),
+                            action: viewModel.onTapExaminationType
                         )
-                        .padding(.horizontal, size.s8)
-                        .padding(.bottom, size.s32)
+                        .padding(.bottom, size.s4)
 
-                    DButton(
-                        title: .buttonSave,
-                        action: {
-                            viewModel.onTapSave(ultrasoundViewModel: ultrasoundViewModel)
-                        }
-                    )
-                    .dStyle(.primaryButton)
+                        DTextField(
+                            controller: viewModel.templateController,
+                            focus: DTextFieldFocus(
+                                value: .content,
+                                state: $focus
+                            ),
+                            title: .templateContentLabel,
+                            placeholder: .templateContentPlaceholder,
+                            sumbitLabel: .done
+                        )
+                        .padding(.bottom, size.s16)
+
+                        DText(.templateContentDescription)
+                            .dStyle(
+                                font: typography.textXSmall,
+                                color: color.grayscalePlacehold
+                            )
+                            .padding(.bottom, size.s4)
+                        
+                        DText(.templateExampleDescription)
+                            .dStyle(
+                                font: typography.textXSmall,
+                                color: color.grayscalePlacehold
+                            )
+                            .padding(size.s8)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(color.grayscaleInput.opacity(0.6))
+                            .cornerRadius(size.s12)
+                            .padding(.bottom, size.s16)
+                    }
+                    .padding(size.s16)
+                    .padding(.top, toolbarInset)
+                    .padding(.bottom, size.s32)
                 }
+                .scrollDismissesKeyboard(.interactively)
+            },
+            bottom: {
+                DButton(
+                    title: .buttonSave,
+                    action: {
+                        viewModel.onTapSave(ultrasoundViewModel: ultrasoundViewModel)
+                    }
+                )
+                .dStyle(.primaryButton)
                 .padding(size.s16)
-                .padding(.top, toolbarInset)
-                .padding(.bottom, size.s32)
             }
-            .scrollDismissesKeyboard(.interactively)
+        )
+        .onSubmit {
+            viewModel.onSubmit()
+        }
+        .onChange(of: focus, initial: true) { _, newValue in
+            guard viewModel.focus != newValue else { return }
+            viewModel.focus = newValue
+        }
+        .onChange(of: viewModel.focus, initial: true) { _, newValue in
+            guard focus != newValue else { return }
+            focus = newValue
         }
         .environment(viewModel)
     }

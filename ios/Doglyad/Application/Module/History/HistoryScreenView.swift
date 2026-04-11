@@ -18,6 +18,7 @@ struct HistoryScreenView: View {
                 showsIndicators: false
             ) {
                 VStack(
+                    alignment: .leading,
                     spacing: .zero
                 ) {
                     if viewModel.conclusions.isEmpty {

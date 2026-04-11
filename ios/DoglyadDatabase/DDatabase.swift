@@ -152,7 +152,7 @@ public extension DDatabase {
         }
     }
 
-    @MainActor func deleteExaminationTemplate(id: String) {
+    @MainActor func deleteExaminationTemplate(id: UUID) {
         let descriptor = FetchDescriptor<USExaminationTemplateDB>(
             predicate: #Predicate<USExaminationTemplateDB> { $0.id == id }
         )

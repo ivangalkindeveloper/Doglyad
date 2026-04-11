@@ -23,7 +23,7 @@ struct TemplateEditScreen: View {
 #Preview {
     TemplateEditScreen(
         arguments: TemplateEditScreenArguments(
-            templateId: ""
+            templateId: UUID()
         )
     )
     .previewable()

@@ -79,9 +79,6 @@ struct ScanScreenView: View {
                 .ignoresSafeArea(.keyboard)
             }
         )
-        .onTapGesture {
-            viewModel.unfocus()
-        }
         .onSubmit {
             viewModel.onSubmit()
         }

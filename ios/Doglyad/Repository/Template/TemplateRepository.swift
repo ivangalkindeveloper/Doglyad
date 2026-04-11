@@ -15,35 +15,29 @@ final class TemplateRepository: TemplateRepositoryProtocol {
     ) -> [USExaminationTemplate] {
         database.getExaminationTemplates().compactMap { db in
             guard let type = usExaminationTypesById[db.usExaminationTypeId] else { return nil }
-            return USExaminationTemplate(
-                id: db.id,
-                usExaminationType: type,
-                content: db.content
-            )
+            return USExaminationTemplate.fromDB(db, usExaminationType: type)
         }
     }
 
     @MainActor func getTemplate(
-        id: String,
+        id: UUID,
         usExaminationTypesById: [String: USExaminationType]
     ) -> USExaminationTemplate? {
         getTemplates(usExaminationTypesById: usExaminationTypesById).first { $0.id == id }
     }
 
-    @MainActor func saveTemplate(_ template: USExaminationTemplate) {
-        database.upsertExaminationTemplate(
-            value: USExaminationTemplateDB(
-                id: template.id,
-                usExaminationTypeId: template.usExaminationType.id,
-                content: template.content
-            )
-        )
+    @MainActor func saveTemplate(
+        template: USExaminationTemplate
+    ) {
+        database.upsertExaminationTemplate(value: template.toDB())
     }
 
-    @MainActor func deleteTemplate(id: String) {
+    @MainActor func deleteTemplate(
+        id: UUID
+    ) {
         database.deleteExaminationTemplate(id: id)
         var map = database.getSelectedTemplateIdByExaminationType()
-        for (examinationTypeId, templateId) in map where templateId == id {
+        for (examinationTypeId, templateId) in map where templateId == id.uuidString {
             map.removeValue(forKey: examinationTypeId)
         }
         database.setSelectedTemplateIdByExaminationType(value: map)
@@ -53,10 +47,13 @@ final class TemplateRepository: TemplateRepositoryProtocol {
         database.getSelectedTemplateIdByExaminationType()
     }
 
-    func setSelectedTemplateId(_ templateId: String?, forExaminationTypeId: String) {
+    func setSelectedTemplateId(
+        id: UUID?,
+        forExaminationTypeId: String
+    ) {
         var map = database.getSelectedTemplateIdByExaminationType()
-        if let templateId {
-            map[forExaminationTypeId] = templateId
+        if let id {
+            map[forExaminationTypeId] = id.uuidString
         } else {
             map.removeValue(forKey: forExaminationTypeId)
         }

@@ -4,7 +4,7 @@ public enum DScreenToolbarType {
     case solid, blur
 }
 
-public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>: View {
+public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View, Bottom: View>: View {
     @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -22,6 +22,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
     let trailing: Trailing
     let onTapBody: (() -> Void)?
     let content: (CGFloat) -> Content
+    let bottom: (() -> Bottom)?
 
     public init(
         toolbarType: DScreenToolbarType = .solid,
@@ -34,6 +35,32 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
         @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
         onTapBody: (() -> Void)? = nil,
         @ViewBuilder content: @escaping (CGFloat) -> Content
+    ) where Bottom == EmptyView {
+        self.toolbarType = toolbarType
+        self.title = title
+        self.subTitle = subTitle
+        self.backgroundColor = backgroundColor
+        self.onTapBack = onTapBack
+        self.leading = leading()
+        self.titleContent = titleContent()
+        self.trailing = trailing()
+        self.onTapBody = onTapBody
+        self.content = content
+        bottom = nil
+    }
+
+    public init(
+        toolbarType: DScreenToolbarType = .solid,
+        title: LocalizedStringResource? = nil,
+        subTitle: String? = nil,
+        backgroundColor: Color? = nil,
+        onTapBack: (() -> Void)? = nil,
+        @ViewBuilder leading: @escaping (() -> Leading) = { EmptyView() },
+        @ViewBuilder titleContent: @escaping (() -> Title) = { EmptyView() },
+        @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
+        onTapBody: (() -> Void)? = nil,
+        @ViewBuilder content: @escaping (CGFloat) -> Content,
+        @ViewBuilder bottom: @escaping () -> Bottom
     ) {
         self.toolbarType = toolbarType
         self.title = title
@@ -45,6 +72,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
         self.trailing = trailing()
         self.onTapBody = onTapBody
         self.content = content
+        self.bottom = bottom
     }
 
     public var body: some View {
@@ -55,7 +83,32 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
                 ZStack(
                     alignment: .top
                 ) {
-                    bodyView(toolbarHeight - safeAreaInsetTop)
+                    ZStack(
+                        alignment: .bottom
+                    ) {
+                        bodyView(toolbarHeight - safeAreaInsetTop)
+                            .safeAreaPadding(.bottom)
+
+                            if let bottom = self.bottom?() {
+                                bottom
+                                    .padding(.vertical, size.adaptiveCornerRadius / 6)
+                                    .frame(maxWidth: .infinity)
+                                    .safeAreaPadding(.bottom)
+                                    .background(
+                                        Rectangle()
+                                            .fill(.ultraThinMaterial)
+                                            .clipShape(
+                                                DRoundedCorner(
+                                                    radius: size.adaptiveCornerRadius,
+                                                    corners: [.topLeft, .topRight]
+                                                )
+                                            )
+                                    )
+                                    .transition(.move(edge: .bottom))
+                            }
+                    }
+                    .edgesIgnoringSafeArea(.bottom)
+                    
                     if isShowsToolbar {
                         toolbarView(safeAreaInsetTop)
                             .onPreferenceChange(ToolbarHeightPreferenceKey.self) { value in
@@ -92,14 +145,9 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View>
     private func bodyView(
         _ toolbarHeight: CGFloat
     ) -> some View {
-        ZStack {
-            if let onTapBody = onTapBody {
-                Color.clear
-                    .onTapGesture { onTapBody() }
-            }
-            content(toolbarHeight)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        content(toolbarHeight)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onTapGesture { onTapBody?() }
     }
 
     private func toolbarView(

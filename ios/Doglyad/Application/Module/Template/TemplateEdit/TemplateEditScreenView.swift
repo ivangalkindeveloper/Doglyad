@@ -9,42 +9,68 @@ struct TemplateEditScreenView: View {
     private var typography: DTypography { theme.typography }
 
     @State var viewModel: TemplateEditViewModel
-
+    @FocusState private var focus: TemplateAddViewModel.Focus?
+    
     var body: some View {
         DScreen(
             title: .templateEditTitle,
-            onTapBack: viewModel.onTapBack
-        ) { toolbarInset in
-            ScrollView(
-                showsIndicators: false
-            ) {
-                VStack(
-                    alignment: .leading,
-                    spacing: .zero
+            onTapBack: viewModel.onTapBack,
+            onTapBody: viewModel.unfocus,
+            content: { toolbarInset in
+                ScrollView(
+                    showsIndicators: false
                 ) {
-                    DListButtonCard(
-                        title: .templateExaminationTypeLabel,
-                        description: viewModel.usExaminationType.getLocalizedTitle(for: Locale.current),
-                        action: viewModel.onTapExaminationType
-                    )
-                    .padding(.bottom, size.s4)
-
-                    DTextField(
-                        controller: viewModel.templateController,
-                        title: .templateContentLabel,
-                        placeholder: .templateContentPlaceholder,
-                        sumbitLabel: .done
-                    )
-                    .padding(.bottom, size.s4)
-
-                    DText(.templateContentDescription)
-                        .dStyle(
-                            font: typography.textXSmall,
-                            color: color.grayscalePlacehold
+                    VStack(
+                        alignment: .leading,
+                        spacing: .zero
+                    ) {
+                        DListButtonCard(
+                            title: .templateExaminationTypeLabel,
+                            description: viewModel.usExaminationType.getLocalizedTitle(for: Locale.current),
+                            action: viewModel.onTapExaminationType
                         )
-                        .padding(.horizontal, size.s8)
+                        .padding(.bottom, size.s4)
+
+                        DTextField(
+                            controller: viewModel.templateController,
+                            focus: DTextFieldFocus(
+                                value: .content,
+                                state: $focus
+                            ),
+                            title: .templateContentLabel,
+                            placeholder: .templateContentPlaceholder,
+                            sumbitLabel: .done
+                        )
                         .padding(.bottom, size.s16)
 
+                        DText(.templateContentDescription)
+                            .dStyle(
+                                font: typography.textXSmall,
+                                color: color.grayscalePlacehold
+                            )
+                            .padding(.bottom, size.s4)
+                        
+                        DText(.templateExampleDescription)
+                            .dStyle(
+                                font: typography.textXSmall,
+                                color: color.grayscalePlacehold
+                            )
+                            .padding(size.s8)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(color.grayscaleInput.opacity(0.6))
+                            .cornerRadius(size.s12)
+                            .padding(.bottom, size.s16)
+                    }
+                    .padding(size.s16)
+                    .padding(.top, toolbarInset)
+                    .padding(.bottom, size.s32)
+                }
+                .scrollDismissesKeyboard(.interactively)
+            },
+            bottom: {
+                VStack(
+                    spacing: .zero,
+                ) {
                     DButton(
                         title: .buttonSave,
                         action: {
@@ -53,7 +79,7 @@ struct TemplateEditScreenView: View {
                     )
                     .dStyle(.primaryButton)
                     .padding(.bottom, size.s8)
-
+                    
                     DButton(
                         title: .templateDeleteButton,
                         action: {
@@ -63,11 +89,8 @@ struct TemplateEditScreenView: View {
                     .dStyle(.card)
                 }
                 .padding(size.s16)
-                .padding(.top, toolbarInset)
-                .padding(.bottom, size.s32)
             }
-            .scrollDismissesKeyboard(.interactively)
-        }
+        )
         .environment(viewModel)
     }
 }

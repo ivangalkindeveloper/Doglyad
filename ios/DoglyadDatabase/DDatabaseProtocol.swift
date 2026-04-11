@@ -1,3 +1,5 @@
+import Foundation
+
 public protocol DDatabaseProtocol: AnyObject {
     // MARK: OnBoarding -
 
@@ -45,7 +47,7 @@ public protocol DDatabaseProtocol: AnyObject {
         value: USExaminationTemplateDB
     )
 
-    @MainActor func deleteExaminationTemplate(id: String)
+    @MainActor func deleteExaminationTemplate(id: UUID)
 
     @MainActor func clearAllExaminationTemplates()
 

@@ -1,9 +1,12 @@
+import Foundation
 import Router
 
 final class TemplateEditScreenArguments: RouteArgumentsProtocol {
-    let templateId: String
+    let templateId: UUID
 
-    init(templateId: String) {
+    init(
+        templateId: UUID
+    ) {
         self.templateId = templateId
     }
 }

@@ -325,7 +325,9 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         else {
             return
         }
-
+        
+        unfocus()
+        
         if ultrasoundViewModel.availableRequestCount <= 0 {
             return router.push(
                 route: RouteSheet(

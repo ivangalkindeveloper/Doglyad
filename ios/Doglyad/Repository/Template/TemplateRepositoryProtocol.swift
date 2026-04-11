@@ -6,15 +6,15 @@ protocol TemplateRepositoryProtocol: AnyObject {
     ) -> [USExaminationTemplate]
 
     @MainActor func getTemplate(
-        id: String,
+        id: UUID,
         usExaminationTypesById: [String: USExaminationType]
     ) -> USExaminationTemplate?
 
-    @MainActor func saveTemplate(_ template: USExaminationTemplate)
+    @MainActor func saveTemplate(template: USExaminationTemplate)
 
-    @MainActor func deleteTemplate(id: String)
+    @MainActor func deleteTemplate(id: UUID)
 
     @MainActor func getSelectedTemplateIdByExaminationType() -> [String: String]
 
-    @MainActor func setSelectedTemplateId(_ templateId: String?, forExaminationTypeId: String)
+    @MainActor func setSelectedTemplateId(id: UUID?, forExaminationTypeId: String)
 }

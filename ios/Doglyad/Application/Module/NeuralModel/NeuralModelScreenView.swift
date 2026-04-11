@@ -23,11 +23,9 @@ struct NeuralModelScreenView: View {
                     spacing: .zero
                 ) {
                     DListButtonCard(
-                        title: LocalizedStringResource(
-                            stringLiteral: viewModel.usExaminationNeuralModel.title
-                        ),
+                        title: .neuralModeModelLabel,
                         description: LocalizedStringResource(
-                            stringLiteral: viewModel.usExaminationNeuralModel.id
+                            stringLiteral: viewModel.usExaminationNeuralModel.title
                         ),
                         action: viewModel.onTapNeuralModel
                     )

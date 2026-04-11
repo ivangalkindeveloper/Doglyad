@@ -12,52 +12,54 @@ struct TemplateListScreenView: View {
     var body: some View {
         DScreen(
             title: .templateListTitle,
-            onTapBack: viewModel.onTapBack
-        ) { toolbarInset in
-            ScrollView(
-                showsIndicators: false
-            ) {
-                VStack(
-                    alignment: .leading,
-                    spacing: .zero
+            onTapBack: viewModel.onTapBack,
+            content: { toolbarInset in
+                ZStack(
+                    alignment: .bottom,
                 ) {
-                    if viewModel.templates.isEmpty {
-                        DText(.templateListEmptyDescription)
-                            .dStyle(
-                                font: typography.textSmall,
-                                color: color.grayscalePlacehold
-                            )
-                            .padding(.bottom, size.s16)
-                    } else {
+                    ScrollView(
+                        showsIndicators: false
+                    ) {
                         VStack(
-                            spacing: size.s4
+                            alignment: .leading,
+                            spacing: .zero
                         ) {
-                            ForEach(viewModel.templates) { template in
-                                DListButtonCard(
-                                    title: template.usExaminationType.getLocalizedTitle(for: Locale.current),
-                                    description: LocalizedStringResource(
-                                        stringLiteral: template.content
-                                    ),
-                                    action: {
-                                        viewModel.onTapTemplate(template)
+                            if viewModel.templates.isEmpty {
+                                TemplateListEmptyView()
+                            } else {
+                                VStack(
+                                    spacing: size.s4
+                                ) {
+                                    ForEach(viewModel.templates) { template in
+                                        DListButtonCard(
+                                            title: template.usExaminationType.getLocalizedTitle(for: Locale.current),
+                                            description: LocalizedStringResource(
+                                                stringLiteral: template.content
+                                            ),
+                                            action: {
+                                                viewModel.onTapTemplate(template)
+                                            }
+                                        )
                                     }
-                                )
+                                }
+                                .padding(.bottom, size.s16)
                             }
                         }
-                        .padding(.bottom, size.s16)
+                        .padding(size.s16)
+                        .padding(.top, toolbarInset)
+                        .padding(.bottom, size.s64)
                     }
-
-                    DButton(
-                        title: .templateListAddButton,
-                        action: viewModel.onTapAdd
-                    )
-                    .dStyle(.primaryButton)
                 }
+            },
+            bottom: {
+                DButton(
+                    title: .templateListAddButton,
+                    action: viewModel.onTapAdd
+                )
+                .dStyle(.primaryButton)
                 .padding(size.s16)
-                .padding(.top, toolbarInset)
-                .padding(.bottom, size.s32)
             }
-        }
+        )
         .onAppear {
             viewModel.load()
         }

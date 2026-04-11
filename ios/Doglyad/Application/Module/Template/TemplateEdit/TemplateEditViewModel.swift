@@ -6,10 +6,14 @@ import SwiftUI
 @MainActor
 @Observable
 final class TemplateEditViewModel {
+    enum Focus: Hashable {
+        case content
+    }
+    
     private let container: DependencyContainer
     private let router: DRouter
     private let messager: DMessager
-    private let templateId: String
+    private let arguments: TemplateEditScreenArguments
 
     init(
         container: DependencyContainer,
@@ -20,8 +24,9 @@ final class TemplateEditViewModel {
         self.container = container
         self.router = router
         self.messager = messager
-        self.templateId = arguments.templateId
+        self.arguments = arguments
         self.usExaminationType = container.usExaminationTypeDefault
+        
         if let template = container.templateRepository.getTemplate(
             id: arguments.templateId,
             usExaminationTypesById: container.usExaminationTypesById
@@ -31,11 +36,23 @@ final class TemplateEditViewModel {
         }
     }
 
+    var focus: Focus? = nil
     var usExaminationType: USExaminationType
     var templateController = DTextFieldController()
 
     func onTapBack() {
         router.pop()
+    }
+    
+    func unfocus() {
+        focus = nil
+    }
+    
+    func onSubmit() {
+        switch focus {
+        case .content, .none:
+            focus = nil
+        }
     }
 
     func onTapExaminationType() {
@@ -55,16 +72,18 @@ final class TemplateEditViewModel {
     func onTapSave(
         ultrasoundViewModel: UltrasoundViewModel
     ) {
-        let content = templateController.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !content.isEmpty else {
+        let isContentValid = templateController.validate()
+        guard isContentValid else {
             templateController.showError(
                 text: String(localized: .templateAddEmptyContentError)
             )
             return
         }
-
+        
+        unfocus()
+        
+        let content = templateController.text
         let template = USExaminationTemplate(
-            id: templateId,
             usExaminationType: usExaminationType,
             content: content
         )
@@ -80,7 +99,9 @@ final class TemplateEditViewModel {
     func onTapDelete(
         ultrasoundViewModel: UltrasoundViewModel
     ) {
-        ultrasoundViewModel.deleteTemplate(id: templateId)
+        ultrasoundViewModel.deleteTemplate(
+            id: arguments.templateId
+        )
         messager.show(
             type: .success,
             title: .templateDeletedSuccessTitle,
