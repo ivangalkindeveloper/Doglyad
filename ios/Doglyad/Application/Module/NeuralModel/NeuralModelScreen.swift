@@ -12,14 +12,16 @@ struct NeuralModelScreen: View {
         NeuralModelScreenView(
             viewModel: NeuralModelViewModel(
                 initialNeuralModel: ultrasoundViewModel.neuralModel,
-                initialTemplate: ultrasoundViewModel.template,
+                initialTemperature: ultrasoundViewModel.temperature,
                 initialResponseLength: ultrasoundViewModel.responseLength,
                 messager: messager,
                 router: router,
-                onSave: { [ultrasoundViewModel] neuralModel, template, responseLength in
-                    ultrasoundViewModel.update(
-                        neuralModel: neuralModel,
-                        template: template,
+                onNeuralModelSelected: { [ultrasoundViewModel] model in
+                    ultrasoundViewModel.saveNeuralModel(model)
+                },
+                onSettingsSaved: { [ultrasoundViewModel] temperature, responseLength in
+                    ultrasoundViewModel.saveNeuralModelSettings(
+                        temperature: temperature,
                         responseLength: responseLength
                     )
                 }

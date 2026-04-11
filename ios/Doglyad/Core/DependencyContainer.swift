@@ -123,6 +123,8 @@ extension DependencyContainer {
                     patch: 0,
                 ),
                 ultrasound: UltrasoundConfig(
+                    defaultNeuralModelTemperature: 0.2,
+                    defalultNeuralModelResponseLength: 512,
                     requestCountPerDay: 10,
                     scanPhotoMaxNumber: 0,
                     scanPhotoResizeMaxDimension: 0,

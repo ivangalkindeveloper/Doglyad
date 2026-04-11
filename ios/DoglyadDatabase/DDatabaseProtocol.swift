@@ -11,27 +11,33 @@ public protocol DDatabaseProtocol: AnyObject {
 
     func setSelectedUSExaminationTypeId(value: String)
 
-    // MARK: USExaminationNeuralModel -
+    // MARK: Neural model -
 
     func getSelectedUSExaminationNeuralModelId() -> String?
 
     func setSelectedUSExaminationNeuralModelId(value: String)
 
-    // MARK: NeuralModelSettings -
+    func getNeuralModelTemperature() -> Double?
 
-    func getNeuralModelResponseTemplate() -> String?
-
-    func setNeuralModelResponseTemplate(value: String?)
+    func setNeuralModelTemperature(value: Double?)
 
     func getNeuralModelResponseLength() -> Int?
 
     func setNeuralModelResponseLength(value: Int?)
+    
+    // MARK: RequestLimit -
+
+    @MainActor func getRequestLimit() -> RequestLimitDB?
+
+    @MainActor func setRequestLimit(value: RequestLimitDB)
+
+    @MainActor func clearRequestLimit()
+
+    // MARK: USExaminationTemplate -
 
     func getSelectedTemplateIdByExaminationType() -> [String: String]
 
     func setSelectedTemplateIdByExaminationType(value: [String: String])
-
-    // MARK: USExaminationTemplate -
 
     @MainActor func getExaminationTemplates() -> [USExaminationTemplateDB]
 
@@ -56,14 +62,6 @@ public protocol DDatabaseProtocol: AnyObject {
     )
 
     @MainActor func clearAllExaminationConclusions()
-
-    // MARK: RequestLimit -
-
-    @MainActor func getRequestLimit() -> RequestLimitDB?
-
-    @MainActor func setRequestLimit(value: RequestLimitDB)
-
-    @MainActor func clearRequestLimit()
 
     // MARK: Clear -
 

@@ -3,15 +3,15 @@ protocol UltrasoundModelRepositoryProtocol: AnyObject {
 
     func getSelectedModelId() -> String?
 
-    func setSelectedModelId(
-        id: String
-    )
+    func setSelectedModelId(id: String)
 
-    // MARK: Settings -
+    func getTemperature() -> Double?
 
-    func getSettings() -> NeuralModelSettings
+    func setTemperature(_ value: Double?)
 
-    func setSettings(settings: NeuralModelSettings)
+    func getResponseLength() -> Int?
+
+    func setResponseLength(_ value: Int?)
 
     // MARK: RequestLimit -
 

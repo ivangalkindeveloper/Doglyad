@@ -34,6 +34,11 @@ private extension DDatabase {
         defaults.object(forKey: key.rawValue) as? Int
     }
 
+    func getDouble(_ key: DUserDefaultsKey) -> Double? {
+        guard defaults.object(forKey: key.rawValue) != nil else { return nil }
+        return defaults.double(forKey: key.rawValue)
+    }
+
     func setValue<T>(_ value: T, _ key: DUserDefaultsKey) -> Void {
         defaults.set(value, forKey: key.rawValue)
     }
@@ -58,15 +63,15 @@ public extension DDatabase {
 // MARK: NeuralModelSettings -
 
 public extension DDatabase {
-    func getNeuralModelResponseTemplate() -> String? {
-        getString(.neuralModelResponseTemplate)
+    func getNeuralModelTemperature() -> Double? {
+        getDouble(.neuralModelTemperature)
     }
 
-    func setNeuralModelResponseTemplate(value: String?) {
+    func setNeuralModelTemperature(value: Double?) {
         if let value {
-            setValue(value, .neuralModelResponseTemplate)
+            setValue(value, .neuralModelTemperature)
         } else {
-            removeValue(.neuralModelResponseTemplate)
+            removeValue(.neuralModelTemperature)
         }
     }
 

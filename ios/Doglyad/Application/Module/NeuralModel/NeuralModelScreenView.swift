@@ -34,34 +34,23 @@ struct NeuralModelScreenView: View {
                     .padding(.bottom, size.s4)
 
                     DTextField(
-                        controller: viewModel.templateController,
+                        controller: viewModel.temperatureController,
                         focus: DTextFieldFocus(
-                            value: .template,
+                            value: .temperature,
                             state: $focus
                         ),
-                        title: .neuralModelTemplateLabel,
-                        placeholder: .neuralModelTemplatePlaceholder,
+                        title: .neuralModelTemperatureLabel,
+                        placeholder: .neuralModelTemperaturePlaceholder,
+                        keyboardType: .decimalPad,
                         sumbitLabel: .next
                     )
                     .padding(.bottom, size.s4)
 
-                    DText(.neuralModelTemplateDescription)
+                    DText(.neuralModelTemperatureDescription)
                         .dStyle(
                             font: typography.textXSmall,
                             color: color.grayscalePlacehold
                         )
-                        .padding(.horizontal, size.s8)
-                        .padding(.bottom, size.s4)
-
-                    DText(.neuralModelTemplateExampleDescription)
-                        .dStyle(
-                            font: typography.textXSmall,
-                            color: color.grayscalePlacehold
-                        )
-                        .padding(size.s8)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(color.grayscaleInput.opacity(0.6))
-                        .cornerRadius(size.s12)
                         .padding(.horizontal, size.s8)
                         .padding(.bottom, size.s16)
 

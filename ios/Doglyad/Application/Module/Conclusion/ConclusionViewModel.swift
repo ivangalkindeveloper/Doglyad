@@ -57,7 +57,12 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     func onTapRepeatScan(
         proxy: ScrollViewProxy
     ) {
-        let neuralModelSettings = container.ultrasoundModelRepository.getSettings()
+        let ultrasoundModelRepository = container.ultrasoundModelRepository
+        let neuralModelSettings = NeuralModelSettings(
+            selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),
+            temperature: ultrasoundModelRepository.getTemperature(),
+            responseLength: ultrasoundModelRepository.getResponseLength()
+        )
         let request = USExaminationRequest(
             neuralModelSettings: neuralModelSettings,
             examinationData: conclusion.examinationData

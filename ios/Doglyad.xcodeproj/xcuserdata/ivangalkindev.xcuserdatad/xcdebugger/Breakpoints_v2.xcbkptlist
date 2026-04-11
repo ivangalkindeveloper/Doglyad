@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "268344AB-6A61-4330-8142-0F5C73BC6218"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "asyncSteps"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9 - 42d7d4bf495989d2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for closure #2 @Sendable (Doglyad.InitializationProcess) async throws -&gt; () in variable initialization expression of static Doglyad.InitializationProcess.asyncSteps : Swift.Array&lt;DependencyInitializer.AsyncInitializationStep&lt;Doglyad.InitializationProcess&gt;&gt;"
+                  moduleName = "Doglyad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkindev/Doglyad/Doglyad/ios/Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9 - b963774ad6974bed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(8) suspend resume partial function for closure #2 @Sendable (Doglyad.InitializationProcess) async throws -&gt; () in variable initialization expression of static Doglyad.InitializationProcess.asyncSteps : Swift.Array&lt;DependencyInitializer.AsyncInitializationStep&lt;Doglyad.InitializationProcess&gt;&gt;"
+                  moduleName = "Doglyad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkindev/Doglyad/Doglyad/ios/Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9 - ef8f166654ce0dfc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for closure #2 @Sendable (Doglyad.InitializationProcess) async throws -&gt; () in variable initialization expression of static Doglyad.InitializationProcess.asyncSteps : Swift.Array&lt;DependencyInitializer.AsyncInitializationStep&lt;Doglyad.InitializationProcess&gt;&gt;"
+                  moduleName = "Doglyad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkindev/Doglyad/Doglyad/ios/Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9 - 611659601b7bbf70"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) await resume partial function for closure #2 @Sendable (Doglyad.InitializationProcess) async throws -&gt; () in variable initialization expression of static Doglyad.InitializationProcess.asyncSteps : Swift.Array&lt;DependencyInitializer.AsyncInitializationStep&lt;Doglyad.InitializationProcess&gt;&gt;"
+                  moduleName = "Doglyad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkindev/Doglyad/Doglyad/ios/Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9 - c4901d6ad786f534"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(11) suspend resume partial function for closure #2 @Sendable (Doglyad.InitializationProcess) async throws -&gt; () in variable initialization expression of static Doglyad.InitializationProcess.asyncSteps : Swift.Array&lt;DependencyInitializer.AsyncInitializationStep&lt;Doglyad.InitializationProcess&gt;&gt;"
+                  moduleName = "Doglyad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkindev/Doglyad/Doglyad/ios/Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9 - c55ac9c52f38ce91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(14) suspend resume partial function for closure #2 @Sendable (Doglyad.InitializationProcess) async throws -&gt; () in variable initialization expression of static Doglyad.InitializationProcess.asyncSteps : Swift.Array&lt;DependencyInitializer.AsyncInitializationStep&lt;Doglyad.InitializationProcess&gt;&gt;"
+                  moduleName = "Doglyad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkindev/Doglyad/Doglyad/ios/Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "4E7D32AB-D0A4-42EA-B92E-E7FF61E42AF9 - c55ac9c52f38ce91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(14) suspend resume partial function for closure #2 @Sendable (Doglyad.InitializationProcess) async throws -&gt; () in variable initialization expression of static Doglyad.InitializationProcess.asyncSteps : Swift.Array&lt;DependencyInitializer.AsyncInitializationStep&lt;Doglyad.InitializationProcess&gt;&gt;"
+                  moduleName = "Doglyad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ivangalkindev/Doglyad/Doglyad/ios/Doglyad/Core/Initialization/Steps/InitializationAsyncSteps.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

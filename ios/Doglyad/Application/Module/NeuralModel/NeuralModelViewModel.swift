@@ -7,33 +7,36 @@ import SwiftUI
 @Observable
 final class NeuralModelViewModel {
     enum Focus: Hashable {
-        case template
+        case temperature
         case length
     }
 
     private let messager: DMessager
     private let router: DRouter
-    private let onSave: (USExaminationNeuralModel, String?, Int?) -> Void
+    private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
+    private let onSettingsSaved: (Double?, Int?) -> Void
 
     init(
         initialNeuralModel: USExaminationNeuralModel,
-        initialTemplate: String?,
-        initialResponseLength: Int?,
+        initialTemperature: Double,
+        initialResponseLength: Int,
         messager: DMessager,
         router: DRouter,
-        onSave: @escaping (USExaminationNeuralModel, String?, Int?) -> Void
+        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
+        onSettingsSaved: @escaping (Double?, Int?) -> Void
     ) {
         self.usExaminationNeuralModel = initialNeuralModel
         self.messager = messager
         self.router = router
-        self.onSave = onSave
-        templateController.text = initialTemplate ?? ""
-        responseLengthController.text = initialResponseLength.map(String.init) ?? ""
+        self.onNeuralModelSelected = onNeuralModelSelected
+        self.onSettingsSaved = onSettingsSaved
+        temperatureController.text = String(initialTemperature)
+        responseLengthController.text =  String(initialResponseLength)
     }
 
     var usExaminationNeuralModel: USExaminationNeuralModel
     var focus: Focus? = nil
-    var templateController = DTextFieldController()
+    var temperatureController = DTextFieldController()
     var responseLengthController = DTextFieldController()
 
     func unfocus() {
@@ -42,7 +45,7 @@ final class NeuralModelViewModel {
 
     func onSubmit() {
         switch focus {
-        case .template:
+        case .temperature:
             focus = .length
         case .length, .none:
             focus = nil
@@ -64,7 +67,7 @@ final class NeuralModelViewModel {
                         guard self.usExaminationNeuralModel != model else { return }
 
                         self.usExaminationNeuralModel = model
-                        onSave(model, nil, nil)
+                        self.onNeuralModelSelected(model)
                     }
                 )
             )
@@ -72,9 +75,10 @@ final class NeuralModelViewModel {
     }
 
     func onTapSave() {
-        let template = templateController.text.isEmpty ? nil : templateController.text
-        let responseLength = Int(responseLengthController.text)
-        onSave(usExaminationNeuralModel, template, responseLength)
+        onSettingsSaved(
+            Double(temperatureController.text),
+            Int(responseLengthController.text)
+        )
         messager.show(
             type: .success,
             title: .neuralModelSettingsSavedSuccessMessageTitle,

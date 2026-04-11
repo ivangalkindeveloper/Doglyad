@@ -2,7 +2,6 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanSheetModelSettingsCardView: View {
-    @Environment(DependencyContainer.self) private var container
     @Environment(DTheme.self) private var theme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -32,19 +31,15 @@ struct ScanSheetModelSettingsCardView: View {
                     value: ultrasoundViewModel.neuralModel.title
                 )
 
-                if let template = ultrasoundViewModel.template, !template.isEmpty {
-                    row(
-                        title: .scanNeuralModelSettingsTemplateLabel,
-                        value: template
-                    )
-                }
+                row(
+                    title: .scanNeuralModelSettingsTemperatureLabel,
+                    value: String(format: "%.2f", ultrasoundViewModel.temperature)
+                )
 
-                if let responseLength = ultrasoundViewModel.responseLength {
-                    row(
-                        title: .scanNeuralModelSettingsResponseLengthLabel,
-                        value: "\(responseLength)"
-                    )
-                }
+                row(
+                    title: .scanNeuralModelSettingsResponseLengthLabel,
+                    value: "\(ultrasoundViewModel.responseLength)"
+                )
 
                 row(
                     title: .scanNeuralModelSettingsAvailableRequestsLabel,

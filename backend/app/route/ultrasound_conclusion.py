@@ -13,6 +13,7 @@ from app.core.config import (
     resolve_examination_title,
     resolve_neural_model,
 )
+from app.model.neural_model_settings import NeuralModelSettings
 from app.model.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.us_examination_neural_model import USExaminationNeuralModel
 from app.model.us_examination_request import USExaminationRequest
@@ -61,6 +62,7 @@ async def ultrasound_conclusion(
             )
             response_text = await _call_vllm(
                 neural_model,
+                settings,
                 system_prompt,
                 prompt,
                 examination.photos,
@@ -77,6 +79,7 @@ async def ultrasound_conclusion(
 
 async def _call_vllm(
     neural_model: USExaminationNeuralModel,
+    settings: NeuralModelSettings,
     system_prompt: str,
     prompt: str,
     photos: list[USExaminationScanPhoto],
@@ -94,8 +97,8 @@ async def _call_vllm(
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_content},
         ],
-        "temperature": 0.2,
-        "max_tokens": 512,
+        "temperature": settings.temperature,
+        "max_tokens": settings.responseLength,
     }
     url = f"{VLLM_HOST}:{neural_model.port}/v1/chat/completions"
     logger.info("vLLM request: url=%s, model=%s", url, neural_model.id)

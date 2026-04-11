@@ -760,6 +760,57 @@
         }
       }
     },
+    "neuralModelTemperatureDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sampling temperature for the model (0–2). Leave empty for server default."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Температура выборки модели (0–2). Оставьте пустым для значения по умолчанию на сервере."
+          }
+        }
+      }
+    },
+    "neuralModelTemperatureLabel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperature"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Температура"
+          }
+        }
+      }
+    },
+    "neuralModelTemperaturePlaceholder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0.2"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0,2"
+          }
+        }
+      }
+    },
     "neuralModelSettingsSavedSuccessMessageDescription": {
       "extractionState": "manual",
       "localizations": {
@@ -1389,19 +1440,19 @@
         }
       }
     },
-    "scanNeuralModelSettingsTemplateLabel": {
+    "scanNeuralModelSettingsTemperatureLabel": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Template:"
+            "value": "Temperature:"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Шаблон:"
+            "value": "Температура:"
           }
         }
       }

@@ -9,16 +9,28 @@ final class UltrasoundViewModel {
         container: DependencyContainer
     ) {
         self.container = container
-        let settings = container.ultrasoundModelRepository.getSettings()
-        if let id = settings.selectedNeuralModelId,
+        
+        let ultrasoundModelRepository = container.ultrasoundModelRepository
+        if let id = ultrasoundModelRepository.getSelectedModelId(),
            let model = container.usExaminationNeuralModelsById[id]
         {
             self.neuralModel = model
         } else {
             self.neuralModel = container.usExaminationNeuralModelDefault
         }
-        self.template = settings.template
-        self.responseLength = settings.responseLength
+        
+        let ultrasoundConfig = container.applicationConfig.ultrasound
+        if let temperature = ultrasoundModelRepository.getTemperature() {
+            self.temperature = temperature
+        } else {
+            self.temperature = ultrasoundConfig.defaultNeuralModelTemperature
+        }
+        if let responseLength = ultrasoundModelRepository.getResponseLength() {
+            self.responseLength = responseLength
+        } else {
+            self.responseLength = ultrasoundConfig.defalultNeuralModelResponseLength
+        }
+        
         self.selectedTemplateIdByExaminationTypeId = container.templateRepository
             .getSelectedTemplateIdByExaminationType()
         self.availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
@@ -27,20 +39,30 @@ final class UltrasoundViewModel {
     }
 
     var neuralModel: USExaminationNeuralModel
-    var template: String?
-    var responseLength: Int?
+    var temperature: Double
+    var responseLength: Int
     var selectedTemplateIdByExaminationTypeId: [String: String]
     var availableRequestCount: Int
 
-    func update(
-        neuralModel: USExaminationNeuralModel,
-        template: String?,
+    func saveNeuralModel(
+        _ model: USExaminationNeuralModel
+    ) {
+        self.neuralModel = model
+        container.ultrasoundModelRepository.setSelectedModelId(id: model.id)
+    }
+
+    func saveNeuralModelSettings(
+        temperature: Double?,
         responseLength: Int?
     ) {
-        self.neuralModel = neuralModel
-        self.template = template
-        self.responseLength = responseLength
-        container.ultrasoundModelRepository.setSettings(settings: neuralModelSettings)
+        if let temperature = temperature {
+            self.temperature = temperature
+            container.ultrasoundModelRepository.setTemperature(temperature)
+        }
+        if let responseLength = responseLength {
+            self.responseLength = responseLength
+            container.ultrasoundModelRepository.setResponseLength(responseLength)
+        }
     }
 
     func incrementRequestCount() {

@@ -25,25 +25,21 @@ extension UltrasoundModelRepository {
             value: id
         )
     }
-}
 
-// MARK: Settings -
-
-extension UltrasoundModelRepository {
-    func getSettings() -> NeuralModelSettings {
-        NeuralModelSettings(
-            selectedNeuralModelId: database.getSelectedUSExaminationNeuralModelId(),
-            template: database.getNeuralModelResponseTemplate(),
-            responseLength: database.getNeuralModelResponseLength()
-        )
+    func getResponseLength() -> Int? {
+        database.getNeuralModelResponseLength()
     }
 
-    func setSettings(settings: NeuralModelSettings) {
-        if let selectedNeuralModelId = settings.selectedNeuralModelId {
-            database.setSelectedUSExaminationNeuralModelId(value: selectedNeuralModelId)
-        }
-        database.setNeuralModelResponseTemplate(value: settings.template)
-        database.setNeuralModelResponseLength(value: settings.responseLength)
+    func setResponseLength(_ value: Int?) {
+        database.setNeuralModelResponseLength(value: value)
+    }
+
+    func getTemperature() -> Double? {
+        database.getNeuralModelTemperature()
+    }
+
+    func setTemperature(_ value: Double?) {
+        database.setNeuralModelTemperature(value: value)
     }
 }
 

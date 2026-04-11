@@ -3,7 +3,7 @@ import Foundation
 
 struct NeuralModelSettings: Codable {
     let selectedNeuralModelId: String?
-    let template: String?
+    let temperature: Double?
     let responseLength: Int?
 }
 
@@ -13,7 +13,7 @@ extension NeuralModelSettings {
     ) -> NeuralModelSettings {
         NeuralModelSettings(
             selectedNeuralModelId: db.selectedNeuralModelId,
-            template: db.template,
+            temperature: db.temperature,
             responseLength: db.responseLength
         )
     }
@@ -21,7 +21,7 @@ extension NeuralModelSettings {
     func toDB() -> NeuralModelSettingsDB {
         NeuralModelSettingsDB(
             selectedNeuralModelId: selectedNeuralModelId,
-            template: template,
+            temperature: temperature,
             responseLength: responseLength
         )
     }

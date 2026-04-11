@@ -84,7 +84,7 @@ struct HistoryCard: View {
             date: Date(),
             neuralModelSettings: NeuralModelSettings(
                 selectedNeuralModelId: "google/medgemma-27b-it",
-                template: nil,
+                temperature: nil,
                 responseLength: nil
             ),
             examinationData: USExaminationData(

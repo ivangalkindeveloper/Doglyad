@@ -49,11 +49,11 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     }
 
     private var defaultPatientHeightCM: Double {
-        Double(ultrasoundConfig.defaultPatientHeightCM)
+        ultrasoundConfig.defaultPatientHeightCM
     }
 
     private var defaultPatientWeightKG: Double {
-        Double(ultrasoundConfig.defaultPatientWeightKG)
+        ultrasoundConfig.defaultPatientWeightKG
     }
 
     var usExaminationType: USExaminationType
@@ -333,9 +333,17 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                 )
             )
         }
+        
+        
 
-        let neuralModelSettings = ultrasoundViewModel.neuralModelSettings
-        let ultrasoundConclusionRepository = container.ultrasoundConclusionRepository
+        let neuralModel = ultrasoundViewModel.neuralModel
+        let responseLength = ultrasoundViewModel.responseLength
+        let neuralModelSettings = NeuralModelSettings(
+            selectedNeuralModelId: neuralModel.id,
+            temperature: ultrasoundViewModel.temperature,
+            responseLength: responseLength
+        )
+        
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,
             photos: photos,
@@ -355,6 +363,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
 
         handle {
             self.isLoading = true
+            let ultrasoundConclusionRepository = self.container.ultrasoundConclusionRepository
             return try await ultrasoundConclusionRepository.generateConclusion(
                 locale: Locale.current,
                 request: request,

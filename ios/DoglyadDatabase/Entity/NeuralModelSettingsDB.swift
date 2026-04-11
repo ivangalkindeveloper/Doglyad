@@ -4,16 +4,16 @@ import SwiftData
 @Model
 public final class NeuralModelSettingsDB {
     public var selectedNeuralModelId: String?
-    public var template: String?
+    public var temperature: Double?
     public var responseLength: Int?
 
     public init(
         selectedNeuralModelId: String?,
-        template: String?,
+        temperature: Double?,
         responseLength: Int?
     ) {
         self.selectedNeuralModelId = selectedNeuralModelId
-        self.template = template
+        self.temperature = temperature
         self.responseLength = responseLength
     }
 }
