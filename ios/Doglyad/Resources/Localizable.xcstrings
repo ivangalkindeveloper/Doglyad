@@ -2364,13 +2364,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Edit template"
+            "value" : "Template"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Редактирование шаблона"
+            "value" : "Шаблон"
           }
         }
       }

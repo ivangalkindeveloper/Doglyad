@@ -41,25 +41,32 @@ struct TemplateEditScreenView: View {
                             placeholder: .templateContentPlaceholder,
                             sumbitLabel: .done
                         )
+                        .padding(.bottom, size.s8)
+
+                        VStack(
+                            alignment: .leading,
+                            spacing: .zero
+                        ) {
+                            DText(.templateContentDescription)
+                                .dStyle(
+                                    font: typography.textXSmall,
+                                    color: color.grayscalePlacehold
+                                )
+                                .padding(.horizontal, size.s8)
+                                .padding(.bottom, size.s8)
+
+                            DText(.templateExampleDescription)
+                                .dStyle(
+                                    font: typography.textXSmall,
+                                    color: color.grayscalePlacehold
+                                )
+                                .padding(size.s8)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(color.grayscaleInput.opacity(0.6))
+                                .cornerRadius(size.s12)
+                        }
+                        .padding(.horizontal, size.s4)
                         .padding(.bottom, size.s16)
-
-                        DText(.templateContentDescription)
-                            .dStyle(
-                                font: typography.textXSmall,
-                                color: color.grayscalePlacehold
-                            )
-                            .padding(.bottom, size.s4)
-
-                        DText(.templateExampleDescription)
-                            .dStyle(
-                                font: typography.textXSmall,
-                                color: color.grayscalePlacehold
-                            )
-                            .padding(size.s8)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(color.grayscaleInput.opacity(0.6))
-                            .cornerRadius(size.s12)
-                            .padding(.bottom, size.s16)
                     }
                     .padding(size.s16)
                     .padding(.top, toolbarInset)

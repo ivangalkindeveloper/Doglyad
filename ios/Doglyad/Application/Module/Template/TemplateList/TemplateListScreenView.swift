@@ -31,11 +31,11 @@ struct TemplateListScreenView: View {
                                     spacing: size.s4
                                 ) {
                                     ForEach(viewModel.templates) { template in
-                                        DListButtonCard(
-                                            title: template.usExaminationType.getLocalizedTitle(for: Locale.current),
-                                            description: LocalizedStringResource(
-                                                stringLiteral: template.content
+                                        TemplateListItemCard(
+                                            examinationTypeTitle: template.usExaminationType.getLocalizedTitle(
+                                                for: Locale.current
                                             ),
+                                            templateContent: template.content,
                                             action: {
                                                 viewModel.onTapTemplate(template)
                                             }
