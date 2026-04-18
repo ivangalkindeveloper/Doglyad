@@ -9,7 +9,7 @@ struct MainRootView: View {
 
     init(dependencyContainer: DependencyContainer) {
         self.dependencyContainer = dependencyContainer
-        self._ultrasoundViewModel = State(initialValue: UltrasoundViewModel(
+        _ultrasoundViewModel = State(initialValue: UltrasoundViewModel(
             container: dependencyContainer
         ))
     }

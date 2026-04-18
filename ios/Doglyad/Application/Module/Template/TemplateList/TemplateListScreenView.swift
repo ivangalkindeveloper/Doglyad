@@ -15,7 +15,7 @@ struct TemplateListScreenView: View {
             onTapBack: viewModel.onTapBack,
             content: { toolbarInset in
                 ZStack(
-                    alignment: .bottom,
+                    alignment: .bottom
                 ) {
                     ScrollView(
                         showsIndicators: false

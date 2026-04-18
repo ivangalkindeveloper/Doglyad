@@ -25,17 +25,17 @@ final class NeuralModelViewModel {
         onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
         onSettingsSaved: @escaping (Double?, Int?) -> Void
     ) {
-        self.usExaminationNeuralModel = initialNeuralModel
+        usExaminationNeuralModel = initialNeuralModel
         self.messager = messager
         self.router = router
         self.onNeuralModelSelected = onNeuralModelSelected
         self.onSettingsSaved = onSettingsSaved
         temperatureController.text = String(initialTemperature)
-        responseLengthController.text =  String(initialResponseLength)
+        responseLengthController.text = String(initialResponseLength)
     }
 
     var usExaminationNeuralModel: USExaminationNeuralModel
-    var focus: Focus? = nil
+    var focus: Focus?
     var temperatureController = DTextFieldController()
     var responseLengthController = DTextFieldController()
 

@@ -10,7 +10,7 @@ struct TemplateAddScreenView: View {
 
     @State var viewModel: TemplateAddViewModel
     @FocusState private var focus: TemplateAddViewModel.Focus?
-    
+
     var body: some View {
         DScreen(
             title: .templateAddTitle,
@@ -49,7 +49,7 @@ struct TemplateAddScreenView: View {
                                 color: color.grayscalePlacehold
                             )
                             .padding(.bottom, size.s4)
-                        
+
                         DText(.templateExampleDescription)
                             .dStyle(
                                 font: typography.textXSmall,

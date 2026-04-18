@@ -120,7 +120,7 @@ extension DependencyContainer {
                 actualVersion: Version(
                     major: 1,
                     minor: 0,
-                    patch: 0,
+                    patch: 0
                 ),
                 ultrasound: UltrasoundConfig(
                     defaultNeuralModelTemperature: 0.2,

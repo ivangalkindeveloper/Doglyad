@@ -9,7 +9,7 @@ final class TemplateAddViewModel {
     enum Focus: Hashable {
         case content
     }
-    
+
     private let container: DependencyContainer
     private let router: DRouter
     private let messager: DMessager
@@ -22,17 +22,17 @@ final class TemplateAddViewModel {
         self.container = container
         self.router = router
         self.messager = messager
-        self.usExaminationType = container.usExaminationTypeDefault
+        usExaminationType = container.usExaminationTypeDefault
     }
 
-    var focus: Focus? = nil
+    var focus: Focus?
     var usExaminationType: USExaminationType
     var templateController = DTextFieldController()
 
     func onTapBack() {
         router.pop()
     }
-    
+
     func unfocus() {
         focus = nil
     }
@@ -68,9 +68,9 @@ final class TemplateAddViewModel {
             )
             return
         }
-        
+
         unfocus()
-        
+
         let content = templateController.text
         let template = USExaminationTemplate(
             usExaminationType: usExaminationType,

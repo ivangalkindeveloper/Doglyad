@@ -8,7 +8,7 @@ private struct DMessageModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         @Bindable var messager = messager
-        
+
         content
             .swiftMessage(
                 message: $messager.message

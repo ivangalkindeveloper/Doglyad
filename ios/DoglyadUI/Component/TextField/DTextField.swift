@@ -85,7 +85,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
 
     public var body: some View {
         @Bindable var controller = controller
-        
+
         VStack(
             alignment: .leading,
             spacing: .zero

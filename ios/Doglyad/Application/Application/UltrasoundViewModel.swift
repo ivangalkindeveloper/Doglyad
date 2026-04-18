@@ -9,31 +9,31 @@ final class UltrasoundViewModel {
         container: DependencyContainer
     ) {
         self.container = container
-        
+
         let ultrasoundModelRepository = container.ultrasoundModelRepository
         if let id = ultrasoundModelRepository.getSelectedModelId(),
            let model = container.usExaminationNeuralModelsById[id]
         {
-            self.neuralModel = model
+            neuralModel = model
         } else {
-            self.neuralModel = container.usExaminationNeuralModelDefault
+            neuralModel = container.usExaminationNeuralModelDefault
         }
-        
+
         let ultrasoundConfig = container.applicationConfig.ultrasound
         if let temperature = ultrasoundModelRepository.getTemperature() {
             self.temperature = temperature
         } else {
-            self.temperature = ultrasoundConfig.defaultNeuralModelTemperature
+            temperature = ultrasoundConfig.defaultNeuralModelTemperature
         }
         if let responseLength = ultrasoundModelRepository.getResponseLength() {
             self.responseLength = responseLength
         } else {
-            self.responseLength = ultrasoundConfig.defaultNeuralModelResponseLength
+            responseLength = ultrasoundConfig.defaultNeuralModelResponseLength
         }
-        
-        self.selectedTemplateIdByExaminationTypeId = container.templateRepository
+
+        selectedTemplateIdByExaminationTypeId = container.templateRepository
             .getSelectedTemplateIdByExaminationType()
-        self.availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
+        availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
             limit: container.applicationConfig.ultrasound.requestCountPerDay
         )
     }
@@ -47,7 +47,7 @@ final class UltrasoundViewModel {
     func saveNeuralModel(
         _ model: USExaminationNeuralModel
     ) {
-        self.neuralModel = model
+        neuralModel = model
         container.ultrasoundModelRepository.setSelectedModelId(id: model.id)
     }
 

@@ -89,26 +89,26 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
                         bodyView(toolbarHeight - safeAreaInsetTop)
                             .safeAreaPadding(.bottom)
 
-                            if let bottom = self.bottom?() {
-                                bottom
-                                    .padding(.vertical, size.adaptiveCornerRadius / 6)
-                                    .frame(maxWidth: .infinity)
-                                    .safeAreaPadding(.bottom)
-                                    .background(
-                                        Rectangle()
-                                            .fill(.ultraThinMaterial)
-                                            .clipShape(
-                                                DRoundedCorner(
-                                                    radius: size.adaptiveCornerRadius,
-                                                    corners: [.topLeft, .topRight]
-                                                )
+                        if let bottom = self.bottom?() {
+                            bottom
+                                .padding(.vertical, size.adaptiveCornerRadius / 6)
+                                .frame(maxWidth: .infinity)
+                                .safeAreaPadding(.bottom)
+                                .background(
+                                    Rectangle()
+                                        .fill(.ultraThinMaterial)
+                                        .clipShape(
+                                            DRoundedCorner(
+                                                radius: size.adaptiveCornerRadius,
+                                                corners: [.topLeft, .topRight]
                                             )
-                                    )
-                                    .transition(.move(edge: .bottom))
-                            }
+                                        )
+                                )
+                                .transition(.move(edge: .bottom))
+                        }
                     }
                     .edgesIgnoringSafeArea(.bottom)
-                    
+
                     if isShowsToolbar {
                         toolbarView(safeAreaInsetTop)
                             .onPreferenceChange(ToolbarHeightPreferenceKey.self) { value in

@@ -13,7 +13,7 @@ struct TemplateAddScreen: View {
             viewModel: TemplateAddViewModel(
                 container: container,
                 router: router,
-                messager: messager,
+                messager: messager
             )
         )
     }

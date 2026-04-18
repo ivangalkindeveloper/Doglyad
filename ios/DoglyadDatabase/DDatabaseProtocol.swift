@@ -26,7 +26,7 @@ public protocol DDatabaseProtocol: AnyObject {
     func getNeuralModelResponseLength() -> Int?
 
     func setNeuralModelResponseLength(value: Int?)
-    
+
     // MARK: RequestLimit -
 
     @MainActor func getRequestLimit() -> RequestLimitDB?

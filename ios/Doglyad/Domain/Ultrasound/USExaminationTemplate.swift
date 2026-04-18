@@ -5,7 +5,7 @@ struct USExaminationTemplate: Codable, Identifiable, Equatable {
     var id: UUID = .init()
     let usExaminationType: USExaminationType
     let content: String
-    
+
     init(
         id: UUID = UUID(),
         usExaminationType: USExaminationType,

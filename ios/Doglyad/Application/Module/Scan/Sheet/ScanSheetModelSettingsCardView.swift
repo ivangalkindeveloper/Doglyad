@@ -18,7 +18,7 @@ struct ScanSheetModelSettingsCardView: View {
             )
             .padding(.horizontal, size.s8)
             .padding(.bottom, size.s8)
-        
+
         DButtonCard(
             action: viewModel.onTapNeuralModelSettings
         ) {

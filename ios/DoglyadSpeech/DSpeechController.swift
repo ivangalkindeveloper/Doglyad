@@ -13,7 +13,7 @@ public final class DSpeechController {
     @ObservationIgnored private var recognitionTask: SFSpeechRecognitionTask?
 
     public var isRecording = false
-    public var text: String? = nil
+    public var text: String?
     public var audioMeter: Float = 0.0
 
     public init(

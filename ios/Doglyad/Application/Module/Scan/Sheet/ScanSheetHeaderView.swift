@@ -43,7 +43,6 @@ struct ScanSheetHeaderView: View {
                 )
                 .padding(.horizontal, size.s24)
                 .padding(.bottom, isBottom ? size.s32 : size.s8)
-                
         }
     }
 }

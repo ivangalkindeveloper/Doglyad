@@ -10,7 +10,7 @@ struct TemplateEditScreenView: View {
 
     @State var viewModel: TemplateEditViewModel
     @FocusState private var focus: TemplateAddViewModel.Focus?
-    
+
     var body: some View {
         DScreen(
             title: .templateEditTitle,
@@ -49,7 +49,7 @@ struct TemplateEditScreenView: View {
                                 color: color.grayscalePlacehold
                             )
                             .padding(.bottom, size.s4)
-                        
+
                         DText(.templateExampleDescription)
                             .dStyle(
                                 font: typography.textXSmall,
@@ -69,7 +69,7 @@ struct TemplateEditScreenView: View {
             },
             bottom: {
                 VStack(
-                    spacing: .zero,
+                    spacing: .zero
                 ) {
                     DButton(
                         title: .buttonSave,
@@ -79,7 +79,7 @@ struct TemplateEditScreenView: View {
                     )
                     .dStyle(.primaryButton)
                     .padding(.bottom, size.s8)
-                    
+
                     DButton(
                         title: .templateDeleteButton,
                         action: {

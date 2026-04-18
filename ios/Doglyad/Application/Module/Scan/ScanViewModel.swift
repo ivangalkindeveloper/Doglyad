@@ -31,7 +31,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         self.container = container
         self.messager = messager
         self.router = router
-        self.usExaminationType = container.usExaminationTypeDefault
+        usExaminationType = container.usExaminationTypeDefault
         super.init()
         onInit()
     }
@@ -61,10 +61,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     var cameraController = DCameraController()
     var sheetController = ScanSheetController()
     //
-    var focus: Focus? = nil
+    var focus: Focus?
     var patientNameController = DTextFieldController(isRequired: true)
     var patientGender = PatientGender.male
-    var patientDateOfBirth: Date = Date()
+    var patientDateOfBirth: Date = .init()
     var patientHeightCMController = DTextFieldController(isRequired: true)
     var patientWeightKGController = DTextFieldController(isRequired: true)
     var patientComplaintController = DTextFieldController(isRequired: true)
@@ -72,16 +72,16 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     var additionalDataController = DTextFieldController()
     //
     var isLoading = false
-    
+
     private func onInit() {
         cameraController.startSession()
-        if let usExaminationTypeId = self.container.ultrasoundConclusionRepository.getSelectedExaminationTypeId(),
-           let usExaminationType = self.container.usExaminationTypesById[usExaminationTypeId]
+        if let usExaminationTypeId = container.ultrasoundConclusionRepository.getSelectedExaminationTypeId(),
+           let usExaminationType = container.usExaminationTypesById[usExaminationTypeId]
         {
             self.usExaminationType = usExaminationType
         }
 
-        let patientCount = self.container.ultrasoundConclusionRepository.getConclusions().count
+        let patientCount = container.ultrasoundConclusionRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
         patientDateOfBirth = defaultPatientDateOfBirth
         patientHeightCMController.text = String(defaultPatientHeightCM)
@@ -218,7 +218,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             )
         )
     }
-    
+
     func onTapNeuralModelSettings() {
         router.push(
             route: RouteScreen(
@@ -226,7 +226,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             )
         )
     }
-    
+
     func onTapFill() {
         patientComplaintController.text = """
         Пациент предъявляет жалобы на периодическое ощущение давления и дискомфорта в передней области шеи, \
@@ -325,9 +325,9 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         else {
             return
         }
-        
+
         unfocus()
-        
+
         if ultrasoundViewModel.availableRequestCount <= 0 {
             return router.push(
                 route: RouteSheet(
@@ -335,8 +335,6 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                 )
             )
         }
-        
-        
 
         let neuralModel = ultrasoundViewModel.neuralModel
         let responseLength = ultrasoundViewModel.responseLength
@@ -345,7 +343,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             temperature: ultrasoundViewModel.temperature,
             responseLength: responseLength
         )
-        
+
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,
             photos: photos,

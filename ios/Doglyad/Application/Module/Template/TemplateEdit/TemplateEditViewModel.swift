@@ -9,7 +9,7 @@ final class TemplateEditViewModel {
     enum Focus: Hashable {
         case content
     }
-    
+
     private let container: DependencyContainer
     private let router: DRouter
     private let messager: DMessager
@@ -25,29 +25,29 @@ final class TemplateEditViewModel {
         self.router = router
         self.messager = messager
         self.arguments = arguments
-        self.usExaminationType = container.usExaminationTypeDefault
-        
+        usExaminationType = container.usExaminationTypeDefault
+
         if let template = container.templateRepository.getTemplate(
             id: arguments.templateId,
             usExaminationTypesById: container.usExaminationTypesById
         ) {
-            self.usExaminationType = template.usExaminationType
-            self.templateController.text = template.content
+            usExaminationType = template.usExaminationType
+            templateController.text = template.content
         }
     }
 
-    var focus: Focus? = nil
+    var focus: Focus?
     var usExaminationType: USExaminationType
     var templateController = DTextFieldController()
 
     func onTapBack() {
         router.pop()
     }
-    
+
     func unfocus() {
         focus = nil
     }
-    
+
     func onSubmit() {
         switch focus {
         case .content, .none:
@@ -79,9 +79,9 @@ final class TemplateEditViewModel {
             )
             return
         }
-        
+
         unfocus()
-        
+
         let content = templateController.text
         let template = USExaminationTemplate(
             usExaminationType: usExaminationType,

@@ -122,7 +122,7 @@ struct ScanSheetBodyView: View {
                     sumbitLabel: .done
                 )
                 .padding(.bottom, size.s16)
-                
+
                 ScanSheetModelSettingsCardView()
                     .padding(.bottom, size.s4)
 

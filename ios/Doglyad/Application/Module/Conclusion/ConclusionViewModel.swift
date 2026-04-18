@@ -23,7 +23,7 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         self.container = container
         self.messager = messager
         self.router = router
-        self.conclusion = initialConclusion
+        conclusion = initialConclusion
     }
 
     var conclusion: USExaminationConclusion

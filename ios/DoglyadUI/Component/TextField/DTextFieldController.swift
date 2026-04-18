@@ -5,7 +5,7 @@ public class DTextFieldController {
     public var text: String = ""
     private let isRequired: Bool
     var isError: Bool = false
-    var errorText: String? = nil
+    var errorText: String?
 
     public init(
         initialText: String = "",
