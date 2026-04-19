@@ -72,8 +72,8 @@ struct OnBoardingScreenView: View {
                         description: .onBoardingDescriptionFifth
                     )
                 }
-                .tabViewStyle(.page(indexDisplayMode: .always))
-                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .indexViewStyle(.page(backgroundDisplayMode: .never))
                 .animation(.easeInOut, value: viewModel.page)
                 .highPriorityGesture(DragGesture().onChanged { _ in })
                 .padding(.bottom, size.s16)
