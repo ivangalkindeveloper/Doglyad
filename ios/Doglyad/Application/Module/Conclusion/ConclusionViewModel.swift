@@ -65,13 +65,11 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         )
         let requestTemplate: String? = {
             let typeId = conclusion.examinationData.usExaminationTypeId
-            guard let idString = container.templateRepository.getSelectedTemplateIdByExaminationType()[typeId],
-                  let uuid = UUID(uuidString: idString)
-            else {
+            guard let id = container.templateRepository.getTemplateIdByUSExaminationType()[typeId] else {
                 return nil
             }
             return container.templateRepository.getTemplate(
-                id: uuid,
+                id: id,
                 usExaminationTypesById: container.usExaminationTypesById
             )?.content
         }()

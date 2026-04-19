@@ -14,7 +14,7 @@ protocol TemplateRepositoryProtocol: AnyObject {
 
     @MainActor func deleteTemplate(id: UUID)
 
-    @MainActor func getSelectedTemplateIdByExaminationType() -> [String: String]
+    @MainActor func getTemplateIdByUSExaminationType() -> [String: UUID]
 
-    @MainActor func setSelectedTemplateId(id: UUID?, forExaminationTypeId: String)
+    @MainActor func setTemplateIdByUSExaminaionType(templateId: UUID?, USExaminationTypeId: String)
 }

@@ -7,7 +7,7 @@ public protocol DDatabaseRequestLimitProtocol: AnyObject {
     @MainActor func getRequestLimit() -> RequestLimitDB?
 
     @MainActor func setRequestLimit(value: RequestLimitDB)
-    
+
     @MainActor func clearRequestLimit()
 }
 

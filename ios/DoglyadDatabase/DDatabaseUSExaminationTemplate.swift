@@ -9,8 +9,12 @@ public protocol DDatabaseUSExaminationTemplateProtocol: AnyObject {
     @MainActor func upsertExaminationTemplate(value: USExaminationTemplateDB)
 
     @MainActor func deleteExaminationTemplate(id: UUID)
-    
+
     @MainActor func clearAllExaminationTemplates()
+
+    func getSelectedTemplateIdByExaminationType() -> [String: UUID]
+
+    func setSelectedTemplateIdByExaminationType(value: [String: UUID])
 }
 
 extension DDatabase: DDatabaseUSExaminationTemplateProtocol {
@@ -47,6 +51,21 @@ extension DDatabase: DDatabaseUSExaminationTemplateProtocol {
     @MainActor public func clearAllExaminationTemplates() {
         for item in getExaminationTemplates() {
             container.mainContext.delete(item)
+        }
+    }
+
+    public func getSelectedTemplateIdByExaminationType() -> [String: UUID] {
+        guard let data = defaults.data(forKey: DUserDefaultsKey.selectedTemplateIdByExaminationTypeMap.rawValue),
+              let decoded = try? JSONDecoder().decode([String: UUID].self, from: data)
+        else { return [:] }
+        return decoded
+    }
+
+    public func setSelectedTemplateIdByExaminationType(value: [String: UUID]) {
+        if value.isEmpty {
+            removeValue(.selectedTemplateIdByExaminationTypeMap)
+        } else if let data = try? JSONEncoder().encode(value) {
+            defaults.set(data, forKey: DUserDefaultsKey.selectedTemplateIdByExaminationTypeMap.rawValue)
         }
     }
 }

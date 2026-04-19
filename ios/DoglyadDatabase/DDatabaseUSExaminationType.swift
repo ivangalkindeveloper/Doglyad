@@ -4,7 +4,7 @@ import Foundation
 
 public protocol DDatabaseUSExaminationTypeProtocol: AnyObject {
     func getSelectedUSExaminationTypeId() -> String?
-    
+
     func setSelectedUSExaminationTypeId(value: String)
 }
 

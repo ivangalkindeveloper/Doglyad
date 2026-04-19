@@ -9,7 +9,7 @@ public protocol DDatabaseModelConclusionProtocol: AnyObject {
     @MainActor func setExaminationConclusion(value: USExaminationConclusionDB)
 
     @MainActor func updateExaminationConclusion(value: USExaminationConclusionDB)
-    
+
     @MainActor func clearAllExaminationConclusions()
 }
 

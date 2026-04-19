@@ -10,10 +10,6 @@ public protocol DDatabaseNeuralModelSettingsProtocol: AnyObject {
     func getNeuralModelResponseLength() -> Int?
 
     func setNeuralModelResponseLength(value: Int?)
-
-    func getSelectedTemplateIdByExaminationType() -> [String: String]
-    
-    func setSelectedTemplateIdByExaminationType(value: [String: String])
 }
 
 extension DDatabase: DDatabaseNeuralModelSettingsProtocol {
@@ -38,21 +34,6 @@ extension DDatabase: DDatabaseNeuralModelSettingsProtocol {
             setValue(value, .neuralModelResponseLength)
         } else {
             removeValue(.neuralModelResponseLength)
-        }
-    }
-
-    public func getSelectedTemplateIdByExaminationType() -> [String: String] {
-        guard let data = defaults.data(forKey: DUserDefaultsKey.selectedTemplateIdByExaminationTypeMap.rawValue),
-              let decoded = try? JSONDecoder().decode([String: String].self, from: data)
-        else { return [:] }
-        return decoded
-    }
-
-    public func setSelectedTemplateIdByExaminationType(value: [String: String]) {
-        if value.isEmpty {
-            removeValue(.selectedTemplateIdByExaminationTypeMap)
-        } else if let data = try? JSONEncoder().encode(value) {
-            defaults.set(data, forKey: DUserDefaultsKey.selectedTemplateIdByExaminationTypeMap.rawValue)
         }
     }
 }

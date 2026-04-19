@@ -42,7 +42,7 @@ struct TemplateAddScreenView: View {
                             sumbitLabel: .done
                         )
                         .padding(.bottom, size.s8)
-                        
+
                         VStack(
                             alignment: .leading,
                             spacing: .zero

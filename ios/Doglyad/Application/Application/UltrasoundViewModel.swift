@@ -31,8 +31,9 @@ final class UltrasoundViewModel {
             responseLength = ultrasoundConfig.defaultNeuralModelResponseLength
         }
 
-        selectedTemplateIdByExaminationTypeId = container.templateRepository
-            .getSelectedTemplateIdByExaminationType()
+        templateIdByUSExaminationTypeId = container.templateRepository
+            .getTemplateIdByUSExaminationType()
+
         availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
             limit: container.applicationConfig.ultrasound.requestCountPerDay
         )
@@ -41,7 +42,7 @@ final class UltrasoundViewModel {
     var neuralModel: USExaminationNeuralModel
     var temperature: Double
     var responseLength: Int
-    var selectedTemplateIdByExaminationTypeId: [String: String]
+    var templateIdByUSExaminationTypeId: [String: UUID]
     var availableRequestCount: Int
 
     func saveNeuralModel(
@@ -78,9 +79,9 @@ final class UltrasoundViewModel {
         container.templateRepository.saveTemplate(
             template: template
         )
-        container.templateRepository.setSelectedTemplateId(
-            id: template.id,
-            forExaminationTypeId: template.usExaminationType.id
+        container.templateRepository.setTemplateIdByUSExaminaionType(
+            templateId: template.id,
+            USExaminationTypeId: template.usExaminationType.id
         )
         syncTemplates()
     }
@@ -102,7 +103,7 @@ final class UltrasoundViewModel {
     }
 
     private func syncTemplates() {
-        selectedTemplateIdByExaminationTypeId = container.templateRepository
-            .getSelectedTemplateIdByExaminationType()
+        templateIdByUSExaminationTypeId = container.templateRepository
+            .getTemplateIdByUSExaminationType()
     }
 }

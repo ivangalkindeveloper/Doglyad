@@ -230,13 +230,11 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     func selectedTemplate(
         ultrasoundViewModel: UltrasoundViewModel
     ) -> USExaminationTemplate? {
-        guard let idString = ultrasoundViewModel.selectedTemplateIdByExaminationTypeId[usExaminationType.id],
-              let uuid = UUID(uuidString: idString)
-        else {
+        guard let id = ultrasoundViewModel.templateIdByUSExaminationTypeId[usExaminationType.id] else {
             return nil
         }
         return container.templateRepository.getTemplate(
-            id: uuid,
+            id: id,
             usExaminationTypesById: container.usExaminationTypesById
         )
     }

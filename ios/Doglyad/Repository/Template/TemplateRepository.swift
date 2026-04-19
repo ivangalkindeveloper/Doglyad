@@ -37,25 +37,25 @@ final class TemplateRepository: TemplateRepositoryProtocol {
     ) {
         database.deleteExaminationTemplate(id: id)
         var map = database.getSelectedTemplateIdByExaminationType()
-        for (examinationTypeId, templateId) in map where templateId == id.uuidString {
+        for (examinationTypeId, templateId) in map where templateId == id {
             map.removeValue(forKey: examinationTypeId)
         }
         database.setSelectedTemplateIdByExaminationType(value: map)
     }
 
-    func getSelectedTemplateIdByExaminationType() -> [String: String] {
+    func getTemplateIdByUSExaminationType() -> [String: UUID] {
         database.getSelectedTemplateIdByExaminationType()
     }
 
-    func setSelectedTemplateId(
-        id: UUID?,
-        forExaminationTypeId: String
+    func setTemplateIdByUSExaminaionType(
+        templateId: UUID?,
+        USExaminationTypeId: String
     ) {
         var map = database.getSelectedTemplateIdByExaminationType()
-        if let id {
-            map[forExaminationTypeId] = id.uuidString
+        if let templateId {
+            map[USExaminationTypeId] = templateId
         } else {
-            map.removeValue(forKey: forExaminationTypeId)
+            map.removeValue(forKey: USExaminationTypeId)
         }
         database.setSelectedTemplateIdByExaminationType(value: map)
     }
