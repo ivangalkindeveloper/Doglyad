@@ -227,6 +227,41 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         )
     }
 
+    func selectedTemplate(
+        ultrasoundViewModel: UltrasoundViewModel
+    ) -> USExaminationTemplate? {
+        guard let idString = ultrasoundViewModel.selectedTemplateIdByExaminationTypeId[usExaminationType.id],
+              let uuid = UUID(uuidString: idString)
+        else {
+            return nil
+        }
+        return container.templateRepository.getTemplate(
+            id: uuid,
+            usExaminationTypesById: container.usExaminationTypesById
+        )
+    }
+
+    func onTapSelectedTemplate(
+        ultrasoundViewModel: UltrasoundViewModel
+    ) {
+        if let template = selectedTemplate(ultrasoundViewModel: ultrasoundViewModel) {
+            router.push(
+                route: RouteScreen(
+                    type: .templateEdit,
+                    arguments: TemplateEditScreenArguments(
+                        templateId: template.id
+                    )
+                )
+            )
+        } else {
+            router.push(
+                route: RouteScreen(
+                    type: .templateList
+                )
+            )
+        }
+    }
+
     func onTapFill() {
         patientComplaintController.text = """
         Пациент предъявляет жалобы на периодическое ощущение давления и дискомфорта в передней области шеи, \
@@ -358,7 +393,8 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         )
         let request = USExaminationRequest(
             neuralModelSettings: neuralModelSettings,
-            examinationData: examinationData
+            examinationData: examinationData,
+            template: selectedTemplate(ultrasoundViewModel: ultrasoundViewModel)?.content
         )
 
         handle {

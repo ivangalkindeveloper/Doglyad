@@ -84,6 +84,7 @@ final class TemplateEditViewModel {
 
         let content = templateController.text
         let template = USExaminationTemplate(
+            id: arguments.templateId,
             usExaminationType: usExaminationType,
             content: content
         )

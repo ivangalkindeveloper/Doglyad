@@ -63,9 +63,22 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             temperature: ultrasoundModelRepository.getTemperature(),
             responseLength: ultrasoundModelRepository.getResponseLength()
         )
+        let requestTemplate: String? = {
+            let typeId = conclusion.examinationData.usExaminationTypeId
+            guard let idString = container.templateRepository.getSelectedTemplateIdByExaminationType()[typeId],
+                  let uuid = UUID(uuidString: idString)
+            else {
+                return nil
+            }
+            return container.templateRepository.getTemplate(
+                id: uuid,
+                usExaminationTypesById: container.usExaminationTypesById
+            )?.content
+        }()
         let request = USExaminationRequest(
             neuralModelSettings: neuralModelSettings,
-            examinationData: conclusion.examinationData
+            examinationData: conclusion.examinationData,
+            template: requestTemplate
         )
 
         handle {

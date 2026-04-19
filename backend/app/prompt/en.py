@@ -55,6 +55,7 @@ class PromptFactoryEn(PromptFactory):
         settings: NeuralModelSettings,
         examination: USExaminationData,
         examination_title: str,
+        template: str | None = None,
     ) -> str:
         base = (
             f"Generate a full medical ultrasound conclusion for data:\n"
@@ -72,8 +73,8 @@ class PromptFactoryEn(PromptFactory):
         if examination.additionalData:
             base += f"Additional data: {examination.additionalData}\n"
 
-        if settings.template:
-            base += f"Response template: {settings.template}\n"
+        if template:
+            base += f"Response template: {template}\n"
         if settings.responseLength:
             base += f"Maximum response length (tokens): {settings.responseLength}\n"
 

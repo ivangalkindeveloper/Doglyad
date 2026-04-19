@@ -55,6 +55,7 @@ class PromptFactoryRu(PromptFactory):
         settings: NeuralModelSettings,
         examination: USExaminationData,
         examination_title: str,
+        template: str | None = None,
     ) -> str:
         base = (
             f"Сформируйте полное медицинское заключение ультразвукового исследования по данным:\n"
@@ -72,8 +73,8 @@ class PromptFactoryRu(PromptFactory):
         if examination.additionalData:
             base += f"Дополнительные данные: {examination.additionalData}\n"
 
-        if settings.template:
-            base += f"Шаблон ответа: {settings.template}\n"
+        if template:
+            base += f"Шаблон ответа: {template}\n"
         if settings.responseLength:
             base += f"Максимальная длина ответа (токены): {settings.responseLength}\n"
 

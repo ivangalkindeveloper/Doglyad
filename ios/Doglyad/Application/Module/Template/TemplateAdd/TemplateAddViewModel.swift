@@ -69,6 +69,18 @@ final class TemplateAddViewModel {
             return
         }
 
+        let hasTemplateForType = container.templateRepository.getTemplates(
+            usExaminationTypesById: container.usExaminationTypesById
+        ).contains { $0.usExaminationType.id == usExaminationType.id }
+        guard !hasTemplateForType else {
+            messager.show(
+                type: .error,
+                title: .templateAddDuplicateExaminationTypeTitle,
+                description: .templateAddDuplicateExaminationTypeDescription
+            )
+            return
+        }
+
         unfocus()
 
         let content = templateController.text

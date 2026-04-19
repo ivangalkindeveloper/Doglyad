@@ -11,42 +11,47 @@ struct ScanSheetModelSettingsCardView: View {
     @Environment(UltrasoundViewModel.self) private var ultrasoundViewModel
 
     var body: some View {
-        DText(.scanNeuralModelSettingsTitleLabel)
-            .dStyle(
-                font: typography.textSmall,
-                color: color.grayscalePlacehold
-            )
-            .padding(.horizontal, size.s8)
-            .padding(.bottom, size.s8)
-
-        DButtonCard(
-            action: viewModel.onTapNeuralModelSettings
+        VStack(
+            alignment: .leading,
+            spacing: .zero
         ) {
-            VStack(
-                alignment: .leading,
-                spacing: size.s4
+            DText(.scanNeuralModelSettingsTitleLabel)
+                .dStyle(
+                    font: typography.textSmall,
+                    color: color.grayscalePlacehold
+                )
+                .padding(.horizontal, size.s8)
+                .padding(.bottom, size.s8)
+
+            DButtonCard(
+                action: viewModel.onTapNeuralModelSettings
             ) {
-                row(
-                    title: .scanNerualModelSettingsModelLabel,
-                    value: ultrasoundViewModel.neuralModel.title
-                )
+                VStack(
+                    alignment: .leading,
+                    spacing: size.s4
+                ) {
+                    row(
+                        title: .scanNerualModelSettingsModelLabel,
+                        value: ultrasoundViewModel.neuralModel.title
+                    )
 
-                row(
-                    title: .scanNeuralModelSettingsTemperatureLabel,
-                    value: String(format: "%.2f", ultrasoundViewModel.temperature)
-                )
+                    row(
+                        title: .scanNeuralModelSettingsTemperatureLabel,
+                        value: String(format: "%.2f", ultrasoundViewModel.temperature)
+                    )
 
-                row(
-                    title: .scanNeuralModelSettingsResponseLengthLabel,
-                    value: "\(ultrasoundViewModel.responseLength)"
-                )
+                    row(
+                        title: .scanNeuralModelSettingsResponseLengthLabel,
+                        value: "\(ultrasoundViewModel.responseLength)"
+                    )
 
-                row(
-                    title: .scanNeuralModelSettingsAvailableRequestsLabel,
-                    value: "\(ultrasoundViewModel.availableRequestCount)"
-                )
+                    row(
+                        title: .scanNeuralModelSettingsAvailableRequestsLabel,
+                        value: "\(ultrasoundViewModel.availableRequestCount)"
+                    )
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -66,7 +71,7 @@ struct ScanSheetModelSettingsCardView: View {
 
             DText(value)
                 .dStyle(
-                    font: typography.textXSmall
+                    font: typography.linkSmall
                 )
                 .lineLimit(2)
         }

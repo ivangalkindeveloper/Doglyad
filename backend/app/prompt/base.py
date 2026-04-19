@@ -20,4 +20,5 @@ class PromptFactory(ABC):
         settings: NeuralModelSettings,
         examination: USExaminationData,
         examination_title: str,
+        template: str | None = None,
     ) -> str: ...

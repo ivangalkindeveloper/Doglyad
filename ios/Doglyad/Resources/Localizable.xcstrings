@@ -1474,6 +1474,40 @@
         }
       }
     },
+    "scanTemplateCardNoTemplateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No template selected"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблон не выбран"
+          }
+        }
+      }
+    },
+    "scanTemplateCardTitleLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conclusion template:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблон заключения:"
+          }
+        }
+      }
+    },
     "scanNumberPlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2235,6 +2269,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Введите текст шаблона"
+          }
+        }
+      }
+    },
+    "templateAddDuplicateExaminationTypeDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only one template can exist per examination type. Edit or delete the existing template."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для одного типа исследования может быть только один шаблон. Измените или удалите существующий шаблон."
+          }
+        }
+      }
+    },
+    "templateAddDuplicateExaminationTypeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Template already exists"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблон уже есть"
           }
         }
       }

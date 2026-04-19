@@ -3,7 +3,7 @@ import SwiftData
 
 @Model
 public final class USExaminationTemplateDB {
-    @Attribute(.unique) public var id: UUID
+    public var id: UUID
     public var usExaminationTypeId: String
     public var content: String
 

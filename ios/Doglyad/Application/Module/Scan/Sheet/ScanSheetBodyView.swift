@@ -123,6 +123,9 @@ struct ScanSheetBodyView: View {
                 )
                 .padding(.bottom, size.s16)
 
+                ScanSheetTemplateCardView()
+                    .padding(.bottom, size.s16)
+
                 ScanSheetModelSettingsCardView()
                     .padding(.bottom, size.s4)
 

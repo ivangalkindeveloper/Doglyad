@@ -59,6 +59,7 @@ async def ultrasound_conclusion(
                 settings,
                 examination,
                 examination_title,
+                body.template,
             )
             response_text = await _call_vllm(
                 neural_model,
