@@ -46,22 +46,18 @@ extension UltrasoundModelRepository {
 // MARK: RequestLimit -
 
 extension UltrasoundModelRepository {
-    @MainActor func remainingRequestCount(
+    func remainingRequestCount(
         limit: Int
-    ) -> Int {
-        guard let requestLimit = database.getRequestLimit(),
-              Calendar.current.isDateInToday(requestLimit.date)
-        else { return limit }
-        return max(limit - requestLimit.count, 0)
+    ) async -> Int {
+        await database.requestLimit.fetchRequestLimit { requestLimit in
+            guard let requestLimit,
+                  Calendar.current.isDateInToday(requestLimit.date)
+            else { return limit }
+            return max(limit - requestLimit.count, 0)
+        }
     }
 
-    @MainActor func incrementRequestCount() {
-        if let requestLimit = database.getRequestLimit(),
-           Calendar.current.isDateInToday(requestLimit.date)
-        {
-            requestLimit.count += 1
-        } else {
-            database.setRequestLimit(value: RequestLimitDB(count: 1, date: Date()))
-        }
+    func incrementRequestCount() async {
+        await database.requestLimit.incrementRequestCount()
     }
 }

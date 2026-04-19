@@ -1,10 +1,12 @@
+import DoglyadNetwork
 import Foundation
+import Handler
 import Router
 import SwiftUI
 
 @MainActor
 @Observable
-final class SettingsViewModel {
+final class SettingsViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     private let container: DependencyContainer
     private let router: DRouter
 
@@ -14,14 +16,17 @@ final class SettingsViewModel {
     ) {
         self.container = container
         self.router = router
-        load()
+        super.init()
     }
 
     var conclusions: [USExaminationConclusion] = []
 
-    private func load() {
-        let conclusions = container.ultrasoundConclusionRepository.getConclusions()
-        self.conclusions = conclusions
+    func onInit() {
+        handle {
+            await self.container.ultrasoundConclusionRepository.getConclusions()
+        } onMainSuccess: { conclusions in
+            self.conclusions = conclusions
+        }
     }
 
     func onTapBack() {

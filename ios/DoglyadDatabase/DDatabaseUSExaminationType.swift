@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: USExaminationType -
-
 public protocol DDatabaseUSExaminationTypeProtocol: AnyObject {
     func getSelectedUSExaminationTypeId() -> String?
 

@@ -1,8 +1,10 @@
+import DoglyadNetwork
 import Foundation
+import Handler
 
 @MainActor
 @Observable
-final class UltrasoundViewModel {
+final class UltrasoundViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     private let container: DependencyContainer
 
     init(
@@ -31,18 +33,28 @@ final class UltrasoundViewModel {
             responseLength = ultrasoundConfig.defaultNeuralModelResponseLength
         }
 
-        templateIdByUSExaminationTypeId = container.templateRepository
-            .getTemplateIdByUSExaminationType()
+        templateIdByUSExaminationTypeId = [:]
+        availableRequestCount = container.applicationConfig.ultrasound.requestCountPerDay
+        super.init()
+        onInit()
+    }
 
-        availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
-            limit: container.applicationConfig.ultrasound.requestCountPerDay
-        )
+    private func onInit() {
+        handle {
+            self.templateIdByUSExaminationTypeId = await self.container.templateRepository
+                .getTemplatesByUSExaminationId(
+                    usExaminationTypesById: self.container.usExaminationTypesById
+                )
+            self.availableRequestCount = await self.container.ultrasoundModelRepository.remainingRequestCount(
+                limit: self.container.applicationConfig.ultrasound.requestCountPerDay
+            )
+        }
     }
 
     var neuralModel: USExaminationNeuralModel
     var temperature: Double
     var responseLength: Int
-    var templateIdByUSExaminationTypeId: [String: UUID]
+    var templateIdByUSExaminationTypeId: [String: USExaminationTemplate]
     var availableRequestCount: Int
 
     func saveNeuralModel(
@@ -67,43 +79,38 @@ final class UltrasoundViewModel {
     }
 
     func incrementRequestCount() {
-        container.ultrasoundModelRepository.incrementRequestCount()
-        availableRequestCount = container.ultrasoundModelRepository.remainingRequestCount(
-            limit: container.applicationConfig.ultrasound.requestCountPerDay
-        )
+        let limit = container.applicationConfig.ultrasound.requestCountPerDay
+        Task { @MainActor in
+            await container.ultrasoundModelRepository.incrementRequestCount()
+            self.availableRequestCount = await container.ultrasoundModelRepository.remainingRequestCount(
+                limit: limit
+            )
+        }
     }
 
     func saveTemplate(
         _ template: USExaminationTemplate
     ) {
-        container.templateRepository.saveTemplate(
-            template: template
-        )
-        container.templateRepository.setTemplateIdByUSExaminaionType(
-            templateId: template.id,
-            USExaminationTypeId: template.usExaminationType.id
-        )
-        syncTemplates()
-    }
-
-    func updateTemplate(
-        _ template: USExaminationTemplate
-    ) {
-        container.templateRepository.saveTemplate(
-            template: template
-        )
-        syncTemplates()
+        Task { @MainActor in
+            await container.templateRepository.saveTemplate(
+                template: template
+            )
+            templateIdByUSExaminationTypeId = await container.templateRepository
+                .getTemplatesByUSExaminationId(
+                    usExaminationTypesById: container.usExaminationTypesById
+                )
+        }
     }
 
     func deleteTemplate(
         id: UUID
     ) {
-        container.templateRepository.deleteTemplate(id: id)
-        syncTemplates()
-    }
-
-    private func syncTemplates() {
-        templateIdByUSExaminationTypeId = container.templateRepository
-            .getTemplateIdByUSExaminationType()
+        Task { @MainActor in
+            await container.templateRepository.deleteTemplate(id: id)
+            templateIdByUSExaminationTypeId = await container.templateRepository
+                .getTemplatesByUSExaminationId(
+                    usExaminationTypesById: container.usExaminationTypesById
+                )
+        }
     }
 }

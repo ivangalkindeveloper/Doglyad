@@ -3,6 +3,7 @@ import SwiftUI
 
 struct TemplateListScreenView: View {
     @Environment(DTheme.self) private var theme
+    @Environment(DependencyContainer.self) private var container
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
@@ -61,7 +62,7 @@ struct TemplateListScreenView: View {
             }
         )
         .onAppear {
-            viewModel.load()
+            viewModel.onInit()
         }
         .environment(viewModel)
     }

@@ -1,19 +1,17 @@
 import Foundation
 
-// MARK: Clear -
-
 public protocol DDatabaseClearProtocol: AnyObject {
-    @MainActor func clearAll()
+    func clearAll() async
 }
 
 extension DDatabase: DDatabaseClearProtocol {
-    @MainActor public func clearAll() {
+    public func clearAll() async {
         for key in DUserDefaultsKey.allCases {
             removeValue(key)
         }
 
-        clearAllExaminationConclusions()
-        clearAllExaminationTemplates()
-        clearRequestLimit()
+        await examinationConclusions.clearAllExaminationConclusions()
+        await examinationTemplates.clearAllExaminationTemplates()
+        await requestLimit.clearRequestLimit()
     }
 }

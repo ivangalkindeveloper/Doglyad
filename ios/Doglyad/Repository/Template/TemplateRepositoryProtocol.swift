@@ -1,20 +1,20 @@
 import Foundation
 
 protocol TemplateRepositoryProtocol: AnyObject {
-    @MainActor func getTemplates(
+    func getTemplates(
         usExaminationTypesById: [String: USExaminationType]
-    ) -> [USExaminationTemplate]
+    ) async -> [USExaminationTemplate]
 
-    @MainActor func getTemplate(
+    func getTemplatesByUSExaminationId(
+        usExaminationTypesById: [String: USExaminationType]
+    ) async -> [String: USExaminationTemplate]
+
+    func getTemplate(
         id: UUID,
         usExaminationTypesById: [String: USExaminationType]
-    ) -> USExaminationTemplate?
+    ) async -> USExaminationTemplate?
 
-    @MainActor func saveTemplate(template: USExaminationTemplate)
+    func saveTemplate(template: USExaminationTemplate) async
 
-    @MainActor func deleteTemplate(id: UUID)
-
-    @MainActor func getTemplateIdByUSExaminationType() -> [String: UUID]
-
-    @MainActor func setTemplateIdByUSExaminaionType(templateId: UUID?, USExaminationTypeId: String)
+    func deleteTemplate(id: UUID) async
 }

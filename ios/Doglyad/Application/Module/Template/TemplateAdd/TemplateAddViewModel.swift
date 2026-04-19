@@ -1,11 +1,13 @@
+import DoglyadNetwork
 import DoglyadUI
 import Foundation
+import Handler
 import Router
 import SwiftUI
 
 @MainActor
 @Observable
-final class TemplateAddViewModel {
+final class TemplateAddViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     enum Focus: Hashable {
         case content
     }
@@ -69,31 +71,37 @@ final class TemplateAddViewModel {
             return
         }
 
-        let hasTemplateForType = container.templateRepository.getTemplates(
-            usExaminationTypesById: container.usExaminationTypesById
-        ).contains { $0.usExaminationType.id == usExaminationType.id }
-        guard !hasTemplateForType else {
-            messager.show(
-                type: .error,
-                title: .templateAddDuplicateExaminationTypeTitle,
-                description: .templateAddDuplicateExaminationTypeDescription
-            )
-            return
-        }
-
         unfocus()
 
         let content = templateController.text
-        let template = USExaminationTemplate(
-            usExaminationType: usExaminationType,
-            content: content
-        )
-        ultrasoundViewModel.saveTemplate(template)
-        messager.show(
-            type: .success,
-            title: .templateSavedSuccessTitle,
-            description: .templateSavedSuccessDescription
-        )
-        router.pop()
+        let usExaminationType = usExaminationType
+
+        handle {
+            await self.container.templateRepository.getTemplates(
+                usExaminationTypesById: self.container.usExaminationTypesById
+            )
+        } onMainSuccess: { templates in
+            let hasTemplateForType = templates.contains { $0.usExaminationType.id == usExaminationType.id }
+            guard !hasTemplateForType else {
+                self.messager.show(
+                    type: .error,
+                    title: .templateAddDuplicateExaminationTypeTitle,
+                    description: .templateAddDuplicateExaminationTypeDescription
+                )
+                return
+            }
+
+            let template = USExaminationTemplate(
+                usExaminationType: usExaminationType,
+                content: content
+            )
+            ultrasoundViewModel.saveTemplate(template)
+            self.messager.show(
+                type: .success,
+                title: .templateSavedSuccessTitle,
+                description: .templateSavedSuccessDescription
+            )
+            self.router.pop()
+        }
     }
 }

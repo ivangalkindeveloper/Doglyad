@@ -63,26 +63,25 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             temperature: ultrasoundModelRepository.getTemperature(),
             responseLength: ultrasoundModelRepository.getResponseLength()
         )
-        let requestTemplate: String? = {
-            let typeId = conclusion.examinationData.usExaminationTypeId
-            guard let id = container.templateRepository.getTemplateIdByUSExaminationType()[typeId] else {
-                return nil
-            }
-            return container.templateRepository.getTemplate(
-                id: id,
-                usExaminationTypesById: container.usExaminationTypesById
-            )?.content
-        }()
-        let request = USExaminationRequest(
-            neuralModelSettings: neuralModelSettings,
-            examinationData: conclusion.examinationData,
-            template: requestTemplate
-        )
-
         handle {
             self.isLoading = true
+            let requestTemplate: String? = await {
+                let typeId = self.conclusion.examinationData.usExaminationTypeId
+                if let template = await self.container.templateRepository.getTemplatesByUSExaminationId(usExaminationTypesById: self.container.usExaminationTypesById)[typeId] {
+                    return await self.container.templateRepository.getTemplate(
+                        id: template.id,
+                        usExaminationTypesById: self.container.usExaminationTypesById
+                    )?.content
+                }
+                return nil
+            }()
+            let request = USExaminationRequest(
+                neuralModelSettings: neuralModelSettings,
+                examinationData: self.conclusion.examinationData,
+                template: requestTemplate
+            )
             let ultrasoundConfig = self.container.applicationConfig.ultrasound
-            return try await self.container.ultrasoundConclusionRepository.generateConclusion(
+            let modelConclusion = try await self.container.ultrasoundConclusionRepository.generateConclusion(
                 locale: Locale.current,
                 request: request,
                 scanPhotoEncodingOptions: ScanPhotoEncodingOptions(
@@ -90,9 +89,6 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                     compressionQuality: ultrasoundConfig.scanPhotoCompressionQuality
                 )
             )
-        } onDefer: {
-            self.isLoading = false
-        } onMainSuccess: { modelConclusion in
             let updatedConclusion = USExaminationConclusion(
                 id: self.conclusion.id,
                 date: self.conclusion.date,
@@ -101,11 +97,14 @@ final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: [self.conclusion.actualModelConclusion] + self.conclusion.previosModelConclusions
             )
-
-            self.container.ultrasoundConclusionRepository.updateConclusion(
+            await self.container.ultrasoundConclusionRepository.updateConclusion(
                 conclusion: updatedConclusion
             )
 
+            return updatedConclusion
+        } onDefer: {
+            self.isLoading = false
+        } onMainSuccess: { updatedConclusion in
             self.conclusion = updatedConclusion
             withAnimation {
                 proxy.scrollTo(Self.actualModelConclusionCardScrollId, anchor: .top)

@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: NeuralModelSettings -
-
 public protocol DDatabaseNeuralModelSettingsProtocol: AnyObject {
     func getNeuralModelTemperature() -> Double?
 

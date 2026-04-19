@@ -43,6 +43,9 @@ struct HistoryScreenView: View {
                 .padding(.top, toolbarInset)
             }
         }
+        .onAppear {
+            viewModel.onInit()
+        }
         .environment(viewModel)
     }
 }

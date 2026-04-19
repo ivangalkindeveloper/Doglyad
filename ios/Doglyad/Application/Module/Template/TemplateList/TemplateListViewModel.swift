@@ -1,10 +1,12 @@
+import DoglyadNetwork
 import Foundation
+import Handler
 import Router
 import SwiftUI
 
 @MainActor
 @Observable
-final class TemplateListViewModel {
+final class TemplateListViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     private let container: DependencyContainer
     private let router: DRouter
 
@@ -14,16 +16,20 @@ final class TemplateListViewModel {
     ) {
         self.container = container
         self.router = router
-        load()
+        super.init()
+    }
+
+    func onInit() {
+        handle {
+            await self.container.templateRepository.getTemplates(
+                usExaminationTypesById: self.container.usExaminationTypesById
+            )
+        } onMainSuccess: { templates in
+            self.templates = templates
+        }
     }
 
     var templates: [USExaminationTemplate] = []
-
-    func load() {
-        templates = container.templateRepository.getTemplates(
-            usExaminationTypesById: container.usExaminationTypesById
-        )
-    }
 
     func onTapBack() {
         router.pop()

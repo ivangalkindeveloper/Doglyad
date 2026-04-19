@@ -1,11 +1,13 @@
+import DoglyadNetwork
 import DoglyadUI
 import Foundation
+import Handler
 import Router
 import SwiftUI
 
 @MainActor
 @Observable
-final class TemplateEditViewModel {
+final class TemplateEditViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     enum Focus: Hashable {
         case content
     }
@@ -26,13 +28,18 @@ final class TemplateEditViewModel {
         self.messager = messager
         self.arguments = arguments
         usExaminationType = container.usExaminationTypeDefault
+    }
 
-        if let template = container.templateRepository.getTemplate(
-            id: arguments.templateId,
-            usExaminationTypesById: container.usExaminationTypesById
-        ) {
-            usExaminationType = template.usExaminationType
-            templateController.text = template.content
+    func onInit() {
+        handle {
+            await self.container.templateRepository.getTemplate(
+                id: self.arguments.templateId,
+                usExaminationTypesById: self.container.usExaminationTypesById
+            )!
+        } onMainSuccess: { template in
+            self.usExaminationType = self.container.usExaminationTypesById[template.usExaminationType.id]
+                ?? self.container.usExaminationTypeDefault
+            self.templateController.text = template.content
         }
     }
 
@@ -88,7 +95,7 @@ final class TemplateEditViewModel {
             usExaminationType: usExaminationType,
             content: content
         )
-        ultrasoundViewModel.updateTemplate(template)
+        ultrasoundViewModel.saveTemplate(template)
         messager.show(
             type: .success,
             title: .templateSavedSuccessTitle,

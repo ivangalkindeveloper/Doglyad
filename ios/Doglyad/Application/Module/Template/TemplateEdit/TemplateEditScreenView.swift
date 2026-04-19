@@ -98,6 +98,9 @@ struct TemplateEditScreenView: View {
                 .padding(size.s16)
             }
         )
+        .onAppear {
+            viewModel.onInit()
+        }
         .environment(viewModel)
     }
 }

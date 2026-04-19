@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: USExaminationNeuralModel -
-
 public protocol DDatabaseUSExaminationNeuralModelProtocol: AnyObject {
     func getSelectedUSExaminationNeuralModelId() -> String?
 

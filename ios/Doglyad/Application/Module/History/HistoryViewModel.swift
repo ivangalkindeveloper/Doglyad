@@ -1,10 +1,12 @@
+import DoglyadNetwork
 import Foundation
+import Handler
 import Router
 import SwiftUI
 
 @MainActor
 @Observable
-final class HistoryViewModel {
+final class HistoryViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     private let container: DependencyContainer
     private let router: DRouter
 
@@ -14,15 +16,15 @@ final class HistoryViewModel {
     ) {
         self.container = container
         self.router = router
-        onInit()
+    }
+
+    func onInit() {
+        handle {
+            self.conclusions = await self.container.ultrasoundConclusionRepository.getConclusions()
+        }
     }
 
     var conclusions: [USExaminationConclusion] = []
-
-    private func onInit() {
-        let conclusions = container.ultrasoundConclusionRepository.getConclusions()
-        self.conclusions = conclusions
-    }
 
     func onTapBack() {
         router.pop()

@@ -82,6 +82,9 @@ struct SettingsScreenView: View {
                 .padding(.bottom, size.s32)
             }
         }
+        .onAppear {
+            viewModel.onInit()
+        }
         .environment(viewModel)
     }
 }

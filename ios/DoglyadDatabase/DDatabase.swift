@@ -4,6 +4,9 @@ import SwiftData
 public final class DDatabase: DDatabaseProtocol {
     let defaults: UserDefaults = .standard
     var container: ModelContainer
+    public let examinationConclusions: DExaminationConclusionsStore
+    public let requestLimit: DRequestLimitStore
+    public let examinationTemplates: DExaminationTemplatesStore
 
     public init() throws {
         let schema = Schema([
@@ -17,6 +20,15 @@ public final class DDatabase: DDatabaseProtocol {
         ])
         container = try ModelContainer(
             for: schema
+        )
+        examinationConclusions = DExaminationConclusionsStore(
+            modelContainer: container
+        )
+        requestLimit = DRequestLimitStore(
+            modelContainer: container
+        )
+        examinationTemplates = DExaminationTemplatesStore(
+            modelContainer: container
         )
     }
 }

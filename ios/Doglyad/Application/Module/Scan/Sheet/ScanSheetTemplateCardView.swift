@@ -39,7 +39,7 @@ struct ScanSheetTemplateCardView: View {
                         font: typography.linkSmall
                     )
 
-                    if let template = viewModel.selectedTemplate(ultrasoundViewModel: ultrasoundViewModel) {
+                    if let template = viewModel.getTemplate(ultrasoundViewModel: ultrasoundViewModel) {
                         DText(template.content)
                             .dStyle(
                                 font: typography.textXSmall,

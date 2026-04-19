@@ -10,53 +10,48 @@ final class TemplateRepository: TemplateRepositoryProtocol {
         self.database = database
     }
 
-    @MainActor func getTemplates(
+    func getTemplates(
         usExaminationTypesById: [String: USExaminationType]
-    ) -> [USExaminationTemplate] {
-        database.getExaminationTemplates().compactMap { db in
-            guard let type = usExaminationTypesById[db.usExaminationTypeId] else { return nil }
-            return USExaminationTemplate.fromDB(db, usExaminationType: type)
+    ) async -> [USExaminationTemplate] {
+        await database.examinationTemplates.fetchExaminationTemplates { dbs in
+            dbs.compactMap { db in
+                guard let type = usExaminationTypesById[db.usExaminationTypeId] else { return nil }
+                return USExaminationTemplate.fromDB(db, usExaminationType: type)
+            }
         }
     }
 
-    @MainActor func getTemplate(
+    func getTemplatesByUSExaminationId(
+        usExaminationTypesById: [String: USExaminationType]
+    ) async -> [String: USExaminationTemplate] {
+        await database.examinationTemplates.fetchExaminationTemplates { dbs in
+            var map: [String: USExaminationTemplate] = [:]
+            for db in dbs {
+                guard let type = usExaminationTypesById[db.usExaminationTypeId] else { continue }
+                let template = USExaminationTemplate.fromDB(db, usExaminationType: type)
+                map[type.id] = template
+            }
+            return map
+        }
+    }
+
+    func getTemplate(
         id: UUID,
         usExaminationTypesById: [String: USExaminationType]
-    ) -> USExaminationTemplate? {
-        getTemplates(usExaminationTypesById: usExaminationTypesById).first { $0.id == id }
+    ) async -> USExaminationTemplate? {
+        let templates = await getTemplates(usExaminationTypesById: usExaminationTypesById)
+        return templates.first { $0.id == id }
     }
 
-    @MainActor func saveTemplate(
+    func saveTemplate(
         template: USExaminationTemplate
-    ) {
-        database.upsertExaminationTemplate(value: template.toDB())
+    ) async {
+        await database.examinationTemplates.upsertExaminationTemplate(value: template.toDB())
     }
 
-    @MainActor func deleteTemplate(
+    func deleteTemplate(
         id: UUID
-    ) {
-        database.deleteExaminationTemplate(id: id)
-        var map = database.getSelectedTemplateIdByExaminationType()
-        for (examinationTypeId, templateId) in map where templateId == id {
-            map.removeValue(forKey: examinationTypeId)
-        }
-        database.setSelectedTemplateIdByExaminationType(value: map)
-    }
-
-    func getTemplateIdByUSExaminationType() -> [String: UUID] {
-        database.getSelectedTemplateIdByExaminationType()
-    }
-
-    func setTemplateIdByUSExaminaionType(
-        templateId: UUID?,
-        USExaminationTypeId: String
-    ) {
-        var map = database.getSelectedTemplateIdByExaminationType()
-        if let templateId {
-            map[USExaminationTypeId] = templateId
-        } else {
-            map.removeValue(forKey: USExaminationTypeId)
-        }
-        database.setSelectedTemplateIdByExaminationType(value: map)
+    ) async {
+        await database.examinationTemplates.deleteExaminationTemplate(id: id)
     }
 }

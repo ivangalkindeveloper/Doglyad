@@ -18,19 +18,19 @@ protocol UltrasoundConclusionRepositoryProtocol: AnyObject {
         scanPhotoEncodingOptions: ScanPhotoEncodingOptions
     ) async throws -> USExaminationModelConclusion
 
-    @MainActor func getConclusions() -> [USExaminationConclusion]
+    func getConclusions() async -> [USExaminationConclusion]
 
-    @MainActor func setConclusion(
+    func setConclusion(
         conclusion: USExaminationConclusion
-    )
+    ) async
 
-    @MainActor func updateConclusion(
+    func updateConclusion(
         conclusion: USExaminationConclusion
-    )
+    ) async
 
-    @MainActor func clearAllConclusions()
+    func clearAllConclusions() async
 
     // MARK: Common -
 
-    @MainActor func clearAll()
+    @MainActor func clearAll() async
 }

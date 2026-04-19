@@ -1,11 +1,13 @@
+import DoglyadNetwork
 import DoglyadUI
 import Foundation
+import Handler
 import Router
 import SwiftUI
 
 @MainActor
 @Observable
-final class StorageViewModel {
+final class StorageViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
@@ -32,13 +34,16 @@ final class StorageViewModel {
                     onConfirm: { [weak self] in
                         guard let self = self else { return }
 
-                        self.container.ultrasoundConclusionRepository.clearAllConclusions()
-                        self.messager.show(
-                            type: .success,
-                            title: .storageClearConclusionsSuccessMessageTitle,
-                            description: .storageClearConclusionsSuccessMessageDescription
-                        )
-                        self.router.pop()
+                        handle {
+                            await self.container.ultrasoundConclusionRepository.clearAllConclusions()
+                        } onMainSuccess: { _ in
+                            self.messager.show(
+                                type: .success,
+                                title: .storageClearConclusionsSuccessMessageTitle,
+                                description: .storageClearConclusionsSuccessMessageDescription
+                            )
+                            self.router.pop()
+                        }
                     }
                 )
             )
@@ -53,19 +58,22 @@ final class StorageViewModel {
                     onConfirm: { [weak self] in
                         guard let self = self else { return }
 
-                        self.container.ultrasoundConclusionRepository.clearAll()
-                        self.messager.show(
-                            type: .success,
-                            title: .storageClearAllSuccessMessageTitle,
-                            description: .storageClearAllSuccessMessageDescription
-                        )
-                        self.router.popRoot()
-                        withAnimation {
-                            self.router.root(
-                                route: RouteScreen(
-                                    type: .onBoarding
-                                )
+                        handle {
+                            await self.container.ultrasoundConclusionRepository.clearAll()
+                        } onMainSuccess: { _ in
+                            self.messager.show(
+                                type: .success,
+                                title: .storageClearAllSuccessMessageTitle,
+                                description: .storageClearAllSuccessMessageDescription
                             )
+                            self.router.popRoot()
+                            withAnimation {
+                                self.router.root(
+                                    route: RouteScreen(
+                                        type: .onBoarding
+                                    )
+                                )
+                            }
                         }
                     }
                 )

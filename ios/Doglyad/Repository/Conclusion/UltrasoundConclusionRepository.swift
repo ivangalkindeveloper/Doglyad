@@ -53,31 +53,37 @@ extension UltrasoundConclusionRepository {
         )
     }
 
-    @MainActor func getConclusions() -> [USExaminationConclusion] {
-        database.getExaminationConclusions().map { USExaminationConclusion.fromDB($0) }
+    func getConclusions() async -> [USExaminationConclusion] {
+        await database.examinationConclusions.fetchExaminationConclusions { models in
+            models.map { USExaminationConclusion.fromDB($0) }
+        }
     }
 
-    @MainActor func setConclusion(
+    func setConclusion(
         conclusion: USExaminationConclusion
-    ) {
-        database.setExaminationConclusion(value: conclusion.toDB())
+    ) async {
+        await database.examinationConclusions.setExaminationConclusion(
+            value: conclusion.toDB()
+        )
     }
 
-    @MainActor func updateConclusion(
+    func updateConclusion(
         conclusion: USExaminationConclusion
-    ) {
-        database.updateExaminationConclusion(value: conclusion.toDB())
+    ) async {
+        await database.examinationConclusions.updateExaminationConclusion(
+            value: conclusion.toDB()
+        )
     }
 
-    @MainActor func clearAllConclusions() {
-        database.clearAllExaminationConclusions()
+    func clearAllConclusions() async {
+        await database.examinationConclusions.clearAllExaminationConclusions()
     }
 }
 
 // MARK: Common -
 
 extension UltrasoundConclusionRepository {
-    @MainActor func clearAll() {
-        database.clearAll()
+    @MainActor func clearAll() async {
+        await database.clearAll()
     }
 }

@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: OnBoarding -
-
 public protocol DDatabaseOnBoardingProtocol: AnyObject {
     func getOnBoardingCompleted() -> Bool
 

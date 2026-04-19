@@ -5,7 +5,9 @@ public protocol DDatabaseProtocol: AnyObject,
     DDatabaseNeuralModelSettingsProtocol,
     DDatabaseUSExaminationTypeProtocol,
     DDatabaseUSExaminationNeuralModelProtocol,
-    DDatabaseUSExaminationTemplateProtocol,
-    DDatabaseModelConclusionProtocol,
-    DDatabaseRequestLimitProtocol,
-    DDatabaseClearProtocol {}
+    DDatabaseClearProtocol
+{
+    var examinationConclusions: DExaminationConclusionsStore { get }
+    var requestLimit: DRequestLimitStore { get }
+    var examinationTemplates: DExaminationTemplatesStore { get }
+}

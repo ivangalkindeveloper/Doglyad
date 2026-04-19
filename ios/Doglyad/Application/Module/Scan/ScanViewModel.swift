@@ -80,9 +80,11 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         {
             self.usExaminationType = usExaminationType
         }
-
-        let patientCount = container.ultrasoundConclusionRepository.getConclusions().count
-        patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
+        handle {
+            await self.container.ultrasoundConclusionRepository.getConclusions().count
+        } onMainSuccess: { patientCount in
+            self.patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
+        }
         patientDateOfBirth = defaultPatientDateOfBirth
         patientHeightCMController.text = String(defaultPatientHeightCM)
         patientWeightKGController.text = String(defaultPatientWeightKG)
@@ -219,31 +221,17 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         )
     }
 
-    func onTapNeuralModelSettings() {
-        router.push(
-            route: RouteScreen(
-                type: .neuralModel
-            )
-        )
-    }
-
-    func selectedTemplate(
+    func getTemplate(
         ultrasoundViewModel: UltrasoundViewModel
     ) -> USExaminationTemplate? {
-        guard let id = ultrasoundViewModel.templateIdByUSExaminationTypeId[usExaminationType.id] else {
-            return nil
-        }
-        return container.templateRepository.getTemplate(
-            id: id,
-            usExaminationTypesById: container.usExaminationTypesById
-        )
+        ultrasoundViewModel.templateIdByUSExaminationTypeId[usExaminationType.id]
     }
 
     func onTapSelectedTemplate(
         ultrasoundViewModel: UltrasoundViewModel
     ) {
-        if let template = selectedTemplate(ultrasoundViewModel: ultrasoundViewModel) {
-            router.push(
+        if let template = getTemplate(ultrasoundViewModel: ultrasoundViewModel) {
+            return router.push(
                 route: RouteScreen(
                     type: .templateEdit,
                     arguments: TemplateEditScreenArguments(
@@ -251,13 +239,21 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                     )
                 )
             )
-        } else {
-            router.push(
-                route: RouteScreen(
-                    type: .templateList
-                )
-            )
         }
+
+        router.push(
+            route: RouteScreen(
+                type: .templateList
+            )
+        )
+    }
+
+    func onTapNeuralModelSettings() {
+        router.push(
+            route: RouteScreen(
+                type: .neuralModel
+            )
+        )
     }
 
     func onTapFill() {
@@ -294,8 +290,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     }
 
     func onTapSpeech() {
-        Task {
-            guard await self.container.permissionManager.isGranted(.speech) else {
+        handle {
+            await self.container.permissionManager.isGranted(.speech)
+        } onMainSuccess: { isGranted in
+            if !isGranted {
                 return self.router.push(
                     route: RouteSheet(
                         type: .permissionSpeech
@@ -376,7 +374,6 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             temperature: ultrasoundViewModel.temperature,
             responseLength: responseLength
         )
-
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,
             photos: photos,
@@ -389,16 +386,17 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
             examinationDescription: examinationDescriptionController.text,
             additionalData: additionalDataController.text
         )
-        let request = USExaminationRequest(
-            neuralModelSettings: neuralModelSettings,
-            examinationData: examinationData,
-            template: selectedTemplate(ultrasoundViewModel: ultrasoundViewModel)?.content
-        )
+        let template = getTemplate(ultrasoundViewModel: ultrasoundViewModel)
 
         handle {
             self.isLoading = true
-            let ultrasoundConclusionRepository = self.container.ultrasoundConclusionRepository
-            return try await ultrasoundConclusionRepository.generateConclusion(
+
+            let request = USExaminationRequest(
+                neuralModelSettings: neuralModelSettings,
+                examinationData: examinationData,
+                template: template?.content
+            )
+            let modelConclusion = try await self.container.ultrasoundConclusionRepository.generateConclusion(
                 locale: Locale.current,
                 request: request,
                 scanPhotoEncodingOptions: ScanPhotoEncodingOptions(
@@ -406,10 +404,9 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                     compressionQuality: self.ultrasoundConfig.scanPhotoCompressionQuality
                 )
             )
-        } onDefer: {
-            self.isLoading = false
-        } onMainSuccess: { modelConclusion in
             ultrasoundViewModel.incrementRequestCount()
+            await self.reset()
+
             let conclusion = USExaminationConclusion(
                 date: Date(),
                 neuralModelSettings: neuralModelSettings,
@@ -417,13 +414,14 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
                 actualModelConclusion: modelConclusion,
                 previosModelConclusions: []
             )
-
-            self.container.ultrasoundConclusionRepository.setConclusion(
+            await self.container.ultrasoundConclusionRepository.setConclusion(
                 conclusion: conclusion
             )
 
-            self.reset()
-
+            return conclusion
+        } onDefer: {
+            self.isLoading = false
+        } onMainSuccess: { conclusion in
             self.router.push(
                 route: RouteSheet(
                     type: .recievedConclusion,
@@ -437,10 +435,10 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         }
     }
 
-    private func reset() {
+    private func reset() async {
         sheetController.setHidden()
         photos.removeAll()
-        let patientCount = container.ultrasoundConclusionRepository.getConclusions().count
+        let patientCount = await container.ultrasoundConclusionRepository.getConclusions().count
         patientNameController.text = String(localized: .scanPatientDefaultNameLabel(count: patientCount))
         patientGender = .male
         patientDateOfBirth = defaultPatientDateOfBirth

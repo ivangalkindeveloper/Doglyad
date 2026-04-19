@@ -15,9 +15,9 @@ protocol UltrasoundModelRepositoryProtocol: AnyObject {
 
     // MARK: RequestLimit -
 
-    @MainActor func remainingRequestCount(
+    func remainingRequestCount(
         limit: Int
-    ) -> Int
+    ) async -> Int
 
-    @MainActor func incrementRequestCount()
+    func incrementRequestCount() async
 }
