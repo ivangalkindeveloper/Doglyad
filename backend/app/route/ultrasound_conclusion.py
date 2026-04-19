@@ -13,18 +13,20 @@ from app.core.config import (
     resolve_examination_title,
     resolve_neural_model,
 )
+from app.core.limiter import limiter
+from app.core.llm_mode import LLM_MODE, RunMode
 from app.model.neural_model_settings import NeuralModelSettings
 from app.model.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.us_examination_neural_model import USExaminationNeuralModel
 from app.model.us_examination_request import USExaminationRequest
 from app.model.us_examination_scan_photo import USExaminationScanPhoto
-from app.core.llm_mode import LLM_MODE, RunMode
 from app.prompt import resolve_prompt_factory
 
 router = APIRouter()
 
 
 @router.post("/ultrasound_conclusion", response_model=USExaminationModelConclusion)
+@limiter.limit("15/minute")
 async def ultrasound_conclusion(
     body: USExaminationRequest,
     request: Request,
