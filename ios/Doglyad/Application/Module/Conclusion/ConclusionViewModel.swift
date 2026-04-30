@@ -7,7 +7,7 @@ import UIKit
 
 @MainActor
 @Observable
-final class ConclusionViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class ConclusionViewModel: BaseViewModel {
     static let actualModelConclusionCardScrollId = "actualModelConclusionCard"
 
     private let container: DependencyContainer

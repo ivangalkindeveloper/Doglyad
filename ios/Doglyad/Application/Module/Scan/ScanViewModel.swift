@@ -9,7 +9,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class ScanViewModel: BaseViewModel {
     enum Focus: Hashable {
         case patientName
         case patientHeightCM
@@ -33,7 +33,6 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         self.router = router
         usExaminationType = container.usExaminationTypeDefault
         super.init()
-        onInit()
     }
 
     private var ultrasoundConfig: UltrasoundConfig {
@@ -73,7 +72,7 @@ final class ScanViewModel: Handler<DHttpApiError, DHttpConnectionError> {
     //
     var isLoading = false
 
-    private func onInit() {
+    override func onInit() {
         cameraController.startSession()
         if let usExaminationTypeId = container.ultrasoundConclusionRepository.getSelectedExaminationTypeId(),
            let usExaminationType = container.usExaminationTypesById[usExaminationTypeId]

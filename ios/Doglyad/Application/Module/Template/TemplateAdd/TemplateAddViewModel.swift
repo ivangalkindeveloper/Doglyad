@@ -7,7 +7,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-final class TemplateAddViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class TemplateAddViewModel: BaseViewModel {
     enum Focus: Hashable {
         case content
     }

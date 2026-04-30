@@ -25,5 +25,8 @@ struct MainRootView: View {
         .dMessage()
         .environment(dependencyContainer)
         .environment(ultrasoundViewModel)
+        .onAppear {
+            ultrasoundViewModel.onAppear()
+        }
     }
 }

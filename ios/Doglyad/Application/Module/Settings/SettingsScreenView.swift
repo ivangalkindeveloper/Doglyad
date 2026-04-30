@@ -83,7 +83,7 @@ struct SettingsScreenView: View {
             }
         }
         .onAppear {
-            viewModel.onInit()
+            viewModel.onAppear()
         }
         .environment(viewModel)
     }

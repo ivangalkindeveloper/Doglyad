@@ -96,8 +96,11 @@ struct ScanScreenView: View {
         .onChange(of: viewModel.sheetController.currentPosition, initial: true) {
             viewModel.onChangeSheetForCamera()
         }
+        .onAppear {
+            viewModel.onAppear()
+        }
         .onDisappear {
-            self.viewModel.onDisappear()
+            viewModel.onDisappear()
         }
         .environment(viewModel)
     }

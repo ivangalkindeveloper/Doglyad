@@ -4,7 +4,7 @@ import Handler
 
 @MainActor
 @Observable
-final class UltrasoundViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class UltrasoundViewModel: BaseViewModel {
     private let container: DependencyContainer
 
     init(
@@ -36,10 +36,9 @@ final class UltrasoundViewModel: Handler<DHttpApiError, DHttpConnectionError> {
         templateIdByUSExaminationTypeId = [:]
         availableRequestCount = container.applicationConfig.ultrasound.requestCountPerDay
         super.init()
-        onInit()
     }
 
-    private func onInit() {
+    override func onInit() {
         handle {
             self.templateIdByUSExaminationTypeId = await self.container.templateRepository
                 .getTemplatesByUSExaminationId(

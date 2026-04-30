@@ -6,7 +6,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-final class SettingsViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class SettingsViewModel: BaseViewModel {
     private let container: DependencyContainer
     private let router: DRouter
 
@@ -21,7 +21,7 @@ final class SettingsViewModel: Handler<DHttpApiError, DHttpConnectionError> {
 
     var conclusions: [USExaminationConclusion] = []
 
-    func onInit() {
+    override func onInit() {
         handle {
             await self.container.ultrasoundConclusionRepository.getConclusions()
         } onMainSuccess: { conclusions in

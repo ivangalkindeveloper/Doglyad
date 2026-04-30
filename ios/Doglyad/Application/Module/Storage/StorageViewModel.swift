@@ -7,7 +7,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-final class StorageViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class StorageViewModel: BaseViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter

@@ -62,7 +62,7 @@ struct TemplateListScreenView: View {
             }
         )
         .onAppear {
-            viewModel.onInit()
+            viewModel.onAppear()
         }
         .environment(viewModel)
     }

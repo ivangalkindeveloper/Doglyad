@@ -6,7 +6,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-final class TemplateListViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class TemplateListViewModel: BaseViewModel {
     private let container: DependencyContainer
     private let router: DRouter
 
@@ -19,7 +19,7 @@ final class TemplateListViewModel: Handler<DHttpApiError, DHttpConnectionError> 
         super.init()
     }
 
-    func onInit() {
+    override func onInit() {
         handle {
             await self.container.templateRepository.getTemplates(
                 usExaminationTypesById: self.container.usExaminationTypesById

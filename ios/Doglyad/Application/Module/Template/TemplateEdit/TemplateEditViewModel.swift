@@ -7,7 +7,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-final class TemplateEditViewModel: Handler<DHttpApiError, DHttpConnectionError> {
+final class TemplateEditViewModel: BaseViewModel {
     enum Focus: Hashable {
         case content
     }
@@ -30,7 +30,7 @@ final class TemplateEditViewModel: Handler<DHttpApiError, DHttpConnectionError> 
         usExaminationType = container.usExaminationTypeDefault
     }
 
-    func onInit() {
+    override func onInit() {
         handle {
             await self.container.templateRepository.getTemplate(
                 id: self.arguments.templateId,

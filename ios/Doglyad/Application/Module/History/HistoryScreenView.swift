@@ -44,7 +44,7 @@ struct HistoryScreenView: View {
             }
         }
         .onAppear {
-            viewModel.onInit()
+            viewModel.onAppear()
         }
         .environment(viewModel)
     }

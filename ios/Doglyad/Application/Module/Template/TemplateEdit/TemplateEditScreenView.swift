@@ -99,7 +99,7 @@ struct TemplateEditScreenView: View {
             }
         )
         .onAppear {
-            viewModel.onInit()
+            viewModel.onAppear()
         }
         .environment(viewModel)
     }
