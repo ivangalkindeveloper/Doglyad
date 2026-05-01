@@ -1,5 +1,5 @@
-fastapi
-httpx
-pydantic
-slowapi
-uvicorn[standard]
+fastapi==0.136.1
+httpx==0.28.1
+pydantic==2.13.3
+slowapi==0.1.9
+uvicorn[standard]==0.46.0

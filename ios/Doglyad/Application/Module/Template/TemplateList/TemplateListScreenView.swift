@@ -2,13 +2,13 @@ import DoglyadUI
 import SwiftUI
 
 struct TemplateListScreenView: View {
-    @Environment(DTheme.self) private var theme
-    @Environment(DependencyContainer.self) private var container
+    @EnvironmentObject private var theme: DTheme
+    @EnvironmentObject private var container: DependencyContainer
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @State var viewModel: TemplateListViewModel
+    @StateObject var viewModel: TemplateListViewModel
 
     var body: some View {
         DScreen(
@@ -64,6 +64,6 @@ struct TemplateListScreenView: View {
         .onAppear {
             viewModel.onAppear()
         }
-        .environment(viewModel)
+        .environmentObject(viewModel)
     }
 }

@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from app.model.us_examination_scan_photo import USExaminationScanPhoto
+from app.model.ultrasound.us_examination_scan_photo import USExaminationScanPhoto
 
 
 class USExaminationData(BaseModel):

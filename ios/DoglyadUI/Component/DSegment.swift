@@ -18,7 +18,7 @@ public struct DSegmentItem<T: Equatable>: Identifiable {
 }
 
 public struct DSegment<T: Equatable>: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
@@ -60,7 +60,7 @@ public struct DSegment<T: Equatable>: View {
 }
 
 public struct DSegmentButtonStyle: ButtonStyle {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }

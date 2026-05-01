@@ -1,7 +1,7 @@
 import SwiftUI
 
 public struct DButton: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }

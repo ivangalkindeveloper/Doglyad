@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 
 struct SettingsScreen: View {
-    @Environment(DependencyContainer.self) private var container
+    @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
     let arguments: SettingsScreenArguments?
 

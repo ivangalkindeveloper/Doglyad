@@ -1,11 +1,10 @@
 import SwiftUI
 
-@Observable
-public class DTheme {
-    public var color: DColor
-    public var size: DSize
-    public var typography: DTypography
-    public var animation: Animation? = .spring(
+public class DTheme: ObservableObject {
+    @Published public var color: DColor
+    @Published public var size: DSize
+    @Published public var typography: DTypography
+    @Published public var animation: Animation? = .spring(
         response: 0.5,
         dampingFraction: 0.75,
         blendDuration: 1

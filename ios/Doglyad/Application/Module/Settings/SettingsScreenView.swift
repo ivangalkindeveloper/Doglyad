@@ -2,12 +2,12 @@ import DoglyadUI
 import SwiftUI
 
 struct SettingsScreenView: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @State var viewModel: SettingsViewModel
+    @StateObject var viewModel: SettingsViewModel
 
     var body: some View {
         DScreen(
@@ -85,6 +85,6 @@ struct SettingsScreenView: View {
         .onAppear {
             viewModel.onAppear()
         }
-        .environment(viewModel)
+        .environmentObject(viewModel)
     }
 }

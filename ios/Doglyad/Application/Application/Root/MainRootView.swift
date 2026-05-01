@@ -5,11 +5,13 @@ import SwiftUI
 struct MainRootView: View {
     let dependencyContainer: DependencyContainer
 
-    @State private var ultrasoundViewModel: UltrasoundViewModel
+    @StateObject private var ultrasoundViewModel: UltrasoundViewModel
 
-    init(dependencyContainer: DependencyContainer) {
+    init(
+        dependencyContainer: DependencyContainer
+    ) {
         self.dependencyContainer = dependencyContainer
-        _ultrasoundViewModel = State(initialValue: UltrasoundViewModel(
+        _ultrasoundViewModel = StateObject(wrappedValue: UltrasoundViewModel(
             container: dependencyContainer
         ))
     }
@@ -23,8 +25,8 @@ struct MainRootView: View {
             )
         )
         .dMessage()
-        .environment(dependencyContainer)
-        .environment(ultrasoundViewModel)
+        .environmentObject(dependencyContainer)
+        .environmentObject(ultrasoundViewModel)
         .onAppear {
             ultrasoundViewModel.onAppear()
         }

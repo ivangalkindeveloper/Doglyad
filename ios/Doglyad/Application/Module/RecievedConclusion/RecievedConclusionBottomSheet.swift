@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 
 struct RecievedConclusionBottomSheet: View {
-    @Environment(DMessager.self) private var messager
+    @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     let arguments: RecievedConclusionBottomSheetArguments
 

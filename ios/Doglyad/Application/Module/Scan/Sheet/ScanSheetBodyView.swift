@@ -3,13 +3,13 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanSheetBodyView: View {
-    @Environment(DependencyContainer.self) private var container
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @Environment(ScanViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: ScanViewModel
     let focus: FocusState<ScanViewModel.Focus?>.Binding
 
     var body: some View {

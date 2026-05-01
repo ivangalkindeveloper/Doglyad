@@ -2,39 +2,71 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Backend: Stub",
+            "name": "Backend: Development Stub",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
                 "app.main:app",
                 "--host", "0.0.0.0",
-                "--port", "8000",
-                "--reload"
+                "--port", "8000"
             ],
             "cwd": "${workspaceFolder}/backend",
+            "envFile": "${workspaceFolder}/backend/.env",
             "env": {
-                "LLM_MODE": "stub",
-                "VLLM_HOST": "http://127.0.0.1",
-                "CONFIG_DIR": "${workspaceFolder}/config"
+                "ENVIRONMENT": "development",
+                "LLM_MODE": "stub"
             }
         },
         {
-            "name": "Backend: Inference",
+            "name": "Backend: Development RunPod",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
                 "app.main:app",
                 "--host", "0.0.0.0",
-                "--port", "8000",
-                "--reload"
+                "--port", "8000"
             ],
             "cwd": "${workspaceFolder}/backend",
+            "envFile": "${workspaceFolder}/backend/.env",
             "env": {
-                "LLM_MODE": "inference",
-                "VLLM_HOST": "http://127.0.0.1",
-                "CONFIG_DIR": "${workspaceFolder}/config"
+                "ENVIRONMENT": "development",
+                "LLM_MODE": "runpod"
+            }
+        },
+        {
+            "name": "Backend: Production Stub",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "app.main:app",
+                "--host", "0.0.0.0",
+                "--port", "8000"
+            ],
+            "cwd": "${workspaceFolder}/backend",
+            "envFile": "${workspaceFolder}/backend/.env",
+            "env": {
+                "ENVIRONMENT": "production",
+                "LLM_MODE": "stub"
+            }
+        },
+        {
+            "name": "Backend: Production RunPod",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "app.main:app",
+                "--host", "0.0.0.0",
+                "--port", "8000"
+            ],
+            "cwd": "${workspaceFolder}/backend",
+            "envFile": "${workspaceFolder}/backend/.env",
+            "env": {
+                "ENVIRONMENT": "production",
+                "LLM_MODE": "runpod"
             }
         }
     ]

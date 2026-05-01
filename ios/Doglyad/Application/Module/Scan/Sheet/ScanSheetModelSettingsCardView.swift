@@ -2,13 +2,13 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanSheetModelSettingsCardView: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @Environment(ScanViewModel.self) private var viewModel
-    @Environment(UltrasoundViewModel.self) private var ultrasoundViewModel
+    @EnvironmentObject private var viewModel: ScanViewModel
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
 
     var body: some View {
         VStack(

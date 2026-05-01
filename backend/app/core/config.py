@@ -1,15 +1,17 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 from pathlib import Path
 
 from fastapi import HTTPException
 
-from app.model.us_examination_neural_model import USExaminationNeuralModel
-from app.model.us_examination_type import USExaminationType
+from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
+from app.model.ultrasound.us_examination_type import USExaminationType
 
-VLLM_HOST = os.getenv("VLLM_HOST", "http://host.docker.internal")
+logger = logging.getLogger(__name__)
+
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 CONFIG_DIR = Path(os.getenv("CONFIG_DIR", str(Path(__file__).resolve().parent.parent.parent / "config"))) / ENVIRONMENT
 
@@ -17,18 +19,31 @@ neural_models: dict[str, USExaminationNeuralModel] = {}
 examination_types: dict[str, USExaminationType] = {}
 
 
+def _load_json_array(path: Path) -> list[dict]:
+    if not path.exists():
+        raise RuntimeError(f"Config file not found: {path}")
+    try:
+        with open(path, encoding="utf-8") as file:
+            data = json.load(file)
+    except json.JSONDecodeError as error:
+        raise RuntimeError(f"Invalid JSON in config file {path}: {error}") from error
+    if not isinstance(data, list):
+        raise RuntimeError(f"Config file {path} must contain a JSON array")
+    return data
+
+
 def load_configs() -> None:
-    models_path = CONFIG_DIR / "ultrasound_examination_neural_models.json"
-    with open(models_path, encoding="utf-8") as file:
-        for item in json.load(file):
+    try:
+        for item in _load_json_array(CONFIG_DIR / "ultrasound_examination_neural_models.json"):
             model = USExaminationNeuralModel(**item)
             neural_models[model.id] = model
 
-    types_path = CONFIG_DIR / "ultrasound_examination_types.json"
-    with open(types_path, encoding="utf-8") as file:
-        for item in json.load(file):
+        for item in _load_json_array(CONFIG_DIR / "ultrasound_examination_types.json"):
             examination_type = USExaminationType(**item)
             examination_types[examination_type.id] = examination_type
+    except Exception as error:
+        logger.exception("Failed to load application configs from %s", CONFIG_DIR)
+        raise RuntimeError(f"Failed to load configs from {CONFIG_DIR}: {error}") from error
 
 
 def resolve_neural_model(selected_id: str | None) -> USExaminationNeuralModel:

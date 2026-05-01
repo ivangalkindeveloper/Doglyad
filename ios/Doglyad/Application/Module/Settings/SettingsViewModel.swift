@@ -5,7 +5,6 @@ import Router
 import SwiftUI
 
 @MainActor
-@Observable
 final class SettingsViewModel: BaseViewModel {
     private let container: DependencyContainer
     private let router: DRouter
@@ -19,7 +18,7 @@ final class SettingsViewModel: BaseViewModel {
         super.init()
     }
 
-    var conclusions: [USExaminationConclusion] = []
+    @Published var conclusions: [USExaminationConclusion] = []
 
     override func onInit() {
         handle {

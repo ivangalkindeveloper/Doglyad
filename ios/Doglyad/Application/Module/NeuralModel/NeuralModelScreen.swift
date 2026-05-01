@@ -3,8 +3,8 @@ import Router
 import SwiftUI
 
 struct NeuralModelScreen: View {
-    @Environment(DMessager.self) private var messager
-    @Environment(UltrasoundViewModel.self) private var ultrasoundViewModel
+    @EnvironmentObject private var messager: DMessager
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
     @EnvironmentObject private var router: DRouter
     let arguments: NeuralModelScreenArguments?
 

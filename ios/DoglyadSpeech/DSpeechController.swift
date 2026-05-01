@@ -1,20 +1,19 @@
 import AVFoundation
 import Foundation
-import Observation
 import Speech
+import Combine
 
 @MainActor
-@Observable
-public final class DSpeechController {
+public final class DSpeechController: ObservableObject {
     private let audioSession = AVAudioSession.sharedInstance()
     private let speechRecognizer: SFSpeechRecognizer?
     private let audioEngine = AVAudioEngine()
-    @ObservationIgnored private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-    @ObservationIgnored private var recognitionTask: SFSpeechRecognitionTask?
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
 
-    public var isRecording = false
-    public var text: String?
-    public var audioMeter: Float = 0.0
+    @Published public var isRecording = false
+    @Published public var text: String?
+    @Published public var audioMeter: Float = 0.0
 
     public init(
         locale: Locale

@@ -5,7 +5,7 @@ public enum DScreenToolbarType {
 }
 
 public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View, Bottom: View>: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }

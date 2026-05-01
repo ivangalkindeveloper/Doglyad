@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ENVIRONMENT="${1:?Usage: $0 <development|production>}"
+ENVIRONMENT="${1:?Usage: $0 <development|production> [base_port]}"
+BASE_PORT="${2:-8101}"
 
 if [[ "$ENVIRONMENT" != "development" && "$ENVIRONMENT" != "production" ]]; then
     echo "Error: ENVIRONMENT must be 'development' or 'production', got '$ENVIRONMENT'"
@@ -30,13 +31,16 @@ MODELS=$(python3 -c "
 import json, sys
 with open('$CONFIG_FILE') as f:
     for m in json.load(f):
-        print(m['id'], m['port'])
+        print(m['id'])
 ")
 
-while read -r model_id port; do
-    echo "Starting vllm-mlx: $model_id on port $port"
-    vllm-mlx serve "$model_id" --port "$port" &
+PORT="$BASE_PORT"
+while read -r model_id; do
+    [ -z "$model_id" ] && continue
+    echo "Starting vllm-mlx: $model_id on port $PORT"
+    vllm-mlx serve "$model_id" --port "$PORT" &
     PIDS+=($!)
+    PORT=$((PORT + 1))
 done <<< "$MODELS"
 
 wait

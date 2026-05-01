@@ -6,7 +6,6 @@ import SwiftUI
 import UIKit
 
 @MainActor
-@Observable
 final class ConclusionViewModel: BaseViewModel {
     static let actualModelConclusionCardScrollId = "actualModelConclusionCard"
 
@@ -26,8 +25,8 @@ final class ConclusionViewModel: BaseViewModel {
         conclusion = initialConclusion
     }
 
-    var conclusion: USExaminationConclusion
-    var isLoading = false
+    @Published var conclusion: USExaminationConclusion
+    @Published var isLoading = false
 
     func onTapBack() {
         router.pop()

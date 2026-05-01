@@ -2,13 +2,13 @@ import DoglyadUI
 import SwiftUI
 
 struct TemplateEditScreenView: View {
-    @Environment(UltrasoundViewModel.self) private var ultrasoundViewModel
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @State var viewModel: TemplateEditViewModel
+    @StateObject var viewModel: TemplateEditViewModel
     @FocusState private var focus: TemplateAddViewModel.Focus?
 
     var body: some View {
@@ -101,6 +101,6 @@ struct TemplateEditScreenView: View {
         .onAppear {
             viewModel.onAppear()
         }
-        .environment(viewModel)
+        .environmentObject(viewModel)
     }
 }

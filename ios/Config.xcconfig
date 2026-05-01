@@ -1,3 +1,2 @@
 ENVIRONMENT = development
-BASE_URL_SCHEMA = https
-BASE_URL = 000.000.000.000:8000
+BASE_URL = http:/$()/127.0.0.1:8000

@@ -4,7 +4,7 @@ import SwiftUI
 
 @main
 struct Application: App {
-    @State private var viewModel = ApplicationViewModel()
+    @StateObject private var viewModel = ApplicationViewModel()
 
     var body: some Scene {
         WindowGroup {
@@ -15,7 +15,7 @@ struct Application: App {
                 self.viewModel.initialize()
             }
             .dThemeWrapper()
-            .environment(viewModel)
+            .environmentObject(viewModel)
         }
     }
 }

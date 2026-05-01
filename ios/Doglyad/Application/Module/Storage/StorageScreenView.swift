@@ -2,12 +2,12 @@ import DoglyadUI
 import SwiftUI
 
 struct StorageScreenView: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @State var viewModel: StorageViewModel
+    @StateObject var viewModel: StorageViewModel
 
     var body: some View {
         DScreen(
@@ -36,6 +36,6 @@ struct StorageScreenView: View {
                 .padding(.bottom, size.s32)
             }
         }
-        .environment(viewModel)
+        .environmentObject(viewModel)
     }
 }

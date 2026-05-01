@@ -3,8 +3,7 @@ import Router
 import SwiftUI
 
 @MainActor
-@Observable
-final class RecievedConclusionViewModel {
+final class RecievedConclusionViewModel: BaseViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: RecievedConclusionBottomSheetArguments
@@ -19,8 +18,8 @@ final class RecievedConclusionViewModel {
         self.arguments = arguments
     }
 
-    var displayedResponse = ""
-    @ObservationIgnored private var typewriterTask: Task<Void, Never>?
+    @Published var displayedResponse = ""
+    private var typewriterTask: Task<Void, Never>?
 
     var model: USExaminationModelConclusion {
         arguments.conclusion.actualModelConclusion
@@ -30,7 +29,7 @@ final class RecievedConclusionViewModel {
         arguments.conclusion.actualModelConclusion.response
     }
 
-    func onAppear() {
+    override func onInit() {
         startTypewriterAnimation()
     }
 

@@ -13,9 +13,9 @@ private struct PreviewableModifier: ViewModifier {
             )))
             .dMessage()
             .dThemeWrapper()
-            .environment(ApplicationViewModel())
-            .environment(container)
-            .environment(UltrasoundViewModel(
+            .environmentObject(ApplicationViewModel())
+            .environmentObject(container)
+            .environmentObject(UltrasoundViewModel(
                 container: container
             ))
     }

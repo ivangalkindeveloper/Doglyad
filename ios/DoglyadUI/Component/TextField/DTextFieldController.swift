@@ -1,11 +1,10 @@
 import SwiftUI
 
-@Observable
-public class DTextFieldController {
-    public var text: String = ""
+public final class DTextFieldController: ObservableObject {
+    @Published public var text: String = ""
     private let isRequired: Bool
-    var isError: Bool = false
-    var errorText: String?
+    @Published var isError: Bool = false
+    @Published var errorText: String?
 
     public init(
         initialText: String = "",

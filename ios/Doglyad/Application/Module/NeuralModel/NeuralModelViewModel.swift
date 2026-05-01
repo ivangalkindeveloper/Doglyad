@@ -1,11 +1,11 @@
 import DoglyadUI
 import Foundation
+import NestedObservableObject
 import Router
 import SwiftUI
 
 @MainActor
-@Observable
-final class NeuralModelViewModel {
+final class NeuralModelViewModel: BaseViewModel {
     enum Focus: Hashable {
         case temperature
         case length
@@ -25,19 +25,20 @@ final class NeuralModelViewModel {
         onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
         onSettingsSaved: @escaping (Double?, Int?) -> Void
     ) {
-        usExaminationNeuralModel = initialNeuralModel
+        self.usExaminationNeuralModel = initialNeuralModel
         self.messager = messager
         self.router = router
         self.onNeuralModelSelected = onNeuralModelSelected
         self.onSettingsSaved = onSettingsSaved
-        temperatureController.text = String(initialTemperature)
-        responseLengthController.text = String(initialResponseLength)
+        super.init()
+        self.temperatureController.text = String(initialTemperature)
+        self.responseLengthController.text = String(initialResponseLength)
     }
 
-    var usExaminationNeuralModel: USExaminationNeuralModel
-    var focus: Focus?
-    var temperatureController = DTextFieldController()
-    var responseLengthController = DTextFieldController()
+    @Published var usExaminationNeuralModel: USExaminationNeuralModel
+    @Published var focus: Focus?
+    @NestedObservableObject var temperatureController = DTextFieldController()
+    @NestedObservableObject var responseLengthController = DTextFieldController()
 
     func unfocus() {
         focus = nil

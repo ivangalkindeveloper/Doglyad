@@ -2,12 +2,12 @@ import DoglyadUI
 import SwiftUI
 
 struct HistoryScreenView: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @State var viewModel: HistoryViewModel
+    @StateObject var viewModel: HistoryViewModel
 
     var body: some View {
         DScreen(
@@ -46,6 +46,6 @@ struct HistoryScreenView: View {
         .onAppear {
             viewModel.onAppear()
         }
-        .environment(viewModel)
+        .environmentObject(viewModel)
     }
 }

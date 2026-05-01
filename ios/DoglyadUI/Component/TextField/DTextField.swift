@@ -18,12 +18,12 @@ public class DTextFieldFocus<Focus: Hashable> {
 }
 
 public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    private var controller: DTextFieldController
+    @ObservedObject private var controller: DTextFieldController
     private let focus: DTextFieldFocus<Focus>?
     private let title: LocalizedStringResource
     private let placeholder: LocalizedStringResource
@@ -84,8 +84,6 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
     }
 
     public var body: some View {
-        @Bindable var controller = controller
-
         VStack(
             alignment: .leading,
             spacing: .zero

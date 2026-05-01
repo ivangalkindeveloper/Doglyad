@@ -10,9 +10,8 @@ extension InitializationProcess {
             title: "Environment",
             run: { (process: InitializationProcess) in
                 let type = EnvironmentType(rawValue: Bundle.dictionaryString(.ENVIRONMENT)) ?? .development
-                let baseUrlSchemaString = Bundle.dictionaryString(.BASE_URL_SCHEMA)
                 let baseUrlString = Bundle.dictionaryString(.BASE_URL)
-                let baseUrl = URL(string: "\(baseUrlSchemaString)://\(baseUrlString)")!
+                let baseUrl = URL(string: baseUrlString)!
                 process.environment = EnvironmentBase(
                     type: type,
                     baseUrl: baseUrl

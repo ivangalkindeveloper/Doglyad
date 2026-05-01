@@ -2,11 +2,11 @@ import DoglyadNetwork
 import DoglyadUI
 import Foundation
 import Handler
+import NestedObservableObject
 import Router
 import SwiftUI
 
 @MainActor
-@Observable
 final class TemplateAddViewModel: BaseViewModel {
     enum Focus: Hashable {
         case content
@@ -27,9 +27,9 @@ final class TemplateAddViewModel: BaseViewModel {
         usExaminationType = container.usExaminationTypeDefault
     }
 
-    var focus: Focus?
-    var usExaminationType: USExaminationType
-    var templateController = DTextFieldController()
+    @Published var focus: Focus?
+    @Published var usExaminationType: USExaminationType
+    @NestedObservableObject var templateController = DTextFieldController()
 
     func onTapBack() {
         router.pop()

@@ -3,16 +3,13 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 from app.model.neural_model_settings import NeuralModelSettings
-from app.model.us_examination_data import USExaminationData
+from app.model.ultrasound.us_examination_data import USExaminationData
 
 
 class PromptFactory(ABC):
 
-    @abstractmethod
-    def build_stub(self) -> str: ...
-
-    @abstractmethod
-    def build_system_prompt(self) -> str: ...
+    stub: str
+    system_prompt: str
 
     @abstractmethod
     def build_prompt(

@@ -3,13 +3,12 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanScreenView: View {
-    @Environment(DependencyContainer.self) private var container
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @State var viewModel: ScanViewModel
+    @StateObject var viewModel: ScanViewModel
     @FocusState private var focus: ScanViewModel.Focus?
 
     var body: some View {
@@ -32,8 +31,6 @@ struct ScanScreenView: View {
             },
             onTapBody: viewModel.unfocus,
             content: { _ in
-                @Bindable var viewModel = self.viewModel
-
                 ZStack {
                     ZStack {
                         ScanCameraView()
@@ -102,6 +99,6 @@ struct ScanScreenView: View {
         .onDisappear {
             viewModel.onDisappear()
         }
-        .environment(viewModel)
+        .environmentObject(viewModel)
     }
 }

@@ -11,7 +11,7 @@
 |---|---|
 | `backend/app/main.py` | FastAPI-приложение, роутер `/v1`, подключение rate limiter |
 | `backend/app/route/ultrasound_conclusion.py` | Эндпоинт `POST /v1/ultrasound_conclusion` — принимает данные исследования, отправляет запрос в vLLM, возвращает заключение |
-| `backend/app/core/config.py` | Загрузка конфигов моделей и типов исследований из JSON, переменные окружения (`VLLM_HOST`, `ENVIRONMENT`) |
+| `backend/app/core/config.py` | Загрузка конфигов моделей и типов исследований из JSON, переменные окружения (`ENVIRONMENT`) |
 | `backend/app/core/llm_mode.py` | Режимы работы LLM — `stub` (заглушка) и `inference` (реальный инференс) |
 | `backend/app/model/` | Pydantic-модели запросов и ответов |
 | `backend/app/prompt/` | Генерация промптов — `base.py`, локализации `ru.py`/`en.py` |
@@ -55,10 +55,10 @@ Swift Concurrency (`async/await`, `Task`), `@MainActor` для UI-кода.
 MVVM. Каждый MVVM-модуль содержит:
 `*Screen` - SwiftUI View + создание ViewModel.
 `*ScreenView` - чистая View без логики. 
-`*ViewModel` - `@Observable`-класс вью-модели, необходимо выносить логику отображаения в этот класс.
+`*ViewModel` - `ObservableObject`-класс вью-модели, необходимо выносить логику отображаения в этот класс.
 Если вью-модель зависит от контейнера зависимостей DependencyContainer - необходимо передавать его в вью-модель полностью, а не только конкретные сущности контейнера зависимостей.
 `*Arguments`- класс аргументов, передаваемых в модуль.
-Менеджмент состсояния преализуется через `@Observable` макрос (Observation framework), `@State` для локального состояния View.
+Менеджмент состояния реализуется через протокол `ObservableObject` с `@Published` для скалярных свойств и `@NestedObservableObject` (пакет `NestedObservableObject`) для вложенных контроллеров-`ObservableObject`. View использует `@StateObject` для владения вью-моделью, `@EnvironmentObject` для передачи через окружение, `@ObservedObject` для внешних контроллеров и `@State` для локального состояния View.
 - **Именование**:
 Префикс `US` для доменных моделей УЗИ (`USExaminationType`, `USExaminationConclusion`).
 Суффикс `DB` для моделей базы данных.

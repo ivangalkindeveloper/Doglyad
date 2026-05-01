@@ -1,21 +1,21 @@
 import AVFoundation
 import SwiftUI
+import Combine
 
 @MainActor
-@Observable
-public final class DCameraController {
-    public var isLoading = true
-    public var isRunning = false
-    public var isCapturing = false
+public final class DCameraController: ObservableObject {
+    @Published public var isLoading = true
+    @Published public var isRunning = false
+    @Published public var isCapturing = false
 
     private nonisolated let session = AVCaptureSession()
-    @ObservationIgnored lazy var previewLayer: AVCaptureVideoPreviewLayer = .init(
+    lazy var previewLayer: AVCaptureVideoPreviewLayer = .init(
         session: self.session
     )
-    @ObservationIgnored private var output = AVCapturePhotoOutput()
-    @ObservationIgnored private var capturePhotoCompletion: ((UIImage) -> Void)?
-    @ObservationIgnored private lazy var delegate = PhotoCaptureDelegate(controller: self)
-    @ObservationIgnored private let sessionQueue = DispatchQueue(label: "com.doglyad.camera.session", qos: .background)
+    private var output = AVCapturePhotoOutput()
+    private var capturePhotoCompletion: ((UIImage) -> Void)?
+    private lazy var delegate = PhotoCaptureDelegate(controller: self)
+    private let sessionQueue = DispatchQueue(label: "com.doglyad.camera.session", qos: .background)
 
     public init() {
         session.beginConfiguration()

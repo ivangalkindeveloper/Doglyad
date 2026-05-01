@@ -1,9 +1,9 @@
-from typing import Optional
+from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class NeuralModelSettings(BaseModel):
-    selectedNeuralModelId: Optional[str] = None
-    temperature: Optional[float] = None
-    responseLength: Optional[int] = None
+    selectedNeuralModelId: str | None = None
+    temperature: float | None = Field(default=None, ge=0.0, le=2.0)
+    responseLength: int | None = Field(default=None, gt=0, le=4096)

@@ -4,12 +4,12 @@ import Shimmer
 import SwiftUI
 
 struct ScanCameraView: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @Environment(ScanViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: ScanViewModel
 
     var body: some View {
         Group {

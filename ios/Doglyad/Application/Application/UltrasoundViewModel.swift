@@ -3,7 +3,6 @@ import Foundation
 import Handler
 
 @MainActor
-@Observable
 final class UltrasoundViewModel: BaseViewModel {
     private let container: DependencyContainer
 
@@ -50,11 +49,11 @@ final class UltrasoundViewModel: BaseViewModel {
         }
     }
 
-    var neuralModel: USExaminationNeuralModel
-    var temperature: Double
-    var responseLength: Int
-    var templateIdByUSExaminationTypeId: [String: USExaminationTemplate]
-    var availableRequestCount: Int
+    @Published var neuralModel: USExaminationNeuralModel
+    @Published var temperature: Double
+    @Published var responseLength: Int
+    @Published var templateIdByUSExaminationTypeId: [String: USExaminationTemplate]
+    @Published var availableRequestCount: Int
 
     func saveNeuralModel(
         _ model: USExaminationNeuralModel

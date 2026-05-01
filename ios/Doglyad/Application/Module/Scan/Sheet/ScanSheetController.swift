@@ -3,9 +3,8 @@ import Foundation
 import SwiftUI
 
 @MainActor
-@Observable
-final class ScanSheetController {
-    var currentPosition: BottomSheetPosition = .hidden
+final class ScanSheetController: ObservableObject {
+    @Published var currentPosition: BottomSheetPosition = .hidden
     private let sheetPositionHidden: BottomSheetPosition = .hidden
     private let sheetPositionBottom: BottomSheetPosition = .absolute(120)
     private let sheetPositionTop: BottomSheetPosition = .relativeTop(0.9)

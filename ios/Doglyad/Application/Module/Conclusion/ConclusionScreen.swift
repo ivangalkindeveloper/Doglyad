@@ -3,8 +3,8 @@ import Router
 import SwiftUI
 
 struct ConclusionScreen: View {
-    @Environment(DependencyContainer.self) private var container
-    @Environment(DMessager.self) private var messager
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     let arguments: ConclusionScreenArguments
 

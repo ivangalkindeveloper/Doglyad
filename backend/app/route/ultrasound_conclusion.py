@@ -3,30 +3,26 @@ from __future__ import annotations
 import logging
 from datetime import datetime, timezone
 
-import httpx
-from fastapi import APIRouter, Request
-
-logger = logging.getLogger(__name__)
+from fastapi import APIRouter, HTTPException, Request
 
 from app.core.config import (
-    VLLM_HOST,
     resolve_examination_title,
     resolve_neural_model,
 )
 from app.core.limiter import limiter
 from app.core.llm_mode import LLM_MODE, RunMode
-from app.model.neural_model_settings import NeuralModelSettings
-from app.model.us_examination_model_conclusion import USExaminationModelConclusion
-from app.model.us_examination_neural_model import USExaminationNeuralModel
-from app.model.us_examination_request import USExaminationRequest
-from app.model.us_examination_scan_photo import USExaminationScanPhoto
+from app.model.ultrasound.us_examination_model_conclusion import USExaminationModelConclusion
+from app.model.ultrasound.us_examination_request import USExaminationRequest
 from app.prompt import resolve_prompt_factory
+from app.service import resolve_model_service
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 
 @router.post("/ultrasound_conclusion", response_model=USExaminationModelConclusion)
-@limiter.limit("15/minute")
+@limiter.limit("30/minute")
 async def ultrasound_conclusion(
     body: USExaminationRequest,
     request: Request,
@@ -54,22 +50,25 @@ async def ultrasound_conclusion(
 
     match LLM_MODE:
         case RunMode.STUB:
-            response_text = prompt_factory.build_stub()
-        case RunMode.INFERENCE:
-            system_prompt = prompt_factory.build_system_prompt()
+            response_text = prompt_factory.stub
+        case RunMode.RUNPOD:
             prompt = prompt_factory.build_prompt(
                 settings,
                 examination,
                 examination_title,
                 body.template,
             )
-            response_text = await _call_vllm(
+            model_service = resolve_model_service(LLM_MODE)
+            response_text = await model_service.call(
                 neural_model,
                 settings,
-                system_prompt,
+                prompt_factory.system_prompt,
                 prompt,
                 examination.photos,
             )
+        case _:
+            logger.error("Unsupported LLM_MODE: %s", LLM_MODE)
+            raise HTTPException(status_code=500, detail="Unsupported LLM mode")
 
     logger.info("Response (first 200 chars): %.200s", response_text)
 
@@ -78,36 +77,3 @@ async def ultrasound_conclusion(
         modelId=neural_model.id,
         response=response_text,
     )
-
-
-async def _call_vllm(
-    neural_model: USExaminationNeuralModel,
-    settings: NeuralModelSettings,
-    system_prompt: str,
-    prompt: str,
-    photos: list[USExaminationScanPhoto],
-) -> str:
-    user_content: list[dict] = [{"type": "text", "text": prompt}]
-    for photo in photos:
-        user_content.append({
-            "type": "image_url",
-            "image_url": {"url": f"data:image/jpeg;base64,{photo.data}"},
-        })
-
-    payload = {
-        "model": neural_model.id,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_content},
-        ],
-        "temperature": settings.temperature,
-        "max_tokens": settings.responseLength,
-    }
-    url = f"{VLLM_HOST}:{neural_model.port}/v1/chat/completions"
-    logger.info("vLLM request: url=%s, model=%s", url, neural_model.id)
-    async with httpx.AsyncClient(timeout=120) as client:
-        response = await client.post(url, json=payload)
-        logger.info("vLLM response: status=%d", response.status_code)
-        response.raise_for_status()
-        data = response.json()
-        return data["choices"][0]["message"]["content"].strip()

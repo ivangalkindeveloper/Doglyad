@@ -2,13 +2,13 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanSheetFooterView: View {
-    @Environment(DependencyContainer.self) private var container
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
 
-    @Environment(ScanViewModel.self) private var viewModel
-    @Environment(UltrasoundViewModel.self) private var ultrasoundViewModel
+    @EnvironmentObject private var viewModel: ScanViewModel
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
 
     var body: some View {
         VStack(

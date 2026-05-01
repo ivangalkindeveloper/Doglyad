@@ -2,12 +2,12 @@ import DoglyadUI
 import SwiftUI
 
 struct HistoryEmptyView: View {
-    @Environment(DTheme.self) private var theme
+    @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @Environment(HistoryViewModel.self) private var viewModel
+    @EnvironmentObject private var viewModel: HistoryViewModel
 
     var body: some View {
         VStack(

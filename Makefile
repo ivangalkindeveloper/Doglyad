@@ -20,7 +20,6 @@ venv:
 
 pip-install:
 	pip3 install -r backend/requirements.txt
-	pip3 install -r ml/requirements.txt
 
 format:
 	cd ios && swiftformat .
@@ -42,26 +41,21 @@ start-backend-development-stub:
 	ENVIRONMENT=development \
 	LLM_MODE=stub \
 	docker compose -f backend/docker-compose.yml up --build -d
-start-backend-production-inference-vllm:
-	ENVIRONMENT=production \
-	LLM_MODE=inference \
-	docker compose -f backend/docker-compose.yml --profile vllm up --build -d
-start-local-backend-development-inference-vllm-mlx:
+start-backend-development-runpod:
 	ENVIRONMENT=development \
-	LLM_MODE=inference \
+	LLM_MODE=runpod \
 	docker compose -f backend/docker-compose.yml up --build -d
-	./backend/scripts/run_vllm_mlx.sh development
-start-local-backend-production-inference-vllm-mlx:
+start-backend-production-stub:
 	ENVIRONMENT=production \
-	LLM_MODE=inference \
+	LLM_MODE=stub \
 	docker compose -f backend/docker-compose.yml up --build -d
-	./backend/scripts/run_vllm_mlx.sh production
-
-docker-run-vllm-medgemma-4b-it:
-	./backend/scripts/docker_run_vllm.sh google/medgemma-4b-it 8101
+start-backend-production-runpod:
+	ENVIRONMENT=production \
+	LLM_MODE=runpod \
+	docker compose -f backend/docker-compose.yml up --build -d
 
 start-logs:
 	docker compose -f backend/docker-compose.yml logs -f
 
 stop-backend:
-	docker compose -f backend/docker-compose.yml --profile vllm down
+	docker compose -f backend/docker-compose.yml down

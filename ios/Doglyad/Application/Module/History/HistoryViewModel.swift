@@ -5,7 +5,6 @@ import Router
 import SwiftUI
 
 @MainActor
-@Observable
 final class HistoryViewModel: BaseViewModel {
     private let container: DependencyContainer
     private let router: DRouter
@@ -24,7 +23,7 @@ final class HistoryViewModel: BaseViewModel {
         }
     }
 
-    var conclusions: [USExaminationConclusion] = []
+    @Published var conclusions: [USExaminationConclusion] = []
 
     func onTapBack() {
         router.pop()

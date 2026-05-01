@@ -5,7 +5,6 @@ import Router
 import SwiftUI
 
 @MainActor
-@Observable
 final class TemplateListViewModel: BaseViewModel {
     private let container: DependencyContainer
     private let router: DRouter
@@ -29,7 +28,7 @@ final class TemplateListViewModel: BaseViewModel {
         }
     }
 
-    var templates: [USExaminationTemplate] = []
+    @Published var templates: [USExaminationTemplate] = []
 
     func onTapBack() {
         router.pop()

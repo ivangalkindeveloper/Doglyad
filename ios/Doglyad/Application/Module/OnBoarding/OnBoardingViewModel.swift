@@ -4,8 +4,7 @@ import Router
 import SwiftUI
 
 @MainActor
-@Observable
-final class OnBoardingViewModel {
+final class OnBoardingViewModel: BaseViewModel {
     enum Page {
         case first, second, third, fourth, fifth
     }
@@ -21,8 +20,8 @@ final class OnBoardingViewModel {
         self.router = router
     }
 
-    var page: Page = .first
-    var isLegalAccepted: Bool = false
+    @Published var page: Page = .first
+    @Published var isLegalAccepted: Bool = false
 
     var isLegalDisabled: Bool {
         page == .third && isLegalAccepted == false

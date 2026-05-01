@@ -1,10 +1,10 @@
 import DependencyInitializer
 import SwiftUI
 
-@Observable
-final class ApplicationViewModel {
-    var root: any View = EmptyView()
-    var isLoading = false
+@MainActor
+final class ApplicationViewModel: BaseViewModel {
+    @Published var root: any View = EmptyView()
+    @Published var isLoading = false
 
     @MainActor
     func initialize() {

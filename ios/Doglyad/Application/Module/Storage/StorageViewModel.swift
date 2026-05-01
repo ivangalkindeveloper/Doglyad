@@ -6,7 +6,6 @@ import Router
 import SwiftUI
 
 @MainActor
-@Observable
 final class StorageViewModel: BaseViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
