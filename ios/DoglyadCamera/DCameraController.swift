@@ -9,30 +9,33 @@ public final class DCameraController: ObservableObject {
     @Published public var isCapturing = false
 
     private nonisolated let session = AVCaptureSession()
-    lazy var previewLayer: AVCaptureVideoPreviewLayer = .init(
-        session: self.session
-    )
+    var previewLayer = AVCaptureVideoPreviewLayer()
     private var output = AVCapturePhotoOutput()
-    private var capturePhotoCompletion: ((UIImage) -> Void)?
+    private let device = AVCaptureDevice.default(
+        .builtInWideAngleCamera,
+        for: .video,
+        position: .back
+    )!
+    private lazy var input = try! AVCaptureDeviceInput(device: device)
+    
     private lazy var delegate = PhotoCaptureDelegate(controller: self)
+    private var capturePhotoCompletion: ((UIImage) -> Void)?
+    
     private let sessionQueue = DispatchQueue(label: "com.doglyad.camera.session", qos: .background)
 
     public init() {
-        session.beginConfiguration()
-        guard let device = AVCaptureDevice.default(
-            .builtInWideAngleCamera,
-            for: .video,
-            position: .back
-        ),
-            let input = try? AVCaptureDeviceInput(device: device),
-            session.canAddInput(input),
-            session.canAddOutput(self.output)
+        guard session.canAddInput(input),
+            session.canAddOutput(output)
         else {
             return
         }
+        
+        previewLayer.session = session
+        previewLayer.videoGravity = .resizeAspectFill
+
+        session.beginConfiguration()
         session.addInput(input)
         session.addOutput(output)
-        previewLayer.videoGravity = .resizeAspectFill
         session.commitConfiguration()
         isLoading = false
     }
@@ -78,9 +81,11 @@ public final class DCameraController: ObservableObject {
 }
 
 private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
-    private weak var controller: DCameraController?
+    private var controller: DCameraController
 
-    init(controller: DCameraController) {
+    init(
+        controller: DCameraController
+    ) {
         self.controller = controller
     }
 
@@ -95,7 +100,7 @@ private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegat
             return
         }
         Task { @MainActor in
-            controller?.handlePhotoCaptured(image: image)
+            controller.handlePhotoCaptured(image: image)
         }
     }
 }
