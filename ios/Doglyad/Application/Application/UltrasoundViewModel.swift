@@ -19,7 +19,7 @@ final class UltrasoundViewModel: DViewModel {
         } else {
             neuralModel = container.usExaminationNeuralModelDefault
         }
-        
+
         isMarkdown = ultrasoundModelRepository.getIsMarkdown()
 
         let ultrasoundConfig = container.applicationConfig.ultrasound

@@ -10,7 +10,7 @@ from app.core.config import (
     resolve_neural_model,
 )
 from app.core.limiter import limiter
-from app.core.llm_mode import LLM_MODE, LLMMode, RunMode
+from app.core.llm_mode import LLM_MODE, LLMMode
 from app.model.ultrasound.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.ultrasound.us_examination_request import USExaminationRequest
 from app.prompt import resolve_prompt_factory
