@@ -3,8 +3,16 @@
         "id": "google/medgemma-4b-it",
         "title": "Google MedGemma 4B",
         "description": {
-            "en": "First generation (2025) lightweight medical AI model. Supports 2D medical images: X-rays, dermatology, ophthalmology, histopathology. Handles images and text. Fast inference, suitable for resource-constrained environments.",
-            "ru": "Первое поколение (2025) легковесной медицинской ИИ-модели. Поддерживает 2D-снимки: рентген, дерматология, офтальмология, гистология. Работает с изображениями и текстом. Быстрая генерация, подходит для ограниченных ресурсов."
+            "en": "Gemma 3-based MedGemma: SigLIP vision encoder pretrained on de-identified medical images (chest X-ray, dermatology, ophthalmology, histopathology) and an LLM trained on medical text, question–answer pairs, radiology/pathology patches, ophthalmology and dermatology images. google/medgemma-4b-it is the instruction-tuned 4B multimodal checkpoint—recommended over -pt as a starter for healthcare apps with text generation. Decoder-only multimodal Transformer: text and images in (896×896, 256 tokens per image), text out; context at least 128K tokens.",
+            "ru": "MedGemma на базе Gemma 3: энкодер SigLIP с дообучением на деперсонализированных медицинских снимках (рентген грудной клетки, дерматология, офтальмология, гистология) и LLM, обученный на медицинском тексте, парах «вопрос–ответ», снимках и патчах радиология/гистология, офтальмологии и дерматологии. google/medgemma-4b-it — инструкционно настроенная 4B мультимодель; для большинства сценариев предпочтительнее базовому -pt. Только текст на выходе; контекст не менее 128K токенов."
+        }
+    },
+    {
+        "id": "google/medgemma-1.5-4b-it",
+        "title": "Google MedGemma 1.5 4B",
+        "description": {
+            "en": "Instruction-tuned update to MedGemma 4B with higher medical-text reasoning accuracy and modest improvement on standard 2D imaging. Adds volumetric CT and MRI interpretation, multi-patch whole-slide histopathology, longitudinal chest X-rays vs prior scans, anatomical bounding-box localization on CXR, structured extraction from unstructured lab reports, and EHR-text understanding—all on Gemma 3 multimodal stacks with medically pretrained SigLIP and text-only output; 3D, WSI, and CT/MRI workloads need preprocessing (see Google notebooks). Long context at least 128K tokens.",
+            "ru": "Инструкционно настроенная версия после MedGemma 4B: точнее медицинское текстовое рассуждение и небольшой прирост на типовых 2D-изображениях. Расширение на объёмные КТ и МРТ, патчи целых гистологических слайдов, динамику рентгена грудной клетки с опорой на предыдущие снимки, bbox-локализацию находок на CXR, извлечение структуры из текстовых лабораторных отчётов и понимание текста ЭМК; основа Gemma 3 и медицинский SigLIP, на выходе только текст. Для объёмной визуализации и WSI нужен препроцессинг по материалам Google. Контекст не менее 128K токенов."
         }
     }
 ]

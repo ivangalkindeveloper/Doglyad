@@ -10,7 +10,7 @@ from app.core.config import (
     resolve_neural_model,
 )
 from app.core.limiter import limiter
-from app.core.llm_mode import LLM_MODE, RunMode
+from app.core.llm_mode import LLM_MODE, LLMMode, RunMode
 from app.model.ultrasound.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.ultrasound.us_examination_request import USExaminationRequest
 from app.prompt import resolve_prompt_factory
@@ -49,9 +49,9 @@ async def ultrasound_conclusion(
     )
 
     match LLM_MODE:
-        case RunMode.STUB:
+        case LLMMode.STUB:
             response_text = prompt_factory.stub
-        case RunMode.RUNPOD:
+        case LLMMode.RUNPOD:
             system_prompt = prompt_factory.system_prompt(
                 settings
             )

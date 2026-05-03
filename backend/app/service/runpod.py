@@ -16,13 +16,16 @@ from app.service.base import ModelService
 
 logger = logging.getLogger(__name__)
 
+_RUNPOD_API_KEY = "RUNPOD_API_KEY"
+_RUNPOD_URLS = "RUNPOD_URLS"
+
 
 class RunPodService(ModelService):
 
     def __init__(self, http_client: httpx.AsyncClient) -> None:
         self._http_client = http_client
-        self._api_key = os.getenv("RUNPOD_API_KEY")
-        self._urls = self._load_urls("RUNPOD_URLS")
+        self._api_key = os.getenv(_RUNPOD_API_KEY)
+        self._urls = self._load_urls(_RUNPOD_URLS)
 
     async def call(
         self,

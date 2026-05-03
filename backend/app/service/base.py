@@ -27,14 +27,19 @@ class ModelService(ABC):
     @staticmethod
     def _load_urls(env_var: str) -> dict[str, str]:
         raw = os.getenv(env_var)
-        if not raw:
+        if raw is None or not raw.strip():
             return {}
+        text = raw.strip().removeprefix("\ufeff")
         try:
-            data = json.loads(raw)
+            data = json.loads(text)
         except json.JSONDecodeError as error:
             logger.error("Failed to parse %s as JSON: %s", env_var, error)
             return {}
         if not isinstance(data, dict):
             logger.error("%s must be a JSON object of modelId -> url", env_var)
             return {}
-        return {str(k): str(v) for k, v in data.items() if isinstance(v, str) and v}
+        return {
+            str(k): str(v)
+            for k, v in data.items()
+            if isinstance(v, str) and v.strip()
+        }

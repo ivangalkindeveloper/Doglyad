@@ -4,9 +4,9 @@ import os
 from enum import Enum
 
 
-class RunMode(str, Enum):
+class LLMMode(str, Enum):
     STUB = "stub"
     RUNPOD = "runpod"
 
 
-LLM_MODE = RunMode(os.getenv("LLM_MODE", "stub").lower())
+LLM_MODE = LLMMode(os.getenv("LLM_MODE", "stub").lower())
