@@ -26,12 +26,12 @@ extension UltrasoundModelRepository {
         )
     }
 
-    func getResponseLength() -> Int? {
-        database.getNeuralModelResponseLength()
+    func getIsMarkdown() -> Bool {
+        database.getNeuralModelIsMarkdown()
     }
 
-    func setResponseLength(_ value: Int?) {
-        database.setNeuralModelResponseLength(value: value)
+    func setIsMarkdown(_ value: Bool) {
+        database.setNeuralModelIsMarkdown(value: value)
     }
 
     func getTemperature() -> Double? {
@@ -40,6 +40,14 @@ extension UltrasoundModelRepository {
 
     func setTemperature(_ value: Double?) {
         database.setNeuralModelTemperature(value: value)
+    }
+
+    func getResponseLength() -> Int? {
+        database.getNeuralModelResponseLength()
+    }
+
+    func setResponseLength(_ value: Int?) {
+        database.setNeuralModelResponseLength(value: value)
     }
 }
 

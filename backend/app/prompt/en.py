@@ -36,19 +36,27 @@ class PromptFactoryEn(PromptFactory):
         "in 6 to 12 months is advisable."
     )
 
-    system_prompt = (
-        "You are an AI assistant specialized in generating medical ultrasound examination reports. "
-        "Generate without markdown formatting. "
-        "Your task is to produce clinical conclusions that physicians rely on for diagnosis and treatment planning. "
-        "Write only the medical conclusion based strictly on the provided examination data and images. "
-        "Do not infer, assume, or fabricate any findings that are not supported by the input. "
-        "Use precise medical terminology appropriate for a formal radiology report. "
-        "If the provided data is insufficient to assess a specific structure, "
-        "state that it was not adequately visualized rather than speculating. "
-    )
+    def system_prompt(
+        self,
+        settings: NeuralModelSettings
+    ) -> str:
+        prompt =  (
+            "You are an AI assistant specialized in generating medical ultrasound examination reports.\n"
+            "Your task is to produce clinical conclusions that physicians rely on for diagnosis and treatment planning.\n"
+            "Write only the medical conclusion based strictly on the provided examination data and images.\n"
+            "Do not infer, assume, or fabricate any findings that are not supported by the input.\n"
+            "Use precise medical terminology appropriate for a formal radiology report.\n"
+            "If the provided data is insufficient to assess a specific structure, state that it was not adequately visualized rather than speculating.\n"
+        )
+
+        if not settings.isMarkdown:
+            prompt += f"Provide your answer in plain text and without Markdown.\n"
+
+        return prompt
 
     def build_prompt(
         self,
+        settings: NeuralModelSettings,
         examination: USExaminationData,
         examination_title: str,
         template: str | None = None,
@@ -70,5 +78,8 @@ class PromptFactoryEn(PromptFactory):
 
         if template:
             prompt += f"Response template: {template}\n"
+
+        if not settings.isMarkdown:
+            prompt += f"Provide your answer in plain text and without Markdown.\n"
 
         return prompt

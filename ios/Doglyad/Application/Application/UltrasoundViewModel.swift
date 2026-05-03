@@ -19,6 +19,8 @@ final class UltrasoundViewModel: DViewModel {
         } else {
             neuralModel = container.usExaminationNeuralModelDefault
         }
+        
+        isMarkdown = ultrasoundModelRepository.getIsMarkdown()
 
         let ultrasoundConfig = container.applicationConfig.ultrasound
         if let temperature = ultrasoundModelRepository.getTemperature() {
@@ -51,6 +53,7 @@ final class UltrasoundViewModel: DViewModel {
 
     @Published var neuralModel: USExaminationNeuralModel
     @Published var temperature: Double
+    @Published var isMarkdown: Bool
     @Published var responseLength: Int
     @Published var templateIdByUSExaminationTypeId: [String: USExaminationTemplate]
     @Published var availableRequestCount: Int
@@ -63,13 +66,18 @@ final class UltrasoundViewModel: DViewModel {
     }
 
     func saveNeuralModelSettings(
+        isMarkdown: Bool,
         temperature: Double?,
         responseLength: Int?
     ) {
+        self.isMarkdown = isMarkdown
+        container.ultrasoundModelRepository.setIsMarkdown(isMarkdown)
+
         if let temperature = temperature {
             self.temperature = temperature
             container.ultrasoundModelRepository.setTemperature(temperature)
         }
+
         if let responseLength = responseLength {
             self.responseLength = responseLength
             container.ultrasoundModelRepository.setResponseLength(responseLength)

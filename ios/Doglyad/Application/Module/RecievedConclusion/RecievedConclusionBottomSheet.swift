@@ -25,6 +25,7 @@ struct RecievedConclusionBottomSheet: View {
                 date: Date(),
                 neuralModelSettings: NeuralModelSettings(
                     selectedNeuralModelId: "google/medgemma-27b-it",
+                    isMarkdown: false,
                     temperature: nil,
                     responseLength: nil
                 ),

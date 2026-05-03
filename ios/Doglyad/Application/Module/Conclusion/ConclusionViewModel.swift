@@ -59,6 +59,7 @@ final class ConclusionViewModel: DViewModel {
         let ultrasoundModelRepository = container.ultrasoundModelRepository
         let neuralModelSettings = NeuralModelSettings(
             selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),
+            isMarkdown: ultrasoundModelRepository.getIsMarkdown(),
             temperature: ultrasoundModelRepository.getTemperature(),
             responseLength: ultrasoundModelRepository.getResponseLength()
         )

@@ -52,7 +52,11 @@ async def ultrasound_conclusion(
         case RunMode.STUB:
             response_text = prompt_factory.stub
         case RunMode.RUNPOD:
+            system_prompt = prompt_factory.system_prompt(
+                settings
+            )
             prompt = prompt_factory.build_prompt(
+                settings,
                 examination,
                 examination_title,
                 body.template,
@@ -61,7 +65,7 @@ async def ultrasound_conclusion(
             response_text = await model_service.call(
                 neural_model,
                 settings,
-                prompt_factory.system_prompt,
+                system_prompt,
                 prompt,
                 examination.photos,
             )

@@ -370,6 +370,7 @@ final class ScanViewModel: DViewModel {
         let responseLength = ultrasoundViewModel.responseLength
         let neuralModelSettings = NeuralModelSettings(
             selectedNeuralModelId: neuralModel.id,
+            isMarkdown: ultrasoundViewModel.isMarkdown,
             temperature: ultrasoundViewModel.temperature,
             responseLength: responseLength
         )

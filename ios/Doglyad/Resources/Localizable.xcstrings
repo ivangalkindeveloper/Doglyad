@@ -709,6 +709,40 @@
         }
       }
     },
+    "neuralModelMarkdownLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown markup"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown разметка"
+          }
+        }
+      }
+    },
+    "neuralModelMarkdownDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown is a special markup for highlighting text with headings, bold, underlining, etc.\nWhen model mode is disabled, the response is given only in solid text."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown - специальная разметка выделенения текста заголовками, жирными, подчеркиванием и т.д.\nПри выключенном режиме модели задаётся ответ только сплошным текстом."
+          }
+        }
+      }
+    },
     "neuralModelResponseLengthDescription" : {
       "extractionState" : "manual",
       "localizations" : {

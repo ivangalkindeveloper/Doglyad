@@ -14,16 +14,17 @@ final class NeuralModelViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
-    private let onSettingsSaved: (Double?, Int?) -> Void
+    private let onSettingsSaved: (Bool, Double?, Int?) -> Void
 
     init(
         initialNeuralModel: USExaminationNeuralModel,
         initialTemperature: Double,
+        initialIsMarkdown: Bool,
         initialResponseLength: Int,
         messager: DMessager,
         router: DRouter,
         onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
-        onSettingsSaved: @escaping (Double?, Int?) -> Void
+        onSettingsSaved: @escaping (Bool, Double?, Int?) -> Void
     ) {
         usExaminationNeuralModel = initialNeuralModel
         self.messager = messager
@@ -31,17 +32,23 @@ final class NeuralModelViewModel: DViewModel {
         self.onNeuralModelSelected = onNeuralModelSelected
         self.onSettingsSaved = onSettingsSaved
         super.init()
+        isMarkdown = initialIsMarkdown
         temperatureController.text = String(initialTemperature)
         responseLengthController.text = String(initialResponseLength)
     }
 
-    @Published var usExaminationNeuralModel: USExaminationNeuralModel
     @Published var focus: Focus?
+    @Published var usExaminationNeuralModel: USExaminationNeuralModel
+    @Published var isMarkdown: Bool = false
     @NestedObservableObject var temperatureController = DTextFieldController()
     @NestedObservableObject var responseLengthController = DTextFieldController()
 
     func unfocus() {
         focus = nil
+    }
+
+    func toggleIsMarkdown() {
+        isMarkdown.toggle()
     }
 
     func onSubmit() {
@@ -77,6 +84,7 @@ final class NeuralModelViewModel: DViewModel {
 
     func onTapSave() {
         onSettingsSaved(
+            isMarkdown,
             Double(temperatureController.text),
             Int(responseLengthController.text)
         )
