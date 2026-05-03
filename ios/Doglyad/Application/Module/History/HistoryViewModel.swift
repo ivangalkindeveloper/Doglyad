@@ -5,7 +5,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class HistoryViewModel: BaseViewModel {
+final class HistoryViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
 

@@ -4,7 +4,7 @@ import NestedObservableObject
 import SwiftUI
 
 @MainActor
-final class ScanSpeechViewModel: BaseViewModel {
+final class ScanSpeechViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
     private let arguments: ScanSpeechBottomSheetArguments

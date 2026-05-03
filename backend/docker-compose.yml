@@ -14,18 +14,3 @@ services:
     environment:
       ENVIRONMENT: ${ENVIRONMENT:-development}
       LLM_MODE: ${LLM_MODE:-stub}
-
-  vllm-medgemma-4b:
-    image: vllm/vllm-openai:latest
-    command: ["--model", "google/medgemma-4b-it"]
-    ports:
-      - "8101:8000"
-    profiles:
-      - vllm
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]

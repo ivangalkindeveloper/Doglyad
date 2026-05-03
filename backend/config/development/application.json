@@ -7,8 +7,8 @@
         "patch": 0
     },
     "ultrasound": {
-        "defaultNeuralModelTemperature": 0.2,
-        "defaultNeuralModelResponseLength": 512,
+        "defaultNeuralModelTemperature": 0.3,
+        "defaultNeuralModelResponseLength": 2048,
         "requestCountPerDay": 10,
         "scanPhotoMaxNumber": 6,
         "scanPhotoResizeMaxDimension": 128,

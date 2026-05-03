@@ -1,7 +1,7 @@
 import AVFoundation
+import Combine
 import Foundation
 import Speech
-import Combine
 
 @MainActor
 public final class DSpeechController: ObservableObject {

@@ -31,7 +31,10 @@ init-ignores:
 	./scripts/init_ignores.sh
 
 init-ios-local:
-	cp ios/Config.Development.xcconfig ios/Config.xcconfig
+	@set -e; \
+	IP="$$(ipconfig getifaddr en0)"; \
+	cp ios/Config.Development.xcconfig ios/Config.xcconfig; \
+	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config.xcconfig; \
 	cat ios/Config.xcconfig
 init-ios-production:
 	cp ios/Config.Production.xcconfig ios/Config.xcconfig

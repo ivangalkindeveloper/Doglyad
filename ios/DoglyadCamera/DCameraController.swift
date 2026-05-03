@@ -1,6 +1,6 @@
 import AVFoundation
-import SwiftUI
 import Combine
+import SwiftUI
 
 @MainActor
 public final class DCameraController: ObservableObject {
@@ -17,19 +17,19 @@ public final class DCameraController: ObservableObject {
         position: .back
     )!
     private lazy var input = try! AVCaptureDeviceInput(device: device)
-    
+
     private lazy var delegate = PhotoCaptureDelegate(controller: self)
     private var capturePhotoCompletion: ((UIImage) -> Void)?
-    
+
     private let sessionQueue = DispatchQueue(label: "com.doglyad.camera.session", qos: .background)
 
     public init() {
         guard session.canAddInput(input),
-            session.canAddOutput(output)
+              session.canAddOutput(output)
         else {
             return
         }
-        
+
         previewLayer.session = session
         previewLayer.videoGravity = .resizeAspectFill
 

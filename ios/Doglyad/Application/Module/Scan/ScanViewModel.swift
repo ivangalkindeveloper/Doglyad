@@ -9,7 +9,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class ScanViewModel: BaseViewModel {
+final class ScanViewModel: DViewModel {
     enum Focus: Hashable {
         case patientName
         case patientHeightCM
@@ -31,7 +31,7 @@ final class ScanViewModel: BaseViewModel {
         self.container = container
         self.messager = messager
         self.router = router
-        self.usExaminationType = container.usExaminationTypeDefault
+        usExaminationType = container.usExaminationTypeDefault
         super.init()
     }
 
@@ -63,7 +63,7 @@ final class ScanViewModel: BaseViewModel {
     @Published var focus: Focus? = nil
     @NestedObservableObject var patientNameController = DTextFieldController(isRequired: true)
     @Published var patientGender = PatientGender.male
-    @Published var patientDateOfBirth: Date = Date()
+    @Published var patientDateOfBirth: Date = .init()
     @NestedObservableObject var patientHeightCMController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)

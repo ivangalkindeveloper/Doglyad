@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 import os
 
@@ -43,30 +44,50 @@ class RunPodService(ModelService):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self._api_key}",
         }
-        user_content: list[dict] = [{"type": "text", "text": prompt}]
+        user_content: list[dict] = [
+            {
+                "type": "text",
+                "text": prompt,
+            }
+        ]
         for photo in photos:
-            user_content.append({
-                "type": "image",
-                "image": f"data:image/jpeg;base64,{photo.data}",
-            })
+            user_content.append(
+                {
+                    "type": "image",
+                    "image": f"data:image/jpeg;base64,{photo.data}",
+                }
+            )
         payload = {
             "input": {
                 "messages": [
                     {
                         "role": "system",
-                        "content": [{"type": "text", "text": system_prompt}],
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": system_prompt
+                            }
+                        ],
                     },
                     {
                         "role": "user",
                         "content": user_content,
                     },
                 ],
-                "max_new_tokens": settings.responseLength,
-                "temperature": settings.temperature,
+                "sampling_params": {
+                    "temperature": settings.temperature,
+                    "max_tokens": settings.responseLength
+                }
             }
         }
+        payload_json = json.dumps(payload, ensure_ascii=False)
+        logger.info(
+            "Inference request: model=%s url=%s payload=%s",
+            neural_model.id,
+            url,
+            payload_json,
+        )
 
-        logger.info("Inference request: model=%s", neural_model.id)
         try:
             response = await self._http_client.post(url, headers=headers, json=payload)
         except httpx.HTTPError as error:
@@ -79,9 +100,10 @@ class RunPodService(ModelService):
             raise HTTPException(status_code=502, detail="Upstream model service returned an error")
 
         try:
-            data = response.json()
-            parsed = RunPodResponse.model_validate(data)
-            return parsed.first_text()
+            parsed = RunPodResponse.model_validate(response.json())
+            value = parsed.value()
+            logger.info("Inference value: model=%s", value)
+            return value    
         except (ValueError, ValidationError) as error:
             logger.exception("Failed to parse inference response: %s", error)
             raise HTTPException(status_code=502, detail="Invalid response from upstream model service") from error

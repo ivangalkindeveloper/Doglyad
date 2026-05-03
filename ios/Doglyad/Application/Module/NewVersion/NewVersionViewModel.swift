@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 @MainActor
-final class NewVersionViewModel: BaseViewModel {
+final class NewVersionViewModel: DViewModel {
     private let container: DependencyContainer
 
     init(

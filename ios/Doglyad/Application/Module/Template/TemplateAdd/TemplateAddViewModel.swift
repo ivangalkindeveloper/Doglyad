@@ -7,7 +7,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class TemplateAddViewModel: BaseViewModel {
+final class TemplateAddViewModel: DViewModel {
     enum Focus: Hashable {
         case content
     }

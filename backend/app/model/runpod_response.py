@@ -1,35 +1,48 @@
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class RunPodMessageContent(BaseModel):
-    type: str
-    text: str | None = None
+class RunPodChoice(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    tokens: list[str]
 
 
-class RunPodMessage(BaseModel):
-    role: str
-    content: list[RunPodMessageContent]
+class RunPodUsage(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, extra="ignore")
+
+    input_tokens: int = Field(alias="input")
+    output_tokens: int = Field(alias="output")
 
 
 class RunPodOutputItem(BaseModel):
-    generated_text: list[RunPodMessage]
+    model_config = ConfigDict(extra="ignore")
+
+    choices: list[RunPodChoice]
+    usage: RunPodUsage | None = None
 
 
 class RunPodResponse(BaseModel):
-    output: list[RunPodOutputItem]
+    model_config = ConfigDict(populate_by_name=True, extra="ignore")
 
-    def first_text(self) -> str:
+    delay_time: int = Field(alias="delayTime")
+    execution_time: int = Field(alias="executionTime")
+    sync_id: str = Field(alias="id")
+    output: list[RunPodOutputItem]
+    status: str
+    worker_id: str = Field(alias="workerId")
+
+    def value(self) -> str:
         if not self.output:
             raise ValueError("RunPod response has empty output")
-        messages = self.output[0].generated_text
-        if not messages:
-            raise ValueError("RunPod response has empty generated_text")
-        last_message = messages[-1]
-        if not last_message.content:
-            raise ValueError("RunPod response has empty content")
-        text = last_message.content[-1].text
-        if text is None:
-            raise ValueError("RunPod response content has no text field")
-        return text.strip()
+        choices = self.output[0].choices
+        if not choices:
+            raise ValueError("RunPod response has empty choices")
+        tokens = choices[0].tokens
+        if not tokens:
+            raise ValueError("RunPod response has empty tokens")
+        text = "".join(tokens).strip()
+        if not text:
+            raise ValueError("RunPod response tokens contain no text")
+        return text

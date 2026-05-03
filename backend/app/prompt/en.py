@@ -45,18 +45,15 @@ class PromptFactoryEn(PromptFactory):
         "Use precise medical terminology appropriate for a formal radiology report. "
         "If the provided data is insufficient to assess a specific structure, "
         "state that it was not adequately visualized rather than speculating. "
-        "Structure the report with findings followed by a conclusion. "
     )
 
     def build_prompt(
         self,
-        settings: NeuralModelSettings,
         examination: USExaminationData,
         examination_title: str,
         template: str | None = None,
     ) -> str:
-        base = (
-            f"Generate a full medical ultrasound conclusion for data:\n"
+        prompt = (
             f"Ultrasound examination type: {examination_title}\n"
             f"Patient name: {examination.patientName}\n"
             f"Patient gender: {examination.patientGender}\n"
@@ -67,13 +64,11 @@ class PromptFactoryEn(PromptFactory):
         )
 
         if examination.patientComplaint:
-            base += f"Patient complaint: {examination.patientComplaint}\n"
+            prompt += f"Patient complaint: {examination.patientComplaint}\n"
         if examination.additionalData:
-            base += f"Additional data: {examination.additionalData}\n"
+            prompt += f"Additional data: {examination.additionalData}\n"
 
         if template:
-            base += f"Response template: {template}\n"
-        if settings.responseLength:
-            base += f"Maximum response length (tokens): {settings.responseLength}\n"
+            prompt += f"Response template: {template}\n"
 
-        return base
+        return prompt

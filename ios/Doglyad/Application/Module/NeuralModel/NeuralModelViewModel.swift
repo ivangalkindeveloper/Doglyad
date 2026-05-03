@@ -5,7 +5,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class NeuralModelViewModel: BaseViewModel {
+final class NeuralModelViewModel: DViewModel {
     enum Focus: Hashable {
         case temperature
         case length
@@ -25,14 +25,14 @@ final class NeuralModelViewModel: BaseViewModel {
         onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
         onSettingsSaved: @escaping (Double?, Int?) -> Void
     ) {
-        self.usExaminationNeuralModel = initialNeuralModel
+        usExaminationNeuralModel = initialNeuralModel
         self.messager = messager
         self.router = router
         self.onNeuralModelSelected = onNeuralModelSelected
         self.onSettingsSaved = onSettingsSaved
         super.init()
-        self.temperatureController.text = String(initialTemperature)
-        self.responseLengthController.text = String(initialResponseLength)
+        temperatureController.text = String(initialTemperature)
+        responseLengthController.text = String(initialResponseLength)
     }
 
     @Published var usExaminationNeuralModel: USExaminationNeuralModel

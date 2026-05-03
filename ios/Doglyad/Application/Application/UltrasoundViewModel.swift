@@ -3,7 +3,7 @@ import Foundation
 import Handler
 
 @MainActor
-final class UltrasoundViewModel: BaseViewModel {
+final class UltrasoundViewModel: DViewModel {
     private let container: DependencyContainer
 
     init(

@@ -6,7 +6,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class StorageViewModel: BaseViewModel {
+final class StorageViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter

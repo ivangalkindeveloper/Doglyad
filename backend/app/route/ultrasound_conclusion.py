@@ -53,7 +53,6 @@ async def ultrasound_conclusion(
             response_text = prompt_factory.stub
         case RunMode.RUNPOD:
             prompt = prompt_factory.build_prompt(
-                settings,
                 examination,
                 examination_title,
                 body.template,
@@ -69,8 +68,6 @@ async def ultrasound_conclusion(
         case _:
             logger.error("Unsupported LLM_MODE: %s", LLM_MODE)
             raise HTTPException(status_code=500, detail="Unsupported LLM mode")
-
-    logger.info("Response (first 200 chars): %.200s", response_text)
 
     return USExaminationModelConclusion(
         date=datetime.now(timezone.utc),

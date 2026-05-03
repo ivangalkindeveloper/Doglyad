@@ -4,7 +4,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class OnBoardingViewModel: BaseViewModel {
+final class OnBoardingViewModel: DViewModel {
     enum Page {
         case first, second, third, fourth, fifth
     }

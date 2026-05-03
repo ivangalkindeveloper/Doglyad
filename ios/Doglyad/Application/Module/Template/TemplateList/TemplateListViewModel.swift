@@ -5,7 +5,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class TemplateListViewModel: BaseViewModel {
+final class TemplateListViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
 

@@ -112,4 +112,3 @@ private struct DTokenizerBridge: MLXLMCommon.Tokenizer {
         }
     }
 }
-

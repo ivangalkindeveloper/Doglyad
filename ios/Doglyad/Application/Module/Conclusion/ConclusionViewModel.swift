@@ -6,7 +6,7 @@ import SwiftUI
 import UIKit
 
 @MainActor
-final class ConclusionViewModel: BaseViewModel {
+final class ConclusionViewModel: DViewModel {
     static let actualModelConclusionCardScrollId = "actualModelConclusionCard"
 
     private let container: DependencyContainer

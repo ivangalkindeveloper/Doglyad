@@ -2,7 +2,7 @@ import DependencyInitializer
 import SwiftUI
 
 @MainActor
-final class ApplicationViewModel: BaseViewModel {
+final class ApplicationViewModel: DViewModel {
     @Published var root: any View = EmptyView()
     @Published var isLoading = false
 

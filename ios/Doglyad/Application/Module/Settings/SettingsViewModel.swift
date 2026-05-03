@@ -5,7 +5,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class SettingsViewModel: BaseViewModel {
+final class SettingsViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
 

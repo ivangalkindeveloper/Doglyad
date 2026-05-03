@@ -3,7 +3,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class RecievedConclusionViewModel: BaseViewModel {
+final class RecievedConclusionViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: RecievedConclusionBottomSheetArguments
