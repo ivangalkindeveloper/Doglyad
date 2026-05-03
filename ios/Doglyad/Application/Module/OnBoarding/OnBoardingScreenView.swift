@@ -11,80 +11,82 @@ struct OnBoardingScreenView: View {
     @StateObject var viewModel: OnBoardingViewModel
 
     var body: some View {
-        DScreen { _ in
-            VStack(
-                alignment: .leading,
-                spacing: .zero
-            ) {
-                DText(.onBoardingTitle)
-                    .dStyle(
-                        font: typography.displayLargeBold
-                    )
-                    .padding(size.s16)
-
-                TabView(
-                    selection: $viewModel.page
+        DScreen(
+            content: { _ in
+                VStack(
+                    alignment: .leading,
+                    spacing: .zero
                 ) {
-                    OnBoardingPageView(
-                        tag: .first,
-                        image: .alertInfo,
-                        description: .onBoardingDescriptionFirst
-                    )
-                    OnBoardingPageView(
-                        tag: .second,
-                        image: .alertInfo,
-                        description: .onBoardingDescriptionSecond
-                    )
-                    OnBoardingPageView(
-                        tag: .third,
-                        image: .alertInfo,
-                        description: .onBoardingDescriptionThird
+                    DText(.onBoardingTitle)
+                        .dStyle(
+                            font: typography.displayLargeBold
+                        )
+                        .padding(size.s16)
+
+                    TabView(
+                        selection: $viewModel.page
                     ) {
-                        HStack(
-                            alignment: .center
+                        OnBoardingPageView(
+                            tag: .first,
+                            image: .alertInfo,
+                            description: .onBoardingDescriptionFirst
+                        )
+                        OnBoardingPageView(
+                            tag: .second,
+                            image: .alertInfo,
+                            description: .onBoardingDescriptionSecond
+                        )
+                        OnBoardingPageView(
+                            tag: .third,
+                            image: .alertInfo,
+                            description: .onBoardingDescriptionThird
                         ) {
-                            DCheckbox(
-                                isChecked: $viewModel.isLegalAccepted
-                            )
-                            .padding(.trailing, size.s8)
+                            HStack(
+                                alignment: .center
+                            ) {
+                                DCheckbox(
+                                    isChecked: $viewModel.isLegalAccepted
+                                )
+                                .padding(.trailing, size.s8)
 
-                            Text(viewModel.legalAttributedText(theme: theme, locale: locale))
-                                .multilineTextAlignment(.leading)
-                                .tint(color.grayscaleHeader)
-                                .environment(\.openURL, OpenURLAction { url in
-                                    viewModel.onLegalAttributedEnvironment(url: url)
-                                })
+                                Text(viewModel.legalAttributedText(theme: theme, locale: locale))
+                                    .multilineTextAlignment(.leading)
+                                    .tint(color.grayscaleHeader)
+                                    .environment(\.openURL, OpenURLAction { url in
+                                        viewModel.onLegalAttributedEnvironment(url: url)
+                                    })
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, size.s16)
+                            .padding(.horizontal, size.s16)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, size.s16)
-                        .padding(.horizontal, size.s16)
+                        OnBoardingPageView(
+                            tag: .fourth,
+                            image: .alertInfo,
+                            description: .onBoardingDescriptionFourth
+                        )
+                        OnBoardingPageView(
+                            tag: .fifth,
+                            image: .alertInfo,
+                            description: .onBoardingDescriptionFifth
+                        )
                     }
-                    OnBoardingPageView(
-                        tag: .fourth,
-                        image: .alertInfo,
-                        description: .onBoardingDescriptionFourth
-                    )
-                    OnBoardingPageView(
-                        tag: .fifth,
-                        image: .alertInfo,
-                        description: .onBoardingDescriptionFifth
-                    )
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .indexViewStyle(.page(backgroundDisplayMode: .never))
+                    .animation(.easeInOut, value: viewModel.page)
+                    .highPriorityGesture(DragGesture().onChanged { _ in })
+                    .padding(.bottom, size.s64)
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .indexViewStyle(.page(backgroundDisplayMode: .never))
-                .animation(.easeInOut, value: viewModel.page)
-                .highPriorityGesture(DragGesture().onChanged { _ in })
-                .padding(.bottom, size.s16)
-
+            },
+            bottom: {
                 DButton(
                     title: viewModel.buttonTitle(viewModel.page),
                     action: viewModel.onPressedNext,
                     isDisabled: viewModel.isLegalDisabled
                 )
                 .dStyle(.primaryButton)
-                .padding(.horizontal, size.s16)
-                .padding(.bottom, size.s16)
+                .padding(size.s16)
             }
-        }
+        )
     }
 }
