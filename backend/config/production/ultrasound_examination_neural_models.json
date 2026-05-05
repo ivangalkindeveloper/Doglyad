@@ -3,16 +3,16 @@
         "id": "google/medgemma-4b-it",
         "title": "Google MedGemma 4B",
         "description": {
-            "en": "MedGemma on Gemma 3: SigLIP on de-identified medical images (CXR, derm, ophth, pathology, ultrasound) plus an LLM on clinical text and Q&A. google/medgemma-4b-it is the instruction-tuned 4B multimodal weight—usually a better starting point than -pt for healthcare text. Multimodal in (e.g. 896×896 images), text out; ≥128K token context.",
-            "ru": "MedGemma на Gemma 3: SigLIP на деперсонализированных снимках (рентген грудной клетки, дерматология, офтальмология, гистология, УЗИ) и LLM на клиническом тексте и Q&A. google/medgemma-4b-it — инструкционно настроенная 4B мультимодель, чаще удобнее -pt. На выходе текст; контекст ≥128K токенов."
+            "en": "Reliable baseline for everyday use: merges your ultrasound frames with complaints and findings into structured clinical wording. Google shipped this multimodal MedGemma 4B IT line on Gemma 3 in May 2025 (~4B parameters, vision + language, long context typical of the Gemma 3 stack). Training mix per Google's model card: a SigLIP-derived encoder adapted on anonymized clinical images (notably chest X-ray, dermatology, fundus imaging, pathology, wider 2D/3D radiology) paired with medically oriented text—exam-style QA, biomedical literature and imaging captions, FHIR-aligned EHR-style tasks, lab/discharge narratives—drawing on public benchmarks (e.g., MIMIC-CXR lineage, SLAKE, MedQA/PubMedQA family) alongside licensed and internally curated de-identified sets.",
+            "ru": "Надёжный базовый вариант: сочетает кадры УЗИ и ваш текст в структурированное заключение. Релиз Google — май 2025: инструкционно настроенная мультимодальная MedGemma 4B на Gemma 3 (~4 млрд параметров, изображение + текст, длинный контекст в духе линейки Gemma 3). По карточке модели Google: блок зрения — энкодер в духе SigLIP на деперсонализированных медснимках (рентген органов грудной клетки, дерматология, офтальмология, патология, 2D/3D‑радиология); текст обучали на медицинских Q&A, отчётах и подписях к изображениям, задачах вроде записей FHIR и лабораторных текстов — плюс открытые бенчмарки (линия MIMIC-CXR, SLAKE, MedQA/PubMedQA и др.) и лицензированные внутренние анонимизированные наборы."
         }
     },
     {
         "id": "google/medgemma-1.5-4b-it",
         "title": "Google MedGemma 1.5 4B",
         "description": {
-            "en": "IT refresh after MedGemma 4B: better medical-text reasoning and small 2D gains. Extends to CT/MRI, whole-slide patches, longitudinal CXR vs priors, CXR bounding boxes, and structured lab/EHR text—Gemma 3 + medical SigLIP, text-only; 3D/WSI/CT–MRI need preprocessing per Google notebooks. ≥128K context.",
-            "ru": "Инструкционное обновление после 4B: сильнее текстовые рассуждения, чуть лучше 2D. Плюс КТ/МРТ, патчи WSI, динамика CXR к прошлым снимкам, bbox на CXR, разбор лаб/EHR-текста; Gemma 3 и медицинский SigLIP, только текст на выходе. Для объёма и WSI — препроцессинг по гайдам Google. Контекст ≥128K."
+            "en": "Pick it for complex cases or long histories when you want a richer first draft—the model reasons more sharply over medical text while still pairing images with context. Released January 2026 as Google's refresh of the same ~4B class; training keeps the SigLIP + Gemma multimodal recipe but widens coverage with more volumetric CT/MRI-style studies (public corpora such as CT-RATE are listed), longitudinal chest imaging tasks, lab/PDF-to-structured EHR exercises, and additional proprietary CT/MRI series beyond the MedGemma 4B corpus.",
+            "ru": "Для сложных случаев и объёмного анамнеза — глубже опирается на клинический текст и по-прежнему связывает изображение с контекстом. Релиз Google — январь 2026: тот же класс ~4 млрд параметров, сохранена схема SigLIP + Gemma, но программа обучения шире: больше объёмных КТ/МРТ (в открытом перечне указан CT-RATE), задачи на динамику грудной рентгенографии, разбор лабораторных PDF в структурированные данные ЭМК и дополнительные проприетарные серии КТ/МРТ поверх корпуса MedGemma 4B."
         }
     }
 ]

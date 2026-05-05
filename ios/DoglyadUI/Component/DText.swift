@@ -11,6 +11,10 @@ public struct DText: View {
         text = Text(verbatim: string)
     }
 
+    public init(_ attributed: AttributedString) {
+        text = Text(attributed)
+    }
+
     public var body: some View {
         text
     }

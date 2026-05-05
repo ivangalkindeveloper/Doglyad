@@ -20,7 +20,7 @@ final class UltrasoundViewModel: DViewModel {
             neuralModel = container.usExaminationNeuralModelDefault
         }
 
-        self.isMarkdown = ultrasoundModelRepository.getIsMarkdown()
+        isMarkdown = ultrasoundModelRepository.getIsMarkdown()
 
         let ultrasoundConfig = container.applicationConfig.ultrasound
         if let temperature = ultrasoundModelRepository.getTemperature() {

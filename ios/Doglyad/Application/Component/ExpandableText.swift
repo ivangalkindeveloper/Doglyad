@@ -19,7 +19,6 @@ struct ExpandableText: View {
         self.text = text
         self.backgroundColor = backgroundColor
         self.collapsedLineLimit = collapsedLineLimit
-        isExpanded = isExpanded
     }
 
     @State private var isExpanded = false

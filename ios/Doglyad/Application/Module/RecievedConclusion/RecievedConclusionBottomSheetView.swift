@@ -1,4 +1,5 @@
 import DoglyadUI
+import Foundation
 import SwiftUI
 
 struct RecievedConclusionBottomSheetView: View {
@@ -20,29 +21,13 @@ struct RecievedConclusionBottomSheetView: View {
                     spacing: .zero
                 ) {
                     ScrollView {
-                        VStack(
-                            spacing: .zero
-                        ) {
-                            if let modelTitle = container.getUSExaminationNeuralModelById(id: viewModel.model.modelId)?.title {
-                                DText(modelTitle)
-                                    .dStyle(
-                                        font: typography.linkSmall,
-                                        color: color.grayscaleBackgroundWeak
-                                    )
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.bottom, size.s8)
-                            }
-                            DText(viewModel.displayedResponse)
-                                .dStyle(
-                                    font: typography.textSmall,
-                                    color: color.grayscaleBackgroundWeak,
-                                    alignment: .leading
-                                )
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
+                        DMarkdown(
+                            content: viewModel.displayedResponse,
+                            textColor: color.grayscaleBackgroundWeak
+                        )
                         .padding(.top, toolbarHeight + size.s4)
                         .padding(.vertical, size.s8)
-                        .padding(.horizontal, size.s16)
+                        .padding(.horizontal, size.s18)
                         .padding(.bottom, size.s128)
                     }
                     .mask(

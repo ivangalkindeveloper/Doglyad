@@ -30,6 +30,7 @@
 		77A896CF2F0C82B1006E6E41 /* DoglyadNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; };
 		77A896D02F0C82B1006E6E41 /* DoglyadNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77A9DFD32F0E74F3003D5ECB /* DoglyadNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; };
+		77B2576F2FAAA1780050413F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 77B2576E2FAAA1780050413F /* MarkdownUI */; };
 		77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77BB12232E92A87700B9FFC5 /* DependencyInitializer */; };
 		77BF28D22F26C27A00D9373C /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = 77BF28D12F26C27A00D9373C /* SwiftMessages */; };
 		77CB94F82EB8FED100489F3E /* DoglyadCamera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */; };
@@ -183,6 +184,7 @@
 				Component/DBottomSheet.swift,
 				Component/DCheckbox.swift,
 				Component/DIcon.swift,
+				Component/DMarkdown.swift,
 				Component/DScreen.swift,
 				Component/DSegment.swift,
 				Component/DText.swift,
@@ -218,6 +220,7 @@
 				Component/DBottomSheet.swift,
 				Component/DCheckbox.swift,
 				Component/DIcon.swift,
+				Component/DMarkdown.swift,
 				Component/DScreen.swift,
 				Component/DSegment.swift,
 				Component/DText.swift,
@@ -312,6 +315,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77B2576F2FAAA1780050413F /* MarkdownUI in Frameworks */,
 				77BF28D22F26C27A00D9373C /* SwiftMessages in Frameworks */,
 				77D9E0C62F2C143D00FB522A /* Router in Frameworks */,
 			);
@@ -536,6 +540,7 @@
 			packageProductDependencies = (
 				77BF28D12F26C27A00D9373C /* SwiftMessages */,
 				77D9E0C52F2C143D00FB522A /* Router */,
+				77B2576E2FAAA1780050413F /* MarkdownUI */,
 			);
 			productName = DoglyadUI;
 			productReference = 7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */;
@@ -797,6 +802,7 @@
 				77783DC12F0E873800FFC217 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				770AEB5C2F1DA67D00C09C76 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				77BF28D02F26C27A00D9373C /* XCRemoteSwiftPackageReference "SwiftMessages" */,
+				77B2576D2FAAA1780050413F /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 77AC58B32E929E7E0028250A /* Products */;
@@ -1990,6 +1996,14 @@
 				kind = branch;
 			};
 		};
+		77B2576D2FAAA1780050413F /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
 		77BF28D02F26C27A00D9373C /* XCRemoteSwiftPackageReference "SwiftMessages" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages";
@@ -2082,6 +2096,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 77A896C12F0AD5EE006E6E41 /* XCRemoteSwiftPackageReference "Handler" */;
 			productName = Handler;
+		};
+		77B2576E2FAAA1780050413F /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77B2576D2FAAA1780050413F /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
 		};
 		77BB12232E92A87700B9FFC5 /* DependencyInitializer */ = {
 			isa = XCSwiftPackageProductDependency;

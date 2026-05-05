@@ -74,10 +74,10 @@ struct ModelConclusionCard: View {
             }
             .padding(.bottom, size.s8)
 
-            ExpandableText(
+            ExpandableMarkdown(
                 text: conclusion.response,
                 backgroundColor: color.grayscaleBackground,
-                collapsedLineLimit: 5
+                collapsedLineLimit: 12
             )
         }
         .padding(size.s16)

@@ -35,6 +35,7 @@ final class RecievedConclusionViewModel: DViewModel {
 
     private func startTypewriterAnimation() {
         typewriterTask?.cancel()
+
         let words = response.components(separatedBy: " ")
         typewriterTask = Task {
             for (index, word) in words.enumerated() {
@@ -43,7 +44,7 @@ final class RecievedConclusionViewModel: DViewModel {
                 withAnimation(.easeIn(duration: 0.1)) {
                     displayedResponse.append(separator + word)
                 }
-                try? await Task.sleep(nanoseconds: 40_000_000)
+                try? await Task.sleep(nanoseconds: 60_000_000)
             }
         }
     }
