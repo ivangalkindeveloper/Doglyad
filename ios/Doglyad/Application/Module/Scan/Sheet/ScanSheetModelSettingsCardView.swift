@@ -41,8 +41,8 @@ struct ScanSheetModelSettingsCardView: View {
                     )
 
                     row(
-                        title: .scanNeuralModelSettingsResponseLengthLabel,
-                        value: "\(ultrasoundViewModel.responseLength)"
+                        title: .scanNeuralModelSettingsMaxTokensLabel,
+                        value: "\(ultrasoundViewModel.maxTokens)"
                     )
 
                     row(

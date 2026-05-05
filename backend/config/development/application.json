@@ -8,7 +8,7 @@
     },
     "ultrasound": {
         "defaultNeuralModelTemperature": 0.3,
-        "defaultNeuralModelResponseLength": 2048,
+        "defaultNeuralModelMaxTokens": 2048,
         "requestCountPerDay": 10,
         "scanPhotoMaxNumber": 6,
         "scanPhotoResizeMaxDimension": 128,

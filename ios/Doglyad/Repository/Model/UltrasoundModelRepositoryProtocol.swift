@@ -13,9 +13,9 @@ protocol UltrasoundModelRepositoryProtocol: AnyObject {
 
     func setTemperature(_ value: Double?)
 
-    func getResponseLength() -> Int?
+    func getMaxTokens() -> Int?
 
-    func setResponseLength(_ value: Int?)
+    func setMaxTokens(_ value: Int?)
 
     // MARK: RequestLimit -
 

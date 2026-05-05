@@ -79,7 +79,7 @@ class RunPodService(ModelService):
                 ],
                 "sampling_params": {
                     "temperature": settings.temperature,
-                    "max_tokens": settings.responseLength
+                    "max_tokens": settings.maxTokens
                 }
             }
         }

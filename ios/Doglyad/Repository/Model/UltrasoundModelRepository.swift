@@ -42,12 +42,12 @@ extension UltrasoundModelRepository {
         database.setNeuralModelTemperature(value: value)
     }
 
-    func getResponseLength() -> Int? {
-        database.getNeuralModelResponseLength()
+    func getMaxTokens() -> Int? {
+        database.getNeuralModelMaxTokens()
     }
 
-    func setResponseLength(_ value: Int?) {
-        database.setNeuralModelResponseLength(value: value)
+    func setMaxTokens(_ value: Int?) {
+        database.setNeuralModelMaxTokens(value: value)
     }
 }
 

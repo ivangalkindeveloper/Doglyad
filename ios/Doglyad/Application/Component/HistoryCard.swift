@@ -86,7 +86,7 @@ struct HistoryCard: View {
                 selectedNeuralModelId: "google/medgemma-27b-it",
                 isMarkdown: false,
                 temperature: nil,
-                responseLength: nil
+                maxTokens: nil
             ),
             examinationData: USExaminationData(
                 usExaminationTypeId: "thyroidGland",

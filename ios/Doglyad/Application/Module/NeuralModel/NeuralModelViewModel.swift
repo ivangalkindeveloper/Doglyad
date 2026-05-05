@@ -18,9 +18,9 @@ final class NeuralModelViewModel: DViewModel {
 
     init(
         initialNeuralModel: USExaminationNeuralModel,
-        initialTemperature: Double,
         initialIsMarkdown: Bool,
-        initialResponseLength: Int,
+        initialTemperature: Double,
+        initialMaxTokens: Int,
         messager: DMessager,
         router: DRouter,
         onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
@@ -34,14 +34,14 @@ final class NeuralModelViewModel: DViewModel {
         super.init()
         isMarkdown = initialIsMarkdown
         temperatureController.text = String(initialTemperature)
-        responseLengthController.text = String(initialResponseLength)
+        maxTokensController.text = String(initialMaxTokens)
     }
 
     @Published var focus: Focus?
     @Published var usExaminationNeuralModel: USExaminationNeuralModel
     @Published var isMarkdown: Bool = false
     @NestedObservableObject var temperatureController = DTextFieldController()
-    @NestedObservableObject var responseLengthController = DTextFieldController()
+    @NestedObservableObject var maxTokensController = DTextFieldController()
 
     func unfocus() {
         focus = nil
@@ -86,7 +86,7 @@ final class NeuralModelViewModel: DViewModel {
         onSettingsSaved(
             isMarkdown,
             Double(temperatureController.text),
-            Int(responseLengthController.text)
+            Int(maxTokensController.text)
         )
         messager.show(
             type: .success,

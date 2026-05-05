@@ -12,19 +12,19 @@ struct NeuralModelScreen: View {
         NeuralModelScreenView(
             viewModel: NeuralModelViewModel(
                 initialNeuralModel: ultrasoundViewModel.neuralModel,
-                initialTemperature: ultrasoundViewModel.temperature,
                 initialIsMarkdown: ultrasoundViewModel.isMarkdown,
-                initialResponseLength: ultrasoundViewModel.responseLength,
+                initialTemperature: ultrasoundViewModel.temperature,
+                initialMaxTokens: ultrasoundViewModel.maxTokens,
                 messager: messager,
                 router: router,
                 onNeuralModelSelected: { [weak ultrasoundViewModel] model in
                     ultrasoundViewModel?.saveNeuralModel(model)
                 },
-                onSettingsSaved: { [weak ultrasoundViewModel] isMarkdown, temperature, responseLength in
+                onSettingsSaved: { [weak ultrasoundViewModel] isMarkdown, temperature, maxTokens in
                     ultrasoundViewModel?.saveNeuralModelSettings(
                         isMarkdown: isMarkdown,
                         temperature: temperature,
-                        responseLength: responseLength
+                        maxTokens: maxTokens
                     )
                 }
             )

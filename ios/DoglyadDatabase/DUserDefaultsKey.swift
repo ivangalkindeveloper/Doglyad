@@ -4,6 +4,6 @@ enum DUserDefaultsKey: String, CaseIterable {
     case selectedUSExaminationNeuralModelId
     case neuralModelIsMarkdown
     case neuralModelTemperature
-    case neuralModelResponseLength
+    case neuralModelMaxTokens
     case selectedTemplateIdByExaminationTypeMap
 }

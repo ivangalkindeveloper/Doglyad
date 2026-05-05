@@ -61,7 +61,7 @@ final class ConclusionViewModel: DViewModel {
             selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),
             isMarkdown: ultrasoundModelRepository.getIsMarkdown(),
             temperature: ultrasoundModelRepository.getTemperature(),
-            responseLength: ultrasoundModelRepository.getResponseLength()
+            maxTokens: ultrasoundModelRepository.getMaxTokens()
         )
         handle {
             self.isLoading = true

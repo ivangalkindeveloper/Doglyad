@@ -9,9 +9,9 @@ public protocol DDatabaseNeuralModelSettingsProtocol: AnyObject {
 
     func setNeuralModelTemperature(value: Double?)
 
-    func getNeuralModelResponseLength() -> Int?
+    func getNeuralModelMaxTokens() -> Int?
 
-    func setNeuralModelResponseLength(value: Int?)
+    func setNeuralModelMaxTokens(value: Int?)
 }
 
 extension DDatabase: DDatabaseNeuralModelSettingsProtocol {
@@ -35,15 +35,15 @@ extension DDatabase: DDatabaseNeuralModelSettingsProtocol {
         }
     }
 
-    public func getNeuralModelResponseLength() -> Int? {
-        getInt(.neuralModelResponseLength)
+    public func getNeuralModelMaxTokens() -> Int? {
+        getInt(.neuralModelMaxTokens)
     }
 
-    public func setNeuralModelResponseLength(value: Int?) {
+    public func setNeuralModelMaxTokens(value: Int?) {
         if let value {
-            setValue(value, .neuralModelResponseLength)
+            setValue(value, .neuralModelMaxTokens)
         } else {
-            removeValue(.neuralModelResponseLength)
+            removeValue(.neuralModelMaxTokens)
         }
     }
 }

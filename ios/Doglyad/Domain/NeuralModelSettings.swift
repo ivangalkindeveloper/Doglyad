@@ -5,7 +5,7 @@ struct NeuralModelSettings: Codable {
     let selectedNeuralModelId: String?
     let isMarkdown: Bool
     let temperature: Double?
-    let responseLength: Int?
+    let maxTokens: Int?
 }
 
 extension NeuralModelSettings {
@@ -16,7 +16,7 @@ extension NeuralModelSettings {
             selectedNeuralModelId: db.selectedNeuralModelId,
             isMarkdown: db.isMarkdown,
             temperature: db.temperature,
-            responseLength: db.responseLength
+            maxTokens: db.maxTokens
         )
     }
 
@@ -25,7 +25,7 @@ extension NeuralModelSettings {
             selectedNeuralModelId: selectedNeuralModelId,
             isMarkdown: isMarkdown,
             temperature: temperature,
-            responseLength: responseLength
+            maxTokens: maxTokens
         )
     }
 }

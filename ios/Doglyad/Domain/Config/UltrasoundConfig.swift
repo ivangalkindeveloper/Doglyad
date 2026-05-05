@@ -1,6 +1,6 @@
 struct UltrasoundConfig: Codable {
     let defaultNeuralModelTemperature: Double
-    let defaultNeuralModelResponseLength: Int
+    let defaultNeuralModelMaxTokens: Int
     let requestCountPerDay: Int
     let scanPhotoMaxNumber: Int
     let scanPhotoResizeMaxDimension: Double

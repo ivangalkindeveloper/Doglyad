@@ -367,12 +367,12 @@ final class ScanViewModel: DViewModel {
         }
 
         let neuralModel = ultrasoundViewModel.neuralModel
-        let responseLength = ultrasoundViewModel.responseLength
+        let maxTokens = ultrasoundViewModel.maxTokens
         let neuralModelSettings = NeuralModelSettings(
             selectedNeuralModelId: neuralModel.id,
             isMarkdown: ultrasoundViewModel.isMarkdown,
             temperature: ultrasoundViewModel.temperature,
-            responseLength: responseLength
+            maxTokens: maxTokens
         )
         let examinationData = USExaminationData(
             usExaminationTypeId: usExaminationType.id,

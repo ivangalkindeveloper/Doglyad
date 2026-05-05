@@ -20,7 +20,7 @@ final class UltrasoundViewModel: DViewModel {
             neuralModel = container.usExaminationNeuralModelDefault
         }
 
-        isMarkdown = ultrasoundModelRepository.getIsMarkdown()
+        self.isMarkdown = ultrasoundModelRepository.getIsMarkdown()
 
         let ultrasoundConfig = container.applicationConfig.ultrasound
         if let temperature = ultrasoundModelRepository.getTemperature() {
@@ -28,10 +28,10 @@ final class UltrasoundViewModel: DViewModel {
         } else {
             temperature = ultrasoundConfig.defaultNeuralModelTemperature
         }
-        if let responseLength = ultrasoundModelRepository.getResponseLength() {
-            self.responseLength = responseLength
+        if let maxTokens = ultrasoundModelRepository.getMaxTokens() {
+            self.maxTokens = maxTokens
         } else {
-            responseLength = ultrasoundConfig.defaultNeuralModelResponseLength
+            maxTokens = ultrasoundConfig.defaultNeuralModelMaxTokens
         }
 
         templateIdByUSExaminationTypeId = [:]
@@ -52,9 +52,9 @@ final class UltrasoundViewModel: DViewModel {
     }
 
     @Published var neuralModel: USExaminationNeuralModel
-    @Published var temperature: Double
     @Published var isMarkdown: Bool
-    @Published var responseLength: Int
+    @Published var temperature: Double
+    @Published var maxTokens: Int
     @Published var templateIdByUSExaminationTypeId: [String: USExaminationTemplate]
     @Published var availableRequestCount: Int
 
@@ -68,7 +68,7 @@ final class UltrasoundViewModel: DViewModel {
     func saveNeuralModelSettings(
         isMarkdown: Bool,
         temperature: Double?,
-        responseLength: Int?
+        maxTokens: Int?
     ) {
         self.isMarkdown = isMarkdown
         container.ultrasoundModelRepository.setIsMarkdown(isMarkdown)
@@ -78,9 +78,9 @@ final class UltrasoundViewModel: DViewModel {
             container.ultrasoundModelRepository.setTemperature(temperature)
         }
 
-        if let responseLength = responseLength {
-            self.responseLength = responseLength
-            container.ultrasoundModelRepository.setResponseLength(responseLength)
+        if let maxTokens = maxTokens {
+            self.maxTokens = maxTokens
+            container.ultrasoundModelRepository.setMaxTokens(maxTokens)
         }
     }
 

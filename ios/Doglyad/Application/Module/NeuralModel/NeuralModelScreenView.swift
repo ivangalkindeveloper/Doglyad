@@ -86,19 +86,19 @@ struct NeuralModelScreenView: View {
                             .padding(.bottom, size.s16)
 
                         DTextField(
-                            controller: viewModel.responseLengthController,
+                            controller: viewModel.maxTokensController,
                             focus: DTextFieldFocus(
                                 value: .length,
                                 state: $focus
                             ),
-                            title: .neuralModelResponseLengthLabel,
-                            placeholder: .neuralModelResponseLengthPlaceholder,
+                            title: .neuralModelMaxTokensLabel,
+                            placeholder: .neuralModelMaxTokensPlaceholder,
                             keyboardType: .numberPad,
                             sumbitLabel: .done
                         )
                         .padding(.bottom, size.s4)
 
-                        DText(.neuralModelResponseLengthDescription)
+                        DText(.neuralModelMaxTokensDescription)
                             .dStyle(
                                 font: typography.textXSmall,
                                 color: color.grayscalePlacehold
