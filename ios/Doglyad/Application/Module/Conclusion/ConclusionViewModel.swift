@@ -2,6 +2,7 @@ import DoglyadNetwork
 import DoglyadUI
 import Foundation
 import Handler
+import Router
 import SwiftUI
 import UIKit
 
@@ -12,16 +13,22 @@ final class ConclusionViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
+    private let getAvailableRequestCount: () -> Int
+    private let onIncrementRequestCount: () -> Void
 
     init(
         container: DependencyContainer,
         messager: DMessager,
         router: DRouter,
-        initialConclusion: USExaminationConclusion
+        initialConclusion: USExaminationConclusion,
+        getAvailableRequestCount: @escaping () -> Int,
+        onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
         self.messager = messager
         self.router = router
+        self.getAvailableRequestCount = getAvailableRequestCount
+        self.onIncrementRequestCount = onIncrementRequestCount
         conclusion = initialConclusion
     }
 
@@ -53,9 +60,25 @@ final class ConclusionViewModel: DViewModel {
         )
     }
 
+    func onTapNeuralModelSettings() {
+        router.push(
+            route: RouteScreen(
+                type: .neuralModel
+            )
+        )
+    }
+
     func onTapRepeatScan(
         proxy: ScrollViewProxy
     ) {
+        if getAvailableRequestCount() <= 0 {
+            return router.push(
+                route: RouteSheet(
+                    type: .requestLimitExceeded
+                )
+            )
+        }
+
         let ultrasoundModelRepository = container.ultrasoundModelRepository
         let neuralModelSettings = NeuralModelSettings(
             selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),
@@ -100,6 +123,7 @@ final class ConclusionViewModel: DViewModel {
             await self.container.ultrasoundConclusionRepository.updateConclusion(
                 conclusion: updatedConclusion
             )
+            self.onIncrementRequestCount()
 
             return updatedConclusion
         } onDefer: {

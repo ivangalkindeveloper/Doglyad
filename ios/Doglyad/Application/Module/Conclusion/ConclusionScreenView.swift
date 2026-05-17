@@ -163,6 +163,11 @@ struct ConclusionScreenView: View {
                                 onTapCopy: { viewModel.onTapCopy(conclusion: conclusion.actualModelConclusion) }
                             )
                             .id(ConclusionViewModel.actualModelConclusionCardScrollId)
+                            .padding(.bottom, size.s8)
+
+                            ModelSettingsCard(
+                                onTap: viewModel.onTapNeuralModelSettings
+                            )
                             .padding(.bottom, size.s16)
 
                             DButton(

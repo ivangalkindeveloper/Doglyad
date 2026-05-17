@@ -378,7 +378,7 @@ final class ScanViewModel: DViewModel {
         if getAvailableRequestCount() <= 0 {
             return router.push(
                 route: RouteSheet(
-                    type: .scanRequestLimitExceeded
+                    type: .requestLimitExceeded
                 )
             )
         }
@@ -423,8 +423,6 @@ final class ScanViewModel: DViewModel {
                     compressionQuality: self.ultrasoundConfig.scanPhotoCompressionQuality
                 )
             )
-            self.onIncrementRequestCount()
-            await self.reset()
 
             let conclusion = USExaminationConclusion(
                 date: Date(),
@@ -436,6 +434,8 @@ final class ScanViewModel: DViewModel {
             await self.container.ultrasoundConclusionRepository.setConclusion(
                 conclusion: conclusion
             )
+            self.onIncrementRequestCount()
+            await self.reset()
 
             return conclusion
         } onDefer: {

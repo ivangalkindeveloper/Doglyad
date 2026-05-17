@@ -1372,7 +1372,7 @@
         }
       }
     },
-    "scanLimitExceededDescription" : {
+    "requestLimitExceededDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1389,7 +1389,7 @@
         }
       }
     },
-    "scanLimitExceededTitle" : {
+    "requestLimitExceededTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

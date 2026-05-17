@@ -17,7 +17,7 @@ enum SheetType: Hashable {
     case selectNeuralModel
     case selectDateOfBirth
     case scanSpeech
-    case scanRequestLimitExceeded
+    case requestLimitExceeded
     case permissionSpeech
     case recievedConclusion
     case webDocument

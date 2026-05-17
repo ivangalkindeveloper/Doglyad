@@ -1,14 +1,15 @@
 import DoglyadUI
 import SwiftUI
 
-struct ScanSheetModelSettingsCardView: View {
+struct ModelSettingsCard: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @EnvironmentObject private var viewModel: ScanViewModel
     @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
+
+    let onTap: () -> Void
 
     var body: some View {
         VStack(
@@ -24,32 +25,32 @@ struct ScanSheetModelSettingsCardView: View {
                 .padding(.bottom, size.s8)
 
             DButtonCard(
-                action: viewModel.onTapNeuralModelSettings
+                action: onTap
             ) {
                 VStack(
                     alignment: .leading,
                     spacing: size.s4
                 ) {
-                    RowView(
+                    ModelSettingsCardValueRow(
                         title: .scanNerualModelSettingsModelLabel,
                         value: ultrasoundViewModel.neuralModel.title
                     )
 
-                    MarkdownRowView(
+                    ModelSettingsCardMarkdownRow(
                         isMarkdown: $ultrasoundViewModel.isMarkdown
                     )
 
-                    RowView(
+                    ModelSettingsCardValueRow(
                         title: .scanNeuralModelSettingsTemperatureLabel,
                         value: String(format: "%.2f", ultrasoundViewModel.temperature)
                     )
 
-                    RowView(
+                    ModelSettingsCardValueRow(
                         title: .scanNeuralModelSettingsMaxTokensLabel,
                         value: "\(ultrasoundViewModel.maxTokens)"
                     )
 
-                    RowView(
+                    ModelSettingsCardValueRow(
                         title: .scanNeuralModelSettingsAvailableRequestsLabel,
                         value: "\(ultrasoundViewModel.availableRequestCount)"
                     )
@@ -60,7 +61,7 @@ struct ScanSheetModelSettingsCardView: View {
     }
 }
 
-private struct RowView: View {
+private struct ModelSettingsCardValueRow: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -89,7 +90,7 @@ private struct RowView: View {
     }
 }
 
-private struct MarkdownRowView: View {
+private struct ModelSettingsCardMarkdownRow: View {
     private static let switchNativeHeight: CGFloat = 31
     private static let switchNativeWidth: CGFloat = 51
 

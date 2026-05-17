@@ -138,10 +138,10 @@ final class RouterBuilder: RouterBuilderProtocol {
             )
         case .about:
             AnyView(AboutBottomSheet())
-        case .scanRequestLimitExceeded:
+        case .requestLimitExceeded:
             AnyView(
-                ScanRequestLimitExceededBottomSheet(
-                    arguments: route.arguments as? ScanRequestLimitExceededArguments
+                RequestLimitExceededBottomSheet(
+                    arguments: route.arguments as? RequestLimitExceededArguments
                 )
             )
         }

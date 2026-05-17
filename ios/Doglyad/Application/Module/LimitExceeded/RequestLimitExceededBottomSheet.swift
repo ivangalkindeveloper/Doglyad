@@ -2,25 +2,25 @@ import DoglyadUI
 import Router
 import SwiftUI
 
-struct ScanRequestLimitExceededBottomSheet: View {
+struct RequestLimitExceededBottomSheet: View {
     @EnvironmentObject private var router: DRouter
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    let arguments: ScanRequestLimitExceededArguments?
+    let arguments: RequestLimitExceededArguments?
 
     var body: some View {
         DBottomSheet(
-            title: .scanLimitExceededTitle,
+            title: .requestLimitExceededTitle,
             isCloseButtonVisible: false,
             fraction: 0.3
         ) { toolbarHeight in
             VStack(
                 spacing: .zero
             ) {
-                DText(.scanLimitExceededDescription)
+                DText(.requestLimitExceededDescription)
                     .dStyle(
                         font: typography.textSmall,
                         color: color.grayscalePlacehold,
@@ -43,7 +43,7 @@ struct ScanRequestLimitExceededBottomSheet: View {
 }
 
 #Preview {
-    ScanRequestLimitExceededBottomSheet(
+    RequestLimitExceededBottomSheet(
         arguments: nil
     )
     .previewable()

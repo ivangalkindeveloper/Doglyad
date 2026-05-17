@@ -6,6 +6,7 @@ struct ConclusionScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
     let arguments: ConclusionScreenArguments
 
     var body: some View {
@@ -14,7 +15,13 @@ struct ConclusionScreen: View {
                 container: container,
                 messager: messager,
                 router: router,
-                initialConclusion: arguments.conclusion
+                initialConclusion: arguments.conclusion,
+                getAvailableRequestCount: { [weak ultrasoundViewModel] in
+                    ultrasoundViewModel?.availableRequestCount ?? 0
+                },
+                onIncrementRequestCount: { [weak ultrasoundViewModel] in
+                    ultrasoundViewModel?.incrementRequestCount()
+                }
             )
         )
     }
