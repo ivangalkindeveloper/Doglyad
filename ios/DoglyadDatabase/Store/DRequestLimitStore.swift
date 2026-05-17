@@ -11,28 +11,31 @@ public actor DRequestLimitStore {
         return transform(value)
     }
 
-    public func setRequestLimit(value: RequestLimitDB) {
-        clearRequestLimit()
+    public func setRequestLimit(value: RequestLimitDB) throws {
+        try clearRequestLimit()
         modelContext.insert(value)
+        try modelContext.save()
     }
 
-    public func clearRequestLimit() {
+    public func clearRequestLimit() throws {
         let descriptor = FetchDescriptor<RequestLimitDB>()
         guard let items = try? modelContext.fetch(descriptor) else { return }
         for item in items {
             modelContext.delete(item)
         }
+        try modelContext.save()
     }
 
-    public func incrementRequestCount() {
+    public func incrementRequestCount() throws {
         let descriptor = FetchDescriptor<RequestLimitDB>()
         if let requestLimit = try? modelContext.fetch(descriptor).first,
            Calendar.current.isDateInToday(requestLimit.date)
         {
             requestLimit.count += 1
         } else {
-            clearRequestLimit()
+            try clearRequestLimit()
             modelContext.insert(RequestLimitDB(count: 1, date: Date()))
         }
+        try modelContext.save()
     }
 }

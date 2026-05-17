@@ -62,7 +62,7 @@ extension UltrasoundConclusionRepository {
     func setConclusion(
         conclusion: USExaminationConclusion
     ) async {
-        await database.examinationConclusions.setExaminationConclusion(
+        try? await database.examinationConclusions.setExaminationConclusion(
             value: conclusion.toDB()
         )
     }
@@ -70,13 +70,13 @@ extension UltrasoundConclusionRepository {
     func updateConclusion(
         conclusion: USExaminationConclusion
     ) async {
-        await database.examinationConclusions.updateExaminationConclusion(
+        try? await database.examinationConclusions.updateExaminationConclusion(
             value: conclusion.toDB()
         )
     }
 
     func clearAllConclusions() async {
-        await database.examinationConclusions.clearAllExaminationConclusions()
+        try? await database.examinationConclusions.clearAllExaminationConclusions()
     }
 }
 

@@ -13,7 +13,7 @@ public actor DExaminationTemplatesStore {
         return transform(models)
     }
 
-    public func upsertExaminationTemplate(value: USExaminationTemplateDB) {
+    public func upsertExaminationTemplate(value: USExaminationTemplateDB) throws {
         let id = value.id
         let descriptor = FetchDescriptor<USExaminationTemplateDB>(
             predicate: #Predicate<USExaminationTemplateDB> { $0.id == id }
@@ -24,17 +24,19 @@ public actor DExaminationTemplatesStore {
         } else {
             modelContext.insert(value)
         }
+        try modelContext.save()
     }
 
-    public func deleteExaminationTemplate(id: UUID) {
+    public func deleteExaminationTemplate(id: UUID) throws {
         let descriptor = FetchDescriptor<USExaminationTemplateDB>(
             predicate: #Predicate<USExaminationTemplateDB> { $0.id == id }
         )
         guard let item = try? modelContext.fetch(descriptor).first else { return }
         modelContext.delete(item)
+        try modelContext.save()
     }
 
-    public func clearAllExaminationTemplates() {
+    public func clearAllExaminationTemplates() throws {
         let descriptor = FetchDescriptor<USExaminationTemplateDB>(
             sortBy: [SortDescriptor(\.usExaminationTypeId, order: .forward)]
         )
@@ -42,5 +44,6 @@ public actor DExaminationTemplatesStore {
         for item in items {
             modelContext.delete(item)
         }
+        try modelContext.save()
     }
 }

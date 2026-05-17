@@ -13,11 +13,12 @@ public actor DExaminationConclusionsStore {
         return transform(models)
     }
 
-    public func setExaminationConclusion(value: USExaminationConclusionDB) {
+    public func setExaminationConclusion(value: USExaminationConclusionDB) throws {
         modelContext.insert(value)
+        try modelContext.save()
     }
 
-    public func updateExaminationConclusion(value: USExaminationConclusionDB) {
+    public func updateExaminationConclusion(value: USExaminationConclusionDB) throws {
         let id = value.id
         let descriptor = FetchDescriptor<USExaminationConclusionDB>(
             predicate: #Predicate<USExaminationConclusionDB> { $0.id == id }
@@ -25,9 +26,10 @@ public actor DExaminationConclusionsStore {
         guard let conclusion = try? modelContext.fetch(descriptor).first else { return }
         modelContext.delete(conclusion)
         modelContext.insert(value)
+        try modelContext.save()
     }
 
-    public func clearAllExaminationConclusions() {
+    public func clearAllExaminationConclusions() throws {
         let descriptor = FetchDescriptor<USExaminationConclusionDB>(
             sortBy: [SortDescriptor(\.date, order: .forward)]
         )
@@ -35,5 +37,6 @@ public actor DExaminationConclusionsStore {
         for conclusion in conclusions {
             modelContext.delete(conclusion)
         }
+        try modelContext.save()
     }
 }

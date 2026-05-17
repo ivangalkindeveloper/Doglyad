@@ -46,12 +46,12 @@ final class TemplateRepository: TemplateRepositoryProtocol {
     func saveTemplate(
         template: USExaminationTemplate
     ) async {
-        await database.examinationTemplates.upsertExaminationTemplate(value: template.toDB())
+        try? await database.examinationTemplates.upsertExaminationTemplate(value: template.toDB())
     }
 
     func deleteTemplate(
         id: UUID
     ) async {
-        await database.examinationTemplates.deleteExaminationTemplate(id: id)
+        try? await database.examinationTemplates.deleteExaminationTemplate(id: id)
     }
 }

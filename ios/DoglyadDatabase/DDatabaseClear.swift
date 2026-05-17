@@ -10,8 +10,8 @@ extension DDatabase: DDatabaseClearProtocol {
             removeValue(key)
         }
 
-        await examinationConclusions.clearAllExaminationConclusions()
-        await examinationTemplates.clearAllExaminationTemplates()
-        await requestLimit.clearRequestLimit()
+        try? await examinationConclusions.clearAllExaminationConclusions()
+        try? await examinationTemplates.clearAllExaminationTemplates()
+        try? await requestLimit.clearRequestLimit()
     }
 }

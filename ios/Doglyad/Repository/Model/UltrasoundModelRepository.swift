@@ -66,6 +66,6 @@ extension UltrasoundModelRepository {
     }
 
     func incrementRequestCount() async {
-        await database.requestLimit.incrementRequestCount()
+        try? await database.requestLimit.incrementRequestCount()
     }
 }
