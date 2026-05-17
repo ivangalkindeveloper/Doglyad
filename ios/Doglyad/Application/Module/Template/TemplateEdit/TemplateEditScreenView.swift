@@ -2,7 +2,6 @@ import DoglyadUI
 import SwiftUI
 
 struct TemplateEditScreenView: View {
-    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -80,18 +79,14 @@ struct TemplateEditScreenView: View {
                 ) {
                     DButton(
                         title: .buttonSave,
-                        action: {
-                            viewModel.onTapSave(ultrasoundViewModel: ultrasoundViewModel)
-                        }
+                        action: viewModel.onTapSave
                     )
                     .dStyle(.primaryButton)
                     .padding(.bottom, size.s8)
 
                     DButton(
                         title: .templateDeleteButton,
-                        action: {
-                            viewModel.onTapDelete(ultrasoundViewModel: ultrasoundViewModel)
-                        }
+                        action: viewModel.onTapDelete
                     )
                     .dStyle(.card)
                 }

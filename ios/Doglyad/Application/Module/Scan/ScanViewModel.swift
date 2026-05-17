@@ -22,16 +22,37 @@ final class ScanViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
+    private let getTemplateForType: (String) -> USExaminationTemplate?
+    private let getNeuralModel: () -> USExaminationNeuralModel
+    private let getIsMarkdown: () -> Bool
+    private let getTemperature: () -> Double
+    private let getMaxTokens: () -> Int
+    private let getAvailableRequestCount: () -> Int
+    private let onIncrementRequestCount: () -> Void
 
     init(
         container: DependencyContainer,
         messager: DMessager,
-        router: DRouter
+        router: DRouter,
+        getTemplateForType: @escaping (String) -> USExaminationTemplate?,
+        getNeuralModel: @escaping () -> USExaminationNeuralModel,
+        getIsMarkdown: @escaping () -> Bool,
+        getTemperature: @escaping () -> Double,
+        getMaxTokens: @escaping () -> Int,
+        getAvailableRequestCount: @escaping () -> Int,
+        onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
         self.messager = messager
         self.router = router
-        usExaminationType = container.usExaminationTypeDefault
+        self.getTemplateForType = getTemplateForType
+        self.getNeuralModel = getNeuralModel
+        self.getIsMarkdown = getIsMarkdown
+        self.getTemperature = getTemperature
+        self.getMaxTokens = getMaxTokens
+        self.getAvailableRequestCount = getAvailableRequestCount
+        self.onIncrementRequestCount = onIncrementRequestCount
+        self.usExaminationType = container.usExaminationTypeDefault
         super.init()
     }
 
@@ -220,16 +241,12 @@ final class ScanViewModel: DViewModel {
         )
     }
 
-    func getTemplate(
-        ultrasoundViewModel: UltrasoundViewModel
-    ) -> USExaminationTemplate? {
-        ultrasoundViewModel.templateIdByUSExaminationTypeId[usExaminationType.id]
+    func getTemplate() -> USExaminationTemplate? {
+        getTemplateForType(usExaminationType.id)
     }
 
-    func onTapSelectedTemplate(
-        ultrasoundViewModel: UltrasoundViewModel
-    ) {
-        if let template = getTemplate(ultrasoundViewModel: ultrasoundViewModel) {
+    func onTapSelectedTemplate() {
+        if let template = getTemplate() {
             return router.push(
                 route: RouteScreen(
                     type: .templateEdit,
@@ -338,7 +355,7 @@ final class ScanViewModel: DViewModel {
         }
     }
 
-    func onTapScan(ultrasoundViewModel: UltrasoundViewModel) {
+    func onTapScan() {
         let isPatientNameValid = patientNameController.validate()
         let isPatientHeightCMValid = patientHeightCMController.validate()
         let isPatientWeightKGValid = patientWeightKGController.validate()
@@ -358,7 +375,7 @@ final class ScanViewModel: DViewModel {
 
         unfocus()
 
-        if ultrasoundViewModel.availableRequestCount <= 0 {
+        if getAvailableRequestCount() <= 0 {
             return router.push(
                 route: RouteSheet(
                     type: .scanRequestLimitExceeded
@@ -366,12 +383,14 @@ final class ScanViewModel: DViewModel {
             )
         }
 
-        let neuralModel = ultrasoundViewModel.neuralModel
-        let maxTokens = ultrasoundViewModel.maxTokens
+        let neuralModel = getNeuralModel()
+        let isMarkdown = getIsMarkdown()
+        let temperature = getTemperature()
+        let maxTokens = getMaxTokens()
         let neuralModelSettings = NeuralModelSettings(
             selectedNeuralModelId: neuralModel.id,
-            isMarkdown: ultrasoundViewModel.isMarkdown,
-            temperature: ultrasoundViewModel.temperature,
+            isMarkdown: isMarkdown,
+            temperature: temperature,
             maxTokens: maxTokens
         )
         let examinationData = USExaminationData(
@@ -386,7 +405,7 @@ final class ScanViewModel: DViewModel {
             examinationDescription: examinationDescriptionController.text,
             additionalData: additionalDataController.text
         )
-        let template = getTemplate(ultrasoundViewModel: ultrasoundViewModel)
+        let template = getTemplate()
 
         handle {
             self.isLoading = true
@@ -404,7 +423,7 @@ final class ScanViewModel: DViewModel {
                     compressionQuality: self.ultrasoundConfig.scanPhotoCompressionQuality
                 )
             )
-            ultrasoundViewModel.incrementRequestCount()
+            self.onIncrementRequestCount()
             await self.reset()
 
             let conclusion = USExaminationConclusion(

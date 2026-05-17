@@ -24,9 +24,7 @@ struct ScanSheetTemplateCardView: View {
                 .padding(.bottom, size.s8)
 
             DButtonCard(
-                action: {
-                    viewModel.onTapSelectedTemplate(ultrasoundViewModel: ultrasoundViewModel)
-                }
+                action: viewModel.onTapSelectedTemplate
             ) {
                 VStack(
                     alignment: .leading,
@@ -39,7 +37,7 @@ struct ScanSheetTemplateCardView: View {
                         font: typography.linkSmall
                     )
 
-                    if let template = viewModel.getTemplate(ultrasoundViewModel: ultrasoundViewModel) {
+                    if let template = ultrasoundViewModel.templateIdByUSExaminationTypeId[viewModel.usExaminationType.id] {
                         DText(template.content)
                             .dStyle(
                                 font: typography.textXSmall,

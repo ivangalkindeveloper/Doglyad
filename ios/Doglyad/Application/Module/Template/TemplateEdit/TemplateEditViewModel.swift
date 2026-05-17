@@ -16,17 +16,23 @@ final class TemplateEditViewModel: DViewModel {
     private let router: DRouter
     private let messager: DMessager
     private let arguments: TemplateEditScreenArguments
+    private let onSaveTemplate: (USExaminationTemplate) -> Void
+    private let onDeleteTemplate: (UUID) -> Void
 
     init(
         container: DependencyContainer,
         router: DRouter,
         messager: DMessager,
-        arguments: TemplateEditScreenArguments
+        arguments: TemplateEditScreenArguments,
+        onSaveTemplate: @escaping (USExaminationTemplate) -> Void,
+        onDeleteTemplate: @escaping (UUID) -> Void
     ) {
         self.container = container
         self.router = router
         self.messager = messager
         self.arguments = arguments
+        self.onSaveTemplate = onSaveTemplate
+        self.onDeleteTemplate = onDeleteTemplate
         usExaminationType = container.usExaminationTypeDefault
     }
 
@@ -76,9 +82,7 @@ final class TemplateEditViewModel: DViewModel {
         )
     }
 
-    func onTapSave(
-        ultrasoundViewModel: UltrasoundViewModel
-    ) {
+    func onTapSave() {
         let isContentValid = templateController.validate()
         guard isContentValid else {
             templateController.showError(
@@ -95,7 +99,7 @@ final class TemplateEditViewModel: DViewModel {
             usExaminationType: usExaminationType,
             content: content
         )
-        ultrasoundViewModel.saveTemplate(template)
+        onSaveTemplate(template)
         messager.show(
             type: .success,
             title: .templateSavedSuccessTitle,
@@ -104,12 +108,8 @@ final class TemplateEditViewModel: DViewModel {
         router.pop()
     }
 
-    func onTapDelete(
-        ultrasoundViewModel: UltrasoundViewModel
-    ) {
-        ultrasoundViewModel.deleteTemplate(
-            id: arguments.templateId
-        )
+    func onTapDelete() {
+        onDeleteTemplate(arguments.templateId)
         messager.show(
             type: .success,
             title: .templateDeletedSuccessTitle,

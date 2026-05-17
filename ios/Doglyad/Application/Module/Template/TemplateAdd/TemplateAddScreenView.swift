@@ -2,7 +2,6 @@ import DoglyadUI
 import SwiftUI
 
 struct TemplateAddScreenView: View {
-    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
@@ -77,9 +76,7 @@ struct TemplateAddScreenView: View {
             bottom: {
                 DButton(
                     title: .buttonSave,
-                    action: {
-                        viewModel.onTapSave(ultrasoundViewModel: ultrasoundViewModel)
-                    }
+                    action: viewModel.onTapSave
                 )
                 .dStyle(.primaryButton)
                 .padding(size.s16)

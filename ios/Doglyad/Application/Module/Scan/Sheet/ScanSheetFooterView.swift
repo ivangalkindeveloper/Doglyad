@@ -8,7 +8,6 @@ struct ScanSheetFooterView: View {
     private var size: DSize { theme.size }
 
     @EnvironmentObject private var viewModel: ScanViewModel
-    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
 
     var body: some View {
         VStack(
@@ -51,11 +50,7 @@ struct ScanSheetFooterView: View {
 
                     DButton(
                         title: .buttonScan,
-                        action: {
-                            viewModel.onTapScan(
-                                ultrasoundViewModel: ultrasoundViewModel
-                            )
-                        },
+                        action: viewModel.onTapScan,
                         isLoading: viewModel.isLoading
                     )
                     .dStyle(.primaryButton)

@@ -15,15 +15,18 @@ final class TemplateAddViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
     private let messager: DMessager
+    private let onSaveTemplate: (USExaminationTemplate) -> Void
 
     init(
         container: DependencyContainer,
         router: DRouter,
-        messager: DMessager
+        messager: DMessager,
+        onSaveTemplate: @escaping (USExaminationTemplate) -> Void
     ) {
         self.container = container
         self.router = router
         self.messager = messager
+        self.onSaveTemplate = onSaveTemplate
         usExaminationType = container.usExaminationTypeDefault
     }
 
@@ -60,9 +63,7 @@ final class TemplateAddViewModel: DViewModel {
         )
     }
 
-    func onTapSave(
-        ultrasoundViewModel: UltrasoundViewModel
-    ) {
+    func onTapSave() {
         let isContentValid = templateController.validate()
         guard isContentValid else {
             templateController.showError(
@@ -95,7 +96,7 @@ final class TemplateAddViewModel: DViewModel {
                 usExaminationType: usExaminationType,
                 content: content
             )
-            ultrasoundViewModel.saveTemplate(template)
+            self.onSaveTemplate(template)
             self.messager.show(
                 type: .success,
                 title: .templateSavedSuccessTitle,

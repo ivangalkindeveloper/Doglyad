@@ -6,6 +6,7 @@ struct TemplateEditScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
     let arguments: TemplateEditScreenArguments
 
     var body: some View {
@@ -14,7 +15,13 @@ struct TemplateEditScreen: View {
                 container: container,
                 router: router,
                 messager: messager,
-                arguments: arguments
+                arguments: arguments,
+                onSaveTemplate: { [weak ultrasoundViewModel] template in
+                    ultrasoundViewModel?.saveTemplate(template)
+                },
+                onDeleteTemplate: { [weak ultrasoundViewModel] id in
+                    ultrasoundViewModel?.deleteTemplate(id: id)
+                }
             )
         )
     }
