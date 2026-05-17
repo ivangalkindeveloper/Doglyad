@@ -24,8 +24,8 @@ struct HistoryCard: View {
                 ZStack {
                     ForEach(Array(examinationData.photos.enumerated()), id: \.element.id) { index, photo in
                         PhotoCard(image: photo.image)
-                            .offset(x: Double.random(in: -8 ... 8), y: Double.random(in: -8 ... 8))
-                            .rotationEffect(.degrees(Double.random(in: -24 ... 24)))
+                            .offset(x: Double.random(in: -4 ... 4), y: Double.random(in: -4 ... 4))
+                            .rotationEffect(.degrees(Double.random(in: -8 ... 8)))
                             .zIndex(Double(index))
                     }
                 }
