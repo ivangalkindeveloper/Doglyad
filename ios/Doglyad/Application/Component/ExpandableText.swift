@@ -66,7 +66,7 @@ struct ExpandableText: View {
                                         endPoint: .trailing
                                     )
                                 )
-                                .frame(width: 80, height: 16)
+                                .frame(width: 100, height: 16)
 
                             Button(.buttonNext) {
                                 withAnimation(theme.animation) {
