@@ -30,22 +30,26 @@ struct ScanSheetModelSettingsCardView: View {
                     alignment: .leading,
                     spacing: size.s4
                 ) {
-                    row(
+                    RowView(
                         title: .scanNerualModelSettingsModelLabel,
                         value: ultrasoundViewModel.neuralModel.title
                     )
 
-                    row(
+                    MarkdownRowView(
+                        isMarkdown: $ultrasoundViewModel.isMarkdown
+                    )
+
+                    RowView(
                         title: .scanNeuralModelSettingsTemperatureLabel,
                         value: String(format: "%.2f", ultrasoundViewModel.temperature)
                     )
 
-                    row(
+                    RowView(
                         title: .scanNeuralModelSettingsMaxTokensLabel,
                         value: "\(ultrasoundViewModel.maxTokens)"
                     )
 
-                    row(
+                    RowView(
                         title: .scanNeuralModelSettingsAvailableRequestsLabel,
                         value: "\(ultrasoundViewModel.availableRequestCount)"
                     )
@@ -54,11 +58,18 @@ struct ScanSheetModelSettingsCardView: View {
             }
         }
     }
+}
 
-    private func row(
-        title: LocalizedStringResource,
-        value: String
-    ) -> some View {
+private struct RowView: View {
+    @EnvironmentObject private var theme: DTheme
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
+
+    let title: LocalizedStringResource
+    let value: String
+
+    var body: some View {
         HStack(
             alignment: .top,
             spacing: size.s4
@@ -74,6 +85,48 @@ struct ScanSheetModelSettingsCardView: View {
                     font: typography.linkSmall
                 )
                 .lineLimit(2)
+        }
+    }
+}
+
+private struct MarkdownRowView: View {
+    private static let switchNativeHeight: CGFloat = 31
+    private static let switchNativeWidth: CGFloat = 51
+
+    @EnvironmentObject private var theme: DTheme
+    private var color: DColor { theme.color }
+    private var size: DSize { theme.size }
+    private var typography: DTypography { theme.typography }
+
+    @Binding var isMarkdown: Bool
+
+    private var switchScale: CGFloat {
+        size.s12 / Self.switchNativeHeight
+    }
+
+    var body: some View {
+        HStack(
+            alignment: .center,
+            spacing: size.s8
+        ) {
+            DText(.scanNeuralModelSettingsMarkdownLabel)
+                .dStyle(
+                    font: typography.textXSmall,
+                    color: color.grayscalePlacehold
+                )
+
+            Toggle(
+                "",
+                isOn: $isMarkdown
+            )
+            .labelsHidden()
+            .toggleStyle(.switch)
+            .scaleEffect(switchScale)
+            .frame(
+                width: Self.switchNativeWidth * switchScale,
+                height: size.s12
+            )
+            .allowsHitTesting(false)
         }
     }
 }

@@ -721,7 +721,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Markdown разметка"
+            "value" : "Разметка Markdown"
           }
         }
       }
@@ -772,7 +772,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Макс. кол-во токенов"
+            "value" : "Макс. количество токенов"
           }
         }
       }
@@ -1463,13 +1463,30 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Max count characters:"
+            "value" : "Max tokens length:"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Макс. количество символов:"
+            "value" : "Макс. количество токенов:"
+          }
+        }
+      }
+    },
+    "scanNeuralModelSettingsMarkdownLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown markup:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разметка Markdown:"
           }
         }
       }
