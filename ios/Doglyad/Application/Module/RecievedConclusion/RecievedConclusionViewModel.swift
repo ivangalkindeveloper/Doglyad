@@ -41,9 +41,7 @@ final class RecievedConclusionViewModel: DViewModel {
             for (index, word) in words.enumerated() {
                 if Task.isCancelled { return }
                 let separator = index == 0 ? "" : " "
-                withAnimation(.easeIn(duration: 0.1)) {
-                    displayedResponse.append(separator + word)
-                }
+                displayedResponse.append(separator + word)
                 try? await Task.sleep(nanoseconds: 60_000_000)
             }
         }
