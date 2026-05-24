@@ -16,8 +16,7 @@ extension InitializationProcess {
         AsyncInitializationStep<InitializationProcess>(
             title: "Application config",
             run: { (process: InitializationProcess) async throws in
-                let url = await process.environment!.contentUrl
-                    .appendingPathComponent("\(process.environment!.contentConfigPathPrefix)/\(process.environment!.type)/application.json")
+                let url = await process.environment!.applicationConfigUrl
                 let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: url)
                 await MainActor.run {
                     process.applicationConfig = applicationConfig
@@ -27,8 +26,7 @@ extension InitializationProcess {
         AsyncInitializationStep<InitializationProcess>(
             title: "Ultrasound examination types",
             run: { (process: InitializationProcess) async throws in
-                let url = await process.environment!.contentUrl
-                    .appendingPathComponent("\(process.environment!.contentConfigPathPrefix)/\(process.environment!.type)/ultrasound_examination_types.json")
+                let url = await process.applicationConfig!.configUrl.appendingPathComponent("ultrasound_examination_types.json")
                 let usExaminationTypes: [USExaminationType] = try await process.httpClient!.get(url: url)
                 if usExaminationTypes.isEmpty {
                     throw InitializationError.usExaminationTypesEmpty
@@ -46,8 +44,7 @@ extension InitializationProcess {
         AsyncInitializationStep<InitializationProcess>(
             title: "Ultrasound examination neural models",
             run: { (process: InitializationProcess) async throws in
-                let url = await process.environment!.contentUrl
-                    .appendingPathComponent("\(process.environment!.contentConfigPathPrefix)/\(process.environment!.type)/ultrasound_examination_neural_models.json")
+                let url = await process.applicationConfig!.configUrl.appendingPathComponent("ultrasound_examination_neural_models.json")
                 let usExaminationNeuralModels: [USExaminationNeuralModel] = try await process.httpClient!.get(url: url)
                 if usExaminationNeuralModels.isEmpty {
                     throw InitializationError.usExaminationNeuralModelsEmpty

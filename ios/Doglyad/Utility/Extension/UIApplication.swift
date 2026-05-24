@@ -8,10 +8,10 @@ extension UIApplication {
     }
 
     static func openAppStore(
-        environment: EnvironmentProtocol,
+        appleUpdateUrl: URL,
         id: String
     ) {
-        let url = environment.updateUrl.appendingPathComponent(id)
+        let url = appleUpdateUrl.appendingPathComponent(id)
         guard shared.canOpenURL(url) else { return }
         shared.open(url)
     }

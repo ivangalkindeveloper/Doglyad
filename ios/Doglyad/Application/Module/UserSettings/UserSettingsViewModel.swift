@@ -24,7 +24,7 @@ final class UserSettingsViewModel: DViewModel {
         self.router = router
         self.onEmailSaved = onEmailSaved
         super.init()
-        self.emailController.text = initialEmail
+        emailController.text = initialEmail
     }
 
     @Published var focus: Focus?

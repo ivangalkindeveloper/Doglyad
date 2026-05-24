@@ -32,7 +32,7 @@ final class OnBoardingViewModel: DViewModel {
             route: RouteSheet(
                 type: .webDocument,
                 arguments: WebDocumentBottomSheetArguments(
-                    url: container.environment.privacyPolicyUrl,
+                    url: container.applicationConfig.privacyPolicyUrl,
                     title: .privacyPolicyTitle
                 )
             )
@@ -44,7 +44,7 @@ final class OnBoardingViewModel: DViewModel {
             route: RouteSheet(
                 type: .webDocument,
                 arguments: WebDocumentBottomSheetArguments(
-                    url: container.environment.termsAndConditionsUrl,
+                    url: container.applicationConfig.termsAndConditionsUrl,
                     title: .termsAndConditionsTitle
                 )
             )

@@ -14,7 +14,7 @@ final class NewVersionViewModel: DViewModel {
     func onTapUpdate() {
         let id = container.applicationConfig.appStoreId
         UIApplication.openAppStore(
-            environment: container.environment,
+            appleUpdateUrl: container.applicationConfig.appleUpdateUrl,
             id: id
         )
     }

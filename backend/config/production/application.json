@@ -7,6 +7,10 @@
         "patch": 0
     },
     "contactEmail": "doglyadapp@gmail.com",
+    "configUrl": "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/backend/config/production",
+    "appleUpdateUrl": "https://apps.apple.com/app/id",
+    "privacyPolicyUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy",
+    "termsAndConditionsUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions",
     "ultrasound": {
         "defaultNeuralModelTemperature": 0.3,
         "defaultNeuralModelMaxTokens": 2048,

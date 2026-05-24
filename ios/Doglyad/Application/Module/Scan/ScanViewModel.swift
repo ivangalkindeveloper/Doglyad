@@ -52,7 +52,7 @@ final class ScanViewModel: DViewModel {
         self.getMaxTokens = getMaxTokens
         self.getAvailableRequestCount = getAvailableRequestCount
         self.onIncrementRequestCount = onIncrementRequestCount
-        self.usExaminationType = container.usExaminationTypeDefault
+        usExaminationType = container.usExaminationTypeDefault
         super.init()
     }
 
