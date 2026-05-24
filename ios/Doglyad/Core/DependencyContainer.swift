@@ -128,6 +128,7 @@ extension DependencyContainer {
                     minor: 0,
                     patch: 0
                 ),
+                contactEmail: "doglyadapp@gmail.com",
                 ultrasound: UltrasoundConfig(
                     defaultNeuralModelTemperature: 0.2,
                     defaultNeuralModelMaxTokens: 512,

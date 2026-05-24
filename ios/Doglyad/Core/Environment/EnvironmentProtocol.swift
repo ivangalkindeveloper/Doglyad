@@ -9,5 +9,4 @@ protocol EnvironmentProtocol: AnyObject {
     var updateUrl: URL { get }
     var privacyPolicyUrl: URL { get }
     var termsAndConditionsUrl: URL { get }
-    var contactEmail: String { get }
 }

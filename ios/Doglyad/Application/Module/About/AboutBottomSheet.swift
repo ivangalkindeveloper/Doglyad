@@ -14,7 +14,7 @@ struct AboutBottomSheet: View {
         description.font = typography.textSmall
         description.foregroundColor = color.grayscaleHeader
 
-        var email = AttributedString(dependencyContainer.environment.contactEmail)
+        var email = AttributedString(dependencyContainer.applicationConfig.contactEmail)
         email.font = typography.textSmall
         email.foregroundColor = color.primaryDefault
         email.link = URL(string: "mailto:\(email)")

@@ -6,6 +6,7 @@
         "minor": 0,
         "patch": 0
     },
+    "contactEmail": "doglyadapp@gmail.com",
     "ultrasound": {
         "defaultNeuralModelTemperature": 0.3,
         "defaultNeuralModelMaxTokens": 2048,
