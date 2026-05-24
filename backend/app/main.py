@@ -12,6 +12,7 @@ from slowapi.errors import RateLimitExceeded
 from app.core.config import load_configs
 from app.core.limiter import limiter
 from app.route.ultrasound_conclusion import router as ultrasound_conclusion_router
+from app.route.ultrasound_conclusion_send_email import router as ultrasound_conclusion_send_email_router
 from app.service import init_services
 
 logging.basicConfig(level=logging.INFO)
@@ -37,6 +38,7 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
 
 router_v1 = APIRouter(prefix="/v1")
 router_v1.include_router(ultrasound_conclusion_router)
+router_v1.include_router(ultrasound_conclusion_send_email_router)
 
 app = FastAPI(lifespan=lifespan)
 app.state.limiter = limiter

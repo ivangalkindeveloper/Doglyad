@@ -60,6 +60,14 @@ final class SettingsViewModel: DViewModel {
         )
     }
 
+    func onTapUserSettings() {
+        router.push(
+            route: RouteScreen(
+                type: .userSettings
+            )
+        )
+    }
+
     func onTapStorage() {
         router.push(
             route: RouteScreen(

@@ -1882,6 +1882,40 @@
         }
       }
     },
+    "settingsUserSettingsDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work email for receiving generated conclusions"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочая почта для получения сгенерированных заключений"
+          }
+        }
+      }
+    },
+    "settingsUserSettingsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочие настройки"
+          }
+        }
+      }
+    },
     "settingsPrivacyPolicyDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2626,6 +2660,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Условия и Положения"
+          }
+        }
+      }
+    },
+    "userSettingsEmailDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generated conclusions will be sent to this work email"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На данную рабочую почту будут приходить сгенерированные заключения"
+          }
+        }
+      }
+    },
+    "userSettingsEmailLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work email"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочий e-mail"
+          }
+        }
+      }
+    },
+    "userSettingsEmailPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "my_email@work-email.com"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "my_email@work-email.com"
+          }
+        }
+      }
+    },
+    "userSettingsSavedSuccessMessageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work email saved successfully"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочий e-mail успешно сохранён"
+          }
+        }
+      }
+    },
+    "userSettingsSavedSuccessMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings saved"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки сохранены"
+          }
+        }
+      }
+    },
+    "userSettingsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочие настройки"
           }
         }
       }

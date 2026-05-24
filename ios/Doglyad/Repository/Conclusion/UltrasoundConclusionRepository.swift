@@ -34,7 +34,8 @@ extension UltrasoundConclusionRepository {
 // MARK: Conclusion -
 
 extension UltrasoundConclusionRepository {
-    static var conclusionEndpoint: String = "/ultrasound_conclusion"
+    static let conclusionEndpoint: String = "/ultrasound_conclusion"
+    static let sendEmailEndpoint: String = "/ultrasound_conclusion_send_email"
 
     func generateConclusion(
         locale: Locale,
@@ -42,7 +43,7 @@ extension UltrasoundConclusionRepository {
         scanPhotoEncodingOptions: ScanPhotoEncodingOptions
     ) async throws -> USExaminationModelConclusion {
         try await httpClient.post(
-            endPoint: UltrasoundConclusionRepository.conclusionEndpoint,
+            endPoint: Self.conclusionEndpoint,
             body: request,
             headers: [
                 DHttpHeader.acceptLanguage: locale.identifier,
@@ -50,6 +51,17 @@ extension UltrasoundConclusionRepository {
             encoderUserInfo: [
                 .scanPhotoEncodingOptions: scanPhotoEncodingOptions,
             ]
+        )
+    }
+
+    func sendEmail(
+        email: USExaminationEmail
+    ) async throws {
+        try await httpClient.post(
+            endPoint: Self.sendEmailEndpoint,
+            body: email,
+            headers: nil,
+            encoderUserInfo: nil
         )
     }
 

@@ -20,4 +20,11 @@ public protocol DHttpClientProtocol {
         headers: [String: String]?,
         encoderUserInfo: [CodingUserInfoKey: Any]?
     ) async throws -> Response
+
+    func post<Body: Encodable & Sendable>(
+        endPoint: String,
+        body: Body?,
+        headers: [String: String]?,
+        encoderUserInfo: [CodingUserInfoKey: Any]?
+    ) async throws
 }

@@ -18,6 +18,10 @@ protocol UltrasoundConclusionRepositoryProtocol: AnyObject {
         scanPhotoEncodingOptions: ScanPhotoEncodingOptions
     ) async throws -> USExaminationModelConclusion
 
+    func sendEmail(
+        email: USExaminationEmail
+    ) async throws
+
     func getConclusions() async -> [USExaminationConclusion]
 
     func setConclusion(

@@ -5,6 +5,7 @@ public protocol DDatabaseProtocol: AnyObject,
     DDatabaseNeuralModelSettingsProtocol,
     DDatabaseUSExaminationTypeProtocol,
     DDatabaseUSExaminationNeuralModelProtocol,
+    DDatabaseUserSettingsProtocol,
     DDatabaseClearProtocol
 {
     var examinationConclusions: DExaminationConclusionsStore { get }

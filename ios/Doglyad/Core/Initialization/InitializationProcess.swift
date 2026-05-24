@@ -14,6 +14,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var database: DDatabase?
     var httpClient: DHttpClientProtocol?
     var sharedRepository: SharedRepositoryProtocol?
+    var userSettingsRepository: UserSettingsRepositoryProtocol?
     var ultrasoundModelRepository: UltrasoundModelRepositoryProtocol?
     var ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol?
     var templateRepository: TemplateRepositoryProtocol?
@@ -34,6 +35,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             connectionManager: connectionManager!,
             permissionManager: permissionManager!,
             sharedRepository: sharedRepository!,
+            userSettingsRepository: userSettingsRepository!,
             ultrasoundModelRepository: ultrasoundModelRepository!,
             ultrasoundConclusionRepository: ultrasoundConclusionRepository!,
             templateRepository: templateRepository!,

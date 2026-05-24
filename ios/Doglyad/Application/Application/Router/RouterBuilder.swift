@@ -77,6 +77,12 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? StorageScreenArguments
                 )
             )
+        case .userSettings:
+            AnyView(
+                UserSettingsScreen(
+                    arguments: route.arguments as? UserSettingsScreenArguments
+                )
+            )
         }
     }
 

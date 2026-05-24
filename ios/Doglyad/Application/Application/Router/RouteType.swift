@@ -10,6 +10,7 @@ enum ScreenType: Hashable {
     case templateAdd
     case templateEdit
     case storage
+    case userSettings
 }
 
 enum SheetType: Hashable {

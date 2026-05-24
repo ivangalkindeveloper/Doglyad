@@ -94,4 +94,32 @@ public final class DHttpClient: DHttpClientProtocol {
         .response
         return try response.result.get()
     }
+
+    public func post<Body: Encodable & Sendable>(
+        endPoint: String,
+        body: Body? = nil,
+        headers: [String: String]? = nil,
+        encoderUserInfo: [CodingUserInfoKey: Any]? = nil
+    ) async throws {
+        let encoder: JSONEncoder
+        if let encoderUserInfo {
+            encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            encoder.userInfo = encoderUserInfo
+        } else {
+            encoder = jsonEncoder
+        }
+
+        let response = await session.request(
+            baseApiUrl + endPoint,
+            method: .post,
+            parameters: body,
+            encoder: JSONParameterEncoder(encoder: encoder),
+            headers: headers.map(HTTPHeaders.init) ?? HTTPHeaders()
+        )
+        .validate()
+        .serializingData(emptyResponseCodes: [204])
+        .response
+        _ = try response.result.get()
+    }
 }

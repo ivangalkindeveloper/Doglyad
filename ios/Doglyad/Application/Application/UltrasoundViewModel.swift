@@ -36,6 +36,7 @@ final class UltrasoundViewModel: DViewModel {
 
         templateIdByUSExaminationTypeId = [:]
         availableRequestCount = container.applicationConfig.ultrasound.requestCountPerDay
+        email = container.userSettingsRepository.getUserEmail() ?? ""
         super.init()
     }
 
@@ -57,6 +58,14 @@ final class UltrasoundViewModel: DViewModel {
     @Published var maxTokens: Int
     @Published var templateIdByUSExaminationTypeId: [String: USExaminationTemplate]
     @Published var availableRequestCount: Int
+    @Published var email: String
+
+    func saveEmail(
+        _ email: String
+    ) {
+        self.email = email
+        container.userSettingsRepository.setUserEmail(email)
+    }
 
     func saveNeuralModel(
         _ model: USExaminationNeuralModel

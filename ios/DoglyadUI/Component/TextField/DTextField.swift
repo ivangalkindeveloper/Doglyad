@@ -111,7 +111,7 @@ public struct DTextField<Focus: Hashable, Leading: View, Trailing: View>: View {
                         let field = TextField(
                             placeholder,
                             text: $controller.text,
-                            prompt: Text(placeholder)
+                            prompt: Text(verbatim: String(localized: placeholder))
                                 .foregroundStyle(color.grayscalePlacehold),
                             axis: .vertical
                         )

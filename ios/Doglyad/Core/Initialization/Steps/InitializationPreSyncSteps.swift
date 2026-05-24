@@ -57,6 +57,9 @@ extension InitializationProcess {
                 process.templateRepository = TemplateRepository(
                     database: process.database!
                 )
+                process.userSettingsRepository = UserSettingsRepository(
+                    database: process.database!
+                )
             }
         ),
         SyncInitializationStep<InitializationProcess>(

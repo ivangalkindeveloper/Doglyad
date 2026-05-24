@@ -10,6 +10,7 @@ final class DependencyContainer: ObservableObject {
     let connectionManager: ConnectionManagerProtocol
     let permissionManager: PermissionManagerProtocol
     let sharedRepository: SharedRepositoryProtocol
+    let userSettingsRepository: UserSettingsRepositoryProtocol
     let ultrasoundModelRepository: UltrasoundModelRepositoryProtocol
     let ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol
     let templateRepository: TemplateRepositoryProtocol
@@ -29,6 +30,7 @@ final class DependencyContainer: ObservableObject {
         connectionManager: ConnectionManagerProtocol,
         permissionManager: PermissionManagerProtocol,
         sharedRepository: SharedRepositoryProtocol,
+        userSettingsRepository: UserSettingsRepositoryProtocol,
         ultrasoundModelRepository: UltrasoundModelRepositoryProtocol,
         ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol,
         templateRepository: TemplateRepositoryProtocol,
@@ -47,6 +49,7 @@ final class DependencyContainer: ObservableObject {
         self.connectionManager = connectionManager
         self.permissionManager = permissionManager
         self.sharedRepository = sharedRepository
+        self.userSettingsRepository = userSettingsRepository
         self.ultrasoundModelRepository = ultrasoundModelRepository
         self.ultrasoundConclusionRepository = ultrasoundConclusionRepository
         self.templateRepository = templateRepository
@@ -95,6 +98,9 @@ extension DependencyContainer {
         let sharedRepository = SharedRepository(
             database: database
         )
+        let userSettingsRepository = UserSettingsRepository(
+            database: database
+        )
         let ultrasoundModelRepository = UltrasoundModelRepository(
             database: database
         )
@@ -111,6 +117,7 @@ extension DependencyContainer {
             connectionManager: ConnectionManager(),
             permissionManager: PermissionManager(),
             sharedRepository: sharedRepository,
+            userSettingsRepository: userSettingsRepository,
             ultrasoundModelRepository: ultrasoundModelRepository,
             ultrasoundConclusionRepository: ultrasoundConclusionRepository,
             templateRepository: templateRepository,
