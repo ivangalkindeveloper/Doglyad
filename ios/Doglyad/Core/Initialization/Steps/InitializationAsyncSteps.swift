@@ -16,7 +16,7 @@ extension InitializationProcess {
         AsyncInitializationStep<InitializationProcess>(
             title: "Application config",
             run: { (process: InitializationProcess) async throws in
-                let url = await process.environment!.applicationConfigUrl
+                let url = await process.environment!.configUrl
                 let applicationConfig: ApplicationConfig = try await process.httpClient!.get(url: url)
                 await MainActor.run {
                     process.applicationConfig = applicationConfig
