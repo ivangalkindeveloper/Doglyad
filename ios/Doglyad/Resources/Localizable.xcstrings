@@ -35,13 +35,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "If you encounter any issues or problems, please contact us.\nEmail: "
+            "value" : "If you encounter any issues or problems, please contact us:"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В случае обнаружения проблем или неполадок, пожалуйста, свяжитесь с нами.\nEmail: "
+            "value" : "В случае обнаружения проблем или неполадок, пожалуйста, свяжитесь с нами:"
           }
         }
       }

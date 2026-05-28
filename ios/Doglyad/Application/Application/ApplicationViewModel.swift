@@ -12,9 +12,12 @@ final class ApplicationViewModel: DViewModel {
         Task {
             await DependencyInitializer<InitializationProcess, DependencyContainer>(
                 createProcess: { InitializationProcess() },
-                preSyncSteps: InitializationProcess.preSyncSteps,
-                asyncSteps: InitializationProcess.asyncSteps,
-                postSyncSteps: InitializationProcess.postSyncSteps,
+                stepSets: [
+                    StepSet(sync: InitializationProcess.preSyncSteps),
+                    StepSet(async: InitializationProcess.firstAsyncSteps),
+                    StepSet(async: InitializationProcess.secondAsyncSteps),
+                    StepSet(sync: InitializationProcess.postSyncSteps),
+                ],
                 onSuccess: { [weak self] result, _ in
                     guard let self = self else { return }
 

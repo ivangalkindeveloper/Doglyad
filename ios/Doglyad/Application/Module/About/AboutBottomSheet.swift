@@ -19,7 +19,7 @@ struct AboutBottomSheet: View {
         email.foregroundColor = color.primaryDefault
         email.link = URL(string: "mailto:\(email)")
 
-        return description + email
+        return description + " " + email
     }
 
     private func localizedResource(
