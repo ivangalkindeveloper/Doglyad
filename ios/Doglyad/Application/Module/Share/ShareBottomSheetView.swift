@@ -64,7 +64,7 @@ struct ShareBottomSheetView: View {
                 .disabled(viewModel.isLoading)
 
                 ShareLink(
-                    item: viewModel.shareContent
+                    item: viewModel.shareMessage
                 ) {
                     row(
                         icon: .export,

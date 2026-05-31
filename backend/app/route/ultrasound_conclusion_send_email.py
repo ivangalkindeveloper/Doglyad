@@ -28,9 +28,10 @@ async def ultrasound_conclusion_send_email(
     del request
 
     logger.info(
-        "Send email: recipient=%s, patient=%s",
+        "Send email: recipient=%s, subject=%s, body=%s",
         body.recipientEmail,
-        body.examinationData.patientName,
+        body.subject,
+        body.body,
     )
 
     try:
@@ -46,10 +47,8 @@ async def ultrasound_conclusion_send_email(
 
 
 def _send_examination_email(body: USExaminationEmail) -> None:
-    examination = body.examinationData
-    subject = f"Doglyad — заключение: {examination.patientName}"
-    message = MIMEText(body.modelConclusion.response)
-    message["Subject"] = subject
+    message = MIMEText(body.body, _charset="utf-8")
+    message["Subject"] = body.subject
     message["From"] = variables.email_sender
     message["To"] = body.recipientEmail
 

@@ -21,6 +21,47 @@ private extension USExaminationConclusion {
 }
 
 extension USExaminationConclusion {
+    func shareSubject(
+        examinationTypesById: [String: USExaminationType],
+        locale: Locale = .current
+    ) -> String {
+        let examinationType = String(
+            localized: .forExaminationTypeById(
+                types: examinationTypesById,
+                id: examinationData.usExaminationTypeId,
+                locale: locale
+            )
+        )
+        return "Doglyad: \(date.localized()) \(examinationData.patientName) \(examinationType)"
+    }
+
+    var shareMessage: String {
+        var lines: [String] = [
+            "\(String(localized: .scanExaminationDateLabel))\n\(date.localized())",
+            "\(String(localized: .scanPatientNameLabel))\n\(examinationData.patientName)",
+            "\(String(localized: .scanPatientGenderLabel))\n\(String(localized: .forGender(examinationData.patientGender)))",
+            "\(String(localized: .scanPatientDateOfBirthLabel))\n\(examinationData.patientDateOfBirth.localized())",
+            "\(String(localized: .scanExaminationDescriptionLabel))\n\(examinationData.examinationDescription)"
+        ]
+        if let patientComplaint = examinationData.patientComplaint {
+            lines.append("\(String(localized: .scanPatientComplaintLabel))\n\(patientComplaint)")
+        }
+        if let additionalData = examinationData.additionalData {
+            lines.append("\(String(localized: .scanAdditionalDataLabel))\n\(additionalData)")
+        }
+
+        lines.append("\(String(localized: .conclusionActualModelResponseTitle))\n\(actualModelConclusion.response)")
+
+        if !previosModelConclusions.isEmpty {
+            lines.append(String(localized: .conclusionPreviosModelResponsesTitle))
+            for modelConclusion in previosModelConclusions {
+                lines.append(modelConclusion.response)
+            }
+        }
+
+        return lines.joined(separator: "\n\n")
+    }
+
     static func fromDB(
         _ db: USExaminationConclusionDB
     ) -> USExaminationConclusion {

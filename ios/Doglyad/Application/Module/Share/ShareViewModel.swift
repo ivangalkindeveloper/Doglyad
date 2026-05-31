@@ -38,28 +38,25 @@ final class ShareViewModel: DViewModel {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
 
-    var shareContent: String {
-        let conclusion = arguments.conclusion
-        let examinationData = conclusion.examinationData
-        return """
-        \(conclusion.date.localized())
+    var subject: String {
+        arguments.conclusion.shareSubject(
+            examinationTypesById: container.usExaminationTypesById
+        )
+    }
 
-        \(examinationData.patientName)
-
-        \(conclusion.actualModelConclusion.response)
-        """
+    var shareMessage: String {
+        arguments.conclusion.shareMessage
     }
 
     func onTapUserEmail() {
         guard let userEmail = userEmail else { return }
-        let conclusion = arguments.conclusion
         handle {
             self.isLoading = true
             try await self.container.userSettingsRepository.sendEmail(
                 email: USExaminationEmail(
                     recipientEmail: userEmail,
-                    examinationData: conclusion.examinationData,
-                    modelConclusion: conclusion.actualModelConclusion
+                    subject: self.subject,
+                    body: self.shareMessage
                 )
             )
         } onDefer: {
@@ -79,14 +76,14 @@ final class ShareViewModel: DViewModel {
     func onTapEmail() {
         router.dismissSheet()
         UIApplication.openMail(
-            subject: arguments.conclusion.examinationData.patientName,
-            body: shareContent
+            subject: subject,
+            body: shareMessage
         )
     }
 
     func onTapCopy() {
         router.dismissSheet()
-        UIApplication.pasteboard(shareContent)
+        UIApplication.pasteboard(shareMessage)
         messager.show(
             type: .success,
             title: .shareCopyMessageTitle,

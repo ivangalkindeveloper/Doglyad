@@ -79,20 +79,24 @@ final class RecievedConclusionViewModel: DViewModel {
 
     func onTapUserEmail() {
         guard let userEmail: String = userEmail else { return }
+        
         let conclusion = arguments.conclusion
+        let subject = conclusion.shareSubject(
+            examinationTypesById: container.usExaminationTypesById
+        )
+        let shareMessage = conclusion.shareMessage
         handle {
             self.isLoading = true
             try await self.container.userSettingsRepository.sendEmail(
                 email: USExaminationEmail(
                     recipientEmail: userEmail,
-                    examinationData: conclusion.examinationData,
-                    modelConclusion: conclusion.actualModelConclusion
+                    subject: subject,
+                    body: shareMessage
                 )
             )
         } onDefer: {
             self.isLoading = false
         } onMainSuccess: { _ in
-            self.router.dismissSheet()
             self.messager.show(
                 type: .success,
                 title: .shareUserEmailSuccessMessageTitle,
