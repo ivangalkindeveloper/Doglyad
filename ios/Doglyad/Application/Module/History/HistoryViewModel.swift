@@ -19,7 +19,10 @@ final class HistoryViewModel: DViewModel {
 
     override func onInit() {
         handle {
-            self.conclusions = await self.container.ultrasoundConclusionRepository.getConclusions()
+            let conclusions = await self.container.ultrasoundConclusionRepository
+                .getConclusions()
+                .sorted { $0.date > $1.date }
+            self.conclusions = conclusions
         }
     }
 
