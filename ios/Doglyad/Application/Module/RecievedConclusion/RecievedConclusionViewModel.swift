@@ -79,7 +79,7 @@ final class RecievedConclusionViewModel: DViewModel {
 
     func onTapUserEmail() {
         guard let userEmail: String = userEmail else { return }
-        
+
         let conclusion = arguments.conclusion
         let subject = conclusion.shareSubject(
             examinationTypesById: container.usExaminationTypesById

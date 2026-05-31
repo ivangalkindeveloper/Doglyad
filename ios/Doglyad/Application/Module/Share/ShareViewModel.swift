@@ -86,8 +86,8 @@ final class ShareViewModel: DViewModel {
         UIApplication.pasteboard(shareMessage)
         messager.show(
             type: .success,
-            title: .shareCopyMessageTitle,
-            description: .shareCopyMessageDescription
+            title: .shareExaminationCopyMessageTitle,
+            description: .shareExaminationCopyMessageDescription
         )
     }
 }

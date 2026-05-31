@@ -63,6 +63,23 @@
         }
       }
     },
+    "appName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doglyad"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Догляд"
+          }
+        }
+      }
+    },
     "buttonAccept" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -471,6 +488,40 @@
         }
       }
     },
+    "conclusionModelCopyMessageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The model's has been copied to the clipboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ модели скопирован в буфер обмена"
+          }
+        }
+      }
+    },
+    "conclusionModelCopyMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Response copied"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ скопирован"
+          }
+        }
+      }
+    },
     "conclusionModelResponseUpdatedMessageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -726,23 +777,6 @@
         }
       }
     },
-    "neuralModelMarkdownLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Markdown markup"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Разметка Markdown"
-          }
-        }
-      }
-    },
     "neuralModelMarkdownDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -756,6 +790,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Markdown - разметка выделенения текста заголовками, жирным, подчеркивание и т.д.\nПри выключенном режиме модели задаётся ответ только сплошным текстом."
+          }
+        }
+      }
+    },
+    "neuralModelMarkdownLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown markup"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разметка Markdown"
           }
         }
       }
@@ -1253,6 +1304,40 @@
         }
       }
     },
+    "requestLimitExceededDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have reached the daily request limit. Please try again tomorrow."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы достигли дневного лимита запросов. Пожалуйста, попробуйте завтра."
+          }
+        }
+      }
+    },
+    "requestLimitExceededTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Request limit reached"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит запросов достигнут"
+          }
+        }
+      }
+    },
     "scanAdditionalDataLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1389,40 +1474,6 @@
         }
       }
     },
-    "requestLimitExceededDescription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You have reached the daily request limit. Please try again tomorrow."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вы достигли дневного лимита запросов. Пожалуйста, попробуйте завтра."
-          }
-        }
-      }
-    },
-    "requestLimitExceededTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Request limit reached"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лимит запросов достигнут"
-          }
-        }
-      }
-    },
     "scanMaxPhotoDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1474,23 +1525,6 @@
         }
       }
     },
-    "scanNeuralModelSettingsMaxTokensLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Max tokens length:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Макс. количество токенов:"
-          }
-        }
-      }
-    },
     "scanNeuralModelSettingsMarkdownLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1504,6 +1538,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Разметка Markdown:"
+          }
+        }
+      }
+    },
+    "scanNeuralModelSettingsMaxTokensLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max tokens length:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Макс. количество токенов:"
           }
         }
       }
@@ -1538,40 +1589,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Настройки нейронной модели:"
-          }
-        }
-      }
-    },
-    "scanTemplateCardNoTemplateLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No template selected"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Шаблон не выбран"
-          }
-        }
-      }
-    },
-    "scanTemplateCardTitleLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conclusion template:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Шаблон заключения:"
           }
         }
       }
@@ -1763,6 +1780,40 @@
         }
       }
     },
+    "scanTemplateCardNoTemplateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No template selected"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблон не выбран"
+          }
+        }
+      }
+    },
+    "scanTemplateCardTitleLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conclusion template:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблон заключения:"
+          }
+        }
+      }
+    },
     "scanTurnedOffCameraDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1895,40 +1946,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Нейронная модель"
-          }
-        }
-      }
-    },
-    "settingsUserSettingsDescription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Work email for receiving generated conclusions"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Рабочая почта для получения сгенерированных заключений"
-          }
-        }
-      }
-    },
-    "settingsUserSettingsTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Work settings"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Рабочие настройки"
           }
         }
       }
@@ -2086,53 +2103,87 @@
         }
       }
     },
-    "shareCopyMessageDescription" : {
+    "settingsUserSettingsDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The model's response has been copied to the clipboard"
+            "value" : "Work email for receiving generated conclusions"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ответ модели скопирован в буфер обмена"
+            "value" : "Рабочая почта для получения сгенерированных заключений"
           }
         }
       }
     },
-    "shareCopyMessageTitle" : {
+    "settingsUserSettingsTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Response copied"
+            "value" : "Work settings"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ответ скопирован"
+            "value" : "Рабочие настройки"
           }
         }
       }
     },
-    "shareUserEmailSuccessMessageTitle" : {
+    "shareExaminationCopyMessageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conclusion sent"
+            "value" : "The ultrasound examination has been copied to the clipboard"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Заключение отправлено"
+            "value" : "Результаты ультразвукового исследования скопированы в буфер обмена"
+          }
+        }
+      }
+    },
+    "shareExaminationCopyMessageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examination copied"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исследование скопировано"
+          }
+        }
+      }
+    },
+    "shareTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться"
           }
         }
       }
@@ -2154,19 +2205,19 @@
         }
       }
     },
-    "shareTitle" : {
+    "shareUserEmailSuccessMessageTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share"
+            "value" : "Conclusion sent"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поделиться"
+            "value" : "Заключение отправлено"
           }
         }
       }
@@ -2443,23 +2494,6 @@
         }
       }
     },
-    "templateAddEmptyContentError" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter template text"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Введите текст шаблона"
-          }
-        }
-      }
-    },
     "templateAddDuplicateExaminationTypeDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2490,6 +2524,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Шаблон уже есть"
+          }
+        }
+      }
+    },
+    "templateAddEmptyContentError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter template text"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите текст шаблона"
           }
         }
       }
@@ -2902,6 +2953,6 @@
         }
       }
     }
-  },
+},
   "version" : "1.1"
 }

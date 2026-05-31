@@ -50,24 +50,14 @@ final class ConclusionViewModel: DViewModel {
         )
     }
 
-    var conclusionShareContent: String {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        guard let data = try? encoder.encode(conclusion),
-              let string = String(data: data, encoding: .utf8)
-        else { return "" }
-        return string
-    }
-
     func onTapCopy(
         conclusion: USExaminationModelConclusion
     ) {
         UIApplication.pasteboard(conclusion.response)
         messager.show(
             type: .success,
-            title: .shareCopyMessageTitle,
-            description: .shareCopyMessageDescription
+            title: .conclusionModelCopyMessageTitle,
+            description: .conclusionModelCopyMessageDescription
         )
     }
 

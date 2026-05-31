@@ -25,6 +25,9 @@ extension USExaminationConclusion {
         examinationTypesById: [String: USExaminationType],
         locale: Locale = .current
     ) -> String {
+        let appName = String(localized: .appName)
+        let date = date.localized()
+        let patientName = examinationData.patientName
         let examinationType = String(
             localized: .forExaminationTypeById(
                 types: examinationTypesById,
@@ -32,7 +35,7 @@ extension USExaminationConclusion {
                 locale: locale
             )
         )
-        return "Doglyad: \(date.localized()) \(examinationData.patientName) \(examinationType)"
+        return "\(appName): \(date) \(patientName) \(examinationType)"
     }
 
     var shareMessage: String {
@@ -41,7 +44,7 @@ extension USExaminationConclusion {
             "\(String(localized: .scanPatientNameLabel))\n\(examinationData.patientName)",
             "\(String(localized: .scanPatientGenderLabel))\n\(String(localized: .forGender(examinationData.patientGender)))",
             "\(String(localized: .scanPatientDateOfBirthLabel))\n\(examinationData.patientDateOfBirth.localized())",
-            "\(String(localized: .scanExaminationDescriptionLabel))\n\(examinationData.examinationDescription)"
+            "\(String(localized: .scanExaminationDescriptionLabel))\n\(examinationData.examinationDescription)",
         ]
         if let patientComplaint = examinationData.patientComplaint {
             lines.append("\(String(localized: .scanPatientComplaintLabel))\n\(patientComplaint)")
