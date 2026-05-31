@@ -39,6 +39,17 @@ final class ConclusionViewModel: DViewModel {
         router.pop()
     }
 
+    func onTapShare() {
+        router.push(
+            route: RouteSheet(
+                type: .share,
+                arguments: ShareArguments(
+                    conclusion: conclusion
+                )
+            )
+        )
+    }
+
     var conclusionShareContent: String {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
@@ -52,11 +63,11 @@ final class ConclusionViewModel: DViewModel {
     func onTapCopy(
         conclusion: USExaminationModelConclusion
     ) {
-        UIPasteboard.general.string = conclusion.response
+        UIApplication.pasteboard(conclusion.response)
         messager.show(
             type: .success,
-            title: .conclusionModelResponseCopyMessageTitle,
-            description: .conclusionModelResponseCopyMessageDescription
+            title: .shareCopyMessageTitle,
+            description: .shareCopyMessageDescription
         )
     }
 

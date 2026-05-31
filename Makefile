@@ -7,11 +7,11 @@
 	init-ios-local \
 	init-ios-production \
 	start-backend-development-stub \
-	start-backend-production-inference-vllm \
-	start-local-backend-development-inference-vllm-mlx \
-	start-local-backend-production-inference-vllm-mlx \
-	docker-run-vllm-medgemma-4b-it \
-	start-logs stop-backend
+	start-backend-development-runpod \
+	start-backend-production-stub \
+	start-backend-production-runpod \
+	start-logs \
+	stop-backend
 .SILENT:
 
 venv:

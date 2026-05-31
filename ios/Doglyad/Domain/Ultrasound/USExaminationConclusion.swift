@@ -13,8 +13,8 @@ struct USExaminationConclusion: Identifiable, Codable {
 private extension USExaminationConclusion {
     enum CodingKeys: String, CodingKey {
         case date,
-             examinationData,
              neuralModelSettings,
+             examinationData,
              actualModelConclusion,
              previosModelConclusions
     }

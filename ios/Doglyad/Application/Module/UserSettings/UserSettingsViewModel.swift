@@ -15,16 +15,16 @@ final class UserSettingsViewModel: DViewModel {
     private let onEmailSaved: (String) -> Void
 
     init(
-        initialEmail: String,
         messager: DMessager,
         router: DRouter,
+        initialEmail: String?,
         onEmailSaved: @escaping (String) -> Void
     ) {
         self.messager = messager
         self.router = router
         self.onEmailSaved = onEmailSaved
         super.init()
-        emailController.text = initialEmail
+        emailController.text = initialEmail ?? ""
     }
 
     @Published var focus: Focus?

@@ -14,7 +14,7 @@
     "ultrasound": {
         "defaultNeuralModelTemperature": 0.3,
         "defaultNeuralModelMaxTokens": 2048,
-        "requestCountPerDay": 4,
+        "requestCountPerDay": 10,
         "scanPhotoMaxNumber": 6,
         "scanPhotoResizeMaxDimension": 128,
         "scanPhotoCompressionQuality": 0.3,

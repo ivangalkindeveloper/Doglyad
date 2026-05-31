@@ -3,21 +3,21 @@ import DoglyadUI
 import Foundation
 import Handler
 import Router
-import SwiftUI
+import UIKit
 
 @MainActor
-final class RecievedConclusionViewModel: DViewModel {
+final class ShareViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
-    private let arguments: RecievedConclusionBottomSheetArguments
+    private let arguments: ShareArguments
     let userEmail: String?
 
     init(
         container: DependencyContainer,
         messager: DMessager,
         router: DRouter,
-        arguments: RecievedConclusionBottomSheetArguments,
+        arguments: ShareArguments,
         userEmail: String?
     ) {
         self.container = container
@@ -25,19 +25,10 @@ final class RecievedConclusionViewModel: DViewModel {
         self.router = router
         self.arguments = arguments
         self.userEmail = userEmail
+        super.init()
     }
 
-    @Published var displayedResponse = ""
     @Published var isLoading = false
-    private var typewriterTask: Task<Void, Never>?
-
-    var model: USExaminationModelConclusion {
-        arguments.conclusion.actualModelConclusion
-    }
-
-    var response: String {
-        arguments.conclusion.actualModelConclusion.response
-    }
 
     var isUserEmailAvailable: Bool {
         userEmail != nil
@@ -47,38 +38,20 @@ final class RecievedConclusionViewModel: DViewModel {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
 
-    override func onInit() {
-        startTypewriterAnimation()
-    }
+    var shareContent: String {
+        let conclusion = arguments.conclusion
+        let examinationData = conclusion.examinationData
+        return """
+        \(conclusion.date.localized())
 
-    private func startTypewriterAnimation() {
-        typewriterTask?.cancel()
+        \(examinationData.patientName)
 
-        let words = response.components(separatedBy: " ")
-        typewriterTask = Task {
-            for (index, word) in words.enumerated() {
-                if Task.isCancelled { return }
-                let separator = index == 0 ? "" : " "
-                displayedResponse.append(separator + word)
-                try? await Task.sleep(nanoseconds: 60_000_000)
-            }
-        }
-    }
-
-    func onTapConclusion() {
-        router.dismissSheet()
-        router.push(
-            route: RouteScreen(
-                type: .conclusion,
-                arguments: ConclusionScreenArguments(
-                    conclusion: arguments.conclusion
-                )
-            )
-        )
+        \(conclusion.actualModelConclusion.response)
+        """
     }
 
     func onTapUserEmail() {
-        guard let userEmail: String = userEmail else { return }
+        guard let userEmail = userEmail else { return }
         let conclusion = arguments.conclusion
         handle {
             self.isLoading = true
@@ -101,5 +74,23 @@ final class RecievedConclusionViewModel: DViewModel {
         } onUnknownError: { _ in
             self.messager.showUnknownError()
         }
+    }
+
+    func onTapEmail() {
+        router.dismissSheet()
+        UIApplication.openMail(
+            subject: arguments.conclusion.examinationData.patientName,
+            body: shareContent
+        )
+    }
+
+    func onTapCopy() {
+        router.dismissSheet()
+        UIApplication.pasteboard(shareContent)
+        messager.show(
+            type: .success,
+            title: .shareCopyMessageTitle,
+            description: .shareCopyMessageDescription
+        )
     }
 }

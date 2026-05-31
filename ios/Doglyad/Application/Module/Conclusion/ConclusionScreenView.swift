@@ -23,16 +23,11 @@ struct ConclusionScreenView: View {
             subTitle: "\(examinationData.patientName), \(conclusion.date.localized())",
             onTapBack: viewModel.onTapBack,
             trailing: {
-                ShareLink(
-                    item: viewModel.conclusionShareContent
-                ) {
-                    DButton(
-                        image: .export,
-                        action: {}
-                    )
-                    .dStyle(.circle)
-                    .allowsHitTesting(false)
-                }
+                DButton(
+                    image: .export,
+                    action: viewModel.onTapShare
+                )
+                .dStyle(.circle)
             }
         ) { toolbarInset in
             ScrollViewReader { proxy in

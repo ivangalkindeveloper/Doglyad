@@ -58,7 +58,8 @@ extension InitializationProcess {
                     database: process.database!
                 )
                 process.userSettingsRepository = UserSettingsRepository(
-                    database: process.database!
+                    database: process.database!,
+                    httpClient: process.httpClient!
                 )
             }
         ),

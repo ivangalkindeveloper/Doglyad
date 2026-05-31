@@ -99,7 +99,8 @@ extension DependencyContainer {
             database: database
         )
         let userSettingsRepository = UserSettingsRepository(
-            database: database
+            database: database,
+            httpClient: httpClient
         )
         let ultrasoundModelRepository = UltrasoundModelRepository(
             database: database

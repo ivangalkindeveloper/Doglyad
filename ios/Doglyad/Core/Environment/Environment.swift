@@ -14,6 +14,6 @@ final class EnvironmentBase: EnvironmentProtocol {
     ) {
         self.type = type
         self.baseUrl = baseUrl
-        self.configUrl = URL(string: "\(Self.contentUrl)\(type.rawValue)/application.json")!
+        configUrl = URL(string: "\(Self.contentUrl)\(type.rawValue)/application.json")!
     }
 }

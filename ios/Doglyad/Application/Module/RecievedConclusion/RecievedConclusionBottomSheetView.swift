@@ -48,7 +48,7 @@ struct RecievedConclusionBottomSheetView: View {
             },
             bottom: {
                 VStack(
-                    spacing: size.s18
+                    spacing: size.s24
                 ) {
                     DButton(
                         title: .buttonToConclusion,
@@ -56,27 +56,35 @@ struct RecievedConclusionBottomSheetView: View {
                     )
                     .dStyle(.primaryButton)
 
-                    Button(
-                        action: viewModel.onTapCopy
-                    ) {
-                        HStack(
-                            spacing: size.s8
+                    if viewModel.isUserEmailAvailable {
+                        Button(
+                            action: viewModel.onTapUserEmail
                         ) {
-                            DIcon(
-                                .copy,
-                                color: color.grayscaleBackgroundWeak
-                            )
-                            DText(.buttonCopy)
-                                .dStyle(
-                                    font: typography.linkSmall,
-                                    color: color.grayscaleBackgroundWeak,
-                                    alignment: .center
-                                )
+                            HStack(
+                                spacing: size.s8
+                            ) {
+                                if viewModel.isLoading {
+                                    ProgressView()
+                                } else {
+                                    DIcon(
+                                        .send,
+                                        color: color.grayscaleBackgroundWeak
+                                    )
+                                }
+                                DText(viewModel.userEmailButtonTitle)
+                                    .dStyle(
+                                        font: typography.linkSmall,
+                                        color: color.grayscaleBackgroundWeak,
+                                        alignment: .center
+                                    )
+                                    .lineLimit(1)
+                            }
+                            .frame(maxWidth: .infinity)
                         }
-                        .frame(maxWidth: .infinity)
+                        .buttonStyle(.plain)
+                        .disabled(viewModel.isLoading)
+                        .padding(.bottom, size.s10)
                     }
-                    .buttonStyle(.plain)
-                    .padding(.bottom, size.s8)
                 }
                 .padding(.top, size.s8)
                 .padding(.horizontal, size.s16)

@@ -11,11 +11,11 @@ struct UserSettingsScreen: View {
     var body: some View {
         UserSettingsScreenView(
             viewModel: UserSettingsViewModel(
-                initialEmail: ultrasoundViewModel.email,
                 messager: messager,
                 router: router,
+                initialEmail: ultrasoundViewModel.userEmail,
                 onEmailSaved: { [weak ultrasoundViewModel] email in
-                    ultrasoundViewModel?.saveEmail(email)
+                    ultrasoundViewModel?.saveUserEmail(userEmail: email)
                 }
             )
         )

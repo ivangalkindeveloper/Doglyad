@@ -35,7 +35,6 @@ extension UltrasoundConclusionRepository {
 
 extension UltrasoundConclusionRepository {
     static let conclusionEndpoint: String = "/ultrasound_conclusion"
-    static let sendEmailEndpoint: String = "/ultrasound_conclusion_send_email"
 
     func generateConclusion(
         locale: Locale,
@@ -51,17 +50,6 @@ extension UltrasoundConclusionRepository {
             encoderUserInfo: [
                 .scanPhotoEncodingOptions: scanPhotoEncodingOptions,
             ]
-        )
-    }
-
-    func sendEmail(
-        email: USExaminationEmail
-    ) async throws {
-        try await httpClient.post(
-            endPoint: Self.sendEmailEndpoint,
-            body: email,
-            headers: nil,
-            encoderUserInfo: nil
         )
     }
 

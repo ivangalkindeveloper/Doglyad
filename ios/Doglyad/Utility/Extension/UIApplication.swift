@@ -15,4 +15,23 @@ extension UIApplication {
         guard shared.canOpenURL(url) else { return }
         shared.open(url)
     }
+
+    static func openMail(
+        subject: String,
+        body: String
+    ) {
+        let allowed = CharacterSet(
+            charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
+        )
+        let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""
+        let encodedBody = body.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""
+        guard let url = URL(string: "mailto:?subject=\(encodedSubject)&body=\(encodedBody)") else { return }
+        shared.open(url)
+    }
+
+    static func pasteboard(
+        _ string: String
+    ) {
+        UIPasteboard.general.string = string
+    }
 }

@@ -2,16 +2,16 @@ import DoglyadUI
 import Router
 import SwiftUI
 
-struct RecievedConclusionBottomSheet: View {
+struct ShareBottomSheet: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
-    let arguments: RecievedConclusionBottomSheetArguments
+    let arguments: ShareArguments
 
     var body: some View {
-        RecievedConclusionBottomSheetView(
-            viewModel: RecievedConclusionViewModel(
+        ShareBottomSheetView(
+            viewModel: ShareViewModel(
                 container: container,
                 messager: messager,
                 router: router,
@@ -23,8 +23,8 @@ struct RecievedConclusionBottomSheet: View {
 }
 
 #Preview {
-    RecievedConclusionBottomSheet(
-        arguments: RecievedConclusionBottomSheetArguments(
+    ShareBottomSheet(
+        arguments: ShareArguments(
             conclusion: USExaminationConclusion(
                 date: Date(),
                 neuralModelSettings: NeuralModelSettings(
@@ -48,18 +48,11 @@ struct RecievedConclusionBottomSheet: View {
                 actualModelConclusion: USExaminationModelConclusion(
                     date: Date(),
                     modelId: "google/medgemma-27b-it",
-                    response: """
-                    Признаков узловых или кистозных изменений щитовидной железы не выявлено.
-                    Размеры органа в пределах возрастной нормы.
-                    Эхоструктура паренхимы сохранена, патологических включений нет.
-                    Данных за воспалительный процесс не получено.
-                    УЗ-картина соответствует норме.
-                    """
+                    response: "УЗ-картина соответствует норме."
                 ),
                 previosModelConclusions: []
             )
         )
     )
-    .background(.black)
     .previewable()
 }

@@ -144,6 +144,12 @@ final class RouterBuilder: RouterBuilderProtocol {
             )
         case .about:
             AnyView(AboutBottomSheet())
+        case .share:
+            AnyView(
+                ShareBottomSheet(
+                    arguments: route.arguments as! ShareArguments
+                )
+            )
         case .requestLimitExceeded:
             AnyView(
                 RequestLimitExceededBottomSheet(
