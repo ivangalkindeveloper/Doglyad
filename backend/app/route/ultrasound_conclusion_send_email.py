@@ -2,18 +2,14 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import os
 import smtplib
 from email.mime.text import MIMEText
 
 from fastapi import APIRouter, HTTPException, Request, status
 
 from app.core.limiter import limiter
+from app.core.variables import variables
 from app.model.ultrasound.us_examination_email import USExaminationEmail
-
-EMAIL_SENDER = "doglyadapp@gmail.com"
-EMAIL_SMTP_HOST = "smtp.gmail.com"
-EMAIL_SMTP_PORT = 587
 
 logger = logging.getLogger(__name__)
 
@@ -50,26 +46,19 @@ async def ultrasound_conclusion_send_email(
 
 
 def _send_examination_email(body: USExaminationEmail) -> None:
-    password = os.getenv("EMAIL_PASSWORD")
-    if not password:
-        raise HTTPException(
-            status_code=500,
-            detail="Email sender password is not configured",
-        )
-
     examination = body.examinationData
     subject = f"Doglyad — заключение: {examination.patientName}"
     message = MIMEText(body.modelConclusion.response)
     message["Subject"] = subject
-    message["From"] = EMAIL_SENDER
+    message["From"] = variables.email_sender
     message["To"] = body.recipientEmail
 
-    server = smtplib.SMTP(EMAIL_SMTP_HOST, EMAIL_SMTP_PORT)
+    server = smtplib.SMTP(variables.email_smtp_host, variables.email_smtp_port)
     try:
         server.starttls()
-        server.login(EMAIL_SENDER, password)
+        server.login(variables.email_sender, variables.email_password)
         server.sendmail(
-            EMAIL_SENDER,
+            variables.email_sender,
             body.recipientEmail,
             message.as_string(),
         )

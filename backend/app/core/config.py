@@ -2,18 +2,18 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from pathlib import Path
 
 from fastapi import HTTPException
 
+from app.core.variables import variables
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
 from app.model.ultrasound.us_examination_type import USExaminationType
 
 logger = logging.getLogger(__name__)
 
-ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-CONFIG_DIR = Path(os.getenv("CONFIG_DIR", str(Path(__file__).resolve().parent.parent.parent / "config"))) / ENVIRONMENT
+_CONFIG_BASE = variables.config_dir or (Path(__file__).resolve().parent.parent.parent / "config")
+_CONFIG_DIR = _CONFIG_BASE / variables.environment
 
 neural_models: dict[str, USExaminationNeuralModel] = {}
 examination_types: dict[str, USExaminationType] = {}
@@ -34,16 +34,16 @@ def _load_json_array(path: Path) -> list[dict]:
 
 def load_configs() -> None:
     try:
-        for item in _load_json_array(CONFIG_DIR / "ultrasound_examination_neural_models.json"):
+        for item in _load_json_array(_CONFIG_DIR / "ultrasound_examination_neural_models.json"):
             model = USExaminationNeuralModel(**item)
             neural_models[model.id] = model
 
-        for item in _load_json_array(CONFIG_DIR / "ultrasound_examination_types.json"):
+        for item in _load_json_array(_CONFIG_DIR / "ultrasound_examination_types.json"):
             examination_type = USExaminationType(**item)
             examination_types[examination_type.id] = examination_type
     except Exception as error:
-        logger.exception("Failed to load application configs from %s", CONFIG_DIR)
-        raise RuntimeError(f"Failed to load configs from {CONFIG_DIR}: {error}") from error
+        logger.exception("Failed to load application configs from %s", _CONFIG_DIR)
+        raise RuntimeError(f"Failed to load configs from {_CONFIG_DIR}: {error}") from error
 
 
 def resolve_neural_model(selected_id: str | None) -> USExaminationNeuralModel:

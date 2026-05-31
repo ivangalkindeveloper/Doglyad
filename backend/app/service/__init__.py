@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import httpx
 
-from app.core.llm_mode import LLM_MODE, LLMMode
+from app.core.llm_mode import LLMMode
+from app.core.variables import variables
 from app.service.base import ModelService
 from app.service.runpod import RunPodService
 
@@ -11,7 +12,7 @@ _SERVICES: dict[LLMMode, ModelService] = {}
 
 def init_services(http_client: httpx.AsyncClient) -> None:
     _SERVICES.clear()
-    if LLM_MODE is LLMMode.RUNPOD:
+    if variables.llm_mode is LLMMode.RUNPOD:
         _SERVICES[LLMMode.RUNPOD] = RunPodService(http_client)
 
 

@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 
 import httpx
 from fastapi import HTTPException
 from pydantic import ValidationError
 
+from app.core.variables import variables
 from app.model.neural_model_settings import NeuralModelSettings
 from app.model.runpod_response import RunPodResponse
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
@@ -16,16 +16,13 @@ from app.service.base import ModelService
 
 logger = logging.getLogger(__name__)
 
-_RUNPOD_API_KEY = "RUNPOD_API_KEY"
-_RUNPOD_URLS = "RUNPOD_URLS"
-
 
 class RunPodService(ModelService):
 
     def __init__(self, http_client: httpx.AsyncClient) -> None:
         self._http_client = http_client
-        self._api_key = os.getenv(_RUNPOD_API_KEY)
-        self._urls = self._load_urls(_RUNPOD_URLS)
+        self._api_key = variables.runpod_api_key
+        self._urls = self._load_urls(variables.runpod_urls)
 
     async def call(
         self,

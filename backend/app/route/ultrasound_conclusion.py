@@ -10,7 +10,8 @@ from app.core.config import (
     resolve_neural_model,
 )
 from app.core.limiter import limiter
-from app.core.llm_mode import LLM_MODE, LLMMode
+from app.core.llm_mode import LLMMode
+from app.core.variables import variables
 from app.model.ultrasound.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.ultrasound.us_examination_request import USExaminationRequest
 from app.prompt import resolve_prompt_factory
@@ -45,10 +46,10 @@ async def ultrasound_conclusion(
     logger.info(
         "Request: model=%s, lang=%s, exam=%s, photos=%d, mode=%s",
         neural_model.id, language_code, examination_title,
-        len(examination.photos), LLM_MODE,
+        len(examination.photos), variables.llm_mode,
     )
 
-    match LLM_MODE:
+    match variables.llm_mode:
         case LLMMode.STUB:
             response_text = prompt_factory.stub
         case LLMMode.RUNPOD:
@@ -61,7 +62,7 @@ async def ultrasound_conclusion(
                 examination_title,
                 body.template,
             )
-            model_service = resolve_model_service(LLM_MODE)
+            model_service = resolve_model_service(variables.llm_mode)
             response_text = await model_service.call(
                 neural_model,
                 settings,
@@ -70,7 +71,7 @@ async def ultrasound_conclusion(
                 examination.photos,
             )
         case _:
-            logger.error("Unsupported LLM_MODE: %s", LLM_MODE)
+            logger.error("Unsupported LLM mode: %s", variables.llm_mode)
             raise HTTPException(status_code=500, detail="Unsupported LLM mode")
 
     return USExaminationModelConclusion(

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from abc import ABC, abstractmethod
 
 from app.model.neural_model_settings import NeuralModelSettings
@@ -25,18 +24,17 @@ class ModelService(ABC):
     ) -> str: ...
 
     @staticmethod
-    def _load_urls(env_var: str) -> dict[str, str]:
-        raw = os.getenv(env_var)
+    def _load_urls(raw: str | None) -> dict[str, str]:
         if raw is None or not raw.strip():
             return {}
         text = raw.strip().removeprefix("\ufeff")
         try:
             data = json.loads(text)
         except json.JSONDecodeError as error:
-            logger.error("Failed to parse %s as JSON: %s", env_var, error)
+            logger.error("Failed to parse model URLs as JSON: %s", error)
             return {}
         if not isinstance(data, dict):
-            logger.error("%s must be a JSON object of modelId -> url", env_var)
+            logger.error("Model URLs must be a JSON object of modelId -> url")
             return {}
         return {
             str(k): str(v)
