@@ -5,13 +5,17 @@ import SwiftUI
 struct SettingsScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
+    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
     let arguments: SettingsScreenArguments?
 
     var body: some View {
         SettingsScreenView(
             viewModel: SettingsViewModel(
                 container: container,
-                router: router
+                router: router,
+                getIsActive: { [weak subscriptionViewModel] in
+                    subscriptionViewModel?.isActive ?? false
+                }
             )
         )
     }

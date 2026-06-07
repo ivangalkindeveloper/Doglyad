@@ -8,13 +8,16 @@ import SwiftUI
 final class SettingsViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
+    private let getIsActive: () -> Bool
 
     init(
         container: DependencyContainer,
-        router: DRouter
+        router: DRouter,
+        getIsActive: @escaping () -> Bool
     ) {
         self.container = container
         self.router = router
+        self.getIsActive = getIsActive
         super.init()
     }
 
@@ -66,6 +69,34 @@ final class SettingsViewModel: DViewModel {
                 type: .userSettings
             )
         )
+    }
+
+    func onTapSubscription() {
+        if getIsActive() {
+            router.push(
+                route: RouteSheet(
+                    type: .subscriptionCustomerCenter
+                )
+            )
+        } else {
+            router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        }
+    }
+
+    func subscriptionTitle() -> LocalizedStringResource {
+        getIsActive()
+            ? .settingsSubscriptionManageTitle
+            : .settingsSubscriptionUpgradeTitle
+    }
+
+    func subscriptionDescription() -> LocalizedStringResource {
+        getIsActive()
+            ? .settingsSubscriptionManageDescription
+            : .settingsSubscriptionUpgradeDescription
     }
 
     func onTapStorage() {

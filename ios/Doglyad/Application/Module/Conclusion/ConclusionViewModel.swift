@@ -13,7 +13,8 @@ final class ConclusionViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
-    private let getAvailableRequestCount: () -> Int
+    private let refreshSubscriptionStatus: () async -> Void
+    private let getIsActive: () -> Bool
     private let onIncrementRequestCount: () -> Void
 
     init(
@@ -21,13 +22,15 @@ final class ConclusionViewModel: DViewModel {
         messager: DMessager,
         router: DRouter,
         initialConclusion: USExaminationConclusion,
-        getAvailableRequestCount: @escaping () -> Int,
+        refreshSubscriptionStatus: @escaping () async -> Void,
+        getIsActive: @escaping () -> Bool,
         onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
         self.messager = messager
         self.router = router
-        self.getAvailableRequestCount = getAvailableRequestCount
+        self.refreshSubscriptionStatus = refreshSubscriptionStatus
+        self.getIsActive = getIsActive
         self.onIncrementRequestCount = onIncrementRequestCount
         conclusion = initialConclusion
     }
@@ -72,14 +75,23 @@ final class ConclusionViewModel: DViewModel {
     func onTapRepeatScan(
         proxy: ScrollViewProxy
     ) {
-        if getAvailableRequestCount() <= 0 {
-            return router.push(
-                route: RouteSheet(
-                    type: .requestLimitExceeded
+        handle {
+            await self.refreshSubscriptionStatus()
+        } onMainSuccess: { _ in
+            guard self.getIsActive() else {
+                return self.router.push(
+                    route: RouteScreen(
+                        type: .subscriptionPaywall
+                    )
                 )
-            )
+            }
+            self.performRepeatScan(proxy: proxy)
         }
+    }
 
+    private func performRepeatScan(
+        proxy: ScrollViewProxy
+    ) {
         let ultrasoundModelRepository = container.ultrasoundModelRepository
         let neuralModelSettings = NeuralModelSettings(
             selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),

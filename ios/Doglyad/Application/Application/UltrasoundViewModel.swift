@@ -35,7 +35,6 @@ final class UltrasoundViewModel: DViewModel {
         }
 
         templateIdByUSExaminationTypeId = [:]
-        availableRequestCount = container.applicationConfig.ultrasound.requestCountPerDay
         userEmail = container.userSettingsRepository.getUserEmail()
         super.init()
     }
@@ -46,9 +45,6 @@ final class UltrasoundViewModel: DViewModel {
                 .getTemplatesByUSExaminationId(
                     usExaminationTypesById: self.container.usExaminationTypesById
                 )
-            self.availableRequestCount = await self.container.ultrasoundModelRepository.remainingRequestCount(
-                limit: self.container.applicationConfig.ultrasound.requestCountPerDay
-            )
         }
     }
 
@@ -57,7 +53,6 @@ final class UltrasoundViewModel: DViewModel {
     @Published var temperature: Double
     @Published var maxTokens: Int
     @Published var templateIdByUSExaminationTypeId: [String: USExaminationTemplate]
-    @Published var availableRequestCount: Int
     @Published var userEmail: String?
 
     func saveUserEmail(
@@ -90,16 +85,6 @@ final class UltrasoundViewModel: DViewModel {
         if let maxTokens = maxTokens {
             self.maxTokens = maxTokens
             container.ultrasoundModelRepository.setMaxTokens(maxTokens)
-        }
-    }
-
-    func incrementRequestCount() {
-        let limit = container.applicationConfig.ultrasound.requestCountPerDay
-        Task { @MainActor in
-            await container.ultrasoundModelRepository.incrementRequestCount()
-            self.availableRequestCount = await container.ultrasoundModelRepository.remainingRequestCount(
-                limit: limit
-            )
         }
     }
 

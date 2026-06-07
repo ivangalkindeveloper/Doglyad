@@ -1338,6 +1338,108 @@
         }
       }
     },
+    "settingsSubscriptionManageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage your Doglyad Pro subscription"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управление подпиской Doglyad Pro"
+          }
+        }
+      }
+    },
+    "settingsSubscriptionManageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doglyad Pro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doglyad Pro"
+          }
+        }
+      }
+    },
+    "settingsSubscriptionUpgradeDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited requests and premium features"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Безлимитные запросы и премиум-функции"
+          }
+        }
+      }
+    },
+    "settingsSubscriptionUpgradeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade to Doglyad Pro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти на Doglyad Pro"
+          }
+        }
+      }
+    },
+    "subscriptionErrorNotConfigured" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription service is not configured"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервис подписок не настроен"
+          }
+        }
+      }
+    },
+    "subscriptionErrorOfferingsUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription plans are unavailable"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тарифы подписки недоступны"
+          }
+        }
+      }
+    },
     "scanAdditionalDataLabel" : {
       "extractionState" : "manual",
       "localizations" : {

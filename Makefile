@@ -33,12 +33,12 @@ init-ignores:
 init-ios-local:
 	@set -e; \
 	IP="$$(ipconfig getifaddr en0)"; \
-	cp ios/Config.Development.xcconfig ios/Config.xcconfig; \
-	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config.xcconfig; \
-	cat ios/Config.xcconfig
+	cp ios/Config/Config.Development.xcconfig ios/Config/Config.xcconfig; \
+	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config/Config.xcconfig; \
+	cat ios/Config/Config.xcconfig
 init-ios-production:
-	cp ios/Config.Production.xcconfig ios/Config.xcconfig
-	cat ios/Config.xcconfig
+	cp ios/Config/Config.Production.xcconfig ios/Config/Config.xcconfig
+	cat ios/Config/Config.xcconfig
 
 start-backend-development-stub:
 	ENVIRONMENT=development \

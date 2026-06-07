@@ -27,7 +27,8 @@ final class ScanViewModel: DViewModel {
     private let getIsMarkdown: () -> Bool
     private let getTemperature: () -> Double
     private let getMaxTokens: () -> Int
-    private let getAvailableRequestCount: () -> Int
+    private let refreshSubscriptionStatus: () async -> Void
+    private let getIsActive: () -> Bool
     private let onIncrementRequestCount: () -> Void
 
     init(
@@ -39,7 +40,8 @@ final class ScanViewModel: DViewModel {
         getIsMarkdown: @escaping () -> Bool,
         getTemperature: @escaping () -> Double,
         getMaxTokens: @escaping () -> Int,
-        getAvailableRequestCount: @escaping () -> Int,
+        refreshSubscriptionStatus: @escaping () async -> Void,
+        getIsActive: @escaping () -> Bool,
         onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
@@ -50,7 +52,8 @@ final class ScanViewModel: DViewModel {
         self.getIsMarkdown = getIsMarkdown
         self.getTemperature = getTemperature
         self.getMaxTokens = getMaxTokens
-        self.getAvailableRequestCount = getAvailableRequestCount
+        self.refreshSubscriptionStatus = refreshSubscriptionStatus
+        self.getIsActive = getIsActive
         self.onIncrementRequestCount = onIncrementRequestCount
         usExaminationType = container.usExaminationTypeDefault
         super.init()
@@ -375,14 +378,21 @@ final class ScanViewModel: DViewModel {
 
         unfocus()
 
-        if getAvailableRequestCount() <= 0 {
-            return router.push(
-                route: RouteSheet(
-                    type: .requestLimitExceeded
+        handle {
+            await self.refreshSubscriptionStatus()
+        } onMainSuccess: { _ in
+            guard self.getIsActive() else {
+                return self.router.push(
+                    route: RouteScreen(
+                        type: .subscriptionPaywall
+                    )
                 )
-            )
+            }
+            self.performScan()
         }
+    }
 
+    private func performScan() {
         let neuralModel = getNeuralModel()
         let isMarkdown = getIsMarkdown()
         let temperature = getTemperature()

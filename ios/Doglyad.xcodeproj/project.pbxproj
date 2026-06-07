@@ -40,6 +40,8 @@
 		77CB95292EB90C8500489F3E /* DoglyadNeuralModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB95232EB90C8500489F3E /* DoglyadNeuralModel.framework */; };
 		77CB952A2EB90C8500489F3E /* DoglyadNeuralModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77CB95232EB90C8500489F3E /* DoglyadNeuralModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77D9E0C62F2C143D00FB522A /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 77D9E0C52F2C143D00FB522A /* Router */; };
+		77F3A0042F2D100000000001 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 77F3A0022F2D100000000001 /* RevenueCat */; };
+		77F3A0052F2D100000000001 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 77F3A0032F2D100000000001 /* RevenueCatUI */; };
 		77FEE7302F01DEEF00607F3F /* MLXEmbedders in Frameworks */ = {isa = PBXBuildFile; productRef = 77FEE72F2F01DEEF00607F3F /* MLXEmbedders */; };
 		77FEE7322F01DEEF00607F3F /* MLXLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 77FEE7312F01DEEF00607F3F /* MLXLLM */; };
 		77FEE7342F01DEEF00607F3F /* MLXLMCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 77FEE7332F01DEEF00607F3F /* MLXLMCommon */; };
@@ -154,7 +156,7 @@
 		77AC58B22E929E7E0028250A /* Doglyad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doglyad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58C12E929E800028250A /* DoglyadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58CB2E929E800028250A /* DoglyadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		77BB12512E92C62A00B9FFC5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Config.xcconfig; sourceTree = "<group>"; };
 		77CB94F22EB8FED100489F3E /* DoglyadCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77CB95132EB90C4600489F3E /* DoglyadSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77CB95232EB90C8500489F3E /* DoglyadNeuralModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadNeuralModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +288,11 @@
 			path = DoglyadUITests;
 			sourceTree = "<group>";
 		};
+		77C3EE2C2FD617FF00DC4D6A /* Config */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Config;
+			sourceTree = "<group>";
+		};
 		77CB94F32EB8FED100489F3E /* DoglyadCamera */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = DoglyadCamera;
@@ -356,6 +363,8 @@
 				771F41AE2EA430B400C4945A /* DoglyadDatabase.framework in Frameworks */,
 				77CB95292EB90C8500489F3E /* DoglyadNeuralModel.framework in Frameworks */,
 				770AEB5E2F1DA67D00C09C76 /* FirebaseAnalytics in Frameworks */,
+				77F3A0042F2D100000000001 /* RevenueCat in Frameworks */,
+				77F3A0052F2D100000000001 /* RevenueCatUI in Frameworks */,
 				77CB94F82EB8FED100489F3E /* DoglyadCamera.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,13 +430,14 @@
 		77AC58A92E929E7E0028250A = {
 			isa = PBXGroup;
 			children = (
+				77C3EE2C2FD617FF00DC4D6A /* Config */,
 				770AEB562F1D870100C09C76 /* mlx-Qwen2.5-1.5B-Instruct-4bit */,
 				77FEE72B2F01DE9F00607F3F /* Doglyad.xcodeproj */,
-				77BB12512E92C62A00B9FFC5 /* Config.xcconfig */,
 				770AEB5A2F1DA41500C09C76 /* GoogleService-Info.plist */,
 				77AC58B42E929E7E0028250A /* Doglyad */,
 				77A896BE2F0AC7DC006E6E41 /* Frameworks */,
 				77AC58B32E929E7E0028250A /* Products */,
+				77C3F60A2FD61BF000DC4D6A /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -450,6 +460,14 @@
 		77C3A7372F201B0A003A77AB /* Products */ = {
 			isa = PBXGroup;
 			name = Products;
+			sourceTree = "<group>";
+		};
+		77C3F60A2FD61BF000DC4D6A /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -594,6 +612,7 @@
 			fileSystemSynchronizedGroups = (
 				77760F1F2EAC3D7F00D25B49 /* DoglyadUI */,
 				77AC58B42E929E7E0028250A /* Doglyad */,
+				77C3EE2C2FD617FF00DC4D6A /* Config */,
 			);
 			name = Doglyad;
 			packageProductDependencies = (
@@ -614,6 +633,8 @@
 				770AEB5D2F1DA67D00C09C76 /* FirebaseAnalytics */,
 				770AEB5F2F1DA67D00C09C76 /* FirebaseAnalyticsCore */,
 				770AEB612F1DA67D00C09C76 /* FirebaseAnalyticsIdentitySupport */,
+				77F3A0022F2D100000000001 /* RevenueCat */,
+				77F3A0032F2D100000000001 /* RevenueCatUI */,
 			);
 			productName = Doglyad;
 			productReference = 77AC58B22E929E7E0028250A /* Doglyad.app */;
@@ -803,6 +824,7 @@
 				770AEB5C2F1DA67D00C09C76 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				77BF28D02F26C27A00D9373C /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 				77B2576D2FAAA1780050413F /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				77F3A0012F2D100000000001 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 77AC58B32E929E7E0028250A /* Products */;
@@ -1257,7 +1279,7 @@
 		};
 		77AC58D32E929E800028250A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1324,7 +1346,7 @@
 		};
 		77AC58D42E929E800028250A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1384,13 +1406,13 @@
 		};
 		77AC58D62E929E800028250A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5K5WXXWFJB;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1414,7 +1436,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindeveloper.Doglyad0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindeveloper.Doglyad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1429,13 +1451,13 @@
 		};
 		77AC58D72E929E800028250A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5K5WXXWFJB;
+				DEVELOPMENT_TEAM = XZY97QPQG8;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1459,7 +1481,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindeveloper.Doglyad0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivangalkindeveloper.Doglyad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1474,7 +1496,7 @@
 		};
 		77AC58D92E929E800028250A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1497,7 +1519,7 @@
 		};
 		77AC58DA2E929E800028250A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1520,7 +1542,7 @@
 		};
 		77AC58DC2E929E800028250A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1542,7 +1564,7 @@
 		};
 		77AC58DD2E929E800028250A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config.xcconfig */;
+			baseConfigurationReference = 77BB12512E92C62A00B9FFC5 /* Config/Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2020,6 +2042,14 @@
 				kind = branch;
 			};
 		};
+		77F3A0012F2D100000000001 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		77FEE72E2F01DEEF00607F3F /* XCRemoteSwiftPackageReference "mlx-swift-lm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ml-explore/mlx-swift-lm";
@@ -2115,6 +2145,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 77E7F0AC2EA843F000E49A4E /* XCRemoteSwiftPackageReference "Router" */;
 			productName = Router;
+		};
+		77F3A0022F2D100000000001 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77F3A0012F2D100000000001 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		77F3A0032F2D100000000001 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77F3A0012F2D100000000001 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
 		};
 		77FEE72F2F01DEEF00607F3F /* MLXEmbedders */ = {
 			isa = XCSwiftPackageProductDependency;

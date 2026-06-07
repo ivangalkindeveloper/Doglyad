@@ -11,13 +11,19 @@ final class OnBoardingViewModel: DViewModel {
 
     private let container: DependencyContainer
     private let router: DRouter
+    private let refreshSubscriptionStatus: () async -> Void
+    private let getIsActive: () -> Bool
 
     init(
         container: DependencyContainer,
-        router: DRouter
+        router: DRouter,
+        refreshSubscriptionStatus: @escaping () async -> Void,
+        getIsActive: @escaping () -> Bool
     ) {
         self.container = container
         self.router = router
+        self.refreshSubscriptionStatus = refreshSubscriptionStatus
+        self.getIsActive = getIsActive
     }
 
     @Published var page: Page = .first
@@ -98,12 +104,24 @@ final class OnBoardingViewModel: DViewModel {
             container.sharedRepository.setOnBoardingCompleted(
                 value: true
             )
-            withAnimation {
-                router.root(
-                    route: RouteScreen(
-                        type: .scan
-                    )
-                )
+            handle {
+                await self.refreshSubscriptionStatus()
+            } onMainSuccess: { _ in
+                withAnimation {
+                    if self.getIsActive() {
+                        self.router.root(
+                            route: RouteScreen(
+                                type: .scan
+                            )
+                        )
+                    } else {
+                        self.router.root(
+                            route: RouteScreen(
+                                type: .subscriptionPaywall
+                            )
+                        )
+                    }
+                }
             }
         }
     }

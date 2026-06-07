@@ -6,12 +6,16 @@ struct MainRootView: View {
     let dependencyContainer: DependencyContainer
 
     @StateObject private var ultrasoundViewModel: UltrasoundViewModel
+    @StateObject private var subscriptionViewModel: SubscriptionViewModel
 
     init(
         dependencyContainer: DependencyContainer
     ) {
         self.dependencyContainer = dependencyContainer
         _ultrasoundViewModel = StateObject(wrappedValue: UltrasoundViewModel(
+            container: dependencyContainer
+        ))
+        _subscriptionViewModel = StateObject(wrappedValue: SubscriptionViewModel(
             container: dependencyContainer
         ))
     }
@@ -27,8 +31,10 @@ struct MainRootView: View {
         .dMessage()
         .environmentObject(dependencyContainer)
         .environmentObject(ultrasoundViewModel)
+        .environmentObject(subscriptionViewModel)
         .onAppear {
             ultrasoundViewModel.onAppear()
+            subscriptionViewModel.onAppear()
         }
     }
 }

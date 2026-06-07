@@ -18,6 +18,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var ultrasoundModelRepository: UltrasoundModelRepositoryProtocol?
     var ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol?
     var templateRepository: TemplateRepositoryProtocol?
+    var subscriptionRepository: RevenueCatSubscriptionRepository?
     var applicationConfig: ApplicationConfig?
     var usExaminationTypes: [USExaminationType]?
     var usExaminationTypesById: [String: USExaminationType]?
@@ -26,6 +27,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var usExaminationNeuralModelsById: [String: USExaminationNeuralModel]?
     var usExaminationNeuralModelDefault: USExaminationNeuralModel?
     var examinationNeuralModel: DExaminationNeuralModelProtocol?
+    var initialSubscriptionStatus: SubscriptionStatus?
     var initialScreen: ScreenType?
     var initialScreenArguments: RouteArgumentsProtocol?
 
@@ -39,6 +41,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             ultrasoundModelRepository: ultrasoundModelRepository!,
             ultrasoundConclusionRepository: ultrasoundConclusionRepository!,
             templateRepository: templateRepository!,
+            subscriptionRepository: subscriptionRepository!,
             applicationConfig: applicationConfig!,
             usExaminationTypes: usExaminationTypes!,
             usExaminationTypesById: usExaminationTypesById!,
@@ -47,6 +50,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             usExaminationNeuralModelsById: usExaminationNeuralModelsById!,
             usExaminationNeuralModelDefault: usExaminationNeuralModelDefault!,
             examinationNeuralModel: examinationNeuralModel,
+            initialSubscriptionStatus: initialSubscriptionStatus,
             initialScreen: initialScreen!,
             initialScreenArguments: initialScreenArguments
         )

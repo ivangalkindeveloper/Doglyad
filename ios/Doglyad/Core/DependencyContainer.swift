@@ -14,6 +14,7 @@ final class DependencyContainer: ObservableObject {
     let ultrasoundModelRepository: UltrasoundModelRepositoryProtocol
     let ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol
     let templateRepository: TemplateRepositoryProtocol
+    let subscriptionRepository: RevenueCatSubscriptionRepository
     let applicationConfig: ApplicationConfig
     let examinationNeuralModel: DExaminationNeuralModelProtocol?
     let usExaminationTypes: [USExaminationType]
@@ -22,6 +23,7 @@ final class DependencyContainer: ObservableObject {
     let usExaminationNeuralModels: [USExaminationNeuralModel]
     let usExaminationNeuralModelsById: [String: USExaminationNeuralModel]
     let usExaminationNeuralModelDefault: USExaminationNeuralModel
+    let initialSubscriptionStatus: SubscriptionStatus?
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
@@ -34,6 +36,7 @@ final class DependencyContainer: ObservableObject {
         ultrasoundModelRepository: UltrasoundModelRepositoryProtocol,
         ultrasoundConclusionRepository: UltrasoundConclusionRepositoryProtocol,
         templateRepository: TemplateRepositoryProtocol,
+        subscriptionRepository: RevenueCatSubscriptionRepository,
         applicationConfig: ApplicationConfig,
         usExaminationTypes: [USExaminationType],
         usExaminationTypesById: [String: USExaminationType],
@@ -42,6 +45,7 @@ final class DependencyContainer: ObservableObject {
         usExaminationNeuralModelsById: [String: USExaminationNeuralModel],
         usExaminationNeuralModelDefault: USExaminationNeuralModel,
         examinationNeuralModel: DExaminationNeuralModelProtocol?,
+        initialSubscriptionStatus: SubscriptionStatus?,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
     ) {
@@ -53,6 +57,7 @@ final class DependencyContainer: ObservableObject {
         self.ultrasoundModelRepository = ultrasoundModelRepository
         self.ultrasoundConclusionRepository = ultrasoundConclusionRepository
         self.templateRepository = templateRepository
+        self.subscriptionRepository = subscriptionRepository
         self.applicationConfig = applicationConfig
         self.usExaminationTypes = usExaminationTypes
         self.usExaminationTypesById = usExaminationTypesById
@@ -61,6 +66,7 @@ final class DependencyContainer: ObservableObject {
         self.usExaminationNeuralModelsById = usExaminationNeuralModelsById
         self.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
         self.examinationNeuralModel = examinationNeuralModel
+        self.initialSubscriptionStatus = initialSubscriptionStatus
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
     }
@@ -85,6 +91,7 @@ extension DependencyContainer {
 }
 
 extension DependencyContainer {
+    @MainActor
     static var previewable: DependencyContainer {
         let environment = EnvironmentBase(
             type: .development,
@@ -112,6 +119,10 @@ extension DependencyContainer {
         let templateRepository = TemplateRepository(
             database: database
         )
+        let subscriptionRepository = RevenueCatSubscriptionRepository(
+            apiKey: "",
+            environment: environment
+        )
 
         return DependencyContainer(
             environment: environment,
@@ -122,6 +133,7 @@ extension DependencyContainer {
             ultrasoundModelRepository: ultrasoundModelRepository,
             ultrasoundConclusionRepository: ultrasoundConclusionRepository,
             templateRepository: templateRepository,
+            subscriptionRepository: subscriptionRepository,
             applicationConfig: ApplicationConfig(
                 appStoreId: "",
                 actualVersion: Version(
@@ -160,6 +172,7 @@ extension DependencyContainer {
                 description: [:]
             ),
             examinationNeuralModel: nil,
+            initialSubscriptionStatus: nil,
             initialScreen: .onBoarding,
             initialScreenArguments: nil
         )

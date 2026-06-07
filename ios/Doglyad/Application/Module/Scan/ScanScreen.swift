@@ -7,6 +7,7 @@ struct ScanScreen: View {
     @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
+    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
     let arguments: ScanScreenArguments?
 
     var body: some View {
@@ -32,11 +33,14 @@ struct ScanScreen: View {
                     ultrasoundViewModel?.maxTokens
                         ?? container.applicationConfig.ultrasound.defaultNeuralModelMaxTokens
                 },
-                getAvailableRequestCount: { [weak ultrasoundViewModel] in
-                    ultrasoundViewModel?.availableRequestCount ?? 0
+                refreshSubscriptionStatus: { [weak subscriptionViewModel] in
+                    await subscriptionViewModel?.refreshStatus()
                 },
-                onIncrementRequestCount: { [weak ultrasoundViewModel] in
-                    ultrasoundViewModel?.incrementRequestCount()
+                getIsActive: { [weak subscriptionViewModel] in
+                    subscriptionViewModel?.isActive ?? false
+                },
+                onIncrementRequestCount: { [weak subscriptionViewModel] in
+                    subscriptionViewModel?.incrementRequestCount()
                 }
             )
         )

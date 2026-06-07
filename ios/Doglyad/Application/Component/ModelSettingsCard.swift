@@ -8,6 +8,7 @@ struct ModelSettingsCard: View {
     private var typography: DTypography { theme.typography }
 
     @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
+    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
 
     let onTap: () -> Void
 
@@ -52,7 +53,7 @@ struct ModelSettingsCard: View {
 
                     ModelSettingsCardValueRow(
                         title: .scanNeuralModelSettingsAvailableRequestsLabel,
-                        value: "\(ultrasoundViewModel.availableRequestCount)"
+                        value: "\(subscriptionViewModel.availableRequestCount)"
                     )
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

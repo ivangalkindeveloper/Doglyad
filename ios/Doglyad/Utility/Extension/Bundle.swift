@@ -4,6 +4,7 @@ extension Bundle {
     enum KeyString: String {
         case ENVIRONMENT
         case BASE_URL
+        case REVENUECAT_API_KEY
         case CFBundleShortVersionString
         case CFBundleVersion
     }

@@ -83,6 +83,12 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? UserSettingsScreenArguments
                 )
             )
+        case .subscriptionPaywall:
+            AnyView(
+                SubscriptionPaywallScreen(
+                    arguments: route.arguments as? SubscriptionPaywallArguments
+                )
+            )
         }
     }
 
@@ -154,6 +160,12 @@ final class RouterBuilder: RouterBuilderProtocol {
             AnyView(
                 RequestLimitExceededBottomSheet(
                     arguments: route.arguments as? RequestLimitExceededArguments
+                )
+            )
+        case .subscriptionCustomerCenter:
+            AnyView(
+                SubscriptionCustomerCenterSheet(
+                    arguments: route.arguments as? SubscriptionCustomerCenterArguments
                 )
             )
         }
