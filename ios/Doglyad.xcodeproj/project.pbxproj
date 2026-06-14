@@ -1419,11 +1419,13 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
 				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Doglyad/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Doglyad;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Need for examination pictures capture";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need for voice reconginition examination data";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need for adding examination pictures from the gallery";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Need for voice reconginition examination data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1464,11 +1466,13 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
 				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Doglyad/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Doglyad;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Need for examination pictures capture";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need for voice reconginition examination data";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need for adding examination pictures from the gallery";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Need for voice reconginition examination data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

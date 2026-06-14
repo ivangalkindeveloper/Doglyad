@@ -1,9 +1,11 @@
 import AVFoundation
+import Photos
 import Speech
 
 enum PermissionType {
     case camera
     case speech
+    case photoLibrary
 }
 
 protocol PermissionManagerProtocol: AnyObject {
@@ -32,6 +34,14 @@ extension PermissionManager: PermissionManagerProtocol {
                         continuation.resume(returning: false)
                     }
                 }
+            }
+
+        case .photoLibrary:
+            switch await PHPhotoLibrary.requestAuthorization(for: .readWrite) {
+            case .authorized, .limited:
+                true
+            default:
+                false
             }
         }
     }

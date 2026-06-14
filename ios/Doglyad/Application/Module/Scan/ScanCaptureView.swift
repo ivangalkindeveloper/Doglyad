@@ -21,7 +21,7 @@ struct ScanCaptureView: View {
                 .dStyle(.primaryCircle)
             } else if viewModel.isCaptureAvailable {
                 VStack(
-                    spacing: .zero
+                    spacing: size.s8
                 ) {
                     DButton(
                         image: viewModel.captureIcon,
@@ -30,15 +30,12 @@ struct ScanCaptureView: View {
                     )
                     .dStyle(.primaryCircle)
 
-                    if !viewModel.isPhotoFilling {
-                        DText(.scanCaptureDescription)
-                            .dStyle(
-                                font: typography.textSmall,
-                                color: color.grayscaleLine,
-                                alignment: .center
-                            )
-                            .padding(.top, size.s8)
-                    }
+                    DText(.scanCaptureDescription)
+                        .dStyle(
+                            font: typography.textSmall,
+                            color: color.grayscaleLine,
+                            alignment: .center
+                        )
                 }
             }
         }

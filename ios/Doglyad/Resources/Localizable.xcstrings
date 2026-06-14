@@ -1265,6 +1265,40 @@
         }
       }
     },
+    "permissionPhotoLibraryDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grant the app permission to access your photo library to add examination images from the gallery"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предоставьте приложению разрешение на доступ к галерее, чтобы добавлять снимки исследования из галереи"
+          }
+        }
+      }
+    },
+    "permissionPhotoLibraryTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo library"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Галерея"
+          }
+        }
+      }
+    },
     "permissionSpeechDescription" : {
       "extractionState" : "manual",
       "localizations" : {

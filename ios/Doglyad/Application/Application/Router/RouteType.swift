@@ -22,6 +22,8 @@ enum SheetType: Hashable {
     case scanSpeech
     case requestLimitExceeded
     case permissionSpeech
+    case permissionPhotoLibrary
+    case photoLibraryPicker
     case recievedConclusion
     case webDocument
     case storageClearConclusions

@@ -130,6 +130,16 @@ final class RouterBuilder: RouterBuilderProtocol {
             AnyView(
                 PermissionSpeechBottomSheet()
             )
+        case .permissionPhotoLibrary:
+            AnyView(
+                PermissionPhotoLibraryBottomSheet()
+            )
+        case .photoLibraryPicker:
+            AnyView(
+                PhotoLibraryPicker(
+                    arguments: route.arguments as! PhotoLibraryPickerArguments
+                )
+            )
         case .recievedConclusion:
             AnyView(
                 RecievedConclusionBottomSheet(

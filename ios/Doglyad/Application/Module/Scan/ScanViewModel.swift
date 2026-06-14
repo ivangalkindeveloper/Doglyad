@@ -205,12 +205,69 @@ final class ScanViewModel: DViewModel {
             completion: { [weak self] image in
                 guard let self = self else { return }
 
-                self.photos.append(USExaminationScanPhoto(image: image))
-                if self.photos.count == self.photoMaxCount {
-                    self.sheetController.setTop()
-                }
+                self.onCapture(image)
             }
         )
+    }
+    
+    private func onCapture(
+        _ image: UIImage
+    ) {
+        guard !isPhotoFilling else { return }
+        
+        self.photos.append(USExaminationScanPhoto(image: image))
+        if isPhotoFilling {
+            self.sheetController.setTop()
+        }
+    }
+
+
+
+    func onTapGallery() {
+        handle {
+            await self.container.permissionManager.isGranted(.photoLibrary)
+        } onMainSuccess: { isGranted in
+            guard isGranted else {
+                return self.router.push(
+                    route: RouteSheet(
+                        type: .permissionPhotoLibrary
+                    )
+                )
+            }
+
+            self.router.push(
+                route: RouteSheet(
+                    type: .photoLibraryPicker,
+                    arguments: PhotoLibraryPickerArguments(
+                        selectionLimit: self.gallerySelectionLimit,
+                        onComplete: { [weak self] images in
+                            guard let self = self else { return }
+
+                            self.onSelectGalleryImages(images)
+                        }
+                    )
+                )
+            )
+        }
+    }
+    
+    private var gallerySelectionLimit: Int {
+        max(photoMaxCount - photos.count, 0)
+    }
+
+    private func onSelectGalleryImages(
+        _ images: [UIImage]
+    ) {
+        guard !isPhotoFilling else { return }
+        
+        let availableCount = photoMaxCount - photos.count
+        for image in images.prefix(availableCount) {
+            photos.append(USExaminationScanPhoto(image: image))
+        }
+
+        if isPhotoFilling {
+            sheetController.setTop()
+        }
     }
 
     func onTapDeletePhoto(
