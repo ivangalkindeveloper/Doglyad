@@ -12,37 +12,48 @@ struct HistoryScreenView: View {
     var body: some View {
         DScreen(
             title: .historyTitle,
-            onTapBack: viewModel.onTapBack
-        ) { toolbarInset in
-            ScrollView(
-                showsIndicators: false
-            ) {
-                VStack(
-                    alignment: .leading,
-                    spacing: .zero
+            onTapBack: viewModel.onTapBack,
+            content: { toolbarInset in
+                ScrollView(
+                    showsIndicators: false
                 ) {
-                    if viewModel.conclusions.isEmpty {
-                        HistoryEmptyView()
-                    } else {
-                        VStack(
-                            spacing: .zero
-                        ) {
-                            ForEach(viewModel.conclusions) { conclusion in
-                                HistoryCard(
-                                    conclusion: conclusion,
-                                    action: {
-                                        viewModel.onTapConclusion(value: conclusion)
-                                    }
-                                )
-                                .padding(size.s4)
+                    VStack(
+                        alignment: .leading,
+                        spacing: .zero
+                    ) {
+                        if viewModel.conclusions.isEmpty {
+                            HistoryEmptyView()
+                        } else {
+                            VStack(
+                                spacing: .zero
+                            ) {
+                                ForEach(viewModel.conclusions) { conclusion in
+                                    HistoryCard(
+                                        conclusion: conclusion,
+                                        action: {
+                                            viewModel.onTapConclusion(value: conclusion)
+                                        }
+                                    )
+                                    .padding(size.s4)
+                                }
                             }
                         }
                     }
+                    .padding(size.s16)
+                    .padding(.top, toolbarInset)
                 }
-                .padding(size.s16)
-                .padding(.top, toolbarInset)
+            },
+            bottom: {
+                if viewModel.conclusions.isEmpty {
+                    DButton(
+                        title: .buttonBack,
+                        action: viewModel.onTapBack
+                    )
+                    .dStyle(.primaryButton)
+                    .padding(size.s16)
+                }
             }
-        }
+        )
         .onAppear {
             viewModel.onAppear()
         }

@@ -7,8 +7,6 @@ struct HistoryEmptyView: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @EnvironmentObject private var viewModel: HistoryViewModel
-
     var body: some View {
         VStack(
             spacing: .zero
@@ -18,12 +16,7 @@ struct HistoryEmptyView: View {
                     font: typography.textSmall,
                     color: color.grayscalePlacehold,
                     alignment: .center
-                ).padding(.bottom, size.s16)
-            DButton(
-                title: .buttonBack,
-                action: viewModel.onTapBack
-            )
-            .dStyle(.primaryButton)
+                )
         }
         .padding(.top, size.screenHeight / 4)
     }
