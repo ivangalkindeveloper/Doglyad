@@ -74,7 +74,7 @@ final class SettingsViewModel: DViewModel {
     func onTapSubscription() {
         router.push(
             route: RouteScreen(
-                type: .subscriptionPaywall
+                type: .subscription
             )
         )
     }

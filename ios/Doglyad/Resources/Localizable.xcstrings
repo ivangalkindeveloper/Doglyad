@@ -2528,6 +2528,40 @@
         }
       }
     },
+    "subscriptionChangeTypeDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose or change your subscription plan"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите или измените тарифный план подписки"
+          }
+        }
+      }
+    },
+    "subscriptionChangeTypeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change subscription type"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить тип подписки"
+          }
+        }
+      }
+    },
     "subscriptionErrorNotConfigured" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2558,6 +2592,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Тарифы подписки недоступны"
+          }
+        }
+      }
+    },
+    "subscriptionSupportCenterDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage your subscription, request refunds and get help"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управляйте подпиской, запрашивайте возвраты и получайте помощь"
+          }
+        }
+      }
+    },
+    "subscriptionSupportCenterTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support center"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Центр поддержки"
+          }
+        }
+      }
+    },
+    "subscriptionTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подписка"
           }
         }
       }

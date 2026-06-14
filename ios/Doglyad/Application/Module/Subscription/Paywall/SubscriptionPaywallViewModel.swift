@@ -19,27 +19,30 @@ final class SubscriptionPaywallViewModel: DViewModel {
     }
 
     func onPurchaseCompleted() {
-        Task {
-            await onRefreshStatus()
-            dismissPaywall()
+        handle {
+            await self.onRefreshStatus()
+        } onMainSuccess: { _ in
+            self.dismissPaywall()
         }
     }
 
     func onRestoreCompleted(
         customerInfo: CustomerInfo
     ) {
-        Task {
-            await onRefreshStatus()
+        handle {
+            await self.onRefreshStatus()
+        } onMainSuccess: { _ in
             if !customerInfo.entitlements.active.isEmpty {
-                dismissPaywall()
+                self.dismissPaywall()
             }
         }
     }
 
     func onRequestedDismissal() {
-        Task {
-            await onRefreshStatus()
-            dismissPaywall()
+        handle {
+            await self.onRefreshStatus()
+        } onMainSuccess: { _ in
+            self.dismissPaywall()
         }
     }
 

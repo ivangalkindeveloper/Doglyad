@@ -83,6 +83,12 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? UserSettingsScreenArguments
                 )
             )
+        case .subscription:
+            AnyView(
+                SubscriptionScreen(
+                    arguments: route.arguments as? SubscriptionScreenArguments
+                )
+            )
         case .subscriptionPaywall:
             AnyView(
                 SubscriptionPaywallScreen(

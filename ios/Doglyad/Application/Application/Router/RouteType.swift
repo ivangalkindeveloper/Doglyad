@@ -11,6 +11,7 @@ enum ScreenType: Hashable {
     case templateEdit
     case storage
     case userSettings
+    case subscription
     case subscriptionPaywall
 }
 
