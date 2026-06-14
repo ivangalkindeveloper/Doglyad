@@ -50,22 +50,3 @@ extension UltrasoundModelRepository {
         database.setNeuralModelMaxTokens(value: value)
     }
 }
-
-// MARK: RequestLimit -
-
-extension UltrasoundModelRepository {
-    func remainingRequestCount(
-        limit: Int
-    ) async -> Int {
-        await database.requestLimit.fetchRequestLimit { requestLimit in
-            guard let requestLimit,
-                  Calendar.current.isDateInToday(requestLimit.date)
-            else { return limit }
-            return max(limit - requestLimit.count, 0)
-        }
-    }
-
-    func incrementRequestCount() async {
-        try? await database.requestLimit.incrementRequestCount()
-    }
-}

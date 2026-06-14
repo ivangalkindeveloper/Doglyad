@@ -24,7 +24,6 @@ final class DependencyContainer: ObservableObject {
     let usExaminationNeuralModelsById: [String: USExaminationNeuralModel]
     let usExaminationNeuralModelDefault: USExaminationNeuralModel
     let initialSubscriptionStatus: SubscriptionStatus?
-    let initialRemainingRequestCount: Int
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
@@ -47,7 +46,6 @@ final class DependencyContainer: ObservableObject {
         usExaminationNeuralModelDefault: USExaminationNeuralModel,
         examinationNeuralModel: DExaminationNeuralModelProtocol?,
         initialSubscriptionStatus: SubscriptionStatus?,
-        initialRemainingRequestCount: Int,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
     ) {
@@ -69,7 +67,6 @@ final class DependencyContainer: ObservableObject {
         self.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
         self.examinationNeuralModel = examinationNeuralModel
         self.initialSubscriptionStatus = initialSubscriptionStatus
-        self.initialRemainingRequestCount = initialRemainingRequestCount
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
     }
@@ -124,7 +121,8 @@ extension DependencyContainer {
         )
         let subscriptionRepository = RevenueCatSubscriptionRepository(
             apiKey: "",
-            environment: environment
+            environment: environment,
+            database: database
         )
 
         return DependencyContainer(
@@ -182,7 +180,6 @@ extension DependencyContainer {
             ),
             examinationNeuralModel: nil,
             initialSubscriptionStatus: nil,
-            initialRemainingRequestCount: 0,
             initialScreen: .onBoarding,
             initialScreenArguments: nil
         )

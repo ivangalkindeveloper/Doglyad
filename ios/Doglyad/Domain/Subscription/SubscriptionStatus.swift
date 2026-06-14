@@ -1,9 +1,9 @@
 import Foundation
 
 struct SubscriptionStatus: Equatable {
-    let isActive: Bool
     let activeEntitlementIdentifier: String
     let entitlement: SubscriptionEntitlement
+    let availableCountPerDay: Int
 }
 
 extension SubscriptionStatus {

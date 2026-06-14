@@ -1,3 +1,4 @@
+import DoglyadDatabase
 import Foundation
 import RevenueCat
 
@@ -5,13 +6,16 @@ import RevenueCat
 final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
     private let apiKey: String
     private let environment: EnvironmentProtocol
+    private let database: DDatabaseProtocol
 
     init(
         apiKey: String,
-        environment: EnvironmentProtocol
+        environment: EnvironmentProtocol,
+        database: DDatabaseProtocol
     ) {
         self.apiKey = apiKey
         self.environment = environment
+        self.database = database
     }
 
     func configure() {
@@ -26,42 +30,60 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
 
     func cachedStatus(
         configEntitlements: [String: SubscriptionEntitlement]
-    ) throws -> SubscriptionStatus? {
+    ) async throws -> SubscriptionStatus? {
         guard let customerInfo = Purchases.shared.cachedCustomerInfo else { return nil }
-        return try Self.status(from: customerInfo, configEntitlements: configEntitlements)
+        return await status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
     func fetchStatus(
         configEntitlements: [String: SubscriptionEntitlement]
-    ) async throws -> SubscriptionStatus {
+    ) async throws -> SubscriptionStatus? {
         let customerInfo = try await Purchases.shared.customerInfo()
-        return try Self.status(from: customerInfo, configEntitlements: configEntitlements)
+        return await status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
     func restorePurchases(
         configEntitlements: [String: SubscriptionEntitlement]
-    ) async throws -> SubscriptionStatus {
+    ) async throws -> SubscriptionStatus? {
         let customerInfo = try await Purchases.shared.restorePurchases()
-        return try Self.status(from: customerInfo, configEntitlements: configEntitlements)
+        return await status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
-    /// Resolves the active entitlement and binds its feature set onto the
-    /// status, so feature flags can be read directly from the status.
-    private static func status(
+    func incrementRequestCount(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) async throws -> SubscriptionStatus? {
+        try? await database.requestLimit.incrementRequestCount()
+        let customerInfo = try await Purchases.shared.customerInfo()
+        return await status(from: customerInfo, configEntitlements: configEntitlements)
+    }
+
+    private func status(
         from customerInfo: CustomerInfo,
         configEntitlements: [String: SubscriptionEntitlement]
-    ) throws -> SubscriptionStatus {
-        let activeEntitlement = customerInfo.entitlements.active.first
-        guard let identifier = activeEntitlement?.key else {
-            fatalError("No identifier found for activeEntitlement")
+    ) async -> SubscriptionStatus? {
+        guard let identifier = customerInfo.entitlements.active.first?.key,
+              let entitlement = configEntitlements[identifier]
+        else {
+            return nil
         }
-        guard let configEntetilement = configEntitlements[identifier] else {
-            fatalError("No config entitlement found for \(identifier)")
-        }
-        return SubscriptionStatus(
-            isActive: activeEntitlement?.value.isActive == true,
-            activeEntitlementIdentifier: identifier,
-            entitlement: configEntetilement
+        let availableCountPerDay = await remainingRequestCount(
+            limit: entitlement.requestCountPerDay
         )
+        return SubscriptionStatus(
+            activeEntitlementIdentifier: identifier,
+            entitlement: entitlement,
+            availableCountPerDay: availableCountPerDay
+        )
+    }
+
+    private func remainingRequestCount(
+        limit: Int
+    ) async -> Int {
+        await database.requestLimit.fetchRequestLimit { requestLimit in
+            guard let requestLimit,
+                  Calendar.current.isDateInToday(requestLimit.date)
+            else { return limit }
+            return max(limit - requestLimit.count, 0)
+        }
     }
 }

@@ -16,12 +16,4 @@ protocol UltrasoundModelRepositoryProtocol: AnyObject {
     func getMaxTokens() -> Int?
 
     func setMaxTokens(_ value: Int?)
-
-    // MARK: RequestLimit -
-
-    func remainingRequestCount(
-        limit: Int
-    ) async -> Int
-
-    func incrementRequestCount() async
 }

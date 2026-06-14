@@ -75,7 +75,8 @@ extension InitializationProcess {
                 run: { (process: InitializationProcess) in
                     let repository = RevenueCatSubscriptionRepository(
                         apiKey: Bundle.dictionaryString(.REVENUECAT_API_KEY),
-                        environment: process.environment!
+                        environment: process.environment!,
+                        database: process.database!
                     )
                     repository.configure()
                     process.subscriptionRepository = repository

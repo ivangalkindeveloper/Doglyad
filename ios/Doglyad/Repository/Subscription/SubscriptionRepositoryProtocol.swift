@@ -6,13 +6,17 @@ protocol SubscriptionRepositoryProtocol: AnyObject {
 
     func cachedStatus(
         configEntitlements: [String: SubscriptionEntitlement]
-    ) throws -> SubscriptionStatus?
+    ) async throws -> SubscriptionStatus?
 
     func fetchStatus(
         configEntitlements: [String: SubscriptionEntitlement]
-    ) async throws -> SubscriptionStatus
+    ) async throws -> SubscriptionStatus?
 
     func restorePurchases(
         configEntitlements: [String: SubscriptionEntitlement]
-    ) async throws -> SubscriptionStatus
+    ) async throws -> SubscriptionStatus?
+
+    func incrementRequestCount(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) async throws -> SubscriptionStatus?
 }

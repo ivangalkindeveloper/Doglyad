@@ -64,12 +64,8 @@ extension InitializationProcess {
                     let status = try await process.subscriptionRepository!.fetchStatus(
                         configEntitlements: configEntitlements
                     )
-                    let remainingRequestCount = await process.ultrasoundModelRepository!.remainingRequestCount(
-                        limit: status.requestCountPerDay
-                    )
                     await MainActor.run {
                         process.initialSubscriptionStatus = status
-                        process.initialRemainingRequestCount = remainingRequestCount
                     }
                 }
             ),
