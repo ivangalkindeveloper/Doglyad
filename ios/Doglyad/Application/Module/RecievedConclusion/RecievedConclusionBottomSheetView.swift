@@ -7,7 +7,6 @@ struct RecievedConclusionBottomSheetView: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
-    private var typography: DTypography { theme.typography }
 
     @StateObject var viewModel: RecievedConclusionViewModel
 
@@ -48,7 +47,7 @@ struct RecievedConclusionBottomSheetView: View {
             },
             bottom: {
                 VStack(
-                    spacing: size.s24
+                    spacing: size.s8
                 ) {
                     DButton(
                         title: .buttonToConclusion,
@@ -57,32 +56,13 @@ struct RecievedConclusionBottomSheetView: View {
                     .dStyle(.primaryButton)
 
                     if viewModel.isUserEmailAvailable {
-                        Button(
-                            action: viewModel.onTapUserEmail
-                        ) {
-                            HStack(
-                                spacing: size.s8
-                            ) {
-                                if viewModel.isLoading {
-                                    ProgressView()
-                                } else {
-                                    DIcon(
-                                        .send,
-                                        color: color.grayscaleBackgroundWeak
-                                    )
-                                }
-                                DText(viewModel.userEmailButtonTitle)
-                                    .dStyle(
-                                        font: typography.linkSmall,
-                                        color: color.grayscaleBackgroundWeak,
-                                        alignment: .center
-                                    )
-                                    .lineLimit(1)
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                        .buttonStyle(.plain)
-                        .disabled(viewModel.isLoading)
+                        DButton(
+                            image: .send,
+                            title: viewModel.userEmailButtonTitle,
+                            action: viewModel.onTapUserEmail,
+                            isLoading: viewModel.isLoading
+                        )
+                        .dStyle(.textWeak)
                         .padding(.bottom, size.s10)
                     }
                 }

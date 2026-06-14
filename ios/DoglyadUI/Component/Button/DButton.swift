@@ -47,7 +47,7 @@ public struct DButton: View {
                             }
                     }
                     if let title = self.title {
-                        Text(title)
+                        Text(verbatim: String(localized: title))
                             .font(typography.linkSmall)
                             .multilineTextAlignment(.center)
                     }
@@ -127,6 +127,22 @@ private struct DTextModifier: ViewModifier {
                 isLoading: isLoading
             )
             .dStyle(.card)
+
+            DButton(
+                image: .send,
+                title: "Text button",
+                action: { isLoading.toggle() },
+                isLoading: isLoading
+            )
+            .dStyle(.primaryText)
+
+            DButton(
+                image: .send,
+                title: "Text weak button",
+                action: { isLoading.toggle() },
+                isLoading: isLoading
+            )
+            .dStyle(.textWeak)
 
             DButton(
                 image: .bag,

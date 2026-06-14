@@ -37,13 +37,13 @@ struct ScanCaptureView: View {
                                 color: color.grayscaleLine,
                                 alignment: .center
                             )
-                            .padding(.top, size.s16)
+                            .padding(.top, size.s8)
                     }
                 }
             }
         }
         .padding(size.s16)
-        .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s128 : .zero)
+        .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s136 : .zero)
         .animation(
             theme.animation,
             value: viewModel.sheetController.currentPosition

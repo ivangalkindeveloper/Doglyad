@@ -4,9 +4,11 @@ public enum DButtonStyleType {
     case primaryButton
     case primaryCircle
     case primaryChip
+    case primaryText
     case circle
     case card
     case chip
+    case textWeak
 }
 
 public struct DButtonStyle: ButtonStyle {
@@ -57,14 +59,14 @@ private extension DButtonStyle {
         switch type {
         case .primaryButton, .primaryCircle, .primaryChip:
             return color.gradientPrimaryWeak
-        case .circle, .card, .chip:
+        case .primaryText, .circle, .card, .chip, .textWeak:
             return Self.defaultGradient
         }
     }
 
     var backgroundColor: Color {
         switch type {
-        case .primaryButton, .primaryCircle, .primaryChip:
+        case .primaryButton, .primaryCircle, .primaryChip, .primaryText, .textWeak:
             return Self.defaultColor
         case .circle, .card, .chip:
             return color.grayscaleBackground
@@ -77,6 +79,10 @@ private extension DButtonStyle {
             return color.grayscaleBackground
         case .circle, .card, .chip:
             return color.grayscaleHeader
+        case .primaryText:
+            return color.primaryDefault
+        case .textWeak:
+            return color.grayscaleBackgroundWeak
         }
     }
 
@@ -115,6 +121,8 @@ private extension DButtonStyle {
         case .chip:
             Capsule()
                 .fill(backgroundColor)
+        case .primaryText, .textWeak:
+            Color.clear
         }
     }
 
@@ -140,6 +148,8 @@ private extension DButtonStyle {
         case .chip:
             Capsule()
                 .fill(color.grayscaleInput)
+        case .primaryText, .textWeak:
+            Color.clear
         }
     }
 
@@ -149,14 +159,14 @@ private extension DButtonStyle {
             return size.adaptiveCornerRadius
         case .card:
             return size.adaptiveCardCornerRadius
-        case .primaryCircle, .primaryChip, .circle, .chip:
+        case .primaryCircle, .primaryChip, .primaryText, .circle, .chip, .textWeak:
             return nil
         }
     }
 
     var width: CGFloat? {
         switch type {
-        case .primaryButton, .primaryChip, .card, .chip:
+        case .primaryButton, .primaryChip, .primaryText, .card, .chip, .textWeak:
             return nil
         case .primaryCircle, .circle:
             return size.s56
@@ -165,7 +175,7 @@ private extension DButtonStyle {
 
     var height: CGFloat? {
         switch type {
-        case .primaryButton, .primaryChip, .card, .chip:
+        case .primaryButton, .primaryChip, .primaryText, .card, .chip, .textWeak:
             return nil
         case .primaryCircle, .circle:
             return size.s56
@@ -174,7 +184,7 @@ private extension DButtonStyle {
 
     var maxWidth: CGFloat? {
         switch type {
-        case .primaryButton, .card:
+        case .primaryButton, .primaryText, .card, .textWeak:
             return .infinity
         case .primaryCircle, .primaryChip, .circle, .chip:
             return nil

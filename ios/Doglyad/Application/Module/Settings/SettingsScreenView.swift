@@ -3,9 +3,7 @@ import SwiftUI
 
 struct SettingsScreenView: View {
     @EnvironmentObject private var theme: DTheme
-    private var color: DColor { theme.color }
     private var size: DSize { theme.size }
-    private var typography: DTypography { theme.typography }
 
     @StateObject var viewModel: SettingsViewModel
 
@@ -64,28 +62,15 @@ struct SettingsScreenView: View {
                             action: viewModel.onTapTermsAndConditions
                         )
                     }
-                    .padding(.bottom, size.s48)
+                    .padding(.bottom, size.s32)
 
-                    Button(
+                    DButton(
+                        image: .link,
+                        title: .settingsAboutAppTitle,
                         action: viewModel.onTapAboutApp
-                    ) {
-                        HStack(
-                            spacing: size.s8
-                        ) {
-                            DIcon(
-                                .link,
-                                color: color.primaryDefault
-                            )
-                            DText(.settingsAboutAppTitle)
-                                .dStyle(
-                                    font: typography.linkSmall,
-                                    color: color.primaryDefault,
-                                    alignment: .center
-                                )
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.plain)
+                    )
+                    .dStyle(.primaryText)
+                    .padding(.bottom, size.s32)
                 }
                 .padding(size.s16)
                 .padding(.top, toolbarInset)

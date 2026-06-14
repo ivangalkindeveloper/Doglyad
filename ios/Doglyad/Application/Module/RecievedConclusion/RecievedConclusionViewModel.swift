@@ -43,7 +43,7 @@ final class RecievedConclusionViewModel: DViewModel {
         userEmail != nil
     }
 
-    var userEmailButtonTitle: String {
+    var userEmailButtonTitle: LocalizedStringResource {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
 

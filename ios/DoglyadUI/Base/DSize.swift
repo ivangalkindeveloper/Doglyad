@@ -25,6 +25,7 @@ public struct DSize {
     public let s108: CGFloat = 108
     public let s116: CGFloat = 116
     public let s128: CGFloat = 128
+    public let s136: CGFloat = 136
 }
 
 public extension DSize {
