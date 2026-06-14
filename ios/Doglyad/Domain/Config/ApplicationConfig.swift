@@ -8,5 +8,12 @@ struct ApplicationConfig: Codable {
     let appleUpdateUrl: URL
     let privacyPolicyUrl: URL
     let termsAndConditionsUrl: URL
+    let entitlements: [String: SubscriptionEntitlement]
     let ultrasound: UltrasoundConfig
+
+    func entitlement(
+        for identifier: String
+    ) -> SubscriptionEntitlement? {
+        entitlements[identifier]
+    }
 }

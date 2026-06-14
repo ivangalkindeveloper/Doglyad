@@ -59,7 +59,7 @@ extension InitializationProcess {
                         return process.initialScreen = .onBoarding
                     }
 
-                    if process.initialSubscriptionStatus?.isActive != true {
+                    if process.initialUltraSoundConclusions!.isEmpty {
                         return process.initialScreen = .subscriptionPaywall
                     }
 

@@ -24,6 +24,7 @@ final class DependencyContainer: ObservableObject {
     let usExaminationNeuralModelsById: [String: USExaminationNeuralModel]
     let usExaminationNeuralModelDefault: USExaminationNeuralModel
     let initialSubscriptionStatus: SubscriptionStatus?
+    let initialRemainingRequestCount: Int
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
 
@@ -46,6 +47,7 @@ final class DependencyContainer: ObservableObject {
         usExaminationNeuralModelDefault: USExaminationNeuralModel,
         examinationNeuralModel: DExaminationNeuralModelProtocol?,
         initialSubscriptionStatus: SubscriptionStatus?,
+        initialRemainingRequestCount: Int,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?
     ) {
@@ -67,6 +69,7 @@ final class DependencyContainer: ObservableObject {
         self.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
         self.examinationNeuralModel = examinationNeuralModel
         self.initialSubscriptionStatus = initialSubscriptionStatus
+        self.initialRemainingRequestCount = initialRemainingRequestCount
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
     }
@@ -146,10 +149,16 @@ extension DependencyContainer {
                 appleUpdateUrl: URL(string: "https://apps.apple.com/app/id")!,
                 privacyPolicyUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy")!,
                 termsAndConditionsUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions")!,
+                entitlements: [
+                    "base": SubscriptionEntitlement(
+                        requestCountPerDay: 10,
+                        formCompletionViaMicrophone: false,
+                        sendingConclusionByEmail: false
+                    )
+                ],
                 ultrasound: UltrasoundConfig(
                     defaultNeuralModelTemperature: 0.2,
                     defaultNeuralModelMaxTokens: 512,
-                    requestCountPerDay: 10,
                     scanPhotoMaxNumber: 0,
                     scanPhotoResizeMaxDimension: 0,
                     scanPhotoCompressionQuality: 0,
@@ -173,6 +182,7 @@ extension DependencyContainer {
             ),
             examinationNeuralModel: nil,
             initialSubscriptionStatus: nil,
+            initialRemainingRequestCount: 0,
             initialScreen: .onBoarding,
             initialScreenArguments: nil
         )

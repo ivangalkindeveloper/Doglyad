@@ -11,10 +11,21 @@
     "appleUpdateUrl": "https://apps.apple.com/app/id",
     "privacyPolicyUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy",
     "termsAndConditionsUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions",
+    "entitlements": {
+        "base": {
+            "requestCountPerDay": 10,
+            "formCompletionViaMicrophone": false,
+            "sendingConclusionByEmail": false
+        },
+        "pro": {
+            "requestCountPerDay": 100,
+            "formCompletionViaMicrophone": true,
+            "sendingConclusionByEmail": true
+        }
+    },
     "ultrasound": {
         "defaultNeuralModelTemperature": 0.3,
         "defaultNeuralModelMaxTokens": 2048,
-        "requestCountPerDay": 10,
         "scanPhotoMaxNumber": 6,
         "scanPhotoResizeMaxDimension": 128,
         "scanPhotoCompressionQuality": 0.3,

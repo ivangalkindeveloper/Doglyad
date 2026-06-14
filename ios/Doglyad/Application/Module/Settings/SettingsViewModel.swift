@@ -72,31 +72,11 @@ final class SettingsViewModel: DViewModel {
     }
 
     func onTapSubscription() {
-        if getIsActive() {
-            router.push(
-                route: RouteSheet(
-                    type: .subscriptionCustomerCenter
-                )
+        router.push(
+            route: RouteScreen(
+                type: .subscriptionPaywall
             )
-        } else {
-            router.push(
-                route: RouteScreen(
-                    type: .subscriptionPaywall
-                )
-            )
-        }
-    }
-
-    func subscriptionTitle() -> LocalizedStringResource {
-        getIsActive()
-            ? .settingsSubscriptionManageTitle
-            : .settingsSubscriptionUpgradeTitle
-    }
-
-    func subscriptionDescription() -> LocalizedStringResource {
-        getIsActive()
-            ? .settingsSubscriptionManageDescription
-            : .settingsSubscriptionUpgradeDescription
+        )
     }
 
     func onTapStorage() {

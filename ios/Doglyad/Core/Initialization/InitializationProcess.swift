@@ -27,7 +27,9 @@ final class InitializationProcess: DependencyInitializationProcess {
     var usExaminationNeuralModelsById: [String: USExaminationNeuralModel]?
     var usExaminationNeuralModelDefault: USExaminationNeuralModel?
     var examinationNeuralModel: DExaminationNeuralModelProtocol?
+    var initialUltraSoundConclusions: [USExaminationConclusion]?
     var initialSubscriptionStatus: SubscriptionStatus?
+    var initialRemainingRequestCount: Int?
     var initialScreen: ScreenType?
     var initialScreenArguments: RouteArgumentsProtocol?
 
@@ -51,6 +53,7 @@ final class InitializationProcess: DependencyInitializationProcess {
             usExaminationNeuralModelDefault: usExaminationNeuralModelDefault!,
             examinationNeuralModel: examinationNeuralModel,
             initialSubscriptionStatus: initialSubscriptionStatus,
+            initialRemainingRequestCount: initialRemainingRequestCount!,
             initialScreen: initialScreen!,
             initialScreenArguments: initialScreenArguments
         )

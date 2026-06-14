@@ -24,39 +24,44 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
         )
     }
 
-    func cachedStatus() -> SubscriptionStatus? {
+    func cachedStatus(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) throws -> SubscriptionStatus? {
         guard let customerInfo = Purchases.shared.cachedCustomerInfo else { return nil }
-        return Self.status(from: customerInfo)
+        return try Self.status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
-    func fetchStatus() async throws -> SubscriptionStatus {
-        do {
-            let customerInfo = try await Purchases.shared.customerInfo()
-            return Self.status(from: customerInfo)
-        } catch {
-            throw SubscriptionError.underlying(error)
-        }
+    func fetchStatus(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) async throws -> SubscriptionStatus {
+        let customerInfo = try await Purchases.shared.customerInfo()
+        return try Self.status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
-    func restorePurchases() async throws -> SubscriptionStatus {
-        do {
-            let customerInfo = try await Purchases.shared.restorePurchases()
-            return Self.status(from: customerInfo)
-        } catch {
-            throw SubscriptionError.underlying(error)
-        }
+    func restorePurchases(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) async throws -> SubscriptionStatus {
+        let customerInfo = try await Purchases.shared.restorePurchases()
+        return try Self.status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
+    /// Resolves the active entitlement and binds its feature set onto the
+    /// status, so feature flags can be read directly from the status.
     private static func status(
-        from customerInfo: CustomerInfo
-    ) -> SubscriptionStatus {
-        let entitlement = customerInfo.entitlements[SubscriptionConfig.entitlementIdentifier]
+        from customerInfo: CustomerInfo,
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) throws -> SubscriptionStatus {
+        let activeEntitlement = customerInfo.entitlements.active.first
+        guard let identifier = activeEntitlement?.key else {
+            fatalError("No identifier found for activeEntitlement")
+        }
+        guard let configEntetilement = configEntitlements[identifier] else {
+            fatalError("No config entitlement found for \(identifier)")
+        }
         return SubscriptionStatus(
-            isActive: entitlement?.isActive == true,
-            activeProductIdentifier: entitlement?.productIdentifier,
-            expirationDate: entitlement?.expirationDate,
-            willRenew: entitlement?.willRenew == true,
-            managementURL: customerInfo.managementURL
+            isActive: activeEntitlement?.value.isActive == true,
+            activeEntitlementIdentifier: identifier,
+            entitlement: configEntetilement
         )
     }
 }

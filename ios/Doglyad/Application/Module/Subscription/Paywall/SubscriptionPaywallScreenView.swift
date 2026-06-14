@@ -7,6 +7,7 @@ struct SubscriptionPaywallScreenView: View {
 
     var body: some View {
         PaywallView(
+            fonts: DPaywallFontProvider(),
             displayCloseButton: !router.path.isEmpty
         )
         .onPurchaseCompleted { _ in

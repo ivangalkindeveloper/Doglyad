@@ -57,6 +57,31 @@ extension InitializationProcess {
                     }
                 }
             ),
+            AsyncInitializationStep<InitializationProcess>(
+                title: "Subscription",
+                run: { (process: InitializationProcess) async throws in
+                    let configEntitlements = await process.applicationConfig!.entitlements
+                    let status = try await process.subscriptionRepository!.fetchStatus(
+                        configEntitlements: configEntitlements
+                    )
+                    let remainingRequestCount = await process.ultrasoundModelRepository!.remainingRequestCount(
+                        limit: status.requestCountPerDay
+                    )
+                    await MainActor.run {
+                        process.initialSubscriptionStatus = status
+                        process.initialRemainingRequestCount = remainingRequestCount
+                    }
+                }
+            ),
+            AsyncInitializationStep<InitializationProcess>(
+                title: "Initial ultrasound conclusions",
+                run: { (process: InitializationProcess) async in
+                    let conclusions = await process.ultrasoundConclusionRepository!.getConclusions()
+                    await MainActor.run {
+                        process.initialUltraSoundConclusions = conclusions
+                    }
+                }
+            ),
         ]
     )
 }

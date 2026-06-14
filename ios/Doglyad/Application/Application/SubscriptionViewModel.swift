@@ -10,8 +10,7 @@ final class SubscriptionViewModel: DViewModel {
     ) {
         self.container = container
         status = container.initialSubscriptionStatus
-            ?? container.subscriptionRepository.cachedStatus()
-        availableRequestCount = container.applicationConfig.ultrasound.requestCountPerDay
+        availableRequestCount = container.initialRemainingRequestCount
         super.init()
     }
 
@@ -22,26 +21,30 @@ final class SubscriptionViewModel: DViewModel {
         status?.isActive == true
     }
 
-    override func onInit() {
+    func refreshStatus() async {
+        handle {
+            try await self.container.subscriptionRepository.fetchStatus(
+                configEntitlements: self.container.applicationConfig.entitlements
+            )
+        } onMainSuccess: { status in
+            self.status = status
+            self.refreshRemainingRequestCount()
+        }
+    }
+
+    private func refreshRemainingRequestCount() {
+        guard let limit = status?.requestCountPerDay else { return }
         handle {
             await self.container.ultrasoundModelRepository.remainingRequestCount(
-                limit: self.container.applicationConfig.ultrasound.requestCountPerDay
+                limit: limit
             )
         } onMainSuccess: { count in
             self.availableRequestCount = count
         }
     }
 
-    func refreshStatus() async {
-        handle {
-            try await self.container.subscriptionRepository.fetchStatus()
-        } onMainSuccess: { status in
-            self.status = status
-        }
-    }
-
     func incrementRequestCount() {
-        let limit = container.applicationConfig.ultrasound.requestCountPerDay
+        guard let limit = status?.requestCountPerDay else { return }
         handle {
             await self.container.ultrasoundModelRepository.incrementRequestCount()
             return await self.container.ultrasoundModelRepository.remainingRequestCount(

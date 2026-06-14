@@ -30,7 +30,7 @@ final class SubscriptionPaywallViewModel: DViewModel {
     ) {
         Task {
             await onRefreshStatus()
-            if customerInfo.entitlements[SubscriptionConfig.entitlementIdentifier]?.isActive == true {
+            if !customerInfo.entitlements.active.isEmpty {
                 dismissPaywall()
             }
         }

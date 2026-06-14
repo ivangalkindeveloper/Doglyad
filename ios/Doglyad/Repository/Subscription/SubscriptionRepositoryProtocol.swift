@@ -4,9 +4,15 @@ import Foundation
 protocol SubscriptionRepositoryProtocol: AnyObject {
     func configure()
 
-    func cachedStatus() -> SubscriptionStatus?
+    func cachedStatus(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) throws -> SubscriptionStatus?
 
-    func fetchStatus() async throws -> SubscriptionStatus
+    func fetchStatus(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) async throws -> SubscriptionStatus
 
-    func restorePurchases() async throws -> SubscriptionStatus
+    func restorePurchases(
+        configEntitlements: [String: SubscriptionEntitlement]
+    ) async throws -> SubscriptionStatus
 }

@@ -14,15 +14,6 @@ extension InitializationProcess {
                     }
                 }
             ),
-            AsyncInitializationStep<InitializationProcess>(
-                title: "Subscription",
-                run: { (process: InitializationProcess) async throws in
-                    let status = try await process.subscriptionRepository!.fetchStatus()
-                    await MainActor.run {
-                        process.initialSubscriptionStatus = status
-                    }
-                }
-            ),
         ]
     )
 }

@@ -44,8 +44,8 @@ struct SettingsScreenView: View {
                             action: viewModel.onTapUserSettings
                         )
                         DListButtonCard(
-                            title: viewModel.subscriptionTitle(),
-                            description: viewModel.subscriptionDescription(),
+                            title: .settingsSubscriptionManageTitle,
+                            description: .settingsSubscriptionManageDescription,
                             action: viewModel.onTapSubscription
                         )
                         DListButtonCard(

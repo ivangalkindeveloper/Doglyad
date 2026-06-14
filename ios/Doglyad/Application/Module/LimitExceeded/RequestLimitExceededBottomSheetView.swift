@@ -33,7 +33,7 @@ struct RequestLimitExceededBottomSheetView: View {
                 spacing: size.s8
             ) {
                 DButton(
-                    title: .settingsSubscriptionUpgradeTitle,
+                    title: .settingsSubscriptionManageTitle,
                     action: viewModel.onTapUpgrade
                 )
                 .dStyle(.primaryButton)
