@@ -3,6 +3,7 @@ import Foundation
 struct USExaminationNeuralModel: Codable, Identifiable, Equatable {
     let id: String
     let title: String
+    let entitlement: SubscriptionType
     let description: [String: String]
 
     func getLocalizedDescription(for locale: Locale) -> LocalizedStringResource {

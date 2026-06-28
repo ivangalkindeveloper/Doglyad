@@ -1,7 +1,7 @@
 import Foundation
 
 struct SubscriptionStatus: Equatable {
-    let activeEntitlementIdentifier: String
+    let type: SubscriptionType
     let entitlement: SubscriptionEntitlement
     let availableCountPerDay: Int
 }
@@ -11,15 +11,15 @@ extension SubscriptionStatus {
         entitlement.requestCountPerDay
     }
 
-    var formCompletionViaMicrophone: SunscriptionFeatureAvailability {
+    var formCompletionViaMicrophone: SubscriptionFeatureAvailability {
         entitlement.formCompletionViaMicrophone
     }
 
-    var sendingConclusionByEmail: SunscriptionFeatureAvailability {
+    var sendingConclusionByEmail: SubscriptionFeatureAvailability {
         entitlement.sendingConclusionByEmail
     }
 
-    var neuralModelSettings: SunscriptionFeatureAvailability {
+    var neuralModelSettings: SubscriptionFeatureAvailability {
         entitlement.neuralModelSettings
     }
 }

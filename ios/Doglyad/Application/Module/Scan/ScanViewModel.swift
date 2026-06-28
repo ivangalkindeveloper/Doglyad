@@ -23,7 +23,7 @@ final class ScanViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let getTemplateForType: (String) -> USExaminationTemplate?
-    private let getFormCompletionViaMicrophoneAvailability: () -> SunscriptionFeatureAvailability
+    private let getFormCompletionViaMicrophoneAvailability: () -> SubscriptionFeatureAvailability
     private let getNeuralModelSettings: () -> NeuralModelSettings
     private let refreshSubscriptionStatus: () async -> Void
     private let getIsActive: () -> Bool
@@ -36,7 +36,7 @@ final class ScanViewModel: DViewModel {
         getTemplateForType: @escaping (String) -> USExaminationTemplate?,
         refreshSubscriptionStatus: @escaping () async -> Void,
         getIsActive: @escaping () -> Bool,
-        getFormCompletionViaMicrophoneAvailability: @escaping () -> SunscriptionFeatureAvailability,
+        getFormCompletionViaMicrophoneAvailability: @escaping () -> SubscriptionFeatureAvailability,
         getNeuralModelSettings: @escaping () -> NeuralModelSettings,
         onIncrementRequestCount: @escaping () -> Void
     ) {
@@ -465,20 +465,20 @@ final class ScanViewModel: DViewModel {
         handle {
             self.isLoading = true
 
-            let neuralModelSettings = getNeuralModelSettings()
+            let neuralModelSettings = self.getNeuralModelSettings()
             let examinationData = USExaminationData(
-                usExaminationTypeId: usExaminationType.id,
-                photos: photos,
-                patientName: patientNameController.text,
-                patientGender: patientGender,
-                patientDateOfBirth: patientDateOfBirth,
-                patientHeight: Double(patientHeightCMController.text) ?? defaultPatientHeightCM,
-                patientWeight: Double(patientWeightKGController.text) ?? defaultPatientWeightKG,
-                patientComplaint: patientComplaintController.text,
-                examinationDescription: examinationDescriptionController.text,
-                additionalData: additionalDataController.text
+                usExaminationTypeId: self.usExaminationType.id,
+                photos: self.photos,
+                patientName: self.patientNameController.text,
+                patientGender: self.patientGender,
+                patientDateOfBirth: self.patientDateOfBirth,
+                patientHeight: Double(self.patientHeightCMController.text) ?? self.defaultPatientHeightCM,
+                patientWeight: Double(self.patientWeightKGController.text) ?? self.defaultPatientWeightKG,
+                patientComplaint: self.patientComplaintController.text,
+                examinationDescription: self.examinationDescriptionController.text,
+                additionalData: self.additionalDataController.text
             )
-            let template = getTemplate()
+            let template = self.getTemplate()
             let request = USExaminationRequest(
                 neuralModelSettings: neuralModelSettings,
                 examinationData: examinationData,

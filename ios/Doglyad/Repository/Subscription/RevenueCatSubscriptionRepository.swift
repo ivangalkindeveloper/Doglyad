@@ -29,28 +29,28 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
     }
 
     func cachedStatus(
-        configEntitlements: [String: SubscriptionEntitlement]
+        configEntitlements: [SubscriptionType: SubscriptionEntitlement]
     ) async throws -> SubscriptionStatus? {
         guard let customerInfo = Purchases.shared.cachedCustomerInfo else { return nil }
         return await status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
     func fetchStatus(
-        configEntitlements: [String: SubscriptionEntitlement]
+        configEntitlements: [SubscriptionType: SubscriptionEntitlement]
     ) async throws -> SubscriptionStatus? {
         let customerInfo = try await Purchases.shared.customerInfo()
         return await status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
     func restorePurchases(
-        configEntitlements: [String: SubscriptionEntitlement]
+        configEntitlements: [SubscriptionType: SubscriptionEntitlement]
     ) async throws -> SubscriptionStatus? {
         let customerInfo = try await Purchases.shared.restorePurchases()
         return await status(from: customerInfo, configEntitlements: configEntitlements)
     }
 
     func incrementRequestCount(
-        configEntitlements: [String: SubscriptionEntitlement]
+        configEntitlements: [SubscriptionType: SubscriptionEntitlement]
     ) async throws -> SubscriptionStatus? {
         try? await database.requestLimit.incrementRequestCount()
         let customerInfo = try await Purchases.shared.customerInfo()
@@ -59,10 +59,11 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
 
     private func status(
         from customerInfo: CustomerInfo,
-        configEntitlements: [String: SubscriptionEntitlement]
+        configEntitlements: [SubscriptionType: SubscriptionEntitlement]
     ) async -> SubscriptionStatus? {
         guard let identifier = customerInfo.entitlements.active.first?.key,
-              let entitlement = configEntitlements[identifier]
+              let subscriptionType = SubscriptionType(rawValue: identifier),
+              let entitlement = configEntitlements[subscriptionType]
         else {
             return nil
         }
@@ -70,7 +71,7 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
             limit: entitlement.requestCountPerDay
         )
         return SubscriptionStatus(
-            activeEntitlementIdentifier: identifier,
+            type: subscriptionType,
             entitlement: entitlement,
             availableCountPerDay: availableCountPerDay
         )

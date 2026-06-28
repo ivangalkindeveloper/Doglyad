@@ -40,9 +40,26 @@ extension InitializationProcess {
                         return setDefault()
                     }
 
-                    let matchedId = process.usExaminationNeuralModelsById![selectedUSExaminationNeuralModelId!]
-                    guard matchedId != nil else {
+                    let selectedModel = process.usExaminationNeuralModelsById![selectedUSExaminationNeuralModelId!]
+                    guard let selectedModel else {
                         return setDefault()
+                    }
+
+                    @MainActor
+                    func selectFirstBaseModel() {
+                        let firstBaseModel = process.usExaminationNeuralModels!.first(where: {
+                            $0.entitlement == .base
+                        })
+                        process.ultrasoundModelRepository!.setSelectedModelId(
+                            id: (firstBaseModel ?? process.usExaminationNeuralModelDefault!).id
+                        )
+                    }
+                    
+                    let activeSubscriptionType = process.initialSubscriptionStatus?.type
+                    let isModelAvailable = selectedModel.entitlement == .base
+                        || selectedModel.entitlement == activeSubscriptionType
+                    guard isModelAvailable else {
+                        return selectFirstBaseModel()
                     }
                 }
             ),

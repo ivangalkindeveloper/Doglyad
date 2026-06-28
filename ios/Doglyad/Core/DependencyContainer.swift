@@ -148,7 +148,7 @@ extension DependencyContainer {
                 privacyPolicyUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy")!,
                 termsAndConditionsUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions")!,
                 entitlements: [
-                    "base": SubscriptionEntitlement(
+                    .base: SubscriptionEntitlement(
                         requestCountPerDay: 10,
                         formCompletionViaMicrophone: .unavailable,
                         sendingConclusionByEmail: .unavailable,
@@ -179,6 +179,7 @@ extension DependencyContainer {
             usExaminationNeuralModelDefault: .init(
                 id: "",
                 title: "",
+                entitlement: .base,
                 description: [:]
             ),
             examinationNeuralModel: nil,

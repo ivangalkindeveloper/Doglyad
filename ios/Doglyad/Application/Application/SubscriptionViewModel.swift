@@ -23,15 +23,15 @@ final class SubscriptionViewModel: DViewModel {
         status?.availableCountPerDay ?? 0
     }
 
-    var formCompletionViaMicrophoneAvailability: SunscriptionFeatureAvailability {
+    var formCompletionViaMicrophoneAvailability: SubscriptionFeatureAvailability {
         status?.formCompletionViaMicrophone ?? .unavailable
     }
 
-    var sendingConclusionByEmailAvailability: SunscriptionFeatureAvailability {
+    var sendingConclusionByEmailAvailability: SubscriptionFeatureAvailability {
         status?.sendingConclusionByEmail ?? .unavailable
     }
 
-    var neuralModelSettingsAvailability: SunscriptionFeatureAvailability {
+    var neuralModelSettingsAvailability: SubscriptionFeatureAvailability {
         status?.neuralModelSettings ?? .unavailable
     }
 

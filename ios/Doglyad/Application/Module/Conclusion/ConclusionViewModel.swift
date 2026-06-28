@@ -98,7 +98,7 @@ final class ConclusionViewModel: DViewModel {
         handle {
             self.isLoading = true
 
-            let neuralModelSettings = getNeuralModelSettings()
+            let neuralModelSettings = self.getNeuralModelSettings()
             let template: String? = await {
                 let typeId = self.conclusion.examinationData.usExaminationTypeId
                 if let template = await self.container.templateRepository.getTemplatesByUSExaminationId(usExaminationTypesById: self.container.usExaminationTypesById)[typeId] {

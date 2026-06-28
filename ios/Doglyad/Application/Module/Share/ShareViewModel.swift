@@ -11,7 +11,7 @@ final class ShareViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: ShareArguments
-    private let getSendingConclusionByEmailAvailability: () -> SunscriptionFeatureAvailability
+    private let getSendingConclusionByEmailAvailability: () -> SubscriptionFeatureAvailability
     let userEmail: String?
 
     init(
@@ -19,7 +19,7 @@ final class ShareViewModel: DViewModel {
         messager: DMessager,
         router: DRouter,
         arguments: ShareArguments,
-        getSendingConclusionByEmailAvailability: @escaping () -> SunscriptionFeatureAvailability,
+        getSendingConclusionByEmailAvailability: @escaping () -> SubscriptionFeatureAvailability,
         userEmail: String?
     ) {
         self.container = container
