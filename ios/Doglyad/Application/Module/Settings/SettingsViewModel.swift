@@ -55,14 +55,6 @@ final class SettingsViewModel: DViewModel {
         )
     }
 
-    func onTapNeuralModel() {
-        router.push(
-            route: RouteScreen(
-                type: .neuralModel
-            )
-        )
-    }
-
     func onTapUserSettings() {
         router.push(
             route: RouteScreen(
@@ -75,6 +67,14 @@ final class SettingsViewModel: DViewModel {
         router.push(
             route: RouteScreen(
                 type: .subscription
+            )
+        )
+    }
+
+    func onTapNeuralModel() {
+        router.push(
+            route: RouteScreen(
+                type: .neuralModel
             )
         )
     }

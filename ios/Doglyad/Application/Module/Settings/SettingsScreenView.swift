@@ -32,11 +32,6 @@ struct SettingsScreenView: View {
                             action: viewModel.onTapTemplates
                         )
                         DListButtonCard(
-                            title: .settingsNeuralModelTitle,
-                            description: .settingsNeuralModelDescription,
-                            action: viewModel.onTapNeuralModel
-                        )
-                        DListButtonCard(
                             title: .settingsUserSettingsTitle,
                             description: .settingsUserSettingsDescription,
                             action: viewModel.onTapUserSettings
@@ -45,6 +40,11 @@ struct SettingsScreenView: View {
                             title: .settingsSubscriptionManageTitle,
                             description: .settingsSubscriptionManageDescription,
                             action: viewModel.onTapSubscription
+                        )
+                        DListButtonCard(
+                            title: .settingsNeuralModelTitle,
+                            description: .settingsNeuralModelDescription,
+                            action: viewModel.onTapNeuralModel
                         )
                         DListButtonCard(
                             title: .settingsStorageTitle,
