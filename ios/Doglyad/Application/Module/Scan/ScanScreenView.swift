@@ -30,11 +30,13 @@ struct ScanScreenView: View {
                 .dStyle(.primaryChip)
             },
             trailing: {
-                DButton(
-                    image: .image,
-                    action: viewModel.onTapGallery
-                )
-                .dStyle(.circle)
+                if !viewModel.isPhotoFilling {
+                    DButton(
+                        image: .image,
+                        action: viewModel.onTapGallery
+                    )
+                    .dStyle(.circle)
+                }
             },
             onTapBody: viewModel.unfocus,
             content: { _ in
