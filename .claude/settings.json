@@ -17,7 +17,21 @@
       "Bash(wc:*)",
       "Bash(file:*)",
       "Bash(stat:*)",
-      "Bash(which:*)"
+      "Bash(which:*)",
+      "Bash(make format:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=$(python3 -c \"import sys, json; print(json.load(sys.stdin).get('tool_input', {}).get('file_path', ''))\" 2>/dev/null); case \"$file\" in *.swift) make format ;; esac"
+          }
+        ]
+      }
     ]
   }
 }
