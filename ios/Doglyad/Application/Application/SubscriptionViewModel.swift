@@ -23,6 +23,39 @@ final class SubscriptionViewModel: DViewModel {
         status?.availableCountPerDay ?? 0
     }
 
+    var formCompletionViaMicrophoneAvailability: SunscriptionFeatureAvailability {
+        status?.formCompletionViaMicrophone ?? .unavailable
+    }
+
+    var sendingConclusionByEmailAvailability: SunscriptionFeatureAvailability {
+        status?.sendingConclusionByEmail ?? .unavailable
+    }
+
+    var neuralModelSettingsAvailability: SunscriptionFeatureAvailability {
+        status?.neuralModelSettings ?? .unavailable
+    }
+
+    var neuralModelSettings: NeuralModelSettings {
+        let neuralModelConfig = container.applicationConfig.ultrasound.neuralModel
+        let ultrasoundModelRepository = container.ultrasoundModelRepository
+        switch neuralModelSettingsAvailability {
+        case .available:
+            return NeuralModelSettings(
+                selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),
+                isMarkdown: ultrasoundModelRepository.getIsMarkdown(),
+                temperature: ultrasoundModelRepository.getTemperature() ?? neuralModelConfig.temperature,
+                maxTokens: ultrasoundModelRepository.getMaxTokens() ?? neuralModelConfig.maxTokens
+            )
+        case .offered, .unavailable:
+            return NeuralModelSettings(
+                selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),
+                isMarkdown: false,
+                temperature: neuralModelConfig.temperature,
+                maxTokens: neuralModelConfig.maxTokens
+            )
+        }
+    }
+
     func refreshStatus() async {
         handle {
             try await self.container.subscriptionRepository.fetchStatus(

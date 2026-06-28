@@ -14,18 +14,22 @@
     "entitlements": {
         "base": {
             "requestCountPerDay": 10,
-            "formCompletionViaMicrophone": false,
-            "sendingConclusionByEmail": false
+            "formCompletionViaMicrophone": "Offered",
+            "sendingConclusionByEmail": "Offered",
+            "neuralModelSettings": "Offered"
         },
         "pro": {
             "requestCountPerDay": 100,
-            "formCompletionViaMicrophone": true,
-            "sendingConclusionByEmail": true
+            "formCompletionViaMicrophone": "Available",
+            "sendingConclusionByEmail": "Available",
+            "neuralModelSettings": "Available"
         }
     },
     "ultrasound": {
-        "defaultNeuralModelTemperature": 0.3,
-        "defaultNeuralModelMaxTokens": 2048,
+        "neuralModel": {
+            "temperature": 0.3,
+            "maxTokens": 2048
+        },
         "scanPhotoMaxNumber": 6,
         "scanPhotoResizeMaxDimension": 128,
         "scanPhotoCompressionQuality": 0.3,

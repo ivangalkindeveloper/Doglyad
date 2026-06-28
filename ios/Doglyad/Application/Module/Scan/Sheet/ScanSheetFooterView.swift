@@ -2,12 +2,13 @@ import DoglyadUI
 import SwiftUI
 
 struct ScanSheetFooterView: View {
-    @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
 
     @EnvironmentObject private var viewModel: ScanViewModel
+    // Observed so the footer re-renders (and viewModel.isSpeechButtonVisible refreshes) when the subscription status changes.
+    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
 
     var body: some View {
         VStack(
@@ -18,7 +19,7 @@ struct ScanSheetFooterView: View {
                 VStack(
                     spacing: .zero
                 ) {
-                    if container.isUSExaminationNeuralModelAvailable {
+                    if viewModel.isSpeechButtonVisible {
                         if !viewModel.isLoading {
                             DButton(
                                 image: .microphone,

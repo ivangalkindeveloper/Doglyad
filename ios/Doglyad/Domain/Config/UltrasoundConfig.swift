@@ -1,6 +1,5 @@
 struct UltrasoundConfig: Codable {
-    let defaultNeuralModelTemperature: Double
-    let defaultNeuralModelMaxTokens: Int
+    let neuralModel: UltrasoundNeuralModelConfig
     let scanPhotoMaxNumber: Int
     let scanPhotoResizeMaxDimension: Double
     let scanPhotoCompressionQuality: Double

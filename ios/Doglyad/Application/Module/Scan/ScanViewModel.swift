@@ -23,10 +23,8 @@ final class ScanViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let getTemplateForType: (String) -> USExaminationTemplate?
-    private let getNeuralModel: () -> USExaminationNeuralModel
-    private let getIsMarkdown: () -> Bool
-    private let getTemperature: () -> Double
-    private let getMaxTokens: () -> Int
+    private let getFormCompletionViaMicrophoneAvailability: () -> SunscriptionFeatureAvailability
+    private let getNeuralModelSettings: () -> NeuralModelSettings
     private let refreshSubscriptionStatus: () async -> Void
     private let getIsActive: () -> Bool
     private let onIncrementRequestCount: () -> Void
@@ -36,24 +34,20 @@ final class ScanViewModel: DViewModel {
         messager: DMessager,
         router: DRouter,
         getTemplateForType: @escaping (String) -> USExaminationTemplate?,
-        getNeuralModel: @escaping () -> USExaminationNeuralModel,
-        getIsMarkdown: @escaping () -> Bool,
-        getTemperature: @escaping () -> Double,
-        getMaxTokens: @escaping () -> Int,
         refreshSubscriptionStatus: @escaping () async -> Void,
         getIsActive: @escaping () -> Bool,
+        getFormCompletionViaMicrophoneAvailability: @escaping () -> SunscriptionFeatureAvailability,
+        getNeuralModelSettings: @escaping () -> NeuralModelSettings,
         onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
         self.messager = messager
         self.router = router
         self.getTemplateForType = getTemplateForType
-        self.getNeuralModel = getNeuralModel
-        self.getIsMarkdown = getIsMarkdown
-        self.getTemperature = getTemperature
-        self.getMaxTokens = getMaxTokens
         self.refreshSubscriptionStatus = refreshSubscriptionStatus
         self.getIsActive = getIsActive
+        self.getFormCompletionViaMicrophoneAvailability = getFormCompletionViaMicrophoneAvailability
+        self.getNeuralModelSettings = getNeuralModelSettings
         self.onIncrementRequestCount = onIncrementRequestCount
         usExaminationType = container.usExaminationTypeDefault
         super.init()
@@ -209,19 +203,17 @@ final class ScanViewModel: DViewModel {
             }
         )
     }
-    
+
     private func onCapture(
         _ image: UIImage
     ) {
         guard !isPhotoFilling else { return }
-        
-        self.photos.append(USExaminationScanPhoto(image: image))
+
+        photos.append(USExaminationScanPhoto(image: image))
         if isPhotoFilling {
-            self.sheetController.setTop()
+            sheetController.setTop()
         }
     }
-
-
 
     func onTapGallery() {
         handle {
@@ -250,7 +242,7 @@ final class ScanViewModel: DViewModel {
             )
         }
     }
-    
+
     private var gallerySelectionLimit: Int {
         max(photoMaxCount - photos.count, 0)
     }
@@ -259,7 +251,7 @@ final class ScanViewModel: DViewModel {
         _ images: [UIImage]
     ) {
         guard !isPhotoFilling else { return }
-        
+
         let availableCount = photoMaxCount - photos.count
         for image in images.prefix(availableCount) {
             photos.append(USExaminationScanPhoto(image: image))
@@ -365,7 +357,27 @@ final class ScanViewModel: DViewModel {
         """
     }
 
+    var isSpeechButtonVisible: Bool {
+        guard container.isUSExaminationNeuralModelAvailable else { return false }
+        switch getFormCompletionViaMicrophoneAvailability() {
+        case .offered, .available:
+            return true
+        case .unavailable:
+            return false
+        }
+    }
+
     func onTapSpeech() {
+        switch getFormCompletionViaMicrophoneAvailability() {
+        case .available:
+            break
+        case .offered, .unavailable:
+            return router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        }
         handle {
             await self.container.permissionManager.isGranted(.speech)
         } onMainSuccess: { isGranted in
@@ -450,33 +462,23 @@ final class ScanViewModel: DViewModel {
     }
 
     private func performScan() {
-        let neuralModel = getNeuralModel()
-        let isMarkdown = getIsMarkdown()
-        let temperature = getTemperature()
-        let maxTokens = getMaxTokens()
-        let neuralModelSettings = NeuralModelSettings(
-            selectedNeuralModelId: neuralModel.id,
-            isMarkdown: isMarkdown,
-            temperature: temperature,
-            maxTokens: maxTokens
-        )
-        let examinationData = USExaminationData(
-            usExaminationTypeId: usExaminationType.id,
-            photos: photos,
-            patientName: patientNameController.text,
-            patientGender: patientGender,
-            patientDateOfBirth: patientDateOfBirth,
-            patientHeight: Double(patientHeightCMController.text) ?? defaultPatientHeightCM,
-            patientWeight: Double(patientWeightKGController.text) ?? defaultPatientWeightKG,
-            patientComplaint: patientComplaintController.text,
-            examinationDescription: examinationDescriptionController.text,
-            additionalData: additionalDataController.text
-        )
-        let template = getTemplate()
-
         handle {
             self.isLoading = true
 
+            let neuralModelSettings = getNeuralModelSettings()
+            let examinationData = USExaminationData(
+                usExaminationTypeId: usExaminationType.id,
+                photos: photos,
+                patientName: patientNameController.text,
+                patientGender: patientGender,
+                patientDateOfBirth: patientDateOfBirth,
+                patientHeight: Double(patientHeightCMController.text) ?? defaultPatientHeightCM,
+                patientWeight: Double(patientWeightKGController.text) ?? defaultPatientWeightKG,
+                patientComplaint: patientComplaintController.text,
+                examinationDescription: examinationDescriptionController.text,
+                additionalData: additionalDataController.text
+            )
+            let template = getTemplate()
             let request = USExaminationRequest(
                 neuralModelSettings: neuralModelSettings,
                 examinationData: examinationData,
@@ -490,7 +492,6 @@ final class ScanViewModel: DViewModel {
                     compressionQuality: self.ultrasoundConfig.scanPhotoCompressionQuality
                 )
             )
-
             let conclusion = USExaminationConclusion(
                 date: Date(),
                 neuralModelSettings: neuralModelSettings,

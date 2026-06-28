@@ -8,16 +8,27 @@ struct ShareBottomSheetView: View {
     private var typography: DTypography { theme.typography }
 
     @StateObject var viewModel: ShareViewModel
+    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
+
+    private var isUserEmailButtonVisible: Bool {
+        guard viewModel.isUserEmailAvailable else { return false }
+        switch subscriptionViewModel.sendingConclusionByEmailAvailability {
+        case .offered, .available:
+            return true
+        case .unavailable:
+            return false
+        }
+    }
 
     var body: some View {
         DBottomSheet(
             title: .shareTitle,
-            fraction: viewModel.isUserEmailAvailable ? 0.4 : 0.3
+            fraction: isUserEmailButtonVisible ? 0.4 : 0.3
         ) { toolbarHeight in
             VStack(
                 spacing: size.s8
             ) {
-                if viewModel.isUserEmailAvailable {
+                if isUserEmailButtonVisible {
                     DButtonCard(
                         action: viewModel.onTapUserEmail
                     ) {

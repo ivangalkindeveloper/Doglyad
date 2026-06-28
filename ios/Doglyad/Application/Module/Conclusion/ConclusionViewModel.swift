@@ -13,6 +13,7 @@ final class ConclusionViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
+    private let getNeuralModelSettings: () -> NeuralModelSettings
     private let refreshSubscriptionStatus: () async -> Void
     private let getIsActive: () -> Bool
     private let onIncrementRequestCount: () -> Void
@@ -24,6 +25,7 @@ final class ConclusionViewModel: DViewModel {
         initialConclusion: USExaminationConclusion,
         refreshSubscriptionStatus: @escaping () async -> Void,
         getIsActive: @escaping () -> Bool,
+        getNeuralModelSettings: @escaping () -> NeuralModelSettings,
         onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
@@ -31,6 +33,7 @@ final class ConclusionViewModel: DViewModel {
         self.router = router
         self.refreshSubscriptionStatus = refreshSubscriptionStatus
         self.getIsActive = getIsActive
+        self.getNeuralModelSettings = getNeuralModelSettings
         self.onIncrementRequestCount = onIncrementRequestCount
         conclusion = initialConclusion
     }
@@ -92,16 +95,11 @@ final class ConclusionViewModel: DViewModel {
     private func performRepeatScan(
         proxy: ScrollViewProxy
     ) {
-        let ultrasoundModelRepository = container.ultrasoundModelRepository
-        let neuralModelSettings = NeuralModelSettings(
-            selectedNeuralModelId: ultrasoundModelRepository.getSelectedModelId(),
-            isMarkdown: ultrasoundModelRepository.getIsMarkdown(),
-            temperature: ultrasoundModelRepository.getTemperature(),
-            maxTokens: ultrasoundModelRepository.getMaxTokens()
-        )
         handle {
             self.isLoading = true
-            let requestTemplate: String? = await {
+
+            let neuralModelSettings = getNeuralModelSettings()
+            let template: String? = await {
                 let typeId = self.conclusion.examinationData.usExaminationTypeId
                 if let template = await self.container.templateRepository.getTemplatesByUSExaminationId(usExaminationTypesById: self.container.usExaminationTypesById)[typeId] {
                     return await self.container.templateRepository.getTemplate(
@@ -114,7 +112,7 @@ final class ConclusionViewModel: DViewModel {
             let request = USExaminationRequest(
                 neuralModelSettings: neuralModelSettings,
                 examinationData: self.conclusion.examinationData,
-                template: requestTemplate
+                template: template
             )
             let ultrasoundConfig = self.container.applicationConfig.ultrasound
             let modelConclusion = try await self.container.ultrasoundConclusionRepository.generateConclusion(

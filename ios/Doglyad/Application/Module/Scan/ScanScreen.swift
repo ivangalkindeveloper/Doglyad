@@ -19,25 +19,17 @@ struct ScanScreen: View {
                 getTemplateForType: { [weak ultrasoundViewModel] typeId in
                     ultrasoundViewModel?.templateIdByUSExaminationTypeId[typeId]
                 },
-                getNeuralModel: { [weak ultrasoundViewModel, container] in
-                    ultrasoundViewModel?.neuralModel ?? container.usExaminationNeuralModelDefault
-                },
-                getIsMarkdown: { [weak ultrasoundViewModel] in
-                    ultrasoundViewModel?.isMarkdown ?? false
-                },
-                getTemperature: { [weak ultrasoundViewModel, container] in
-                    ultrasoundViewModel?.temperature
-                        ?? container.applicationConfig.ultrasound.defaultNeuralModelTemperature
-                },
-                getMaxTokens: { [weak ultrasoundViewModel, container] in
-                    ultrasoundViewModel?.maxTokens
-                        ?? container.applicationConfig.ultrasound.defaultNeuralModelMaxTokens
-                },
                 refreshSubscriptionStatus: { [weak subscriptionViewModel] in
                     await subscriptionViewModel?.refreshStatus()
                 },
                 getIsActive: { [weak subscriptionViewModel] in
                     subscriptionViewModel?.isActive ?? false
+                },
+                getFormCompletionViaMicrophoneAvailability: { [weak subscriptionViewModel] in
+                    subscriptionViewModel?.formCompletionViaMicrophoneAvailability ?? .unavailable
+                },
+                getNeuralModelSettings: { [subscriptionViewModel] in
+                    subscriptionViewModel.neuralModelSettings
                 },
                 onIncrementRequestCount: { [weak subscriptionViewModel] in
                     subscriptionViewModel?.incrementRequestCount()

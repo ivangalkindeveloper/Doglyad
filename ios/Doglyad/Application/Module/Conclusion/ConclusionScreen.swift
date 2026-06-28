@@ -22,6 +22,9 @@ struct ConclusionScreen: View {
                 getIsActive: { [weak subscriptionViewModel] in
                     subscriptionViewModel?.isActive ?? false
                 },
+                getNeuralModelSettings: { [subscriptionViewModel] in
+                    subscriptionViewModel.neuralModelSettings
+                },
                 onIncrementRequestCount: { [weak subscriptionViewModel] in
                     subscriptionViewModel?.incrementRequestCount()
                 }

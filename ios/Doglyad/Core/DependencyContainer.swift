@@ -150,13 +150,16 @@ extension DependencyContainer {
                 entitlements: [
                     "base": SubscriptionEntitlement(
                         requestCountPerDay: 10,
-                        formCompletionViaMicrophone: false,
-                        sendingConclusionByEmail: false
-                    )
+                        formCompletionViaMicrophone: .unavailable,
+                        sendingConclusionByEmail: .unavailable,
+                        neuralModelSettings: .unavailable
+                    ),
                 ],
                 ultrasound: UltrasoundConfig(
-                    defaultNeuralModelTemperature: 0.2,
-                    defaultNeuralModelMaxTokens: 512,
+                    neuralModel: UltrasoundNeuralModelConfig(
+                        temperature: 0.2,
+                        maxTokens: 512
+                    ),
                     scanPhotoMaxNumber: 0,
                     scanPhotoResizeMaxDimension: 0,
                     scanPhotoCompressionQuality: 0,

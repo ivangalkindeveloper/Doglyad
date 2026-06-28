@@ -18,6 +18,9 @@ private struct PreviewableModifier: ViewModifier {
             .environmentObject(UltrasoundViewModel(
                 container: container
             ))
+            .environmentObject(SubscriptionViewModel(
+                container: container
+            ))
     }
 }
 

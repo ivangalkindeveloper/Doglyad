@@ -11,6 +11,7 @@ final class ShareViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: ShareArguments
+    private let getSendingConclusionByEmailAvailability: () -> SunscriptionFeatureAvailability
     let userEmail: String?
 
     init(
@@ -18,12 +19,14 @@ final class ShareViewModel: DViewModel {
         messager: DMessager,
         router: DRouter,
         arguments: ShareArguments,
+        getSendingConclusionByEmailAvailability: @escaping () -> SunscriptionFeatureAvailability,
         userEmail: String?
     ) {
         self.container = container
         self.messager = messager
         self.router = router
         self.arguments = arguments
+        self.getSendingConclusionByEmailAvailability = getSendingConclusionByEmailAvailability
         self.userEmail = userEmail
         super.init()
     }
@@ -50,6 +53,19 @@ final class ShareViewModel: DViewModel {
 
     func onTapUserEmail() {
         guard let userEmail = userEmail else { return }
+        switch getSendingConclusionByEmailAvailability() {
+        case .available:
+            break
+        case .offered, .unavailable:
+            router.dismissSheet()
+            router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+            return
+        }
+
         handle {
             self.isLoading = true
             try await self.container.userSettingsRepository.sendEmail(

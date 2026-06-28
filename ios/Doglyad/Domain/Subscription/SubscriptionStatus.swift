@@ -11,11 +11,15 @@ extension SubscriptionStatus {
         entitlement.requestCountPerDay
     }
 
-    var canFillFormViaMicrophone: Bool {
+    var formCompletionViaMicrophone: SunscriptionFeatureAvailability {
         entitlement.formCompletionViaMicrophone
     }
 
-    var canSendConclusionByEmail: Bool {
+    var sendingConclusionByEmail: SunscriptionFeatureAvailability {
         entitlement.sendingConclusionByEmail
+    }
+
+    var neuralModelSettings: SunscriptionFeatureAvailability {
+        entitlement.neuralModelSettings
     }
 }

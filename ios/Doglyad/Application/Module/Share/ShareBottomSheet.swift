@@ -7,6 +7,7 @@ struct ShareBottomSheet: View {
     @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
+    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
     let arguments: ShareArguments
 
     var body: some View {
@@ -16,6 +17,9 @@ struct ShareBottomSheet: View {
                 messager: messager,
                 router: router,
                 arguments: arguments,
+                getSendingConclusionByEmailAvailability: { [weak subscriptionViewModel] in
+                    subscriptionViewModel?.sendingConclusionByEmailAvailability ?? .unavailable
+                },
                 userEmail: ultrasoundViewModel.userEmail
             )
         )

@@ -24,14 +24,14 @@ final class UltrasoundViewModel: DViewModel {
 
         let ultrasoundConfig = container.applicationConfig.ultrasound
         if let temperature = ultrasoundModelRepository.getTemperature() {
-            self.temperature = temperature
+            temperature = temperature
         } else {
-            temperature = ultrasoundConfig.defaultNeuralModelTemperature
+            temperature = ultrasoundConfig.neuralModel.temperature
         }
         if let maxTokens = ultrasoundModelRepository.getMaxTokens() {
-            self.maxTokens = maxTokens
+            maxTokens = maxTokens
         } else {
-            maxTokens = ultrasoundConfig.defaultNeuralModelMaxTokens
+            maxTokens = ultrasoundConfig.neuralModel.maxTokens
         }
 
         templateIdByUSExaminationTypeId = [:]
