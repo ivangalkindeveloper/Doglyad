@@ -31,6 +31,7 @@ extension InitializationProcess {
                 title: "Database",
                 run: { (process: InitializationProcess) in
                     process.database = try DDatabase()
+                    process.securityDatabase = DSecurityDatabase()
                 }
             ),
             SyncInitializationStep<InitializationProcess>(
@@ -76,7 +77,7 @@ extension InitializationProcess {
                     let repository = RevenueCatSubscriptionRepository(
                         apiKey: Bundle.dictionaryString(.REVENUECAT_API_KEY),
                         environment: process.environment!,
-                        database: process.database!
+                        securityDatabase: process.securityDatabase!
                     )
                     repository.configure()
                     process.subscriptionRepository = repository

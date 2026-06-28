@@ -5,7 +5,6 @@ public final class DDatabase: DDatabaseProtocol {
     let defaults: UserDefaults = .standard
     var container: ModelContainer
     public let examinationConclusions: DExaminationConclusionsStore
-    public let requestLimit: DRequestLimitStore
     public let examinationTemplates: DExaminationTemplatesStore
 
     public init() throws {
@@ -15,16 +14,12 @@ public final class DDatabase: DDatabaseProtocol {
             USExaminationDataDB.self,
             USExaminationScanPhotoDB.self,
             USExaminationModelConclusionDB.self,
-            RequestLimitDB.self,
             USExaminationTemplateDB.self,
         ])
         container = try ModelContainer(
             for: schema
         )
         examinationConclusions = DExaminationConclusionsStore(
-            modelContainer: container
-        )
-        requestLimit = DRequestLimitStore(
             modelContainer: container
         )
         examinationTemplates = DExaminationTemplatesStore(

@@ -122,7 +122,7 @@ extension DependencyContainer {
         let subscriptionRepository = RevenueCatSubscriptionRepository(
             apiKey: "",
             environment: environment,
-            database: database
+            securityDatabase: DSecurityDatabase()
         )
 
         return DependencyContainer(

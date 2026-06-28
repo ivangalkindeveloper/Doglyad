@@ -12,6 +12,5 @@ extension DDatabase: DDatabaseClearProtocol {
 
         try? await examinationConclusions.clearAllExaminationConclusions()
         try? await examinationTemplates.clearAllExaminationTemplates()
-        try? await requestLimit.clearRequestLimit()
     }
 }

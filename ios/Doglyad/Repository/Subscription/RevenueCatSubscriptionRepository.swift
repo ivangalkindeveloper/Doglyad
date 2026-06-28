@@ -6,16 +6,16 @@ import RevenueCat
 final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
     private let apiKey: String
     private let environment: EnvironmentProtocol
-    private let database: DDatabaseProtocol
+    private let securityDatabase: DSecurityDatabaseProtocol
 
     init(
         apiKey: String,
         environment: EnvironmentProtocol,
-        database: DDatabaseProtocol
+        securityDatabase: DSecurityDatabaseProtocol
     ) {
         self.apiKey = apiKey
         self.environment = environment
-        self.database = database
+        self.securityDatabase = securityDatabase
     }
 
     func configure() {
@@ -52,7 +52,7 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
     func incrementRequestCount(
         configEntitlements: [SubscriptionType: SubscriptionEntitlement]
     ) async throws -> SubscriptionStatus? {
-        try? await database.requestLimit.incrementRequestCount()
+        try? await securityDatabase.incrementRequestCount()
         let customerInfo = try await Purchases.shared.customerInfo()
         return await status(from: customerInfo, configEntitlements: configEntitlements)
     }
@@ -80,7 +80,7 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
     private func remainingRequestCount(
         limit: Int
     ) async -> Int {
-        await database.requestLimit.fetchRequestLimit { requestLimit in
+        await securityDatabase.fetchRequestLimit { requestLimit in
             guard let requestLimit,
                   Calendar.current.isDateInToday(requestLimit.date)
             else { return limit }

@@ -9,6 +9,5 @@ public protocol DDatabaseProtocol: AnyObject,
     DDatabaseClearProtocol
 {
     var examinationConclusions: DExaminationConclusionsStore { get }
-    var requestLimit: DRequestLimitStore { get }
     var examinationTemplates: DExaminationTemplatesStore { get }
 }

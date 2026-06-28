@@ -12,6 +12,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var connectionManager: ConnectionManagerProtocol?
     var permissionManager: PermissionManagerProtocol?
     var database: DDatabase?
+    var securityDatabase: DSecurityDatabaseProtocol?
     var httpClient: DHttpClientProtocol?
     var sharedRepository: SharedRepositoryProtocol?
     var userSettingsRepository: UserSettingsRepositoryProtocol?

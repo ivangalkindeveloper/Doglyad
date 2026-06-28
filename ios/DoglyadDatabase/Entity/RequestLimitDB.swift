@@ -1,10 +1,8 @@
 import Foundation
-import SwiftData
 
-@Model
-public final class RequestLimitDB {
-    public var count: Int
-    public var date: Date
+public struct RequestLimitDB: Codable, Sendable, Equatable {
+    public let count: Int
+    public let date: Date
 
     public init(
         count: Int,
