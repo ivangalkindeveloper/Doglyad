@@ -54,7 +54,7 @@ extension InitializationProcess {
                             id: (firstBaseModel ?? process.usExaminationNeuralModelDefault!).id
                         )
                     }
-                    
+
                     let activeSubscriptionType = process.initialSubscriptionStatus?.type
                     let isModelAvailable = selectedModel.entitlement == .base
                         || selectedModel.entitlement == activeSubscriptionType
@@ -81,6 +81,13 @@ extension InitializationProcess {
                     }
 
                     process.initialScreen = .scan
+                }
+            ),
+            SyncInitializationStep<InitializationProcess>(
+                title: "Application version",
+                run: { (process: InitializationProcess) in
+                    let version = Bundle.shortVersion
+                    process.version = "\(version.major).\(version.minor).\(version.patch)"
                 }
             ),
         ]

@@ -32,6 +32,7 @@ final class InitializationProcess: DependencyInitializationProcess {
     var initialSubscriptionStatus: SubscriptionStatus?
     var initialScreen: ScreenType?
     var initialScreenArguments: RouteArgumentsProtocol?
+    var version: String?
 
     var toContainer: DependencyContainer {
         DependencyContainer(
@@ -54,7 +55,8 @@ final class InitializationProcess: DependencyInitializationProcess {
             examinationNeuralModel: examinationNeuralModel,
             initialSubscriptionStatus: initialSubscriptionStatus,
             initialScreen: initialScreen!,
-            initialScreenArguments: initialScreenArguments
+            initialScreenArguments: initialScreenArguments,
+            version: version!
         )
     }
 }

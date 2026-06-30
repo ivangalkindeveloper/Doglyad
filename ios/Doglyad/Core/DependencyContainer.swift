@@ -26,6 +26,7 @@ final class DependencyContainer: ObservableObject {
     let initialSubscriptionStatus: SubscriptionStatus?
     let initialScreen: ScreenType
     let initialScreenArguments: RouteArgumentsProtocol?
+    let version: String
 
     init(
         environment: EnvironmentProtocol,
@@ -47,7 +48,8 @@ final class DependencyContainer: ObservableObject {
         examinationNeuralModel: DExaminationNeuralModelProtocol?,
         initialSubscriptionStatus: SubscriptionStatus?,
         initialScreen: ScreenType,
-        initialScreenArguments: RouteArgumentsProtocol?
+        initialScreenArguments: RouteArgumentsProtocol?,
+        version: String
     ) {
         self.environment = environment
         self.connectionManager = connectionManager
@@ -69,6 +71,7 @@ final class DependencyContainer: ObservableObject {
         self.initialSubscriptionStatus = initialSubscriptionStatus
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
+        self.version = version
     }
 }
 
@@ -185,7 +188,8 @@ extension DependencyContainer {
             examinationNeuralModel: nil,
             initialSubscriptionStatus: nil,
             initialScreen: .onBoarding,
-            initialScreenArguments: nil
+            initialScreenArguments: nil,
+            version: "1.0.0"
         )
     }
 }

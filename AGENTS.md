@@ -86,6 +86,7 @@ MVVM. Каждый MVVM-модуль содержит:
 - `make venv` / `make pip-install` — окружение Python 3.11 и установка `backend/requirements.txt`.
 - `make format` — `swiftformat` для iOS.
 - `make init-ios-local` / `make init-ios-production` — генерация `ios/Config/Config.xcconfig` (local подставляет IP из `en0` в `BASE_URL`).
-- `make download-examination` — загрузка MLX-модели в `DoglyadNeuralModel/Resources/`.
+- `make init-ignores` — запуск `./scripts/init_ignores.sh` (инициализация git-ignore правил).
+- `make download-examination` — загрузка MLX-модели (`mlx-community/Qwen2.5-1.5B-Instruct-4bit`) в `DoglyadNeuralModel/Resources/`.
 - `make start-backend-{development,production}-{stub,runpod}` — запуск бэкенда в Docker с нужными `ENVIRONMENT`/`LLM_MODE`.
 - `make start-logs` / `make stop-backend` — логи и остановка бэкенда.

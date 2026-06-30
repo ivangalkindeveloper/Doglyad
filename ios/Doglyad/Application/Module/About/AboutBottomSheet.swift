@@ -34,7 +34,7 @@ struct AboutBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: .settingsAboutAppTitle,
-            fraction: 0.55
+            fraction: 0.5
         ) { toolbarHeight in
             VStack(
                 spacing: .zero
@@ -47,7 +47,7 @@ struct AboutBottomSheet: View {
                         maxHeight: size.s64
                     )
                     .padding(.top, toolbarHeight + size.s16)
-                    .padding(size.s16)
+                    .padding(.bottom, size.s16)
 
                 DText(.aboutDescription)
                     .dStyle(
@@ -55,10 +55,19 @@ struct AboutBottomSheet: View {
                         color: color.grayscaleHeader,
                         alignment: .center
                     )
-                    .padding(size.s16)
+                    .padding(.bottom, size.s16)
+
+                DText("\(localizedResource(.aboutVersion, locale: locale)): \(dependencyContainer.version)")
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscalePlacehold,
+                        alignment: .center
+                    )
+                    .padding(.bottom, size.s16)
 
                 Spacer()
             }
+            .padding(size.s16)
         } bottom: {
             Text(contactAttributedText())
                 .multilineTextAlignment(.center)
