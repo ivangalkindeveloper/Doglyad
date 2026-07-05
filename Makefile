@@ -1,7 +1,14 @@
 .PHONY:
 	venv \
 	pip-install \
+	pip-install-dev \
 	format \
+	format-backend \
+	lint-backend \
+	typecheck-backend \
+	test-backend \
+	build-ios \
+	test-ios \
 	download-examination \
 	init-ignores \
 	init-ios-local \
@@ -14,6 +21,9 @@
 	stop-backend
 .SILENT:
 
+# iOS build/test destination (override: make test-ios IOS_DEST='platform=iOS Simulator,name=iPhone 15')
+IOS_DEST ?= platform=iOS Simulator,name=iPhone 16
+
 venv:
 	python3.11 -m venv .venv311
 	source .venv311/bin/activate
@@ -21,8 +31,35 @@ venv:
 pip-install:
 	pip3 install -r backend/requirements.txt
 
+pip-install-dev:
+	pip3 install -r backend/requirements-dev.txt
+
 format:
 	cd ios && swiftformat .
+
+format-backend:
+	cd backend && ruff format app tests
+
+lint-backend:
+	cd backend && ruff check app tests
+
+typecheck-backend:
+	cd backend && mypy app
+
+test-backend:
+	cd backend && pytest
+
+build-ios:
+	cd ios && xcodebuild build \
+		-project Doglyad.xcodeproj \
+		-scheme Doglyad \
+		-destination '$(IOS_DEST)'
+
+test-ios:
+	cd ios && xcodebuild test \
+		-project Doglyad.xcodeproj \
+		-scheme Doglyad \
+		-destination '$(IOS_DEST)'
 
 download-examination:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit

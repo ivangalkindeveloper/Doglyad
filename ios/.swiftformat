@@ -1,0 +1,22 @@
+# SwiftFormat configuration for Doglyad iOS
+# Pins the formatting rules so `make format` is deterministic across machines
+# and swiftformat versions. Values match the current codebase style
+# (inferred via `swiftformat --inferoptions`).
+
+--swiftversion 5.0
+
+# Options (inferred from existing sources — keep in sync with the code style)
+--semicolons never
+--wrap-collections before-first
+--wrap-parameters before-first
+--binary-grouping none
+--decimal-grouping none
+--hex-grouping none
+--octal-grouping none
+
+# Paths swiftformat must not touch (generated, vendored or build artifacts)
+--exclude Config
+--exclude DoglyadNeuralModel/Resources
+--exclude **/.build
+--exclude **/Build
+--exclude DerivedData
