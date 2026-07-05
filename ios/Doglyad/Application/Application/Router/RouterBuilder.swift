@@ -47,10 +47,10 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? SettingsScreenArguments
                 )
             )
-        case .neuralModel:
+        case .neuralModelSettings:
             AnyView(
-                NeuralModelScreen(
-                    arguments: route.arguments as? NeuralModelScreenArguments
+                NeuralModelSettingsScreen(
+                    arguments: route.arguments as? NeuralModelSettingsScreenArguments
                 )
             )
         case .templateList:

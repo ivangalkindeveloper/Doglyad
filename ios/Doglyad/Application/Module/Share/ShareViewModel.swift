@@ -37,6 +37,15 @@ final class ShareViewModel: DViewModel {
         userEmail != nil
     }
 
+    var isUserEmailButtonVisible: Bool {
+        switch getSendingConclusionByEmailAvailability() {
+        case .offered, .available:
+            return true
+        case .unavailable:
+            return false
+        }
+    }
+
     var userEmailButtonTitle: String {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
@@ -56,13 +65,14 @@ final class ShareViewModel: DViewModel {
         switch getSendingConclusionByEmailAvailability() {
         case .available:
             break
-        case .offered, .unavailable:
+        case .offered:
             router.dismissSheet()
-            router.push(
+            return router.push(
                 route: RouteScreen(
                     type: .subscriptionPaywall
                 )
             )
+        case .unavailable:
             return
         }
 

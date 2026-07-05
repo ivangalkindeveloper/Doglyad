@@ -16,17 +16,23 @@ struct ConclusionScreen: View {
                 messager: messager,
                 router: router,
                 initialConclusion: arguments.conclusion,
-                refreshSubscriptionStatus: { [weak subscriptionViewModel] in
-                    await subscriptionViewModel?.refreshStatus()
+                refreshSubscriptionStatus: { [subscriptionViewModel] in
+                    await subscriptionViewModel.refreshStatus()
                 },
-                getIsActive: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.isActive ?? false
+                getIsActive: { [subscriptionViewModel] in
+                    subscriptionViewModel.isActive
+                },
+                getAvailableRequestCount: { [subscriptionViewModel] in
+                    subscriptionViewModel.availableRequestCount
+                },
+                getNeuralModelSettingsAvailability: { [subscriptionViewModel] in
+                    subscriptionViewModel.neuralModelSettingsAvailability
                 },
                 getNeuralModelSettings: { [subscriptionViewModel] in
                     subscriptionViewModel.neuralModelSettings
                 },
-                onIncrementRequestCount: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.incrementRequestCount()
+                onIncrementRequestCount: { [subscriptionViewModel] in
+                    subscriptionViewModel.incrementRequestCount()
                 }
             )
         )

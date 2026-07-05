@@ -16,23 +16,29 @@ struct ScanScreen: View {
                 container: container,
                 messager: messager,
                 router: router,
-                getTemplateForType: { [weak ultrasoundViewModel] typeId in
-                    ultrasoundViewModel?.templateIdByUSExaminationTypeId[typeId]
+                getTemplateForType: { [ultrasoundViewModel] typeId in
+                    ultrasoundViewModel.templateIdByUSExaminationTypeId[typeId]
                 },
-                refreshSubscriptionStatus: { [weak subscriptionViewModel] in
-                    await subscriptionViewModel?.refreshStatus()
+                refreshSubscriptionStatus: { [subscriptionViewModel] in
+                    await subscriptionViewModel.refreshStatus()
                 },
-                getIsActive: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.isActive ?? false
+                getIsActive: { [subscriptionViewModel] in
+                    subscriptionViewModel.isActive
                 },
-                getFormCompletionViaMicrophoneAvailability: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.formCompletionViaMicrophoneAvailability ?? .unavailable
+                getAvailableRequestCount: { [subscriptionViewModel] in
+                    subscriptionViewModel.availableRequestCount
+                },
+                getFormCompletionViaMicrophoneAvailability: { [subscriptionViewModel] in
+                    subscriptionViewModel.formCompletionViaMicrophoneAvailability
+                },
+                getNeuralModelSettingsAvailability: { [subscriptionViewModel] in
+                    subscriptionViewModel.neuralModelSettingsAvailability
                 },
                 getNeuralModelSettings: { [subscriptionViewModel] in
                     subscriptionViewModel.neuralModelSettings
                 },
-                onIncrementRequestCount: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.incrementRequestCount()
+                onIncrementRequestCount: { [subscriptionViewModel] in
+                    subscriptionViewModel.incrementRequestCount()
                 }
             )
         )

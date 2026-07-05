@@ -24,9 +24,11 @@ final class ScanViewModel: DViewModel {
     private let router: DRouter
     private let getTemplateForType: (String) -> USExaminationTemplate?
     private let getFormCompletionViaMicrophoneAvailability: () -> SubscriptionFeatureAvailability
+    private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
     private let getNeuralModelSettings: () -> NeuralModelSettings
     private let refreshSubscriptionStatus: () async -> Void
     private let getIsActive: () -> Bool
+    private let getAvailableRequestCount: () -> Int
     private let onIncrementRequestCount: () -> Void
 
     init(
@@ -36,7 +38,9 @@ final class ScanViewModel: DViewModel {
         getTemplateForType: @escaping (String) -> USExaminationTemplate?,
         refreshSubscriptionStatus: @escaping () async -> Void,
         getIsActive: @escaping () -> Bool,
+        getAvailableRequestCount: @escaping () -> Int,
         getFormCompletionViaMicrophoneAvailability: @escaping () -> SubscriptionFeatureAvailability,
+        getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
         getNeuralModelSettings: @escaping () -> NeuralModelSettings,
         onIncrementRequestCount: @escaping () -> Void
     ) {
@@ -46,7 +50,9 @@ final class ScanViewModel: DViewModel {
         self.getTemplateForType = getTemplateForType
         self.refreshSubscriptionStatus = refreshSubscriptionStatus
         self.getIsActive = getIsActive
+        self.getAvailableRequestCount = getAvailableRequestCount
         self.getFormCompletionViaMicrophoneAvailability = getFormCompletionViaMicrophoneAvailability
+        self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
         self.getNeuralModelSettings = getNeuralModelSettings
         self.onIncrementRequestCount = onIncrementRequestCount
         usExaminationType = container.usExaminationTypeDefault
@@ -316,12 +322,27 @@ final class ScanViewModel: DViewModel {
         )
     }
 
+    var isNeuralModelSettingsVisible: Bool {
+        getNeuralModelSettingsAvailability() != .unavailable
+    }
+
     func onTapNeuralModelSettings() {
-        router.push(
-            route: RouteScreen(
-                type: .neuralModel
+        switch getNeuralModelSettingsAvailability() {
+        case .available:
+            router.push(
+                route: RouteScreen(
+                    type: .neuralModelSettings
+                )
             )
-        )
+        case .offered:
+            router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        case .unavailable:
+            break
+        }
     }
 
     func onTapFill() {
@@ -454,6 +475,14 @@ final class ScanViewModel: DViewModel {
                 return self.router.push(
                     route: RouteScreen(
                         type: .subscriptionPaywall
+                    )
+                )
+            }
+            guard self.getAvailableRequestCount() > 0 else {
+                return self.router.push(
+                    route: RouteSheet(
+                        type: .requestLimitExceeded,
+                        arguments: RequestLimitExceededArguments()
                     )
                 )
             }

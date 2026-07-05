@@ -43,9 +43,18 @@ struct SettingsScreenView: View {
                         )
                         DListButtonCard(
                             title: .settingsNeuralModelTitle,
-                            description: .settingsNeuralModelDescription,
-                            action: viewModel.onTapNeuralModel
+                            description: LocalizedStringResource(
+                                stringLiteral: viewModel.neuralModel.title
+                            ),
+                            action: viewModel.onTapNeuralModelSelection
                         )
+                        if viewModel.isNeuralModelSettingsVisible {
+                            DListButtonCard(
+                                title: .settingsNeuralModelSettingsTitle,
+                                description: .settingsNeuralModelSettingsDescription,
+                                action: viewModel.onTapNeuralModelSettings
+                            )
+                        }
                         DListButtonCard(
                             title: .settingsStorageTitle,
                             description: .settingsStorageDescription,

@@ -13,11 +13,11 @@ struct OnBoardingScreen: View {
             viewModel: OnBoardingViewModel(
                 container: container,
                 router: router,
-                refreshSubscriptionStatus: { [weak subscriptionViewModel] in
-                    await subscriptionViewModel?.refreshStatus()
+                refreshSubscriptionStatus: { [subscriptionViewModel] in
+                    await subscriptionViewModel.refreshStatus()
                 },
-                getIsActive: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.isActive ?? false
+                getIsActive: { [subscriptionViewModel] in
+                    subscriptionViewModel.isActive
                 }
             )
         )

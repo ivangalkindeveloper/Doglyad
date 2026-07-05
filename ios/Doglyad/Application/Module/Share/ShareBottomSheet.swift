@@ -17,8 +17,8 @@ struct ShareBottomSheet: View {
                 messager: messager,
                 router: router,
                 arguments: arguments,
-                getSendingConclusionByEmailAvailability: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.sendingConclusionByEmailAvailability ?? .unavailable
+                getSendingConclusionByEmailAvailability: { [subscriptionViewModel] in
+                    subscriptionViewModel.sendingConclusionByEmailAvailability
                 },
                 userEmail: ultrasoundViewModel.userEmail
             )

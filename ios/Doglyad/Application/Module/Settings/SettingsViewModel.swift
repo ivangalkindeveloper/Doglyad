@@ -9,19 +9,31 @@ final class SettingsViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
     private let getIsActive: () -> Bool
+    private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
+    private let getSendingConclusionByEmailAvailability: () -> SubscriptionFeatureAvailability
+    private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
 
     init(
         container: DependencyContainer,
         router: DRouter,
-        getIsActive: @escaping () -> Bool
+        initialNeuralModel: USExaminationNeuralModel,
+        getIsActive: @escaping () -> Bool,
+        getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
+        getSendingConclusionByEmailAvailability: @escaping () -> SubscriptionFeatureAvailability,
+        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void
     ) {
         self.container = container
         self.router = router
         self.getIsActive = getIsActive
+        self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
+        self.getSendingConclusionByEmailAvailability = getSendingConclusionByEmailAvailability
+        self.onNeuralModelSelected = onNeuralModelSelected
+        neuralModel = initialNeuralModel
         super.init()
     }
 
     @Published var conclusions: [USExaminationConclusion] = []
+    @Published var neuralModel: USExaminationNeuralModel
 
     override func onInit() {
         handle {
@@ -71,10 +83,50 @@ final class SettingsViewModel: DViewModel {
         )
     }
 
-    func onTapNeuralModel() {
+    func onTapNeuralModelSelection() {
+        router.push(
+            route: RouteSheet(
+                type: .selectNeuralModel,
+                arguments: SelectNeuralModelArguments(
+                    currentValue: neuralModel,
+                    onSelected: { [weak self] model in
+                        guard let self = self else { return }
+                        guard self.neuralModel != model else { return }
+
+                        self.neuralModel = model
+                        self.onNeuralModelSelected(model)
+                    }
+                )
+            )
+        )
+    }
+
+    var isNeuralModelSettingsVisible: Bool {
+        switch getNeuralModelSettingsAvailability() {
+        case .offered, .available:
+            return true
+        case .unavailable:
+            return false
+        }
+    }
+
+    func onTapNeuralModelSettings() {
+        switch getNeuralModelSettingsAvailability() {
+        case .available:
+            break
+        case .offered:
+            return router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        case .unavailable:
+            return
+        }
+
         router.push(
             route: RouteScreen(
-                type: .neuralModel
+                type: .neuralModelSettings
             )
         )
     }

@@ -1027,19 +1027,19 @@
         }
       }
     },
-    "neuralModelTitle" : {
+    "neuralModelSettingsTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neural model"
+            "value" : "Neural model settings"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нейронная модель"
+            "value" : "Настройки нейронной модели"
           }
         }
       }
@@ -1979,7 +1979,7 @@
         }
       }
     },
-    "settingsNeuralModelDescription" : {
+    "settingsNeuralModelSettingsDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1992,6 +1992,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Настройки для конфигурации ответа модели по медицинским обследованиям"
+          }
+        }
+      }
+    },
+    "settingsNeuralModelSettingsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neural model settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки нейронной модели"
           }
         }
       }

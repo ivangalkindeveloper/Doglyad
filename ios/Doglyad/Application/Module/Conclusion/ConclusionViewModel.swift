@@ -13,9 +13,11 @@ final class ConclusionViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
+    private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
     private let getNeuralModelSettings: () -> NeuralModelSettings
     private let refreshSubscriptionStatus: () async -> Void
     private let getIsActive: () -> Bool
+    private let getAvailableRequestCount: () -> Int
     private let onIncrementRequestCount: () -> Void
 
     init(
@@ -25,6 +27,8 @@ final class ConclusionViewModel: DViewModel {
         initialConclusion: USExaminationConclusion,
         refreshSubscriptionStatus: @escaping () async -> Void,
         getIsActive: @escaping () -> Bool,
+        getAvailableRequestCount: @escaping () -> Int,
+        getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
         getNeuralModelSettings: @escaping () -> NeuralModelSettings,
         onIncrementRequestCount: @escaping () -> Void
     ) {
@@ -33,6 +37,8 @@ final class ConclusionViewModel: DViewModel {
         self.router = router
         self.refreshSubscriptionStatus = refreshSubscriptionStatus
         self.getIsActive = getIsActive
+        self.getAvailableRequestCount = getAvailableRequestCount
+        self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
         self.getNeuralModelSettings = getNeuralModelSettings
         self.onIncrementRequestCount = onIncrementRequestCount
         conclusion = initialConclusion
@@ -67,12 +73,27 @@ final class ConclusionViewModel: DViewModel {
         )
     }
 
+    var isNeuralModelSettingsVisible: Bool {
+        getNeuralModelSettingsAvailability() != .unavailable
+    }
+
     func onTapNeuralModelSettings() {
-        router.push(
-            route: RouteScreen(
-                type: .neuralModel
+        switch getNeuralModelSettingsAvailability() {
+        case .available:
+            router.push(
+                route: RouteScreen(
+                    type: .neuralModelSettings
+                )
             )
-        )
+        case .offered:
+            router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        case .unavailable:
+            break
+        }
     }
 
     func onTapRepeatScan(
@@ -85,6 +106,14 @@ final class ConclusionViewModel: DViewModel {
                 return self.router.push(
                     route: RouteScreen(
                         type: .subscriptionPaywall
+                    )
+                )
+            }
+            guard self.getAvailableRequestCount() > 0 else {
+                return self.router.push(
+                    route: RouteSheet(
+                        type: .requestLimitExceeded,
+                        arguments: RequestLimitExceededArguments()
                     )
                 )
             }

@@ -11,10 +11,10 @@ struct SubscriptionPaywallScreenView: View {
             displayCloseButton: !router.path.isEmpty
         )
         .onPurchaseCompleted { _ in
-            viewModel.onPurchaseCompleted()
+            viewModel.onCompleted()
         }
-        .onRestoreCompleted { customerInfo in
-            viewModel.onRestoreCompleted(customerInfo: customerInfo)
+        .onRestoreCompleted { _ in
+            viewModel.onCompleted()
         }
         .onRequestedDismissal {
             viewModel.onRequestedDismissal()

@@ -16,11 +16,11 @@ struct TemplateEditScreen: View {
                 router: router,
                 messager: messager,
                 arguments: arguments,
-                onSaveTemplate: { [weak ultrasoundViewModel] template in
-                    ultrasoundViewModel?.saveTemplate(template)
+                onSaveTemplate: { [ultrasoundViewModel] template in
+                    ultrasoundViewModel.saveTemplate(template)
                 },
-                onDeleteTemplate: { [weak ultrasoundViewModel] id in
-                    ultrasoundViewModel?.deleteTemplate(id: id)
+                onDeleteTemplate: { [ultrasoundViewModel] id in
+                    ultrasoundViewModel.deleteTemplate(id: id)
                 }
             )
         )

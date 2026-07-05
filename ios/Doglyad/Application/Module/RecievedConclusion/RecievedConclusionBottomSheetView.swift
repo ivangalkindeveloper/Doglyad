@@ -55,7 +55,7 @@ struct RecievedConclusionBottomSheetView: View {
                     )
                     .dStyle(.primaryButton)
 
-                    if viewModel.isUserEmailAvailable {
+                    if viewModel.isUserEmailAvailable && viewModel.isUserEmailButtonVisible {
                         DButton(
                             image: .send,
                             title: viewModel.userEmailButtonTitle,

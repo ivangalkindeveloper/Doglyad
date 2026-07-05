@@ -126,10 +126,12 @@ struct ScanSheetBodyView: View {
                 ScanSheetTemplateCardView()
                     .padding(.bottom, size.s16)
 
-                ModelSettingsCard(
-                    onTap: viewModel.onTapNeuralModelSettings
-                )
-                .padding(.bottom, size.s16)
+                if viewModel.isNeuralModelSettingsVisible {
+                    ModelSettingsCard(
+                        onTap: viewModel.onTapNeuralModelSettings
+                    )
+                    .padding(.bottom, size.s16)
+                }
 
                 if container.environment.type == EnvironmentType.development {
                     DButton(

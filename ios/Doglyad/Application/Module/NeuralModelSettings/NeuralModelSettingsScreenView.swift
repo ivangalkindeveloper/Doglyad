@@ -1,18 +1,18 @@
 import DoglyadUI
 import SwiftUI
 
-struct NeuralModelScreenView: View {
+struct NeuralModelSettingsScreenView: View {
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    @StateObject var viewModel: NeuralModelViewModel
-    @FocusState private var focus: NeuralModelViewModel.Focus?
+    @StateObject var viewModel: NeuralModelSettingsViewModel
+    @FocusState private var focus: NeuralModelSettingsViewModel.Focus?
 
     var body: some View {
         DScreen(
-            title: .neuralModelTitle,
+            title: .neuralModelSettingsTitle,
             onTapBack: viewModel.onTapBack,
             content: { toolbarInset in
                 ScrollView(
@@ -22,15 +22,6 @@ struct NeuralModelScreenView: View {
                         alignment: .leading,
                         spacing: .zero
                     ) {
-                        DListButtonCard(
-                            title: .neuralModeModelLabel,
-                            description: LocalizedStringResource(
-                                stringLiteral: viewModel.usExaminationNeuralModel.title
-                            ),
-                            action: viewModel.onTapNeuralModel
-                        )
-                        .padding(.bottom, size.s4)
-
                         DButtonCard(
                             action: { viewModel.toggleIsMarkdown() }
                         ) {

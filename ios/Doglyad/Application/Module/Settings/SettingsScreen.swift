@@ -5,6 +5,7 @@ import SwiftUI
 struct SettingsScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var router: DRouter
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
     @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
     let arguments: SettingsScreenArguments?
 
@@ -13,8 +14,18 @@ struct SettingsScreen: View {
             viewModel: SettingsViewModel(
                 container: container,
                 router: router,
-                getIsActive: { [weak subscriptionViewModel] in
-                    subscriptionViewModel?.isActive ?? false
+                initialNeuralModel: ultrasoundViewModel.neuralModel,
+                getIsActive: { [subscriptionViewModel] in
+                    subscriptionViewModel.isActive
+                },
+                getNeuralModelSettingsAvailability: { [subscriptionViewModel] in
+                    subscriptionViewModel.neuralModelSettingsAvailability
+                },
+                getSendingConclusionByEmailAvailability: { [subscriptionViewModel] in
+                    subscriptionViewModel.sendingConclusionByEmailAvailability
+                },
+                onNeuralModelSelected: { [ultrasoundViewModel] model in
+                    ultrasoundViewModel.saveNeuralModel(model)
                 }
             )
         )

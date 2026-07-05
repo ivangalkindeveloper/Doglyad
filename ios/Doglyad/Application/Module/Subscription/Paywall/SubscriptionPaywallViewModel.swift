@@ -18,35 +18,13 @@ final class SubscriptionPaywallViewModel: DViewModel {
         super.init()
     }
 
-    func onPurchaseCompleted() {
+    func onCompleted() {
         handle {
             await self.onRefreshStatus()
-        } onMainSuccess: { _ in
-            self.dismissPaywall()
-        }
-    }
-
-    func onRestoreCompleted(
-        customerInfo: CustomerInfo
-    ) {
-        handle {
-            await self.onRefreshStatus()
-        } onMainSuccess: { _ in
-            if !customerInfo.entitlements.active.isEmpty {
-                self.dismissPaywall()
-            }
         }
     }
 
     func onRequestedDismissal() {
-        handle {
-            await self.onRefreshStatus()
-        } onMainSuccess: { _ in
-            self.dismissPaywall()
-        }
-    }
-
-    private func dismissPaywall() {
         if router.path.isEmpty {
             router.root(
                 route: RouteScreen(

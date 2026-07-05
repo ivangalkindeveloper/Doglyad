@@ -15,8 +15,8 @@ struct TemplateAddScreen: View {
                 container: container,
                 router: router,
                 messager: messager,
-                onSaveTemplate: { [weak ultrasoundViewModel] template in
-                    ultrasoundViewModel?.saveTemplate(template)
+                onSaveTemplate: { [ultrasoundViewModel] template in
+                    ultrasoundViewModel.saveTemplate(template)
                 }
             )
         )

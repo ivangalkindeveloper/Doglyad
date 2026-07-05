@@ -8,27 +8,16 @@ struct ShareBottomSheetView: View {
     private var typography: DTypography { theme.typography }
 
     @StateObject var viewModel: ShareViewModel
-    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
-
-    private var isUserEmailButtonVisible: Bool {
-        guard viewModel.isUserEmailAvailable else { return false }
-        switch subscriptionViewModel.sendingConclusionByEmailAvailability {
-        case .offered, .available:
-            return true
-        case .unavailable:
-            return false
-        }
-    }
 
     var body: some View {
         DBottomSheet(
             title: .shareTitle,
-            fraction: isUserEmailButtonVisible ? 0.4 : 0.3
+            fraction: viewModel.isUserEmailAvailable && viewModel.isUserEmailButtonVisible ? 0.4 : 0.3
         ) { toolbarHeight in
             VStack(
                 spacing: size.s8
             ) {
-                if isUserEmailButtonVisible {
+                if viewModel.isUserEmailAvailable && viewModel.isUserEmailButtonVisible {
                     DButtonCard(
                         action: viewModel.onTapUserEmail
                     ) {
@@ -54,15 +43,17 @@ struct ShareBottomSheetView: View {
                     .disabled(viewModel.isLoading)
                 }
 
-                DButtonCard(
-                    action: viewModel.onTapEmail
-                ) {
-                    row(
-                        icon: .mail,
-                        title: .buttonShareEmail
-                    )
+                if viewModel.isUserEmailAvailable {
+                    DButtonCard(
+                        action: viewModel.onTapEmail
+                    ) {
+                        row(
+                            icon: .mail,
+                            title: .buttonShareEmail
+                        )
+                    }
+                    .disabled(viewModel.isLoading)
                 }
-                .disabled(viewModel.isLoading)
 
                 DButtonCard(
                     action: viewModel.onTapCopy

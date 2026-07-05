@@ -11,6 +11,7 @@ final class RecievedConclusionViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: RecievedConclusionBottomSheetArguments
+    private let getSendingConclusionByEmailAvailability: () -> SubscriptionFeatureAvailability
     let userEmail: String?
 
     init(
@@ -18,12 +19,14 @@ final class RecievedConclusionViewModel: DViewModel {
         messager: DMessager,
         router: DRouter,
         arguments: RecievedConclusionBottomSheetArguments,
+        getSendingConclusionByEmailAvailability: @escaping () -> SubscriptionFeatureAvailability,
         userEmail: String?
     ) {
         self.container = container
         self.messager = messager
         self.router = router
         self.arguments = arguments
+        self.getSendingConclusionByEmailAvailability = getSendingConclusionByEmailAvailability
         self.userEmail = userEmail
     }
 
@@ -43,6 +46,15 @@ final class RecievedConclusionViewModel: DViewModel {
         userEmail != nil
     }
 
+    var isUserEmailButtonVisible: Bool {
+        switch getSendingConclusionByEmailAvailability() {
+        case .offered, .available:
+            return true
+        case .unavailable:
+            return false
+        }
+    }
+
     var userEmailButtonTitle: LocalizedStringResource {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
@@ -60,7 +72,7 @@ final class RecievedConclusionViewModel: DViewModel {
                 if Task.isCancelled { return }
                 let separator = index == 0 ? "" : " "
                 displayedResponse.append(separator + word)
-                try? await Task.sleep(nanoseconds: 60_000_000)
+                try? await Task.sleep(nanoseconds: 60000000)
             }
         }
     }

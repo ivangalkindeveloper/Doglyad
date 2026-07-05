@@ -36,6 +36,8 @@ description: Создание нового мобильного модуля (э
 - `*ScreenView` — чистая View без логики; вёрстка **только** компонентами из `DoglyadUI` (`DScreen`, `DBottomSheet`, `DListButtonCard`, `DButton`, `DText`, `DTheme`…).
 - `*ViewModel` — `@MainActor`, наследует `DViewModel`, вся логика отображения здесь.
 - Если ViewModel зависит от контейнера — передавай **весь** `DependencyContainer`, а не отдельные сущности.
+- **ViewModel не общаются между собой напрямую** — обмен данными между модулями только через замыкания, прокинутые в `*Screen` при создании VM (`getIsActive`, `getAvailableRequestCount`, `onNeuralModelSelected` и т.п.). VM модуля не обращается к чужой VM ни напрямую, ни через `@EnvironmentObject`.
+- **Показ частей интерфейса регулирует VM своего модуля**: во VM прокидываются данные/замыкания, а она объявляет вычисляемые флаги и методы (`isSpeechButtonVisible`, `isNeuralModelSettingsVisible`). `*ScreenView` ветвит вёрстку только по флагам/методам своей VM, а не по сторонним `@EnvironmentObject`.
 - Состояние: `@Published` для скаляров, `@NestedObservableObject` для вложенных `ObservableObject`. View владеет VM через `@StateObject`.
 - Сеть — только через `DoglyadNetwork`, БД — только через `DoglyadDatabase`.
 - Тексты — `LocalizedStringResource` из `Localizable.xcstrings` (новые ключи добавляй туда; ru+en).

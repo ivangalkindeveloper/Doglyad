@@ -5,7 +5,7 @@ import Router
 import SwiftUI
 
 @MainActor
-final class NeuralModelViewModel: DViewModel {
+final class NeuralModelSettingsViewModel: DViewModel {
     enum Focus: Hashable {
         case temperature
         case length
@@ -13,23 +13,18 @@ final class NeuralModelViewModel: DViewModel {
 
     private let messager: DMessager
     private let router: DRouter
-    private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
     private let onSettingsSaved: (Bool, Double?, Int?) -> Void
 
     init(
-        initialNeuralModel: USExaminationNeuralModel,
         initialIsMarkdown: Bool,
         initialTemperature: Double,
         initialMaxTokens: Int,
         messager: DMessager,
         router: DRouter,
-        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
         onSettingsSaved: @escaping (Bool, Double?, Int?) -> Void
     ) {
-        usExaminationNeuralModel = initialNeuralModel
         self.messager = messager
         self.router = router
-        self.onNeuralModelSelected = onNeuralModelSelected
         self.onSettingsSaved = onSettingsSaved
         super.init()
         isMarkdown = initialIsMarkdown
@@ -38,7 +33,6 @@ final class NeuralModelViewModel: DViewModel {
     }
 
     @Published var focus: Focus?
-    @Published var usExaminationNeuralModel: USExaminationNeuralModel
     @Published var isMarkdown: Bool = false
     @NestedObservableObject var temperatureController = DTextFieldController()
     @NestedObservableObject var maxTokensController = DTextFieldController()
@@ -62,24 +56,6 @@ final class NeuralModelViewModel: DViewModel {
 
     func onTapBack() {
         router.pop()
-    }
-
-    func onTapNeuralModel() {
-        router.push(
-            route: RouteSheet(
-                type: .selectNeuralModel,
-                arguments: SelectNeuralModelArguments(
-                    currentValue: usExaminationNeuralModel,
-                    onSelected: { [weak self] model in
-                        guard let self = self else { return }
-                        guard self.usExaminationNeuralModel != model else { return }
-
-                        self.usExaminationNeuralModel = model
-                        self.onNeuralModelSelected(model)
-                    }
-                )
-            )
-        )
     }
 
     func onTapSave() {

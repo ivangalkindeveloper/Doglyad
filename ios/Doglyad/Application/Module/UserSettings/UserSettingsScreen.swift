@@ -14,8 +14,8 @@ struct UserSettingsScreen: View {
                 messager: messager,
                 router: router,
                 initialEmail: ultrasoundViewModel.userEmail,
-                onEmailSaved: { [weak ultrasoundViewModel] email in
-                    ultrasoundViewModel?.saveUserEmail(userEmail: email)
+                onEmailSaved: { [ultrasoundViewModel] email in
+                    ultrasoundViewModel.saveUserEmail(userEmail: email)
                 }
             )
         )

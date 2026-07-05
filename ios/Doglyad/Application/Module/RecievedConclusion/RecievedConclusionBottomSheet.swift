@@ -7,6 +7,7 @@ struct RecievedConclusionBottomSheet: View {
     @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
+    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
     let arguments: RecievedConclusionBottomSheetArguments
 
     var body: some View {
@@ -16,6 +17,9 @@ struct RecievedConclusionBottomSheet: View {
                 messager: messager,
                 router: router,
                 arguments: arguments,
+                getSendingConclusionByEmailAvailability: { [subscriptionViewModel] in
+                    subscriptionViewModel.sendingConclusionByEmailAvailability
+                },
                 userEmail: ultrasoundViewModel.userEmail
             )
         )

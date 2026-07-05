@@ -160,10 +160,12 @@ struct ConclusionScreenView: View {
                             .id(ConclusionViewModel.actualModelConclusionCardScrollId)
                             .padding(.bottom, size.s8)
 
-                            ModelSettingsCard(
-                                onTap: viewModel.onTapNeuralModelSettings
-                            )
-                            .padding(.bottom, size.s16)
+                            if viewModel.isNeuralModelSettingsVisible {
+                                ModelSettingsCard(
+                                    onTap: viewModel.onTapNeuralModelSettings
+                                )
+                                .padding(.bottom, size.s16)
+                            }
 
                             DButton(
                                 image: .refresh,

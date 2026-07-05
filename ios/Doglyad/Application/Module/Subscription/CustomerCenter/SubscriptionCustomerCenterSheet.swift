@@ -11,8 +11,8 @@ struct SubscriptionCustomerCenterSheet: View {
             viewModel: SubscriptionCustomerCenterViewModel(
                 router: router,
                 arguments: arguments,
-                onRefreshStatus: { [weak subscriptionViewModel] in
-                    await subscriptionViewModel?.refreshStatus()
+                onRefreshStatus: { [subscriptionViewModel] in
+                    await subscriptionViewModel.refreshStatus()
                 }
             )
         )
