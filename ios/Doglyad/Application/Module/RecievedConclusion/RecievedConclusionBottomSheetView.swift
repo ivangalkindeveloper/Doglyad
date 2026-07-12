@@ -27,7 +27,7 @@ struct RecievedConclusionBottomSheetView: View {
                         .padding(.top, toolbarHeight + size.s4)
                         .padding(.vertical, size.s8)
                         .padding(.horizontal, size.s18)
-                        .padding(.bottom, size.s128)
+                        .padding(.bottom, size.s136 * 2)
                     }
                     .mask(
                         VStack(
