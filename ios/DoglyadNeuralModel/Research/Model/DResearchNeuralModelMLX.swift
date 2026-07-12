@@ -14,7 +14,7 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
 
     private static let defaultModel = DNeuralModelData(
         modelId: "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
-        params: 1_500_000_000, // 1.5B
+        params: 1500000000, // 1.5B
         quantBits: 4,
         hiddenSize: 896,
         numLayers: 24

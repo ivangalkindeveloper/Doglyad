@@ -1,6 +1,5 @@
 import DoglyadCamera
 import DoglyadUI
-import Shimmer
 import SwiftUI
 
 struct ScanCameraView: View {

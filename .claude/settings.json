@@ -45,13 +45,24 @@
     ]
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/security-check.py\""
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "file=$(python3 -c \"import sys, json; print(json.load(sys.stdin).get('tool_input', {}).get('file_path', ''))\" 2>/dev/null); case \"$file\" in *.swift) make format ;; esac"
+            "command": "file=$(python3 -c \"import sys, json; print(json.load(sys.stdin).get('tool_input', {}).get('file_path', ''))\" 2>/dev/null); case \"$file\" in *.swift) make -C \"$CLAUDE_PROJECT_DIR\" format ;; esac"
           }
         ]
       }

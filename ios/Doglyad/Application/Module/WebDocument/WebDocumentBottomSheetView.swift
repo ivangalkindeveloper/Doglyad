@@ -1,5 +1,4 @@
 import DoglyadUI
-import Shimmer
 import SwiftUI
 
 struct WebDocumentBottomSheetView: View {

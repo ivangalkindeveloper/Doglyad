@@ -183,6 +183,7 @@ extension DependencyContainer {
                 id: "",
                 title: "",
                 entitlement: .base,
+                contextLength: 0,
                 description: [:]
             ),
             examinationNeuralModel: nil,
