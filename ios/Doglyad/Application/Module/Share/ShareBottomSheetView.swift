@@ -18,41 +18,53 @@ struct ShareBottomSheetView: View {
                 spacing: size.s8
             ) {
                 if viewModel.isUserEmailAvailable && viewModel.isUserEmailButtonVisible {
-                    DButtonCard(
-                        action: viewModel.onTapUserEmail
+                    DBadge(
+                        .entitlementPro,
+                        isVisible: viewModel.isUserEmailProBadgeVisible,
+                        isShimmering: true
                     ) {
-                        HStack(
-                            spacing: size.s8
+                        DButtonCard(
+                            action: viewModel.onTapUserEmail
                         ) {
-                            if viewModel.isLoading {
-                                ProgressView()
-                            } else {
-                                DIcon(
-                                    .send,
-                                    color: color.grayscaleHeader
-                                )
+                            HStack(
+                                spacing: size.s8
+                            ) {
+                                if viewModel.isLoading {
+                                    ProgressView()
+                                } else {
+                                    DIcon(
+                                        .send,
+                                        color: color.grayscaleHeader
+                                    )
+                                }
+                                DText(viewModel.userEmailButtonTitle)
+                                    .dStyle(
+                                        font: typography.linkSmall
+                                    )
+                                    .lineLimit(1)
+                                Spacer()
                             }
-                            DText(viewModel.userEmailButtonTitle)
-                                .dStyle(
-                                    font: typography.linkSmall
-                                )
-                                .lineLimit(1)
-                            Spacer()
                         }
+                        .disabled(viewModel.isLoading)
                     }
-                    .disabled(viewModel.isLoading)
                 }
 
-                if viewModel.isUserEmailAvailable {
-                    DButtonCard(
-                        action: viewModel.onTapEmail
+                if viewModel.isUserEmailButtonVisible {
+                    DBadge(
+                        .entitlementPro,
+                        isVisible: viewModel.isUserEmailProBadgeVisible,
+                        isShimmering: true
                     ) {
-                        row(
-                            icon: .mail,
-                            title: .buttonShareEmail
-                        )
+                        DButtonCard(
+                            action: viewModel.onTapEmail
+                        ) {
+                            row(
+                                icon: .mail,
+                                title: .buttonShareEmail
+                            )
+                        }
+                        .disabled(viewModel.isLoading)
                     }
-                    .disabled(viewModel.isLoading)
                 }
 
                 DButtonCard(

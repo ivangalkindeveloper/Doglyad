@@ -26,6 +26,8 @@ final class ScanViewModel: DViewModel {
     private let getFormCompletionViaMicrophoneAvailability: () -> SubscriptionFeatureAvailability
     private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
     private let getNeuralModelSettings: () -> NeuralModelSettings
+    private let getNeuralModel: () -> USExaminationNeuralModel
+    private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
     private let refreshSubscriptionStatus: () async -> Void
     private let getIsActive: () -> Bool
     private let getAvailableRequestCount: () -> Int
@@ -42,6 +44,8 @@ final class ScanViewModel: DViewModel {
         getFormCompletionViaMicrophoneAvailability: @escaping () -> SubscriptionFeatureAvailability,
         getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
         getNeuralModelSettings: @escaping () -> NeuralModelSettings,
+        getNeuralModel: @escaping () -> USExaminationNeuralModel,
+        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
         onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
@@ -54,6 +58,8 @@ final class ScanViewModel: DViewModel {
         self.getFormCompletionViaMicrophoneAvailability = getFormCompletionViaMicrophoneAvailability
         self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
         self.getNeuralModelSettings = getNeuralModelSettings
+        self.getNeuralModel = getNeuralModel
+        self.onNeuralModelSelected = onNeuralModelSelected
         self.onIncrementRequestCount = onIncrementRequestCount
         usExaminationType = container.usExaminationTypeDefault
         super.init()
@@ -323,7 +329,35 @@ final class ScanViewModel: DViewModel {
     }
 
     var isNeuralModelSettingsVisible: Bool {
-        getNeuralModelSettingsAvailability() != .unavailable
+        switch getNeuralModelSettingsAvailability() {
+        case .offered, .available:
+            return true
+        case .unavailable:
+            return false
+        }
+    }
+
+    var isNeuralModelSettingsProBadgeVisible: Bool {
+        switch getNeuralModelSettingsAvailability() {
+        case .offered:
+            return true
+        case .available, .unavailable:
+            return false
+        }
+    }
+
+    func onTapNeuralModelSelection() {
+        router.push(
+            route: RouteSheet(
+                type: .selectNeuralModel,
+                arguments: SelectNeuralModelArguments(
+                    currentValue: getNeuralModel(),
+                    onSelected: { [weak self] model in
+                        self?.onNeuralModelSelected(model)
+                    }
+                )
+            )
+        )
     }
 
     func onTapNeuralModelSettings() {
@@ -380,10 +414,29 @@ final class ScanViewModel: DViewModel {
 
     var isSpeechButtonVisible: Bool {
         guard container.isUSExaminationNeuralModelAvailable else { return false }
+
         switch getFormCompletionViaMicrophoneAvailability() {
         case .offered, .available:
             return true
         case .unavailable:
+            return false
+        }
+    }
+
+    var isSpeechButtonProBadgeVisible: Bool {
+        switch getFormCompletionViaMicrophoneAvailability() {
+        case .offered:
+            return true
+        case .available, .unavailable:
+            return false
+        }
+    }
+
+    var isSpeechButtonShimmering: Bool {
+        switch getFormCompletionViaMicrophoneAvailability() {
+        case .available:
+            return true
+        case .offered, .unavailable:
             return false
         }
     }

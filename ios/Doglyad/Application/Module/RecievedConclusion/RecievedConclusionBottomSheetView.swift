@@ -14,7 +14,7 @@ struct RecievedConclusionBottomSheetView: View {
         DBottomSheet(
             type: .blur,
             title: .conclusionTitle,
-            fraction: 0.9,
+            fraction: 1,
             content: { toolbarHeight in
                 VStack(
                     spacing: .zero
@@ -56,13 +56,19 @@ struct RecievedConclusionBottomSheetView: View {
                     .dStyle(.primaryButton)
 
                     if viewModel.isUserEmailAvailable && viewModel.isUserEmailButtonVisible {
-                        DButton(
-                            image: .send,
-                            title: viewModel.userEmailButtonTitle,
-                            action: viewModel.onTapUserEmail,
-                            isLoading: viewModel.isLoading
-                        )
-                        .dStyle(.textWeak)
+                        DBadge(
+                            .entitlementPro,
+                            isVisible: viewModel.isUserEmailProBadgeVisible,
+                            isShimmering: true
+                        ) {
+                            DButton(
+                                image: .send,
+                                title: viewModel.userEmailButtonTitle,
+                                action: viewModel.onTapUserEmail,
+                                isLoading: viewModel.isLoading
+                            )
+                            .dStyle(.textWeak)
+                        }
                         .padding(.bottom, size.s10)
                     }
                 }

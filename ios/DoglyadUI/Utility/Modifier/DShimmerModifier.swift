@@ -1,10 +1,15 @@
-import Shimmer
+internal import Shimmer
 import SwiftUI
 
 public struct DShimmerModifier: ViewModifier {
+    let isShimmering: Bool
     let cornerRadius: CGFloat
 
-    public init(cornerRadius: CGFloat = .infinity) {
+    public init(
+        isShimmering: Bool = true,
+        cornerRadius: CGFloat = .infinity
+    ) {
+        self.isShimmering = isShimmering
         self.cornerRadius = cornerRadius
     }
 
@@ -13,15 +18,13 @@ public struct DShimmerModifier: ViewModifier {
             .overlay {
                 Color.clear
                     .shimmering(
+                        active: isShimmering,
                         animation: Animation.linear(duration: 1.5)
                             .delay(2.4)
                             .repeatForever(autoreverses: false),
-                        // Крайние стопы прозрачны: LinearGradient заливает область
-                        // вне «полосы» крайним цветом, поэтому непрозрачные края дали бы
-                        // постоянное побеление всей вьюхи, а не только бегущий блик.
                         gradient: Gradient(colors: [
                             .clear,
-                            .white,
+                            .white.opacity(0.8),
                             .clear,
                         ]),
                         bandSize: 0.8,
@@ -34,14 +37,14 @@ public struct DShimmerModifier: ViewModifier {
 }
 
 public extension View {
-    /// Накладывает поверх вью периодический шиммер-блик дизайн-системы.
-    /// - Parameter cornerRadius: радиус скругления блика (`.infinity` — капсула).
-    func dShimmer(cornerRadius: CGFloat = .infinity) -> some View {
-        modifier(DShimmerModifier(cornerRadius: cornerRadius))
+    func dShimmer(
+        isShimmering: Bool = true,
+        cornerRadius: CGFloat = .infinity
+    ) -> some View {
+        modifier(DShimmerModifier(isShimmering: isShimmering, cornerRadius: cornerRadius))
     }
 }
 
-// Форма-подложка для превью: без непрозрачного фона блик шиммера не виден.
 private func shimmerSurface(
     _ label: String,
     cornerRadius: CGFloat,

@@ -49,11 +49,17 @@ struct SettingsScreenView: View {
                             action: viewModel.onTapNeuralModelSelection
                         )
                         if viewModel.isNeuralModelSettingsVisible {
-                            DListButtonCard(
-                                title: .settingsNeuralModelSettingsTitle,
-                                description: .settingsNeuralModelSettingsDescription,
-                                action: viewModel.onTapNeuralModelSettings
-                            )
+                            DBadge(
+                                .entitlementPro,
+                                isVisible: viewModel.isNeuralModelSettingsProBadgeVisible,
+                                isShimmering: true
+                            ) {
+                                DListButtonCard(
+                                    title: .settingsNeuralModelSettingsTitle,
+                                    description: .settingsNeuralModelSettingsDescription,
+                                    action: viewModel.onTapNeuralModelSettings
+                                )
+                            }
                         }
                         DListButtonCard(
                             title: .settingsStorageTitle,

@@ -6,6 +6,7 @@ struct ConclusionScreen: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
+    @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
     @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
     let arguments: ConclusionScreenArguments
 
@@ -30,6 +31,12 @@ struct ConclusionScreen: View {
                 },
                 getNeuralModelSettings: { [subscriptionViewModel] in
                     subscriptionViewModel.neuralModelSettings
+                },
+                getNeuralModel: { [ultrasoundViewModel] in
+                    ultrasoundViewModel.neuralModel
+                },
+                onNeuralModelSelected: { [ultrasoundViewModel] model in
+                    ultrasoundViewModel.saveNeuralModel(model)
                 },
                 onIncrementRequestCount: { [subscriptionViewModel] in
                     subscriptionViewModel.incrementRequestCount()

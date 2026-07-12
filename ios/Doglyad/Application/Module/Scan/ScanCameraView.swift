@@ -14,7 +14,7 @@ struct ScanCameraView: View {
         Group {
             if viewModel.cameraController.isLoading {
                 color.grayscaleBackground
-                    .shimmering()
+                    .dShimmer(cornerRadius: 0)
             } else {
                 ZStack {
                     DCameraView(

@@ -37,6 +37,12 @@ struct ScanScreen: View {
                 getNeuralModelSettings: { [subscriptionViewModel] in
                     subscriptionViewModel.neuralModelSettings
                 },
+                getNeuralModel: { [ultrasoundViewModel] in
+                    ultrasoundViewModel.neuralModel
+                },
+                onNeuralModelSelected: { [ultrasoundViewModel] model in
+                    ultrasoundViewModel.saveNeuralModel(model)
+                },
                 onIncrementRequestCount: { [subscriptionViewModel] in
                     subscriptionViewModel.incrementRequestCount()
                 }

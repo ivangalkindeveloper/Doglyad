@@ -15,6 +15,8 @@ final class ConclusionViewModel: DViewModel {
     private let router: DRouter
     private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
     private let getNeuralModelSettings: () -> NeuralModelSettings
+    private let getNeuralModel: () -> USExaminationNeuralModel
+    private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
     private let refreshSubscriptionStatus: () async -> Void
     private let getIsActive: () -> Bool
     private let getAvailableRequestCount: () -> Int
@@ -30,6 +32,8 @@ final class ConclusionViewModel: DViewModel {
         getAvailableRequestCount: @escaping () -> Int,
         getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
         getNeuralModelSettings: @escaping () -> NeuralModelSettings,
+        getNeuralModel: @escaping () -> USExaminationNeuralModel,
+        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
         onIncrementRequestCount: @escaping () -> Void
     ) {
         self.container = container
@@ -40,6 +44,8 @@ final class ConclusionViewModel: DViewModel {
         self.getAvailableRequestCount = getAvailableRequestCount
         self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
         self.getNeuralModelSettings = getNeuralModelSettings
+        self.getNeuralModel = getNeuralModel
+        self.onNeuralModelSelected = onNeuralModelSelected
         self.onIncrementRequestCount = onIncrementRequestCount
         conclusion = initialConclusion
     }
@@ -74,7 +80,35 @@ final class ConclusionViewModel: DViewModel {
     }
 
     var isNeuralModelSettingsVisible: Bool {
-        getNeuralModelSettingsAvailability() != .unavailable
+        switch getNeuralModelSettingsAvailability() {
+        case .offered, .available:
+            return true
+        case .unavailable:
+            return false
+        }
+    }
+
+    var isNeuralModelSettingsProBadgeVisible: Bool {
+        switch getNeuralModelSettingsAvailability() {
+        case .offered:
+            return true
+        case .available, .unavailable:
+            return false
+        }
+    }
+
+    func onTapNeuralModelSelection() {
+        router.push(
+            route: RouteSheet(
+                type: .selectNeuralModel,
+                arguments: SelectNeuralModelArguments(
+                    currentValue: getNeuralModel(),
+                    onSelected: { [weak self] model in
+                        self?.onNeuralModelSelected(model)
+                    }
+                )
+            )
+        )
     }
 
     func onTapNeuralModelSettings() {

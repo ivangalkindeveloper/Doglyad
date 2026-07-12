@@ -24,19 +24,25 @@ struct SelectNeuralModelBottomSheet: View {
                     spacing: .zero
                 ) {
                     ForEach(container.usExaminationNeuralModels) { model in
-                        DListButtonCard(
-                            title: LocalizedStringResource(stringLiteral: model.title),
-                            description: """
-                            \(String(localized: .neuralModelContextLengthDescription)) \(model.contextLength)
-                            (\(model.id))
-                            \(model.getLocalizedDescription(for: Locale.current))
-                            """,
-                            action: {
-                                router.dismissSheet()
-                                arguments?.onSelected(model)
-                            },
-                            isSelected: arguments?.currentValue == model
-                        )
+                        DBadge(
+                            .entitlementPro,
+                            isVisible: model.entitlement == .pro,
+                            isShimmering: true
+                        ) {
+                            DListButtonCard(
+                                title: LocalizedStringResource(stringLiteral: model.title),
+                                description: """
+                                \(String(localized: .neuralModelContextLengthDescription)) \(model.contextLength)
+                                (\(model.id))
+                                \(model.getLocalizedDescription(for: Locale.current))
+                                """,
+                                action: {
+                                    router.dismissSheet()
+                                    arguments?.onSelected(model)
+                                },
+                                isSelected: arguments?.currentValue == model
+                            )
+                        }
                     }
                     .padding(.bottom, size.s8)
                 }

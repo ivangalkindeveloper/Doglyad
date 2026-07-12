@@ -26,7 +26,6 @@
 		777B8DE52EB0020D007F5678 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 777B8DE42EB0020D007F5678 /* BottomSheet */; };
 		77A895C02F09E7EE006E6E41 /* NestedObservableObject in Frameworks */ = {isa = PBXBuildFile; productRef = 77A895BF2F09E7EE006E6E41 /* NestedObservableObject */; };
 		77A896C32F0AD5EF006E6E41 /* Handler in Frameworks */ = {isa = PBXBuildFile; productRef = 77A896C22F0AD5EF006E6E41 /* Handler */; };
-		77A896CF2F0C82B1006E6E41 /* DoglyadNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; };
 		77A896D02F0C82B1006E6E41 /* DoglyadNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77A9DFD32F0E74F3003D5ECB /* DoglyadNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; };
 		77B2576F2FAAA1780050413F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 77B2576E2FAAA1780050413F /* MarkdownUI */; };
@@ -252,6 +251,15 @@
 			);
 			target = 7720FEE42E9ACE42002EA89E /* DoglyadUI */;
 		};
+		77D084083003E9830027BF40 /* Exceptions for "Config" folder in "Doglyad" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Config.Development.xcconfig,
+				Config.Production.xcconfig,
+				Config.xcconfig,
+			);
+			target = 77AC58B12E929E7E0028250A /* Doglyad */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -294,6 +302,9 @@
 		};
 		77C3EE2C2FD617FF00DC4D6A /* Config */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				77D084083003E9830027BF40 /* Exceptions for "Config" folder in "Doglyad" target */,
+			);
 			path = Config;
 			sourceTree = "<group>";
 		};
@@ -357,7 +368,6 @@
 				77FEE7362F01DEEF00607F3F /* MLXVLM in Frameworks */,
 				7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */,
 				77A896C32F0AD5EF006E6E41 /* Handler in Frameworks */,
-				77A896CF2F0C82B1006E6E41 /* DoglyadNetwork.framework in Frameworks */,
 				77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */,
 				776175282EF8A04D006A2B5A /* MLXLMCommon in Frameworks */,
 				770AEB602F1DA67D00C09C76 /* FirebaseAnalyticsCore in Frameworks */,
@@ -772,7 +782,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2620;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					771F41A72EA430B400C4945A = {
 						CreatedOnToolsVersion = 16.4;

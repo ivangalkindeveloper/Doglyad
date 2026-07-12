@@ -666,6 +666,23 @@
         }
       }
     },
+    "entitlementPro" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        }
+      }
+    },
     "errorNoCameraPermissionDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1682,6 +1699,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Настройки нейронной модели:"
+          }
+        }
+      }
+    },
+    "scanNeuralModelTitleLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neural model:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нейронная модель:"
           }
         }
       }

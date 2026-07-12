@@ -55,6 +55,15 @@ final class RecievedConclusionViewModel: DViewModel {
         }
     }
 
+    var isUserEmailProBadgeVisible: Bool {
+        switch getSendingConclusionByEmailAvailability() {
+        case .offered:
+            return true
+        case .available, .unavailable:
+            return false
+        }
+    }
+
     var userEmailButtonTitle: LocalizedStringResource {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
@@ -91,6 +100,19 @@ final class RecievedConclusionViewModel: DViewModel {
 
     func onTapUserEmail() {
         guard let userEmail: String = userEmail else { return }
+        switch getSendingConclusionByEmailAvailability() {
+        case .available:
+            break
+        case .offered:
+            router.dismissSheet()
+            return router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        case .unavailable:
+            return
+        }
 
         let conclusion = arguments.conclusion
         let subject = conclusion.shareSubject(

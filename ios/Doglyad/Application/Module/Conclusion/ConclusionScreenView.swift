@@ -153,16 +153,23 @@ struct ConclusionScreenView: View {
                                 .padding(.horizontal, size.s8)
                                 .padding(.bottom, size.s16)
 
-                            ModelConclusionCard(
+                            NeuralModelConclusionCard(
                                 conclusion: conclusion.actualModelConclusion,
                                 onTapCopy: { viewModel.onTapCopy(conclusion: conclusion.actualModelConclusion) }
                             )
                             .id(ConclusionViewModel.actualModelConclusionCardScrollId)
                             .padding(.bottom, size.s8)
 
+                            NeuralModelCard(
+                                onTap: viewModel.onTapNeuralModelSelection
+                            )
+                            .padding(.bottom, size.s16)
+
                             if viewModel.isNeuralModelSettingsVisible {
-                                ModelSettingsCard(
-                                    onTap: viewModel.onTapNeuralModelSettings
+                                NeuralModelSettingsCard(
+                                    onTap: viewModel.onTapNeuralModelSettings,
+                                    isBadgeVisible: viewModel.isNeuralModelSettingsProBadgeVisible,
+                                    isBadgeShimmering: true
                                 )
                                 .padding(.bottom, size.s16)
                             }
@@ -190,7 +197,7 @@ struct ConclusionScreenView: View {
                                     .padding(.bottom, size.s16)
 
                                 ForEach(conclusion.previosModelConclusions) { modelConclusion in
-                                    ModelConclusionCard(
+                                    NeuralModelConclusionCard(
                                         conclusion: modelConclusion,
                                         onTapCopy: { viewModel.onTapCopy(conclusion: modelConclusion) }
                                     )

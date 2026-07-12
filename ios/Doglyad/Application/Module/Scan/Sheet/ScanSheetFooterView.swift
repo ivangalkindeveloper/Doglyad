@@ -21,13 +21,19 @@ struct ScanSheetFooterView: View {
                 ) {
                     if viewModel.isSpeechButtonVisible {
                         if !viewModel.isLoading {
-                            DButton(
-                                image: .microphone,
-                                title: .buttonSpeech,
-                                action: viewModel.onTapSpeech
-                            )
-                            .dStyle(.primaryChip)
-                            .dShimmer()
+                            DBadge(
+                                .entitlementPro,
+                                isVisible: viewModel.isSpeechButtonProBadgeVisible && !viewModel.isLoading,
+                                isShimmering: true
+                            ) {
+                                DButton(
+                                    image: .microphone,
+                                    title: .buttonSpeech,
+                                    action: viewModel.onTapSpeech
+                                )
+                                .dStyle(.primaryChip)
+                                .dShimmer(isShimmering: viewModel.isSpeechButtonShimmering)
+                            }
                             .padding(.bottom, size.s8)
                             .transition(.move(edge: .bottom))
                         }

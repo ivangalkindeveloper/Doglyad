@@ -1,7 +1,7 @@
 import DoglyadUI
 import SwiftUI
 
-struct ModelConclusionCard: View {
+struct NeuralModelConclusionCard: View {
     @EnvironmentObject private var container: DependencyContainer
     @EnvironmentObject private var theme: DTheme
     private var color: DColor { theme.color }
@@ -87,7 +87,7 @@ struct ModelConclusionCard: View {
 }
 
 #Preview {
-    ModelConclusionCard(
+    NeuralModelConclusionCard(
         conclusion: USExaminationModelConclusion(
             date: Date(),
             modelId: "google/medgemma-27b-it",

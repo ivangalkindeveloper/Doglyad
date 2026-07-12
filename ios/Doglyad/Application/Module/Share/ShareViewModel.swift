@@ -46,6 +46,15 @@ final class ShareViewModel: DViewModel {
         }
     }
 
+    var isUserEmailProBadgeVisible: Bool {
+        switch getSendingConclusionByEmailAvailability() {
+        case .offered:
+            return true
+        case .available, .unavailable:
+            return false
+        }
+    }
+
     var userEmailButtonTitle: String {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
@@ -100,6 +109,20 @@ final class ShareViewModel: DViewModel {
     }
 
     func onTapEmail() {
+        switch getSendingConclusionByEmailAvailability() {
+        case .available:
+            break
+        case .offered:
+            router.dismissSheet()
+            return router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        case .unavailable:
+            return
+        }
+
         router.dismissSheet()
         UIApplication.openMail(
             subject: subject,

@@ -126,9 +126,16 @@ struct ScanSheetBodyView: View {
                 ScanSheetTemplateCardView()
                     .padding(.bottom, size.s16)
 
+                NeuralModelCard(
+                    onTap: viewModel.onTapNeuralModelSelection
+                )
+                .padding(.bottom, size.s16)
+
                 if viewModel.isNeuralModelSettingsVisible {
-                    ModelSettingsCard(
-                        onTap: viewModel.onTapNeuralModelSettings
+                    NeuralModelSettingsCard(
+                        onTap: viewModel.onTapNeuralModelSettings,
+                        isBadgeVisible: viewModel.isNeuralModelSettingsProBadgeVisible,
+                        isBadgeShimmering: true
                     )
                     .padding(.bottom, size.s16)
                 }
@@ -141,8 +148,8 @@ struct ScanSheetBodyView: View {
                     .dStyle(.primaryText)
                 }
             }
+            .padding(.horizontal, size.s16)
             .padding(.bottom, size.s32 + size.screenHeight / 4)
         }
-        .padding(.horizontal, size.s16)
     }
 }

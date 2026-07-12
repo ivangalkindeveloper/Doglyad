@@ -110,6 +110,15 @@ final class SettingsViewModel: DViewModel {
         }
     }
 
+    var isNeuralModelSettingsProBadgeVisible: Bool {
+        switch getNeuralModelSettingsAvailability() {
+        case .offered:
+            return true
+        case .available, .unavailable:
+            return false
+        }
+    }
+
     func onTapNeuralModelSettings() {
         switch getNeuralModelSettingsAvailability() {
         case .available:

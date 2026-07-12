@@ -25,7 +25,7 @@ struct WebDocumentBottomSheetView: View {
                 if isLoading {
                     color.grayscaleBackground
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .shimmering()
+                        .dShimmer(cornerRadius: 0)
                 }
             }
             .padding(.top, toolbarHeight)

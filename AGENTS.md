@@ -75,6 +75,8 @@ MVVM. Каждый MVVM-модуль содержит:
 - **Модули**:
 Проект разделён на локальные фреймворк-таргеты внутри `Doglyad.xcodeproj` — `DoglyadUI`, `DoglyadDatabase`, `DoglyadNetwork`, `DoglyadNeuralModel`, `DoglyadCamera`, `DoglyadSpeech`.
 - **Внешние зависимости** (SPM): RevenueCat (`purchases-ios-spm`), Firebase (`firebase-ios-sdk`), MLX (`mlx-swift-lm`: MLXLLM/MLXVLM/MLXEmbedders/MLXLMCommon), `swift-transformers`, Alamofire, `swift-markdown-ui`, SwiftMessages, SwiftUI-Shimmer, BottomSheet, а также собственные пакеты автора `DependencyInitializer`, `NestedObservableObject`, `Handler`, `Router`.
+- **Ветвление по enum**:
+Логику, зависящую от значения `enum`-типа, описывать только через исчерпывающий `switch` (без `default`), а не через операторы сравнения (`==`/`!=`). Так добавление нового кейса вызывает ошибку компиляции во всех местах, где он не обработан, и ничего не теряется молча. Пример: флаги видимости во вью-моделях (`isUserEmailButtonVisible`, `is…ProBadgeVisible`) ветвятся по `SubscriptionFeatureAvailability` через `switch`, а не `== .offered`.
 
 ## Ограничения
 - Pydantic-модели бэкенда используют camelCase в полях для совместимости с iOS — сохранять эту конвенцию.
