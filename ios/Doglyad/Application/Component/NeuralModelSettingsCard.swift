@@ -8,30 +8,29 @@ struct NeuralModelSettingsCard: View {
     private var typography: DTypography { theme.typography }
 
     @EnvironmentObject private var ultrasoundViewModel: UltrasoundViewModel
+    @EnvironmentObject private var subscription: SubscriptionViewModel
 
+    let feature: PaidFeature
     let onTap: () -> Void
-    var badgeTitle: LocalizedStringResource = .entitlementPro
-    var isBadgeVisible: Bool = false
-    var isBadgeShimmering: Bool = false
 
+    @ViewBuilder
     var body: some View {
-        VStack(
-            alignment: .leading,
-            spacing: .zero
-        ) {
-            DText(.scanNeuralModelSettingsTitleLabel)
-                .dStyle(
-                    font: typography.textSmall,
-                    color: color.grayscalePlacehold
-                )
-                .padding(.horizontal, size.s8)
-                .padding(.bottom, size.s8)
-
-            DBadge(
-                badgeTitle,
-                isVisible: isBadgeVisible,
-                isShimmering: isBadgeShimmering
+        switch subscription.availability(of: feature) {
+        case .unavailable:
+            EmptyView()
+        case .offered, .available:
+            VStack(
+                alignment: .leading,
+                spacing: .zero
             ) {
+                DText(.scanNeuralModelSettingsTitleLabel)
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscalePlacehold
+                    )
+                    .padding(.horizontal, size.s8)
+                    .padding(.bottom, size.s8)
+
                 DButtonCard(
                     action: onTap
                 ) {
@@ -55,7 +54,9 @@ struct NeuralModelSettingsCard: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .paidBadge(feature)
             }
+            .padding(.bottom, size.s16)
         }
     }
 }

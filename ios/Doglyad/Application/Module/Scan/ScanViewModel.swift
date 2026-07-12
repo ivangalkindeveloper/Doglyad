@@ -23,44 +23,26 @@ final class ScanViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let getTemplateForType: (String) -> USExaminationTemplate?
-    private let getFormCompletionViaMicrophoneAvailability: () -> SubscriptionFeatureAvailability
-    private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
-    private let getNeuralModelSettings: () -> NeuralModelSettings
     private let getNeuralModel: () -> USExaminationNeuralModel
     private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
-    private let refreshSubscriptionStatus: () async -> Void
-    private let getIsActive: () -> Bool
-    private let getAvailableRequestCount: () -> Int
-    private let onIncrementRequestCount: () -> Void
+    @NestedObservableObject private var subscription: SubscriptionViewModel
 
     init(
         container: DependencyContainer,
         messager: DMessager,
         router: DRouter,
+        subscription: SubscriptionViewModel,
         getTemplateForType: @escaping (String) -> USExaminationTemplate?,
-        refreshSubscriptionStatus: @escaping () async -> Void,
-        getIsActive: @escaping () -> Bool,
-        getAvailableRequestCount: @escaping () -> Int,
-        getFormCompletionViaMicrophoneAvailability: @escaping () -> SubscriptionFeatureAvailability,
-        getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
-        getNeuralModelSettings: @escaping () -> NeuralModelSettings,
         getNeuralModel: @escaping () -> USExaminationNeuralModel,
-        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
-        onIncrementRequestCount: @escaping () -> Void
+        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void
     ) {
         self.container = container
         self.messager = messager
         self.router = router
+        _subscription = NestedObservableObject(wrappedValue: subscription)
         self.getTemplateForType = getTemplateForType
-        self.refreshSubscriptionStatus = refreshSubscriptionStatus
-        self.getIsActive = getIsActive
-        self.getAvailableRequestCount = getAvailableRequestCount
-        self.getFormCompletionViaMicrophoneAvailability = getFormCompletionViaMicrophoneAvailability
-        self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
-        self.getNeuralModelSettings = getNeuralModelSettings
         self.getNeuralModel = getNeuralModel
         self.onNeuralModelSelected = onNeuralModelSelected
-        self.onIncrementRequestCount = onIncrementRequestCount
         usExaminationType = container.usExaminationTypeDefault
         super.init()
     }
@@ -328,24 +310,6 @@ final class ScanViewModel: DViewModel {
         )
     }
 
-    var isNeuralModelSettingsVisible: Bool {
-        switch getNeuralModelSettingsAvailability() {
-        case .offered, .available:
-            return true
-        case .unavailable:
-            return false
-        }
-    }
-
-    var isNeuralModelSettingsProBadgeVisible: Bool {
-        switch getNeuralModelSettingsAvailability() {
-        case .offered:
-            return true
-        case .available, .unavailable:
-            return false
-        }
-    }
-
     func onTapNeuralModelSelection() {
         router.push(
             route: RouteSheet(
@@ -361,21 +325,12 @@ final class ScanViewModel: DViewModel {
     }
 
     func onTapNeuralModelSettings() {
-        switch getNeuralModelSettingsAvailability() {
-        case .available:
-            router.push(
+        subscription.run(.neuralModelSettings, router: router) {
+            self.router.push(
                 route: RouteScreen(
                     type: .neuralModelSettings
                 )
             )
-        case .offered:
-            router.push(
-                route: RouteScreen(
-                    type: .subscriptionPaywall
-                )
-            )
-        case .unavailable:
-            break
         }
     }
 
@@ -415,7 +370,7 @@ final class ScanViewModel: DViewModel {
     var isSpeechButtonVisible: Bool {
         guard container.isUSExaminationNeuralModelAvailable else { return false }
 
-        switch getFormCompletionViaMicrophoneAvailability() {
+        switch subscription.availability(of: .formCompletionViaMicrophone) {
         case .offered, .available:
             return true
         case .unavailable:
@@ -423,17 +378,8 @@ final class ScanViewModel: DViewModel {
         }
     }
 
-    var isSpeechButtonProBadgeVisible: Bool {
-        switch getFormCompletionViaMicrophoneAvailability() {
-        case .offered:
-            return true
-        case .available, .unavailable:
-            return false
-        }
-    }
-
     var isSpeechButtonShimmering: Bool {
-        switch getFormCompletionViaMicrophoneAvailability() {
+        switch subscription.availability(of: .formCompletionViaMicrophone) {
         case .available:
             return true
         case .offered, .unavailable:
@@ -442,16 +388,15 @@ final class ScanViewModel: DViewModel {
     }
 
     func onTapSpeech() {
-        switch getFormCompletionViaMicrophoneAvailability() {
-        case .available:
-            break
-        case .offered, .unavailable:
-            return router.push(
-                route: RouteScreen(
-                    type: .subscriptionPaywall
-                )
-            )
+        subscription.run(
+            .formCompletionViaMicrophone,
+            router: router
+        ) {
+            self.startSpeechFlow()
         }
+    }
+
+    private func startSpeechFlow() {
         handle {
             await self.container.permissionManager.isGranted(.speech)
         } onMainSuccess: { isGranted in
@@ -522,16 +467,16 @@ final class ScanViewModel: DViewModel {
         unfocus()
 
         handle {
-            await self.refreshSubscriptionStatus()
+            await self.subscription.refreshStatus()
         } onMainSuccess: { _ in
-            guard self.getIsActive() else {
+            guard self.subscription.isActive else {
                 return self.router.push(
                     route: RouteScreen(
                         type: .subscriptionPaywall
                     )
                 )
             }
-            guard self.getAvailableRequestCount() > 0 else {
+            guard self.subscription.availableRequestCount > 0 else {
                 return self.router.push(
                     route: RouteSheet(
                         type: .requestLimitExceeded,
@@ -547,7 +492,7 @@ final class ScanViewModel: DViewModel {
         handle {
             self.isLoading = true
 
-            let neuralModelSettings = self.getNeuralModelSettings()
+            let neuralModelSettings = self.subscription.neuralModelSettings
             let examinationData = USExaminationData(
                 usExaminationTypeId: self.usExaminationType.id,
                 photos: self.photos,
@@ -584,7 +529,7 @@ final class ScanViewModel: DViewModel {
             await self.container.ultrasoundConclusionRepository.setConclusion(
                 conclusion: conclusion
             )
-            self.onIncrementRequestCount()
+            self.subscription.incrementRequestCount()
             await self.reset()
 
             return conclusion

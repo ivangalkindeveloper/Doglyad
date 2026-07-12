@@ -50,6 +50,7 @@ public struct DButton: View {
                         Text(verbatim: String(localized: title))
                             .font(typography.linkSmall)
                             .multilineTextAlignment(.center)
+                            .lineLimit(2)
                     }
                 }
             }

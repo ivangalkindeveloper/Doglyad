@@ -13,12 +13,7 @@ struct OnBoardingScreen: View {
             viewModel: OnBoardingViewModel(
                 container: container,
                 router: router,
-                refreshSubscriptionStatus: { [subscriptionViewModel] in
-                    await subscriptionViewModel.refreshStatus()
-                },
-                getIsActive: { [subscriptionViewModel] in
-                    subscriptionViewModel.isActive
-                }
+                subscription: subscriptionViewModel
             )
         )
     }

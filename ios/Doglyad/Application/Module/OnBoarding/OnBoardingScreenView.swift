@@ -75,7 +75,7 @@ struct OnBoardingScreenView: View {
         case .first:
             OnBoardingPageView(
                 tag: .first,
-                image: .alertInfo,
+                image: .group76,
                 description: .onBoardingDescriptionFirst
             )
         case .second:

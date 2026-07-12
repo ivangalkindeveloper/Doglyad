@@ -2,6 +2,7 @@ import DoglyadNetwork
 import DoglyadUI
 import Foundation
 import Handler
+import NestedObservableObject
 import Router
 import SwiftUI
 import UIKit
@@ -12,7 +13,7 @@ final class RecievedConclusionViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: RecievedConclusionBottomSheetArguments
-    private let getSendingConclusionByEmailAvailability: () -> SubscriptionFeatureAvailability
+    @NestedObservableObject private var subscription: SubscriptionViewModel
     let userEmail: String?
 
     init(
@@ -20,14 +21,14 @@ final class RecievedConclusionViewModel: DViewModel {
         messager: DMessager,
         router: DRouter,
         arguments: RecievedConclusionBottomSheetArguments,
-        getSendingConclusionByEmailAvailability: @escaping () -> SubscriptionFeatureAvailability,
+        subscription: SubscriptionViewModel,
         userEmail: String?
     ) {
         self.container = container
         self.messager = messager
         self.router = router
         self.arguments = arguments
-        self.getSendingConclusionByEmailAvailability = getSendingConclusionByEmailAvailability
+        _subscription = NestedObservableObject(wrappedValue: subscription)
         self.userEmail = userEmail
     }
 
@@ -48,19 +49,10 @@ final class RecievedConclusionViewModel: DViewModel {
     }
 
     var isUserEmailButtonVisible: Bool {
-        switch getSendingConclusionByEmailAvailability() {
+        switch subscription.availability(of: .sendingConclusionByEmail) {
         case .offered, .available:
             return true
         case .unavailable:
-            return false
-        }
-    }
-
-    var isUserEmailProBadgeVisible: Bool {
-        switch getSendingConclusionByEmailAvailability() {
-        case .offered:
-            return true
-        case .available, .unavailable:
             return false
         }
     }
@@ -101,20 +93,16 @@ final class RecievedConclusionViewModel: DViewModel {
 
     func onTapUserEmail() {
         guard let userEmail: String = userEmail else { return }
-        switch getSendingConclusionByEmailAvailability() {
-        case .available:
-            break
-        case .offered:
-            router.dismissSheet()
-            return router.push(
-                route: RouteScreen(
-                    type: .subscriptionPaywall
-                )
-            )
-        case .unavailable:
-            return
+        subscription.run(
+            .sendingConclusionByEmail,
+            router: router,
+            dismissesSheetOnPaywall: true
+        ) {
+            self.sendConclusionEmail(to: userEmail)
         }
+    }
 
+    private func sendConclusionEmail(to userEmail: String) {
         let conclusion = arguments.conclusion
         let subject = conclusion.shareSubject(
             examinationTypesById: container.usExaminationTypesById

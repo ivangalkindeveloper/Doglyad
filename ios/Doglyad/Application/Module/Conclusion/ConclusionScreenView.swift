@@ -165,14 +165,10 @@ struct ConclusionScreenView: View {
                             )
                             .padding(.bottom, size.s16)
 
-                            if viewModel.isNeuralModelSettingsVisible {
-                                NeuralModelSettingsCard(
-                                    onTap: viewModel.onTapNeuralModelSettings,
-                                    isBadgeVisible: viewModel.isNeuralModelSettingsProBadgeVisible,
-                                    isBadgeShimmering: true
-                                )
-                                .padding(.bottom, size.s16)
-                            }
+                            NeuralModelSettingsCard(
+                                feature: .neuralModelSettings,
+                                onTap: viewModel.onTapNeuralModelSettings
+                            )
 
                             DButton(
                                 image: .refresh,

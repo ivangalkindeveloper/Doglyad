@@ -1,6 +1,7 @@
 import DoglyadNetwork
 import Foundation
 import Handler
+import NestedObservableObject
 import Router
 import SwiftUI
 
@@ -8,25 +9,19 @@ import SwiftUI
 final class SettingsViewModel: DViewModel {
     private let container: DependencyContainer
     private let router: DRouter
-    private let getIsActive: () -> Bool
-    private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
-    private let getSendingConclusionByEmailAvailability: () -> SubscriptionFeatureAvailability
     private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
+    @NestedObservableObject private var subscription: SubscriptionViewModel
 
     init(
         container: DependencyContainer,
         router: DRouter,
         initialNeuralModel: USExaminationNeuralModel,
-        getIsActive: @escaping () -> Bool,
-        getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
-        getSendingConclusionByEmailAvailability: @escaping () -> SubscriptionFeatureAvailability,
+        subscription: SubscriptionViewModel,
         onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void
     ) {
         self.container = container
         self.router = router
-        self.getIsActive = getIsActive
-        self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
-        self.getSendingConclusionByEmailAvailability = getSendingConclusionByEmailAvailability
+        _subscription = NestedObservableObject(wrappedValue: subscription)
         self.onNeuralModelSelected = onNeuralModelSelected
         neuralModel = initialNeuralModel
         super.init()
@@ -101,43 +96,17 @@ final class SettingsViewModel: DViewModel {
         )
     }
 
-    var isNeuralModelSettingsVisible: Bool {
-        switch getNeuralModelSettingsAvailability() {
-        case .offered, .available:
-            return true
-        case .unavailable:
-            return false
-        }
-    }
-
-    var isNeuralModelSettingsProBadgeVisible: Bool {
-        switch getNeuralModelSettingsAvailability() {
-        case .offered:
-            return true
-        case .available, .unavailable:
-            return false
-        }
-    }
-
     func onTapNeuralModelSettings() {
-        switch getNeuralModelSettingsAvailability() {
-        case .available:
-            break
-        case .offered:
-            return router.push(
+        subscription.run(
+            .neuralModelSettings,
+            router: router
+        ) {
+            self.router.push(
                 route: RouteScreen(
-                    type: .subscriptionPaywall
+                    type: .neuralModelSettings
                 )
             )
-        case .unavailable:
-            return
         }
-
-        router.push(
-            route: RouteScreen(
-                type: .neuralModelSettings
-            )
-        )
     }
 
     func onTapStorage() {

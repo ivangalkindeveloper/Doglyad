@@ -15,15 +15,7 @@ struct SettingsScreen: View {
                 container: container,
                 router: router,
                 initialNeuralModel: ultrasoundViewModel.neuralModel,
-                getIsActive: { [subscriptionViewModel] in
-                    subscriptionViewModel.isActive
-                },
-                getNeuralModelSettingsAvailability: { [subscriptionViewModel] in
-                    subscriptionViewModel.neuralModelSettingsAvailability
-                },
-                getSendingConclusionByEmailAvailability: { [subscriptionViewModel] in
-                    subscriptionViewModel.sendingConclusionByEmailAvailability
-                },
+                subscription: subscriptionViewModel,
                 onNeuralModelSelected: { [ultrasoundViewModel] model in
                     ultrasoundViewModel.saveNeuralModel(model)
                 }

@@ -1,5 +1,6 @@
 import Foundation
 import Handler
+import Router
 
 @MainActor
 final class SubscriptionViewModel: DViewModel {
@@ -33,6 +34,40 @@ final class SubscriptionViewModel: DViewModel {
 
     var neuralModelSettingsAvailability: SubscriptionFeatureAvailability {
         status?.neuralModelSettings ?? .unavailable
+    }
+
+    func availability(of feature: PaidFeature) -> SubscriptionFeatureAvailability {
+        switch feature {
+        case .neuralModelSettings:
+            return neuralModelSettingsAvailability
+        case .formCompletionViaMicrophone:
+            return formCompletionViaMicrophoneAvailability
+        case .sendingConclusionByEmail:
+            return sendingConclusionByEmailAvailability
+        }
+    }
+
+    func run(
+        _ feature: PaidFeature,
+        router: DRouter,
+        dismissesSheetOnPaywall: Bool = false,
+        onAvailable: () -> Void
+    ) {
+        switch availability(of: feature) {
+        case .available:
+            onAvailable()
+        case .offered:
+            if dismissesSheetOnPaywall {
+                router.dismissSheet()
+            }
+            router.push(
+                route: RouteScreen(
+                    type: .subscriptionPaywall
+                )
+            )
+        case .unavailable:
+            break
+        }
     }
 
     var neuralModelSettings: NeuralModelSettings {

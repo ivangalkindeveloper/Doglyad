@@ -7,8 +7,6 @@ struct ScanSheetFooterView: View {
     private var size: DSize { theme.size }
 
     @EnvironmentObject private var viewModel: ScanViewModel
-    // Observed so the footer re-renders (and viewModel.isSpeechButtonVisible refreshes) when the subscription status changes.
-    @EnvironmentObject private var subscriptionViewModel: SubscriptionViewModel
 
     var body: some View {
         VStack(
@@ -21,19 +19,14 @@ struct ScanSheetFooterView: View {
                 ) {
                     if viewModel.isSpeechButtonVisible {
                         if !viewModel.isLoading {
-                            DBadge(
-                                .entitlementPro,
-                                isVisible: viewModel.isSpeechButtonProBadgeVisible && !viewModel.isLoading,
-                                isShimmering: true
-                            ) {
-                                DButton(
-                                    image: .microphone,
-                                    title: .buttonSpeech,
-                                    action: viewModel.onTapSpeech
-                                )
-                                .dStyle(.primaryChip)
-                                .dShimmer(isShimmering: viewModel.isSpeechButtonShimmering)
-                            }
+                            DButton(
+                                image: .microphone,
+                                title: .buttonSpeech,
+                                action: viewModel.onTapSpeech
+                            )
+                            .dStyle(.primaryChip)
+                            .dShimmer(isShimmering: viewModel.isSpeechButtonShimmering)
+                            .paidBadge(.formCompletionViaMicrophone)
                             .padding(.bottom, size.s8)
                             .transition(.move(edge: .bottom))
                         }

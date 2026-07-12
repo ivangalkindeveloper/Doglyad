@@ -157,12 +157,11 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
             spacing: .zero
         ) {
             HStack(
-                spacing: size.s12
+                spacing: size.s8
             ) {
                 leadingView
                 Spacer()
                 titleView
-                    .padding(.horizontal, size.s8)
                 Spacer()
                 trailingView
             }

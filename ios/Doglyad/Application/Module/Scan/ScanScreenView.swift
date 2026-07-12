@@ -24,6 +24,7 @@ struct ScanScreenView: View {
             },
             titleContent: {
                 DButton(
+                    image: .down,
                     title: viewModel.usExaminationType.getLocalizedTitle(for: Locale.current),
                     action: viewModel.onTapUSExaminationType
                 )

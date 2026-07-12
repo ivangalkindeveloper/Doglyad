@@ -1,5 +1,6 @@
 import DoglyadUI
 import Foundation
+import NestedObservableObject
 import Router
 import SwiftUI
 
@@ -15,19 +16,16 @@ final class OnBoardingViewModel: DViewModel {
 
     private let container: DependencyContainer
     private let router: DRouter
-    private let refreshSubscriptionStatus: () async -> Void
-    private let getIsActive: () -> Bool
+    @NestedObservableObject private var subscription: SubscriptionViewModel
 
     init(
         container: DependencyContainer,
         router: DRouter,
-        refreshSubscriptionStatus: @escaping () async -> Void,
-        getIsActive: @escaping () -> Bool
+        subscription: SubscriptionViewModel
     ) {
         self.container = container
         self.router = router
-        self.refreshSubscriptionStatus = refreshSubscriptionStatus
-        self.getIsActive = getIsActive
+        _subscription = NestedObservableObject(wrappedValue: subscription)
     }
 
     @Published var page: Page = .first
@@ -109,10 +107,10 @@ final class OnBoardingViewModel: DViewModel {
                 value: true
             )
             handle {
-                await self.refreshSubscriptionStatus()
+                await self.subscription.refreshStatus()
             } onMainSuccess: { _ in
                 withAnimation {
-                    if self.getIsActive() {
+                    if self.subscription.isActive {
                         self.router.root(
                             route: RouteScreen(
                                 type: .scan

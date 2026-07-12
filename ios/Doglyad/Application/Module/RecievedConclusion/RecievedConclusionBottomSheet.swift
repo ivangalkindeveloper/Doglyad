@@ -17,9 +17,7 @@ struct RecievedConclusionBottomSheet: View {
                 messager: messager,
                 router: router,
                 arguments: arguments,
-                getSendingConclusionByEmailAvailability: { [subscriptionViewModel] in
-                    subscriptionViewModel.sendingConclusionByEmailAvailability
-                },
+                subscription: subscriptionViewModel,
                 userEmail: ultrasoundViewModel.userEmail
             )
         )

@@ -17,29 +17,12 @@ struct ConclusionScreen: View {
                 messager: messager,
                 router: router,
                 initialConclusion: arguments.conclusion,
-                refreshSubscriptionStatus: { [subscriptionViewModel] in
-                    await subscriptionViewModel.refreshStatus()
-                },
-                getIsActive: { [subscriptionViewModel] in
-                    subscriptionViewModel.isActive
-                },
-                getAvailableRequestCount: { [subscriptionViewModel] in
-                    subscriptionViewModel.availableRequestCount
-                },
-                getNeuralModelSettingsAvailability: { [subscriptionViewModel] in
-                    subscriptionViewModel.neuralModelSettingsAvailability
-                },
-                getNeuralModelSettings: { [subscriptionViewModel] in
-                    subscriptionViewModel.neuralModelSettings
-                },
+                subscription: subscriptionViewModel,
                 getNeuralModel: { [ultrasoundViewModel] in
                     ultrasoundViewModel.neuralModel
                 },
                 onNeuralModelSelected: { [ultrasoundViewModel] model in
                     ultrasoundViewModel.saveNeuralModel(model)
-                },
-                onIncrementRequestCount: { [subscriptionViewModel] in
-                    subscriptionViewModel.incrementRequestCount()
                 }
             )
         )

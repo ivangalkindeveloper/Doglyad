@@ -16,35 +16,15 @@ struct ScanScreen: View {
                 container: container,
                 messager: messager,
                 router: router,
+                subscription: subscriptionViewModel,
                 getTemplateForType: { [ultrasoundViewModel] typeId in
                     ultrasoundViewModel.templateIdByUSExaminationTypeId[typeId]
-                },
-                refreshSubscriptionStatus: { [subscriptionViewModel] in
-                    await subscriptionViewModel.refreshStatus()
-                },
-                getIsActive: { [subscriptionViewModel] in
-                    subscriptionViewModel.isActive
-                },
-                getAvailableRequestCount: { [subscriptionViewModel] in
-                    subscriptionViewModel.availableRequestCount
-                },
-                getFormCompletionViaMicrophoneAvailability: { [subscriptionViewModel] in
-                    subscriptionViewModel.formCompletionViaMicrophoneAvailability
-                },
-                getNeuralModelSettingsAvailability: { [subscriptionViewModel] in
-                    subscriptionViewModel.neuralModelSettingsAvailability
-                },
-                getNeuralModelSettings: { [subscriptionViewModel] in
-                    subscriptionViewModel.neuralModelSettings
                 },
                 getNeuralModel: { [ultrasoundViewModel] in
                     ultrasoundViewModel.neuralModel
                 },
                 onNeuralModelSelected: { [ultrasoundViewModel] model in
                     ultrasoundViewModel.saveNeuralModel(model)
-                },
-                onIncrementRequestCount: { [subscriptionViewModel] in
-                    subscriptionViewModel.incrementRequestCount()
                 }
             )
         )

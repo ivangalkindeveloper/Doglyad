@@ -56,19 +56,14 @@ struct RecievedConclusionBottomSheetView: View {
                     .dStyle(.primaryButton)
 
                     if viewModel.isUserEmailAvailable && viewModel.isUserEmailButtonVisible {
-                        DBadge(
-                            .entitlementPro,
-                            isVisible: viewModel.isUserEmailProBadgeVisible,
-                            isShimmering: true
-                        ) {
-                            DButton(
-                                image: .send,
-                                title: viewModel.userEmailButtonTitle,
-                                action: viewModel.onTapUserEmail,
-                                isLoading: viewModel.isLoading
-                            )
-                            .dStyle(.textWeak)
-                        }
+                        DButton(
+                            image: .send,
+                            title: viewModel.userEmailButtonTitle,
+                            action: viewModel.onTapUserEmail,
+                            isLoading: viewModel.isLoading
+                        )
+                        .dStyle(.textWeak)
+                        .paidBadge(.sendingConclusionByEmail)
                     }
 
                     DButton(

@@ -2,6 +2,7 @@ import DoglyadNetwork
 import DoglyadUI
 import Foundation
 import Handler
+import NestedObservableObject
 import Router
 import UIKit
 
@@ -11,7 +12,7 @@ final class ShareViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: ShareArguments
-    private let getSendingConclusionByEmailAvailability: () -> SubscriptionFeatureAvailability
+    @NestedObservableObject private var subscription: SubscriptionViewModel
     let userEmail: String?
 
     init(
@@ -19,14 +20,14 @@ final class ShareViewModel: DViewModel {
         messager: DMessager,
         router: DRouter,
         arguments: ShareArguments,
-        getSendingConclusionByEmailAvailability: @escaping () -> SubscriptionFeatureAvailability,
+        subscription: SubscriptionViewModel,
         userEmail: String?
     ) {
         self.container = container
         self.messager = messager
         self.router = router
         self.arguments = arguments
-        self.getSendingConclusionByEmailAvailability = getSendingConclusionByEmailAvailability
+        _subscription = NestedObservableObject(wrappedValue: subscription)
         self.userEmail = userEmail
         super.init()
     }
@@ -38,19 +39,10 @@ final class ShareViewModel: DViewModel {
     }
 
     var isUserEmailButtonVisible: Bool {
-        switch getSendingConclusionByEmailAvailability() {
+        switch subscription.availability(of: .sendingConclusionByEmail) {
         case .offered, .available:
             return true
         case .unavailable:
-            return false
-        }
-    }
-
-    var isUserEmailProBadgeVisible: Bool {
-        switch getSendingConclusionByEmailAvailability() {
-        case .offered:
-            return true
-        case .available, .unavailable:
             return false
         }
     }
@@ -71,20 +63,12 @@ final class ShareViewModel: DViewModel {
 
     func onTapUserEmail() {
         guard let userEmail = userEmail else { return }
-        switch getSendingConclusionByEmailAvailability() {
-        case .available:
-            break
-        case .offered:
-            router.dismissSheet()
-            return router.push(
-                route: RouteScreen(
-                    type: .subscriptionPaywall
-                )
-            )
-        case .unavailable:
-            return
+        subscription.run(.sendingConclusionByEmail, router: router, dismissesSheetOnPaywall: true) {
+            self.sendConclusionEmail(to: userEmail)
         }
+    }
 
+    private func sendConclusionEmail(to userEmail: String) {
         handle {
             self.isLoading = true
             try await self.container.userSettingsRepository.sendEmail(
@@ -109,25 +93,13 @@ final class ShareViewModel: DViewModel {
     }
 
     func onTapEmail() {
-        switch getSendingConclusionByEmailAvailability() {
-        case .available:
-            break
-        case .offered:
-            router.dismissSheet()
-            return router.push(
-                route: RouteScreen(
-                    type: .subscriptionPaywall
-                )
+        subscription.run(.sendingConclusionByEmail, router: router, dismissesSheetOnPaywall: true) {
+            self.router.dismissSheet()
+            UIApplication.openMail(
+                subject: self.subject,
+                body: self.shareMessage
             )
-        case .unavailable:
-            return
         }
-
-        router.dismissSheet()
-        UIApplication.openMail(
-            subject: subject,
-            body: shareMessage
-        )
     }
 
     func onTapCopy() {

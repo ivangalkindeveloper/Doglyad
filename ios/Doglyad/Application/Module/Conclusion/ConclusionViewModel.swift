@@ -2,6 +2,7 @@ import DoglyadNetwork
 import DoglyadUI
 import Foundation
 import Handler
+import NestedObservableObject
 import Router
 import SwiftUI
 import UIKit
@@ -13,40 +14,25 @@ final class ConclusionViewModel: DViewModel {
     private let container: DependencyContainer
     private let messager: DMessager
     private let router: DRouter
-    private let getNeuralModelSettingsAvailability: () -> SubscriptionFeatureAvailability
-    private let getNeuralModelSettings: () -> NeuralModelSettings
     private let getNeuralModel: () -> USExaminationNeuralModel
     private let onNeuralModelSelected: (USExaminationNeuralModel) -> Void
-    private let refreshSubscriptionStatus: () async -> Void
-    private let getIsActive: () -> Bool
-    private let getAvailableRequestCount: () -> Int
-    private let onIncrementRequestCount: () -> Void
+    @NestedObservableObject private var subscription: SubscriptionViewModel
 
     init(
         container: DependencyContainer,
         messager: DMessager,
         router: DRouter,
         initialConclusion: USExaminationConclusion,
-        refreshSubscriptionStatus: @escaping () async -> Void,
-        getIsActive: @escaping () -> Bool,
-        getAvailableRequestCount: @escaping () -> Int,
-        getNeuralModelSettingsAvailability: @escaping () -> SubscriptionFeatureAvailability,
-        getNeuralModelSettings: @escaping () -> NeuralModelSettings,
+        subscription: SubscriptionViewModel,
         getNeuralModel: @escaping () -> USExaminationNeuralModel,
-        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void,
-        onIncrementRequestCount: @escaping () -> Void
+        onNeuralModelSelected: @escaping (USExaminationNeuralModel) -> Void
     ) {
         self.container = container
         self.messager = messager
         self.router = router
-        self.refreshSubscriptionStatus = refreshSubscriptionStatus
-        self.getIsActive = getIsActive
-        self.getAvailableRequestCount = getAvailableRequestCount
-        self.getNeuralModelSettingsAvailability = getNeuralModelSettingsAvailability
-        self.getNeuralModelSettings = getNeuralModelSettings
+        _subscription = NestedObservableObject(wrappedValue: subscription)
         self.getNeuralModel = getNeuralModel
         self.onNeuralModelSelected = onNeuralModelSelected
-        self.onIncrementRequestCount = onIncrementRequestCount
         conclusion = initialConclusion
     }
 
@@ -79,24 +65,6 @@ final class ConclusionViewModel: DViewModel {
         )
     }
 
-    var isNeuralModelSettingsVisible: Bool {
-        switch getNeuralModelSettingsAvailability() {
-        case .offered, .available:
-            return true
-        case .unavailable:
-            return false
-        }
-    }
-
-    var isNeuralModelSettingsProBadgeVisible: Bool {
-        switch getNeuralModelSettingsAvailability() {
-        case .offered:
-            return true
-        case .available, .unavailable:
-            return false
-        }
-    }
-
     func onTapNeuralModelSelection() {
         router.push(
             route: RouteSheet(
@@ -112,21 +80,12 @@ final class ConclusionViewModel: DViewModel {
     }
 
     func onTapNeuralModelSettings() {
-        switch getNeuralModelSettingsAvailability() {
-        case .available:
-            router.push(
+        subscription.run(.neuralModelSettings, router: router) {
+            self.router.push(
                 route: RouteScreen(
                     type: .neuralModelSettings
                 )
             )
-        case .offered:
-            router.push(
-                route: RouteScreen(
-                    type: .subscriptionPaywall
-                )
-            )
-        case .unavailable:
-            break
         }
     }
 
@@ -134,16 +93,16 @@ final class ConclusionViewModel: DViewModel {
         proxy: ScrollViewProxy
     ) {
         handle {
-            await self.refreshSubscriptionStatus()
+            await self.subscription.refreshStatus()
         } onMainSuccess: { _ in
-            guard self.getIsActive() else {
+            guard self.subscription.isActive else {
                 return self.router.push(
                     route: RouteScreen(
                         type: .subscriptionPaywall
                     )
                 )
             }
-            guard self.getAvailableRequestCount() > 0 else {
+            guard self.subscription.availableRequestCount > 0 else {
                 return self.router.push(
                     route: RouteSheet(
                         type: .requestLimitExceeded,
@@ -161,7 +120,7 @@ final class ConclusionViewModel: DViewModel {
         handle {
             self.isLoading = true
 
-            let neuralModelSettings = self.getNeuralModelSettings()
+            let neuralModelSettings = self.subscription.neuralModelSettings
             let template: String? = await {
                 let typeId = self.conclusion.examinationData.usExaminationTypeId
                 if let template = await self.container.templateRepository.getTemplatesByUSExaminationId(usExaminationTypesById: self.container.usExaminationTypesById)[typeId] {
@@ -197,7 +156,7 @@ final class ConclusionViewModel: DViewModel {
             await self.container.ultrasoundConclusionRepository.updateConclusion(
                 conclusion: updatedConclusion
             )
-            self.onIncrementRequestCount()
+            self.subscription.incrementRequestCount()
 
             return updatedConclusion
         } onDefer: {

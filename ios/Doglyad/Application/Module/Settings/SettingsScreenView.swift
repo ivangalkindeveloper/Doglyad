@@ -48,19 +48,12 @@ struct SettingsScreenView: View {
                             ),
                             action: viewModel.onTapNeuralModelSelection
                         )
-                        if viewModel.isNeuralModelSettingsVisible {
-                            DBadge(
-                                .entitlementPro,
-                                isVisible: viewModel.isNeuralModelSettingsProBadgeVisible,
-                                isShimmering: true
-                            ) {
-                                DListButtonCard(
-                                    title: .settingsNeuralModelSettingsTitle,
-                                    description: .settingsNeuralModelSettingsDescription,
-                                    action: viewModel.onTapNeuralModelSettings
-                                )
-                            }
-                        }
+                        DListButtonCard(
+                            title: .settingsNeuralModelSettingsTitle,
+                            description: .settingsNeuralModelSettingsDescription,
+                            action: viewModel.onTapNeuralModelSettings
+                        )
+                        .paidBadge(.neuralModelSettings)
                         DListButtonCard(
                             title: .settingsStorageTitle,
                             description: .settingsStorageDescription,
@@ -80,7 +73,7 @@ struct SettingsScreenView: View {
                     .padding(.bottom, size.s32)
 
                     DButton(
-                        image: .link,
+                        image: .info,
                         title: .settingsAboutAppTitle,
                         action: viewModel.onTapAboutApp
                     )
