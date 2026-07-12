@@ -5,8 +5,12 @@ import SwiftUI
 
 @MainActor
 final class OnBoardingViewModel: DViewModel {
-    enum Page {
+    enum Page: CaseIterable {
         case first, second, third, fourth, fifth
+
+        var index: Int {
+            Self.allCases.firstIndex(of: self) ?? 0
+        }
     }
 
     private let container: DependencyContainer

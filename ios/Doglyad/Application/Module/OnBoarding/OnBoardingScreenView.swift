@@ -17,66 +17,26 @@ struct OnBoardingScreenView: View {
                     alignment: .leading,
                     spacing: .zero
                 ) {
+                    stepper
+                        .padding(.top, size.s16)
+                        .padding(.horizontal, size.s16)
+
                     DText(.onBoardingTitle)
                         .dStyle(
                             font: typography.displayLargeBold
                         )
                         .padding(size.s16)
 
-                    TabView(
-                        selection: $viewModel.page
-                    ) {
-                        OnBoardingPageView(
-                            tag: .first,
-                            image: .alertInfo,
-                            description: .onBoardingDescriptionFirst
+                    currentPage
+                        .id(viewModel.page)
+                        .transition(.opacity)
+                        .frame(
+                            maxWidth: .infinity,
+                            maxHeight: .infinity
                         )
-                        OnBoardingPageView(
-                            tag: .second,
-                            image: .alertInfo,
-                            description: .onBoardingDescriptionSecond
-                        )
-                        OnBoardingPageView(
-                            tag: .third,
-                            image: .alertInfo,
-                            description: .onBoardingDescriptionThird
-                        ) {
-                            HStack(
-                                alignment: .center
-                            ) {
-                                DCheckbox(
-                                    isChecked: $viewModel.isLegalAccepted
-                                )
-                                .padding(.trailing, size.s8)
-
-                                Text(viewModel.legalAttributedText(theme: theme, locale: locale))
-                                    .multilineTextAlignment(.leading)
-                                    .tint(color.grayscaleHeader)
-                                    .environment(\.openURL, OpenURLAction { url in
-                                        viewModel.onLegalAttributedEnvironment(url: url)
-                                    })
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, size.s16)
-                            .padding(.horizontal, size.s16)
-                        }
-                        OnBoardingPageView(
-                            tag: .fourth,
-                            image: .alertInfo,
-                            description: .onBoardingDescriptionFourth
-                        )
-                        OnBoardingPageView(
-                            tag: .fifth,
-                            image: .alertInfo,
-                            description: .onBoardingDescriptionFifth
-                        )
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .indexViewStyle(.page(backgroundDisplayMode: .never))
-                    .animation(.easeInOut, value: viewModel.page)
-                    .highPriorityGesture(DragGesture().onChanged { _ in })
-                    .padding(.bottom, size.s64)
+                        .padding(.bottom, size.s64)
                 }
+                .animation(.easeInOut, value: viewModel.page)
             },
             bottom: {
                 DButton(
@@ -88,5 +48,79 @@ struct OnBoardingScreenView: View {
                 .padding(size.s16)
             }
         )
+    }
+
+    private var stepper: some View {
+        HStack(
+            spacing: size.s4
+        ) {
+            ForEach(
+                Array(OnBoardingViewModel.Page.allCases.enumerated()),
+                id: \.offset
+            ) { index, _ in
+                Capsule()
+                    .fill(
+                        index <= viewModel.page.index
+                            ? color.primaryDefault
+                            : color.grayscaleLine
+                    )
+                    .frame(height: size.s2)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var currentPage: some View {
+        switch viewModel.page {
+        case .first:
+            OnBoardingPageView(
+                tag: .first,
+                image: .alertInfo,
+                description: .onBoardingDescriptionFirst
+            )
+        case .second:
+            OnBoardingPageView(
+                tag: .second,
+                image: .alertInfo,
+                description: .onBoardingDescriptionSecond
+            )
+        case .third:
+            OnBoardingPageView(
+                tag: .third,
+                image: .alertInfo,
+                description: .onBoardingDescriptionThird
+            ) {
+                HStack(
+                    alignment: .center
+                ) {
+                    DCheckbox(
+                        isChecked: $viewModel.isLegalAccepted
+                    )
+                    .padding(.trailing, size.s8)
+
+                    Text(viewModel.legalAttributedText(theme: theme, locale: locale))
+                        .multilineTextAlignment(.leading)
+                        .tint(color.grayscaleHeader)
+                        .environment(\.openURL, OpenURLAction { url in
+                            viewModel.onLegalAttributedEnvironment(url: url)
+                        })
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, size.s16)
+                .padding(.horizontal, size.s16)
+            }
+        case .fourth:
+            OnBoardingPageView(
+                tag: .fourth,
+                image: .alertInfo,
+                description: .onBoardingDescriptionFourth
+            )
+        case .fifth:
+            OnBoardingPageView(
+                tag: .fifth,
+                image: .alertInfo,
+                description: .onBoardingDescriptionFifth
+            )
+        }
     }
 }

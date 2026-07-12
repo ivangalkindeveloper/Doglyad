@@ -4,6 +4,7 @@ import Foundation
 import Handler
 import Router
 import SwiftUI
+import UIKit
 
 @MainActor
 final class RecievedConclusionViewModel: DViewModel {
@@ -139,5 +140,14 @@ final class RecievedConclusionViewModel: DViewModel {
         } onUnknownError: { _ in
             self.messager.showUnknownError()
         }
+    }
+
+    func onTapCopy() {
+        UIApplication.pasteboard(response)
+        messager.show(
+            type: .success,
+            title: .conclusionModelCopyMessageTitle,
+            description: .conclusionModelCopyMessageDescription
+        )
     }
 }

@@ -69,8 +69,15 @@ struct RecievedConclusionBottomSheetView: View {
                             )
                             .dStyle(.textWeak)
                         }
-                        .padding(.bottom, size.s10)
                     }
+
+                    DButton(
+                        image: .copy,
+                        title: .buttonCopy,
+                        action: viewModel.onTapCopy
+                    )
+                    .dStyle(.textWeak)
+                    .padding(.bottom, size.s10)
                 }
                 .padding(.top, size.s8)
                 .padding(.horizontal, size.s16)
