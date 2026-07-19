@@ -17,7 +17,6 @@ final class ApplicationViewModel: DViewModel {
                     InitializationProcess.stepsTier2,
                     InitializationProcess.stepsTier3,
                     InitializationProcess.stepsTier4,
-                    InitializationProcess.stepsTier5,
                 ],
                 onSuccess: { [weak self] result, _ in
                     guard let self = self else { return }
