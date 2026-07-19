@@ -31,7 +31,7 @@ final class SelectNeuralModelViewModel: DViewModel {
     }
 
     func isProBadgeVisible(for model: USExaminationNeuralModel) -> Bool {
-        model.entitlement == .pro
+        model.entitlement == .pro && subscription.status?.type != .pro
     }
 
     func onModelTap(_ model: USExaminationNeuralModel) {
