@@ -11,6 +11,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
     private var typography: DTypography { theme.typography }
 
     @State private var toolbarHeight: CGFloat = 0
+    @State private var bottomHeight: CGFloat = 0
 
     let toolbarType: DScreenToolbarType
     let title: LocalizedStringResource?
@@ -21,7 +22,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
     let titleContent: Title
     let trailing: Trailing
     let onTapBody: (() -> Void)?
-    let content: (CGFloat) -> Content
+    let content: (CGFloat, CGFloat) -> Content
     let bottom: (() -> Bottom)?
 
     public init(
@@ -34,7 +35,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
         @ViewBuilder titleContent: @escaping (() -> Title) = { EmptyView() },
         @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
         onTapBody: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping (CGFloat) -> Content
+        @ViewBuilder content: @escaping (CGFloat, CGFloat) -> Content
     ) where Bottom == EmptyView {
         self.toolbarType = toolbarType
         self.title = title
@@ -59,7 +60,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
         @ViewBuilder titleContent: @escaping (() -> Title) = { EmptyView() },
         @ViewBuilder trailing: @escaping (() -> Trailing) = { EmptyView() },
         onTapBody: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping (CGFloat) -> Content,
+        @ViewBuilder content: @escaping (CGFloat, CGFloat) -> Content,
         @ViewBuilder bottom: @escaping () -> Bottom
     ) {
         self.toolbarType = toolbarType
@@ -78,6 +79,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
     public var body: some View {
         GeometryReader { proxy in
             let safeAreaInsetTop = proxy.safeAreaInsets.top
+            let safeAreaInsetBottom = proxy.safeAreaInsets.bottom
 
             NavigationView {
                 ZStack(
@@ -86,7 +88,7 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
                     ZStack(
                         alignment: .bottom
                     ) {
-                        bodyView(toolbarHeight - safeAreaInsetTop)
+                        bodyView(toolbarHeight - safeAreaInsetTop, bottomHeight - safeAreaInsetBottom)
                             .safeAreaPadding(.bottom)
 
                         if let bottom = self.bottom?() {
@@ -104,6 +106,19 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
                                             )
                                         )
                                 )
+                                .overlay {
+                                    GeometryReader { proxy in
+                                        Color.clear
+                                            .preference(
+                                                key: BottomHeightPreferenceKey.self,
+                                                value: proxy.size.height
+                                            )
+                                    }
+                                }
+                                .onPreferenceChange(BottomHeightPreferenceKey.self) { value in
+                                    guard bottomHeight != value else { return }
+                                    bottomHeight = value
+                                }
                                 .transition(.move(edge: .bottom))
                         }
                     }
@@ -143,9 +158,10 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
     }
 
     private func bodyView(
-        _ toolbarHeight: CGFloat
+        _ toolbarHeight: CGFloat,
+        _ bottomHeight: CGFloat
     ) -> some View {
-        content(toolbarHeight)
+        content(toolbarHeight, bottomHeight)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onTapGesture { onTapBody?() }
     }
@@ -252,6 +268,14 @@ private struct ToolbarHeightPreferenceKey: PreferenceKey {
     }
 }
 
+private struct BottomHeightPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 #Preview("With toolbar") {
     DScreen(
         title: "Screen Title",
@@ -264,7 +288,7 @@ private struct ToolbarHeightPreferenceKey: PreferenceKey {
             )
             .dStyle(.circle)
         }
-    ) { toolbarHeight in
+    ) { toolbarHeight, _ in
         ScrollView {
             VStack(spacing: 16) {
                 ForEach(0 ..< 10, id: \.self) { index in
@@ -281,7 +305,7 @@ private struct ToolbarHeightPreferenceKey: PreferenceKey {
 }
 
 #Preview("Without toolbar") {
-    DScreen { _ in
+    DScreen { _, _ in
         VStack {
             DText("Content without toolbar")
                 .dStyle()

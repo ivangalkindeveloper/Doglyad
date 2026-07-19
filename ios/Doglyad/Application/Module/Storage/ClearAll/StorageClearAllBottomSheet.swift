@@ -15,7 +15,7 @@ struct StorageClearAllBottomSheet: View {
         DBottomSheet(
             title: .storageClearAllWarningTitle,
             fraction: 0.3
-        ) { toolbarHeight in
+        ) { toolbarHeight, _ in
             VStack(
                 spacing: .zero
             ) {

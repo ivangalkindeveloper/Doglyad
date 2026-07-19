@@ -14,7 +14,7 @@ struct RequestLimitExceededBottomSheetView: View {
             title: .requestLimitExceededTitle,
             isCloseButtonVisible: false,
             fraction: 0.3
-        ) { toolbarHeight in
+        ) { toolbarHeight, _ in
             VStack(
                 spacing: .zero
             ) {

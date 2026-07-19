@@ -40,7 +40,7 @@ struct ScanScreenView: View {
                 }
             },
             onTapBody: viewModel.unfocus,
-            content: { _ in
+            content: { _, _ in
                 ZStack {
                     ZStack {
                         ScanCameraView()

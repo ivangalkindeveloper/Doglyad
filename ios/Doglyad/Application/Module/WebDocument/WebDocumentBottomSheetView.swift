@@ -15,7 +15,7 @@ struct WebDocumentBottomSheetView: View {
         DBottomSheet(
             title: title,
             fraction: 0.8
-        ) { toolbarHeight in
+        ) { toolbarHeight, _ in
             ZStack {
                 WebDocumentBottomSheetWebView(
                     url: url,

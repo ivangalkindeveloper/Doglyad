@@ -11,14 +11,23 @@ struct TemplateListEmptyView: View {
         VStack(
             spacing: .zero
         ) {
+            Image(.emptyTemplates)
+                .resizable()
+                .scaledToFit()
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .center
+                )
+                .padding(.horizontal, size.s64)
+
             DText(.templateListEmptyDescription)
                 .dStyle(
                     font: typography.textSmall,
                     color: color.grayscalePlacehold,
                     alignment: .center
                 )
-                .padding(.bottom, size.s16)
         }
-        .padding(.top, size.screenHeight / 4)
+        .padding(.top, size.screenHeight / 6)
     }
 }

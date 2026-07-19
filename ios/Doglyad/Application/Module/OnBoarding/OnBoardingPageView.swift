@@ -25,6 +25,7 @@ struct OnBoardingPageView<BottomContent: View>: View {
 
     var body: some View {
         VStack(
+            alignment: .leading,
             spacing: .zero
         ) {
             Spacer()
@@ -33,8 +34,9 @@ struct OnBoardingPageView<BottomContent: View>: View {
                 .resizable()
                 .scaledToFit()
                 .frame(
-                    maxWidth: size.s128,
-                    maxHeight: size.s128
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .center
                 )
                 .padding(size.s16)
 
@@ -54,10 +56,8 @@ struct OnBoardingPageView<BottomContent: View>: View {
         }
         .frame(
             maxWidth: .infinity,
-            maxHeight: .infinity,
-            alignment: .leading
+            maxHeight: .infinity
         )
-        .padding(size.s16)
         .padding(.bottom, size.s48)
         .tag(tag)
     }

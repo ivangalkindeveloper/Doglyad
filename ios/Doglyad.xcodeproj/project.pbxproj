@@ -28,6 +28,7 @@
 		77A896C32F0AD5EF006E6E41 /* Handler in Frameworks */ = {isa = PBXBuildFile; productRef = 77A896C22F0AD5EF006E6E41 /* Handler */; };
 		77A896D02F0C82B1006E6E41 /* DoglyadNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77A9DFD32F0E74F3003D5ECB /* DoglyadNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; };
+		77ABEDE7300D804F009C18D6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77ABEDE6300D804F009C18D6 /* Launch Screen.storyboard */; };
 		77B2576F2FAAA1780050413F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 77B2576E2FAAA1780050413F /* MarkdownUI */; };
 		77BB12242E92A87700B9FFC5 /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77BB12232E92A87700B9FFC5 /* DependencyInitializer */; };
 		77BF28D22F26C27A00D9373C /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = 77BF28D12F26C27A00D9373C /* SwiftMessages */; };
@@ -152,6 +153,7 @@
 		771F41A82EA430B400C4945A /* DoglyadDatabase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadDatabase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77ABEDE6300D804F009C18D6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		77AC58B22E929E7E0028250A /* Doglyad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doglyad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58C12E929E800028250A /* DoglyadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58CB2E929E800028250A /* DoglyadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -446,6 +448,7 @@
 		77AC58A92E929E7E0028250A = {
 			isa = PBXGroup;
 			children = (
+				77ABEDE6300D804F009C18D6 /* Launch Screen.storyboard */,
 				77C3EE2C2FD617FF00DC4D6A /* Config */,
 				770AEB562F1D870100C09C76 /* mlx-Qwen2.5-1.5B-Instruct-4bit */,
 				77FEE72B2F01DE9F00607F3F /* Doglyad.xcodeproj */,
@@ -893,6 +896,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				770AEB572F1D870100C09C76 /* mlx-Qwen2.5-1.5B-Instruct-4bit in Resources */,
+				77ABEDE7300D804F009C18D6 /* Launch Screen.storyboard in Resources */,
 				770AEB5B2F1DA41500C09C76 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1434,6 +1438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = XZY97QPQG8;
@@ -1481,6 +1486,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = XZY97QPQG8;

@@ -15,7 +15,7 @@ struct RecievedConclusionBottomSheetView: View {
             type: .blur,
             title: .conclusionTitle,
             fraction: 1,
-            content: { toolbarHeight in
+            content: { toolbarHeight, _ in
                 VStack(
                     spacing: .zero
                 ) {

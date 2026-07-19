@@ -29,7 +29,7 @@ struct ConclusionScreenView: View {
                 )
                 .dStyle(.circle)
             }
-        ) { toolbarInset in
+        ) { toolbarInset, _ in
             ScrollViewReader { proxy in
                 ScrollView(
                     showsIndicators: false

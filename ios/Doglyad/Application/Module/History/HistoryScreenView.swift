@@ -13,7 +13,7 @@ struct HistoryScreenView: View {
         DScreen(
             title: .historyTitle,
             onTapBack: viewModel.onTapBack,
-            content: { toolbarInset in
+            content: { toolbarInset, _ in
                 ScrollView(
                     showsIndicators: false
                 ) {
@@ -24,23 +24,20 @@ struct HistoryScreenView: View {
                         if viewModel.conclusions.isEmpty {
                             HistoryEmptyView()
                         } else {
-                            VStack(
-                                spacing: .zero
-                            ) {
-                                ForEach(viewModel.conclusions) { conclusion in
-                                    HistoryCard(
-                                        conclusion: conclusion,
-                                        action: {
-                                            viewModel.onTapConclusion(value: conclusion)
-                                        }
-                                    )
-                                    .padding(size.s4)
-                                }
+                            ForEach(viewModel.conclusions) { conclusion in
+                                HistoryCard(
+                                    conclusion: conclusion,
+                                    action: {
+                                        viewModel.onTapConclusion(value: conclusion)
+                                    }
+                                )
+                                .padding(.bottom, size.s4)
                             }
                         }
                     }
                     .padding(size.s16)
                     .padding(.top, toolbarInset)
+                    .padding(.bottom, size.s64)
                 }
             },
             bottom: {

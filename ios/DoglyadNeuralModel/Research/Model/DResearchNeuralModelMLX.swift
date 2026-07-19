@@ -42,11 +42,11 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
 
     public func parseExaminationSpeech(
         locale: Locale,
-        speech _: String
+        speech: String
     ) async throws -> DExaminationNeuralModelResponse {
         let taskPrompt = DExaminationGenerationConfig.taskPrompt(
             locale,
-            DExaminationGenerationConfig.testText
+            speech
         )
 
         let response = try await session.respond(

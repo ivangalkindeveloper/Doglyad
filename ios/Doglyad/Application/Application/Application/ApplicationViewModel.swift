@@ -3,7 +3,11 @@ import SwiftUI
 
 @MainActor
 final class ApplicationViewModel: DViewModel {
-    @Published var root: any View = EmptyView()
+    @Published var root: any View = Image(.splash)
+        .resizable()
+        .scaledToFill()
+        .ignoresSafeArea()
+    @Published var rootID = UUID()
     @Published var isLoading = false
 
     @MainActor
@@ -25,6 +29,7 @@ final class ApplicationViewModel: DViewModel {
                     self.root = MainRootView(
                         dependencyContainer: result.container
                     )
+                    self.rootID = UUID()
                 },
                 onError: { [weak self] error, _, _, _ in
                     guard let self = self else { return }
@@ -33,6 +38,7 @@ final class ApplicationViewModel: DViewModel {
                     self.root = ErrorRootView(
                         error: error
                     )
+                    self.rootID = UUID()
                 }
             ).run()
         }

@@ -13,7 +13,7 @@ struct NewVersionScreenView: View {
         DScreen(
             title: .newVersionTitle,
             onTapBack: nil
-        ) { toolbarInset in
+        ) { toolbarInset, _ in
             VStack(
                 spacing: .zero
             ) {

@@ -11,6 +11,16 @@ struct HistoryEmptyView: View {
         VStack(
             spacing: .zero
         ) {
+            Image(.emptyHistory)
+                .resizable()
+                .scaledToFit()
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .center
+                )
+                .padding(.horizontal, size.s64)
+
             DText(.historyEmptyDescription)
                 .dStyle(
                     font: typography.textSmall,
@@ -18,6 +28,6 @@ struct HistoryEmptyView: View {
                     alignment: .center
                 )
         }
-        .padding(.top, size.screenHeight / 4)
+        .padding(.top, size.screenHeight / 6)
     }
 }

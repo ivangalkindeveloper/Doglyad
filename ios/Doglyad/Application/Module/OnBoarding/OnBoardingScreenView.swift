@@ -12,20 +12,19 @@ struct OnBoardingScreenView: View {
 
     var body: some View {
         DScreen(
-            content: { _ in
+            content: { _, _ in
                 VStack(
                     alignment: .leading,
                     spacing: .zero
                 ) {
                     stepper
-                        .padding(.top, size.s16)
-                        .padding(.horizontal, size.s16)
+                        .padding(.bottom, size.s16)
 
                     DText(.onBoardingTitle)
                         .dStyle(
                             font: typography.displayLargeBold
                         )
-                        .padding(size.s16)
+                        .padding(.bottom, size.s16)
 
                     currentPage
                         .id(viewModel.page)
@@ -34,8 +33,10 @@ struct OnBoardingScreenView: View {
                             maxWidth: .infinity,
                             maxHeight: .infinity
                         )
-                        .padding(.bottom, size.s64)
                 }
+                .padding(.top, size.s16)
+                .padding(.horizontal, size.s16)
+                .padding(.bottom, size.s64)
                 .animation(.easeInOut, value: viewModel.page)
             },
             bottom: {
@@ -75,19 +76,19 @@ struct OnBoardingScreenView: View {
         case .first:
             OnBoardingPageView(
                 tag: .first,
-                image: .group76,
+                image: .onBoarding1,
                 description: .onBoardingDescriptionFirst
             )
         case .second:
             OnBoardingPageView(
                 tag: .second,
-                image: .alertInfo,
+                image: .onBoarding2,
                 description: .onBoardingDescriptionSecond
             )
         case .third:
             OnBoardingPageView(
                 tag: .third,
-                image: .alertInfo,
+                image: .onBoarding3,
                 description: .onBoardingDescriptionThird
             ) {
                 HStack(
@@ -112,13 +113,13 @@ struct OnBoardingScreenView: View {
         case .fourth:
             OnBoardingPageView(
                 tag: .fourth,
-                image: .alertInfo,
+                image: .onBoarding4,
                 description: .onBoardingDescriptionFourth
             )
         case .fifth:
             OnBoardingPageView(
                 tag: .fifth,
-                image: .alertInfo,
+                image: .onBoarding5,
                 description: .onBoardingDescriptionFifth
             )
         }

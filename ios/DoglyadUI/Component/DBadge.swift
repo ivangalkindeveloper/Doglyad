@@ -50,7 +50,7 @@ public struct DBadge<Content: View>: View {
 }
 
 #Preview {
-    DScreen { _ in
+    DScreen { _, _ in
         VStack(spacing: 32) {
             DBadge("New") {
                 DButtonCard(

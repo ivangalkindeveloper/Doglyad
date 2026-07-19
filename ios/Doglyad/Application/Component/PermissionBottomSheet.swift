@@ -14,7 +14,7 @@ struct PermissionBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: title
-        ) { toolbarHeight in
+        ) { toolbarHeight, _ in
             VStack(
                 spacing: .zero
             ) {

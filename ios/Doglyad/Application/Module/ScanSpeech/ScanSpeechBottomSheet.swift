@@ -31,7 +31,7 @@ private struct ScanSpeechBottomSheetView: View {
             type: .blur,
             title: .speechTitle,
             fraction: 0.5
-        ) { toolbarHeight in
+        ) { toolbarHeight, _ in
             VStack(
                 spacing: .zero
             ) {

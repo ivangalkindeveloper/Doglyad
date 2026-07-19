@@ -108,7 +108,7 @@ public struct DSegmentButtonStyle: ButtonStyle {
 #Preview {
     @Previewable @State var value = ""
 
-    DScreen { _ in
+    DScreen { _, _ in
         DSegment<String>(
             currentValue: value,
             items: [

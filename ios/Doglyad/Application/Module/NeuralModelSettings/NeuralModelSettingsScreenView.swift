@@ -14,7 +14,7 @@ struct NeuralModelSettingsScreenView: View {
         DScreen(
             title: .neuralModelSettingsTitle,
             onTapBack: viewModel.onTapBack,
-            content: { toolbarInset in
+            content: { toolbarInset, _ in
                 ScrollView(
                     showsIndicators: false
                 ) {

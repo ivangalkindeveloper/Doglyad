@@ -11,7 +11,7 @@ struct SubscriptionScreenView: View {
         DScreen(
             title: .subscriptionTitle,
             onTapBack: viewModel.onTapBack
-        ) { toolbarInset in
+        ) { toolbarInset, _ in
             ScrollView(
                 showsIndicators: false
             ) {

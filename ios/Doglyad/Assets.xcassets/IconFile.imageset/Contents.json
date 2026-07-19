@@ -1,6 +1,7 @@
 {
-  "colors" : [
+  "images" : [
     {
+      "filename" : "file.png",
       "idiom" : "universal"
     }
   ],

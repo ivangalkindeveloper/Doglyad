@@ -13,7 +13,7 @@ struct StorageScreenView: View {
         DScreen(
             title: .storageTitle,
             onTapBack: viewModel.onTapBack
-        ) { toolbarInset in
+        ) { toolbarInset, _ in
             ScrollView(
                 showsIndicators: false
             ) {

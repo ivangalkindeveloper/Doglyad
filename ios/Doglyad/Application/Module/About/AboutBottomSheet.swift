@@ -34,20 +34,19 @@ struct AboutBottomSheet: View {
     var body: some View {
         DBottomSheet(
             title: .settingsAboutAppTitle,
-            fraction: 0.5
-        ) { toolbarHeight in
+            fraction: 0.6
+        ) { toolbarHeight, bottomHeight in
             VStack(
                 spacing: .zero
             ) {
-                Image(.alertInfo)
+                Image(.about)
                     .resizable()
                     .scaledToFit()
                     .frame(
-                        maxWidth: size.s64,
-                        maxHeight: size.s64
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .center
                     )
-                    .padding(.top, toolbarHeight + size.s16)
-                    .padding(.bottom, size.s16)
 
                 DText(.aboutDescription)
                     .dStyle(
@@ -63,11 +62,11 @@ struct AboutBottomSheet: View {
                         color: color.grayscalePlacehold,
                         alignment: .center
                     )
-                    .padding(.bottom, size.s16)
-
-                Spacer()
             }
             .padding(size.s16)
+            .padding(.top, toolbarHeight)
+            .padding(.bottom, bottomHeight)
+
         } bottom: {
             Text(contactAttributedText())
                 .multilineTextAlignment(.center)

@@ -13,7 +13,7 @@ struct ShareBottomSheetView: View {
         DBottomSheet(
             title: .shareTitle,
             fraction: viewModel.isUserEmailAvailable && viewModel.isUserEmailButtonVisible ? 0.4 : 0.3
-        ) { toolbarHeight in
+        ) { toolbarHeight, _ in
             VStack(
                 spacing: size.s8
             ) {

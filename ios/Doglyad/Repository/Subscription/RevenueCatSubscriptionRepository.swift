@@ -61,9 +61,11 @@ final class RevenueCatSubscriptionRepository: SubscriptionRepositoryProtocol {
         from customerInfo: CustomerInfo,
         configEntitlements: [SubscriptionType: SubscriptionEntitlement]
     ) async -> SubscriptionStatus? {
-        guard let identifier = customerInfo.entitlements.active.first?.key,
-              let subscriptionType = SubscriptionType(rawValue: identifier),
-              let entitlement = configEntitlements[subscriptionType]
+        guard let subscriptionType = customerInfo.entitlements.active.keys
+            .compactMap({ SubscriptionType(rawValue: $0) })
+            .filter({ configEntitlements[$0] != nil })
+            .max(),
+            let entitlement = configEntitlements[subscriptionType]
         else {
             return nil
         }

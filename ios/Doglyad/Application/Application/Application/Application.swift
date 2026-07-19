@@ -8,8 +8,21 @@ struct Application: App {
 
     var body: some Scene {
         WindowGroup {
-            AnyView(
-                self.viewModel.root
+            ZStack {
+                AnyView(
+                    self.viewModel.root
+                )
+                .id(self.viewModel.rootID)
+                .transition(
+                    .asymmetric(
+                        insertion: .opacity.combined(with: .scale(scale: 1.02)),
+                        removal: .opacity
+                    )
+                )
+            }
+            .animation(
+                .easeInOut(duration: 0.35),
+                value: self.viewModel.rootID
             )
             .onAppear {
                 self.viewModel.initialize()

@@ -14,7 +14,7 @@ struct TemplateListScreenView: View {
         DScreen(
             title: .templateListTitle,
             onTapBack: viewModel.onTapBack,
-            content: { toolbarInset in
+            content: { toolbarInset, _ in
                 ZStack(
                     alignment: .bottom
                 ) {
@@ -28,22 +28,18 @@ struct TemplateListScreenView: View {
                             if viewModel.templates.isEmpty {
                                 TemplateListEmptyView()
                             } else {
-                                VStack(
-                                    spacing: size.s4
-                                ) {
-                                    ForEach(viewModel.templates) { template in
-                                        TemplateListItemCard(
-                                            examinationTypeTitle: template.usExaminationType.getLocalizedTitle(
-                                                for: Locale.current
-                                            ),
-                                            templateContent: template.content,
-                                            action: {
-                                                viewModel.onTapTemplate(template)
-                                            }
-                                        )
-                                    }
+                                ForEach(viewModel.templates) { template in
+                                    TemplateListItemCard(
+                                        examinationTypeTitle: template.usExaminationType.getLocalizedTitle(
+                                            for: Locale.current
+                                        ),
+                                        templateContent: template.content,
+                                        action: {
+                                            viewModel.onTapTemplate(template)
+                                        }
+                                    )
+                                    .padding(.bottom, size.s4)
                                 }
-                                .padding(.bottom, size.s16)
                             }
                         }
                         .padding(size.s16)

@@ -104,7 +104,7 @@ private struct DTextModifier: ViewModifier {
 #Preview {
     @Previewable @State var isLoading = false
 
-    DScreen { _ in
+    DScreen { _, _ in
         VStack {
             DButton(
                 image: .bag,

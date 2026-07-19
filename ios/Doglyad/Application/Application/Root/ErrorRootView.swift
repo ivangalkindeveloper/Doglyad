@@ -55,7 +55,7 @@ private struct ErrorView: View {
     let action: () -> Void
 
     var body: some View {
-        DScreen { _ in
+        DScreen { _, _ in
             VStack(
                 spacing: .zero
             ) {

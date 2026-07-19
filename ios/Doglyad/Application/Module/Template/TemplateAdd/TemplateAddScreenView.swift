@@ -15,7 +15,7 @@ struct TemplateAddScreenView: View {
             title: .templateAddTitle,
             onTapBack: viewModel.onTapBack,
             onTapBody: viewModel.unfocus,
-            content: { toolbarInset in
+            content: { toolbarInset, _ in
                 ScrollView(
                     showsIndicators: false
                 ) {

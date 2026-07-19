@@ -13,12 +13,13 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     private var typography: DTypography { theme.typography }
 
     @State private var toolbarHeight: CGFloat = 0
+    @State private var bottomHeight: CGFloat = 0
 
     let type: DBottomSheetType
     let title: LocalizedStringResource
     let isCloseButtonVisible: Bool
     let fraction: Double
-    let content: (CGFloat) -> Content
+    let content: (CGFloat, CGFloat) -> Content
     let bottom: (() -> Bottom)?
 
     public init(
@@ -26,7 +27,7 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         title: LocalizedStringResource,
         isCloseButtonVisible: Bool = true,
         fraction: Double = 0.3,
-        @ViewBuilder content: @escaping (CGFloat) -> Content,
+        @ViewBuilder content: @escaping (CGFloat, CGFloat) -> Content,
         @ViewBuilder bottom: @escaping () -> Bottom
     ) {
         self.type = type
@@ -42,7 +43,7 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
         title: LocalizedStringResource,
         isCloseButtonVisible: Bool = true,
         fraction: Double = 0.3,
-        @ViewBuilder content: @escaping (CGFloat) -> Content
+        @ViewBuilder content: @escaping (CGFloat, CGFloat) -> Content
     ) where Bottom == EmptyView {
         self.type = type
         self.title = title
@@ -53,50 +54,67 @@ public struct DBottomSheet<Content, Bottom>: View where Content: View, Bottom: V
     }
 
     public var body: some View {
-        ZStack(
-            alignment: .top
-        ) {
-            ZStack {
-                content(toolbarHeight)
+        GeometryReader { proxy in
+            let safeAreaInsetBottom = proxy.safeAreaInsets.bottom
 
-                VStack(
-                    spacing: .zero
-                ) {
-                    Spacer()
-                    if let bottom = self.bottom?() {
-                        bottom
-                            .padding(.vertical, size.adaptiveCornerRadius / 6)
-                            .frame(maxWidth: .infinity)
-                            .safeAreaPadding(.bottom)
-                            .background(
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .clipShape(
-                                        DRoundedCorner(
-                                            radius: size.adaptiveCornerRadius,
-                                            corners: [.topLeft, .topRight]
+            ZStack(
+                alignment: .top
+            ) {
+                ZStack {
+                    content(toolbarHeight, bottomHeight - safeAreaInsetBottom)
+
+                    VStack(
+                        spacing: .zero
+                    ) {
+                        Spacer()
+                        if let bottom = self.bottom?() {
+                            bottom
+                                .padding(.vertical, size.adaptiveCornerRadius / 6)
+                                .frame(maxWidth: .infinity)
+                                .safeAreaPadding(.bottom)
+                                .background(
+                                    Rectangle()
+                                        .fill(.ultraThinMaterial)
+                                        .clipShape(
+                                            DRoundedCorner(
+                                                radius: size.adaptiveCornerRadius,
+                                                corners: [.topLeft, .topRight]
+                                            )
                                         )
-                                    )
-                            )
-                            .transition(.move(edge: .bottom))
+                                )
+                                .overlay {
+                                    GeometryReader { proxy in
+                                        Color.clear
+                                            .preference(
+                                                key: BottomSheetBottomHeightPreferenceKey.self,
+                                                value: proxy.size.height
+                                            )
+                                    }
+                                }
+                                .onPreferenceChange(BottomSheetBottomHeightPreferenceKey.self) { value in
+                                    guard bottomHeight != value else { return }
+                                    bottomHeight = value
+                                }
+                                .transition(.move(edge: .bottom))
+                        }
                     }
+                    .edgesIgnoringSafeArea(.bottom)
                 }
-                .edgesIgnoringSafeArea(.bottom)
-            }
 
-            toolbarView
-                .onPreferenceChange(BottomSheetToolbarHeightPreferenceKey.self) { value in
-                    guard toolbarHeight != value else { return }
-                    toolbarHeight = value
-                }
-        }
-        .presentationBackground { presentationBackgroundView }
-        .presentationDragIndicator(.hidden)
-        .presentationCornerRadius(size.adaptiveCornerRadius)
-        .presentationDetents([.fraction(fraction)])
-        .interactiveDismissDisabled(!isCloseButtonVisible)
-        .if(type == .blur) {
-            $0.preferredColorScheme(.dark)
+                toolbarView
+                    .onPreferenceChange(BottomSheetToolbarHeightPreferenceKey.self) { value in
+                        guard toolbarHeight != value else { return }
+                        toolbarHeight = value
+                    }
+            }
+            .presentationBackground { presentationBackgroundView }
+            .presentationDragIndicator(.hidden)
+            .presentationCornerRadius(size.adaptiveCornerRadius)
+            .presentationDetents([.fraction(fraction)])
+            .interactiveDismissDisabled(!isCloseButtonVisible)
+            .if(type == .blur) {
+                $0.preferredColorScheme(.dark)
+            }
         }
     }
 
@@ -173,6 +191,14 @@ private struct BottomSheetToolbarHeightPreferenceKey: PreferenceKey {
     }
 }
 
+private struct BottomSheetBottomHeightPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 #Preview {
     @Previewable @State var isPresented = false
 
@@ -183,7 +209,7 @@ private struct BottomSheetToolbarHeightPreferenceKey: PreferenceKey {
         DBottomSheet(
             title: "Sheet Title",
             fraction: 0.4
-        ) { toolbarHeight in
+        ) { toolbarHeight, _ in
             ScrollView {
                 VStack(spacing: 12) {
                     DText("Bottom sheet content")

@@ -15,7 +15,7 @@ struct TemplateEditScreenView: View {
             title: .templateEditTitle,
             onTapBack: viewModel.onTapBack,
             onTapBody: viewModel.unfocus,
-            content: { toolbarInset in
+            content: { toolbarInset, _ in
                 ScrollView(
                     showsIndicators: false
                 ) {
