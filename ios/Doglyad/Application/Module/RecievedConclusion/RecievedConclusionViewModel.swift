@@ -61,6 +61,18 @@ final class RecievedConclusionViewModel: DViewModel {
         "\(String(localized: .buttonShareUserEmailPrefix)) \(userEmail ?? "")"
     }
 
+    var userEmailButtonBadge: DButtonBadge? {
+        switch subscription.availability(of: .sendingConclusionByEmail) {
+        case .offered:
+            return DButtonBadge(
+                .entitlementPro,
+                isShimmering: true
+            )
+        case .available, .unavailable:
+            return nil
+        }
+    }
+
     override func onInit() {
         startTypewriterAnimation()
     }

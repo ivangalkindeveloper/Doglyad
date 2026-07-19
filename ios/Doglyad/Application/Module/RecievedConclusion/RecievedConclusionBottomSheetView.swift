@@ -59,11 +59,11 @@ struct RecievedConclusionBottomSheetView: View {
                         DButton(
                             image: .send,
                             title: viewModel.userEmailButtonTitle,
+                            badge: viewModel.userEmailButtonBadge,
                             action: viewModel.onTapUserEmail,
                             isLoading: viewModel.isLoading
                         )
                         .dStyle(.textWeak)
-                        .paidBadge(.sendingConclusionByEmail)
                     }
 
                     DButton(

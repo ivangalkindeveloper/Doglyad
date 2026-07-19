@@ -29,7 +29,7 @@ public struct DBadge<Content: View>: View {
                 if isVisible {
                     badge
                         .if(isShimmering) { $0.dShimmer() }
-                        .offset(x: size.s4, y: -size.s4)
+                        .offset(x: size.s10, y: -size.s10)
                 }
             }
     }

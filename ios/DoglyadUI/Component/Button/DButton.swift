@@ -8,6 +8,7 @@ public struct DButton: View {
 
     let image: ImageResource?
     let title: LocalizedStringResource?
+    let badge: DButtonBadge?
     let action: () -> Void
     let isLoading: Bool
     let isDisabled: Bool
@@ -15,12 +16,14 @@ public struct DButton: View {
     public init(
         image: ImageResource? = nil,
         title: LocalizedStringResource? = nil,
+        badge: DButtonBadge? = nil,
         action: @escaping () -> Void,
         isLoading: Bool = false,
         isDisabled: Bool = false
     ) {
         self.image = image
         self.title = title
+        self.badge = badge
         self.action = action
         self.isLoading = isLoading
         self.isDisabled = isDisabled
@@ -32,27 +35,16 @@ public struct DButton: View {
         ) {
             if isLoading {
                 ProgressView()
-            } else {
-                HStack(spacing: .zero) {
-                    if let image = self.image {
-                        Image(image)
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(
-                                width: size.s20,
-                                height: size.s20
-                            )
-                            .if(title != nil) { view in
-                                view.padding(.trailing, size.s10)
-                            }
-                    }
-                    if let title = self.title {
-                        Text(verbatim: String(localized: title))
-                            .font(typography.linkSmall)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                    }
+            } else if let badge = self.badge {
+                DBadge(
+                    badge.title,
+                    isVisible: badge.isVisible,
+                    isShimmering: badge.isShimmering
+                ) {
+                    label
                 }
+            } else {
+                label
             }
         }
         .disabled(isDisabled)
@@ -60,6 +52,29 @@ public struct DButton: View {
             theme.animation,
             value: isLoading
         )
+    }
+
+    private var label: some View {
+        HStack(spacing: .zero) {
+            if let image = self.image {
+                Image(image)
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(
+                        width: size.s20,
+                        height: size.s20
+                    )
+                    .if(title != nil) { view in
+                        view.padding(.trailing, size.s10)
+                    }
+            }
+            if let title = self.title {
+                Text(verbatim: String(localized: title))
+                    .font(typography.linkSmall)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+            }
+        }
     }
 }
 
@@ -144,6 +159,18 @@ private struct DTextModifier: ViewModifier {
                 isLoading: isLoading
             )
             .dStyle(.textWeak)
+
+            DButton(
+                image: .send,
+                title: "Badged text weak button",
+                badge: DButtonBadge(
+                    "Pro",
+                    isShimmering: true
+                ),
+                action: { isLoading.toggle() },
+                isLoading: isLoading
+            )
+            .dStyle(.primaryButton)
 
             DButton(
                 image: .bag,
