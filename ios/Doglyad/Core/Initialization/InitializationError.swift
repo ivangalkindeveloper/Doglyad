@@ -3,5 +3,6 @@ enum InitializationError: Error {
     case noCameraRequestDenied
     case usExaminationTypesEmpty
     case usExaminationNeuralModelsEmpty
+    case examinationNeuralModelPromptEmpty
     case common
 }

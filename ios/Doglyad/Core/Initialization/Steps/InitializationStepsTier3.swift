@@ -44,13 +44,30 @@ extension InitializationProcess {
             AsyncInitializationStep<InitializationProcess>(
                 title: "Local ultrasound examination neural model",
                 run: { (process: InitializationProcess) in
+                    let config = await process.applicationConfig!.ultrasound.examinationNeuralModel
+                    guard let prompt = config.getPrompt(for: Locale.current) else {
+                        throw InitializationError.examinationNeuralModelPromptEmpty
+                    }
+
+                    let parameters = DExaminationGenerationParameters(
+                        temperature: config.temperature,
+                        maxTokens: config.maxTokens
+                    )
+
                     if #available(iOS 26.0, *), DExaminationNeuralModelFoundationModels.isAvailable {
+                        let model = DExaminationNeuralModelFoundationModels(
+                            systemPrompt: prompt,
+                            parameters: parameters
+                        )
                         return await MainActor.run {
-                            process.examinationNeuralModel = DExaminationNeuralModelFoundationModels()
+                            process.examinationNeuralModel = model
                         }
                     }
                     if DExaminationNeuralModelMLX.isAvailable {
-                        let model = try await DExaminationNeuralModelMLX()
+                        let model = try await DExaminationNeuralModelMLX(
+                            systemPrompt: prompt,
+                            parameters: parameters
+                        )
                         return await MainActor.run {
                             process.examinationNeuralModel = model
                         }

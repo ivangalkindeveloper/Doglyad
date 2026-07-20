@@ -11,7 +11,7 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
         @FoundationModels.Guide(description: "Patient gender")
         let patientGender: Gender?
 
-        @FoundationModels.Guide(description: "Patient date of birth in the following format \(DExaminationGenerationConfig.dateFormat)")
+        @FoundationModels.Guide(description: "Patient date of birth in the following format \(DExaminationGenerationConfig.promptDateFormat)")
         let patientDateOfBirth: String?
 
         @FoundationModels.Guide(description: "Patient height in centimeters")
@@ -37,27 +37,30 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
     }
 
     public static var isAvailable: Bool { SystemLanguageModel.default.isAvailable }
-    private let session: LanguageModelSession = .init(
-        instructions: """
-        \(DExaminationGenerationConfig.modelRole)
-        \(DExaminationGenerationConfig.answerExamples)
-        """
-    )
+    private let systemPrompt: String
+    private let generationOptions: GenerationOptions
 
-    public init() {}
+    public init(
+        systemPrompt: String,
+        parameters: DExaminationGenerationParameters
+    ) {
+        self.systemPrompt = systemPrompt
+        generationOptions = GenerationOptions(
+            temperature: parameters.temperature,
+            maximumResponseTokens: parameters.maxTokens
+        )
+    }
 
     public func parseExaminationSpeech(
-        locale: Locale,
-        speech _: String
+        speech: String
     ) async throws -> DExaminationNeuralModelResponse {
-        let taskPrompt = DExaminationGenerationConfig.taskPrompt(
-            locale,
-            DExaminationGenerationConfig.testText
+        let session = LanguageModelSession(
+            instructions: systemPrompt
         )
-
         let response = try await session.respond(
-            to: taskPrompt,
-            generating: Response.self
+            to: speech,
+            generating: Response.self,
+            options: generationOptions
         )
 
         return DExaminationNeuralModelResponse.fromFoudationModels(

@@ -6,9 +6,19 @@ internal import Tokenizers
 
 public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
     public static var isAvailable: Bool {
-        DNeuralDevice.canRunLocally(
+        guard resourceDirectory != nil else { return false }
+
+        return DNeuralDevice.canRunLocally(
             model: defaultModel,
             maxTokens: 512
+        )
+    }
+
+    private static let resourceName = "mlx-Qwen2.5-1.5B-Instruct-4bit"
+    private static var resourceDirectory: URL? {
+        Bundle.main.url(
+            forResource: resourceName,
+            withExtension: nil
         )
     }
 
@@ -20,40 +30,45 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
         numLayers: 24
     )
     private let model: MLXLMCommon.ModelContext
-    private let session: MLXLMCommon.ChatSession
+    private let systemPrompt: String
+    private let generateParameters: MLXLMCommon.GenerateParameters
 
-    public init() async throws {
-        let directory: URL = Bundle.main.url(
-            forResource: "mlx-Qwen2.5-1.5B-Instruct-4bit",
-            withExtension: nil
-        )!
+    public init(
+        systemPrompt: String,
+        parameters: DExaminationGenerationParameters
+    ) async throws {
+        guard let directory = Self.resourceDirectory else {
+            throw DExaminationNeuralModelError.resourceNotFound
+        }
+
         model = try await MLXLMCommon.loadModel(
             from: directory,
             using: DTransformersTokenizerLoader()
         )
-        session = MLXLMCommon.ChatSession(
-            model,
-            instructions: """
-            \(DExaminationGenerationConfig.modelRole)
-            \(DExaminationGenerationConfig.outputJsonExample)
-            """
+        self.systemPrompt = systemPrompt
+        generateParameters = MLXLMCommon.GenerateParameters(
+            maxTokens: parameters.maxTokens,
+            temperature: Float(parameters.temperature)
         )
     }
 
     public func parseExaminationSpeech(
-        locale: Locale,
         speech: String
     ) async throws -> DExaminationNeuralModelResponse {
-        let taskPrompt = DExaminationGenerationConfig.taskPrompt(
-            locale,
-            speech
+        let session = MLXLMCommon.ChatSession(
+            model,
+            instructions: systemPrompt,
+            generateParameters: generateParameters
         )
-
         let response = try await session.respond(
-            to: taskPrompt
+            to: speech
         )
 
-        let data = Data(response.utf8)
+        guard let json = DExaminationJSONSanitizer.extractJSONObject(from: response) else {
+            throw DExaminationNeuralModelError.responseIsNotJSON
+        }
+
+        let data = Data(json.utf8)
         let decoded = try DExaminationGenerationConfig.jsonDecoder.decode(
             DExaminationNeuralModelResponse.self,
             from: data

@@ -163,6 +163,11 @@ extension DependencyContainer {
                         temperature: 0.2,
                         maxTokens: 512
                     ),
+                    examinationNeuralModel: UltrasoundExaminationNeuralModelConfig(
+                        temperature: 0,
+                        maxTokens: 0,
+                        prompt: [:]
+                    ),
                     scanPhotoMaxNumber: 0,
                     scanPhotoResizeMaxDimension: 0,
                     scanPhotoCompressionQuality: 0,

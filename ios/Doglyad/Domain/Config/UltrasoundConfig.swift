@@ -1,5 +1,8 @@
+import Foundation
+
 struct UltrasoundConfig: Codable {
     let neuralModel: UltrasoundNeuralModelConfig
+    let examinationNeuralModel: UltrasoundExaminationNeuralModelConfig
     let scanPhotoMaxNumber: Int
     let scanPhotoResizeMaxDimension: Double
     let scanPhotoCompressionQuality: Double

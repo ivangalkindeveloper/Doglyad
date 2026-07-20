@@ -4,6 +4,7 @@ import SwiftUI
 
 struct ScanSpeechBottomSheet: View {
     @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var messager: DMessager
     @EnvironmentObject private var router: DRouter
     let arguments: ScanSpeechBottomSheetArguments
 
@@ -11,6 +12,7 @@ struct ScanSpeechBottomSheet: View {
         ScanSpeechBottomSheetView(
             viewModel: ScanSpeechViewModel(
                 container: container,
+                messager: messager,
                 router: router,
                 arguments: arguments
             )
@@ -37,7 +39,7 @@ private struct ScanSpeechBottomSheetView: View {
             ) {
                 Spacer()
 
-                if viewModel.speechController.isRecording {
+                if viewModel.speechController.status == .recording {
                     if let speechText = viewModel.speechController.text {
                         DText(speechText)
                             .dStyle(
@@ -58,7 +60,7 @@ private struct ScanSpeechBottomSheetView: View {
                     .padding(.bottom, size.s16)
                 }
 
-                if !viewModel.speechController.isRecording {
+                if viewModel.speechController.status == .stopped {
                     DText(.speechProcessDescription)
                         .dStyle(
                             font: typography.textSmall,
@@ -91,7 +93,7 @@ private struct ScanSpeechBottomSheetView: View {
         }
         .animation(
             theme.animation,
-            value: viewModel.speechController.isRecording
+            value: viewModel.speechController.status
         )
         .animation(
             theme.animation,

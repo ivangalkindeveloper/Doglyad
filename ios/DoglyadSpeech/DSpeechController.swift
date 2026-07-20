@@ -3,6 +3,11 @@ import Combine
 import Foundation
 import Speech
 
+public enum DRecordingStatus {
+    case recording
+    case stopped
+}
+
 @MainActor
 public final class DSpeechController: ObservableObject {
     private let audioSession = AVAudioSession.sharedInstance()
@@ -11,7 +16,7 @@ public final class DSpeechController: ObservableObject {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
 
-    @Published public var isRecording = false
+    @Published public var status: DRecordingStatus = .stopped
     @Published public var text: String?
     @Published public var audioMeter: Float = 0.0
 
@@ -59,7 +64,7 @@ public final class DSpeechController: ObservableObject {
         }
 
         audioEngine.prepare()
-        isRecording = true
+        status = .recording
         text = nil
         audioMeter = 0.0
         try? audioEngine.start()
@@ -72,7 +77,7 @@ public final class DSpeechController: ObservableObject {
         recognitionRequest = nil
         recognitionTask?.cancel()
         recognitionTask = nil
-        isRecording = false
+        status = .stopped
     }
 
     private func updateAudioMeter(
