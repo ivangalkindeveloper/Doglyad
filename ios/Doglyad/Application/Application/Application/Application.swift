@@ -15,7 +15,7 @@ struct Application: App {
                 .id(self.viewModel.rootID)
                 .transition(
                     .asymmetric(
-                        insertion: .opacity.combined(with: .scale(scale: 1.02)),
+                        insertion: .opacity,
                         removal: .opacity
                     )
                 )

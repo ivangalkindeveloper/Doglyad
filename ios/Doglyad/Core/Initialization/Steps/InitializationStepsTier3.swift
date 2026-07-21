@@ -51,26 +51,15 @@ extension InitializationProcess {
 
                     let parameters = DExaminationGenerationParameters(
                         temperature: config.temperature,
-                        maxTokens: config.maxTokens
+                        maxTokens: config.maxTokens,
+                        maxContextTokens: config.maxContextTokens
                     )
 
-                    if #available(iOS 26.0, *), DExaminationNeuralModelFoundationModels.isAvailable {
-                        let model = DExaminationNeuralModelFoundationModels(
+                    await MainActor.run {
+                        process.examinationNeuralModelProvider = DExaminationNeuralModelProvider(
                             systemPrompt: prompt,
                             parameters: parameters
                         )
-                        return await MainActor.run {
-                            process.examinationNeuralModel = model
-                        }
-                    }
-                    if DExaminationNeuralModelMLX.isAvailable {
-                        let model = try await DExaminationNeuralModelMLX(
-                            systemPrompt: prompt,
-                            parameters: parameters
-                        )
-                        return await MainActor.run {
-                            process.examinationNeuralModel = model
-                        }
                     }
                 }
             ),

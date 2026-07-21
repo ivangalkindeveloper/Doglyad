@@ -5,6 +5,7 @@ struct UltrasoundExaminationNeuralModelConfig: Codable {
 
     let temperature: Double
     let maxTokens: Int
+    let maxContextTokens: Int
     let prompt: [String: String]
 
     func getPrompt(for locale: Locale) -> String? {

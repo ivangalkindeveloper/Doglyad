@@ -39,6 +39,8 @@ final class ScanSpeechViewModel: DViewModel {
             return .check
         case .stopped:
             return .play
+        @unknown default:
+            fatalError()
         }
     }
 
@@ -50,20 +52,20 @@ final class ScanSpeechViewModel: DViewModel {
             onStopSpeech()
         case .stopped:
             speechController.start()
+        @unknown default:
+            fatalError()
         }
     }
 
     private func onStopSpeech() {
-        guard let examinationNeuralModel = container.examinationNeuralModel else { return }
-
-        // Финальный фрагмент распознавания приходит при остановке движка,
-        // поэтому текст забираем уже после stop().
         speechController.stop()
+        guard let provider = container.examinationNeuralModelProvider else { return }
         guard let speech = speechController.text else { return }
 
         isLoading = true
         handle {
-            try await examinationNeuralModel.parseExaminationSpeech(
+            // Первый разбор дополнительно ждёт загрузку модели — она ленивая.
+            try await provider.model().parseSpeech(
                 speech: speech
             )
         } onDefer: {

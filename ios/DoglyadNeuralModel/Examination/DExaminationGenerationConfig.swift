@@ -1,6 +1,6 @@
 import Foundation
 
-enum DExaminationGenerationConfig {
+class DExaminationGenerationConfig {
     static let dateFormat: String = "yyyy-MM-dd"
     static let promptDateFormat: String = "YYYY-MM-DD"
     static let dateFormatter: DateFormatter = {

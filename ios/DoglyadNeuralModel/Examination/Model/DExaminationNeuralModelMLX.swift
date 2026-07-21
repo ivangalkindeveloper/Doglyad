@@ -5,29 +5,37 @@ internal import MLXLLM
 internal import Tokenizers
 
 public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
-    public static var isAvailable: Bool {
-        guard resourceDirectory != nil else { return false }
-
-        return DNeuralDevice.canRunLocally(
+    public static func isAvailable(
+        parameters: DExaminationGenerationParameters
+    ) -> Bool {
+        DNeuralDevice.canRunLocally(
             model: defaultModel,
-            maxTokens: 512
+            weightsBytes: resourceBytes,
+            maxContextTokens: parameters.maxContextTokens
         )
     }
 
     private static let resourceName = "mlx-Qwen2.5-1.5B-Instruct-4bit"
-    private static var resourceDirectory: URL? {
-        Bundle.main.url(
-            forResource: resourceName,
-            withExtension: nil
-        )
-    }
+    private static let resourceDirectory: URL? = Bundle.main.url(
+        forResource: resourceName,
+        withExtension: nil
+    )
 
+    /// Размер весов меряем по факту, а не выводим из числа параметров:
+    /// поквантовые scales и zeros в оценку не укладываются, а при смене
+    /// модели фактический размер обновится сам.
+    private static let resourceBytes: UInt64 = {
+        guard let resourceDirectory else { return 0 }
+
+        return DNeuralResource.directorySize(at: resourceDirectory)
+    }()
+
+    /// Архитектура mlx-community/Qwen2.5-1.5B-Instruct-4bit по её config.json.
     private static let defaultModel = DNeuralModelData(
         modelId: "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
-        params: 1500000000, // 1.5B
-        quantBits: 4,
-        hiddenSize: 896,
-        numLayers: 24
+        numLayers: 28,
+        numKeyValueHeads: 2,
+        headDimension: 128
     )
     private let model: MLXLMCommon.ModelContext
     private let systemPrompt: String
@@ -41,6 +49,10 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
             throw DExaminationNeuralModelError.resourceNotFound
         }
 
+        // Без лимита буферный кэш MLX растёт поверх весов и на телефоне
+        // превращается в лишние сотни мегабайт резидентной памяти.
+        MLX.Memory.cacheLimit = Self.gpuCacheLimitBytes
+
         model = try await MLXLMCommon.loadModel(
             from: directory,
             using: DTransformersTokenizerLoader()
@@ -52,7 +64,15 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
         )
     }
 
-    public func parseExaminationSpeech(
+    private static let gpuCacheLimitBytes = 32 * 1024 * 1024
+
+    deinit {
+        // Веса освобождаются вместе с ModelContext, но буферный кэш MLX
+        // переживает модель, поэтому сбрасываем его явно.
+        MLX.Memory.clearCache()
+    }
+
+    public func parseSpeech(
         speech: String
     ) async throws -> DExaminationNeuralModelResponse {
         let session = MLXLMCommon.ChatSession(

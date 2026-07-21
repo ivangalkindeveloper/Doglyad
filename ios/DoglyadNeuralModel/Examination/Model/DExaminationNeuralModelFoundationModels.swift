@@ -36,7 +36,12 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
         case female
     }
 
-    public static var isAvailable: Bool { SystemLanguageModel.default.isAvailable }
+    public static func isAvailable(
+        parameters _: DExaminationGenerationParameters
+    ) -> Bool {
+        SystemLanguageModel.default.isAvailable
+    }
+
     private let systemPrompt: String
     private let generationOptions: GenerationOptions
 
@@ -51,7 +56,7 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
         )
     }
 
-    public func parseExaminationSpeech(
+    public func parseSpeech(
         speech: String
     ) async throws -> DExaminationNeuralModelResponse {
         let session = LanguageModelSession(

@@ -16,7 +16,7 @@ final class DependencyContainer: ObservableObject {
     let templateRepository: TemplateRepositoryProtocol
     let subscriptionRepository: RevenueCatSubscriptionRepository
     let applicationConfig: ApplicationConfig
-    let examinationNeuralModel: DExaminationNeuralModelProtocol?
+    let examinationNeuralModelProvider: DExaminationNeuralModelProvider?
     let usExaminationTypes: [USExaminationType]
     let usExaminationTypesById: [String: USExaminationType]
     let usExaminationTypeDefault: USExaminationType
@@ -45,7 +45,7 @@ final class DependencyContainer: ObservableObject {
         usExaminationNeuralModels: [USExaminationNeuralModel],
         usExaminationNeuralModelsById: [String: USExaminationNeuralModel],
         usExaminationNeuralModelDefault: USExaminationNeuralModel,
-        examinationNeuralModel: DExaminationNeuralModelProtocol?,
+        examinationNeuralModelProvider: DExaminationNeuralModelProvider?,
         initialSubscriptionStatus: SubscriptionStatus?,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?,
@@ -67,7 +67,7 @@ final class DependencyContainer: ObservableObject {
         self.usExaminationNeuralModels = usExaminationNeuralModels
         self.usExaminationNeuralModelsById = usExaminationNeuralModelsById
         self.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
-        self.examinationNeuralModel = examinationNeuralModel
+        self.examinationNeuralModelProvider = examinationNeuralModelProvider
         self.initialSubscriptionStatus = initialSubscriptionStatus
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
@@ -77,7 +77,7 @@ final class DependencyContainer: ObservableObject {
 
 extension DependencyContainer {
     var isUSExaminationNeuralModelAvailable: Bool {
-        examinationNeuralModel != nil
+        examinationNeuralModelProvider?.isAvailable ?? false
     }
 
     func getUSExaminationTypeById(
@@ -166,6 +166,7 @@ extension DependencyContainer {
                     examinationNeuralModel: UltrasoundExaminationNeuralModelConfig(
                         temperature: 0,
                         maxTokens: 0,
+                        maxContextTokens: 0,
                         prompt: [:]
                     ),
                     scanPhotoMaxNumber: 0,
@@ -191,7 +192,7 @@ extension DependencyContainer {
                 contextLength: 0,
                 description: [:]
             ),
-            examinationNeuralModel: nil,
+            examinationNeuralModelProvider: nil,
             initialSubscriptionStatus: nil,
             initialScreen: .onBoarding,
             initialScreenArguments: nil,
