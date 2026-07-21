@@ -1,13 +1,14 @@
 import Foundation
 import UIKit
 
-/// Держит локальную модель разбора диктовок.
+/// Создаёт и держит локальную модель разбора диктовок, выбирая её реализацию
+/// (Foundation Models или MLX) по доступности на текущей системе.
 ///
 /// Модель весит сотни мегабайт и на экране сканирования соседствует с сессией
 /// камеры, поэтому грузим её лениво — при первом разборе, а не на старте
 /// приложения — и отпускаем, когда система просит освободить память.
 @MainActor
-public final class DExaminationNeuralModelProvider {
+public final class DExaminationNeuralModelFactory {
     private let systemPrompt: String
     private let parameters: DExaminationGenerationParameters
     private var loadedModel: (any DExaminationNeuralModelProtocol)?
@@ -38,7 +39,7 @@ public final class DExaminationNeuralModelProvider {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 self?.unload()
             }
         }

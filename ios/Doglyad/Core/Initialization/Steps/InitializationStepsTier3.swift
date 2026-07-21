@@ -56,7 +56,7 @@ extension InitializationProcess {
                     )
 
                     await MainActor.run {
-                        process.examinationNeuralModelProvider = DExaminationNeuralModelProvider(
+                        process.examinationNeuralModelFactory = DExaminationNeuralModelFactory(
                             systemPrompt: prompt,
                             parameters: parameters
                         )

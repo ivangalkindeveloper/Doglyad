@@ -1,7 +1,7 @@
+import Combine
 import DoglyadNeuralModel
 import DoglyadSpeech
 import DoglyadUI
-import NestedObservableObject
 import SwiftUI
 
 @MainActor
@@ -10,6 +10,17 @@ final class ScanSpeechViewModel: DViewModel {
     private let messager: DMessager
     private let router: DRouter
     private let arguments: ScanSpeechBottomSheetArguments
+
+    // Реализацию контроллера выбирает фабрика по доступности на системе и
+    // поддержке локали, поэтому держим его экзистенциалом. `NestedObservableObject`
+    // требует конкретный тип, так что переиздаём изменения вручную через
+    // `objectWillChange`.
+    //
+    // Подбор лучшей реализации асинхронный (поддержка локали в `SpeechTranscriber`
+    // читается через `await`), поэтому стартуем с синхронного `SFSpeechRecognizer`
+    // и, если система/локаль позволяют, апгрейдимся до `SpeechAnalyzer`.
+    private(set) var speechController: any DSpeechControllerProtocol
+    private var speechCancellable: AnyCancellable?
 
     init(
         container: DependencyContainer,
@@ -21,11 +32,30 @@ final class ScanSpeechViewModel: DViewModel {
         self.messager = messager
         self.router = router
         self.arguments = arguments
+        speechController = DSpeechFactory.makeDefault(locale: Locale.current)
+        super.init()
+        observeSpeechController()
+
+        Task { [weak self] in
+            let controller = await DSpeechFactory.make(locale: Locale.current)
+            guard let self else { return }
+            // Не подменяем во время записи и только если реализация действительно
+            // сменилась (иначе фабрика вернула тот же `SFSpeechRecognizer`).
+            guard self.speechController.status == .stopped,
+                  type(of: controller) != type(of: self.speechController) else { return }
+
+            self.objectWillChange.send()
+            self.speechController = controller
+            self.observeSpeechController()
+        }
     }
 
-    @NestedObservableObject var speechController = DSpeechController(
-        locale: Locale.current
-    )
+    private func observeSpeechController() {
+        speechCancellable = speechController.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }
+    }
+
     @Published var isLoading = false
     let columns = [GridItem(.adaptive(minimum: 100))]
 
@@ -59,13 +89,13 @@ final class ScanSpeechViewModel: DViewModel {
 
     private func onStopSpeech() {
         speechController.stop()
-        guard let provider = container.examinationNeuralModelProvider else { return }
+        guard let factory = container.examinationNeuralModelFactory else { return }
         guard let speech = speechController.text else { return }
 
         isLoading = true
         handle {
             // Первый разбор дополнительно ждёт загрузку модели — она ленивая.
-            try await provider.model().parseSpeech(
+            try await factory.model().parseSpeech(
                 speech: speech
             )
         } onDefer: {

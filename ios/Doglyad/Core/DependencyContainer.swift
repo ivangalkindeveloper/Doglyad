@@ -16,7 +16,7 @@ final class DependencyContainer: ObservableObject {
     let templateRepository: TemplateRepositoryProtocol
     let subscriptionRepository: RevenueCatSubscriptionRepository
     let applicationConfig: ApplicationConfig
-    let examinationNeuralModelProvider: DExaminationNeuralModelProvider?
+    let examinationNeuralModelFactory: DExaminationNeuralModelFactory?
     let usExaminationTypes: [USExaminationType]
     let usExaminationTypesById: [String: USExaminationType]
     let usExaminationTypeDefault: USExaminationType
@@ -45,7 +45,7 @@ final class DependencyContainer: ObservableObject {
         usExaminationNeuralModels: [USExaminationNeuralModel],
         usExaminationNeuralModelsById: [String: USExaminationNeuralModel],
         usExaminationNeuralModelDefault: USExaminationNeuralModel,
-        examinationNeuralModelProvider: DExaminationNeuralModelProvider?,
+        examinationNeuralModelFactory: DExaminationNeuralModelFactory?,
         initialSubscriptionStatus: SubscriptionStatus?,
         initialScreen: ScreenType,
         initialScreenArguments: RouteArgumentsProtocol?,
@@ -67,7 +67,7 @@ final class DependencyContainer: ObservableObject {
         self.usExaminationNeuralModels = usExaminationNeuralModels
         self.usExaminationNeuralModelsById = usExaminationNeuralModelsById
         self.usExaminationNeuralModelDefault = usExaminationNeuralModelDefault
-        self.examinationNeuralModelProvider = examinationNeuralModelProvider
+        self.examinationNeuralModelFactory = examinationNeuralModelFactory
         self.initialSubscriptionStatus = initialSubscriptionStatus
         self.initialScreen = initialScreen
         self.initialScreenArguments = initialScreenArguments
@@ -77,7 +77,7 @@ final class DependencyContainer: ObservableObject {
 
 extension DependencyContainer {
     var isUSExaminationNeuralModelAvailable: Bool {
-        examinationNeuralModelProvider?.isAvailable ?? false
+        examinationNeuralModelFactory?.isAvailable ?? false
     }
 
     func getUSExaminationTypeById(
@@ -192,7 +192,7 @@ extension DependencyContainer {
                 contextLength: 0,
                 description: [:]
             ),
-            examinationNeuralModelProvider: nil,
+            examinationNeuralModelFactory: nil,
             initialSubscriptionStatus: nil,
             initialScreen: .onBoarding,
             initialScreenArguments: nil,
