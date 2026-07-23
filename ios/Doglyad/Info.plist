@@ -4,8 +4,6 @@
 <dict>
 	<key>BASE_URL</key>
 	<string>$(BASE_URL)</string>
-	<key>UILaunchStoryboardName</key>
-	<string>Launch Screen.storyboard</string>
 	<key>ENVIRONMENT</key>
 	<string>$(ENVIRONMENT)</string>
 	<key>NSAppTransportSecurity</key>
