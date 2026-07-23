@@ -11,23 +11,25 @@ public enum DSpeechFactory {
     /// Годится как стартовое значение, пока идёт асинхронный подбор лучшего.
     @MainActor
     public static func makeDefault(
-        locale: Locale
+        locale: Locale,
+        contextualStrings: [String]
     ) -> any DSpeechControllerProtocol {
-        DSpeechControllerSFSpeechRecognizer(locale: locale)
+        DSpeechControllerSFSpeechRecognizer(locale: locale, contextualStrings: contextualStrings)
     }
 
     /// Лучшая доступная реализация: на iOS 26+ — `SpeechAnalyzer`, если он реально
     /// поддерживает локаль; иначе — `SFSpeechRecognizer`.
     @MainActor
     public static func make(
-        locale: Locale
+        locale: Locale,
+        contextualStrings: [String]
     ) async -> any DSpeechControllerProtocol {
         if #available(iOS 26.0, *),
            await DSpeechControllerAnalyzer.isSupported(locale: locale)
         {
-            return DSpeechControllerAnalyzer(locale: locale)
+            return DSpeechControllerAnalyzer(locale: locale, contextualStrings: contextualStrings)
         }
 
-        return DSpeechControllerSFSpeechRecognizer(locale: locale)
+        return DSpeechControllerSFSpeechRecognizer(locale: locale, contextualStrings: contextualStrings)
     }
 }

@@ -14,6 +14,8 @@ import Speech
 public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtocol {
     private let audioSession = AVAudioSession.sharedInstance()
     private let speechRecognizer: SFSpeechRecognizer?
+    /// Подсказки распознавателю: специфичная лексика осмотра для текущей локали.
+    private let contextualStrings: [String]
     private let audioEngine = AVAudioEngine()
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -32,9 +34,11 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
     @Published public var audioMeter: Float = 0.0
 
     public init(
-        locale: Locale
+        locale: Locale,
+        contextualStrings: [String]
     ) {
         speechRecognizer = SFSpeechRecognizer(locale: locale)
+        self.contextualStrings = contextualStrings
     }
 
     public func start() {
@@ -85,6 +89,7 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         request.requiresOnDeviceRecognition = false
         request.addsPunctuation = true
         request.taskHint = .dictation
+        request.contextualStrings = contextualStrings
         recognitionRequest = request
         lastPartial = ""
 

@@ -32,12 +32,19 @@ final class ScanSpeechViewModel: DViewModel {
         self.messager = messager
         self.router = router
         self.arguments = arguments
-        speechController = DSpeechFactory.makeDefault(locale: Locale.current)
+        let contextualStrings = container.getContextualStrings(for: Locale.current)
+        speechController = DSpeechFactory.makeDefault(
+            locale: Locale.current,
+            contextualStrings: contextualStrings
+        )
         super.init()
         observeSpeechController()
 
         Task { [weak self] in
-            let controller = await DSpeechFactory.make(locale: Locale.current)
+            let controller = await DSpeechFactory.make(
+                locale: Locale.current,
+                contextualStrings: contextualStrings
+            )
             guard let self else { return }
             // Не подменяем во время записи и только если реализация действительно
             // сменилась (иначе фабрика вернула тот же `SFSpeechRecognizer`).

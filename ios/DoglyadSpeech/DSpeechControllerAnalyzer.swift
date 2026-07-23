@@ -46,6 +46,10 @@ public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
     }
 
     private let locale: Locale
+    /// Подсказки-лексика осмотра. `SpeechAnalyzer` подхватывает контекст иначе,
+    /// чем `SFSpeechRecognizer` (через `AnalysisContext`), поэтому пока храним их
+    /// для будущего применения на этом пути и держим единый интерфейс контроллеров.
+    private let contextualStrings: [String]
     private let audioSession = AVAudioSession.sharedInstance()
     private let audioEngine = AVAudioEngine()
     private let converter = DSpeechBufferConverter()
@@ -66,9 +70,11 @@ public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
     @Published public var audioMeter: Float = 0.0
 
     public init(
-        locale: Locale
+        locale: Locale,
+        contextualStrings: [String]
     ) {
         self.locale = locale
+        self.contextualStrings = contextualStrings
     }
 
     public func start() {

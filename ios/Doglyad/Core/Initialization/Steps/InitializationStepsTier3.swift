@@ -42,6 +42,19 @@ extension InitializationProcess {
                 }
             ),
             AsyncInitializationStep<InitializationProcess>(
+                title: "Ultrasound examination contextual strings",
+                run: { (process: InitializationProcess) async throws in
+                    let url = await process.applicationConfig!.configUrl.appendingPathComponent("ultrasound_examination_contextual_strings.json")
+                    // Строки могут быть пустыми — это валидное состояние, поэтому
+                    // проверку на пустоту (в отличие от типов и моделей) не делаем.
+                    let usExaminationContextualStrings: USExaminationContextualStrings = try await process.httpClient!.get(url: url)
+
+                    await MainActor.run {
+                        process.usExaminationContextualStrings = usExaminationContextualStrings
+                    }
+                }
+            ),
+            AsyncInitializationStep<InitializationProcess>(
                 title: "Local ultrasound examination neural model",
                 run: { (process: InitializationProcess) in
                     let config = await process.applicationConfig!.ultrasound.examinationNeuralModel

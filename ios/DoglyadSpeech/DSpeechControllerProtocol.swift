@@ -15,7 +15,8 @@ public protocol DSpeechControllerProtocol: ObservableObject
     where ObjectWillChangePublisher == ObservableObjectPublisher
 {
     init(
-        locale: Locale
+        locale: Locale,
+        contextualStrings: [String]
     )
 
     var status: DRecordingStatus { get }
