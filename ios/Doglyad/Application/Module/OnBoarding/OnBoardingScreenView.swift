@@ -5,7 +5,6 @@ struct OnBoardingScreenView: View {
     @Environment(\.locale) private var locale
     @EnvironmentObject private var theme: DTheme
     private var size: DSize { theme.size }
-    private var typography: DTypography { theme.typography }
     private var color: DColor { theme.color }
 
     @StateObject var viewModel: OnBoardingViewModel
@@ -18,12 +17,6 @@ struct OnBoardingScreenView: View {
                     spacing: .zero
                 ) {
                     stepper
-                        .padding(.bottom, size.s16)
-
-                    DText(.onBoardingTitle)
-                        .dStyle(
-                            font: typography.displayLargeBold
-                        )
                         .padding(.bottom, size.s16)
 
                     currentPage
@@ -76,18 +69,21 @@ struct OnBoardingScreenView: View {
         case .first:
             OnBoardingPageView(
                 tag: .first,
+                title: .onBoardingTitleFirst,
                 image: .onBoarding1,
                 description: .onBoardingDescriptionFirst
             )
         case .second:
             OnBoardingPageView(
                 tag: .second,
+                title: .onBoardingTitleSecond,
                 image: .onBoarding2,
                 description: .onBoardingDescriptionSecond
             )
         case .third:
             OnBoardingPageView(
                 tag: .third,
+                title: .onBoardingTitleThird,
                 image: .onBoarding3,
                 description: .onBoardingDescriptionThird
             ) {
@@ -113,12 +109,14 @@ struct OnBoardingScreenView: View {
         case .fourth:
             OnBoardingPageView(
                 tag: .fourth,
+                title: .onBoardingTitleFourth,
                 image: .onBoarding4,
                 description: .onBoardingDescriptionFourth
             )
         case .fifth:
             OnBoardingPageView(
                 tag: .fifth,
+                title: .onBoardingTitleFifth,
                 image: .onBoarding5,
                 description: .onBoardingDescriptionFifth
             )

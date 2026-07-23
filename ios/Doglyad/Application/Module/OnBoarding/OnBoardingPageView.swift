@@ -7,17 +7,20 @@ struct OnBoardingPageView<BottomContent: View>: View {
     private var typography: DTypography { theme.typography }
 
     let tag: OnBoardingViewModel.Page
+    let title: LocalizedStringResource
     let image: ImageResource
     let description: LocalizedStringResource
     let bottomContent: BottomContent
 
     init(
         tag: OnBoardingViewModel.Page,
+        title: LocalizedStringResource,
         image: ImageResource,
         description: LocalizedStringResource,
         @ViewBuilder bottomContent: @escaping () -> BottomContent = { EmptyView() }
     ) {
         self.tag = tag
+        self.title = title
         self.image = image
         self.description = description
         self.bottomContent = bottomContent()
@@ -28,6 +31,12 @@ struct OnBoardingPageView<BottomContent: View>: View {
             alignment: .leading,
             spacing: .zero
         ) {
+            DText(title)
+                .dStyle(
+                    font: typography.displayLargeBold
+                )
+                .padding(.bottom, size.s16)
+
             Spacer()
 
             Image(image)

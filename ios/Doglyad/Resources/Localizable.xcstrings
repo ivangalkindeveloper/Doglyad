@@ -1312,7 +1312,7 @@
         }
       }
     },
-    "onBoardingTitle" : {
+    "onBoardingTitleFirst" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1325,6 +1325,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Добро пожаловать в Догляд!"
+          }
+        }
+      }
+    },
+    "onBoardingTitleFifth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start scanning!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начинайте сканировать!"
+          }
+        }
+      }
+    },
+    "onBoardingTitleFourth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select the examination type"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите тип исследования"
+          }
+        }
+      }
+    },
+    "onBoardingTitleSecond" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Designed to help doctors"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Призван помогать врачам"
+          }
+        }
+      }
+    },
+    "onBoardingTitleThird" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms and privacy policy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Условия и политика конфиденциальности"
           }
         }
       }
