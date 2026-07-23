@@ -63,13 +63,9 @@ The ultrasound examination **revealed no** signs of focal or diffuse pathology i
             f"Patient date of birth: {examination.patientDateOfBirth.date().isoformat()}\n"
             f"Patient height: {examination.patientHeight}\n"
             f"Patient weight: {examination.patientWeight}\n"
+            f"Patient complaint: {examination.patientComplaint}\n"
             f"Ultrasound examination description: {examination.examinationDescription}\n"
         )
-
-        if examination.patientComplaint:
-            prompt += f"Patient complaint: {examination.patientComplaint}\n"
-        if examination.additionalData:
-            prompt += f"Additional data: {examination.additionalData}\n"
 
         if template:
             prompt += f"Response template: {template}\n"

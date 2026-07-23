@@ -16,7 +16,6 @@ final class ScanViewModel: DViewModel {
         case patientWeightKG
         case patientComplaint
         case examinationDescription
-        case additionalData
     }
 
     private let container: DependencyContainer
@@ -80,7 +79,6 @@ final class ScanViewModel: DViewModel {
     @NestedObservableObject var patientWeightKGController = DTextFieldController(isRequired: true)
     @NestedObservableObject var patientComplaintController = DTextFieldController(isRequired: true)
     @NestedObservableObject var examinationDescriptionController = DTextFieldController(isRequired: true)
-    @NestedObservableObject var additionalDataController = DTextFieldController()
     //
     @Published var isLoading = false
 
@@ -123,9 +121,7 @@ final class ScanViewModel: DViewModel {
             focus = .patientComplaint
         case .patientComplaint:
             focus = .examinationDescription
-        case .examinationDescription:
-            focus = .additionalData
-        case .additionalData, .none:
+        case .examinationDescription, .none:
             focus = nil
         }
     }
@@ -354,15 +350,10 @@ final class ScanViewModel: DViewModel {
         Эхогенность паренхимы средняя, структура однородная, без очаговых изменений. \
         Перешеек толщиной 4 мм, без особенностей. \
         Кровоток при цветовом допплеровском картировании симметричный, не усилен. \
-        Региональные лимфатические узлы шеи не увеличены, обычной структуры.
-        """
-        additionalDataController.text = """
+        Региональные лимфатические узлы шеи не увеличены, обычной структуры. \
         Исследование выполнено на стационарном ультразвуковом аппарате экспертного класса \
         с использованием линейного мультичастотного датчика 7,5–12 МГц. \
-        Настройки глубины сканирования и фокусировки оптимизированы \
-        для визуализации поверхностно расположенных структур шеи. \
         Качество визуализации хорошее на протяжении всего исследования. \
-        Пациент находился в положении лёжа на спине с запрокинутой головой. \
         Архивирование ключевых изображений выполнено в формате DICOM.
         """
     }
@@ -436,9 +427,6 @@ final class ScanViewModel: DViewModel {
                             if let examinationDescription = response.examinationDescription {
                                 self.examinationDescriptionController.text = examinationDescription
                             }
-                            if let additionalData = response.additionalData {
-                                self.additionalDataController.text = additionalData
-                            }
                         }
                     )
                 )
@@ -452,14 +440,12 @@ final class ScanViewModel: DViewModel {
         let isPatientWeightKGValid = patientWeightKGController.validate()
         let isPatientComplaintValid = patientComplaintController.validate()
         let isExaminationDescriptionValid = examinationDescriptionController.validate()
-        let isAdditionalDataValid = additionalDataController.validate()
         guard !photos.isEmpty,
               isPatientNameValid,
               isPatientHeightCMValid,
               isPatientWeightKGValid,
               isPatientComplaintValid,
-              isExaminationDescriptionValid,
-              isAdditionalDataValid
+              isExaminationDescriptionValid
         else {
             return
         }
@@ -502,8 +488,7 @@ final class ScanViewModel: DViewModel {
                 patientHeight: Double(self.patientHeightCMController.text) ?? self.defaultPatientHeightCM,
                 patientWeight: Double(self.patientWeightKGController.text) ?? self.defaultPatientWeightKG,
                 patientComplaint: self.patientComplaintController.text,
-                examinationDescription: self.examinationDescriptionController.text,
-                additionalData: self.additionalDataController.text
+                examinationDescription: self.examinationDescriptionController.text
             )
             let template = self.getTemplate()
             let request = USExaminationRequest(
@@ -560,6 +545,5 @@ final class ScanViewModel: DViewModel {
         patientWeightKGController.text = String(defaultPatientWeightKG)
         patientComplaintController.clear()
         examinationDescriptionController.clear()
-        additionalDataController.clear()
     }
 }

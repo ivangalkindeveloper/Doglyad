@@ -9,9 +9,8 @@ struct USExaminationData: Codable {
     let patientDateOfBirth: Date
     let patientHeight: Double
     let patientWeight: Double
-    let patientComplaint: String?
+    let patientComplaint: String
     let examinationDescription: String
-    let additionalData: String?
 }
 
 extension USExaminationData {
@@ -27,8 +26,7 @@ extension USExaminationData {
             patientHeight: db.patientHeight,
             patientWeight: db.patientWeight,
             patientComplaint: db.patientComplaint,
-            examinationDescription: db.examinationDescription,
-            additionalData: db.additionalData
+            examinationDescription: db.examinationDescription
         )
     }
 
@@ -42,8 +40,7 @@ extension USExaminationData {
             patientHeight: patientHeight,
             patientWeight: patientWeight,
             patientComplaint: patientComplaint,
-            examinationDescription: examinationDescription,
-            additionalData: additionalData
+            examinationDescription: examinationDescription
         )
     }
 }

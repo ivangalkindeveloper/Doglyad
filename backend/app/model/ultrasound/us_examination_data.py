@@ -14,6 +14,5 @@ class USExaminationData(BaseModel):
     patientDateOfBirth: datetime
     patientHeight: float
     patientWeight: float
-    patientComplaint: Optional[str] = None
+    patientComplaint: str
     examinationDescription: str
-    additionalData: Optional[str] = None

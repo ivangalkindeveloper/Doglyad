@@ -23,11 +23,8 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
         @FoundationModels.Guide(description: "Patient complaints")
         let patientComplaint: String?
 
-        @FoundationModels.Guide(description: "Patient examination description")
+        @FoundationModels.Guide(description: "Examination description, including any technical details such as device model, probe types, and the number of saved photographs and videos")
         let examinationDescription: String?
-
-        @FoundationModels.Guide(description: "Additional patient-independent examination details, such as device model, sensor types, and number of photographs and videos")
-        let additionalData: String?
     }
 
     @FoundationModels.Generable

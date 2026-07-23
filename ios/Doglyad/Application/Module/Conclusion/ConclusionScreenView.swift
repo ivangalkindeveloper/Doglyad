@@ -117,33 +117,17 @@ struct ConclusionScreenView: View {
                             )
                             .padding(.bottom, size.s8)
 
-                            if let patientComplaint = examinationData.patientComplaint {
-                                DText(.scanPatientComplaintLabel)
-                                    .dStyle(
-                                        font: typography.linkSmall,
-                                        color: color.grayscalePlacehold
-                                    )
-
-                                ExpandableText(
-                                    text: patientComplaint,
-                                    backgroundColor: color.grayscaleBackgroundWeak
+                            DText(.scanPatientComplaintLabel)
+                                .dStyle(
+                                    font: typography.linkSmall,
+                                    color: color.grayscalePlacehold
                                 )
-                                .padding(.bottom, size.s8)
-                            }
 
-                            if let additionalData = examinationData.additionalData {
-                                DText(.scanAdditionalDataLabel)
-                                    .dStyle(
-                                        font: typography.linkSmall,
-                                        color: color.grayscalePlacehold
-                                    )
-
-                                ExpandableText(
-                                    text: additionalData,
-                                    backgroundColor: color.grayscaleBackgroundWeak
-                                )
-                                .padding(.bottom, size.s8)
-                            }
+                            ExpandableText(
+                                text: examinationData.patientComplaint,
+                                backgroundColor: color.grayscaleBackgroundWeak
+                            )
+                            .padding(.bottom, size.s8)
 
                             DText(.conclusionActualModelResponseTitle)
                                 .dStyle(

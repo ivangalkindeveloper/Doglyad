@@ -1448,40 +1448,6 @@
         }
       }
     },
-    "scanAdditionalDataLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Additional data"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дополнительные данные"
-          }
-        }
-      }
-    },
-    "scanAdditionalDataPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The patient suffers from chronic diseases..."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пациент страдает хроническими заболеваниями..."
-          }
-        }
-      }
-    },
     "scanCaptureDescription" : {
       "extractionState" : "manual",
       "localizations" : {

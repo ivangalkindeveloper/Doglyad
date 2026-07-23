@@ -44,8 +44,7 @@ struct RecievedConclusionBottomSheet: View {
                     patientHeight: 180.0,
                     patientWeight: 80.0,
                     patientComplaint: "Жалобы",
-                    examinationDescription: "Описание",
-                    additionalData: ""
+                    examinationDescription: "Описание"
                 ),
                 actualModelConclusion: USExaminationModelConclusion(
                     date: Date(),

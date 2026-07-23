@@ -63,13 +63,9 @@ class PromptFactoryRu(PromptFactory):
             f"Дата рождения пациента: {examination.patientDateOfBirth.date().isoformat()}\n"
             f"Рост пациента: {examination.patientHeight}\n"
             f"Вес пациента: {examination.patientWeight}\n"
+            f"Жалобы пациента: {examination.patientComplaint}\n"
             f"Описание ультразвукового исследования: {examination.examinationDescription}\n"
         )
-
-        if examination.patientComplaint:
-            prompt += f"Жалобы пациента: {examination.patientComplaint}\n"
-        if examination.additionalData:
-            prompt += f"Дополнительные данные: {examination.additionalData}\n"
 
         if template:
             prompt += f"Шаблон ответа: {template}\n"

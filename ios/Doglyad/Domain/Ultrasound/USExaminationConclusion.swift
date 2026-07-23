@@ -45,13 +45,8 @@ extension USExaminationConclusion {
             "\(String(localized: .scanPatientGenderLabel))\n\(String(localized: .forGender(examinationData.patientGender)))",
             "\(String(localized: .scanPatientDateOfBirthLabel))\n\(examinationData.patientDateOfBirth.localized())",
             "\(String(localized: .scanExaminationDescriptionLabel))\n\(examinationData.examinationDescription)",
+            "\(String(localized: .scanPatientComplaintLabel))\n\(examinationData.patientComplaint)",
         ]
-        if let patientComplaint = examinationData.patientComplaint {
-            lines.append("\(String(localized: .scanPatientComplaintLabel))\n\(patientComplaint)")
-        }
-        if let additionalData = examinationData.additionalData {
-            lines.append("\(String(localized: .scanAdditionalDataLabel))\n\(additionalData)")
-        }
 
         lines.append("\(String(localized: .conclusionActualModelResponseTitle))\n\(actualModelConclusion.response)")
 

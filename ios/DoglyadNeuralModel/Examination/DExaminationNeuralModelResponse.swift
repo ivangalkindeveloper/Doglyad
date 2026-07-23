@@ -27,7 +27,6 @@ public struct DExaminationNeuralModelResponse: Codable {
     public let patientWeightKG: Double?
     public let patientComplaint: String?
     public let examinationDescription: String?
-    public let additionalData: String?
 
     /// Модель может выдать значение, не попадающее в схему: пол словом из диктовки,
     /// число строкой, дату в своём формате. Такое поле обнуляем, а не роняем весь разбор.
@@ -45,7 +44,6 @@ public struct DExaminationNeuralModelResponse: Codable {
         patientWeightKG = try container.decodeIfPresentLenientDouble(forKey: .patientWeightKG)
         patientComplaint = try container.decodeIfPresent(String.self, forKey: .patientComplaint)
         examinationDescription = try container.decodeIfPresent(String.self, forKey: .examinationDescription)
-        additionalData = try container.decodeIfPresent(String.self, forKey: .additionalData)
     }
 
     init(
@@ -55,8 +53,7 @@ public struct DExaminationNeuralModelResponse: Codable {
         patientHeightCM: Double?,
         patientWeightKG: Double?,
         patientComplaint: String?,
-        examinationDescription: String?,
-        additionalData: String?
+        examinationDescription: String?
     ) {
         self.patientName = patientName
         self.patientGender = patientGender
@@ -65,7 +62,6 @@ public struct DExaminationNeuralModelResponse: Codable {
         self.patientWeightKG = patientWeightKG
         self.patientComplaint = patientComplaint
         self.examinationDescription = examinationDescription
-        self.additionalData = additionalData
     }
 
     @available(iOS 26.0, *)
@@ -83,8 +79,7 @@ public struct DExaminationNeuralModelResponse: Codable {
             patientHeightCM: response.patientHeightCM,
             patientWeightKG: response.patientWeightKG,
             patientComplaint: response.patientComplaint,
-            examinationDescription: response.examinationDescription,
-            additionalData: response.additionalData
+            examinationDescription: response.examinationDescription
         )
     }
 }
