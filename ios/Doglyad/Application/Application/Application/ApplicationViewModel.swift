@@ -3,9 +3,17 @@ import SwiftUI
 
 @MainActor
 final class ApplicationViewModel: DViewModel {
-    @Published var root: any View = Image(.splash)
-        .resizable()
-        .scaledToFill()
+    // Полностью повторяем геометрию нативного лаунч-скрина (`Launch Screen.storyboard`):
+    // белый фон и `scaleAspectFill`-картинка, растянутая по всем краям экрана и
+    // отцентрованная по нему. Без явного полноэкранного контейнера SwiftUI центрует
+    // картинку по safe area (её центр ниже центра экрана из-за большего верхнего
+    // отступа), из-за чего сплеш на вью «съезжал» вниз относительно нативного.
+    @Published var root: any View = Color.white
+        .overlay {
+            Image(.splash)
+                .resizable()
+                .scaledToFill()
+        }
         .ignoresSafeArea()
     @Published var rootID = UUID()
     @Published var isLoading = false
