@@ -43,7 +43,7 @@ git commit -m "..."     # коммит с сообщением по конвен
 - **Сообщения коммитов**: короткие, на английском, в повелительном наклонении, с заглавной буквы, без точки в конце. Примеры из истории: `Add version`, `Fix settings buttons`, `Adding skills`. Тело для мелких правок не нужно.
 - **Трейлер Claude Code**: если коммит делает Claude Code, в конец сообщения добавляется
   `Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>`.
-- **Форматирование перед коммитом**: Swift — `make format` (swiftformat), Python — стиль бэкенда (`make format-backend`). Коммить уже отформатированный код.
+- **Форматирование перед коммитом**: `make format` прогоняет разом `swiftformat` для iOS и `ruff format` для бэкенда. Коммить уже отформатированный код.
 - **Никогда не `--force` без явного разрешения.** При отклонённом push (не fast-forward) — `git pull --rebase origin master`, разреши конфликты, повтори push.
 
 ## Что не коммитить (секреты и шум)

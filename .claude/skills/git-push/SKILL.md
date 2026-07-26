@@ -16,11 +16,11 @@ description: Отправка изменений в git по конвенция�
 
 ## Жёсткие правила
 
-- **Форматирование перед коммитом**: при изменении Swift-файлов прогони `make format` (swiftformat), при изменении Python — приведи в порядок по стилю бэкенда. Коммить уже отформатированный код.
+- **Форматирование перед коммитом**: `make format` прогоняет разом `swiftformat` для iOS и `ruff format` для бэкенда. Коммить уже отформатированный код.
 - **Не коммитить секреты и локальные конфиги** (см. AGENTS.md, «не модифицировать»):
   - `backend/secrets/` (все секреты бэкенда: `.env`, `.env.<профиль>`, `firebase_credentials.json`)
-  - `ios/Config/Config.xcconfig` (генерируется из `Config.Development.xcconfig` / `Config.Production.xcconfig`)
-  - `ios/GoogleService-Info.plist`
+  - `ios/Config/` (`Config.Development.xcconfig`, `Config.Production.xcconfig` — `BASE_URL`, `REVENUECAT_API_KEY`)
+  - `ios/Firebase/` (`Development/GoogleService-Info.plist`, `Production/GoogleService-Info.plist`)
   - `ios/DoglyadNeuralModel/Resources/` (веса MLX-модели)
 - **Шум от Xcode**: файлы пользовательского состояния — `*.xcuserstate`, `xcschememanagement.plist` — меняются сами по себе. Не включай их в коммит с фичей, если пользователь явно не попросил.
 - **Сообщение коммита** — в стиле истории проекта: короткое, на английском, в повелительном наклонении, с заглавной буквы, без точки в конце. Примеры из истории: `Add version`, `Fix settings buttons`, `Fix gallery button`, `Adding skills`. Тело сообщения для мелких правок не нужно.

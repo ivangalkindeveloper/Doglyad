@@ -40,8 +40,8 @@
 | `ios/DoglyadNeuralModel/` | Интеграция ML-моделей (MLX, Foundation Models) |
 | `ios/DoglyadCamera/` | Камера — `DCameraController`, `DCameraView` |
 | `ios/DoglyadSpeech/` | Распознавание речи — `DSpeechController` |
-| `ios/Config/` | Конфигурация сборки: `Config.xcconfig` (BASE_URL, ENVIRONMENT) генерируется из `Config.Development.xcconfig` / `Config.Production.xcconfig` командами `make init-ios-local` / `make init-ios-production` |
-| `ios/GoogleService-Info.plist` | Конфигурация Firebase |
+| `ios/Config/` | Конфигурация сборки: `Config.Development.xcconfig` и `Config.Production.xcconfig` (`ENVIRONMENT`, `BASE_URL`, `REVENUECAT_API_KEY`) — по одному на одноимённую конфигурацию Xcode. Окружение выбирается схемой (`Doglyad-Development` / `Doglyad-Production`), файлы не копируются и не подменяются |
+| `ios/Firebase/` | Конфигурации Firebase по окружениям: `Development/GoogleService-Info.plist` и `Production/GoogleService-Info.plist`. Нужный кладётся в бандл Run Script-фазой по `$CONFIGURATION`; в репозитории не хранятся |
 
 ## Стиль кода
 ### Python (Бэкенд)
@@ -83,14 +83,14 @@ MVVM. Каждый MVVM-модуль содержит:
 - На клиенте для верстки использовать только SwiftUI и покмпоненты из дизайн-системы (`DoglyadUI`).
 - На клиенте для взаимодействия с сетевым сллоем использовать только ресурсы из модуля (`DoglyadNetwork`).
 - На клиенте для взаимодействия с базой данных использовать только ресурсы из модуля (`DoglyadDatabase`).
-- Не модифицировать файлы: `ios/DoglyadNeuralModel/Resources/`, `ios/Config/Config.xcconfig`, `ios/GoogleService-Info.plist`, `backend/secrets/`.
+- Не модифицировать файлы: `ios/DoglyadNeuralModel/Resources/`, `ios/Config/`, `ios/Firebase/`, `backend/secrets/`.
 
 ## Команды
 Все команды описаны в `Makefile`. Основные:
 - `make venv` / `make pip-install` — окружение Python 3.11 и установка `backend/requirements.txt`.
-- `make format` — `swiftformat` для iOS.
-- `make init-ios-local` / `make init-ios-production` — генерация `ios/Config/Config.xcconfig` (local подставляет IP из `en0` в `BASE_URL`).
-- `make init-ignores` — запуск `./scripts/init_ignores.sh` (инициализация git-ignore правил).
+- `make format` — `swiftformat` для iOS и `ruff format` для бэкенда.
+- `make init-ios-development` — подставляет IP из `en0` в `BASE_URL` файла `ios/Config/Config.Development.xcconfig`.
+- `make build-ios-development` / `make build-ios-production` — сборка соответствующей схемы (`IOS_DEST` переопределяет симулятор).
 - `make download-examination` — загрузка MLX-модели (`mlx-community/Qwen2.5-1.5B-Instruct-4bit`) в `DoglyadNeuralModel/Resources/`.
 - `make start-backend-development-stub` / `make start-backend-development-inference` / `make start-backend-production` — запуск бэкенда в Docker; `ENVIRONMENT`/`LLM_MODE` берутся из соответствующего `backend/secrets/.env.<профиль>` (поверх общего `backend/secrets/.env`).
 - `make start-logs` / `make stop-backend` — логи и остановка бэкенда.

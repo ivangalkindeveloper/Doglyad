@@ -3,25 +3,18 @@
 	pip-install \
 	pip-install-dev \
 	format \
-	format-backend \
-	lint-backend \
-	typecheck-backend \
-	test-backend \
-	build-ios \
-	test-ios \
-	download-examination \
-	init-ignores \
-	init-ios-local \
-	init-ios-production \
+	init-ios-development \
+	build-ios-development \
+	build-ios-production \
 	start-backend-development-stub \
 	start-backend-development-inference \
 	start-backend-production \
 	start-logs \
-	stop-backend
+	stop-backend \
+	download-examination
 .SILENT:
 
-# iOS build/test destination (override: make test-ios IOS_DEST='platform=iOS Simulator,name=iPhone 15')
-IOS_DEST ?= platform=iOS Simulator,name=iPhone 16
+IOS_DEST ?= platform=iOS Simulator,name=iPhone 17
 
 venv:
 	python3.11 -m venv .venv311
@@ -35,46 +28,25 @@ pip-install-dev:
 
 format:
 	cd ios && swiftformat .
-
-format-backend:
 	cd backend && ruff format app tests
 
-lint-backend:
-	cd backend && ruff check app tests
-
-typecheck-backend:
-	cd backend && mypy app
-
-test-backend:
-	cd backend && pytest
-
-build-ios:
-	cd ios && xcodebuild build \
-		-project Doglyad.xcodeproj \
-		-scheme Doglyad \
-		-destination '$(IOS_DEST)'
-
-test-ios:
-	cd ios && xcodebuild test \
-		-project Doglyad.xcodeproj \
-		-scheme Doglyad \
-		-destination '$(IOS_DEST)'
-
-download-examination:
-	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit
-
-init-ignores:
-	./scripts/init_ignores.sh
-
-init-ios-local:
+init-ios-development:
 	@set -e; \
 	IP="$$(ipconfig getifaddr en0)"; \
-	cp ios/Config/Config.Development.xcconfig ios/Config/Config.xcconfig; \
-	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config/Config.xcconfig; \
-	cat ios/Config/Config.xcconfig
-init-ios-production:
-	cp ios/Config/Config.Production.xcconfig ios/Config/Config.xcconfig
-	cat ios/Config/Config.xcconfig
+	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config/Config.Development.xcconfig; \
+	cat ios/Config/Config.Development.xcconfig
+
+build-ios-development:
+	cd ios && xcodebuild build \
+		-project Doglyad.xcodeproj \
+		-scheme Doglyad-Development \
+		-destination '$(IOS_DEST)'
+
+build-ios-production:
+	cd ios && xcodebuild build \
+		-project Doglyad.xcodeproj \
+		-scheme Doglyad-Production \
+		-destination '$(IOS_DEST)'
 
 start-backend-development-stub:
 	ENV_FILE=secrets/.env.development.stub \
@@ -91,3 +63,6 @@ start-logs:
 
 stop-backend:
 	docker compose -f backend/docker-compose.yml down
+
+download-examination:
+	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit

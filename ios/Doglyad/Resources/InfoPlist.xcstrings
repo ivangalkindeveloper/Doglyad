@@ -80,6 +80,12 @@
             "state" : "new",
             "value" : "Need for adding examination pictures from the gallery"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Необходимо для добавления фото исследования из галереи"
+          }
         }
       }
     },

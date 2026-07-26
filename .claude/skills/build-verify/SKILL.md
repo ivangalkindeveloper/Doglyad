@@ -10,17 +10,18 @@ description: Проверка изменений в проекте Doglyad пе�
 ## Что уточнить перед началом
 
 1. **Что затронуто** — iOS, бэкенд или оба. Гоняй проверки только релевантной части, чтобы не тратить время.
-2. **Симулятор для iOS** — по умолчанию `iPhone 16` (`IOS_DEST`). Если такого нет, спроси или подставь доступный: `make test-ios IOS_DEST='platform=iOS Simulator,name=<имя>'`.
+2. **Симулятор для iOS** — по умолчанию `iPhone 17` (`IOS_DEST`). Если такого нет, спроси или подставь доступный: `make build-ios-development IOS_DEST='platform=iOS Simulator,name=<имя>'`.
+3. **Окружение для iOS** — `Development` или `Production`. По умолчанию проверяй `Development`; `Production` — когда правки касаются продовой конфигурации или готовится релиз.
 
 ## Бэкенд (Python / FastAPI)
 
-Порядок (от быстрого к медленному):
+Порядок (от быстрого к медленному). Отдельных make-целей для линта/типов/тестов нет, вызывай напрямую:
 
 ```bash
-make format-backend      # ruff format app — привести стиль
-make lint-backend        # ruff check app — линт
-make typecheck-backend   # mypy app — типы
-make test-backend        # pytest (тесты в backend/tests/)
+make format                          # ruff format app tests (заодно swiftformat для iOS)
+cd backend && ruff check app tests   # линт
+cd backend && mypy app               # типы
+cd backend && pytest                 # тесты (в backend/tests/)
 ```
 
 - Dev-инструменты ставятся один раз: `make pip-install-dev`.
@@ -30,13 +31,24 @@ make test-backend        # pytest (тесты в backend/tests/)
 ## iOS (Swift / SwiftUI)
 
 ```bash
-make format      # swiftformat (правила в ios/.swiftformat) — обычно уже прогнан хуком
-make build-ios   # сборка схемы Doglyad
-make test-ios    # DoglyadTests + DoglyadUITests
+make format                   # swiftformat (правила в ios/.swiftformat) — обычно уже прогнан хуком
+make build-ios-development    # сборка схемы Doglyad-Development
+make build-ios-production     # сборка схемы Doglyad-Production
+```
+
+Отдельной make-цели для тестов нет, вызывай напрямую:
+
+```bash
+cd ios && xcodebuild test \
+  -project Doglyad.xcodeproj \
+  -scheme Doglyad-Development \
+  -destination 'platform=iOS Simulator,name=iPhone 17'
 ```
 
 - `xcodebuild` шумный и медленный. При падении ищи в конце вывода `error:` / `** BUILD FAILED **` / `** TEST FAILED **` — не пересказывай весь лог, покажи суть.
 - Если симулятор `IOS_DEST` недоступен (`Unable to find a device`), подставь существующий и повтори.
+- Схема определяет конфигурацию сборки (`Development` / `Production`), а та — `.xcconfig`, bundle id и `GoogleService-Info.plist`. Никогда не подменяй окружение правкой файлов в `ios/Config/` или `ios/Firebase/` — переключайся схемой.
+- Сборка требует `ios/Config/Config.*.xcconfig` и `ios/Firebase/*/GoogleService-Info.plist`; в репозитории их нет. Если отсутствуют — сборка упадёт, запроси файлы у пользователя, не создавай сам.
 
 ## Финальные шаги
 

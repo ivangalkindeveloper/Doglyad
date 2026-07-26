@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor
 final class ApplicationViewModel: DViewModel {
-    // Полностью повторяем геометрию нативного лаунч-скрина (`Launch Screen.storyboard`):
+    // Полностью повторяем геометрию нативного лаунч-скрина (`LaunchScreen.storyboard`):
     // белый фон и `scaleAspectFill`-картинка, растянутая по всем краям экрана и
     // отцентрованная по нему. Без явного полноэкранного контейнера SwiftUI центрует
     // картинку по safe area (её центр ниже центра экрана из-за большего верхнего
