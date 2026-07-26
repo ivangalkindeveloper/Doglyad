@@ -27,7 +27,7 @@ description: Добавление нового HTTP-эндпоинта в бэк
 - **Именование**: snake_case для функций/переменных, CamelCase для классов и Pydantic-моделей.
 - **camelCase в полях Pydantic-моделей** — это контракт с iOS, не нарушать (`neuralModelSettings`, `recipientEmail`, `modelId`). Не добавляй `alias`/`Field` для перевода в snake_case.
 - Асинхронность: `async def` для обработчиков; внешние HTTP — через общий `httpx.AsyncClient` (`request.app.state.http_client`), а не новый клиент на запрос. Блокирующий I/O (SMTP, CPU) — через `asyncio.to_thread`.
-- Конфигурация/секреты — только через `variables` из `app/core/variables.py` (читает `backend/.env`). Не хардкодить и не трогать `backend/.env`.
+- Конфигурация/секреты — только через `variables` из `app/core/variables.py` (значения из `backend/secrets/.env`). Не хардкодить и не трогать `backend/secrets/`.
 - Ошибки — `raise HTTPException(status_code=..., detail=...)`; логирование через модульный `logger`.
 - Rate limit — декоратор `@limiter.limit("30/minute")` (нужен параметр `request: Request` в сигнатуре).
 
@@ -121,7 +121,7 @@ router_v1.include_router(<name>_router)
 
 Повтори паттерн из `ultrasound_conclusion.py`:
 - язык из заголовка: `request.headers.get("accept-language", "en")` → `resolve_prompt_factory(language_code)`;
-- ветвление по `variables.llm_mode` (`LLMMode.STUB` / `LLMMode.RUNPOD`) через `match`;
+- ветвление по `variables.llm_mode` (`LLMMode.STUB` / `LLMMode.INFERENCE`) через `match`;
 - `model_service = resolve_model_service(variables.llm_mode)` и `await model_service.call(...)`;
 - резолверы моделей/типов — из `app/core/config.py` (`resolve_neural_model`, `resolve_examination_title`).
 Новый бэкенд-сервис инференса добавляй как реализацию `ModelService` (`app/service/base.py`) и регистрируй в `app/service/__init__.py`.

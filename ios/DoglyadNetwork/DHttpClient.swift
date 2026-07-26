@@ -5,12 +5,7 @@ public final class DHttpClient: DHttpClientProtocol {
     public let baseUrl: String
     public let baseVersionPrefix: String
 
-    private let session: Session = {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 300
-        configuration.timeoutIntervalForResource = 300
-        return Session(configuration: configuration)
-    }()
+    private let session: Session
 
     private let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
@@ -30,10 +25,19 @@ public final class DHttpClient: DHttpClientProtocol {
 
     public init(
         baseUrl: String,
-        baseVersionPrefix: String
+        baseVersionPrefix: String,
+        interceptor: DHttpInterceptorProtocol? = nil
     ) {
         self.baseUrl = baseUrl
         self.baseVersionPrefix = baseVersionPrefix
+
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 300
+        configuration.timeoutIntervalForResource = 300
+        session = Session(
+            configuration: configuration,
+            interceptor: interceptor.map(DHttpInterceptorAdapter.init)
+        )
     }
 
     public func get<Response: Decodable>(

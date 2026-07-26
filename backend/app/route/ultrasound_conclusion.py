@@ -52,7 +52,7 @@ async def ultrasound_conclusion(
     match variables.llm_mode:
         case LLMMode.STUB:
             response_text = prompt_factory.stub
-        case LLMMode.RUNPOD:
+        case LLMMode.INFERENCE:
             system_prompt = prompt_factory.system_prompt(
                 settings
             )

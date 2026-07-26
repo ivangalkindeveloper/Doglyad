@@ -11,7 +11,7 @@
 
 **/.venv311
 
-**/.env
+/backend/secrets/
 
 /ios/Config/
 /ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit

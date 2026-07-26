@@ -12,14 +12,14 @@
 | `backend/app/main.py` | FastAPI-приложение, lifespan (загрузка конфигов, создание `httpx.AsyncClient`, инициализация сервисов), роутер `/v1`, rate limiter |
 | `backend/app/route/ultrasound_conclusion.py` | Эндпоинт `POST /v1/ultrasound_conclusion` — принимает данные исследования, вызывает `ModelService`, возвращает заключение |
 | `backend/app/route/ultrasound_conclusion_send_email.py` | Эндпоинт `POST /v1/ultrasound_conclusion_send_email` — отправка заключения на email через SMTP (`smtplib`) |
-| `backend/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `LLM_MODE`, `EMAIL_*`, `RUNPOD_API_KEY`, `RUNPOD_URLS`, читаются в т.ч. из `backend/.env` |
+| `backend/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `LLM_MODE`, `EMAIL_*`, `RUNPOD_API_KEY`, `RUNPOD_URLS`, читаются в т.ч. из `backend/secrets/.env` |
 | `backend/app/core/config.py` | Загрузка конфигов нейромоделей и типов исследований из JSON (`backend/config/<environment>/`), резолверы моделей и заголовков |
-| `backend/app/core/llm_mode.py` | Режимы работы LLM — `stub` (заглушка) и `runpod` (реальный инференс) |
+| `backend/app/core/llm_mode.py` | Режимы работы LLM — `stub` (заглушка) и `inference` (реальный инференс; провайдер — RunPod) |
 | `backend/app/service/` | Абстракция инференса — `ModelService` (`base.py`) и `RunPodService` (`runpod.py`); `init_services`/`resolve_model_service` в `__init__.py` |
 | `backend/app/model/` | Pydantic-модели — `neural_model_settings.py`, `runpod_response.py`, подпакет `ultrasound/` (request/data/conclusion/email/scan_photo/type/neural_model) |
 | `backend/app/prompt/` | Генерация промптов — `base.py` (`PromptFactory`), локализации `ru.py`/`en.py`, `resolve_prompt_factory` в `__init__.py` |
 | `backend/config/` | JSON-конфиги по окружениям (`development/`, `production/`): `application.json`, `ultrasound_examination_neural_models.json`, `ultrasound_examination_types.json` |
-| `backend/docker-compose.yml` | Docker Compose — управляется через `ENVIRONMENT`/`LLM_MODE`, читает `backend/.env`, монтирует `./config` |
+| `backend/docker-compose.yml` | Docker Compose — читает `backend/secrets/.env` + профильный `secrets/.env.<профиль>` (выбор через `ENV_FILE`), монтирует `./config` |
 
 ### `ios/` — iOS-приложение
 | Путь | Описание |
@@ -49,7 +49,7 @@
 - **Типизация**: `from __future__ import annotations`, аннотации типов везде.
 - **Именование**: snake_case для функций и переменных, CamelCase для классов и Pydantic-моделей. camelCase в Pydantic-полях (совместимость с iOS).
 - **Асинхронность**: `async/await` для обработчиков и HTTP-запросов (общий `httpx.AsyncClient` из `app.state`, создаётся в lifespan).
-- **Конфигурация**: переменные окружения через `pydantic_settings` (`app/core/variables.py`), значения из `backend/.env`.
+- **Конфигурация**: переменные окружения через `pydantic_settings` (`app/core/variables.py`), значения из `backend/secrets/.env`.
 - **Зависимости**: `requirements.txt` с зафиксированными версиями.
 
 ### Swift (iOS)
@@ -83,7 +83,7 @@ MVVM. Каждый MVVM-модуль содержит:
 - На клиенте для верстки использовать только SwiftUI и покмпоненты из дизайн-системы (`DoglyadUI`).
 - На клиенте для взаимодействия с сетевым сллоем использовать только ресурсы из модуля (`DoglyadNetwork`).
 - На клиенте для взаимодействия с базой данных использовать только ресурсы из модуля (`DoglyadDatabase`).
-- Не модифицировать файлы: `ios/DoglyadNeuralModel/Resources/`, `ios/Config/Config.xcconfig`, `ios/GoogleService-Info.plist`, `backend/.env`.
+- Не модифицировать файлы: `ios/DoglyadNeuralModel/Resources/`, `ios/Config/Config.xcconfig`, `ios/GoogleService-Info.plist`, `backend/secrets/`.
 
 ## Команды
 Все команды описаны в `Makefile`. Основные:
@@ -92,5 +92,5 @@ MVVM. Каждый MVVM-модуль содержит:
 - `make init-ios-local` / `make init-ios-production` — генерация `ios/Config/Config.xcconfig` (local подставляет IP из `en0` в `BASE_URL`).
 - `make init-ignores` — запуск `./scripts/init_ignores.sh` (инициализация git-ignore правил).
 - `make download-examination` — загрузка MLX-модели (`mlx-community/Qwen2.5-1.5B-Instruct-4bit`) в `DoglyadNeuralModel/Resources/`.
-- `make start-backend-{development,production}-{stub,runpod}` — запуск бэкенда в Docker с нужными `ENVIRONMENT`/`LLM_MODE`.
+- `make start-backend-development-stub` / `make start-backend-development-inference` / `make start-backend-production` — запуск бэкенда в Docker; `ENVIRONMENT`/`LLM_MODE` берутся из соответствующего `backend/secrets/.env.<профиль>` (поверх общего `backend/secrets/.env`).
 - `make start-logs` / `make stop-backend` — логи и остановка бэкенда.

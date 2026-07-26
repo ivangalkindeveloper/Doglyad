@@ -12,8 +12,8 @@ _SERVICES: dict[LLMMode, ModelService] = {}
 
 def init_services(http_client: httpx.AsyncClient) -> None:
     _SERVICES.clear()
-    if variables.llm_mode is LLMMode.RUNPOD:
-        _SERVICES[LLMMode.RUNPOD] = RunPodService(http_client)
+    if variables.llm_mode is LLMMode.INFERENCE:
+        _SERVICES[LLMMode.INFERENCE] = RunPodService(http_client)
 
 
 def resolve_model_service(mode: LLMMode) -> ModelService:

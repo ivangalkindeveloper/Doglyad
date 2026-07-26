@@ -50,7 +50,7 @@ git commit -m "..."     # коммит с сообщением по конвен
 
 Эти пути защищены guard-hook'ом `security-check` (`.claude/hooks/security-check.py`) — попытка застейджить/закоммитить их блокируется:
 
-- `backend/.env` — переменные окружения бэкенда (RunPod, SMTP-ключи).
+- `backend/secrets/` — секреты бэкенда (`.env`, `.env.<профиль>`, `firebase_credentials.json`): RunPod, SMTP, Firebase.
 - `ios/Config/Config.xcconfig` — генерируется из `Config.Development.xcconfig` / `Config.Production.xcconfig`.
 - `ios/GoogleService-Info.plist` — конфигурация Firebase.
 - `ios/DoglyadNeuralModel/Resources/` — веса MLX-модели.

@@ -17,13 +17,16 @@ class Variables(BaseSettings):
 
     llm_mode: LLMMode = LLMMode.STUB
 
+    app_check_enabled: bool = True
+    firebase_credentials_path: Path | None = None
+
+    runpod_api_key: str | None = None
+    runpod_urls: str | None = None
+
     email_sender: str | None = None
     email_password: str | None = None
     email_smtp_host: str | None = None
     email_smtp_port: int | None = None
-
-    runpod_api_key: str | None = None
-    runpod_urls: str | None = None
 
     @field_validator("llm_mode", mode="before")
     @classmethod

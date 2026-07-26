@@ -5,10 +5,11 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 import httpx
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, Depends, FastAPI
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
+from app.core.app_check import init_app_check, verify_app_check
 from app.core.config import load_configs
 from app.core.limiter import limiter
 from app.route.ultrasound_conclusion import router as ultrasound_conclusion_router
@@ -23,6 +24,7 @@ logger = logging.getLogger(__name__)
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     try:
         load_configs()
+        init_app_check()
     except RuntimeError as error:
         logger.critical("Application startup aborted: %s", error)
         raise
@@ -36,7 +38,7 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
         await http_client.aclose()
 
 
-router_v1 = APIRouter(prefix="/v1")
+router_v1 = APIRouter(prefix="/v1", dependencies=[Depends(verify_app_check)])
 router_v1.include_router(ultrasound_conclusion_router)
 router_v1.include_router(ultrasound_conclusion_send_email_router)
 

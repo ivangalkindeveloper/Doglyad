@@ -24,6 +24,10 @@
 		77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */ = {isa = PBXBuildFile; productRef = 77759AFA2E932B78007CC90C /* DependencyInitializer */; };
 		77783DC32F0E873800FFC217 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 77783DC22F0E873800FFC217 /* Alamofire */; };
 		777B8DE52EB0020D007F5678 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 777B8DE42EB0020D007F5678 /* BottomSheet */; };
+		777D76583014CFC9004E81FE /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 777D76573014CFC9004E81FE /* FirebaseAppCheck */; };
+		777D765A3014D00C004E81FE /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 777D76593014D00C004E81FE /* FirebaseCore */; };
+		777D765C3014D00C004E81FE /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 777D765B3014D00C004E81FE /* FirebaseCrashlytics */; };
+		777D79323014DBB9004E81FE /* Doglyad.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 777D79313014DBB9004E81FE /* Doglyad.entitlements */; };
 		77A895C02F09E7EE006E6E41 /* NestedObservableObject in Frameworks */ = {isa = PBXBuildFile; productRef = 77A895BF2F09E7EE006E6E41 /* NestedObservableObject */; };
 		77A896C32F0AD5EF006E6E41 /* Handler in Frameworks */ = {isa = PBXBuildFile; productRef = 77A896C22F0AD5EF006E6E41 /* Handler */; };
 		77A896D02F0C82B1006E6E41 /* DoglyadNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -151,6 +155,7 @@
 		770AEB5A2F1DA41500C09C76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		771F41A82EA430B400C4945A /* DoglyadDatabase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadDatabase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7720FEE52E9ACE42002EA89E /* DoglyadUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		777D79313014DBB9004E81FE /* Doglyad.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Doglyad.entitlements; sourceTree = "<group>"; };
 		77A896C92F0C82B0006E6E41 /* DoglyadNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DoglyadNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58B22E929E7E0028250A /* Doglyad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doglyad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77AC58C12E929E800028250A /* DoglyadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoglyadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -366,6 +371,8 @@
 				777B8DE52EB0020D007F5678 /* BottomSheet in Frameworks */,
 				77759AFB2E932B78007CC90C /* DependencyInitializer in Frameworks */,
 				7761752A2EF8A04D006A2B5A /* MLXVLM in Frameworks */,
+				777D765A3014D00C004E81FE /* FirebaseCore in Frameworks */,
+				777D76583014CFC9004E81FE /* FirebaseAppCheck in Frameworks */,
 				77A9DFD32F0E74F3003D5ECB /* DoglyadNetwork.framework in Frameworks */,
 				77FEE7362F01DEEF00607F3F /* MLXVLM in Frameworks */,
 				7720FEEB2E9ACE43002EA89E /* DoglyadUI.framework in Frameworks */,
@@ -380,6 +387,7 @@
 				77CB95292EB90C8500489F3E /* DoglyadNeuralModel.framework in Frameworks */,
 				770AEB5E2F1DA67D00C09C76 /* FirebaseAnalytics in Frameworks */,
 				77F3A0042F2D100000000001 /* RevenueCat in Frameworks */,
+				777D765C3014D00C004E81FE /* FirebaseCrashlytics in Frameworks */,
 				77F3A0052F2D100000000001 /* RevenueCatUI in Frameworks */,
 				77CB94F82EB8FED100489F3E /* DoglyadCamera.framework in Frameworks */,
 			);
@@ -446,6 +454,7 @@
 		77AC58A92E929E7E0028250A = {
 			isa = PBXGroup;
 			children = (
+				777D79313014DBB9004E81FE /* Doglyad.entitlements */,
 				77C3EE2C2FD617FF00DC4D6A /* Config */,
 				770AEB562F1D870100C09C76 /* mlx-Qwen2.5-1.5B-Instruct-4bit */,
 				77FEE72B2F01DE9F00607F3F /* Doglyad.xcodeproj */,
@@ -651,6 +660,9 @@
 				770AEB612F1DA67D00C09C76 /* FirebaseAnalyticsIdentitySupport */,
 				77F3A0022F2D100000000001 /* RevenueCat */,
 				77F3A0032F2D100000000001 /* RevenueCatUI */,
+				777D76573014CFC9004E81FE /* FirebaseAppCheck */,
+				777D76593014D00C004E81FE /* FirebaseCore */,
+				777D765B3014D00C004E81FE /* FirebaseCrashlytics */,
 			);
 			productName = Doglyad;
 			productReference = 77AC58B22E929E7E0028250A /* Doglyad.app */;
@@ -894,6 +906,7 @@
 			files = (
 				770AEB572F1D870100C09C76 /* mlx-Qwen2.5-1.5B-Instruct-4bit in Resources */,
 				770AEB5B2F1DA41500C09C76 /* GoogleService-Info.plist in Resources */,
+				777D79323014DBB9004E81FE /* Doglyad.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2143,6 +2156,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 777B8DE32EB0020D007F5678 /* XCRemoteSwiftPackageReference "BottomSheet" */;
 			productName = BottomSheet;
+		};
+		777D76573014CFC9004E81FE /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 770AEB5C2F1DA67D00C09C76 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		777D76593014D00C004E81FE /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 770AEB5C2F1DA67D00C09C76 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		777D765B3014D00C004E81FE /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 770AEB5C2F1DA67D00C09C76 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		77A895BF2F09E7EE006E6E41 /* NestedObservableObject */ = {
 			isa = XCSwiftPackageProductDependency;

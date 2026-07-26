@@ -1,6 +1,7 @@
 import DependencyInitializer
 import DoglyadDatabase
 import DoglyadNetwork
+import FirebaseAppCheck
 import FirebaseCore
 import Foundation
 
@@ -39,7 +40,8 @@ extension InitializationProcess {
                 run: { (process: InitializationProcess) in
                     process.httpClient = DHttpClient(
                         baseUrl: process.environment!.baseUrl.absoluteString,
-                        baseVersionPrefix: process.environment!.baseVersionPrefix
+                        baseVersionPrefix: process.environment!.baseVersionPrefix,
+                        interceptor: AppCheckHttpInterceptor()
                     )
                 }
             ),
@@ -68,6 +70,9 @@ extension InitializationProcess {
             SyncInitializationStep<InitializationProcess>(
                 title: "Firebase",
                 run: { (_: InitializationProcess) in
+                    let providerFactory = DAppCheckProviderFactory()
+                    AppCheck.setAppCheckProviderFactory(providerFactory)
+
                     FirebaseApp.configure()
                 }
             ),

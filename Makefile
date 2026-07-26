@@ -14,9 +14,8 @@
 	init-ios-local \
 	init-ios-production \
 	start-backend-development-stub \
-	start-backend-development-runpod \
-	start-backend-production-stub \
-	start-backend-production-runpod \
+	start-backend-development-inference \
+	start-backend-production \
 	start-logs \
 	stop-backend
 .SILENT:
@@ -78,20 +77,13 @@ init-ios-production:
 	cat ios/Config/Config.xcconfig
 
 start-backend-development-stub:
-	ENVIRONMENT=development \
-	LLM_MODE=stub \
+	ENV_FILE=secrets/.env.development.stub \
 	docker compose -f backend/docker-compose.yml up --build -d
-start-backend-development-runpod:
-	ENVIRONMENT=development \
-	LLM_MODE=runpod \
+start-backend-development-inference:
+	ENV_FILE=secrets/.env.development.inference \
 	docker compose -f backend/docker-compose.yml up --build -d
-start-backend-production-stub:
-	ENVIRONMENT=production \
-	LLM_MODE=stub \
-	docker compose -f backend/docker-compose.yml up --build -d
-start-backend-production-runpod:
-	ENVIRONMENT=production \
-	LLM_MODE=runpod \
+start-backend-production:
+	ENV_FILE=secrets/.env.production \
 	docker compose -f backend/docker-compose.yml up --build -d
 
 start-logs:

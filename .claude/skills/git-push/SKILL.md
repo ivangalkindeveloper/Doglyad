@@ -18,7 +18,7 @@ description: Отправка изменений в git по конвенция�
 
 - **Форматирование перед коммитом**: при изменении Swift-файлов прогони `make format` (swiftformat), при изменении Python — приведи в порядок по стилю бэкенда. Коммить уже отформатированный код.
 - **Не коммитить секреты и локальные конфиги** (см. AGENTS.md, «не модифицировать»):
-  - `backend/.env`
+  - `backend/secrets/` (все секреты бэкенда: `.env`, `.env.<профиль>`, `firebase_credentials.json`)
   - `ios/Config/Config.xcconfig` (генерируется из `Config.Development.xcconfig` / `Config.Production.xcconfig`)
   - `ios/GoogleService-Info.plist`
   - `ios/DoglyadNeuralModel/Resources/` (веса MLX-модели)
