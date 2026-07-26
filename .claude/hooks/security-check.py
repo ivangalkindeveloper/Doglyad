@@ -9,7 +9,11 @@
 - git commit  → проверяем уже проиндексированные файлы (git diff --cached).
 - git add -A/./--all → проверяем все ожидающие изменения (git status --porcelain),
   которые команда собирается застейджить.
-- git add <path> → проверяем явно указанные в команде пути.
+- git add <path> → проверяем пути, указанные в самой команде `git add`.
+
+Удаления не блокируются: смысл хука — не дать секрету попасть в репозиторий, а
+удаление, наоборот, убирает его оттуда. Поэтому пути, которых нет в рабочем
+каталоге, пропускаются, а `git diff --cached` фильтруется через `--diff-filter=d`.
 
 Exit 0 — пропустить. Exit 2 — заблокировать, причина уходит в stderr и Claude.
 Любая внутренняя ошибка — тоже exit 0 (fail-open), чтобы не ломать обычную работу.
@@ -18,6 +22,7 @@ Exit 0 — пропустить. Exit 2 — заблокировать, прич
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -26,7 +31,7 @@ import sys
 DENY_PATTERNS: list[tuple[str, str]] = [
     (r"(^|/)\.env(\.|$)", "секреты окружения бэкенда (.env)"),
     (r"(^|/)GoogleService-Info\.plist$", "конфигурация Firebase"),
-    (r"(^|/)Config\.xcconfig$", "сгенерированный конфиг сборки"),
+    (r"(^|/)Config/[^/]*\.xcconfig$", "конфиг сборки (BASE_URL, ключи)"),
     (r"\.xcuserstate$", "Xcode user state (шум)"),
     (r"(^|/)xcschememanagement\.plist$", "Xcode scheme management (шум)"),
     (r"DoglyadNeuralModel/Resources/", "веса MLX-модели"),
@@ -73,6 +78,32 @@ def porcelain_paths() -> list[str]:
     return paths
 
 
+def repo_root() -> str:
+    """Корень репозитория (пустая строка, если определить не удалось)."""
+    lines = run_git(["rev-parse", "--show-toplevel"])
+    return lines[0] if lines else ""
+
+
+def exists_in_worktree(path: str, root: str) -> bool:
+    """Есть ли файл в рабочем каталоге. Если нет — операция может быть только
+    удалением, а удаление секрета из репозитория безопасно."""
+    if not root:
+        return True
+    return os.path.exists(os.path.join(root, path))
+
+
+def explicit_add_paths(command: str) -> list[str]:
+    """Пути, перечисленные в самих вызовах `git add`. Токены из других команд
+    (например `git restore --staged <путь>`) сюда не попадают."""
+    paths: list[str] = []
+    for match in re.finditer(r"\bgit\s+add\b([^&|;]*)", command):
+        for token in re.findall(r"[\w./\-]+", match.group(1)):
+            if token.startswith("-"):
+                continue
+            paths.append(token)
+    return paths
+
+
 def is_broad_add(command: str) -> bool:
     """Команда стейджит всё скопом (git add -A / . / --all / -u)?"""
     return bool(
@@ -101,28 +132,30 @@ def main() -> int:
     if not (has_git_add(command) or has_git_commit(command)):
         return 0
 
+    root = repo_root()
+
     # Кандидаты на попадание в коммит: {путь: причина}.
     flagged: dict[str, str] = {}
 
-    # 1. git commit — то, что уже в индексе.
+    def flag(path: str) -> None:
+        """Пометить путь, если он запрещён и при этом не является удалением."""
+        reason = matches_deny(path)
+        if reason and exists_in_worktree(path, root):
+            flagged[path] = reason
+
+    # 1. git commit — то, что уже в индексе (`d` исключает удаления).
     if has_git_commit(command):
-        for path in run_git(["diff", "--cached", "--name-only"]):
-            reason = matches_deny(path)
-            if reason:
-                flagged[path] = reason
+        for path in run_git(["diff", "--cached", "--name-only", "--diff-filter=d"]):
+            flag(path)
 
     # 2. broad add — всё, что будет застейджено скопом.
     if is_broad_add(command):
         for path in porcelain_paths():
-            reason = matches_deny(path)
-            if reason:
-                flagged[path] = reason
+            flag(path)
 
-    # 3. Явно указанные в команде пути (git add path/to/secret).
-    for token in re.findall(r"[\w./\-]+", command):
-        reason = matches_deny(token)
-        if reason:
-            flagged[token] = reason
+    # 3. Явно указанные пути (git add path/to/secret).
+    for path in explicit_add_paths(command):
+        flag(path)
 
     if not flagged:
         return 0
