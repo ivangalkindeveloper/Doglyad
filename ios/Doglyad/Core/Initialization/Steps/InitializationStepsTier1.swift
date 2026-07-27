@@ -69,9 +69,11 @@ extension InitializationProcess {
             ),
             SyncInitializationStep<InitializationProcess>(
                 title: "Firebase",
-                run: { (_: InitializationProcess) in
-                    let providerFactory = DAppCheckProviderFactory()
-                    AppCheck.setAppCheckProviderFactory(providerFactory)
+                run: { (process: InitializationProcess) in
+                    if process.environment!.type == EnvironmentType.production {
+                        let providerFactory = DAppCheckProviderFactory()
+                        AppCheck.setAppCheckProviderFactory(providerFactory)
+                    }
 
                     FirebaseApp.configure()
                 }
