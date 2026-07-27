@@ -5,7 +5,10 @@ internal import MLXLLM
 internal import Tokenizers
 
 public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
+    /// Локаль не влияет на доступность: язык задаёт системный промпт, а веса
+    /// модели одни и те же. Параметр есть ради единого интерфейса реализаций.
     public static func isAvailable(
+        locale _: Locale,
         parameters: DExaminationGenerationParameters
     ) -> Bool {
         DNeuralDevice.canRunLocally(
@@ -71,6 +74,10 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
         // переживает модель, поэтому сбрасываем его явно.
         MLX.Memory.clearCache()
     }
+
+    /// Прогрев для MLX — это и есть загрузка весов, которую уже выполнила
+    /// фабрика, создавая экземпляр. Дополнительно делать нечего.
+    public func prewarm() {}
 
     public func parseSpeech(
         speech: String

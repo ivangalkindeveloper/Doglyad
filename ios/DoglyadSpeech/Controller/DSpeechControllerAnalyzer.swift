@@ -5,57 +5,52 @@ import Speech
 
 /// Распознавание речи на новом стеке `SpeechAnalyzer` (iOS 26+).
 ///
-/// В отличие от `SFSpeechRecognizer` работает локально, без лимита в минуту и с
-/// потоковыми результатами, что лучше подходит для длинных диктовок осмотров.
-/// Модель языка при необходимости догружается через ``AssetInventory``.
+/// Работает локально, без лимита в минуту и с потоковыми результатами, что
+/// лучше подходит для длинных диктовок осмотров. Модель языка при необходимости
+/// догружается через ``AssetInventory`` — на это время сессия остаётся в статусе
+/// `preparing`, микрофон ещё не пишет.
+///
+/// Модулем распознавания взят `DictationTranscriber`, а не `SpeechTranscriber`:
+/// только он читает `AnalysisContext.contextualStrings` (`SpeechTranscriber`
+/// молча их игнорирует) и только у него есть подсказка `.farField` — а телефон
+/// врача часто лежит на аппарате в стороне, а не находится у рта.
 @available(iOS 26.0, *)
 @MainActor
 public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
-    /// Поддерживает ли `SpeechTranscriber` данную локаль. Асинхронно, потому что
-    /// список локалей (`SpeechTranscriber.supportedLocales`) отдаётся `await`.
-    /// Фабрика спрашивает это до выбора реализации и на непокрытой локали (как
-    /// `ru-RU`) откатывается к `SFSpeechRecognizer`.
+    /// Размер буфера тапа. При 48 кГц это примерно 21 мс звука.
+    private static let tapBufferSize: AVAudioFrameCount = 1024
+    /// Сколько ждём, пока анализатор доработает хвост аудио после остановки.
+    private static let finalizationTimeout: Duration = .seconds(3)
+
+    /// Поддерживает ли транскрайбер данную локаль. Асинхронно, потому что
+    /// список локалей отдаётся `await`. Фабрика спрашивает это до выбора
+    /// реализации и на непокрытой локали откатывается к `SFSpeechRecognizer`.
     public static func isSupported(
         locale: Locale
     ) async -> Bool {
-        await resolvedLocale(for: locale) != nil
-    }
-
-    /// Подбирает поддерживаемую локаль: точное BCP-47 совпадение, иначе тот же
-    /// язык (сначала с тем же регионом, затем любой регион этого языка). Так
-    /// «русский с не-RU регионом» нашёл бы `ru-RU`, а неподдержанный язык — nil.
-    private static func resolvedLocale(
-        for locale: Locale
-    ) async -> Locale? {
-        let supported = await SpeechTranscriber.supportedLocales
-
-        let target = locale.identifier(.bcp47)
-        if let exact = supported.first(where: { $0.identifier(.bcp47) == target }) {
-            return exact
-        }
-
-        guard let language = locale.language.languageCode?.identifier else { return nil }
-        let region = locale.region?.identifier
-        if let regional = supported.first(where: {
-            $0.language.languageCode?.identifier == language && $0.region?.identifier == region
-        }) {
-            return regional
-        }
-
-        return supported.first { $0.language.languageCode?.identifier == language }
+        await DictationTranscriber.supportedLocale(equivalentTo: locale) != nil
     }
 
     private let locale: Locale
-    /// Подсказки-лексика осмотра. `SpeechAnalyzer` подхватывает контекст иначе,
-    /// чем `SFSpeechRecognizer` (через `AnalysisContext`), поэтому пока храним их
-    /// для будущего применения на этом пути и держим единый интерфейс контроллеров.
+    /// Лексика осмотра: специфичные термины, которые распознаватель иначе
+    /// стабильно слышит мимо.
     private let contextualStrings: [String]
-    private let audioSession = AVAudioSession.sharedInstance()
-    private let audioEngine = AVAudioEngine()
+    /// Та же лексика как пост-обработка: подсказки смещают распознавание,
+    /// а корректор чинит то, что всё равно услышалось мимо.
+    private let corrector: DSpeechLexiconCorrector
+    /// Пересоздаётся на каждую сессию: голосовую обработку можно переключать
+    /// только на остановленном движке, а её состояние переживает `stop()` и на
+    /// повторном старте с другим маршрутом звука приводит к невалидному формату.
+    private var audioEngine = AVAudioEngine()
     private let converter = DSpeechBufferConverter()
+    private lazy var meter = DSpeechAudioMeter { [weak self] level in
+        DispatchQueue.main.async {
+            self?.audioMeter = level
+        }
+    }
 
     private var analyzer: SpeechAnalyzer?
-    private var transcriber: SpeechTranscriber?
+    private var transcriber: DictationTranscriber?
     private var inputBuilder: AsyncStream<AnalyzerInput>.Continuation?
     private var analyzerFormat: AVAudioFormat?
     private var recognizerTask: Task<Void, Never>?
@@ -75,12 +70,13 @@ public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
     ) {
         self.locale = locale
         self.contextualStrings = contextualStrings
+        corrector = DSpeechLexiconCorrector(terms: contextualStrings)
     }
 
     public func start() {
-        guard status != .recording else { return }
+        guard status == .stopped else { return }
 
-        status = .recording
+        status = .preparing
         text = nil
         audioMeter = 0.0
         finalizedText = AttributedString()
@@ -89,56 +85,100 @@ public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
             do {
                 try await self?.beginTranscription()
             } catch {
-                self?.stop()
+                await self?.stop()
             }
         }
     }
 
-    public func stop() {
+    @discardableResult
+    public func stop() async -> String? {
+        guard status != .stopped else { return text }
+
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
-        inputBuilder?.finish()
-        inputBuilder = nil
+        meter.reset()
         status = .stopped
 
         startTask?.cancel()
         startTask = nil
 
-        // Даём анализатору доработать хвост аудио и выдать финальный результат,
-        // и только потом отпускаем поток результатов.
+        inputBuilder?.finish()
+        inputBuilder = nil
+
+        // Даём анализатору доработать хвост аудио и дождаться финального
+        // результата: разбор диктовки стартует сразу после `stop()`, а последняя
+        // фраза приходит в поток результатов уже после финализации.
         let analyzer = analyzer
         let recognizerTask = recognizerTask
         self.analyzer = nil
         transcriber = nil
         self.recognizerTask = nil
-        Task {
+
+        let finalization = Task {
             try? await analyzer?.finalizeAndFinishThroughEndOfInput()
+            await recognizerTask?.value
+        }
+        // Страховка от зависшей финализации: врач не должен ждать бесконечно.
+        let timeout = Task {
+            try? await Task.sleep(for: Self.finalizationTimeout)
+            guard !Task.isCancelled else { return }
+            finalization.cancel()
             recognizerTask?.cancel()
         }
+        await finalization.value
+        timeout.cancel()
+
+        audioMeter = 0.0
+        DSpeechAudioSession.deactivate()
+
+        // Лексику применяем к итоговому тексту, а не к черновикам: на экране
+        // подмена терминов по ходу речи только мельтешила бы.
+        if let result = text, !result.isEmpty {
+            text = corrector.correct(result)
+        }
+
+        return text
     }
 
     private func beginTranscription() async throws {
-        try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
-        try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        let route = try DSpeechAudioSession.activate()
 
         // Локаль устройства может отличаться регионом от поддерживаемой (или не
         // поддерживаться вовсе) — подбираем ту, что реально знает транскрайбер.
         // В обычном потоке фабрика уже проверила поддержку, так что nil здесь —
         // подстраховка.
-        guard let resolvedLocale = await Self.resolvedLocale(for: locale) else {
+        guard let resolvedLocale = await DictationTranscriber.supportedLocale(equivalentTo: locale) else {
             throw DSpeechError.unavailable
         }
 
-        let transcriber = SpeechTranscriber(
+        // `.farField` — подсказка «говорят не в упор к микрофону». На гарнитуре
+        // она была бы враньём, поэтому ставим её только для встроенного микрофона.
+        var contentHints: Set<DictationTranscriber.ContentHint> = []
+        switch route {
+        case .builtIn:
+            contentHints.insert(.farField)
+        case .headset:
+            break
+        }
+
+        let transcriber = DictationTranscriber(
             locale: resolvedLocale,
-            transcriptionOptions: [],
+            contentHints: contentHints,
+            transcriptionOptions: [.punctuation],
             reportingOptions: [.volatileResults],
-            attributeOptions: [.audioTimeRange]
+            attributeOptions: []
         )
         self.transcriber = transcriber
 
         let analyzer = SpeechAnalyzer(modules: [transcriber])
         self.analyzer = analyzer
+
+        // Ради чего всё и затевалось: лексика осмотра доезжает до распознавателя.
+        if !contextualStrings.isEmpty {
+            let context = AnalysisContext()
+            context.contextualStrings[.general] = contextualStrings
+            try await analyzer.setContext(context)
+        }
 
         try await installModelIfNeeded(transcriber: transcriber, locale: resolvedLocale)
 
@@ -160,18 +200,22 @@ public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
                     }
                 }
             } catch {
-                self?.stop()
+                await self?.stop()
             }
         }
 
         try await analyzer.start(inputSequence: inputSequence)
 
-        let inputNode = audioEngine.inputNode
-        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        // Пока грузилась модель, пользователь мог закрыть шторку.
+        try Task.checkCancellation()
+
+        audioEngine = AVAudioEngine()
+        let (inputNode, recordingFormat) = try prepareInputNode(route: route)
         let converter = converter
         let analyzerFormat = analyzerFormat
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, _ in
-            self?.updateAudioMeter(buffer)
+        let meter = meter
+        inputNode.installTap(onBus: 0, bufferSize: Self.tapBufferSize, format: recordingFormat) { buffer, _ in
+            meter.process(buffer)
 
             guard let analyzerFormat else { return }
             guard let converted = try? converter.convert(buffer, to: analyzerFormat) else { return }
@@ -180,15 +224,45 @@ public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
 
         audioEngine.prepare()
         try audioEngine.start()
+
+        status = .recording
+    }
+
+    /// Готовит входной узел и отдаёт формат, с которым безопасно ставить тап.
+    ///
+    /// Голосовая обработка перестраивает аудиоблок ввода, и сразу после её
+    /// включения узел может отдать формат с нулевой частотой. `installTap` на
+    /// таком формате падает по ассерту, поэтому формат проверяем, а при неудаче
+    /// откатываем обработку: диктовка без шумоподавления лучше, чем падение.
+    private func prepareInputNode(
+        route: DSpeechAudioRoute
+    ) throws -> (AVAudioInputNode, AVAudioFormat) {
+        let inputNode = audioEngine.inputNode
+
+        // Подавление стационарного шума (гул аппарата), эхоподавление,
+        // автогромкость. Нужно, когда телефон лежит в стороне, и не нужно на
+        // гарнитуре, где микрофон и так у рта.
+        try? inputNode.setVoiceProcessingEnabled(route == .builtIn)
+
+        var recordingFormat = inputNode.outputFormat(forBus: 0)
+        if !recordingFormat.isValidForCapture, inputNode.isVoiceProcessingEnabled {
+            try? inputNode.setVoiceProcessingEnabled(false)
+            recordingFormat = inputNode.outputFormat(forBus: 0)
+        }
+        guard recordingFormat.isValidForCapture else {
+            throw DSpeechError.unavailable
+        }
+
+        return (inputNode, recordingFormat)
     }
 
     /// Догружает языковую модель для локали, если её ещё нет на устройстве.
     private func installModelIfNeeded(
-        transcriber: SpeechTranscriber,
+        transcriber: DictationTranscriber,
         locale: Locale
     ) async throws {
         let identifier = locale.identifier(.bcp47)
-        let installed = await SpeechTranscriber.installedLocales
+        let installed = await DictationTranscriber.installedLocales
         guard !installed.contains(where: { $0.identifier(.bcp47) == identifier }) else {
             return
         }
@@ -197,28 +271,10 @@ public final class DSpeechControllerAnalyzer: DSpeechControllerProtocol {
             try await request.downloadAndInstall()
         }
     }
-
-    private func updateAudioMeter(
-        _ buffer: AVAudioPCMBuffer
-    ) {
-        guard let channelData = buffer.floatChannelData?[0] else { return }
-        let channelDataArray = Array(UnsafeBufferPointer(
-            start: channelData,
-            count: Int(buffer.frameLength)
-        )
-        )
-
-        let rms = sqrt(channelDataArray.map { $0 * $0 }.reduce(0, +) / Float(buffer.frameLength))
-        let level = rms * 15
-
-        DispatchQueue.main.async {
-            self.audioMeter = min(max(level, 0), 1)
-        }
-    }
 }
 
 /// Приводит буферы микрофона к формату, который ждёт `SpeechAnalyzer`.
-private final class DSpeechBufferConverter {
+private final class DSpeechBufferConverter: @unchecked Sendable {
     private var converter: AVAudioConverter?
 
     func convert(

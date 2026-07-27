@@ -2451,19 +2451,36 @@
         }
       }
     },
+    "speechProcessPreparingDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing speech recognition. On the first run the language model is downloaded — please wait before dictating."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готовим распознавание речи. При первом запуске загружается языковая модель — подождите, прежде чем диктовать."
+          }
+        }
+      }
+    },
     "speechProcessSpeechDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\"Patient ... , date of birth ... , height ... centimeters, weight ... kilograms, complaints ... , examination performed: ... , additional information: ...\""
+            "value" : "\"Patient ... , male, date of birth ... , height ... centimeters, weight ... kilograms, complaints ... , examination performed: ...\""
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\"Пациент ... , дата рождения ... , рост ... сантиметров, вес ... килограмм, жалобы ... , проведено исследование: ... , дополнительная информация: ...\""
+            "value" : "\"Пациент ... , мужчина, дата рождения ... , рост ... сантиметров, вес ... килограмм, жалобы ... , проведено исследование: ...\""
           }
         }
       }

@@ -24,5 +24,12 @@ public protocol DSpeechControllerProtocol: ObservableObject
     var audioMeter: Float { get }
 
     func start()
-    func stop()
+
+    /// Останавливает запись и дожидается финального результата распознавания.
+    ///
+    /// Возвращает итоговый текст: читать `text` сразу после вызова нельзя —
+    /// хвост диктовки распознаётся асинхронно уже после остановки микрофона,
+    /// и последняя фраза осмотра иначе теряется.
+    @discardableResult
+    func stop() async -> String?
 }

@@ -72,7 +72,8 @@ final class ScanSpeechViewModel: DViewModel {
 
     var speechIcon: ImageResource {
         switch speechController.status {
-        case .recording:
+        case .preparing,
+             .recording:
             return .check
         case .stopped:
             return .play
@@ -81,25 +82,109 @@ final class ScanSpeechViewModel: DViewModel {
         }
     }
 
+    /// Крутилка на кнопке: и пока поднимается сессия распознавания, и пока идёт
+    /// разбор диктовки — в обоих случаях нажимать нечего.
+    var isSpeechButtonLoading: Bool {
+        guard !isLoading else { return true }
+
+        switch speechController.status {
+        case .preparing:
+            return true
+        case .recording,
+             .stopped:
+            return false
+        @unknown default:
+            fatalError()
+        }
+    }
+
+    var isAudioMeterVisible: Bool {
+        switch speechController.status {
+        case .recording:
+            return true
+        case .preparing,
+             .stopped:
+            return false
+        @unknown default:
+            fatalError()
+        }
+    }
+
+    /// Пока сессия поднимается (на новом стеке речи может догружаться языковая
+    /// модель), микрофон ещё не пишет — просим врача подождать, а не диктовать.
+    var isPreparingDescriptionVisible: Bool {
+        switch speechController.status {
+        case .preparing:
+            return true
+        case .recording,
+             .stopped:
+            return false
+        @unknown default:
+            fatalError()
+        }
+    }
+
+    var speechText: String? {
+        isAudioMeterVisible ? speechController.text : nil
+    }
+
+    /// Отдельный флаг под анимацию появления расшифровки. Привязывать анимацию
+    /// к самой строке нельзя: черновые результаты приходят несколько раз в
+    /// секунду, и вся шторка переигрывала бы анимацию на каждое слово.
+    var isSpeechTextVisible: Bool {
+        speechText != nil
+    }
+
+    var audioMeterLevel: Float {
+        speechController.audioMeter
+    }
+
     func onTapSpeech() {
         guard !isLoading else { return }
 
         switch speechController.status {
+        case .preparing:
+            // Сессия ещё поднимается — останавливать нечего.
+            return
         case .recording:
             onStopSpeech()
         case .stopped:
             speechController.start()
+            // Модель разбора весит сотни мегабайт и грузится лениво. Пока врач
+            // диктует, успеваем поднять и прогреть её в фоне — иначе он ждёт
+            // загрузку уже после того, как закончил говорить.
+            container.examinationNeuralModelFactory?.prewarm()
         @unknown default:
             fatalError()
         }
     }
 
     private func onStopSpeech() {
-        speechController.stop()
-        guard let factory = container.examinationNeuralModelFactory else { return }
-        guard let speech = speechController.text else { return }
-
         isLoading = true
+
+        Task { [weak self] in
+            guard let self else { return }
+            // Хвост диктовки распознаётся асинхронно уже после остановки
+            // микрофона, поэтому итоговый текст берём из `stop()`, а не из
+            // `text` сразу после него — иначе последняя фраза теряется.
+            let speech = await self.speechController.stop()
+
+            guard let speech, !speech.isEmpty,
+                  self.container.examinationNeuralModelFactory != nil
+            else {
+                self.isLoading = false
+                return
+            }
+
+            self.onParseSpeech(speech: speech)
+        }
+    }
+
+    private func onParseSpeech(
+        speech: String
+    ) {
+        guard let factory = container.examinationNeuralModelFactory else { return }
+
         handle {
             // Первый разбор дополнительно ждёт загрузку модели — она ленивая.
             try await factory.model().parseSpeech(

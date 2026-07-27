@@ -58,7 +58,10 @@ extension InitializationProcess {
                 title: "Local ultrasound examination neural model",
                 run: { (process: InitializationProcess) in
                     let config = await process.applicationConfig!.ultrasound.examinationNeuralModel
-                    guard let prompt = config.getPrompt(for: Locale.current) else {
+                    // Локаль нужна не только для промпта: по ней фабрика решает,
+                    // знает ли системная модель язык диктовки.
+                    let locale = Locale.current
+                    guard let prompt = config.getPrompt(for: locale) else {
                         throw InitializationError.examinationNeuralModelPromptEmpty
                     }
 
@@ -70,6 +73,7 @@ extension InitializationProcess {
 
                     await MainActor.run {
                         process.examinationNeuralModelFactory = DExaminationNeuralModelFactory(
+                            locale: locale,
                             systemPrompt: prompt,
                             parameters: parameters
                         )
