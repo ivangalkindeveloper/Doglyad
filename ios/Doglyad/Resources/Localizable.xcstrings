@@ -751,6 +751,40 @@
         }
       }
     },
+    "errorNoScanPhotoDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please take at least one photo of the examination and try again"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста сделайте хотя бы один снимок исследования и попробуйте снова"
+          }
+        }
+      }
+    },
+    "errorNoScanPhotoTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No examination photos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отсутствуют снимки исследования"
+          }
+        }
+      }
+    },
     "errorUnknownDescription" : {
       "extractionState" : "manual",
       "localizations" : {

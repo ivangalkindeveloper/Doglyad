@@ -98,7 +98,13 @@ struct ScanScreenView: View {
             focus = newValue
         }
         .onChange(of: viewModel.photos, initial: true) {
-            viewModel.onChangePhotosForSheet()
+            viewModel.onChangeContentForSheet()
+        }
+        .onChange(of: viewModel.patientComplaintController.text) {
+            viewModel.onChangeContentForSheet()
+        }
+        .onChange(of: viewModel.examinationDescriptionController.text) {
+            viewModel.onChangeContentForSheet()
         }
         .onChange(of: viewModel.sheetController.currentPosition, initial: true) {
             viewModel.onChangeSheetForCamera()

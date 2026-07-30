@@ -25,7 +25,6 @@ struct ScanSheetFooterView: View {
                                 action: viewModel.onTapSpeech
                             )
                             .dStyle(.primaryChip)
-                            .dShimmer(isShimmering: viewModel.isSpeechButtonShimmering)
                             .paidBadge(.formCompletionViaMicrophone)
                             .padding(.bottom, size.s8)
                             .transition(.move(edge: .bottom))

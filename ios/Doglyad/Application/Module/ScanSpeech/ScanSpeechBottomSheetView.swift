@@ -30,6 +30,10 @@ struct ScanSpeechBottomSheetView: View {
                         .lineLimit(1)
                         .truncationMode(.head)
                         .clipped()
+                        .animation(
+                            theme.animation,
+                            value: speechText
+                        )
                         .padding(.horizontal, size.s32)
                         .padding(.bottom, size.s8)
                 }

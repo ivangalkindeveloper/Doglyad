@@ -19,7 +19,7 @@ struct ConclusionPhotosView: View {
             ) {
                 ForEach(viewModel.conclusion.examinationData.photos) { photo in
                     PhotoCard(
-                        image: photo.image
+                        image: photo.thumbnail
                     )
                 }
                 .padding([.horizontal], size.s2)

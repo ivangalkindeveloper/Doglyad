@@ -11,15 +11,39 @@ extension CodingUserInfoKey {
 }
 
 struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
+    /// Превью рисуется в PhotoCard размером 64pt, поэтому 192px хватает
+    /// вплоть до 3x.
+    static let thumbnailMaxDimension: CGFloat = 192
+    static let thumbnailCompressionQuality: CGFloat = 0.8
+
     var id: UUID = .init()
     let image: UIImage
+    /// Уменьшенная копия для списков: полноразмерный кадр в 64pt-плитке
+    /// заставлял main-поток декодировать всё изображение целиком.
+    let thumbnail: UIImage
 
     init(
         id: UUID = UUID(),
-        image: UIImage
+        image: UIImage,
+        thumbnail: UIImage? = nil
     ) {
         self.id = id
         self.image = image
+        self.thumbnail = thumbnail ?? image.thumbnail(maxDimension: Self.thumbnailMaxDimension)
+    }
+
+    /// Готовит превью вне main-потока — путь захвата и выбора из галереи.
+    static func make(
+        image: UIImage
+    ) async -> USExaminationScanPhoto {
+        let thumbnail = await Task.detached(priority: .userInitiated) {
+            image.thumbnail(maxDimension: Self.thumbnailMaxDimension)
+        }.value
+
+        return USExaminationScanPhoto(
+            image: image,
+            thumbnail: thumbnail
+        )
     }
 
     init(
@@ -28,7 +52,9 @@ struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = UUID()
         let data = try container.decode(Data.self, forKey: .data)
-        image = UIImage(data: data) ?? UIImage()
+        let image = UIImage(data: data) ?? UIImage()
+        self.image = image
+        thumbnail = image.thumbnail(maxDimension: Self.thumbnailMaxDimension)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -62,14 +88,18 @@ extension USExaminationScanPhoto {
     ) -> USExaminationScanPhoto {
         USExaminationScanPhoto(
             id: db.id,
-            image: UIImage(data: db.data) ?? UIImage()
+            image: UIImage(data: db.data) ?? UIImage(),
+            thumbnail: db.thumbnailData.flatMap { UIImage(data: $0) }
         )
     }
 
     func toDB() -> USExaminationScanPhotoDB {
         USExaminationScanPhotoDB(
             id: id,
-            data: image.pngData() ?? Data()
+            data: image.pngData() ?? Data(),
+            thumbnailData: thumbnail.jpegData(
+                compressionQuality: Self.thumbnailCompressionQuality
+            )
         )
     }
 }

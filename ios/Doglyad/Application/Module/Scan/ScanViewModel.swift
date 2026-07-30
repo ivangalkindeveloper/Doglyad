@@ -130,15 +130,18 @@ final class ScanViewModel: DViewModel {
         cameraController.stopSession()
     }
 
-    func onChangePhotosForSheet() {
-        if photos.isEmpty {
-            return sheetController.setHidden()
+    func onChangeContentForSheet() {
+        if photos.isEmpty,
+           patientComplaintController.text.isEmpty,
+           examinationDescriptionController.text.isEmpty
+        {
+            if focus == nil {
+                sheetController.setHidden()
+            }
+            return
         }
-        if !photos.isEmpty, sheetController.isHidden {
+        if sheetController.isHidden {
             sheetController.setBottom()
-        }
-        if isPhotoFilling {
-            return sheetController.setTop()
         }
     }
 
@@ -199,9 +202,16 @@ final class ScanViewModel: DViewModel {
     ) {
         guard !isPhotoFilling else { return }
 
-        photos.append(USExaminationScanPhoto(image: image))
-        if isPhotoFilling {
-            sheetController.setTop()
+        // Превью готовится вне main-потока, иначе полноразмерный кадр
+        // декодируется при первой отрисовке PhotoCard.
+        Task {
+            let photo = await USExaminationScanPhoto.make(image: image)
+            guard !self.isPhotoFilling else { return }
+
+            self.photos.append(photo)
+            if self.isPhotoFilling {
+                self.sheetController.setTop()
+            }
         }
     }
 
@@ -243,12 +253,16 @@ final class ScanViewModel: DViewModel {
         guard !isPhotoFilling else { return }
 
         let availableCount = photoMaxCount - photos.count
-        for image in images.prefix(availableCount) {
-            photos.append(USExaminationScanPhoto(image: image))
-        }
+        Task {
+            var newPhotos: [USExaminationScanPhoto] = []
+            for image in images.prefix(availableCount) {
+                newPhotos.append(await USExaminationScanPhoto.make(image: image))
+            }
 
-        if isPhotoFilling {
-            sheetController.setTop()
+            self.photos.append(contentsOf: newPhotos)
+            if self.isPhotoFilling {
+                self.sheetController.setTop()
+            }
         }
     }
 
@@ -369,15 +383,6 @@ final class ScanViewModel: DViewModel {
         }
     }
 
-    var isSpeechButtonShimmering: Bool {
-        switch subscription.availability(of: .formCompletionViaMicrophone) {
-        case .available:
-            return true
-        case .offered, .unavailable:
-            return false
-        }
-    }
-
     func onTapSpeech() {
         subscription.run(
             .formCompletionViaMicrophone,
@@ -399,6 +404,7 @@ final class ScanViewModel: DViewModel {
                 )
             }
 
+            self.cameraController.stopSession()
             self.router.push(
                 route: RouteSheet(
                     type: .scanSpeech,
@@ -440,8 +446,14 @@ final class ScanViewModel: DViewModel {
         let isPatientWeightKGValid = patientWeightKGController.validate()
         let isPatientComplaintValid = patientComplaintController.validate()
         let isExaminationDescriptionValid = examinationDescriptionController.validate()
-        guard !photos.isEmpty,
-              isPatientNameValid,
+        guard !photos.isEmpty else {
+            return messager.show(
+                type: .error,
+                title: .errorNoScanPhotoTitle,
+                description: .errorNoScanPhotoDescription
+            )
+        }
+        guard isPatientNameValid,
               isPatientHeightCMValid,
               isPatientWeightKGValid,
               isPatientComplaintValid,

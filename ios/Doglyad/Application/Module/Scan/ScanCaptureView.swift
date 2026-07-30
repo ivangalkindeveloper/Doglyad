@@ -11,36 +11,47 @@ struct ScanCaptureView: View {
 
     var body: some View {
         VStack(
-            spacing: .zero
+            spacing: size.s8
         ) {
-            if viewModel.isPhotoFilling {
-                DButton(
-                    image: .down,
-                    action: viewModel.onTapCapture
-                )
-                .dStyle(.primaryCircle)
-            } else if viewModel.isCaptureAvailable {
-                VStack(
-                    spacing: size.s8
-                ) {
+            HStack(
+                spacing: size.s16
+            ) {
+                if viewModel.isCaptureAvailable {
                     DButton(
                         image: viewModel.captureIcon,
                         action: viewModel.onTapCapture,
-                        isLoading: viewModel.cameraController.isCapturing
+                        isLoading: viewModel.cameraController.isCapturing,
+                        isDisabled: viewModel.isLoading
                     )
                     .dStyle(.primaryCircle)
+                }
 
-                    DText(.scanCaptureDescription)
-                        .dStyle(
-                            font: typography.textSmall,
-                            color: color.grayscaleLine,
-                            alignment: .center
-                        )
+                if viewModel.isSpeechButtonVisible {
+                    DButton(
+                        image: .microphone,
+                        action: viewModel.onTapSpeech,
+                        isDisabled: viewModel.isLoading
+                    )
+                    .dStyle(.primaryCircle)
+                    .paidBadge(.formCompletionViaMicrophone)
                 }
             }
+
+            if viewModel.isCaptureAvailable {
+                DText(.scanCaptureDescription)
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscaleLine,
+                        alignment: .center
+                    )
+            }
         }
-        .padding(size.s16)
+        .padding(size.s8)
         .padding(.bottom, viewModel.sheetController.isSheetVisible ? size.s136 : .zero)
+        .animation(
+            theme.animation,
+            value: viewModel.cameraController.isRunning
+        )
         .animation(
             theme.animation,
             value: viewModel.sheetController.currentPosition

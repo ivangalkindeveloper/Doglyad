@@ -60,9 +60,5 @@ struct ScanCameraView: View {
             theme.animation,
             value: viewModel.cameraController.isRunning
         )
-        .animation(
-            theme.animation,
-            value: viewModel.isPhotoFilling
-        )
     }
 }
