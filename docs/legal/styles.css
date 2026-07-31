@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 :root {
+    /* Host insets (native toolbar / bottom bar overlays) */
+    --inset-top: 0px;
+    --inset-bottom: 0px;
+
     /* Primary */
     --primary-default: #610BEF;
     --primary-default-strong: #4700AB;
@@ -42,7 +46,7 @@ body {
 .container {
     max-width: 720px;
     margin: 0 auto;
-    padding: 40px 24px 80px;
+    padding: calc(40px + var(--inset-top)) 24px calc(80px + var(--inset-bottom));
 }
 
 /* Language Switch */
@@ -181,7 +185,7 @@ a:hover {
 
 @media (max-width: 480px) {
     .container {
-        padding: 16px 20px 40px;
+        padding: calc(16px + var(--inset-top)) 20px calc(40px + var(--inset-bottom));
     }
 
     h1 {

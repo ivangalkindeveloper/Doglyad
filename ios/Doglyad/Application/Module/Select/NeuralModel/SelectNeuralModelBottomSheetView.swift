@@ -14,7 +14,7 @@ struct SelectNeuralModelBottomSheetView: View {
         DBottomSheet(
             title: .settingsNeuralModelTitle,
             fraction: 0.8
-        ) { toolbarHeight, _ in
+        ) { toolbarHeight, bottomHeight in
             ScrollView(
                 showsIndicators: false
             ) {
@@ -30,8 +30,8 @@ struct SelectNeuralModelBottomSheetView: View {
                             DListButtonCard(
                                 title: LocalizedStringResource(stringLiteral: model.title),
                                 description: """
-                                \(String(localized: .neuralModelContextLengthDescription)) \(model.contextLength)
                                 (\(model.id))
+                                \(String(localized: .neuralModelContextLengthDescription)) \(model.contextLength)
                                 \(model.getLocalizedDescription(for: Locale.current))
                                 """,
                                 action: {
@@ -43,9 +43,9 @@ struct SelectNeuralModelBottomSheetView: View {
                     }
                     .padding(.bottom, size.s8)
                 }
-                .padding(size.s16)
                 .padding(.top, toolbarHeight)
-                .padding(.bottom, size.s116)
+                .padding(size.s16)
+                .padding(.bottom, bottomHeight)
             }
         }
         bottom: {

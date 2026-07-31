@@ -15,10 +15,12 @@ struct WebDocumentBottomSheetView: View {
         DBottomSheet(
             title: title,
             fraction: 0.8
-        ) { toolbarHeight, _ in
+        ) { toolbarHeight, bottomHeight in
             ZStack {
                 WebDocumentBottomSheetWebView(
                     url: url,
+                    topInset: toolbarHeight,
+                    bottomInset: bottomHeight,
                     isLoading: $isLoading
                 )
 
@@ -28,7 +30,6 @@ struct WebDocumentBottomSheetView: View {
                         .dShimmer(cornerRadius: 0)
                 }
             }
-            .padding(.top, toolbarHeight)
             .edgesIgnoringSafeArea(.bottom)
         }
         .animation(

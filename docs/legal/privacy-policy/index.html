@@ -82,7 +82,7 @@
 
             <h2>10. Контактная информация</h2>
             <p>Если у вас есть вопросы относительно данной Политики конфиденциальности, свяжитесь с нами:</p>
-            <p>Email: <a href="mailto:ivangalkindeveloper@gmail.com">ivangalkindeveloper@gmail.com</a></p>
+            <p>Email: <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a></p>
 
         </div>
 
@@ -155,29 +155,11 @@
 
             <h2>10. Contact Information</h2>
             <p>If you have questions regarding this Privacy Policy, please contact us:</p>
-            <p>Email: <a href="mailto:ivangalkindeveloper@gmail.com">ivangalkindeveloper@gmail.com</a></p>
+            <p>Email: <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a></p>
 
         </div>
     </div>
 
-    <script>
-        function switchLang(lang) {
-            document.getElementById('content-ru').classList.toggle('hidden', lang !== 'ru');
-            document.getElementById('content-en').classList.toggle('hidden', lang !== 'en');
-            document.querySelectorAll('.lang-btn').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-            document.querySelector('.lang-btn[onclick="switchLang(\'' + lang + '\')"]').classList.add('active');
-            document.documentElement.lang = lang;
-            localStorage.setItem('doglyad-lang', lang);
-        }
-
-        (function() {
-            var params = new URLSearchParams(window.location.search);
-            var lang = params.get('lang') || localStorage.getItem('doglyad-lang') || 'ru';
-            if (lang !== 'ru' && lang !== 'en') lang = 'ru';
-            switchLang(lang);
-        })();
-    </script>
+    <script src="../document.js"></script>
 </body>
 </html>
