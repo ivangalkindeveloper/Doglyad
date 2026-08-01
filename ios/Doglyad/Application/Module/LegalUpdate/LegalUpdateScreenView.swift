@@ -59,7 +59,7 @@ struct LegalUpdateScreenView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, size.s8)
                 }
-                .padding(.size.s16)
+                .padding(size.s16)
                 .padding(.bottom, bottomHeight)
             },
             bottom: {
