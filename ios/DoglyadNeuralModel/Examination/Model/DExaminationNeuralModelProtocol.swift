@@ -7,8 +7,9 @@ public enum DExaminationNeuralModelError: Error {
 }
 
 public protocol DExaminationNeuralModelProtocol {
-    /// Доступность реализации. Локаль важна не меньше системы: модель может быть
-    /// установлена, но не знать язык диктовки, и тогда разбирать ею нельзя.
+    /// Availability of the implementation. The locale matters as much as the system:
+    /// the model may be installed yet not know the dictation language, and then it
+    /// cannot be used for parsing.
     static func isAvailable(
         locale: Locale,
         parameters: DExaminationGenerationParameters
@@ -19,8 +20,8 @@ public protocol DExaminationNeuralModelProtocol {
         parameters: DExaminationGenerationParameters
     ) async throws
 
-    /// Прогревает модель, чтобы первый разбор не платил за инициализацию.
-    /// Вызывается, когда врач начинает диктовать: пока он говорит, есть время.
+    /// Warms the model up so the first parse does not pay for initialization.
+    /// Called when the physician starts dictating: there is time while they speak.
     func prewarm()
 
     func parseSpeech(

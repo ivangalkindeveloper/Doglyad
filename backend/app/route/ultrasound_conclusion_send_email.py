@@ -27,22 +27,19 @@ async def ultrasound_conclusion_send_email(
 ) -> None:
     del request
 
-    logger.info(
-        "Send email: recipient=%s, subject=%s, body=%s",
-        body.recipientEmail,
-        body.subject,
-        body.body,
-    )
+    # Never log the recipient, subject or body: they hold the report and patient data.
+    logger.info("Send email: body_chars=%d", len(body.body))
 
     try:
         await asyncio.to_thread(_send_examination_email, body)
     except HTTPException:
         raise
     except Exception as error:
+        # SMTP details stay on the server and never reach the client.
         logger.exception("Failed to send examination email")
         raise HTTPException(
             status_code=500,
-            detail=f"{error}\nCheck your login or password please!",
+            detail="Failed to send the examination email",
         ) from error
 
 

@@ -5,8 +5,9 @@ internal import MLXLLM
 internal import Tokenizers
 
 public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
-    /// Локаль не влияет на доступность: язык задаёт системный промпт, а веса
-    /// модели одни и те же. Параметр есть ради единого интерфейса реализаций.
+    /// The locale does not affect availability: the language is set by the system
+    /// prompt while the weights stay the same. The parameter exists so that all
+    /// implementations share one interface.
     public static func isAvailable(
         locale _: Locale,
         parameters: DExaminationGenerationParameters
@@ -24,16 +25,16 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
         withExtension: nil
     )
 
-    /// Размер весов меряем по факту, а не выводим из числа параметров:
-    /// поквантовые scales и zeros в оценку не укладываются, а при смене
-    /// модели фактический размер обновится сам.
+    /// Weight size is measured for real rather than derived from the parameter count:
+    /// per-quant scales and zeros do not fit such an estimate, and when the model
+    /// changes the actual size updates itself.
     private static let resourceBytes: UInt64 = {
         guard let resourceDirectory else { return 0 }
 
         return DNeuralResource.directorySize(at: resourceDirectory)
     }()
 
-    /// Архитектура mlx-community/Qwen2.5-1.5B-Instruct-4bit по её config.json.
+    /// The mlx-community/Qwen2.5-1.5B-Instruct-4bit architecture, per its config.json.
     private static let defaultModel = DNeuralModelData(
         modelId: "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
         numLayers: 28,
@@ -52,8 +53,8 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
             throw DExaminationNeuralModelError.resourceNotFound
         }
 
-        // Без лимита буферный кэш MLX растёт поверх весов и на телефоне
-        // превращается в лишние сотни мегабайт резидентной памяти.
+        // Without a limit the MLX buffer cache grows on top of the weights and on a
+        // phone turns into hundreds of megabytes of extra resident memory.
         MLX.Memory.cacheLimit = Self.gpuCacheLimitBytes
 
         model = try await MLXLMCommon.loadModel(
@@ -70,13 +71,13 @@ public final class DExaminationNeuralModelMLX: DExaminationNeuralModelProtocol {
     private static let gpuCacheLimitBytes = 32 * 1024 * 1024
 
     deinit {
-        // Веса освобождаются вместе с ModelContext, но буферный кэш MLX
-        // переживает модель, поэтому сбрасываем его явно.
+        // The weights are freed together with ModelContext, but the MLX buffer cache
+        // outlives the model, so it is dropped explicitly.
         MLX.Memory.clearCache()
     }
 
-    /// Прогрев для MLX — это и есть загрузка весов, которую уже выполнила
-    /// фабрика, создавая экземпляр. Дополнительно делать нечего.
+    /// For MLX, warming up is exactly the weight loading the factory already did when
+    /// creating the instance. There is nothing else to do.
     public func prewarm() {}
 
     public func parseSpeech(

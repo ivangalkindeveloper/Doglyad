@@ -5,8 +5,8 @@ import SwiftData
 public final class USExaminationScanPhotoDB {
     public var id: UUID
     public var data: Data
-    /// Уменьшенное превью для списков. Опциональное, чтобы SwiftData
-    /// смигрировал уже существующие записи автоматически.
+    /// A downscaled preview for lists. Optional so that SwiftData migrates
+    /// already existing records automatically.
     public var thumbnailData: Data?
 
     public init(

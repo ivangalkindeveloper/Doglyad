@@ -11,15 +11,15 @@ extension CodingUserInfoKey {
 }
 
 struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
-    /// Превью рисуется в PhotoCard размером 64pt, поэтому 192px хватает
-    /// вплоть до 3x.
+    /// The preview is drawn in a 64pt PhotoCard, so 192px is enough
+    /// all the way up to 3x.
     static let thumbnailMaxDimension: CGFloat = 192
     static let thumbnailCompressionQuality: CGFloat = 0.8
 
     var id: UUID = .init()
     let image: UIImage
-    /// Уменьшенная копия для списков: полноразмерный кадр в 64pt-плитке
-    /// заставлял main-поток декодировать всё изображение целиком.
+    /// A downscaled copy for lists: a full-size frame in a 64pt tile forced
+    /// the main thread to decode the entire image.
     let thumbnail: UIImage
 
     init(
@@ -32,7 +32,7 @@ struct USExaminationScanPhoto: Identifiable, Equatable, Codable {
         self.thumbnail = thumbnail ?? image.thumbnail(maxDimension: Self.thumbnailMaxDimension)
     }
 
-    /// Готовит превью вне main-потока — путь захвата и выбора из галереи.
+    /// Prepares the preview off the main thread — the capture and gallery-pick path.
     static func make(
         image: UIImage
     ) async -> USExaminationScanPhoto {

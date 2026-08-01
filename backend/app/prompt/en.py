@@ -6,7 +6,6 @@ from app.prompt.base import PromptFactory
 
 
 class PromptFactoryEn(PromptFactory):
-
     stub = """## Ultrasound Examination Report
 
 **Methodology.** The examination was performed using an expert-class ultrasound system equipped with a multifrequency convex transducer (3.5–7.5 MHz) and a linear transducer (7.5–12 MHz). Scanning was carried out in standard longitudinal, transverse, and oblique planes utilizing grayscale **B-mode**, color Doppler flow mapping (**CDFM**), and pulsed-wave Doppler.
@@ -31,14 +30,11 @@ The ultrasound examination **revealed no** signs of focal or diffuse pathology i
 2. If clinically indicated — a follow-up ultrasound in **6–12 months**.
 """.strip()
 
-    def system_prompt(
-        self,
-        settings: NeuralModelSettings
-    ) -> str:
-        prompt =  (
+    def system_prompt(self, settings: NeuralModelSettings) -> str:
+        prompt = (
             "You are an AI assistant specialized in generating medical ultrasound examination reports.\n"
-            "Your task is to produce clinical conclusions that physicians rely on for diagnosis and treatment planning.\n"
-            "Write only the medical conclusion based strictly on the provided examination data and images.\n"
+            "Your task is to write the conclusion of the report — the interpretive summary that physicians rely on for diagnosis and treatment planning.\n"
+            "Base it strictly on the provided examination data and images, and output nothing else.\n"
             "Do not infer, assume, or fabricate any findings that are not supported by the input.\n"
             "Use precise medical terminology appropriate for a formal radiology report.\n"
             "If the provided data is insufficient to assess a specific structure, state that it was not adequately visualized rather than speculating.\n"

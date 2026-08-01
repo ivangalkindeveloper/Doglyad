@@ -1,7 +1,7 @@
 import Foundation
 
-/// Небольшие модели регулярно оборачивают ответ в блок кода или добавляют преамбулу,
-/// несмотря на запрет в промпте. Достаём из ответа именно JSON-объект.
+/// Small models regularly wrap the answer in a code block or add a preamble,
+/// despite the prompt forbidding it. Extract exactly the JSON object from the answer.
 enum DExaminationJSONSanitizer {
     static func extractJSONObject(
         from response: String
@@ -28,8 +28,8 @@ enum DExaminationJSONSanitizer {
         return lines.joined(separator: "\n")
     }
 
-    /// Скобка может встретиться внутри строкового значения, поэтому считаем глубину
-    /// только вне строковых литералов и пропускаем экранированные символы.
+    /// A brace may occur inside a string value, so depth is counted only outside
+    /// string literals, and escaped characters are skipped.
     private static func findMatchingBrace(
         in text: String,
         from start: String.Index

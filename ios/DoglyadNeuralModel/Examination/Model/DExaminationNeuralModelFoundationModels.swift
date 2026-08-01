@@ -40,10 +40,10 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
         let model = SystemLanguageModel.default
         guard model.isAvailable else { return false }
 
-        // Системная модель покрывает не все языки приложения, но остаётся
-        // «доступной» и на непокрытых. Без этой проверки мы предпочли бы её MLX
-        // на локали, языка которой она не знает. Набор языков меняется между
-        // релизами системы, поэтому спрашиваем в рантайме, а не держим список.
+        // The system model does not cover every app language, yet it stays
+        // "available" on the uncovered ones too. Without this check we would prefer
+        // it over MLX on a locale whose language it does not know. The language set
+        // changes between system releases, so we ask at runtime instead of hardcoding.
         guard let languageCode = locale.language.languageCode else { return false }
 
         return model.supportedLanguages.contains { $0.languageCode == languageCode }
@@ -51,12 +51,12 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
 
     private let systemPrompt: String
     private let generationOptions: GenerationOptions
-    /// Сессия, прогретая под ближайший разбор. Заводим её заранее: на первом
-    /// обращении модель компилирует схему ответа и поднимает guardrails, и без
-    /// прогрева эта задержка достаётся врачу уже после диктовки.
+    /// A session warmed up for the next parse. It is created ahead of time: on the
+    /// first request the model compiles the response schema and raises guardrails, and
+    /// without warm-up that delay lands on the physician right after dictating.
     private var prewarmedSession: LanguageModelSession?
-    /// `parseSpeech` и `prewarm` вызываются из разных контекстов, а сессию
-    /// приходится подменять, поэтому доступ к ней закрыт замком.
+    /// `parseSpeech` and `prewarm` are called from different contexts and the session
+    /// has to be swapped, so access to it is guarded by a lock.
     private let lock = NSLock()
 
     public init(
@@ -81,11 +81,11 @@ public final class DExaminationNeuralModelFoundationModels: DExaminationNeuralMo
         prewarmedSession = session
     }
 
-    /// Забирает прогретую сессию под текущий разбор. Синхронно — замок нельзя
-    /// удерживать через `await`.
+    /// Takes the warmed-up session for the current parse. Synchronous — the lock
+    /// must not be held across `await`.
     ///
-    /// Каждая диктовка разбирается независимо, а сессия копит транскрипт,
-    /// поэтому прогретую забираем целиком, а следующий `prewarm` заведёт новую.
+    /// Each dictation is parsed independently while a session accumulates a transcript,
+    /// so the warmed one is taken whole and the next `prewarm` creates a new one.
     private func takeSession() -> LanguageModelSession {
         lock.lock()
         defer { lock.unlock() }

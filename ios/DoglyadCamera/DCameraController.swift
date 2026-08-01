@@ -66,9 +66,9 @@ public final class DCameraController: ObservableObject {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
 
-            // Очередь последовательная, поэтому конфигурация и startRunning()
-            // здесь уже гарантированно завершены — снимок не уходит в сессию,
-            // у которой ещё нет активного соединения.
+            // The queue is serial, so configuration and startRunning() are already
+            // guaranteed to have finished here — a capture never reaches a session
+            // that has no active connection yet.
             guard self.session.isRunning,
                   let connection = self.output.connection(with: .video),
                   connection.isActive,
@@ -141,15 +141,15 @@ private extension DCameraController {
         session.addInput(input)
         session.addOutput(output)
 
-        // Кадр всё равно уменьшается до scanPhotoResizeMaxDimension, поэтому
-        // 1080p с запасом хватает и для сети, и для превью. Пресет .photo
-        // заставил бы ISP обрабатывать полный сенсорный кадр.
+        // The frame is downscaled to scanPhotoResizeMaxDimension anyway, so 1080p
+        // is more than enough for both the network and the preview. The .photo preset
+        // would make the ISP process the full sensor frame.
         if session.canSetSessionPreset(.hd1920x1080) {
             session.sessionPreset = .hd1920x1080
         }
 
-        // .balanced включает мультикадровое слияние и ожидание стабилизации
-        // сцены — это основная задержка затвора. .speed снимает один кадр.
+        // .balanced enables multi-frame fusion and waits for the scene to settle —
+        // that is the main shutter delay. .speed captures a single frame.
         output.maxPhotoQualityPrioritization = .speed
         if output.isZeroShutterLagSupported {
             output.isZeroShutterLagEnabled = true
@@ -167,8 +167,8 @@ private extension DCameraController {
     ) -> AVCapturePhotoSettings {
         let settings: AVCapturePhotoSettings
 
-        // Несжатый буфер убирает HEIC-энкод и последующий декод: UIImage
-        // собирается из пикселей напрямую.
+        // An uncompressed buffer removes the HEIC encode and the decode that follows:
+        // the UIImage is assembled straight from pixels.
         if output.availablePhotoPixelFormatTypes.contains(kCVPixelFormatType_32BGRA) {
             settings = AVCapturePhotoSettings(
                 format: [
@@ -194,12 +194,12 @@ private extension DCameraController {
 private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
     weak var controller: DCameraController?
 
-    // Колбэки AVFoundation приходят на одну последовательную внутреннюю
-    // очередь, поэтому ленивая инициализация здесь безопасна.
+    // AVFoundation callbacks arrive on a single serial internal queue,
+    // so lazy initialization is safe here.
     private lazy var ciContext = CIContext(options: [.useSoftwareRenderer: false])
 
-    /// Прогревает CIContext вне пути захвата, чтобы первый снимок не платил
-    /// за его создание.
+    /// Warms up the CIContext outside the capture path so the first shot does not
+    /// pay for creating it.
     func prepare() {
         _ = ciContext
     }
@@ -223,9 +223,9 @@ private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegat
         }
     }
 
-    /// Собирает полностью декодированный UIImage из пиксельного буфера, минуя
-    /// кодек. Ориентация берётся из метаданных кадра — у несжатого буфера она
-    /// не применена, в отличие от EXIF в fileDataRepresentation().
+    /// Builds a fully decoded UIImage from the pixel buffer, bypassing the codec.
+    /// Orientation comes from the frame metadata — on an uncompressed buffer it is
+    /// not applied, unlike EXIF in fileDataRepresentation().
     private func makeImage(
         from photo: AVCapturePhoto
     ) -> UIImage? {

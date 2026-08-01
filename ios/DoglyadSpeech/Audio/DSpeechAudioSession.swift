@@ -1,56 +1,56 @@
 import AVFoundation
 import Foundation
 
-/// Откуда сейчас идёт звук. От этого зависят и настройки сессии, и подсказки
-/// распознавателю: гарнитура ловит речь у рта, встроенный микрофон — с
-/// расстояния и через шум кабинета.
+/// Where the sound is coming from right now. It drives both the session settings and
+/// the hints given to the recognizer: a headset picks up speech at the mouth, the
+/// built-in microphone picks it up from a distance and through room noise.
 public enum DSpeechAudioRoute {
-    /// Гарнитура: AirPods, проводная петличка, USB-микрофон.
+    /// Headset: AirPods, a wired lavalier, a USB microphone.
     case headset
-    /// Встроенный микрофон: телефон в руке или лежит рядом на аппарате.
+    /// Built-in microphone: the phone in hand or lying next to the scanner.
     case builtIn
 }
 
-/// Настройка аудиосессии под диктовку осмотра.
+/// Audio session setup for examination dictation.
 enum DSpeechAudioSession {
-    /// Готовит сессию и возвращает фактический маршрут входа.
+    /// Prepares the session and returns the actual input route.
     ///
-    /// Категория именно `.playAndRecord`, хотя мы ничего не воспроизводим.
-    /// Голосовая обработка поднимается сразу на паре узлов ввода и вывода —
-    /// включение на одном автоматически включает её на другом. На `.record`
-    /// выходного узла нет, поэтому входной остаётся ненастроенным и отдаёт
-    /// формат с нулевой частотой, на котором `installTap` падает по
-    /// `IsFormatSampleRateAndChannelCountValid`. По той же причине категорию с
-    /// выводом требует и высококачественная запись с Bluetooth-гарнитуры.
+    /// The category is deliberately `.playAndRecord` even though we play nothing.
+    /// Voice processing is raised on the input and output node pair at once —
+    /// enabling it on one automatically enables it on the other. On `.record` there
+    /// is no output node, so the input one stays unconfigured and reports a format
+    /// with a zero sample rate, on which `installTap` fails with
+    /// `IsFormatSampleRateAndChannelCountValid`. For the same reason high-quality
+    /// recording from a Bluetooth headset also requires a category with output.
     ///
-    /// Режим `.default`, а не `.measurement`: последний выключает всю системную
-    /// обработку сигнала, а для диктовки с расстояния она нам как раз нужна.
-    /// Он же единственный совместим с `bluetoothHighQualityRecording`.
+    /// Mode `.default` rather than `.measurement`: the latter switches off all system
+    /// signal processing, and for dictation from a distance that processing is exactly
+    /// what we need. It is also the only mode compatible with `bluetoothHighQualityRecording`.
     @discardableResult
     static func activate() throws -> DSpeechAudioRoute {
         let session = AVAudioSession.sharedInstance()
 
-        // HFP включаем всегда: узкая полоса здесь не помеха — распознаватели и
-        // так работают на 16 кГц, а микрофон у рта бьёт любой встроенный.
+        // HFP is always enabled: the narrow band is no obstacle here — recognizers work
+        // at 16 kHz anyway, and a microphone at the mouth beats any built-in one.
         var options: AVAudioSession.CategoryOptions = [
             .duckOthers,
             .allowBluetoothHFP,
-            // Мы ничего не играем, но без этого вывод уходит на разговорный
-            // динамик, а вместе с ним меняется и выбор микрофона.
+            // We play nothing, but without this the output goes to the receiver speaker,
+            // and the microphone choice changes along with it.
             .defaultToSpeaker,
         ]
         if #available(iOS 26.0, *) {
-            // Совместимые AirPods пишут в полной полосе; если маршрут не тянет,
-            // система сама откатится на HFP.
+            // Compatible AirPods record at full bandwidth; if the route cannot sustain it,
+            // the system falls back to HFP on its own.
             options.insert(.bluetoothHighQualityRecording)
         }
 
-        // Ошибки здесь глушить нельзя: после неудачной настройки входной узел
-        // отдаёт невалидный формат, и падение случается уже далеко от причины.
+        // Errors here must not be swallowed: after a failed setup the input node
+        // reports an invalid format, and the crash lands far from its cause.
         try session.setCategory(.playAndRecord, mode: .default, options: options)
         try session.setActive(true, options: .notifyOthersOnDeactivation)
-        // Входящий звонок посреди диктовки обрывает запись, а осмотр придётся
-        // начинать заново — просим систему не прерывать нас своими сигналами.
+        // An incoming call in the middle of dictation cuts the recording short and the
+        // examination has to start over — ask the system not to interrupt us.
         try? session.setPrefersNoInterruptionsFromSystemAlerts(true)
 
         return currentRoute
@@ -62,8 +62,8 @@ enum DSpeechAudioSession {
         try? session.setActive(false, options: .notifyOthersOnDeactivation)
     }
 
-    /// Микрофон считаем встроенным, только если других входов нет: всё
-    /// остальное — гарнитура, петличка, USB — заведомо ближе ко рту врача.
+    /// The microphone counts as built-in only when there are no other inputs: anything
+    /// else — headset, lavalier, USB — is certainly closer to the physician's mouth.
     static var currentRoute: DSpeechAudioRoute {
         let inputs = AVAudioSession.sharedInstance().currentRoute.inputs
         let isBuiltIn = inputs.allSatisfy { $0.portType == .builtInMic }
@@ -73,10 +73,10 @@ enum DSpeechAudioSession {
 }
 
 extension AVAudioFormat {
-    /// `installTap` падает по ассерту на формате с нулевой частотой или без
-    /// каналов. Такой отдаёт входной узел, если сессия не поднялась, нет
-    /// разрешения на микрофон или узел ещё не перестроился после включения
-    /// голосовой обработки.
+    /// `installTap` trips an assert on a format with a zero sample rate or no channels.
+    /// The input node reports exactly that when the session failed to start, there is
+    /// no microphone permission, or the node has not yet reconfigured after voice
+    /// processing was enabled.
     var isValidForCapture: Bool {
         sampleRate > 0 && channelCount > 0
     }

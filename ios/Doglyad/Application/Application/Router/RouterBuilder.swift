@@ -23,6 +23,12 @@ final class RouterBuilder: RouterBuilderProtocol {
                     arguments: route.arguments as? OnBoardingScreenArguments
                 )
             )
+        case .legalUpdate:
+            AnyView(
+                LegalUpdateScreen(
+                    arguments: route.arguments as? LegalUpdateScreenArguments
+                )
+            )
         case .scan:
             AnyView(
                 ScanScreen(

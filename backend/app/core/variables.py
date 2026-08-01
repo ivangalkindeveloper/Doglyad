@@ -15,6 +15,9 @@ class Variables(BaseSettings):
 
     config_dir: Path | None = None
 
+    log_dir: Path | None = None
+    log_retention_days: int = 365
+
     llm_mode: LLMMode = LLMMode.STUB
 
     app_check_enabled: bool = True

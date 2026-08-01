@@ -1,7 +1,8 @@
 public enum DRecordingStatus {
-    /// Сессия поднимается: настраивается аудиосессия, а на новом стеке речи при
-    /// первом запуске ещё и догружается языковая модель. Микрофон в этот момент
-    /// не пишет, поэтому экран должен просить подождать, а не показывать запись.
+    /// The session is starting up: the audio session is being configured and, on the
+    /// new speech stack, the language model may still be downloading on first launch.
+    /// The microphone is not recording yet, so the screen must ask the user to wait
+    /// rather than show an active recording.
     case preparing
     case recording
     case stopped

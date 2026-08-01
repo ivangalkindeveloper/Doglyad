@@ -11,7 +11,7 @@ struct OnBoardingScreenView: View {
 
     var body: some View {
         DScreen(
-            content: { _, _ in
+            content: { _, bottomHeight in
                 VStack(
                     alignment: .leading,
                     spacing: .zero
@@ -27,9 +27,8 @@ struct OnBoardingScreenView: View {
                             maxHeight: .infinity
                         )
                 }
-                .padding(.top, size.s16)
-                .padding(.horizontal, size.s16)
-                .padding(.bottom, size.s64)
+                .padding(size.s16)
+                .padding(.bottom, bottomHeight)
                 .animation(.easeInOut, value: viewModel.page)
             },
             bottom: {

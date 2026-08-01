@@ -1,11 +1,11 @@
 import Foundation
 
-/// Контекстные строки для распознавания речи, сгруппированные по коду локали
-/// (`en`, `ru`). Подсказывают распознавателю специфичную лексику осмотра —
-/// термины, сокращения, названия — чтобы он реже ошибался на них.
+/// Contextual strings for speech recognition, grouped by locale code
+/// (`en`, `ru`). They hint the recognizer at examination-specific vocabulary —
+/// terms, abbreviations, names — so it mishears them less often.
 ///
-/// Приходят с бэкенда объектом `{"en": [...], "ru": [...]}`, поэтому декодируются
-/// напрямую из словаря без обёртки-ключа.
+/// Delivered by the backend as an `{"en": [...], "ru": [...]}` object, so they are
+/// decoded straight from a dictionary without a wrapper key.
 struct USExaminationContextualStrings: Codable, Equatable {
     let strings: [String: [String]]
 
@@ -25,7 +25,7 @@ struct USExaminationContextualStrings: Codable, Equatable {
         try container.encode(strings)
     }
 
-    /// Строки для текущей локали с откатом на `en`, затем на пустой массив.
+    /// Strings for the current locale, falling back to `en` and then to an empty array.
     func getStrings(for locale: Locale) -> [String] {
         let key = locale.language.languageCode?.identifier ?? "en"
         return strings[key] ?? strings["en"] ?? []

@@ -1,5 +1,7 @@
 enum DUserDefaultsKey: String, CaseIterable {
     case isOnBoardingCompleted
+    case acceptedLegalDocumentDate
+    case legalAcceptedAt
     case selectedUSExaminationTypeId
     case selectedUSExaminationNeuralModelId
     case neuralModelIsMarkdown

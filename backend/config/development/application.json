@@ -9,6 +9,7 @@
     "contactEmail": "doglyadapp@gmail.com",
     "configUrl": "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/backend/config/development",
     "appleUpdateUrl": "https://apps.apple.com/app/id",
+    "legalDate": "2026-08-01T00:00:00Z",
     "privacyPolicyUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy",
     "termsAndConditionsUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions",
     "entitlements": {

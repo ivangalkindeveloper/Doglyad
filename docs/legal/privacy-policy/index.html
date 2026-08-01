@@ -16,72 +16,210 @@
         <!-- Russian Version -->
         <div id="content-ru">
             <h1>Политика конфиденциальности</h1>
-            <p class="effective-date">Дата вступления в силу: 8 февраля 2026 г.</p>
+            <p class="effective-date">Дата вступления в силу: 1 августа 2026 г. · Последнее обновление: 1 августа 2026 г.</p>
 
-            <p>Настоящая Политика конфиденциальности описывает, каким образом мобильное приложение <strong>Doglyad</strong> (далее — «Приложение») осуществляет сбор, использование, хранение и защиту персональных данных пользователей. Используя Приложение, вы соглашаетесь с условиями данной Политики.</p>
+            <p>Настоящая Политика конфиденциальности описывает, какие данные обрабатывает мобильное приложение <strong>Doglyad</strong> (далее — «Приложение»), с какой целью, где эти данные находятся и как долго. Используя Приложение, вы соглашаетесь с условиями данной Политики.</p>
 
-            <h2>1. Какие данные мы собираем</h2>
-            <p>Приложение предназначено для помощи медицинским специалистам в формировании заключений по результатам ультразвуковых исследований (УЗИ). В процессе работы Приложение может собирать и обрабатывать следующие данные пациентов:</p>
+            <h2>1. Кто отвечает за обработку данных</h2>
+            <p>Приложение разработано и поддерживается <strong>Иваном Галкиным</strong>, индивидуальным разработчиком, страна ведения деятельности — <strong>Российская Федерация</strong> (далее — «Разработчик», «мы»). Контакт по любым вопросам обработки данных: <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a>.</p>
+            <p>Распределение ролей в терминологии GDPR и аналогичного законодательства:</p>
+            <ul>
+                <li>в отношении <strong>данных пациентов</strong> контролёром (controller) является медицинский специалист или медицинская организация, которая вводит эти данные в Приложение; Разработчик выступает исключительно <strong>обработчиком (processor)</strong> и действует по поручению специалиста;</li>
+                <li>в отношении <strong>технических данных и данных о подписке</strong> контролёром является Разработчик.</li>
+            </ul>
+
+            <h2>2. Главный принцип: где находятся данные пациента</h2>
+            <div class="highlight">
+                <p><strong>Единственное постоянное место хранения данных пациента — локальная база данных Приложения на вашем устройстве.</strong> Ни Разработчик, ни привлечённые им сервисы не создают собственных копий этих данных и не ведут их архивов. Отдельно ниже описано резервное копирование, которое выполняет сама операционная система устройства.</p>
+            </div>
+            <p>Маршрут данных при генерации заключения:</p>
+            <ol>
+                <li>Врач вводит данные исследования и прикрепляет снимки — они сохраняются в локальной базе данных на устройстве.</li>
+                <li>При запросе на генерацию заключения данные однократно передаются по защищённому каналу (HTTPS/TLS) на сервер Разработчика. Снимки перед отправкой уменьшаются и сжимаются — полноразмерные изображения устройство не покидают.</li>
+                <li>Сервер Разработчика <strong>не сохраняет полученные данные</strong>: он формирует запрос и передаёт его провайдеру вычислений <strong>RunPod</strong>, на инфраструктуре которого запущена выбранная модель.</li>
+                <li>RunPod выполняет генерацию и возвращает текст заключения. Данные передаются провайдеру <strong>исключительно для выполнения этого запроса</strong>. Результат задания остаётся доступным в инфраструктуре провайдера в течение короткого технического окна (несколько минут), после чего автоматически удаляется. В соответствии с условиями обслуживания провайдера переданный контент может использоваться им самим <strong>только в агрегированном и обезличенном виде</strong> — для поддержания работоспособности и улучшения его собственных сервисов. Иных прав на переданный контент условия обслуживания провайдеру не предоставляют.</li>
+                <li>Готовое заключение возвращается на устройство и сохраняется в локальной базе данных Приложения.</li>
+                <li>После возврата ответа данные запроса перестают существовать на стороне сервера — они находятся только в оперативной памяти на время обработки (как правило, секунды; предельное время ожидания — 120 секунд).</li>
+            </ol>
+            <p>В журналы (логи) сервера <strong>не записываются данные пациента</strong>: ни имя, ни дата рождения, ни жалобы, ни описание исследования, ни снимки, ни текст заключения. В логи попадают только технические метаданные: идентификатор выбранной модели, язык запроса, тип исследования, количество снимков, размер запроса и код ответа.</p>
+
+            <h3>2.1. Резервное копирование устройства</h3>
+            <p>Локальная база данных Приложения размещается в стандартном хранилище приложения и поэтому <strong>включается в резервную копию устройства</strong>, если резервное копирование у вас включено — в iCloud или на компьютер. Это делает операционная система, а не Приложение: Разработчик к резервным копиям доступа не имеет и не может ими управлять.</p>
+            <p>Резервные копии iCloud шифруются средствами Apple, а при включённой расширенной защите данных (Advanced Data Protection) — сквозным шифрованием, ключи от которого есть только у вас. Обработка резервных копий регулируется <a href="https://www.apple.com/legal/privacy/">политикой конфиденциальности Apple</a>.</p>
+            <p>Если вы не хотите, чтобы данные исследований попадали в резервную копию, отключите резервное копирование для Приложения в системных настройках iCloud на вашем устройстве. Учтите, что тогда история заключений не восстановится при смене или сбросе устройства.</p>
+
+            <h2>3. Отправка заключения по электронной почте</h2>
+            <p>Если вы пользуетесь функцией отправки заключения на e-mail, текст заключения и адрес получателя передаются на сервер Разработчика и <strong>немедленно отправляются письмом</strong> через почтового провайдера. Ни текст заключения, ни адрес получателя не сохраняются и не записываются в логи.</p>
+            <p>Обратите внимание: отправленное письмо далее хранится в почтовых ящиках отправителя и получателя и обрабатывается их почтовыми провайдерами. Эта часть находится вне контроля Разработчика. Пересылая данные пациента по электронной почте, вы принимаете на себя ответственность за законность такой передачи.</p>
+
+            <h2>4. Обезличивание данных пациента</h2>
+            <div class="highlight">
+                <p><strong>Приложению не требуется настоящее имя пациента.</strong> Поле «Имя пациента» — это произвольный текст, который нужен только для того, чтобы вы отличали одно исследование от другого в своём списке. Приложение не сверяет его ни с какими реестрами и не использует ни для чего иного.</p>
+            </div>
+            <p>Мы настоятельно рекомендуем вводить псевдоним, инициалы или внутренний номер карты вместо полного имени. Чем меньше идентифицирующих сведений вы вводите, тем ниже риск для пациента и тем меньше ваша собственная нагрузка по законодательству о персональных данных.</p>
+
+            <h2>5. Какие данные обрабатываются</h2>
+            <h3>5.1. Данные исследования (вводятся специалистом)</h3>
             <ul>
                 <li><strong>Тип ультразвукового исследования</strong> (например: щитовидная железа, брюшная полость, эхокардиография, суставы и др.);</li>
                 <li><strong>Снимки УЗИ</strong> — фотографии ультразвуковых сканов;</li>
-                <li><strong>Имя пациента</strong> — используется для идентификации исследования в рамках рабочего процесса врача;</li>
+                <li><strong>Имя или псевдоним пациента</strong> — для идентификации исследования в рамках рабочего процесса врача;</li>
                 <li><strong>Пол пациента</strong> (мужской/женский);</li>
                 <li><strong>Дата рождения пациента</strong>;</li>
                 <li><strong>Рост и вес пациента</strong>;</li>
                 <li><strong>Жалобы пациента</strong>;</li>
                 <li><strong>Описание исследования</strong> — текстовое описание результатов УЗИ;</li>
                 <li><strong>Дополнительные данные</strong> — любая дополнительная информация, введённая специалистом.</li>
-                <li><strong>Аудиозапись голоса</strong> — если специалист заполняет форму исследования голосом, звук с микрофона обрабатывается для распознавания речи. Сама аудиозапись в Приложении не сохраняется — сохраняется только распознанный текст.</li>
             </ul>
 
-            <h2>2. Цели обработки данных</h2>
-            <p>Собранные данные используются исключительно для:</p>
-            <ul>
-                <li>Генерации медицинского заключения на основе предоставленных данных исследования с помощью моделей искусственного интеллекта;</li>
-                <li>Хранения истории исследований на устройстве пользователя для последующего доступа;</li>
-                <li>Повышения качества работы Приложения.</li>
-            </ul>
-
-            <h2>3. Хранение данных</h2>
-            <p>Данные исследований хранятся локально на устройстве пользователя. Для генерации заключений данные могут передаваться на сервер для обработки моделью искусственного интеллекта. Передача данных осуществляется по защищённому каналу связи (HTTPS).</p>
-            <p>Мы не храним данные пациентов на серверах дольше, чем это необходимо для генерации медицинского заключения.</p>
-
-            <h2>4. Передача данных третьим лицам</h2>
-            <p>Мы не продаём, не передаём и не раскрываем персональные данные пациентов третьим лицам, за исключением случаев, когда это:</p>
-            <ul>
-                <li>Необходимо для функционирования Приложения (передача данных на сервер для генерации медицинского заключения);</li>
-                <li>Необходимо для распознавания речи при заполнении формы голосом;</li>
-                <li>Требуется в соответствии с законодательством.</li>
-            </ul>
+            <h3>5.2. Голосовой ввод</h3>
+            <p>Если специалист заполняет форму исследования голосом, звук с микрофона обрабатывается для распознавания речи. <strong>Сама аудиозапись в Приложении не сохраняется</strong> — сохраняется только распознанный текст.</p>
             <div class="highlight">
                 <p><strong>Распознавание речи.</strong> Заполнение формы голосом использует системные средства распознавания речи Apple. На устройствах с iOS 26 и новее распознавание выполняется полностью на устройстве, и звук никуда не передаётся. На более ранних версиях iOS звук с микрофона передаётся на серверы Apple и обрабатывается в соответствии с <a href="https://www.apple.com/legal/privacy/">политикой конфиденциальности Apple</a>. Если продиктованные данные не должны покидать устройство, не используйте заполнение голосом на таких устройствах — все поля можно заполнить вручную.</p>
             </div>
+            <p>Разбор распознанного текста на отдельные поля формы выполняет <strong>локальная модель, работающая непосредственно на вашем устройстве</strong>. Этот шаг полностью автономен: распознанный текст для разбора никуда не передаётся.</p>
 
-            <h2>5. Безопасность данных</h2>
-            <p>Мы принимаем разумные технические и организационные меры для защиты данных от несанкционированного доступа, утраты или изменения. Однако ни одна система передачи данных через Интернет не может гарантировать абсолютную безопасность.</p>
+            <h3>5.3. Технические данные</h3>
+            <p>Для защиты и работоспособности сервиса обрабатываются: токен подлинности приложения, версия приложения и операционной системы, модель устройства, IP-адрес соединения, а при сбоях — отчёт о сбое (стек вызовов). Эти данные <strong>не содержат сведений о пациентах</strong>.</p>
 
-            <h2>6. Права пользователя</h2>
-            <p>Пользователь имеет право:</p>
-            <ul>
-                <li>Удалить все данные исследований из Приложения в любое время;</li>
-                <li>Запросить информацию о собранных данных;</li>
-                <li>Отказаться от использования Приложения.</li>
-            </ul>
+            <h3>5.4. Данные о подписке</h3>
+            <p>Статус подписки, идентификатор покупки, анонимный идентификатор пользователя, страна магазина приложений. Платёжные реквизиты Разработчику <strong>не передаются и ему недоступны</strong> — оплату полностью обрабатывают Apple App Store и Google Play.</p>
 
-            <h2>7. Данные детей</h2>
-            <p>Приложение предназначено для использования медицинскими специалистами. Мы не собираем намеренно данные от лиц младше 18 лет в качестве пользователей Приложения. Данные несовершеннолетних пациентов вносятся исключительно медицинским специалистом в рамках профессиональной деятельности.</p>
-
-            <h2>8. Использование искусственного интеллекта</h2>
+            <h2>6. Сторонние сервисы и цели их использования</h2>
+            <p>Ниже — полный перечень сторонних сервисов, задействованных в работе Приложения, и то, что именно каждый из них получает.</p>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Сервис</th>
+                            <th>Что получает</th>
+                            <th>Цель</th>
+                            <th>Данные пациента</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>RunPod</strong><br>(провайдер вычислений)</td>
+                            <td>Данные исследования и снимки — на время выполнения запроса</td>
+                            <td>Генерация текста заключения выбранной моделью</td>
+                            <td><strong>Да</strong>, транзитом: только на время выполнения задания; в собственных целях провайдер вправе использовать переданный контент лишь в агрегированном и обезличенном виде</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Почтовый провайдер (SMTP)</strong></td>
+                            <td>Текст заключения и адрес получателя — на время отправки письма</td>
+                            <td>Доставка заключения на указанный e-mail по вашему запросу</td>
+                            <td><strong>Да</strong>, транзитом, только если вы пользуетесь этой функцией</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firebase App Check</strong><br>(Google)</td>
+                            <td>Токен подлинности приложения, IP-адрес</td>
+                            <td>Защита сервера от посторонних и автоматизированных запросов</td>
+                            <td>Нет</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firebase Crashlytics</strong><br>(Google)</td>
+                            <td>Отчёты о сбоях: модель устройства, версия ОС, стек вызовов, IP-адрес</td>
+                            <td>Обнаружение и устранение ошибок Приложения</td>
+                            <td>Нет</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firebase Analytics</strong><br>(Google)</td>
+                            <td>В текущей версии Приложения аналитика не настроена и события не отправляются</td>
+                            <td>Если она будет включена — обезличенная статистика использования экранов и функций</td>
+                            <td>Нет и не будет</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RevenueCat</strong></td>
+                            <td>Статус подписки, идентификатор покупки, анонимный идентификатор, страна, версия приложения</td>
+                            <td>Управление подпиской, проверка и восстановление покупок</td>
+                            <td>Нет</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apple App Store / Google Play</strong></td>
+                            <td>Платёжные данные (Разработчику недоступны)</td>
+                            <td>Обработка оплаты подписки</td>
+                            <td>Нет</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apple iCloud</strong><br>(резервное копирование устройства)</td>
+                            <td>Резервная копия локальной базы данных Приложения — если резервное копирование включено вами в настройках устройства</td>
+                            <td>Восстановление ваших данных при смене, сбросе или поломке устройства</td>
+                            <td><strong>Да</strong>, если вы не отключили резервное копирование для Приложения (см. раздел 2.1)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="highlight">
-                <p>Приложение использует модели искусственного интеллекта для генерации медицинских заключений. Сгенерированные заключения носят рекомендательный характер и <strong>не являются окончательным медицинским диагнозом</strong>. Результаты работы ИИ могут содержать неточности. Ответственность за принятие медицинских решений несёт исключительно квалифицированный медицинский специалист.</p>
+                <p>Сервисы аналитики, диагностики и монетизации (Firebase, RevenueCat) <strong>никогда не получают данные пациентов</strong>: ни снимки, ни персональные сведения, ни тексты заключений. Медицинские данные и данные о здоровье передаются только тем сервисам, без которых невозможно выполнить сам запрос пользователя, — и только на время его выполнения.</p>
             </div>
 
-            <h2>9. Изменения в Политике конфиденциальности</h2>
-            <p>Мы оставляем за собой право вносить изменения в настоящую Политику. Актуальная версия всегда доступна на данной странице. При существенных изменениях мы уведомим пользователей через Приложение.</p>
+            <h2>7. Данные о здоровье не используются для рекламы</h2>
+            <p>Мы не показываем в Приложении рекламу и не занимаемся рекламной монетизацией. Мы <strong>не продаём</strong> персональные данные и данные о здоровье, <strong>не передаём</strong> их рекламным сетям, брокерам данных и иным третьим лицам для их собственных целей, <strong>не используем</strong> их для маркетинга, профилирования, таргетирования рекламы или оценки платёжеспособности. Данные пациентов используются исключительно для формирования заключения по запросу специалиста.</p>
 
-            <h2>10. Контактная информация</h2>
-            <p>Если у вас есть вопросы относительно данной Политики конфиденциальности, свяжитесь с нами:</p>
+            <h2>8. Правовые основания обработки</h2>
+            <p>Для пользователей, на которых распространяется GDPR или аналогичное законодательство, основания обработки следующие:</p>
+            <ul>
+                <li><strong>Данные пациентов</strong> относятся к специальным категориям данных (ст. 9 GDPR). Разработчик обрабатывает их <strong>как обработчик по поручению</strong> медицинского специалиста. Обеспечить надлежащее правовое основание — как правило, ст. 9(2)(h) GDPR (медицинская помощь, диагностика) во взаимосвязи со ст. 6(1)(b), (c) или (f), либо явное согласие пациента по ст. 9(2)(a) — а также проинформировать пациента обязан специалист как контролёр.</li>
+                <li><strong>Технические данные и защита сервиса</strong> — законный интерес (ст. 6(1)(f) GDPR): обеспечение безопасности, работоспособности и предотвращение злоупотреблений.</li>
+                <li><strong>Данные о подписке и адрес электронной почты, указанный вами</strong> — исполнение договора (ст. 6(1)(b) GDPR).</li>
+            </ul>
+
+            <h2>9. Сроки хранения</h2>
+            <ul>
+                <li><strong>Данные пациента на серверах</strong> — не хранятся вовсе; существуют только в оперативной памяти на время обработки запроса.</li>
+                <li><strong>Технические логи сервера</strong> — содержат метаданные запросов и IP-адреса соединений, не содержат данных пациентов; хранятся не дольше одного года (365 дней), после чего удаляются автоматически.</li>
+                <li><strong>Отчёты о сбоях</strong> — по срокам хранения Google Firebase Crashlytics.</li>
+                <li><strong>Данные о подписке</strong> — в течение срока действия подписки и последующего периода, установленного провайдером и требованиями бухгалтерского учёта.</li>
+                <li><strong>Локальная база данных на устройстве</strong> — бессрочно, пока вы сами не удалите данные (см. раздел 11) или не удалите Приложение.</li>
+                <li><strong>Резервные копии устройства</strong> — по правилам и срокам, установленным Apple для резервного копирования; управляются вами в настройках устройства.</li>
+            </ul>
+
+            <h2>10. Международная передача данных</h2>
+            <p>Инфраструктура RunPod, Google (Firebase) и RevenueCat может располагаться за пределами страны вашего нахождения, в том числе в США. Такие передачи регулируются условиями обслуживания и политиками конфиденциальности соответствующих провайдеров, которые предусматривают стандартные договорные условия (Standard Contractual Clauses) и иные механизмы, предусмотренные законодательством о защите данных. Данные пациентов передаются исключительно на время выполнения запроса и за рубежом не хранятся.</p>
+
+            <h2>11. Ваши права и как их реализовать</h2>
+            <p>Вы имеете право на доступ к своим данным, их исправление, удаление, ограничение обработки, возражение против обработки, переносимость данных, отзыв ранее данного согласия, а также право подать жалобу в надзорный орган по защите персональных данных по месту вашего нахождения.</p>
+            <div class="highlight">
+                <p><strong>Удаление данных пациентов выполняется вами непосредственно в Приложении</strong>, поскольку они хранятся только на вашем устройстве:</p>
+                <ul>
+                    <li><strong>Настройки → Хранилище → Удалить историю заключений</strong> — удаляет все сохранённые исследования и заключения;</li>
+                    <li><strong>Настройки → Хранилище → Очистить все</strong> — удаляет все данные Приложения полностью.</li>
+                </ul>
+                <p>Удаление Приложения с устройства также уничтожает его локальную базу данных целиком.</p>
+                <p><strong>Важно:</strong> если у вас включено резервное копирование устройства, копия базы данных может сохраниться в резервной копии и вернуться при восстановлении устройства. Чтобы этого не произошло, отключите резервное копирование для Приложения или удалите резервную копию средствами операционной системы — см. раздел 2.1.</p>
+            </div>
+            <p>Поскольку у Разработчика нет копий данных пациентов, запрос пациента о доступе или удалении его данных должен быть адресован медицинскому специалисту, который эти данные ввёл. По вопросам, касающимся технических данных, отчётов о сбоях и данных о подписке, обращайтесь на <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a> — мы ответим в течение 30 дней.</p>
+
+            <h2>12. Безопасность данных</h2>
+            <ul>
+                <li>Вся передача данных между Приложением и сервером выполняется по протоколу HTTPS/TLS.</li>
+                <li>Доступ к серверу защищён проверкой подлинности приложения (Firebase App Check) и ограничением частоты запросов.</li>
+                <li>Данные пациентов не записываются в журналы сервера.</li>
+                <li>Локальная база данных изолирована средствами операционной системы (песочница приложения) и защищена штатным шифрованием устройства при установленном коде-пароле.</li>
+            </ul>
+            <p>Со своей стороны вы обязаны обеспечить защиту устройства: установить код-пароль или биометрию, не передавать разблокированное устройство посторонним и не допускать доступа к Приложению лиц, не имеющих права работать с данными пациентов. Ни одна система передачи данных через Интернет не может гарантировать абсолютную безопасность.</p>
+
+            <h2>13. Данные детей</h2>
+            <p>Приложение предназначено для использования медицинскими специалистами старше 18 лет. Мы не собираем намеренно данные от лиц младше 18 лет в качестве пользователей Приложения. Данные несовершеннолетних пациентов вносятся исключительно медицинским специалистом в рамках профессиональной деятельности и под его ответственность.</p>
+
+            <h2>14. Используемые модели искусственного интеллекта</h2>
+            <p>Для формирования заключений Приложение использует следующие модели, запускаемые на инфраструктуре провайдера вычислений RunPod:</p>
+            <ul>
+                <li><strong>Google MedGemma 4B</strong> (<code>google/medgemma-4b-it</code>) — компактная модель семейства Gemma 3, дообученная для медицины;</li>
+                <li><strong>Google MedGemma 1.5 4B</strong> (<code>google/medgemma-1.5-4b-it</code>) — обновлённая версия 4B с более широким набором обучающих исследований;</li>
+                <li><strong>Google MedGemma 27B</strong> (<code>google/medgemma-27b-it</code>) — наиболее крупная и точная из доступных моделей.</li>
+            </ul>
+            <p>Для разбора продиктованного голосом текста на поля формы используется компактная модель, работающая <strong>локально на устройстве</strong> и не требующая соединения с сервером.</p>
+            <p>Перечень моделей может меняться; актуальный список всегда доступен в Приложении в разделе выбора модели.</p>
+            <div class="highlight">
+                <p>Модели являются моделями общего и медицинского назначения от сторонних разработчиков. Ни Разработчик, ни провайдер вычислений <strong>не обучают и не дообучают эти модели на ваших данных</strong>. Сгенерированные заключения носят рекомендательный характер и <strong>не являются окончательным медицинским диагнозом</strong>. Результаты работы ИИ могут содержать неточности. Ответственность за принятие медицинских решений несёт исключительно квалифицированный медицинский специалист.</p>
+            </div>
+
+            <h2>15. Изменения в Политике конфиденциальности</h2>
+            <p>Мы оставляем за собой право вносить изменения в настоящую Политику. Актуальная версия всегда доступна на данной странице, дата последнего обновления указана в начале документа. При существенных изменениях мы уведомим пользователей через Приложение.</p>
+
+            <h2>16. Контактная информация</h2>
+            <p>Если у вас есть вопросы относительно данной Политики конфиденциальности или вы хотите реализовать свои права в отношении персональных данных, свяжитесь с нами:</p>
             <p>Email: <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a></p>
 
         </div>
@@ -89,72 +227,210 @@
         <!-- English Version -->
         <div id="content-en" class="hidden">
             <h1>Privacy Policy</h1>
-            <p class="effective-date">Effective Date: February 8, 2026</p>
+            <p class="effective-date">Effective Date: August 1, 2026 · Last Updated: August 1, 2026</p>
 
-            <p>This Privacy Policy describes how the <strong>Doglyad</strong> mobile application (hereinafter — the "Application") collects, uses, stores, and protects users' personal data. By using the Application, you agree to the terms of this Policy.</p>
+            <p>This Privacy Policy describes what data the <strong>Doglyad</strong> mobile application (hereinafter — the "Application") processes, for what purpose, where that data resides, and for how long. By using the Application, you agree to the terms of this Policy.</p>
 
-            <h2>1. Data We Collect</h2>
-            <p>The Application is designed to assist medical professionals in generating reports based on ultrasound examination (ultrasound) results. During operation, the Application may collect and process the following patient data:</p>
+            <h2>1. Who Is Responsible for Data Processing</h2>
+            <p>The Application is developed and maintained by <strong>Ivan Galkin</strong>, an individual developer, operating from the <strong>Russian Federation</strong> (hereinafter — the "Developer", "we"). Contact for any data processing matters: <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a>.</p>
+            <p>Allocation of roles under the GDPR and comparable legislation:</p>
+            <ul>
+                <li>with respect to <strong>patient data</strong>, the controller is the medical professional or medical organization entering that data into the Application; the Developer acts solely as a <strong>processor</strong> on that professional's instructions;</li>
+                <li>with respect to <strong>technical data and subscription data</strong>, the Developer is the controller.</li>
+            </ul>
+
+            <h2>2. Core Principle: Where Patient Data Resides</h2>
+            <div class="highlight">
+                <p><strong>The only permanent storage location for patient data is the Application's local database on your device.</strong> Neither the Developer nor the services it engages create their own copies of this data or maintain archives of it. Device backups, performed by the operating system itself, are described separately below.</p>
+            </div>
+            <p>The data route when generating a report:</p>
+            <ol>
+                <li>The physician enters examination data and attaches images — these are stored in the local database on the device.</li>
+                <li>When a report is requested, the data is transmitted once over a secure channel (HTTPS/TLS) to the Developer's server. Images are downscaled and compressed before transmission — full-resolution images never leave the device.</li>
+                <li>The Developer's server <strong>does not store the received data</strong>: it composes a request and forwards it to the compute provider <strong>RunPod</strong>, whose infrastructure runs the selected model.</li>
+                <li>RunPod performs the generation and returns the report text. The data is transmitted to the provider <strong>solely to fulfil that request</strong>. The job result remains available in the provider's infrastructure for a short technical window (a few minutes) and is then deleted automatically. Under the provider's terms of service, the transmitted content may be used by the provider itself <strong>only in an aggregated and anonymized form</strong> — to maintain and improve its own services. The terms of service grant the provider no other rights to the transmitted content.</li>
+                <li>The completed report is returned to the device and stored in the Application's local database.</li>
+                <li>Once the response is returned, the request data ceases to exist on the server side — it lives only in memory for the duration of processing (typically seconds; the maximum timeout is 120 seconds).</li>
+            </ol>
+            <p>Server logs <strong>do not record patient data</strong>: not the name, date of birth, complaints, examination description, images, or report text. Logs contain only technical metadata: the selected model identifier, request language, examination type, number of images, request size, and response code.</p>
+
+            <h3>2.1. Device Backups</h3>
+            <p>The Application's local database resides in the standard application storage and is therefore <strong>included in your device backup</strong> if backups are enabled — to iCloud or to a computer. This is done by the operating system, not by the Application: the Developer has no access to backups and no control over them.</p>
+            <p>iCloud backups are encrypted by Apple and, with Advanced Data Protection enabled, end-to-end encrypted with keys held only by you. The handling of backups is governed by the <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a>.</p>
+            <p>If you do not want examination data included in backups, disable backup for the Application in your device's iCloud settings. Note that your report history will then not be restored when you switch or reset your device.</p>
+
+            <h2>3. Sending Reports by Email</h2>
+            <p>If you use the email delivery feature, the report text and the recipient's address are transmitted to the Developer's server and <strong>sent as an email immediately</strong> via an email provider. Neither the report text nor the recipient's address is stored or written to logs.</p>
+            <p>Please note: once sent, the email is stored in the sender's and recipient's mailboxes and processed by their email providers. That part is outside the Developer's control. By forwarding patient data via email, you assume responsibility for the lawfulness of such transmission.</p>
+
+            <h2>4. De-identification of Patient Data</h2>
+            <div class="highlight">
+                <p><strong>The Application does not require the patient's real name.</strong> The "Patient name" field is free-form text needed only so that you can tell one examination from another in your own list. The Application does not cross-check it against any registry and does not use it for any other purpose.</p>
+            </div>
+            <p>We strongly recommend entering a pseudonym, initials, or an internal record number instead of a full name. The fewer identifying details you enter, the lower the risk to the patient and the lighter your own burden under data protection legislation.</p>
+
+            <h2>5. What Data Is Processed</h2>
+            <h3>5.1. Examination Data (Entered by the Professional)</h3>
             <ul>
                 <li><strong>Type of ultrasound examination</strong> (e.g., thyroid gland, abdominal cavity, echocardiography, joints, etc.);</li>
                 <li><strong>Ultrasound images</strong> — photographs of ultrasound scans;</li>
-                <li><strong>Patient name</strong> — used to identify the examination within the physician's workflow;</li>
+                <li><strong>Patient name or pseudonym</strong> — to identify the examination within the physician's workflow;</li>
                 <li><strong>Patient gender</strong> (male/female);</li>
                 <li><strong>Patient date of birth</strong>;</li>
                 <li><strong>Patient height and weight</strong>;</li>
                 <li><strong>Patient complaints</strong>;</li>
                 <li><strong>Examination description</strong> — textual description of ultrasound results;</li>
                 <li><strong>Additional data</strong> — any supplementary information entered by the specialist.</li>
-                <li><strong>Voice audio</strong> — if the specialist fills in the examination form by voice, microphone audio is processed for speech recognition. The Application does not store the audio recording itself — only the recognized text is stored.</li>
             </ul>
 
-            <h2>2. Purposes of Data Processing</h2>
-            <p>The collected data is used exclusively for:</p>
-            <ul>
-                <li>Generating medical reports based on the provided examination data using artificial intelligence models;</li>
-                <li>Storing examination history on the user's device for subsequent access;</li>
-                <li>Improving the quality of the Application.</li>
-            </ul>
-
-            <h2>3. Data Storage</h2>
-            <p>Examination data is stored locally on the user's device. To generate reports, data may be transmitted to a server for processing by an artificial intelligence model. Data transmission is carried out over a secure communication channel (HTTPS).</p>
-            <p>We do not store patient data on servers longer than necessary for medical report generation.</p>
-
-            <h2>4. Data Sharing with Third Parties</h2>
-            <p>We do not sell, transfer, or disclose patients' personal data to third parties, except when:</p>
-            <ul>
-                <li>It is necessary for the functioning of the Application (data transmission to the server for medical report generation);</li>
-                <li>It is necessary for speech recognition when filling in the form by voice;</li>
-                <li>It is required by applicable law.</li>
-            </ul>
+            <h3>5.2. Voice Input</h3>
+            <p>If the specialist fills in the examination form by voice, microphone audio is processed for speech recognition. <strong>The Application does not store the audio recording itself</strong> — only the recognized text is stored.</p>
             <div class="highlight">
                 <p><strong>Speech recognition.</strong> Filling in the form by voice uses Apple's system speech recognition. On devices running iOS 26 and later, recognition is performed entirely on the device and no audio is transmitted. On earlier iOS versions, microphone audio is transmitted to Apple servers and processed in accordance with the <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a>. If dictated data must not leave the device, do not use voice input on such devices — every field can be filled in manually.</p>
             </div>
+            <p>Parsing the recognized text into individual form fields is performed by a <strong>local model running directly on your device</strong>. This step is fully offline: the recognized text is not transmitted anywhere for parsing.</p>
 
-            <h2>5. Data Security</h2>
-            <p>We take reasonable technical and organizational measures to protect data from unauthorized access, loss, or alteration. However, no data transmission system over the Internet can guarantee absolute security.</p>
+            <h3>5.3. Technical Data</h3>
+            <p>To secure and operate the service, the following is processed: an application attestation token, application and operating system versions, device model, connection IP address, and, in the event of a failure, a crash report (stack trace). This data <strong>contains no patient information</strong>.</p>
 
-            <h2>6. User Rights</h2>
-            <p>The user has the right to:</p>
-            <ul>
-                <li>Delete all examination data from the Application at any time;</li>
-                <li>Request information about collected data;</li>
-                <li>Discontinue use of the Application.</li>
-            </ul>
+            <h3>5.4. Subscription Data</h3>
+            <p>Subscription status, purchase identifier, anonymous user identifier, and app store country. Payment credentials are <strong>never transmitted to and never accessible by the Developer</strong> — payments are handled entirely by the Apple App Store and Google Play.</p>
 
-            <h2>7. Children's Data</h2>
-            <p>The Application is intended for use by medical professionals. We do not knowingly collect data from individuals under the age of 18 as Application users. Data of minor patients is entered exclusively by medical professionals in the course of their professional activities.</p>
-
-            <h2>8. Use of Artificial Intelligence</h2>
+            <h2>6. Third-Party Services and the Purposes of Their Use</h2>
+            <p>Below is the complete list of third-party services involved in the operation of the Application and exactly what each one receives.</p>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>What it receives</th>
+                            <th>Purpose</th>
+                            <th>Patient data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>RunPod</strong><br>(compute provider)</td>
+                            <td>Examination data and images — for the duration of the request</td>
+                            <td>Generation of the report text by the selected model</td>
+                            <td><strong>Yes</strong>, in transit: only for the duration of the job; for its own purposes the provider may use the transmitted content solely in an aggregated and anonymized form</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email provider (SMTP)</strong></td>
+                            <td>Report text and recipient address — for the duration of delivery</td>
+                            <td>Delivering the report to the specified email at your request</td>
+                            <td><strong>Yes</strong>, in transit, only if you use this feature</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firebase App Check</strong><br>(Google)</td>
+                            <td>Application attestation token, IP address</td>
+                            <td>Protecting the server from unauthorized and automated requests</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firebase Crashlytics</strong><br>(Google)</td>
+                            <td>Crash reports: device model, OS version, stack trace, IP address</td>
+                            <td>Detecting and fixing Application errors</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firebase Analytics</strong><br>(Google)</td>
+                            <td>In the current version of the Application, analytics is not configured and no events are sent</td>
+                            <td>If enabled — anonymized statistics on screen and feature usage</td>
+                            <td>No, and never will</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RevenueCat</strong></td>
+                            <td>Subscription status, purchase identifier, anonymous identifier, country, application version</td>
+                            <td>Subscription management, purchase validation and restoration</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apple App Store / Google Play</strong></td>
+                            <td>Payment data (not accessible to the Developer)</td>
+                            <td>Processing subscription payments</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apple iCloud</strong><br>(device backup)</td>
+                            <td>A backup copy of the Application's local database — if backups are enabled by you in device settings</td>
+                            <td>Restoring your data when you switch, reset, or replace your device</td>
+                            <td><strong>Yes</strong>, unless you disable backup for the Application (see Section 2.1)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="highlight">
-                <p>The Application uses artificial intelligence models to generate medical reports. Generated reports are advisory in nature and <strong>do not constitute a final medical diagnosis</strong>. AI-generated results may contain inaccuracies. The responsibility for making medical decisions rests solely with a qualified medical professional.</p>
+                <p>Analytics, diagnostics, and monetization services (Firebase, RevenueCat) <strong>never receive patient data</strong>: no images, no personal details, no report texts. Medical and health data is transmitted only to those services without which the user's request cannot be fulfilled — and only for the duration of that request.</p>
             </div>
 
-            <h2>9. Changes to the Privacy Policy</h2>
-            <p>We reserve the right to make changes to this Policy. The current version is always available on this page. In case of significant changes, we will notify users through the Application.</p>
+            <h2>7. Health Data Is Not Used for Advertising</h2>
+            <p>We do not display advertising in the Application and do not engage in advertising monetization. We <strong>do not sell</strong> personal data or health data, <strong>do not share</strong> it with advertising networks, data brokers, or other third parties for their own purposes, and <strong>do not use</strong> it for marketing, profiling, ad targeting, or creditworthiness assessment. Patient data is used exclusively to produce a report at the specialist's request.</p>
 
-            <h2>10. Contact Information</h2>
-            <p>If you have questions regarding this Privacy Policy, please contact us:</p>
+            <h2>8. Legal Bases for Processing</h2>
+            <p>For users covered by the GDPR or comparable legislation, the legal bases for processing are as follows:</p>
+            <ul>
+                <li><strong>Patient data</strong> constitutes a special category of data (Art. 9 GDPR). The Developer processes it <strong>as a processor on instructions</strong> from the medical professional. Establishing an appropriate legal basis — typically Art. 9(2)(h) GDPR (health care, diagnosis) in conjunction with Art. 6(1)(b), (c), or (f), or the patient's explicit consent under Art. 9(2)(a) — and informing the patient are the responsibility of the professional acting as controller.</li>
+                <li><strong>Technical data and service protection</strong> — legitimate interest (Art. 6(1)(f) GDPR): ensuring security, availability, and prevention of abuse.</li>
+                <li><strong>Subscription data and the email address you provide</strong> — performance of a contract (Art. 6(1)(b) GDPR).</li>
+            </ul>
+
+            <h2>9. Retention Periods</h2>
+            <ul>
+                <li><strong>Patient data on servers</strong> — not retained at all; exists only in memory for the duration of request processing.</li>
+                <li><strong>Server technical logs</strong> — contain request metadata and connection IP addresses, but no patient data; retained for no longer than one year (365 days), after which they are deleted automatically.</li>
+                <li><strong>Crash reports</strong> — according to Google Firebase Crashlytics retention periods.</li>
+                <li><strong>Subscription data</strong> — for the duration of the subscription and any subsequent period required by the provider and accounting obligations.</li>
+                <li><strong>Local database on the device</strong> — indefinitely, until you delete the data yourself (see Section 11) or delete the Application.</li>
+                <li><strong>Device backups</strong> — according to the rules and periods set by Apple for backups; managed by you in your device settings.</li>
+            </ul>
+
+            <h2>10. International Data Transfers</h2>
+            <p>The infrastructure of RunPod, Google (Firebase), and RevenueCat may be located outside your country of residence, including in the United States. Such transfers are governed by the terms of service and privacy policies of the respective providers, which provide for Standard Contractual Clauses and other mechanisms available under data protection law. Patient data is transmitted solely for the duration of the request and is not stored abroad.</p>
+
+            <h2>11. Your Rights and How to Exercise Them</h2>
+            <p>You have the right to access your data, rectify it, erase it, restrict processing, object to processing, receive it in a portable format, withdraw previously given consent, and lodge a complaint with the data protection supervisory authority in your jurisdiction.</p>
+            <div class="highlight">
+                <p><strong>Deletion of patient data is performed by you directly within the Application</strong>, because it is stored only on your device:</p>
+                <ul>
+                    <li><strong>Settings → Storage → Remove conclusion history</strong> — removes all saved examinations and reports;</li>
+                    <li><strong>Settings → Storage → Clear all</strong> — removes all Application data entirely.</li>
+                </ul>
+                <p>Deleting the Application from your device also destroys its local database in full.</p>
+                <p><strong>Important:</strong> if device backups are enabled, a copy of the database may persist in the backup and return when the device is restored. To prevent this, disable backup for the Application or delete the backup through your operating system — see Section 2.1.</p>
+            </div>
+            <p>Because the Developer holds no copies of patient data, a patient's request to access or delete their data must be addressed to the medical professional who entered it. For matters concerning technical data, crash reports, and subscription data, contact <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a> — we will respond within 30 days.</p>
+
+            <h2>12. Data Security</h2>
+            <ul>
+                <li>All data transmission between the Application and the server uses HTTPS/TLS.</li>
+                <li>Server access is protected by application attestation (Firebase App Check) and request rate limiting.</li>
+                <li>Patient data is not written to server logs.</li>
+                <li>The local database is isolated by the operating system (application sandbox) and protected by the device's built-in encryption when a passcode is set.</li>
+            </ul>
+            <p>On your side, you are responsible for securing the device: setting a passcode or biometrics, not handing over an unlocked device to others, and preventing access to the Application by persons not authorized to handle patient data. No system of transmitting data over the Internet can guarantee absolute security.</p>
+
+            <h2>13. Children's Data</h2>
+            <p>The Application is intended for use by medical professionals over 18 years of age. We do not knowingly collect data from individuals under the age of 18 as Application users. Data of minor patients is entered exclusively by medical professionals in the course of their professional activities and under their responsibility.</p>
+
+            <h2>14. Artificial Intelligence Models Used</h2>
+            <p>To produce reports, the Application uses the following models running on the infrastructure of the compute provider RunPod:</p>
+            <ul>
+                <li><strong>Google MedGemma 4B</strong> (<code>google/medgemma-4b-it</code>) — a compact model of the Gemma 3 family, fine-tuned for medicine;</li>
+                <li><strong>Google MedGemma 1.5 4B</strong> (<code>google/medgemma-1.5-4b-it</code>) — an updated 4B version trained on a broader range of studies;</li>
+                <li><strong>Google MedGemma 27B</strong> (<code>google/medgemma-27b-it</code>) — the largest and most accurate of the available models.</li>
+            </ul>
+            <p>Parsing dictated text into form fields is handled by a compact model running <strong>locally on the device</strong>, requiring no server connection.</p>
+            <p>The list of models may change; the current list is always available in the Application in the model selection screen.</p>
+            <div class="highlight">
+                <p>The models are general-purpose and medical-purpose models built by third parties. Neither the Developer nor the compute provider <strong>trains or fine-tunes these models on your data</strong>. Generated reports are advisory in nature and <strong>do not constitute a final medical diagnosis</strong>. AI-generated results may contain inaccuracies. The responsibility for making medical decisions rests solely with a qualified medical professional.</p>
+            </div>
+
+            <h2>15. Changes to the Privacy Policy</h2>
+            <p>We reserve the right to make changes to this Policy. The current version is always available on this page, and the date of the last update is shown at the top of the document. In case of significant changes, we will notify users through the Application.</p>
+
+            <h2>16. Contact Information</h2>
+            <p>If you have questions regarding this Privacy Policy or wish to exercise your rights in relation to personal data, please contact us:</p>
             <p>Email: <a href="mailto:doglyadapp@gmail.com">doglyadapp@gmail.com</a></p>
 
         </div>

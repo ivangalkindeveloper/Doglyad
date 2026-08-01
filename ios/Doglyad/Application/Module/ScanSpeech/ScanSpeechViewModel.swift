@@ -11,14 +11,14 @@ final class ScanSpeechViewModel: DViewModel {
     private let router: DRouter
     private let arguments: ScanSpeechBottomSheetArguments
 
-    // Реализацию контроллера выбирает фабрика по доступности на системе и
-    // поддержке локали, поэтому держим его экзистенциалом. `NestedObservableObject`
-    // требует конкретный тип, так что переиздаём изменения вручную через
+    // The controller implementation is chosen by the factory based on system
+    // support and locale, so it is held as an existential. `NestedObservableObject`
+    // requires a concrete type, so changes are re-published manually through
     // `objectWillChange`.
     //
-    // Подбор лучшей реализации асинхронный (поддержка локали в `SpeechTranscriber`
-    // читается через `await`), поэтому стартуем с синхронного `SFSpeechRecognizer`
-    // и, если система/локаль позволяют, апгрейдимся до `SpeechAnalyzer`.
+    // Picking the best implementation is asynchronous (locale support in
+    // `SpeechTranscriber` is read via `await`), so we start with the synchronous
+    // `SFSpeechRecognizer` and upgrade to `SpeechAnalyzer` if system and locale allow.
     private(set) var speechController: any DSpeechControllerProtocol
     private var speechCancellable: AnyCancellable?
 
@@ -46,8 +46,8 @@ final class ScanSpeechViewModel: DViewModel {
                 contextualStrings: contextualStrings
             )
             guard let self else { return }
-            // Не подменяем во время записи и только если реализация действительно
-            // сменилась (иначе фабрика вернула тот же `SFSpeechRecognizer`).
+            // Do not swap while recording, and only when the implementation actually
+            // changed (otherwise the factory returned the same `SFSpeechRecognizer`).
             guard self.speechController.status == .stopped,
                   type(of: controller) != type(of: self.speechController) else { return }
 
@@ -82,8 +82,8 @@ final class ScanSpeechViewModel: DViewModel {
         }
     }
 
-    /// Крутилка на кнопке: и пока поднимается сессия распознавания, и пока идёт
-    /// разбор диктовки — в обоих случаях нажимать нечего.
+    /// Spinner on the button: both while the recognition session is starting up and
+    /// while the dictation is being parsed — there is nothing to tap in either case.
     var isSpeechButtonLoading: Bool {
         guard !isLoading else { return true }
 
@@ -110,8 +110,9 @@ final class ScanSpeechViewModel: DViewModel {
         }
     }
 
-    /// Пока сессия поднимается (на новом стеке речи может догружаться языковая
-    /// модель), микрофон ещё не пишет — просим врача подождать, а не диктовать.
+    /// While the session starts up (on the new speech stack a language model may
+    /// still be downloading) the microphone is not recording yet — ask the physician
+    /// to wait rather than dictate.
     var isPreparingDescriptionVisible: Bool {
         switch speechController.status {
         case .preparing:
@@ -128,9 +129,9 @@ final class ScanSpeechViewModel: DViewModel {
         isAudioMeterVisible ? speechController.text : nil
     }
 
-    /// Отдельный флаг под анимацию появления расшифровки. Привязывать анимацию
-    /// к самой строке нельзя: черновые результаты приходят несколько раз в
-    /// секунду, и вся шторка переигрывала бы анимацию на каждое слово.
+    /// A separate flag for the transcript appearance animation. Binding the animation
+    /// to the string itself is not an option: draft results arrive several times per
+    /// second, and the whole sheet would replay the animation on every word.
     var isSpeechTextVisible: Bool {
         speechText != nil
     }
@@ -144,15 +145,15 @@ final class ScanSpeechViewModel: DViewModel {
 
         switch speechController.status {
         case .preparing:
-            // Сессия ещё поднимается — останавливать нечего.
+            // The session is still starting up — there is nothing to stop.
             return
         case .recording:
             onStopSpeech()
         case .stopped:
             speechController.start()
-            // Модель разбора весит сотни мегабайт и грузится лениво. Пока врач
-            // диктует, успеваем поднять и прогреть её в фоне — иначе он ждёт
-            // загрузку уже после того, как закончил говорить.
+            // The parsing model weighs hundreds of megabytes and loads lazily. While the
+            // physician dictates there is time to bring it up and warm it in the
+            // background — otherwise they wait for the load after they finish speaking.
             container.examinationNeuralModelFactory?.prewarm()
         @unknown default:
             fatalError()
@@ -164,9 +165,9 @@ final class ScanSpeechViewModel: DViewModel {
 
         Task { [weak self] in
             guard let self else { return }
-            // Хвост диктовки распознаётся асинхронно уже после остановки
-            // микрофона, поэтому итоговый текст берём из `stop()`, а не из
-            // `text` сразу после него — иначе последняя фраза теряется.
+            // The tail of the dictation is recognized asynchronously after the microphone
+            // stops, so the final text is taken from `stop()` rather than from `text`
+            // right after it — otherwise the last phrase is lost.
             let speech = await self.speechController.stop()
 
             guard let speech, !speech.isEmpty,
@@ -186,7 +187,7 @@ final class ScanSpeechViewModel: DViewModel {
         guard let factory = container.examinationNeuralModelFactory else { return }
 
         handle {
-            // Первый разбор дополнительно ждёт загрузку модели — она ленивая.
+            // The first parse additionally waits for the model to load — it is lazy.
             try await factory.model().parseSpeech(
                 speech: speech
             )

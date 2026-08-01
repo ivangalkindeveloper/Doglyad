@@ -1,12 +1,12 @@
 import DoglyadSpeech
 import Testing
 
-/// Корректор подменяет слова в медицинском заключении, поэтому его безопасные
-/// свойства зафиксированы тестами: он обязан чинить созвучия и обязан
-/// отказываться от подмены везде, где та могла бы перевернуть смысл.
+/// The corrector substitutes words in a medical report, so its safety properties are
+/// pinned down by tests: it must repair homophones and must refuse to substitute
+/// anywhere the substitution could invert the meaning.
 struct DSpeechLexiconCorrectorTests {
-    /// Выборка из реального словаря осмотра, включая все опасные пары:
-    /// противоположности, отличающиеся приставкой или парой букв.
+    /// A sample of the real examination dictionary, including every dangerous pair:
+    /// opposites differing by a prefix or a couple of letters.
     private static let terms = [
         "анэхогенное образование",
         "гиперэхогенное образование",
@@ -34,7 +34,7 @@ struct DSpeechLexiconCorrectorTests {
 
     private let corrector = DSpeechLexiconCorrector(terms: terms)
 
-    // MARK: - Чинит то, ради чего затевался
+    // MARK: - Repairs what it was built for
 
     @Test("Созвучие э/е приводится к каноническому термину")
     func correctsPhoneticVariant() {
@@ -60,7 +60,7 @@ struct DSpeechLexiconCorrectorTests {
         )
     }
 
-    // MARK: - Отказывается там, где подмена меняет смысл
+    // MARK: - Refuses where a substitution changes the meaning
 
     @Test("Отрицание не дописывается к фразе, где его не было")
     func neverAddsNegation() {
@@ -120,7 +120,7 @@ struct DSpeechLexiconCorrectorTests {
         #expect(corrector.correct(text) == text)
     }
 
-    // MARK: - Не портит обычную речь
+    // MARK: - Does not damage ordinary speech
 
     @Test(
         "Речь вне словаря остаётся нетронутой",
@@ -154,11 +154,11 @@ struct DSpeechLexiconCorrectorTests {
         )
     }
 
-    // MARK: - Общее свойство безопасности
+    // MARK: - General safety property
 
-    /// Главное свойство: одна порча термина ошибкой распознавания приводит либо
-    /// к восстановлению исходного термина, либо к тому, что текст оставят как
-    /// есть — но никогда к превращению термина в другой термин словаря.
+    /// The key property: a single corruption of a term by a recognition error leads
+    /// either to restoring the original term or to leaving the text as is — but never
+    /// to turning one dictionary term into another.
     @Test("Порча термина никогда не превращает его в другой термин")
     func neverFlipsOneTermIntoAnother() {
         let vocabulary = Set(Self.terms)
@@ -176,8 +176,8 @@ struct DSpeechLexiconCorrectorTests {
         }
     }
 
-    /// Порчи, имитирующие ошибку распознавания: пропуск буквы, перестановка
-    /// соседних и подмена гласной.
+    /// Corruptions imitating a recognition error: a dropped letter, a swap of adjacent
+    /// letters, and a vowel substitution.
     private static func corruptions(
         of term: String
     ) -> [String] {

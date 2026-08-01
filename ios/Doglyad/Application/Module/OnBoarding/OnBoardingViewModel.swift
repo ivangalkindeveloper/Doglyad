@@ -106,6 +106,10 @@ final class OnBoardingViewModel: DViewModel {
             container.sharedRepository.setOnBoardingCompleted(
                 value: true
             )
+            // Record which revision of the documents the user accepted.
+            container.sharedRepository.acceptLegal(
+                documentDate: container.applicationConfig.legalDate
+            )
             handle {
                 await self.subscription.refreshStatus()
             } onMainSuccess: { _ in

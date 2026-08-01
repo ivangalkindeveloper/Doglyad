@@ -12,11 +12,12 @@ from slowapi.errors import RateLimitExceeded
 from app.core.app_check import init_app_check, verify_app_check
 from app.core.config import load_configs
 from app.core.limiter import limiter
+from app.core.logging import setup_logging
 from app.route.ultrasound_conclusion import router as ultrasound_conclusion_router
 from app.route.ultrasound_conclusion_send_email import router as ultrasound_conclusion_send_email_router
 from app.service import init_services
 
-logging.basicConfig(level=logging.INFO)
+setup_logging()
 logger = logging.getLogger(__name__)
 
 

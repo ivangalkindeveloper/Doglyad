@@ -1,15 +1,15 @@
 import Combine
 import Foundation
 
-/// Контроллер преобразования речи в текст.
+/// A speech-to-text controller.
 ///
-/// Наблюдаемый объект: экран сканирования подписывается на `status`, `text` и
-/// `audioMeter`, чтобы отражать ход диктовки. Конкретную реализацию выбирает
-/// ``DSpeechFactory`` по доступности на текущей системе и поддержке локали.
+/// An observable object: the scanning screen subscribes to `status`, `text` and
+/// `audioMeter` to reflect the progress of dictation. The concrete implementation is
+/// chosen by ``DSpeechFactory`` based on system support and locale support.
 ///
-/// Требование `ObjectWillChangePublisher == ObservableObjectPublisher` позволяет
-/// потребителю подписаться на `objectWillChange` через экзистенциал
-/// `any DSpeechControllerProtocol`, не зная конкретный тип.
+/// Requiring `ObjectWillChangePublisher == ObservableObjectPublisher` lets a consumer
+/// subscribe to `objectWillChange` through the `any DSpeechControllerProtocol`
+/// existential without knowing the concrete type.
 @MainActor
 public protocol DSpeechControllerProtocol: ObservableObject
     where ObjectWillChangePublisher == ObservableObjectPublisher
@@ -25,11 +25,11 @@ public protocol DSpeechControllerProtocol: ObservableObject
 
     func start()
 
-    /// Останавливает запись и дожидается финального результата распознавания.
+    /// Stops recording and waits for the final recognition result.
     ///
-    /// Возвращает итоговый текст: читать `text` сразу после вызова нельзя —
-    /// хвост диктовки распознаётся асинхронно уже после остановки микрофона,
-    /// и последняя фраза осмотра иначе теряется.
+    /// Returns the final text: reading `text` right after the call is not enough —
+    /// the tail of the dictation is recognized asynchronously after the microphone
+    /// stops, and the last phrase of the examination would otherwise be lost.
     @discardableResult
     func stop() async -> String?
 }

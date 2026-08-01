@@ -8,9 +8,9 @@ struct ScanSpeechAudioMeterView: View {
 
     let level: Float
 
-    /// Постоянный профиль столбиков. Раньше высота бралась из `CGFloat.random`
-    /// прямо в `body`, поэтому индикатор пересобирался случайным образом на
-    /// каждой перерисовке: анимация отражала шум генератора, а не голос врача.
+    /// A fixed bar profile. Heights used to come from `CGFloat.random` right inside
+    /// `body`, so the meter was rebuilt at random on every redraw: the animation
+    /// reflected generator noise rather than the physician's voice.
     private static let profile: [CGFloat] = [0.3, 0.55, 0.8, 1.0, 0.7, 0.85, 1.0, 0.75, 0.5, 0.3]
     private static let minimumHeight: CGFloat = 4
 

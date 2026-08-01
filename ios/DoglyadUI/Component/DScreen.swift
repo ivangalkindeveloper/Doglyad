@@ -85,12 +85,12 @@ public struct DScreen<Leading: View, Title: View, Trailing: View, Content: View,
                 ZStack(
                     alignment: .top
                 ) {
-                    ZStack(
-                        alignment: .bottom
-                    ) {
-                        bodyView(toolbarHeight - safeAreaInsetTop, bottomHeight - safeAreaInsetBottom)
-                            .safeAreaPadding(.bottom)
+                    bodyView(toolbarHeight - safeAreaInsetTop, bottomHeight - safeAreaInsetBottom)
 
+                    VStack(
+                        spacing: .zero
+                    ) {
+                        Spacer()
                         if let bottom = self.bottom?() {
                             bottom
                                 .padding(.vertical, size.adaptiveCornerRadius / 6)

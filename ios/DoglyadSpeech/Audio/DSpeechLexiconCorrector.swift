@@ -1,37 +1,37 @@
 import Foundation
 
-/// Приводит распознанный текст к канонической лексике осмотра.
+/// Normalizes recognized text to the canonical examination vocabulary.
 ///
-/// Распознаватель ошибается на созвучиях: «анехогенное» вместо «анэхогенное»,
-/// «дистальное усилие» вместо «дистальное усиление». Такие промахи модель
-/// разбора уже не починит — она не знает, что было сказано на самом деле.
-/// Поэтому перед разбором прогоняем текст по словарю терминов и подменяем
-/// близкие совпадения на канонические.
+/// The recognizer errs on similar-sounding words: «анехогенное» instead of
+/// «анэхогенное», «дистальное усилие» instead of «дистальное усиление». The parsing
+/// model can no longer repair such misses — it does not know what was actually said.
+/// So before parsing, the text is run against a dictionary of terms and close
+/// matches are replaced with the canonical ones.
 ///
-/// Сравниваем не буквы, а «фонетический скелет»: ошибки распознавания слышимые,
-/// а не орфографические, и «э» с «е» для него взаимозаменяемы.
+/// Comparison is not letter by letter but by a "phonetic skeleton": recognition errors
+/// are audible rather than orthographic, and «э» and «е» are interchangeable for it.
 ///
-/// Две подмены запрещены жёстко, потому что переворачивают смысл заключения:
-/// алгоритм никогда не добавляет и не убирает отрицание и не трогает фразы с
-/// числами. «Капсула изменена» и «капсула не изменена» отличаются на три
-/// правки, а означают противоположное; «7,5 мегагерц» и «5 мегагерц» — на две,
-/// а датчик при этом разный.
+/// Two substitutions are forbidden outright because they invert the meaning of a
+/// report: the algorithm never adds or removes a negation and never touches phrases
+/// with numbers. «Капсула изменена» and «капсула не изменена» differ by three edits
+/// yet mean the opposite; «7,5 мегагерц» and «5 мегагерц» differ by two, and the
+/// probe is a different one.
 public struct DSpeechLexiconCorrector: Sendable {
-    /// Допустимая доля правок от длины термина. Взята консервативно: пропустить
-    /// ошибку дешевле, чем подменить то, что врач действительно сказал.
+    /// The allowed share of edits relative to the term length. Chosen conservatively:
+    /// missing a fix is cheaper than replacing what the physician actually said.
     private static let maximumDistanceRatio = 0.16
 
-    /// Насколько лучший кандидат должен опережать следующего, чтобы подмена
-    /// состоялась.
+    /// How far ahead of the runner-up the best candidate must be for a substitution
+    /// to happen.
     ///
-    /// Словарь осмотра почти целиком состоит из смысловых противоположностей,
-    /// отличающихся парой букв: «содержимое однородное» и «неоднородное»,
-    /// «эхогенность повышена» и «снижена», «васкуляризация усилена» и
-    /// «снижена», «гипо-», «гипер-», «изо-» и «анэхогенное образование».
-    /// Все эти пары укладываются в порог расстояния, поэтому одного лишь
-    /// отказа от ничьих мало — нужен запас. На прогоне по всему словарю с
-    /// искусственными ошибками распознавания запас в две правки полностью
-    /// убирает подмену одного термина другим, теряя около процента починок.
+    /// The examination vocabulary consists almost entirely of semantic opposites that
+    /// differ by a couple of letters: «содержимое однородное» and «неоднородное»,
+    /// «эхогенность повышена» and «снижена», «васкуляризация усилена» and «снижена»,
+    /// «гипо-», «гипер-», «изо-» and «анэхогенное образование».
+    /// All of these pairs fall within the distance threshold, so refusing ties alone is
+    /// not enough — a margin is needed. On a run over the whole dictionary with synthetic
+    /// recognition errors, a margin of two edits removes substitution of one term by
+    /// another entirely, at the cost of about one percent of the fixes.
     private static let minimumMargin = 2
 
     private struct Term: Sendable {
@@ -40,8 +40,8 @@ public struct DSpeechLexiconCorrector: Sendable {
         let hasNegation: Bool
     }
 
-    /// Термины разложены по числу слов: окно текста сравниваем только с
-    /// терминами такой же длины.
+    /// Terms are bucketed by word count: a window of text is compared only with
+    /// terms of the same length.
     private let termsByWordCount: [Int: [Term]]
     private let maximumWordCount: Int
 
@@ -52,8 +52,8 @@ public struct DSpeechLexiconCorrector: Sendable {
 
         for text in terms {
             let wordCount = text.split(separator: " ").count
-            // Односложных терминов в словаре нет, и это к лучшему: на коротком
-            // слове порог расстояния ловит слишком много чужого.
+            // There are no single-word terms in the dictionary, and that is for the best:
+            // on a short word the distance threshold catches far too much foreign text.
             guard wordCount > 1 else { continue }
 
             let normalized = Self.normalize(text)
@@ -80,12 +80,12 @@ public struct DSpeechLexiconCorrector: Sendable {
         let words = text.split(separator: " ", omittingEmptySubsequences: true).map(String.init)
         guard !words.isEmpty else { return text }
 
-        // Замена, начинающаяся в позиции индекса, и сколько слов она поглощает.
+        // The replacement starting at this index, and how many words it consumes.
         var replacements = [(text: String, length: Int)?](repeating: nil, count: words.count)
         var isConsumed = [Bool](repeating: false, count: words.count)
 
-        // Длинные фразы идут первыми: «дистальное усиление сигнала» должно
-        // выиграть у вложенного в него более короткого термина.
+        // Longer phrases come first: «дистальное усиление сигнала» must beat the
+        // shorter term nested inside it.
         for wordCount in stride(from: maximumWordCount, through: 2, by: -1) {
             guard let candidates = termsByWordCount[wordCount] else { continue }
             guard words.count >= wordCount else { continue }
@@ -120,7 +120,7 @@ public struct DSpeechLexiconCorrector: Sendable {
         return result.joined(separator: " ")
     }
 
-    /// Ближайший термин, если он достаточно близко и заметно ближе остальных.
+    /// The nearest term, if it is close enough and noticeably closer than the rest.
     private func bestMatch(
         for window: String,
         among candidates: [Term]
@@ -139,8 +139,8 @@ public struct DSpeechLexiconCorrector: Sendable {
         var runnerUpDistance = Int.max
 
         for term in candidates {
-            // Отрицание неприкосновенно: алгоритм не имеет права ни дописать
-            // «не», ни убрать его.
+            // Negation is untouchable: the algorithm has no right either to add «не»
+            // or to remove it.
             guard term.hasNegation == hasNegation else { continue }
             guard abs(term.normalized.count - normalized.count) <= limit else { continue }
 
@@ -157,16 +157,16 @@ public struct DSpeechLexiconCorrector: Sendable {
         }
 
         guard let best else { return nil }
-        // Ближайший термин должен заметно опережать следующего — иначе это
-        // выбор между смысловыми противоположностями, и гадать мы не будем.
+        // The nearest term must lead the next one noticeably — otherwise this is a
+        // choice between semantic opposites, and we are not going to guess.
         guard runnerUpDistance - bestDistance >= Self.minimumMargin else { return nil }
 
         return best.text
     }
 
-    /// Свёртка созвучий: распознаватель ошибается на слух, поэтому убираем
-    /// различия, которых на слух нет, — «э»/«е», «ы»/«и», звонкость согласных,
-    /// мягкий и твёрдый знаки, удвоения и пробелы.
+    /// Collapsing of homophones: the recognizer errs by ear, so we drop the distinctions
+    /// that are inaudible — «э»/«е», «ы»/«и», consonant voicing, the soft and hard signs,
+    /// doubled letters and spaces.
     private static let phoneticMap: [Character: Character] = [
         "ё": "е",
         "э": "е",
@@ -209,8 +209,8 @@ public struct DSpeechLexiconCorrector: Sendable {
             .contains { negations.contains(String($0)) }
     }
 
-    /// Расстояние Левенштейна с ранним выходом: как только вся строка ушла
-    /// дальше порога, считать остальное бессмысленно.
+    /// Levenshtein distance with an early exit: once the entire row has gone past the
+    /// threshold, computing the rest is pointless.
     private static func distance(
         _ lhs: [Character],
         _ rhs: [Character],
@@ -244,8 +244,8 @@ public struct DSpeechLexiconCorrector: Sendable {
         return previous[rhs.count]
     }
 
-    /// Термины в словаре записаны со строчной буквы, а в тексте фраза могла
-    /// начинать предложение — сохраняем регистр первой буквы.
+    /// Terms in the dictionary are written in lower case, while in the text the phrase
+    /// may have started a sentence — preserve the case of the first letter.
     private static func matchingCase(
         of window: String,
         for replacement: String

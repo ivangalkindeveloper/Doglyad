@@ -1,13 +1,13 @@
 import Foundation
 import UIKit
 
-/// Создаёт и держит локальную модель разбора диктовок, выбирая её реализацию
-/// (Foundation Models или MLX) по доступности на текущей системе и по языку
-/// диктовки.
+/// Creates and holds the local dictation-parsing model, picking its implementation
+/// (Foundation Models or MLX) by what the current system supports and by the
+/// dictation language.
 ///
-/// Модель весит сотни мегабайт и на экране сканирования соседствует с сессией
-/// камеры, поэтому грузим её лениво — при первом разборе или прогреве, а не на
-/// старте приложения — и отпускаем, когда система просит освободить память.
+/// The model weighs hundreds of megabytes and coexists with the camera session on
+/// the scanning screen, so it is loaded lazily — on the first parse or warm-up
+/// rather than at app start — and released when the system asks for memory back.
 @MainActor
 public final class DExaminationNeuralModelFactory {
     private let locale: Locale
@@ -17,9 +17,9 @@ public final class DExaminationNeuralModelFactory {
     private var loadingTask: Task<any DExaminationNeuralModelProtocol, any Error>?
     private var memoryWarningObserver: (any NSObjectProtocol)?
 
-    /// Доступность не требует загрузки модели — только проверок памяти, системы
-    /// и языка, поэтому её можно спрашивать откуда угодно, например при
-    /// построении экрана.
+    /// Availability does not require loading the model — only memory, system and
+    /// language checks — so it can be queried from anywhere, for example while
+    /// building a screen.
     public nonisolated var isAvailable: Bool {
         if #available(iOS 26.0, *),
            DExaminationNeuralModelFoundationModels.isAvailable(locale: locale, parameters: parameters)
@@ -56,9 +56,9 @@ public final class DExaminationNeuralModelFactory {
         }
     }
 
-    /// Поднимает модель заранее, не дожидаясь разбора. Вызывается на старте
-    /// диктовки: пока врач говорит, загрузка весов и инициализация успевают
-    /// пройти в фоне, иначе он ждал бы их уже после того, как закончил.
+    /// Brings the model up ahead of time, without waiting for a parse. Called when
+    /// dictation starts: while the physician speaks, loading the weights and
+    /// initializing finish in the background instead of making them wait afterwards.
     public func prewarm() {
         Task { [weak self] in
             guard let model = try? await self?.model() else { return }
@@ -71,7 +71,7 @@ public final class DExaminationNeuralModelFactory {
         if let loadedModel {
             return loadedModel
         }
-        // Пока идёт загрузка, параллельные вызовы ждут её, а не грузят модель повторно.
+        // While loading is in progress, concurrent calls wait for it instead of loading again.
         if let loadingTask {
             return try await loadingTask.value
         }
@@ -80,8 +80,8 @@ public final class DExaminationNeuralModelFactory {
         let systemPrompt = systemPrompt
         let parameters = parameters
         let task = Task { () async throws -> any DExaminationNeuralModelProtocol in
-            // Выбираем реализацию здесь же, а не заранее: доступность зависит только
-            // от параметров, системы и языка, и повторная проверка ничего не грузит.
+            // The implementation is chosen right here rather than up front: availability
+            // depends only on parameters, system and language, and re-checking loads nothing.
             if #available(iOS 26.0, *),
                DExaminationNeuralModelFoundationModels.isAvailable(locale: locale, parameters: parameters)
             {

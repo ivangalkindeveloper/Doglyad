@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import logging
 
 import httpx
@@ -18,7 +17,6 @@ logger = logging.getLogger(__name__)
 
 
 class RunPodService(ModelService):
-
     def __init__(self, http_client: httpx.AsyncClient) -> None:
         self._http_client = http_client
         self._api_key = variables.runpod_api_key
@@ -36,7 +34,9 @@ class RunPodService(ModelService):
         if not self._api_key or not url:
             logger.error(
                 "Inference service is not configured for model %s: api_key_present=%s, url_present=%s",
-                neural_model.id, bool(self._api_key), bool(url),
+                neural_model.id,
+                bool(self._api_key),
+                bool(url),
             )
             raise HTTPException(status_code=500, detail="Service is not configured")
 
@@ -62,30 +62,22 @@ class RunPodService(ModelService):
                 "messages": [
                     {
                         "role": "system",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": system_prompt
-                            }
-                        ],
+                        "content": [{"type": "text", "text": system_prompt}],
                     },
                     {
                         "role": "user",
                         "content": user_content,
                     },
                 ],
-                "sampling_params": {
-                    "temperature": settings.temperature,
-                    "max_tokens": settings.maxTokens
-                }
+                "sampling_params": {"temperature": settings.temperature, "max_tokens": settings.maxTokens},
             }
         }
-        payload_json = json.dumps(payload, ensure_ascii=False)
+        # Never log the payload contents: it holds patient data and scan images.
         logger.info(
-            "Inference request: model=%s url=%s payload=%s",
+            "Inference request: model=%s, photos=%d, prompt_chars=%d",
             neural_model.id,
-            url,
-            payload_json,
+            len(photos),
+            len(prompt),
         )
 
         try:
@@ -96,14 +88,15 @@ class RunPodService(ModelService):
 
         logger.info("Inference response: status=%d", response.status_code)
         if response.status_code >= 400:
-            logger.error("Inference upstream returned error status %d: %.500s", response.status_code, response.text)
+            # The response body may echo the request — log the status only.
+            logger.error("Inference upstream returned error status %d", response.status_code)
             raise HTTPException(status_code=502, detail="Upstream model service returned an error")
 
         try:
             parsed = RunPodResponse.model_validate(response.json())
             value = parsed.value()
-            logger.info("Inference value: model=%s", value)
-            return value    
+            logger.info("Inference value: model=%s, chars=%d", neural_model.id, len(value))
+            return value
         except (ValueError, ValidationError) as error:
             logger.exception("Failed to parse inference response: %s", error)
             raise HTTPException(status_code=502, detail="Invalid response from upstream model service") from error

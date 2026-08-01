@@ -76,6 +76,14 @@ extension InitializationProcess {
                         return process.initialScreen = .onBoarding
                     }
 
+                    // The documents changed since the last acceptance — consent has to be
+                    // taken again, otherwise there is no evidence that the new revision
+                    // was accepted.
+                    let acceptedLegalDate = process.database!.getAcceptedLegalDocumentDate() ?? .distantPast
+                    if acceptedLegalDate < process.applicationConfig!.legalDate {
+                        return process.initialScreen = .legalUpdate
+                    }
+
                     if process.initialUltraSoundConclusions!.isEmpty, process.initialSubscriptionStatus == nil {
                         return process.initialScreen = .subscriptionPaywall
                     }

@@ -2,22 +2,22 @@ import Accelerate
 import AVFAudio
 import Foundation
 
-/// Считает уровень микрофона для индикатора на экране диктовки.
+/// Computes the microphone level for the meter on the dictation screen.
 ///
-/// Живёт на аудиопотоке, поэтому RMS берём через `vDSP` прямо по указателю
-/// буфера — без копии в `Array` и промежуточных `map`/`reduce`: аллокации в
-/// колбэке тапа приводят к пропускам звука, а значит и к потерянным словам.
+/// It lives on the audio thread, so RMS is taken via `vDSP` straight over the
+/// buffer pointer — no copy into an `Array` and no intermediate `map`/`reduce`:
+/// allocations in the tap callback cause audio dropouts, and therefore lost words.
 ///
-/// Публикуем не каждый буфер (их около полусотни в секунду), а по таймеру:
-/// индикатору хватает ~20 кадров, а каждое обновление `@Published` тянет за
-/// собой перерисовку всего экрана диктовки.
+/// The level is published not per buffer (there are about fifty per second) but on
+/// a timer: the meter is happy with ~20 frames, while every `@Published` update
+/// drags a redraw of the whole dictation screen along with it.
 final class DSpeechAudioMeter: @unchecked Sendable {
-    /// Шаг публикации уровня — 20 кадров в секунду.
+    /// Level publishing step — 20 frames per second.
     private static let publishInterval: TimeInterval = 0.05
-    /// Доля нового значения в сглаживании. Без него индикатор дёргается на
-    /// каждом слоге, с ним — плавно следует за громкостью.
+    /// The weight of the new value in the smoothing. Without it the meter jitters on
+    /// every syllable; with it, it follows loudness smoothly.
     private static let smoothing: Float = 0.4
-    /// Подъём RMS до диапазона индикатора: речь с руки редко даёт больше 0.07.
+    /// Lifts RMS into the meter's range: handheld speech rarely exceeds 0.07.
     private static let gain: Float = 15
 
     private let lock = NSLock()
@@ -31,7 +31,7 @@ final class DSpeechAudioMeter: @unchecked Sendable {
         self.onLevel = onLevel
     }
 
-    /// Вызывается с аудиопотока.
+    /// Called from the audio thread.
     func process(
         _ buffer: AVAudioPCMBuffer
     ) {

@@ -9,5 +9,6 @@ _FACTORIES: dict[str, PromptFactory] = {
     "ru": PromptFactoryRu(),
 }
 
+
 def resolve_prompt_factory(language_code: str) -> PromptFactory:
     return _FACTORIES.get(language_code, PromptFactoryEn())

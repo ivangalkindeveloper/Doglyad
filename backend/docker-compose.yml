@@ -8,8 +8,20 @@ services:
     volumes:
       - ./config:/app/config:ro
       - ./secrets:/app/secrets:ro
+      - ./logs:/app/logs
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
       - secrets/.env
       - ${ENV_FILE:-secrets/.env.development.stub}
+    environment:
+      # Application logs are written to ./logs with daily rotation, kept for a year.
+      # They contain no patient data — only technical metadata.
+      LOG_DIR: /app/logs
+      LOG_RETENTION_DAYS: 365
+    logging:
+      # Docker's own log stays a ring buffer and does not grow without bound.
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"

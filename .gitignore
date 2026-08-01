@@ -12,6 +12,7 @@
 **/.venv311
 
 /backend/secrets/
+/backend/logs/
 
 /ios/Config/
 /ios/Firebase/

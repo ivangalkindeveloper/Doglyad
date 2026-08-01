@@ -2,33 +2,33 @@ import Combine
 import Foundation
 import Speech
 
-/// Распознавание речи на классическом `SFSpeechRecognizer` (доступно на всех
-/// поддерживаемых версиях iOS). По умолчанию использует серверное распознавание,
-/// поэтому расставляет пунктуацию и работает как надёжный fallback до iOS 26.
+/// Speech recognition on the classic `SFSpeechRecognizer` (available on every
+/// supported iOS version). By default it uses server-side recognition, so it adds
+/// punctuation and serves as a reliable fallback before iOS 26.
 ///
-/// У одной задачи `SFSpeechRecognizer` есть предел длительности (порядка минуты),
-/// после которого сервис сам её финализирует. Чтобы длинную диктовку осмотра не
-/// обрывало, аудиодвижок держим запущенным всё время, а распознавательную задачу
-/// пересоздаём на каждом финале/ошибке, накапливая готовые куски в один текст.
-/// Хвост аудио на стыке задач переливает ``DSpeechAudioRelay``.
+/// A single `SFSpeechRecognizer` task has a duration limit (about a minute), after
+/// which the service finalizes it itself. So that a long examination dictation is not
+/// cut short, the audio engine is kept running the whole time while the recognition
+/// task is recreated on every final result or error, accumulating the finished chunks
+/// into one text. The audio tail at the seam is carried over by ``DSpeechAudioRelay``.
 @MainActor
 public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtocol {
-    /// Размер буфера тапа. При 48 кГц это примерно 21 мс звука.
+    /// Tap buffer size. At 48 kHz that is roughly 21 ms of audio.
     private static let tapBufferSize: AVAudioFrameCount = 1024
-    /// Сколько ждём финальный результат после остановки микрофона. Серверное
-    /// распознавание может не ответить вовсе (нет сети), и врач не должен
-    /// залипать на экране — по истечении берём последний черновик.
+    /// How long we wait for the final result after the microphone stops. Server-side
+    /// recognition may never answer at all (no network), and the physician must not be
+    /// stuck on the screen — once it expires we take the last draft.
     private static let finalizationTimeout: Duration = .seconds(3)
 
     private let speechRecognizer: SFSpeechRecognizer?
-    /// Подсказки распознавателю: специфичная лексика осмотра для текущей локали.
+    /// Hints for the recognizer: examination-specific vocabulary for the current locale.
     private let contextualStrings: [String]
-    /// Та же лексика, но уже как пост-обработка: подсказки смещают распознавание,
-    /// а корректор чинит то, что всё равно услышалось мимо.
+    /// The same vocabulary, but as post-processing: hints bias recognition, while the
+    /// corrector repairs what still came out wrong.
     private let corrector: DSpeechLexiconCorrector
-    /// Пересоздаётся на каждую сессию: голосовую обработку можно переключать
-    /// только на остановленном движке, а её состояние переживает `stop()` и на
-    /// повторном старте с другим маршрутом звука приводит к невалидному формату.
+    /// Recreated for every session: voice processing can only be toggled on a stopped
+    /// engine, and its state outlives `stop()` — restarting with a different audio
+    /// route then leads to an invalid format.
     private var audioEngine = AVAudioEngine()
     private let relay = DSpeechAudioRelay()
     private lazy var meter = DSpeechAudioMeter { [weak self] level in
@@ -40,15 +40,15 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
 
-    /// Признак активной сессии: отличает перезапуск задачи по лимиту (продолжаем)
-    /// от остановки пользователем (не перезапускаем).
+    /// Marks an active session: tells a restart on the duration limit (keep going)
+    /// apart from a stop by the user (do not restart).
     private var isRunning = false
-    /// Финализированные сегменты предыдущих задач, склеенные в один текст.
+    /// Finalized segments of previous tasks, glued into a single text.
     private var finalizedText = ""
-    /// Последняя «черновая» расшифровка текущей задачи — на случай, если задачу
-    /// оборвёт ошибкой/лимитом без финального результата, чтобы не потерять хвост.
+    /// The last "draft" transcript of the current task — in case the task is cut short
+    /// by an error or the limit without a final result, so the tail is not lost.
     private var lastPartial = ""
-    /// Ожидание финального результата после `stop()`.
+    /// Waiting for the final result after `stop()`.
     private var finalizationContinuation: CheckedContinuation<String, Never>?
 
     @Published public var status: DRecordingStatus = .stopped
@@ -66,8 +66,8 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
 
     public func start() {
         guard status == .stopped, !audioEngine.isRunning else { return }
-        // Без доступного распознавателя запись бессмысленна: движок бы писал,
-        // а текста не появлялось бы вовсе.
+        // Without an available recognizer, recording is pointless: the engine would
+        // record while no text ever appeared.
         guard let recognizer = speechRecognizer, recognizer.isAvailable else { return }
 
         status = .preparing
@@ -80,9 +80,9 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
             let route = try DSpeechAudioSession.activate()
             audioEngine = AVAudioEngine()
 
-            // Тап и движок живут всю сессию: буферы всегда уходят в текущую
-            // задачу, а её пересоздание не рвёт аудиопоток и не теряет слова
-            // на стыке.
+            // The tap and the engine live for the whole session: buffers always go to the
+            // current task, and recreating that task neither breaks the audio stream nor
+            // loses words at the seam.
             let (inputNode, recordingFormat) = try prepareInputNode(route: route)
             relay.prepare(format: recordingFormat, bufferFrames: Self.tapBufferSize)
 
@@ -105,20 +105,20 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         }
     }
 
-    /// Готовит входной узел и отдаёт формат, с которым безопасно ставить тап.
+    /// Prepares the input node and returns a format that is safe to install a tap on.
     ///
-    /// Голосовая обработка перестраивает аудиоблок ввода, и сразу после её
-    /// включения узел может отдать формат с нулевой частотой. `installTap` на
-    /// таком формате падает по ассерту, поэтому формат проверяем, а при неудаче
-    /// откатываем обработку: диктовка без шумоподавления лучше, чем падение.
+    /// Voice processing rebuilds the input audio unit, and right after enabling it the
+    /// node may report a format with a zero sample rate. `installTap` on such a format
+    /// trips an assert, so the format is validated and, on failure, processing is
+    /// rolled back: dictation without noise suppression beats a crash.
     private func prepareInputNode(
         route: DSpeechAudioRoute
     ) throws -> (AVAudioInputNode, AVAudioFormat) {
         let inputNode = audioEngine.inputNode
 
-        // Подавление стационарного шума (гул аппарата), эхоподавление,
-        // автогромкость. Нужно, когда телефон лежит в стороне, и не нужно на
-        // гарнитуре, где микрофон и так у рта.
+        // Stationary noise suppression (the scanner's hum), echo cancellation,
+        // automatic gain. Needed when the phone lies off to the side, and not needed
+        // on a headset where the microphone is at the mouth anyway.
         try? inputNode.setVoiceProcessingEnabled(route == .builtIn)
 
         var recordingFormat = inputNode.outputFormat(forBus: 0)
@@ -147,16 +147,16 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         let result = await finalize()
 
         teardown()
-        // Лексику применяем к итоговому тексту, а не к черновикам: на экране
-        // подмена терминов по ходу речи только мельтешила бы.
+        // The vocabulary is applied to the final text, not to drafts: swapping terms
+        // mid-speech would only make the screen flicker.
         text = result.isEmpty ? nil : corrector.correct(result)
 
         return text
     }
 
-    /// Просит сервис доработать оставшееся аудио и дожидается финального
-    /// результата. Без этого хвост диктовки терялся бы: `cancel()` выбрасывает
-    /// незавершённые результаты, а разбор стартует сразу после остановки.
+    /// Asks the service to finish the remaining audio and waits for the final result.
+    /// Without this the tail of the dictation would be lost: `cancel()` throws away
+    /// unfinished results, and parsing starts right after the stop.
     private func finalize() async -> String {
         guard let request = recognitionRequest, recognitionTask != nil else {
             return combine(finalizedText, lastPartial)
@@ -167,7 +167,7 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         let timeout = Task { [weak self] in
             try? await Task.sleep(for: Self.finalizationTimeout)
             guard !Task.isCancelled else { return }
-            // Сервис не ответил — отдаём последний черновик, он всё же лучше пустого.
+            // The service did not answer — return the last draft, still better than nothing.
             self?.finishFinalization(with: nil)
         }
 
@@ -179,8 +179,8 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         return combine(finalizedText, segment)
     }
 
-    /// Завершает ожидание финала. `segment == nil` — таймаут либо ошибка,
-    /// в этом случае берём последний черновик текущей задачи.
+    /// Ends the wait for the final. `segment == nil` means a timeout or an error, in
+    /// which case the last draft of the current task is used.
     private func finishFinalization(
         with segment: String?
     ) {
@@ -202,7 +202,7 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         DSpeechAudioSession.deactivate()
     }
 
-    /// Создаёт новую распознавательную задачу поверх работающего аудиодвижка.
+    /// Creates a new recognition task on top of the running audio engine.
     private func startTask() {
         guard let recognizer = speechRecognizer, recognizer.isAvailable else { return }
 
@@ -221,8 +221,8 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
             }
         }
 
-        // Подключаем последним: `attach` сразу переливает в запрос хвост
-        // предыдущей задачи, и делать это надо по уже готовому колбэку.
+        // Attached last: `attach` immediately pours the previous task's tail into the
+        // request, and that must happen with the callback already in place.
         relay.attach(request)
     }
 
@@ -231,7 +231,7 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         error: (any Error)?,
         request: SFSpeechAudioBufferRecognitionRequest
     ) {
-        // Игнорируем отложенные колбэки уже пересозданной задачи.
+        // Ignore delayed callbacks from an already recreated task.
         guard request === recognitionRequest else { return }
 
         if let result {
@@ -246,7 +246,7 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
                 finishFinalization(with: segment)
                 return
             }
-            // Лимит длительности или пауза: фиксируем сегмент и катим дальше.
+            // Duration limit or a pause: record the segment and carry on.
             commitCurrentSegment(segment)
             startTask()
             return
@@ -258,12 +258,12 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
             finishFinalization(with: nil)
             return
         }
-        // Задача оборвалась без финала — сохраняем последний черновик и продолжаем.
+        // The task ended without a final — keep the last draft and continue.
         commitCurrentSegment(lastPartial)
         startTask()
     }
 
-    /// Дописывает готовый сегмент к накопленному тексту и сбрасывает черновик.
+    /// Appends a finished segment to the accumulated text and clears the draft.
     private func commitCurrentSegment(
         _ segment: String
     ) {
@@ -277,7 +277,7 @@ public final class DSpeechControllerSFSpeechRecognizer: DSpeechControllerProtoco
         text = finalizedText
     }
 
-    /// Склеивает два куска через пробел, аккуратно обходя пустые строки.
+    /// Joins two chunks with a space, handling empty strings gracefully.
     private func combine(
         _ base: String,
         _ addition: String

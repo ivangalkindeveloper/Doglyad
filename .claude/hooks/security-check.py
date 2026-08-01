@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
-"""security-check — guard-hook Doglyad против попадания секретов и Xcode-шума в git.
+"""security-check — a Doglyad guard hook keeping secrets and Xcode noise out of git.
 
-Регистрируется как PreToolUse-hook на Bash в .claude/settings.json. Перехватывает
-команды git add / git commit и блокирует их (exit 2), если в коммит попадут
-запрещённые файлы (секреты бэкенда, Firebase-конфиг, веса модели, Xcode-состояние).
+Registered as a PreToolUse hook on Bash in .claude/settings.json. It intercepts
+staging and commit commands and blocks them (exit 2) when forbidden files would
+end up in the commit (backend secrets, Firebase config, model weights, Xcode state).
 
-Логика:
-- git commit  → проверяем уже проиндексированные файлы (git diff --cached).
-- git add -A/./--all → проверяем все ожидающие изменения (git status --porcelain),
-  которые команда собирается застейджить.
-- git add <path> → проверяем пути, указанные в самой команде `git add`.
+Logic:
+- commit  → check the already staged files (git diff --cached).
+- bulk staging → check every pending change (git status --porcelain)
+  that the command is about to stage.
+- explicit paths → check the paths named in the staging command itself.
 
-Удаления не блокируются: смысл хука — не дать секрету попасть в репозиторий, а
-удаление, наоборот, убирает его оттуда. Поэтому пути, которых нет в рабочем
-каталоге, пропускаются, а `git diff --cached` фильтруется через `--diff-filter=d`.
+Deletions are not blocked: the point of the hook is to keep a secret out of the
+repository, and a deletion does the opposite — it removes one. Paths missing from
+the working tree are therefore skipped, and `git diff --cached` is filtered
+through `--diff-filter=d`.
 
-Exit 0 — пропустить. Exit 2 — заблокировать, причина уходит в stderr и Claude.
-Любая внутренняя ошибка — тоже exit 0 (fail-open), чтобы не ломать обычную работу.
+Exit 0 — allow. Exit 2 — block, with the reason sent to stderr and to Claude.
+Any internal error also exits 0 (fail-open) so normal work is never broken.
 """
-
-from __future__ import annotations
 
 import json
 import os
@@ -27,7 +26,7 @@ import re
 import subprocess
 import sys
 
-# Паттерны запрещённых путей (проверяются по всему пути файла в репозитории).
+# Forbidden path patterns (matched against the full file path in the repository).
 DENY_PATTERNS: list[tuple[str, str]] = [
     (r"(^|/)\.env(\.|$)", "секреты окружения бэкенда (.env)"),
     (r"(^|/)GoogleService-Info\.plist$", "конфигурация Firebase"),
@@ -42,7 +41,7 @@ DENY_PATTERNS: list[tuple[str, str]] = [
 
 
 def matches_deny(path: str) -> str | None:
-    """Возвращает причину блокировки, если путь запрещён, иначе None."""
+    """Returns the reason for blocking when the path is forbidden, otherwise None."""
     for pattern, reason in DENY_PATTERNS:
         if re.search(pattern, path):
             return reason
@@ -50,7 +49,7 @@ def matches_deny(path: str) -> str | None:
 
 
 def run_git(args: list[str]) -> list[str]:
-    """Выполнить git-команду, вернуть непустые строки stdout (или [] при ошибке)."""
+    """Run a git command and return the non-empty stdout lines (or [] on failure)."""
     try:
         out = subprocess.run(
             ["git", *args],
@@ -66,11 +65,11 @@ def run_git(args: list[str]) -> list[str]:
 
 
 def porcelain_paths() -> list[str]:
-    """Пути с ожидающими изменениями (модифицированные + untracked), которые
-    захватит `git add -A`."""
+    """Paths with pending changes (modified + untracked) that
+    bulk staging would capture."""
     paths: list[str] = []
     for line in run_git(["status", "--porcelain"]):
-        # Формат: XY <path> либо XY <old> -> <new> для переименований.
+    # Format: XY <path>, or XY <old> -> <new> for renames.
         rest = line[3:] if len(line) > 3 else line
         if " -> " in rest:
             rest = rest.split(" -> ", 1)[1]
@@ -79,22 +78,22 @@ def porcelain_paths() -> list[str]:
 
 
 def repo_root() -> str:
-    """Корень репозитория (пустая строка, если определить не удалось)."""
+    """Repository root (empty string when it cannot be determined)."""
     lines = run_git(["rev-parse", "--show-toplevel"])
     return lines[0] if lines else ""
 
 
 def exists_in_worktree(path: str, root: str) -> bool:
-    """Есть ли файл в рабочем каталоге. Если нет — операция может быть только
-    удалением, а удаление секрета из репозитория безопасно."""
+    """Whether the file exists in the working tree. If it does not, the operation
+    can only be a deletion, and deleting a secret from the repository is safe."""
     if not root:
         return True
     return os.path.exists(os.path.join(root, path))
 
 
 def explicit_add_paths(command: str) -> list[str]:
-    """Пути, перечисленные в самих вызовах `git add`. Токены из других команд
-    (например `git restore --staged <путь>`) сюда не попадают."""
+    """Paths listed in the staging invocations themselves. Tokens from other
+    commands (for example `git restore --staged <path>`) are not collected."""
     paths: list[str] = []
     for match in re.finditer(r"\bgit\s+add\b([^&|;]*)", command):
         for token in re.findall(r"[\w./\-]+", match.group(1)):
@@ -105,7 +104,7 @@ def explicit_add_paths(command: str) -> list[str]:
 
 
 def is_broad_add(command: str) -> bool:
-    """Команда стейджит всё скопом (git add -A / . / --all / -u)?"""
+    """Does the command stage everything at once (-A / . / --all / -u)?"""
     return bool(
         re.search(r"\bgit\s+add\b[^&|;]*(\s-A\b|\s--all\b|\s-u\b|\s\.(\s|$))", command)
     )
@@ -134,26 +133,26 @@ def main() -> int:
 
     root = repo_root()
 
-    # Кандидаты на попадание в коммит: {путь: причина}.
+    # Candidates for landing in the commit: {path: reason}.
     flagged: dict[str, str] = {}
 
     def flag(path: str) -> None:
-        """Пометить путь, если он запрещён и при этом не является удалением."""
+        """Flag the path when it is forbidden and is not a deletion."""
         reason = matches_deny(path)
         if reason and exists_in_worktree(path, root):
             flagged[path] = reason
 
-    # 1. git commit — то, что уже в индексе (`d` исключает удаления).
+    # 1. commit — whatever is already staged (`d` excludes deletions).
     if has_git_commit(command):
         for path in run_git(["diff", "--cached", "--name-only", "--diff-filter=d"]):
             flag(path)
 
-    # 2. broad add — всё, что будет застейджено скопом.
+    # 2. bulk staging — everything that would be staged at once.
     if is_broad_add(command):
         for path in porcelain_paths():
             flag(path)
 
-    # 3. Явно указанные пути (git add path/to/secret).
+    # 3. Explicitly named paths.
     for path in explicit_add_paths(command):
         flag(path)
 

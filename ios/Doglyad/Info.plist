@@ -8,7 +8,9 @@
 	<string>$(ENVIRONMENT)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
+		<!-- HTTP разрешён только для локального бэкенда при разработке.
+		     Все внешние соединения, включая продакшен-бэкенд, требуют HTTPS. -->
+		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>REVENUECAT_API_KEY</key>

@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 class ModelService(ABC):
-
     @abstractmethod
     async def call(
         self,
@@ -36,8 +35,4 @@ class ModelService(ABC):
         if not isinstance(data, dict):
             logger.error("Model URLs must be a JSON object of modelId -> url")
             return {}
-        return {
-            str(k): str(v)
-            for k, v in data.items()
-            if isinstance(v, str) and v.strip()
-        }
+        return {str(k): str(v) for k, v in data.items() if isinstance(v, str) and v.strip()}

@@ -3,11 +3,11 @@ import SwiftUI
 
 @MainActor
 final class ApplicationViewModel: DViewModel {
-    // Полностью повторяем геометрию нативного лаунч-скрина (`LaunchScreen.storyboard`):
-    // белый фон и `scaleAspectFill`-картинка, растянутая по всем краям экрана и
-    // отцентрованная по нему. Без явного полноэкранного контейнера SwiftUI центрует
-    // картинку по safe area (её центр ниже центра экрана из-за большего верхнего
-    // отступа), из-за чего сплеш на вью «съезжал» вниз относительно нативного.
+    // Reproduce the native launch screen geometry exactly (`LaunchScreen.storyboard`):
+    // a white background and a `scaleAspectFill` image stretched to every screen edge
+    // and centred on it. Without an explicit full-screen container SwiftUI centres the
+    // image on the safe area (whose centre sits below the screen centre because the top
+    // inset is larger), which made the SwiftUI splash drift down from the native one.
     @Published var root: any View = Color.white
         .overlay {
             Image(.splash)

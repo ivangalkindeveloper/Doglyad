@@ -35,9 +35,7 @@ async def ultrasound_conclusion(
     settings = body.neuralModelSettings
     examination = body.examinationData
 
-    neural_model = resolve_neural_model(
-        settings.selectedNeuralModelId
-    )
+    neural_model = resolve_neural_model(settings.selectedNeuralModelId)
     examination_title = resolve_examination_title(
         examination.usExaminationTypeId,
         language_code,
@@ -45,17 +43,18 @@ async def ultrasound_conclusion(
 
     logger.info(
         "Request: model=%s, lang=%s, exam=%s, photos=%d, mode=%s",
-        neural_model.id, language_code, examination_title,
-        len(examination.photos), variables.llm_mode,
+        neural_model.id,
+        language_code,
+        examination_title,
+        len(examination.photos),
+        variables.llm_mode,
     )
 
     match variables.llm_mode:
         case LLMMode.STUB:
             response_text = prompt_factory.stub
         case LLMMode.INFERENCE:
-            system_prompt = prompt_factory.system_prompt(
-                settings
-            )
+            system_prompt = prompt_factory.system_prompt(settings)
             prompt = prompt_factory.build_prompt(
                 settings,
                 examination,

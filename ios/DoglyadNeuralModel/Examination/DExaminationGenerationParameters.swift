@@ -1,12 +1,12 @@
 import Foundation
 
 public struct DExaminationGenerationParameters: Sendable {
-    /// Температура модели
+    /// Model temperature
     public let temperature: Double
-    /// Предел генерации ответа.
+    /// The response generation limit.
     public let maxTokens: Int
-    /// Предельный размер контекста: системный промпт, диктовка и ответ.
-    /// По нему считается KV-кэш при проверке, потянет ли устройство модель.
+    /// The context size limit: system prompt, dictation and response.
+    /// It drives the KV cache estimate when checking whether the device can run the model.
     public let maxContextTokens: Int
 
     public init(

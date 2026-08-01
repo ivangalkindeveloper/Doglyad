@@ -2,9 +2,9 @@ import DoglyadNetwork
 import FirebaseAppCheck
 import Foundation
 
-/// Добавляет к каждому исходящему запросу заголовок с Firebase App Check токеном,
-/// подтверждающим, что запрос идёт из подлинного приложения (под капотом App Attest).
-/// Токен затем проверяется на бэкенде.
+/// Adds a Firebase App Check token header to every outgoing request, confirming
+/// the request comes from a genuine app instance (App Attest under the hood).
+/// The token is then verified on the backend.
 struct AppCheckHttpInterceptor: DHttpInterceptorProtocol {
     func adapt(
         _ urlRequest: URLRequest

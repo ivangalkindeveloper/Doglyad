@@ -1,7 +1,7 @@
 import Foundation
 
-/// Небольшая модель нередко путает типы в JSON: отдаёт число строкой или наоборот.
-/// Такие значения приводим к нужному типу, а не считаем ответ невалидным.
+/// A small model often confuses JSON types: it returns a number as a string or the
+/// other way round. Such values are coerced instead of failing the whole answer.
 extension KeyedDecodingContainer {
     func decodeIfPresentLenientString(
         forKey key: Key

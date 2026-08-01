@@ -1,7 +1,7 @@
 import Foundation
 
-/// Платная фича приложения. Единая точка идентичности для запроса доступности
-/// через `SubscriptionViewModel.availability(of:)`.
+/// A paid feature of the app. A single identity used to query availability
+/// through `SubscriptionViewModel.availability(of:)`.
 enum PaidFeature {
     case neuralModelSettings
     case formCompletionViaMicrophone

@@ -2,39 +2,40 @@ import AVFAudio
 import Foundation
 import Speech
 
-/// Мост между микрофоном и распознавательной задачей `SFSpeechRecognizer`.
+/// A bridge between the microphone and the `SFSpeechRecognizer` recognition task.
 ///
-/// Решает две задачи, которые нельзя решить в контроллере:
+/// It solves two problems that cannot be solved in the controller:
 ///
-/// 1. Тап `AVAudioEngine` вызывается на аудиопотоке, а задачу пересоздаёт главный
-/// поток. Прямой доступ к текущему запросу из двух потоков — гонка: буфер мог
-/// уйти в уже завершённый запрос. Здесь ссылка на запрос закрыта замком.
+/// 1. The `AVAudioEngine` tap fires on the audio thread while the task is recreated
+/// by the main thread. Touching the current request directly from two threads is a
+/// race: a buffer could land in an already finished request. Here the request
+/// reference is guarded by a lock.
 ///
-/// 2. Сервис сам финализирует задачу по лимиту длительности. Пока создаётся
-/// новая, аудио идти некуда — речь за это окно терялась. Поэтому храним хвост
-/// последних секунд и переливаем его в новый запрос при подключении.
+/// 2. The service finalizes the task itself once the duration limit is hit. While a
+/// new one is being created, audio has nowhere to go — speech in that window used to
+/// be lost. So the tail of the last few seconds is kept and poured into the new request.
 final class DSpeechAudioRelay: @unchecked Sendable {
-    /// Сколько аудио держим для перелива. Секунды хватает на окно пересоздания
-    /// задачи, а больше — только дублирование уже распознанного текста.
+    /// How much audio is kept for the hand-off. A second covers the task recreation
+    /// window; anything more only duplicates already recognized text.
     private static let replaySeconds: Double = 1.0
 
     private let lock = NSLock()
     private var request: SFSpeechAudioBufferRecognitionRequest?
 
-    /// Кольцо предварительно выделенных буферов: аллокации на аудиопотоке
-    /// приводят к пропускам звука, поэтому память берём один раз на старте.
+    /// A ring of pre-allocated buffers: allocations on the audio thread cause audio
+    /// dropouts, so the memory is taken once at start.
     private var ring: [AVAudioPCMBuffer] = []
     private var ringWriteIndex = 0
     private var ringFilled = 0
 
-    /// Выделяет кольцо под формат микрофона. Вызывать до установки тапа.
+    /// Allocates the ring for the microphone format. Call before installing the tap.
     func prepare(
         format: AVAudioFormat,
         bufferFrames: AVAudioFrameCount
     ) {
         let framesPerSecond = format.sampleRate
         let slots = max(2, Int((Self.replaySeconds * framesPerSecond / Double(bufferFrames)).rounded(.up)))
-        // Тап не гарантирует ровно `bufferFrames` в буфере, поэтому берём запас.
+        // The tap does not guarantee exactly `bufferFrames` per buffer, so allow slack.
         let capacity = bufferFrames * 2
         let buffers = (0 ..< slots).compactMap {
             _ in AVAudioPCMBuffer(pcmFormat: format, frameCapacity: capacity)
@@ -49,7 +50,7 @@ final class DSpeechAudioRelay: @unchecked Sendable {
         ringFilled = 0
     }
 
-    /// Вызывается с аудиопотока.
+    /// Called from the audio thread.
     func append(
         _ buffer: AVAudioPCMBuffer
     ) {
@@ -60,8 +61,8 @@ final class DSpeechAudioRelay: @unchecked Sendable {
         remember(buffer)
     }
 
-    /// Подключает новую задачу и переливает в неё накопленный хвост, чтобы
-    /// слова на стыке задач не пропадали.
+    /// Attaches a new task and pours the accumulated tail into it so that words at
+    /// the seam between tasks are not dropped.
     func attach(
         _ newRequest: SFSpeechAudioBufferRecognitionRequest
     ) {
@@ -74,7 +75,7 @@ final class DSpeechAudioRelay: @unchecked Sendable {
         }
     }
 
-    /// Отсоединяет запрос: буферы с микрофона перестают в него попадать.
+    /// Detaches the request: microphone buffers stop reaching it.
     func detach() {
         lock.lock()
         defer { lock.unlock() }
@@ -92,8 +93,8 @@ final class DSpeechAudioRelay: @unchecked Sendable {
         ringFilled = 0
     }
 
-    /// Копирует буфер в кольцо: тот, что пришёл в тап, движок переиспользует
-    /// сразу после возврата из колбэка, и сохранять саму ссылку нельзя.
+    /// Copies the buffer into the ring: the one delivered to the tap is reused by the
+    /// engine right after the callback returns, so the reference itself cannot be kept.
     private func remember(
         _ buffer: AVAudioPCMBuffer
     ) {
@@ -115,7 +116,7 @@ final class DSpeechAudioRelay: @unchecked Sendable {
         ringFilled = min(ringFilled + 1, ring.count)
     }
 
-    /// Буферы кольца в хронологическом порядке — от самого старого к свежему.
+    /// Ring buffers in chronological order — from the oldest to the freshest.
     private func orderedRingBuffers() -> [AVAudioPCMBuffer] {
         guard ringFilled > 0 else { return [] }
 

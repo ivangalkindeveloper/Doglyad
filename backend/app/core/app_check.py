@@ -15,11 +15,11 @@ _APP_CHECK_HEADER = "X-Firebase-AppCheck"
 
 
 def init_app_check() -> None:
-    """Инициализирует Firebase Admin SDK для проверки App Check токенов.
+    """Initializes the Firebase Admin SDK for verifying App Check tokens.
 
-    Вызывается один раз при старте приложения. Если проверка отключена
-    (`APP_CHECK_ENABLED=false`), ничего не делает. Если проверка включена, но
-    `FIREBASE_CREDENTIALS_PATH` не задан — бросает `RuntimeError` (старт прерывается).
+    Called once at application startup. Does nothing when verification is
+    disabled (`APP_CHECK_ENABLED=false`). When verification is enabled but
+    `FIREBASE_CREDENTIALS_PATH` is unset, raises `RuntimeError` (startup aborts).
     """
     if not variables.app_check_enabled:
         logger.warning("App Check verification is disabled")
@@ -28,9 +28,7 @@ def init_app_check() -> None:
         logger.warning("Firebase Admin SDK is already initialized")
         return
     if not variables.firebase_credentials_path:
-        raise RuntimeError(
-            "App Check is enabled but FIREBASE_CREDENTIALS_PATH is not set"
-        )
+        raise RuntimeError("App Check is enabled but FIREBASE_CREDENTIALS_PATH is not set")
     credential = credentials.Certificate(str(variables.firebase_credentials_path))
     firebase_admin.initialize_app(credential)
 
@@ -38,10 +36,10 @@ def init_app_check() -> None:
 async def verify_app_check(
     x_firebase_app_check: str | None = Header(default=None, alias=_APP_CHECK_HEADER),
 ) -> None:
-    """Проверяет App Check токен из заголовка `X-Firebase-AppCheck`.
+    """Verifies the App Check token from the `X-Firebase-AppCheck` header.
 
-    Подтверждает, что запрос пришёл из подлинного приложения. Бросает 401, если
-    токен отсутствует или не проходит проверку.
+    Confirms the request came from a genuine app instance. Raises 401 when the
+    token is missing or fails verification.
     """
     if not variables.app_check_enabled:
         return

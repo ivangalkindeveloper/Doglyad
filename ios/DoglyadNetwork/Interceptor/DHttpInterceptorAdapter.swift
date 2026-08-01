@@ -1,8 +1,8 @@
 import Foundation
 internal import Alamofire
 
-/// Мост между независимым от Alamofire протоколом `DHttpInterceptorProtocol` и
-/// `RequestInterceptor` Alamofire. Оборачивает async-`adapt` в completion-API.
+/// A bridge between the Alamofire-agnostic `DHttpInterceptorProtocol` and
+/// Alamofire's `RequestInterceptor`. Wraps the async `adapt` into a completion API.
 struct DHttpInterceptorAdapter: RequestInterceptor {
     private let interceptor: DHttpInterceptorProtocol
 

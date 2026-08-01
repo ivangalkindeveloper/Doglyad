@@ -25,10 +25,10 @@ extension UIImage {
         }
     }
 
-    /// Декодирует и уменьшает изображение один раз, чтобы списки не
-    /// декодировали полный кадр на main при рендере превью.
-    /// Результат — bitmap ровно `maxDimension` пикселей по большей стороне
-    /// (scale = 1), а не в масштабе экрана.
+    /// Decodes and downscales the image once so that lists do not decode
+    /// the full frame on the main thread while rendering previews.
+    /// The result is a bitmap of exactly `maxDimension` pixels on its longer side
+    /// (scale = 1) rather than at screen scale.
     func thumbnail(maxDimension: CGFloat) -> UIImage {
         let maxSide = max(size.width, size.height)
         guard maxSide > 0 else { return self }

@@ -1,6 +1,7 @@
 enum ScreenType: Hashable {
     case newVersion
     case onBoarding
+    case legalUpdate
     case scan
     case history
     case conclusion

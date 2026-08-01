@@ -28,8 +28,8 @@ public struct DExaminationNeuralModelResponse: Codable {
     public let patientComplaint: String?
     public let examinationDescription: String?
 
-    /// Модель может выдать значение, не попадающее в схему: пол словом из диктовки,
-    /// число строкой, дату в своём формате. Такое поле обнуляем, а не роняем весь разбор.
+    /// The model may produce a value outside the schema: gender as a word from the dictation,
+    /// a number as a string, a date in its own format. Such a field is nulled out, not fatal.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

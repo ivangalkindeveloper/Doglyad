@@ -3,17 +3,17 @@ import Metal
 import os
 
 enum DNeuralDevice {
-    /// Модель остаётся в памяти всё время работы приложения и соседствует
-    /// с сессией камеры, поэтому запас нужен. Но слишком строгий порог просто
-    /// отключает фичу на устройствах с 4 ГБ, поэтому берём умеренные 30%.
+    /// The model stays in memory for the whole app session and coexists with the
+    /// camera session, so headroom is needed. But too strict a threshold simply
+    /// disables the feature on 4 GB devices, so we settle on a moderate 30%.
     private static let memoryHeadroomFactor: Double = 0.7
-    /// Запас под планировщик и промежуточные буферы.
+    /// Headroom for the scheduler and intermediate buffers.
     private static let overheadBytes: UInt64 = 200 * 1024 * 1024
-    /// KV-кэш хранится в fp16.
+    /// The KV cache is stored in fp16.
     private static let cacheValueBytes: UInt64 = 2
 
-    /// MLX на iOS практически требует не ниже Apple 7 (A14+).
-    /// Создание MTLDevice не бесплатно, поэтому результат считаем один раз.
+    /// MLX on iOS effectively requires Apple 7 (A14+) or newer.
+    /// Creating an MTLDevice is not free, so the result is computed once.
     private static let isGPUSupported: Bool = {
         guard let device = MTLCreateSystemDefaultDevice() else { return false }
 
@@ -39,7 +39,7 @@ enum DNeuralDevice {
         return Double(needed) < Double(available) * memoryHeadroomFactor
     }
 
-    /// K и V на каждый слой, по numKeyValueHeads голов размером headDimension.
+    /// K and V per layer, numKeyValueHeads heads of headDimension each.
     private static func kvCacheBytes(
         model: DNeuralModelData,
         maxContextTokens: Int

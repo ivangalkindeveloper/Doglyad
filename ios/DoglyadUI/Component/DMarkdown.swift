@@ -33,7 +33,7 @@ public struct DMarkdown: View {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// Размеры и гарнитуры совпадают с `DTypography.shared` и `DFontFamily`.
+    /// Sizes and typefaces match `DTypography.shared` and `DFontFamily`.
     private static func doglyadTheme(
         color: DColor,
         primaryText: Color,

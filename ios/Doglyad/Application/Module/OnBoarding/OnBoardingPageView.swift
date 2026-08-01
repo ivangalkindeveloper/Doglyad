@@ -67,7 +67,6 @@ struct OnBoardingPageView<BottomContent: View>: View {
             maxWidth: .infinity,
             maxHeight: .infinity
         )
-        .padding(.bottom, size.s48)
         .tag(tag)
     }
 }

@@ -45,8 +45,8 @@ extension InitializationProcess {
                 title: "Ultrasound examination contextual strings",
                 run: { (process: InitializationProcess) async throws in
                     let url = await process.applicationConfig!.configUrl.appendingPathComponent("ultrasound_examination_contextual_strings.json")
-                    // Строки могут быть пустыми — это валидное состояние, поэтому
-                    // проверку на пустоту (в отличие от типов и моделей) не делаем.
+                    // Strings may be empty — that is a valid state, so unlike types and
+                    // models we do not check them for emptiness.
                     let usExaminationContextualStrings: USExaminationContextualStrings = try await process.httpClient!.get(url: url)
 
                     await MainActor.run {
@@ -58,8 +58,8 @@ extension InitializationProcess {
                 title: "Local ultrasound examination neural model",
                 run: { (process: InitializationProcess) in
                     let config = await process.applicationConfig!.ultrasound.examinationNeuralModel
-                    // Локаль нужна не только для промпта: по ней фабрика решает,
-                    // знает ли системная модель язык диктовки.
+                    // The locale is needed for more than the prompt: the factory uses it to
+                    // decide whether the system model knows the dictation language.
                     let locale = Locale.current
                     guard let prompt = config.getPrompt(for: locale) else {
                         throw InitializationError.examinationNeuralModelPromptEmpty

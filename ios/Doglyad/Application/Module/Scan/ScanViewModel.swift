@@ -202,8 +202,8 @@ final class ScanViewModel: DViewModel {
     ) {
         guard !isPhotoFilling else { return }
 
-        // Превью готовится вне main-потока, иначе полноразмерный кадр
-        // декодируется при первой отрисовке PhotoCard.
+        // The thumbnail is prepared off the main thread, otherwise the full-size
+        // frame gets decoded on the first PhotoCard render.
         Task {
             let photo = await USExaminationScanPhoto.make(image: image)
             guard !self.isPhotoFilling else { return }
