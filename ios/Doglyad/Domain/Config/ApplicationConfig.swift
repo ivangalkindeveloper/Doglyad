@@ -11,6 +11,7 @@ struct ApplicationConfig: Codable {
     let legalDate: Date
     let privacyPolicyUrl: URL
     let termsAndConditionsUrl: URL
+    let network: NetworkConfig
     let entitlements: [SubscriptionType: SubscriptionEntitlement]
     let ultrasound: UltrasoundConfig
 }
@@ -25,6 +26,7 @@ extension ApplicationConfig {
         case legalDate
         case privacyPolicyUrl
         case termsAndConditionsUrl
+        case network
         case entitlements
         case ultrasound
     }
@@ -39,6 +41,9 @@ extension ApplicationConfig {
         legalDate = try container.decodeIfPresent(Date.self, forKey: .legalDate) ?? .distantPast
         privacyPolicyUrl = try container.decode(URL.self, forKey: .privacyPolicyUrl)
         termsAndConditionsUrl = try container.decode(URL.self, forKey: .termsAndConditionsUrl)
+        // Optional so a config published before this field existed still decodes; the
+        // client then keeps its built-in timeouts instead of failing to start.
+        network = try container.decodeIfPresent(NetworkConfig.self, forKey: .network) ?? .default
         ultrasound = try container.decode(UltrasoundConfig.self, forKey: .ultrasound)
 
         let rawEntitlements = try container.decode(
@@ -62,6 +67,7 @@ extension ApplicationConfig {
         try container.encode(legalDate, forKey: .legalDate)
         try container.encode(privacyPolicyUrl, forKey: .privacyPolicyUrl)
         try container.encode(termsAndConditionsUrl, forKey: .termsAndConditionsUrl)
+        try container.encode(network, forKey: .network)
         try container.encode(ultrasound, forKey: .ultrasound)
 
         let rawEntitlements = Dictionary(

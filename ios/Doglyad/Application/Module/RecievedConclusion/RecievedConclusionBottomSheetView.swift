@@ -15,7 +15,7 @@ struct RecievedConclusionBottomSheetView: View {
             type: .blur,
             title: .conclusionTitle,
             fraction: 1,
-            content: { toolbarHeight, _ in
+            content: { toolbarHeight, bottomHeight in
                 VStack(
                     spacing: .zero
                 ) {
@@ -24,10 +24,9 @@ struct RecievedConclusionBottomSheetView: View {
                             content: viewModel.displayedResponse,
                             textColor: color.grayscaleBackgroundWeak
                         )
-                        .padding(.top, toolbarHeight + size.s4)
-                        .padding(.vertical, size.s8)
-                        .padding(.horizontal, size.s18)
-                        .padding(.bottom, size.s136 * 2)
+                        .padding(.top, toolbarHeight)
+                        .padding(size.s16)
+                        .padding(.bottom, bottomHeight)
                     }
                     .mask(
                         VStack(

@@ -5,7 +5,10 @@ public final class DHttpClient: DHttpClientProtocol {
     public let baseUrl: String
     public let baseVersionPrefix: String
 
-    private let session: Session
+    /// Rebuilt by `updateConfiguration`, hence a `var`.
+    private var session: Session
+    /// Kept so the session can be rebuilt with the same interceptor.
+    private let interceptor: DHttpInterceptorProtocol?
 
     private let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
@@ -30,11 +33,39 @@ public final class DHttpClient: DHttpClientProtocol {
     ) {
         self.baseUrl = baseUrl
         self.baseVersionPrefix = baseVersionPrefix
+        self.interceptor = interceptor
 
+        // Placeholders until the remote config arrives; see NetworkConfig.default.
+        session = Self.makeSession(
+            interceptor: interceptor,
+            timeoutIntervalForRequest: 300,
+            timeoutIntervalForResource: 300
+        )
+    }
+
+    public func updateConfiguration(
+        timeoutIntervalForRequest: TimeInterval,
+        timeoutIntervalForResource: TimeInterval
+    ) {
+        // URLSession copies its configuration when created, so mutating the old one is a
+        // no-op — the session has to be replaced for new timeouts to take effect. Safe
+        // during initialization: nothing is in flight yet.
+        session = Self.makeSession(
+            interceptor: interceptor,
+            timeoutIntervalForRequest: timeoutIntervalForRequest,
+            timeoutIntervalForResource: timeoutIntervalForResource
+        )
+    }
+
+    private static func makeSession(
+        interceptor: DHttpInterceptorProtocol?,
+        timeoutIntervalForRequest: TimeInterval,
+        timeoutIntervalForResource: TimeInterval
+    ) -> Session {
         let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 300
-        configuration.timeoutIntervalForResource = 300
-        session = Session(
+        configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
+        configuration.timeoutIntervalForResource = timeoutIntervalForResource
+        return Session(
             configuration: configuration,
             interceptor: interceptor.map(DHttpInterceptorAdapter.init)
         )

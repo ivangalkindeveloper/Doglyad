@@ -1,4 +1,7 @@
 {
+    // Каждая конфигурация сначала прогоняет задачу из tasks.json, которая склеивает
+    // secrets/.env с профильным файлом в secrets/.env.debug — тот же набор переменных,
+    // что compose передаёт через env_file в `make start-backend-*`.
     "version": "0.2.0",
     "configurations": [
         {
@@ -12,7 +15,8 @@
                 "--port", "8000"
             ],
             "cwd": "${workspaceFolder}/backend",
-            "envFile": "${workspaceFolder}/backend/secrets/.env.development.stub"
+            "preLaunchTask": "env: development.stub",
+            "envFile": "${workspaceFolder}/backend/secrets/.env.debug"
         },
         {
             "name": "Backend: Development Inference",
@@ -25,7 +29,8 @@
                 "--port", "8000"
             ],
             "cwd": "${workspaceFolder}/backend",
-            "envFile": "${workspaceFolder}/backend/secrets/.env.development.inference"
+            "preLaunchTask": "env: development.inference",
+            "envFile": "${workspaceFolder}/backend/secrets/.env.debug"
         },
         {
             "name": "Backend: Production",
@@ -38,7 +43,8 @@
                 "--port", "8000"
             ],
             "cwd": "${workspaceFolder}/backend",
-            "envFile": "${workspaceFolder}/backend/secrets/.env.production"
+            "preLaunchTask": "env: production",
+            "envFile": "${workspaceFolder}/backend/secrets/.env.debug"
         }
     ]
 }

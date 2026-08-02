@@ -12,13 +12,15 @@
 | `backend/app/main.py` | FastAPI-приложение, lifespan (загрузка конфигов, создание `httpx.AsyncClient`, инициализация сервисов), роутер `/v1`, rate limiter |
 | `backend/app/route/ultrasound_conclusion.py` | Эндпоинт `POST /v1/ultrasound_conclusion` — принимает данные исследования, вызывает `ModelService`, возвращает заключение |
 | `backend/app/route/ultrasound_conclusion_send_email.py` | Эндпоинт `POST /v1/ultrasound_conclusion_send_email` — отправка заключения на email через SMTP (`smtplib`) |
-| `backend/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `LLM_MODE`, `EMAIL_*`, `RUNPOD_API_KEY`, `RUNPOD_URLS`, читаются в т.ч. из `backend/secrets/.env` |
+| `backend/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `LLM_MODE`, `EMAIL_*`, `RUNPOD_API_KEY`, `RUNPOD_ENDPOINTS_PATH`, читаются в т.ч. из `backend/secrets/.env` |
 | `backend/app/core/config.py` | Загрузка конфигов нейромоделей и типов исследований из JSON (`backend/config/<environment>/`), резолверы моделей и заголовков |
 | `backend/app/core/llm_mode.py` | Режимы работы LLM — `stub` (заглушка) и `inference` (реальный инференс; провайдер — RunPod) |
 | `backend/app/service/` | Абстракция инференса — `ModelService` (`base.py`) и `RunPodService` (`runpod.py`); `init_services`/`resolve_model_service` в `__init__.py` |
 | `backend/app/model/` | Pydantic-модели — `neural_model_settings.py`, `runpod_response.py`, подпакет `ultrasound/` (request/data/conclusion/email/scan_photo/type/neural_model) |
 | `backend/app/prompt/` | Генерация промптов — `base.py` (`PromptFactory`), локализации `ru.py`/`en.py`, `resolve_prompt_factory` в `__init__.py` |
 | `backend/config/` | JSON-конфиги по окружениям (`development/`, `production/`): `application.json`, `ultrasound_examination_neural_models.json`, `ultrasound_examination_types.json` |
+| `backend/config/runpod_endpoints.json` | Желаемое состояние serverless-эндпоинтов RunPod (образ, `env` для vLLM, GPU, скейлинг). Общий для окружений — имена эндпоинтов не привязаны к окружению. Разбор каждой настройки — в [`RUNPOD.md`](RUNPOD.md) |
+| `backend/scripts/runpod_sync.py` | Синхронизация эндпоинтов RunPod с конфигом: `plan`/`apply`/`urls`/`destroy` (`make runpod-*`). Печатает карту `modelId -> url` для `backend/secrets/runpod_endpoint.json` |
 | `backend/docker-compose.yml` | Docker Compose — читает `backend/secrets/.env` + профильный `secrets/.env.<профиль>` (выбор через `ENV_FILE`), монтирует `./config` |
 
 ### `ios/` — iOS-приложение
@@ -30,7 +32,7 @@
 | `ios/Doglyad/Core/DependencyContainer.swift` | DI-контейнер — хранит все зависимости приложения (репозитории, менеджеры, конфиги, нейромодель, начальный экран/статус подписки) |
 | `ios/Doglyad/Core/Initialization/` | Процесс инициализации через `DependencyInitializer` (пакет). `InitializationProcess` наполняется набором `StepSet` — `stepsTier1…stepsTier5` (`Steps/InitializationStepsTier*.swift`), каждый со `sync`/`async`-шагами; в конце `toContainer` собирает `DependencyContainer` |
 | `ios/Doglyad/Core/Environment/` | `EnvironmentProtocol`, `EnvironmentType` — конфигурация окружения (dev/prod) |
-| `ios/Doglyad/Domain/` | Доменные модели: `Ultrasound/` (`USExaminationType`, `USExaminationNeuralModel`, `USExaminationRequest`, `USExaminationConclusion`, `USExaminationEmail` и др.), `Config/` (`ApplicationConfig`, `UltrasoundConfig`, `Version`), `Subscription/` (`SubscriptionConfig`), `NeuralModelSettings`, `PatientGender` |
+| `ios/Doglyad/Domain/` | Доменные модели: `Ultrasound/` (`USExaminationType`, `USExaminationNeuralModel`, `USExaminationRequest`, `USExaminationConclusion`, `USExaminationEmail` и др.), `Config/` (`ApplicationConfig`, `NetworkConfig`, `UltrasoundConfig`, `Version`), `Subscription/` (`SubscriptionConfig`), `NeuralModelSettings`, `PatientGender` |
 | `ios/Doglyad/Repository/` | Репозитории (протокол + реализация): `Conclusion`, `Model`, `Shared`, `Subscription` (`RevenueCatSubscriptionRepository`), `Template`, `UserSettings` |
 | `ios/Doglyad/Utility/` | Расширения (`Extension/`), модификаторы (`Modifier/`), менеджеры (`Manager/` — `PermissionManager`, `ConnectionManager`) |
 | `ios/Doglyad/Resources/Localizable.xcstrings` | Локализация |

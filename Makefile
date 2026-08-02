@@ -11,10 +11,17 @@
 	start-backend-production \
 	start-logs \
 	stop-backend \
-	download-examination
+	runpod-plan \
+	runpod-apply \
+	runpod-urls \
+	runpod-destroy \
+	download-ios-examination-model
 .SILENT:
 
 IOS_DEST ?= platform=iOS Simulator,name=iPhone 17
+
+# Prefer the project venv so `make format` works without activating it first.
+RUFF ?= $(shell if [ -x "$(CURDIR)/.venv311/bin/ruff" ]; then echo "$(CURDIR)/.venv311/bin/ruff"; else echo ruff; fi)
 
 venv:
 	python3.11 -m venv .venv311
@@ -28,7 +35,7 @@ pip-install-dev:
 
 format:
 	cd ios && swiftformat .
-	cd backend && ruff format app tests
+	cd backend && "$(RUFF)" format app tests
 
 init-ios-development:
 	@set -e; \
@@ -57,12 +64,20 @@ start-backend-development-inference:
 start-backend-production:
 	ENV_FILE=secrets/.env.production \
 	docker compose -f backend/docker-compose.yml up --build -d
-
-start-logs:
+start-backend-logs:
 	docker compose -f backend/docker-compose.yml logs -f
-
 stop-backend:
 	docker compose -f backend/docker-compose.yml down
 
-download-examination:
+# Управление serverless-эндпоинтами RunPod из backend/config/runpod_endpoints.json.
+runpod-plan:
+	cd backend && python3 scripts/runpod_sync.py plan
+runpod-apply:
+	cd backend && python3 scripts/runpod_sync.py apply
+runpod-urls:
+	cd backend && python3 scripts/runpod_sync.py urls
+runpod-destroy:
+	cd backend && python3 scripts/runpod_sync.py destroy
+
+download-ios-examination-model:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit

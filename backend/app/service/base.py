@@ -1,14 +1,12 @@
 from __future__ import annotations
 
 import json
-import logging
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 from app.model.neural_model_settings import NeuralModelSettings
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
 from app.model.ultrasound.us_examination_scan_photo import USExaminationScanPhoto
-
-logger = logging.getLogger(__name__)
 
 
 class ModelService(ABC):
@@ -23,16 +21,15 @@ class ModelService(ABC):
     ) -> str: ...
 
     @staticmethod
-    def _load_urls(raw: str | None) -> dict[str, str]:
-        if raw is None or not raw.strip():
-            return {}
-        text = raw.strip().removeprefix("\ufeff")
+    def _load_urls(path: Path) -> dict[str, str]:
+        # Written by scripts/runpod_sync.py: a JSON object of modelId -> endpoint URL.
+        if not path.exists():
+            raise RuntimeError(f"Model URLs file not found: {path}")
         try:
-            data = json.loads(text)
-        except json.JSONDecodeError as error:
-            logger.error("Failed to parse model URLs as JSON: %s", error)
-            return {}
+            with open(path, encoding="utf-8-sig") as file:
+                data = json.load(file)
+        except (OSError, json.JSONDecodeError) as error:
+            raise RuntimeError(f"Failed to read model URLs from {path}: {error}") from error
         if not isinstance(data, dict):
-            logger.error("Model URLs must be a JSON object of modelId -> url")
-            return {}
+            raise RuntimeError(f"Model URLs file {path} must contain a JSON object of modelId -> url")
         return {str(k): str(v) for k, v in data.items() if isinstance(v, str) and v.strip()}

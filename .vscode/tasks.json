@@ -1,0 +1,49 @@
+{
+    // Собирает окружение для отладочных запусков так же, как это делает docker-compose:
+    // общий secrets/.env плюс профильный файл поверх него (последнее определение ключа
+    // побеждает). `awk 1` вместо `cat` — он дописывает недостающие переводы строк, иначе
+    // последняя строка одного файла склеится с первой строкой следующего.
+    // Результат secrets/.env.running перезаписывается перед каждым запуском и лежит в .gitignore.
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "env: development.stub",
+            "type": "shell",
+            "command": "awk 1 secrets/.env secrets/.env.development.stub > secrets/.env.running",
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "env: development.inference",
+            "type": "shell",
+            "command": "awk 1 secrets/.env secrets/.env.development.inference > secrets/.env.running",
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "env: production",
+            "type": "shell",
+            "command": "awk 1 secrets/.env secrets/.env.production > secrets/.env.running",
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -160,6 +160,7 @@ extension DependencyContainer {
                 legalDate: .distantPast,
                 privacyPolicyUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy")!,
                 termsAndConditionsUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions")!,
+                network: .default,
                 entitlements: [
                     .base: SubscriptionEntitlement(
                         requestCountPerDay: 10,

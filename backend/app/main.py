@@ -23,16 +23,18 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
+    http_client = httpx.AsyncClient(timeout=120)
+    _app.state.http_client = http_client
+
     try:
         load_configs()
         init_app_check()
+        init_services(http_client)
     except RuntimeError as error:
         logger.critical("Application startup aborted: %s", error)
+        await http_client.aclose()
         raise
 
-    http_client = httpx.AsyncClient(timeout=120)
-    _app.state.http_client = http_client
-    init_services(http_client)
     try:
         yield
     finally:

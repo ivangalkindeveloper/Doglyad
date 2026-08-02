@@ -20,7 +20,9 @@ class RunPodService(ModelService):
     def __init__(self, http_client: httpx.AsyncClient) -> None:
         self._http_client = http_client
         self._api_key = variables.runpod_api_key
-        self._urls = self._load_urls(variables.runpod_urls)
+        if not variables.runpod_endpoints_path:
+            raise RuntimeError("RUNPOD_ENDPOINTS_PATH is not set")
+        self._urls = self._load_urls(variables.runpod_endpoints_path)
 
     async def call(
         self,

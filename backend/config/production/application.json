@@ -12,6 +12,10 @@
     "legalDate": "2026-08-01T00:00:00Z",
     "privacyPolicyUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy",
     "termsAndConditionsUrl": "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions",
+    "network": {
+        "timeoutIntervalForRequest": 300,
+        "timeoutIntervalForResource": 300
+    },
     "entitlements": {
         "base": {
             "requestCountPerDay": 10,
