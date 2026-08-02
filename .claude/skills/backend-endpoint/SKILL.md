@@ -8,9 +8,9 @@ description: Добавление нового HTTP-эндпоинта в бэк
 Создаёт эндпоинт по принятым в проекте конвенциям и **полностью** подключает его к приложению. Бэкенд: Python 3.11, FastAPI, Pydantic, общий `httpx.AsyncClient`, slowapi-лимитер.
 
 Каталоги:
-- роуты — `backend/app/route/<name>.py`
-- модели — `backend/app/model/` (общие) или `backend/app/model/ultrasound/` (доменные УЗИ)
-- сборка приложения — `backend/app/main.py`
+- роуты — `backend/main/app/route/<name>.py`
+- модели — `backend/main/app/model/` (общие) или `backend/main/app/model/ultrasound/` (доменные УЗИ)
+- сборка приложения — `backend/main/app/main.py`
 
 Перед генерацией **прочитай эталон** `app/route/ultrasound_conclusion.py` (с инференсом/сервисами) или `app/route/ultrasound_conclusion_send_email.py` (без тела ответа) — шаблоны ниже лишь каркас.
 
@@ -27,13 +27,13 @@ description: Добавление нового HTTP-эндпоинта в бэк
 - **Именование**: snake_case для функций/переменных, CamelCase для классов и Pydantic-моделей.
 - **camelCase в полях Pydantic-моделей** — это контракт с iOS, не нарушать (`neuralModelSettings`, `recipientEmail`, `modelId`). Не добавляй `alias`/`Field` для перевода в snake_case.
 - Асинхронность: `async def` для обработчиков; внешние HTTP — через общий `httpx.AsyncClient` (`request.app.state.http_client`), а не новый клиент на запрос. Блокирующий I/O (SMTP, CPU) — через `asyncio.to_thread`.
-- Конфигурация/секреты — только через `variables` из `app/core/variables.py` (значения из `backend/secrets/.env`). Не хардкодить и не трогать `backend/secrets/`.
+- Конфигурация/секреты — только через `variables` из `app/core/variables.py` (значения из `backend/main/secrets/.env`). Не хардкодить и не трогать `backend/main/secrets/`.
 - Ошибки — `raise HTTPException(status_code=..., detail=...)`; логирование через модульный `logger`.
 - Rate limit — декоратор `@limiter.limit("30/minute")` (нужен параметр `request: Request` в сигнатуре).
 
 ## Шаблон роута
 
-`backend/app/route/<name>.py`:
+`backend/main/app/route/<name>.py`:
 ```python
 from __future__ import annotations
 
@@ -79,7 +79,7 @@ async def <name>(body: <Name>Request, request: Request) -> None:
 
 ## Шаблон Pydantic-моделей
 
-`backend/app/model/<name>_request.py` (доменные УЗИ-модели — в `app/model/ultrasound/`, префикс `US`):
+`backend/main/app/model/<name>_request.py` (доменные УЗИ-модели — в `app/model/ultrasound/`, префикс `US`):
 ```python
 from __future__ import annotations
 
@@ -91,7 +91,7 @@ class <Name>Request(BaseModel):
     optionalField: str | None = None
 ```
 
-`backend/app/model/<name>_response.py`:
+`backend/main/app/model/<name>_response.py`:
 ```python
 from __future__ import annotations
 
@@ -106,7 +106,7 @@ class <Name>Response(BaseModel):
 
 ## Регистрация в приложении (обязательно)
 
-В `backend/app/main.py`:
+В `backend/main/app/main.py`:
 
 1. Импорт роутера рядом с существующими:
 ```python

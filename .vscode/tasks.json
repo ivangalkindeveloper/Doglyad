@@ -11,7 +11,7 @@
             "type": "shell",
             "command": "awk 1 secrets/.env secrets/.env.development.stub > secrets/.env.running",
             "options": {
-                "cwd": "${workspaceFolder}/backend"
+                "cwd": "${workspaceFolder}/backend/main"
             },
             "presentation": {
                 "reveal": "silent",
@@ -24,7 +24,7 @@
             "type": "shell",
             "command": "awk 1 secrets/.env secrets/.env.development.inference > secrets/.env.running",
             "options": {
-                "cwd": "${workspaceFolder}/backend"
+                "cwd": "${workspaceFolder}/backend/main"
             },
             "presentation": {
                 "reveal": "silent",
@@ -37,7 +37,7 @@
             "type": "shell",
             "command": "awk 1 secrets/.env secrets/.env.production > secrets/.env.running",
             "options": {
-                "cwd": "${workspaceFolder}/backend"
+                "cwd": "${workspaceFolder}/backend/main"
             },
             "presentation": {
                 "reveal": "silent",

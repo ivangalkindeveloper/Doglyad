@@ -155,7 +155,7 @@ extension DependencyContainer {
                     patch: 0
                 ),
                 contactEmail: "doglyadapp@gmail.com",
-                configUrl: URL(string: "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/backend/config/development")!,
+                configUrl: URL(string: "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/backend/main/config/development")!,
                 appleUpdateUrl: URL(string: "https://apps.apple.com/app/id")!,
                 legalDate: .distantPast,
                 privacyPolicyUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy")!,

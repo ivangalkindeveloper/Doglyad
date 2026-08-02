@@ -2,26 +2,59 @@
 Проект представляет собой AI-ассистента, который анализирует ультразвуковые снимки вместе с описанием анамнеза пациентов и генерирует медицинское заключение.
 
 ## Архитектура
-- **Бэкенд** — Python, FastAPI, Docker. LLM-инференс через RunPod (serverless endpoints); режим `stub` для заглушки. Отправка заключений на email через SMTP.
+Бэкенд разделён на два разворачиваемых по отдельности сервиса: `backend/main` и `backend/gpu`.
+
+- **Главный бэкенд** (`backend/main/`) — Python, FastAPI, Docker. Живёт на **не-GPU-виртуалке** и сам инференс не делает: собирает промпт, выбирает модель и маршрутизирует запрос. Режим `stub` для заглушки. Отправка заключений на email через SMTP.
+- **GPU-сервис** (`backend/gpu/`) — Python, FastAPI, Docker. Разворачивается **на GPU-виртуалке** (одна виртуалка на модель) рядом с локальным vLLM и самой моделью. Проверяет App Check и генерирует заключение.
+- **RunPod** — резервный путь инференса. Бэкенд идёт в serverless-эндпоинт, только если запрос к GPU-виртуалке упал.
 - **iOS-приложение** — SwiftUI, MVVM, SwiftData, Alamofire, MLX (on-device инференс), Firebase, RevenueCat (подписки).
 
+Путь одного запроса на генерацию заключения:
+
+```
+iOS ──► backend/main (не-GPU) ──► backend/gpu + vllm (GPU-виртуалка модели)
+                   │
+                   └── если упало ──► RunPod serverless
+```
+
+App Check проверяется **только на GPU-сервисе** — на машине, которая реально держит модель. `backend/main` токен не проверяет: он забирает заголовок `X-Firebase-AppCheck` из входящего запроса и без изменений перекладывает его в исходящий. Ответы 401/403 от GPU-сервиса в RunPod **не** переотправляются: запрос, не прошедший проверку, не должен получить заключение обходным путём.
+
+Следствие: у `backend/main` нет `firebase-admin` и модуля App Check вообще, а эндпоинты `/v1` он отдаёт без собственной авторизации.
+
+Модель, для которой в `backend/main/secrets/gpu_endpoint.json` нет записи, обслуживается RunPod. Так модели переезжают по одной: подняли виртуалку — добавили строку в карту.
+
 ## Навигация по коду
-### `backend/` — Бэкенд
+### `backend/main/` — Главный бэкенд
 | Путь | Описание |
 |---|---|
-| `backend/app/main.py` | FastAPI-приложение, lifespan (загрузка конфигов, создание `httpx.AsyncClient`, инициализация сервисов), роутер `/v1`, rate limiter |
-| `backend/app/route/ultrasound_conclusion.py` | Эндпоинт `POST /v1/ultrasound_conclusion` — принимает данные исследования, вызывает `ModelService`, возвращает заключение |
-| `backend/app/route/ultrasound_conclusion_send_email.py` | Эндпоинт `POST /v1/ultrasound_conclusion_send_email` — отправка заключения на email через SMTP (`smtplib`) |
-| `backend/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `LLM_MODE`, `EMAIL_*`, `RUNPOD_API_KEY`, `RUNPOD_ENDPOINTS_PATH`, читаются в т.ч. из `backend/secrets/.env` |
-| `backend/app/core/config.py` | Загрузка конфигов нейромоделей и типов исследований из JSON (`backend/config/<environment>/`), резолверы моделей и заголовков |
-| `backend/app/core/llm_mode.py` | Режимы работы LLM — `stub` (заглушка) и `inference` (реальный инференс; провайдер — RunPod) |
-| `backend/app/service/` | Абстракция инференса — `ModelService` (`base.py`) и `RunPodService` (`runpod.py`); `init_services`/`resolve_model_service` в `__init__.py` |
-| `backend/app/model/` | Pydantic-модели — `neural_model_settings.py`, `runpod_response.py`, подпакет `ultrasound/` (request/data/conclusion/email/scan_photo/type/neural_model) |
-| `backend/app/prompt/` | Генерация промптов — `base.py` (`PromptFactory`), локализации `ru.py`/`en.py`, `resolve_prompt_factory` в `__init__.py` |
-| `backend/config/` | JSON-конфиги по окружениям (`development/`, `production/`): `application.json`, `ultrasound_examination_neural_models.json`, `ultrasound_examination_types.json` |
-| `backend/config/runpod_endpoints.json` | Желаемое состояние serverless-эндпоинтов RunPod (образ, `env` для vLLM, GPU, скейлинг). Общий для окружений — имена эндпоинтов не привязаны к окружению. Разбор каждой настройки — в [`RUNPOD.md`](RUNPOD.md) |
-| `backend/scripts/runpod_sync.py` | Синхронизация эндпоинтов RunPod с конфигом: `plan`/`apply`/`urls`/`destroy` (`make runpod-*`). Печатает карту `modelId -> url` для `backend/secrets/runpod_endpoint.json` |
-| `backend/docker-compose.yml` | Docker Compose — читает `backend/secrets/.env` + профильный `secrets/.env.<профиль>` (выбор через `ENV_FILE`), монтирует `./config` |
+| `backend/main/app/main.py` | FastAPI-приложение, lifespan (загрузка конфигов, создание `httpx.AsyncClient`, инициализация сервисов), роутер `/v1`, rate limiter |
+| `backend/main/app/route/ultrasound_conclusion.py` | Эндпоинт `POST /v1/ultrasound_conclusion` — принимает данные исследования, вызывает `ModelService`, пробрасывает в него токен App Check, возвращает заключение |
+| `backend/main/app/route/ultrasound_conclusion_send_email.py` | Эндпоинт `POST /v1/ultrasound_conclusion_send_email` — отправка заключения на email через SMTP (`smtplib`) |
+| `backend/main/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `LLM_MODE`, `EMAIL_*`, `GPU_ENDPOINTS_PATH`, `RUNPOD_API_KEY`, `RUNPOD_ENDPOINTS_PATH`, таймауты, читаются в т.ч. из `backend/main/secrets/.env` |
+| `backend/main/app/core/config.py` | Загрузка конфигов нейромоделей и типов исследований из JSON (`backend/main/config/<environment>/`), резолверы моделей и заголовков |
+| `backend/main/app/core/llm_mode.py` | Режимы работы LLM — `stub` (заглушка) и `inference` (реальный инференс: GPU-виртуалки, за ними резервный RunPod). Что означает режим, знает только `ServiceFactory` |
+| `backend/main/app/service/` | Слой инференса. Контракт `ModelService`, запрос `InferenceRequest` и константа `APP_CHECK_HEADER` (`base.py`) — по ней роут достаёт токен для проброса на GPU-виртуалку; реализации: `StubModelService` (`stub.py`), основной `GpuService` (`gpu.py`), резервный `RunPodService` (`runpod.py`), композиция `FallbackModelService` (`fallback.py`). `ServiceFactory` (`factory.py`) — **единственное место, где есть ветвление по `LLMMode`**: создаётся в lifespan и кладётся в `app.state.service_factory`, роут просто просит нужный сервис и вызывает его |
+| `backend/main/app/model/` | Pydantic-модели — `neural_model_settings.py`, `gpu_response.py`, `runpod_response.py`, подпакет `ultrasound/` (request/data/conclusion/email/scan_photo/type/neural_model) |
+| `backend/main/secrets/gpu_endpoint.json` | Карта `modelId -> URL` GPU-виртуалок (путь в `GPU_ENDPOINTS_PATH`). Ведётся вручную: по одной записи на виртуалку. В git не хранится |
+| `backend/main/app/prompt/` | Генерация промптов — `base.py` (`PromptFactory`), локализации `ru.py`/`en.py`, `resolve_prompt_factory` в `__init__.py` |
+| `backend/main/config/` | JSON-конфиги по окружениям (`development/`, `production/`): `application.json`, `ultrasound_examination_neural_models.json`, `ultrasound_examination_types.json` |
+| `backend/main/config/runpod_endpoints.json` | Желаемое состояние **резервных** serverless-эндпоинтов RunPod (образ, `env` для vLLM, GPU, скейлинг). Общий для окружений — имена эндпоинтов не привязаны к окружению. Разбор каждой настройки — в [`RUNPOD.md`](backend/main/RUNPOD.md) |
+| `backend/main/scripts/runpod_sync.py` | Синхронизация эндпоинтов RunPod с конфигом: `plan`/`apply`/`urls`/`destroy` (`make runpod-*`). Печатает карту `modelId -> url` для `backend/main/secrets/runpod_endpoint.json` |
+| `backend/main/docker-compose.yml` | Docker Compose — читает `backend/main/secrets/.env` + профильный `secrets/.env.<профиль>` (выбор через `ENV_FILE`), монтирует `./config` |
+
+### `backend/gpu/` — GPU-сервис
+Разворачивается на GPU-виртуалке, по одной виртуалке на модель. Полное описание и инструкция по развёртыванию — в [`backend/gpu/README.md`](backend/gpu/README.md).
+
+| Путь | Описание |
+|---|---|
+| `backend/gpu/app/main.py` | FastAPI-приложение, lifespan (`httpx.AsyncClient`, App Check, сервис vLLM), роутер `/v1` под App Check и `/health` вне его |
+| `backend/gpu/app/route/conclusion_generation.py` | Эндпоинт `POST /v1/conclusion_generation` — принимает готовые промпты и снимки, возвращает текст заключения |
+| `backend/gpu/app/route/health.py` | Эндпоинт `GET /health` — готов ли локальный vLLM (`503`, пока грузятся веса). Намеренно без App Check |
+| `backend/gpu/app/service/vllm.py` | `VLLMService` — запрос к локальному vLLM по OpenAI-совместимому `/v1/chat/completions`; сверяет `modelId` с `SERVED_MODEL_ID` |
+| `backend/gpu/app/core/app_check.py` | **Единственное место проверки App Check** во всей цепочке — на машине с моделью. `init_app_check` + зависимость `verify_app_check` на роутере `/v1` |
+| `backend/gpu/app/core/variables.py` | `ENVIRONMENT`, `APP_CHECK_ENABLED`, `FIREBASE_CREDENTIALS_PATH`, `SERVED_MODEL_ID`, `VLLM_*` |
+| `backend/gpu/docker-compose.yml` | Два контейнера: `vllm` (образ модели, GPU) и `gpu_backend` (сам сервис). Требует запуска с `--env-file secrets/.env` — см. `make start-gpu` |
+| `backend/gpu/.env.example` | Образец `backend/gpu/secrets/.env` с разбором настроек vLLM |
 
 ### `ios/` — iOS-приложение
 | Путь | Описание |
@@ -51,8 +84,10 @@
 - **Типизация**: `from __future__ import annotations`, аннотации типов везде.
 - **Именование**: snake_case для функций и переменных, CamelCase для классов и Pydantic-моделей. camelCase в Pydantic-полях (совместимость с iOS).
 - **Асинхронность**: `async/await` для обработчиков и HTTP-запросов (общий `httpx.AsyncClient` из `app.state`, создаётся в lifespan).
-- **Конфигурация**: переменные окружения через `pydantic_settings` (`app/core/variables.py`), значения из `backend/secrets/.env`.
+- **Конфигурация**: переменные окружения через `pydantic_settings` (`app/core/variables.py`), значения из `backend/main/secrets/.env`.
 - **Зависимости**: `requirements.txt` с зафиксированными версиями.
+- **Логи инференса**: никогда не логировать тело запроса — в нём данные пациента и снимки. Логируются только статус, id модели, количество фото и длины строк.
+- **Ветвление по `LLMMode`** — только в `ServiceFactory` (`app/service/factory.py`), через исчерпывающий `match` с `assert_never`. Роуты не решают, что означает режим: они получают `ModelService` из `app.state.service_factory` и вызывают его. Заглушка — такой же `ModelService`, как остальные, поэтому второго места с разбором режима не появляется.
 
 ### Swift (iOS)
 - **Инициализация**:
@@ -85,14 +120,18 @@ MVVM. Каждый MVVM-модуль содержит:
 - На клиенте для верстки использовать только SwiftUI и покмпоненты из дизайн-системы (`DoglyadUI`).
 - На клиенте для взаимодействия с сетевым сллоем использовать только ресурсы из модуля (`DoglyadNetwork`).
 - На клиенте для взаимодействия с базой данных использовать только ресурсы из модуля (`DoglyadDatabase`).
-- Не модифицировать файлы: `ios/DoglyadNeuralModel/Resources/`, `ios/Config/`, `ios/Firebase/`, `backend/secrets/`.
+- Не модифицировать файлы: `ios/DoglyadNeuralModel/Resources/`, `ios/Config/`, `ios/Firebase/`, `backend/main/secrets/`, `backend/gpu/secrets/`.
+- Бэкенд не делает инференс сам: он живёт на не-GPU-виртуалке. Любая работа с моделью — в `backend/gpu/`.
+- Промпты, локализация и шаблоны живут только в бэкенде. GPU-сервис получает готовый текст, чтобы резервный запрос в RunPod уходил с теми же входными данными.
 
 ## Команды
 Все команды описаны в `Makefile`. Основные:
-- `make venv` / `make pip-install` — окружение Python 3.11 и установка `backend/requirements.txt`.
+- `make venv` / `make pip-install` — окружение Python 3.11 и установка `backend/main/requirements.txt`.
 - `make format` — `swiftformat` для iOS и `ruff format` для бэкенда.
 - `make init-ios-development` — подставляет IP из `en0` в `BASE_URL` файла `ios/Config/Config.Development.xcconfig`.
 - `make build-ios-development` / `make build-ios-production` — сборка соответствующей схемы (`IOS_DEST` переопределяет симулятор).
 - `make download-examination` — загрузка MLX-модели (`mlx-community/Qwen2.5-1.5B-Instruct-4bit`) в `DoglyadNeuralModel/Resources/`.
-- `make start-backend-development-stub` / `make start-backend-development-inference` / `make start-backend-production` — запуск бэкенда в Docker; `ENVIRONMENT`/`LLM_MODE` берутся из соответствующего `backend/secrets/.env.<профиль>` (поверх общего `backend/secrets/.env`).
+- `make start-backend-development-stub` / `make start-backend-development-inference` / `make start-backend-production` — запуск бэкенда в Docker; `ENVIRONMENT`/`LLM_MODE` берутся из соответствующего `backend/main/secrets/.env.<профиль>` (поверх общего `backend/main/secrets/.env`).
 - `make start-logs` / `make stop-backend` — логи и остановка бэкенда.
+- `make start-gpu` / `make start-gpu-logs` / `make stop-gpu` — GPU-сервис. Запускается **на GPU-виртуалке**, а не на машине разработчика: поднимает vLLM с моделью из `SERVED_MODEL_ID` и сервис `backend/gpu` рядом с ней.
+- `make runpod-plan` / `make runpod-apply` / `make runpod-urls` / `make runpod-destroy` — управление резервными эндпоинтами RunPod.

@@ -1,7 +1,7 @@
 import Foundation
 
 final class EnvironmentBase: EnvironmentProtocol {
-    static let contentUrl: String = "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/backend/config/"
+    static let contentUrl: String = "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/backend/main/config/"
 
     let type: EnvironmentType
     let baseUrl: URL

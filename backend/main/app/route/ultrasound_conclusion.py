@@ -1,0 +1,80 @@
+from __future__ import annotations
+
+import logging
+from datetime import UTC, datetime
+
+from fastapi import APIRouter, Request
+
+from app.core.config import (
+    resolve_examination_title,
+    resolve_neural_model,
+)
+from app.core.limiter import limiter
+from app.core.variables import variables
+from app.model.ultrasound.us_examination_model_conclusion import USExaminationModelConclusion
+from app.model.ultrasound.us_examination_request import USExaminationRequest
+from app.prompt import resolve_prompt_factory
+from app.service import APP_CHECK_HEADER, InferenceRequest, ServiceFactory
+
+logger = logging.getLogger(__name__)
+
+router = APIRouter()
+
+
+@router.post("/ultrasound_conclusion", response_model=USExaminationModelConclusion)
+@limiter.limit("30/minute")
+async def ultrasound_conclusion(
+    body: USExaminationRequest,
+    request: Request,
+) -> USExaminationModelConclusion:
+    accept_language = request.headers.get("accept-language", "en")
+    language_code = accept_language.split("_")[0].strip()
+    prompt_factory = resolve_prompt_factory(language_code)
+
+    settings = body.neuralModelSettings
+    examination = body.examinationData
+
+    neural_model = resolve_neural_model(settings.selectedNeuralModelId)
+    examination_title = resolve_examination_title(
+        examination.usExaminationTypeId,
+        language_code,
+    )
+
+    logger.info(
+        "Request: model=%s, lang=%s, exam=%s, photos=%d, mode=%s",
+        neural_model.id,
+        language_code,
+        examination_title,
+        len(examination.photos),
+        variables.llm_mode,
+    )
+
+    # What each LLM mode means is the factory's business — the route just asks for
+    # the configured service and calls it. Stub answers are a ModelService like
+    # any other, so there is no second place that branches on the mode.
+    service_factory: ServiceFactory = request.app.state.service_factory
+    model_service = service_factory.resolve(variables.llm_mode)
+    response_text = await model_service.call(
+        InferenceRequest(
+            neural_model=neural_model,
+            settings=settings,
+            language_code=language_code,
+            system_prompt=prompt_factory.system_prompt(settings),
+            prompt=prompt_factory.build_prompt(
+                settings,
+                examination,
+                examination_title,
+                body.template,
+            ),
+            photos=examination.photos,
+            # Relayed unchanged: this backend does not verify App Check, the GPU VM
+            # does — reaching it over the network is not on its own enough to use it.
+            app_check_token=request.headers.get(APP_CHECK_HEADER),
+        )
+    )
+
+    return USExaminationModelConclusion(
+        date=datetime.now(UTC),
+        modelId=neural_model.id,
+        response=response_text,
+    )

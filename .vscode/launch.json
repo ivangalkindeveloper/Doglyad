@@ -14,9 +14,9 @@
                 "--host", "0.0.0.0",
                 "--port", "8000"
             ],
-            "cwd": "${workspaceFolder}/backend",
+            "cwd": "${workspaceFolder}/backend/main",
             "preLaunchTask": "env: development.stub",
-            "envFile": "${workspaceFolder}/backend/secrets/.env.debug"
+            "envFile": "${workspaceFolder}/backend/main/secrets/.env.debug"
         },
         {
             "name": "Backend: Development Inference",
@@ -28,9 +28,9 @@
                 "--host", "0.0.0.0",
                 "--port", "8000"
             ],
-            "cwd": "${workspaceFolder}/backend",
+            "cwd": "${workspaceFolder}/backend/main",
             "preLaunchTask": "env: development.inference",
-            "envFile": "${workspaceFolder}/backend/secrets/.env.debug"
+            "envFile": "${workspaceFolder}/backend/main/secrets/.env.debug"
         },
         {
             "name": "Backend: Production",
@@ -42,9 +42,9 @@
                 "--host", "0.0.0.0",
                 "--port", "8000"
             ],
-            "cwd": "${workspaceFolder}/backend",
+            "cwd": "${workspaceFolder}/backend/main",
             "preLaunchTask": "env: production",
-            "envFile": "${workspaceFolder}/backend/secrets/.env.debug"
+            "envFile": "${workspaceFolder}/backend/main/secrets/.env.debug"
         }
     ]
 }
