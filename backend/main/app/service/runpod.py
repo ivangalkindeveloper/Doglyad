@@ -17,10 +17,13 @@ logger = logging.getLogger(__name__)
 class RunPodService(ModelService):
     """Fallback inference path: RunPod serverless endpoints.
 
-    No longer the primary route — inference runs on our own GPU VMs (`GpuService`)
+    No longer the primary route — inference runs on our own GPU VMs (`InferenceService`)
     and only falls through to here when the VM for the model is unavailable.
-    App Check is verified by the backend and by the GPU VM; RunPod is a third
-    party and receives no token.
+
+    RunPod is a third party: it receives no App Check token and verifies nothing.
+    Reaching this service therefore relies entirely on the caller having been
+    verified at the edge, since this path deliberately bypasses the GPU VM that
+    would otherwise verify them again.
     """
 
     def __init__(self, http_client: httpx.AsyncClient) -> None:

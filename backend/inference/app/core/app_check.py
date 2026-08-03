@@ -17,18 +17,15 @@ APP_CHECK_HEADER = "X-Firebase-AppCheck"
 def init_app_check() -> None:
     """Initializes the Firebase Admin SDK for verifying App Check tokens.
 
-    Called once at application startup. Does nothing when verification is
-    disabled (`APP_CHECK_ENABLED=false`). When verification is enabled but
-    `FIREBASE_CREDENTIALS_PATH` is unset, raises `RuntimeError` (startup aborts).
+    Called once at application startup. Verification cannot be switched off, so a
+    missing `FIREBASE_CREDENTIALS_PATH` raises `RuntimeError` and startup aborts —
+    the service must never come up in a state where it answers unverified callers.
     """
-    if not variables.app_check_enabled:
-        logger.warning("App Check verification is disabled")
-        return
     if firebase_admin._apps:
         logger.warning("Firebase Admin SDK is already initialized")
         return
     if not variables.firebase_credentials_path:
-        raise RuntimeError("App Check is enabled but FIREBASE_CREDENTIALS_PATH is not set")
+        raise RuntimeError("FIREBASE_CREDENTIALS_PATH is not set")
     credential = credentials.Certificate(str(variables.firebase_credentials_path))
     firebase_admin.initialize_app(credential)
 
@@ -43,8 +40,6 @@ async def verify_app_check(
     instance rather than from anyone who happens to know this VM's address.
     Raises 401 when the token is missing or fails verification.
     """
-    if not variables.app_check_enabled:
-        return
     if not x_firebase_app_check:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

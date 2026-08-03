@@ -1,12 +1,12 @@
-version: "3.9"
-
 services:
-  backend:
+  backend_main:
     build: .
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
-      - ./config:/app/config:ro
+      # Configs are baked into the image (see Dockerfile), so only secrets and logs
+      # come from the machine — which is what lets this file run on a VM that has
+      # no copy of the repository.
       - ./secrets:/app/secrets:ro
       - ./logs:/app/logs
     extra_hosts:
@@ -19,6 +19,9 @@ services:
       # They contain no patient data — only technical metadata.
       LOG_DIR: /app/logs
       LOG_RETENTION_DAYS: 365
+    # Comes back by itself after a crash and after the VM reboots — otherwise the
+    # backend stays down until someone notices and ssh-es in.
+    restart: unless-stopped
     logging:
       # Docker's own log stays a ring buffer and does not grow without bound.
       driver: json-file

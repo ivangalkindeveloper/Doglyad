@@ -18,8 +18,8 @@ description: Отправка изменений в git по конвенция�
 
 - **Форматирование перед коммитом**: `make format` прогоняет разом `swiftformat` для iOS и `ruff format` для бэкенда. Коммить уже отформатированный код.
 - **Не коммитить секреты и локальные конфиги** (см. AGENTS.md, «не модифицировать»):
-  - `backend/main/secrets/` (секреты главного бэкенда: `.env`, `.env.<профиль>`, `firebase_credentials.json`, `runpod_endpoint.json`, `gpu_endpoint.json`)
-  - `backend/gpu/secrets/` (секреты GPU-сервиса: `.env`, `firebase_credentials.json`)
+  - `backend/main/secrets/` (секреты главного бэкенда: `.env`, `.env.<профиль>`, `firebase_credentials.json`, `runpod_endpoint.json`, `inference_endpoints.json`)
+  - `backend/inference/secrets/` (секреты сервиса инференса: `.env`, `firebase_credentials.json`)
   - `ios/Config/` (`Config.Development.xcconfig`, `Config.Production.xcconfig` — `BASE_URL`, `REVENUECAT_API_KEY`)
   - `ios/Firebase/` (`Development/GoogleService-Info.plist`, `Production/GoogleService-Info.plist`)
   - `ios/DoglyadNeuralModel/Resources/` (веса MLX-модели)

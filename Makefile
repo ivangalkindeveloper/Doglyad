@@ -6,14 +6,14 @@
 	init-ios-development \
 	build-ios-development \
 	build-ios-production \
-	start-backend-development-stub \
-	start-backend-development-inference \
-	start-backend-production \
-	start-logs \
-	stop-backend \
-	start-gpu \
-	start-gpu-logs \
-	stop-gpu \
+	start-backend-main-development-stub \
+	start-backend-main-development-inference \
+	start-backend-main-production \
+	start-backend-main-logs \
+	stop-backend-main \
+	start-backend-inference \
+	start-backend-inference-logs \
+	stop-backend-inference \
 	runpod-plan \
 	runpod-apply \
 	runpod-urls \
@@ -39,50 +39,48 @@ pip-install-dev:
 format:
 	cd ios && swiftformat .
 	cd backend/main && "$(RUFF)" format app tests
-	cd backend/gpu && "$(RUFF)" format app tests
+	cd backend/inference && "$(RUFF)" format app tests
 
 init-ios-development:
 	@set -e; \
 	IP="$$(ipconfig getifaddr en0)"; \
 	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config/Config.Development.xcconfig; \
 	cat ios/Config/Config.Development.xcconfig
-
 build-ios-development:
 	cd ios && xcodebuild build \
 		-project Doglyad.xcodeproj \
 		-scheme Doglyad-Development \
 		-destination '$(IOS_DEST)'
-
 build-ios-production:
 	cd ios && xcodebuild build \
 		-project Doglyad.xcodeproj \
 		-scheme Doglyad-Production \
 		-destination '$(IOS_DEST)'
 
-start-backend-development-stub:
+start-backend-main-development-stub:
 	ENV_FILE=secrets/.env.development.stub \
 	docker compose -f backend/main/docker-compose.yml up --build -d
-start-backend-development-inference:
+start-backend-main-development-inference:
 	ENV_FILE=secrets/.env.development.inference \
 	docker compose -f backend/main/docker-compose.yml up --build -d
-start-backend-production:
+start-backend-main-production:
 	ENV_FILE=secrets/.env.production \
 	docker compose -f backend/main/docker-compose.yml up --build -d
-start-backend-logs:
+start-backend-main-logs:
 	docker compose -f backend/main/docker-compose.yml logs -f
-stop-backend:
+stop-backend-main:
 	docker compose -f backend/main/docker-compose.yml down
 
-# GPU-сервис. Запускается НА GPU-виртуалке, а не на машине разработчика:
-# поднимает vLLM с моделью из SERVED_MODEL_ID и сервис backend/gpu рядом с ней.
+# Сервис инференса. Запускается НА GPU-виртуалке, а не на машине разработчика:
+# поднимает vLLM с моделью из SERVED_MODEL_ID и сервис backend/inference рядом с ней.
 # --env-file обязателен: Compose подставляет ${VAR} в docker-compose.yml
 # только из своего env-файла, а не из секции env_file сервисов.
-start-gpu:
-	docker compose --env-file backend/gpu/secrets/.env -f backend/gpu/docker-compose.yml up --build -d
-start-gpu-logs:
-	docker compose --env-file backend/gpu/secrets/.env -f backend/gpu/docker-compose.yml logs -f
-stop-gpu:
-	docker compose --env-file backend/gpu/secrets/.env -f backend/gpu/docker-compose.yml down
+start-backend-inference:
+	docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml up --build -d
+start-backend-inference-logs:
+	docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml logs -f
+stop-backend-inference:
+	docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml down
 
 # Управление serverless-эндпоинтами RunPod из backend/main/config/runpod_endpoints.json.
 # RunPod теперь резерв: используется, только если GPU-виртуалка не ответила.

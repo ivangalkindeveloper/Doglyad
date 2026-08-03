@@ -11,7 +11,6 @@ from app.core.app_check import init_app_check, verify_app_check
 from app.core.logging import setup_logging
 from app.core.variables import variables
 from app.route.conclusion_generation import router as conclusion_generation_router
-from app.route.health import router as health_router
 from app.service import init_services
 
 setup_logging()
@@ -32,10 +31,9 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
         raise
 
     logger.info(
-        "GPU service started: model=%s, vllm=%s, app_check=%s",
+        "Inference service started: model=%s, vllm=%s",
         variables.served_model_id,
         variables.vllm_base_url,
-        variables.app_check_enabled,
     )
 
     try:
@@ -49,5 +47,3 @@ router_v1.include_router(conclusion_generation_router)
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(router_v1)
-# Health stays outside /v1 so it is reachable without an App Check token.
-app.include_router(health_router)

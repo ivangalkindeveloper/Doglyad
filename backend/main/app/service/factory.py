@@ -9,7 +9,7 @@ from app.core.llm_mode import LLMMode
 from app.core.variables import variables
 from app.service.base import ModelService
 from app.service.fallback import FallbackModelService
-from app.service.gpu import GpuService
+from app.service.inference import InferenceService
 from app.service.runpod import RunPodService
 from app.service.stub import StubModelService
 
@@ -49,11 +49,11 @@ class ServiceFactory:
     def _create_inference(http_client: httpx.AsyncClient) -> ModelService:
         """Our GPU VMs first, RunPod behind them.
 
-        A missing GPU configuration raises — it is the path every request takes.
+        A missing inference configuration raises — it is the path every request takes.
         A missing RunPod configuration only warns: without it a GPU failure
         surfaces to the client instead of being absorbed.
         """
-        primary = GpuService(http_client)
+        primary = InferenceService(http_client)
 
         fallback = ServiceFactory._create_fallback(http_client)
         if fallback is None:

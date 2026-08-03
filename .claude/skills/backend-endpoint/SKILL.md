@@ -129,5 +129,5 @@ router_v1.include_router(<name>_router)
 ## Финальные шаги
 
 1. Если эндпоинт меняет контракт — синхронизируй модели на стороне iOS (DTO/доменные модели, camelCase-поля).
-2. Прогон: подними бэкенд через `make start-backend-development-stub`, проверь эндпоинт (`/v1/<name>`), посмотри `make start-logs`.
+2. Прогон: подними бэкенд через `make start-backend-main-development-stub`, проверь эндпоинт (`/v1/<name>`), посмотри `make start-backend-main-logs`.
 3. Сообщи пользователю: созданные файлы, путь эндпоинта и точку регистрации в `main.py`.

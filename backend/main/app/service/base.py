@@ -9,11 +9,6 @@ from app.model.neural_model_settings import NeuralModelSettings
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
 from app.model.ultrasound.us_examination_scan_photo import USExaminationScanPhoto
 
-# This backend does not verify App Check — the GPU VM does, on the machine that
-# actually holds the model. Here the header name is only needed to read the
-# token off the incoming request and put it back on the outgoing one.
-APP_CHECK_HEADER = "X-Firebase-AppCheck"
-
 
 @dataclass(frozen=True)
 class InferenceRequest:
@@ -33,8 +28,9 @@ class InferenceRequest:
     system_prompt: str
     prompt: str
     photos: list[USExaminationScanPhoto] = field(default_factory=list)
-    # The caller's App Check token, relayed unchanged to the GPU VM, which is the
-    # only place it is verified. Services that call a third party ignore it.
+    # The caller's App Check token, already verified at the edge and relayed
+    # unchanged to the GPU VM, which verifies it again. Services that call a
+    # third party ignore it.
     app_check_token: str | None = None
 
 

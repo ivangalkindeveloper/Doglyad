@@ -1,0 +1,10 @@
+# The image is pushed to a registry, so nothing secret may end up inside it.
+# Secrets are mounted at run time instead; see docker-compose.yml.
+secrets/
+logs/
+
+tests/
+**/__pycache__
+.pytest_cache
+.mypy_cache
+.ruff_cache

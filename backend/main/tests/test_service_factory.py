@@ -14,7 +14,7 @@ from app.model.ultrasound.us_examination_neural_model import USExaminationNeural
 from app.prompt import resolve_prompt_factory
 from app.service import InferenceRequest, ServiceFactory
 from app.service.fallback import FallbackModelService
-from app.service.gpu import GpuService
+from app.service.inference import InferenceService
 from app.service.stub import StubModelService
 
 _MODEL = USExaminationNeuralModel(id="google/medgemma-4b-it", title="MedGemma 4B", description={"en": ""})
@@ -26,10 +26,10 @@ def http_client() -> httpx.AsyncClient:
 
 
 @pytest.fixture
-def gpu_endpoints(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    path = tmp_path / "gpu_endpoint.json"
+def inference_endpoints(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    path = tmp_path / "inference_endpoints.json"
     path.write_text(json.dumps({_MODEL.id: "http://10.0.0.11:8100/v1/conclusion_generation"}), encoding="utf-8")
-    monkeypatch.setattr(variables, "gpu_endpoints_path", path)
+    monkeypatch.setattr(variables, "inference_endpoints_path", path)
     return path
 
 
@@ -61,7 +61,7 @@ def test_stub_mode_needs_no_inference_configuration(
 ) -> None:
     # Nothing about the GPU VMs is touched in stub mode, so a developer can run
     # the backend without any inference credentials at all.
-    monkeypatch.setattr(variables, "gpu_endpoints_path", None)
+    monkeypatch.setattr(variables, "inference_endpoints_path", None)
 
     ServiceFactory(http_client, LLMMode.STUB)
 
@@ -79,35 +79,35 @@ def test_stub_service_answers_in_the_request_language(language_code: str) -> Non
     assert asyncio.run(StubModelService().call(request)) == resolve_prompt_factory(language_code).stub
 
 
-def test_gpu_is_primary_with_runpod_behind_it(
+def test_inference_service_is_primary_with_runpod_behind_it(
     http_client: httpx.AsyncClient,
-    gpu_endpoints: Path,
+    inference_endpoints: Path,
     runpod_endpoints: Path,
 ) -> None:
     service = ServiceFactory(http_client, LLMMode.INFERENCE).resolve(LLMMode.INFERENCE)
 
     assert isinstance(service, FallbackModelService)
-    assert isinstance(service._primary, GpuService)
+    assert isinstance(service._primary, InferenceService)
 
 
-def test_gpu_runs_alone_when_runpod_is_not_configured(
+def test_inference_service_runs_alone_when_runpod_is_not_configured(
     http_client: httpx.AsyncClient,
-    gpu_endpoints: Path,
+    inference_endpoints: Path,
     no_runpod: None,
 ) -> None:
     # Without a fallback a GPU failure has to surface, not be silently absorbed.
     service = ServiceFactory(http_client, LLMMode.INFERENCE).resolve(LLMMode.INFERENCE)
 
-    assert isinstance(service, GpuService)
+    assert isinstance(service, InferenceService)
 
 
-def test_startup_fails_without_gpu_configuration(
+def test_startup_fails_without_inference_configuration(
     http_client: httpx.AsyncClient,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     # The GPU path is the one every request takes, so a missing map aborts startup
     # rather than quietly routing all traffic to the paid fallback.
-    monkeypatch.setattr(variables, "gpu_endpoints_path", None)
+    monkeypatch.setattr(variables, "inference_endpoints_path", None)
 
     with pytest.raises(RuntimeError):
         ServiceFactory(http_client, LLMMode.INFERENCE)

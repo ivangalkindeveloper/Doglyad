@@ -5,6 +5,7 @@ from datetime import UTC, datetime
 
 from fastapi import APIRouter, Request
 
+from app.core.app_check import APP_CHECK_HEADER
 from app.core.config import (
     resolve_examination_title,
     resolve_neural_model,
@@ -14,7 +15,7 @@ from app.core.variables import variables
 from app.model.ultrasound.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.ultrasound.us_examination_request import USExaminationRequest
 from app.prompt import resolve_prompt_factory
-from app.service import APP_CHECK_HEADER, InferenceRequest, ServiceFactory
+from app.service import InferenceRequest, ServiceFactory
 
 logger = logging.getLogger(__name__)
 
@@ -67,8 +68,9 @@ async def ultrasound_conclusion(
                 body.template,
             ),
             photos=examination.photos,
-            # Relayed unchanged: this backend does not verify App Check, the GPU VM
-            # does — reaching it over the network is not on its own enough to use it.
+            # Verified by the router dependency; relayed unchanged so the GPU VM can
+            # verify it too — reaching it over the network is not on its own enough
+            # to use it.
             app_check_token=request.headers.get(APP_CHECK_HEADER),
         )
     )

@@ -15,7 +15,7 @@ description: Проверка изменений в проекте Doglyad пе�
 
 ## Бэкенд (Python / FastAPI)
 
-Бэкенда два, и проверяются они по отдельности: `backend/main` (главный, не-GPU) и `backend/gpu` (сервис инференса на GPU-виртуалке). У каждого свои `pyproject.toml`, `requirements*.txt` и `tests/`. Гоняй тот, который затронут; если правка меняет контракт между ними — оба.
+Бэкенда два, и проверяются они по отдельности: `backend/main` (главный, не-GPU) и `backend/inference` (сервис инференса на GPU-виртуалке). У каждого свои `pyproject.toml`, `requirements*.txt` и `tests/`. Гоняй тот, который затронут; если правка меняет контракт между ними — оба.
 
 Порядок (от быстрого к медленному). Отдельных make-целей для линта/типов/тестов нет, вызывай напрямую:
 
@@ -26,14 +26,14 @@ cd backend/main && ruff check app tests   # линт
 cd backend/main && mypy                   # типы (files из pyproject)
 cd backend/main && pytest                 # тесты (в backend/main/tests/)
 
-cd backend/gpu && ruff check app tests    # то же для GPU-сервиса
-cd backend/gpu && mypy
-cd backend/gpu && pytest
+cd backend/inference && ruff check app tests    # то же для сервиса инференса
+cd backend/inference && mypy
+cd backend/inference && pytest
 ```
 
-- Dev-инструменты ставятся один раз: `make pip-install-dev` (ставит зависимости `backend/main`; для `backend/gpu` — `pip3 install -r backend/gpu/requirements-dev.txt`).
+- Dev-инструменты ставятся один раз: `make pip-install-dev` (ставит зависимости `backend/main`; для `backend/inference` — `pip3 install -r backend/inference/requirements-dev.txt`).
 - `pytest` при отсутствии тестов вернёт «no tests collected» (exit 5) — это не ошибка кода, отметь и продолжай.
-- Конфигурация линтера/типов/тестов — `backend/main/pyproject.toml` и `backend/gpu/pyproject.toml`.
+- Конфигурация линтера/типов/тестов — `backend/main/pyproject.toml` и `backend/inference/pyproject.toml`.
 - В `backend/main` `mypy` показывает несколько давних ошибок в `ultrasound_conclusion_send_email.py`, `config.py` и `main.py`. Они были там до разделения бэкендов — не выдавай их за поломку своих правок, но и новых не добавляй.
 
 ## iOS (Swift / SwiftUI)

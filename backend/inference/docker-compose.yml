@@ -3,9 +3,9 @@
 # Run with `secrets/.env` as the interpolation source, not just as `env_file:` —
 # Compose substitutes ${VAR} below from its own env file, never from `env_file:`:
 #
-#   docker compose --env-file backend/gpu/secrets/.env -f backend/gpu/docker-compose.yml up -d --build
+#   docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml up -d --build
 #
-# `make start-gpu` does exactly that.
+# `make start-backend-inference` does exactly that.
 
 services:
   # The model engine. Bound to the internal Docker network only — it has no
@@ -53,12 +53,12 @@ services:
         max-size: "20m"
         max-file: "5"
 
-  gpu_backend:
+  backend_inference:
     build: .
     # Bind to the private interface: the backend VM reaches this port, the
-    # internet should not. Set GPU_BACKEND_BIND to the VM's private address.
+    # internet should not. Set INFERENCE_BACKEND_BIND to the VM's private address.
     ports:
-      - "${GPU_BACKEND_BIND:-0.0.0.0}:${GPU_BACKEND_PORT:-8100}:8000"
+      - "${INFERENCE_BACKEND_BIND:-0.0.0.0}:${INFERENCE_BACKEND_PORT:-8100}:8000"
     volumes:
       - ./secrets:/app/secrets:ro
       - ./logs:/app/logs

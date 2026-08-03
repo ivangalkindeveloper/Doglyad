@@ -14,7 +14,7 @@ from app.model.neural_model_settings import NeuralModelSettings
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
 from app.model.ultrasound.us_examination_scan_photo import USExaminationScanPhoto
 from app.service.base import InferenceRequest
-from app.service.gpu import GpuService
+from app.service.inference import InferenceService
 
 _URL = "http://10.0.0.11:8100/v1/conclusion_generation"
 _MODEL = USExaminationNeuralModel(id="google/medgemma-4b-it", title="MedGemma 4B", description={"en": ""})
@@ -22,9 +22,9 @@ _MODEL = USExaminationNeuralModel(id="google/medgemma-4b-it", title="MedGemma 4B
 
 @pytest.fixture
 def endpoints(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    path = tmp_path / "gpu_endpoint.json"
+    path = tmp_path / "inference_endpoints.json"
     path.write_text(json.dumps({_MODEL.id: _URL}), encoding="utf-8")
-    monkeypatch.setattr(variables, "gpu_endpoints_path", path)
+    monkeypatch.setattr(variables, "inference_endpoints_path", path)
     return path
 
 
@@ -47,7 +47,7 @@ def _request(
 def _call(handler: Any, request: InferenceRequest | None = None) -> str:
     async def run() -> str:
         async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-            return await GpuService(client).call(request or _request())
+            return await InferenceService(client).call(request or _request())
 
     return asyncio.run(run())
 

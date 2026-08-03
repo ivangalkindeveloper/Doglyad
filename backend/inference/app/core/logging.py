@@ -20,14 +20,14 @@ def setup_logging() -> None:
     if variables.log_dir:
         variables.log_dir.mkdir(parents=True, exist_ok=True)
         file_handler = TimedRotatingFileHandler(
-            filename=variables.log_dir / "gpu_backend.log",
+            filename=variables.log_dir / "inference_backend.log",
             when="midnight",
             interval=1,
             backupCount=variables.log_retention_days,
             encoding="utf-8",
             utc=True,
         )
-        # Files are named like gpu_backend.log.2026-08-01.
+        # Files are named like inference_backend.log.2026-08-01.
         file_handler.suffix = "%Y-%m-%d"
         handlers.append(file_handler)
 

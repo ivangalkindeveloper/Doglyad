@@ -32,14 +32,6 @@ class VLLMService:
     def model_id(self) -> str:
         return self._model_id
 
-    async def health(self) -> bool:
-        try:
-            response = await self._http_client.get(f"{self._base_url}/health", timeout=5)
-        except httpx.HTTPError as error:
-            logger.warning("vLLM health check failed: %s", error)
-            return False
-        return response.status_code < 400
-
     async def generate(self, request: ConclusionGenerationRequest) -> str:
         # One VM per model: answering for a different id would silently return a
         # conclusion from a model the doctor did not choose.

@@ -14,8 +14,8 @@
 /backend/main/secrets/
 /backend/main/logs/
 
-/backend/gpu/secrets/
-/backend/gpu/logs/
+/backend/inference/secrets/
+/backend/inference/logs/
 
 /ios/Config/
 /ios/Firebase/

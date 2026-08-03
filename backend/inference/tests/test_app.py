@@ -12,17 +12,46 @@ def test_app_exposes_routes() -> None:
 
     paths = {getattr(route, "path", None) for route in app.routes}
     assert "/v1/conclusion_generation" in paths
-    assert "/health" in paths
 
 
-def test_health_is_not_behind_app_check() -> None:
-    # Health must stay probe-able by infrastructure that holds no app credentials.
+def test_no_route_is_reachable_without_app_check() -> None:
+    # This service has no unauthenticated surface at all: every route it serves
+    # sits under /v1, and /v1 is closed. Anything added outside it would be
+    # reachable by whoever can reach the port, which is the thing App Check exists
+    # to prevent here.
     from app.core.app_check import verify_app_check
     from app.main import app
 
-    health = next(route for route in app.routes if getattr(route, "path", None) == "/health")
-    dependencies = [call.call for call in health.dependant.dependencies]  # type: ignore[attr-defined]
-    assert verify_app_check not in dependencies
+    for route in app.routes:
+        path = str(getattr(route, "path", ""))
+        if not path.startswith("/v1/"):
+            continue
+        dependencies = [call.call for call in route.dependant.dependencies]  # type: ignore[attr-defined]
+        assert verify_app_check in dependencies, f"{path} is not behind App Check"
+
+
+def test_generation_is_behind_app_check() -> None:
+    # The one control this service has: it holds the model and is reachable over
+    # the network, so an unverified caller must never get past the router. There is
+    # no flag to switch this off — dropping the dependency is the only way to lose
+    # it, which is what this test guards.
+    from app.core.app_check import verify_app_check
+    from app.main import app
+
+    route = next(route for route in app.routes if getattr(route, "path", None) == "/v1/conclusion_generation")
+    dependencies = [call.call for call in route.dependant.dependencies]  # type: ignore[attr-defined]
+    assert verify_app_check in dependencies
+
+
+def test_missing_token_is_rejected() -> None:
+    # Rejected before Firebase is consulted, so this holds even on a service that
+    # never finished initializing the SDK.
+    from app.core.app_check import verify_app_check
+
+    with pytest.raises(HTTPException) as error:
+        asyncio.run(verify_app_check(None))
+
+    assert error.value.status_code == 401
 
 
 def test_generate_rejects_another_model() -> None:
