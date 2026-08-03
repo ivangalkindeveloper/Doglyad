@@ -4,7 +4,7 @@ import asyncio
 import logging
 
 import firebase_admin
-from fastapi import Depends, Header, HTTPException, params, status
+from fastapi import Header, HTTPException, status
 from firebase_admin import app_check, credentials
 
 from app.core.variables import variables
@@ -17,20 +17,11 @@ APP_CHECK_HEADER = "X-Firebase-AppCheck"
 def init_app_check() -> None:
     """Initializes the Firebase Admin SDK for verifying App Check tokens.
 
-    Called once at application startup. Keyed off the dependency helpers below
-    rather than a rule of its own: whatever closes a route is exactly what makes
-    the SDK necessary, so the two cannot drift apart. When nothing closes a
-    route, a developer needs no Firebase credentials at all; when something does,
-    a missing `FIREBASE_CREDENTIALS_PATH` raises `RuntimeError` and startup
-    aborts rather than leaving a route that answers everyone.
+    Called once at application startup. Verification cannot be switched off in
+    any environment, so a missing `FIREBASE_CREDENTIALS_PATH` raises
+    `RuntimeError` and startup aborts — the backend must never come up in a state
+    where it answers unverified callers.
     """
-    if not (app_check_dependencies() or mail_app_check_dependencies()):
-        logger.warning(
-            "App Check verification is off: LLM_MODE=%s, ENVIRONMENT=%s",
-            variables.llm_mode.value,
-            variables.environment,
-        )
-        return
     if firebase_admin._apps:
         logger.warning("Firebase Admin SDK is already initialized")
         return
@@ -40,45 +31,16 @@ def init_app_check() -> None:
     firebase_admin.initialize_app(credential)
 
 
-def app_check_dependencies() -> list[params.Depends]:
-    """The `/v1` router dependencies that enforce App Check, if the mode needs it.
-
-    A function rather than an inline conditional so the rule has one testable
-    home: `/v1` is closed in every mode that reaches a model, and open only in
-    the mode that reaches nothing.
-    """
-    if not variables.llm_mode.verifies_app_check:
-        return []
-    return [Depends(verify_app_check)]
-
-
-def mail_app_check_dependencies() -> list[params.Depends]:
-    """Extra enforcement for the email route, on top of the router's own rule.
-
-    Sending mail never reaches a model, so `LLM_MODE` says nothing useful about
-    it — yet it is a real outward action performed with real SMTP credentials,
-    and an open one is an open relay. In production it is closed whatever the
-    mode; outside production it follows the router, so the flow stays testable
-    without minting a token.
-
-    Adding `Depends(verify_app_check)` twice is harmless: FastAPI caches a
-    dependency per request, so it still runs once.
-    """
-    if not variables.is_production:
-        return []
-    return [Depends(verify_app_check)]
-
-
 async def verify_app_check(
     x_firebase_app_check: str | None = Header(default=None, alias=APP_CHECK_HEADER),
 ) -> None:
     """Verifies the App Check token from the `X-Firebase-AppCheck` header.
 
     This is the edge of the system: requests arrive here from the internet, so
-    rejecting them here keeps an unverified caller away from every path behind
-    it — including the paid RunPod fallback, which is a third party and verifies
-    nothing itself. The inference VM verifies the same token again, because it
-    is reachable over the network on its own.
+    rejecting them here keeps an unverified caller away from everything behind it
+    — the GPU VMs, the paid RunPod fallback that verifies nothing itself, and the
+    SMTP credentials the email route sends with. The inference VM verifies the
+    same token again, because it is reachable over the network on its own.
 
     Raises 401 when the token is missing or fails verification.
     """

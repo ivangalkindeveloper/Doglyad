@@ -15,15 +15,15 @@ class InferenceRequest:
     """Everything a `ModelService` needs to produce one conclusion.
 
     Grouped into an object rather than passed as positional arguments: the
-    implementations need different subsets of it — the stub only wants the
-    language, RunPod ignores the App Check token — and a shared shape keeps the
-    route from having to know which.
+    implementations need different subsets of it — RunPod ignores the App Check
+    token, our own VMs need it — and a shared shape keeps the route from having
+    to know which.
     """
 
     neural_model: USExaminationNeuralModel
     settings: NeuralModelSettings
-    # Resolved from the Accept-Language header. The stub answers in it; the real
-    # services get it baked into the prompts already.
+    # Resolved from the Accept-Language header. The services get it baked into the
+    # prompts already; kept here so a failure can be reported in the right language.
     language_code: str
     system_prompt: str
     prompt: str

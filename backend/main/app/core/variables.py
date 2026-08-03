@@ -2,15 +2,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-from app.core.llm_mode import LLMMode
 
 
 class Variables(BaseSettings):
     model_config = SettingsConfigDict(extra="ignore")
 
+    # Picks the config directory under `backend/main/config/` and nothing else.
+    # `development` and `production` run the same code down the same path — they
+    # differ in which models, examination types and application settings they read.
     environment: str
 
     config_dir: Path | None = None
@@ -18,16 +18,14 @@ class Variables(BaseSettings):
     log_dir: Path | None = None
     log_retention_days: int = 365
 
-    llm_mode: LLMMode = LLMMode.STUB
-
-    # Firebase service account used to verify App Check tokens. Required in every
-    # mode that verifies them (see `LLMMode.verifies_app_check`) — startup aborts
-    # without it rather than serving unverified callers.
+    # Firebase service account used to verify App Check tokens. Verification is
+    # unconditional — every environment reaches a real model — so startup aborts
+    # without this rather than serving unverified callers.
     firebase_credentials_path: Path | None = None
 
-    # Primary inference path: one GPU VM per model, each running backend/inference next
-    # to its own vLLM instance. Path to a modelId -> URL map; required when
-    # LLM_MODE is inference. See InferenceService.
+    # Primary inference path: one GPU VM per model, each running backend/inference
+    # next to its own vLLM instance. Path to a modelId -> URL map; required in every
+    # environment, because every environment takes this path. See InferenceService.
     inference_endpoints_path: Path | None = None
     # Timeouts nest outside-in, every layer strictly wider than the one it wraps:
     #
@@ -56,19 +54,6 @@ class Variables(BaseSettings):
     email_password: str | None = None
     email_smtp_host: str | None = None
     email_smtp_port: int | None = None
-
-    @property
-    def is_production(self) -> bool:
-        # Doubles as the config directory name, so the value is the same string
-        # `backend/main/config/production/` is named after.
-        return self.environment == "production"
-
-    @field_validator("llm_mode", mode="before")
-    @classmethod
-    def _normalize_llm_mode(cls, value: object) -> object:
-        if isinstance(value, str):
-            return value.lower()
-        return value
 
 
 variables = Variables()

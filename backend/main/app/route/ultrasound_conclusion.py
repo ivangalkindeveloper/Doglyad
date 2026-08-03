@@ -11,11 +11,10 @@ from app.core.config import (
     resolve_neural_model,
 )
 from app.core.limiter import limiter
-from app.core.variables import variables
 from app.model.ultrasound.us_examination_model_conclusion import USExaminationModelConclusion
 from app.model.ultrasound.us_examination_request import USExaminationRequest
 from app.prompt import resolve_prompt_factory
-from app.service import InferenceRequest, ServiceFactory
+from app.service import InferenceRequest, ModelService
 
 logger = logging.getLogger(__name__)
 
@@ -42,19 +41,16 @@ async def ultrasound_conclusion(
     )
 
     logger.info(
-        "Request: model=%s, lang=%s, exam=%s, photos=%d, mode=%s",
+        "Request: model=%s, lang=%s, exam=%s, photos=%d",
         neural_model.id,
         language_code,
         examination_title,
         len(examination.photos),
-        variables.llm_mode,
     )
 
-    # What each LLM mode means is the factory's business — the route just asks for
-    # the configured service and calls it. Stub answers are a ModelService like
-    # any other, so there is no second place that branches on the mode.
-    service_factory: ServiceFactory = request.app.state.service_factory
-    model_service = service_factory.resolve(variables.llm_mode)
+    # Which services stand behind this is decided once at startup; the route just
+    # calls the one it was handed. Same composition in every environment.
+    model_service: ModelService = request.app.state.model_service
     response_text = await model_service.call(
         InferenceRequest(
             neural_model=neural_model,

@@ -6,8 +6,7 @@
 	init-ios-development \
 	build-ios-development \
 	build-ios-production \
-	start-backend-main-development-stub \
-	start-backend-main-development-inference \
+	start-backend-main-development \
 	start-backend-main-production \
 	start-backend-main-logs \
 	stop-backend-main \
@@ -57,11 +56,8 @@ build-ios-production:
 		-scheme Doglyad-Production \
 		-destination '$(IOS_DEST)'
 
-start-backend-main-development-stub:
-	ENV_FILE=secrets/.env.development.stub \
-	docker compose -f backend/main/docker-compose.yml up --build -d
-start-backend-main-development-inference:
-	ENV_FILE=secrets/.env.development.inference \
+start-backend-main-development:
+	ENV_FILE=secrets/.env.development \
 	docker compose -f backend/main/docker-compose.yml up --build -d
 start-backend-main-production:
 	ENV_FILE=secrets/.env.production \
