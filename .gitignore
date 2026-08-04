@@ -17,6 +17,9 @@
 /backend/inference/secrets/
 /backend/inference/logs/
 
+/deploy/secrets/
+/deploy/logs/
+
 /ios/Config/
 /ios/Firebase/
 /ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit

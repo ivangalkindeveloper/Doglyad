@@ -1,0 +1,75 @@
+#cloud-config
+#
+# ЭТА СТРОКА ОБЯЗАТЕЛЬНА И ДОЛЖНА БЫТЬ ПЕРВОЙ. По ней cloud-init понимает, что
+# перед ним конфиг, а не произвольный текст. Без неё файл молча игнорируется и
+# машина поднимается пустой.
+#
+# Вставляется при создании ВМ в Метаданные → user-data. Выполняется один раз, от
+# root, при первой загрузке.
+#
+# Файл одинаков для main-development и main-production и ничего про конкретную
+# машину не знает: ни логина, ни домена, ни окружения. Всё это приезжает потом,
+# по ssh, — см. итоговое сообщение внизу. Поэтому его же можно без изменений
+# отдать любому провайдеру.
+#
+# Секретов здесь нет намеренно: user-data читается изнутри машины через сервис
+# метаданных и хранится у провайдера.
+#
+# Стек не запускается: без секретов бэкенд всё равно не стартует, а Caddy начал
+# бы жечь попытки Let's Encrypt, пока домен на машину ещё не указывает.
+
+package_update: true
+packages:
+  - ca-certificates
+  - curl
+
+runcmd:
+  # --- Docker ---------------------------------------------------------------
+  # Официальный скрипт: ставит docker-ce и плагин compose v2.
+  - curl -fsSL https://get.docker.com | sh
+
+  # --- Tailscale ------------------------------------------------------------
+  # Закрытая сеть до GPU-виртуалки: она у другого провайдера, приватной сети
+  # между ними нет, а по этому каналу пойдут снимки пациентов.
+  # Только установка. Подключение — вручную (`tailscale up`), чтобы auth-key не
+  # оседал в метаданных.
+  - curl -fsSL https://tailscale.com/install.sh | sh
+
+  # --- Файлы стека ----------------------------------------------------------
+  # Тянутся из публичного репозитория, а не вписаны сюда, чтобы не разъезжались
+  # с deploy/ в git. Источник правды — репозиторий.
+  - mkdir -p /opt/doglyad/logs
+  - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/docker-compose.yml
+    https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/docker-compose.yml
+  - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/Caddyfile
+    https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/Caddyfile
+
+  # Логин не зашит: берём пользователя, которого завёл провайдер, — первого
+  # непривилегированного, UID 1000. Двоеточие без группы даёт его основную
+  # группу, как бы она ни называлась.
+  # Строка в кавычках обязательно: без них YAML принимает `"$U": /opt` за ключ
+  # словаря и разбор всего файла падает.
+  - 'U=$(getent passwd 1000 | cut -d: -f1) && usermod -aG docker "$U" && chown -R "$U": /opt/doglyad'
+
+final_message: |
+  ВМ настроена. Далee:
+
+    1. Три строки конфигурации этой машины:
+
+       ssh ЛОГИН@ДОМЕН 'cat > /opt/doglyad/.env' <<EOF
+       TAG=latest
+       ENV_FILE=secrets/.env.development
+       DOMAIN=ДОМЕН
+       EOF
+
+       для production: ENV_FILE=secrets/.env.production
+
+    2. Секреты:
+
+       scp -r backend/main/secrets ЛОГИН@ДОМЕН:/opt/doglyad/
+
+    3. Запуск:
+
+       ssh ЛОГИН@ДОМЕН 'sudo tailscale up && cd /opt/doglyad && docker compose up -d'
+
+  Лог этой настройки: /var/log/cloud-init-output.log

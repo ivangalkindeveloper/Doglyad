@@ -1,0 +1,68 @@
+# Развёртывание главного бэкенда на виртуалке. Один и тот же файл для
+# main-development и main-production: машины различает только `.env` рядом с ним.
+#
+# Локально этим файлом не пользуются — для разработки есть
+# backend/main/docker-compose.yml, который собирает образ из исходников.
+#
+# Рядом обязателен `.env` с тремя строками (Compose читает его сам):
+#
+#   TAG=latest                          какой образ развернуть
+#   ENV_FILE=secrets/.env.development   какой профиль окружения подмешать
+#   DOMAIN=api-dev.doglyad.ru           за каким доменом Caddy возьмёт сертификат
+
+services:
+  backend_main:
+    image: ghcr.io/ivangalkindeveloper/doglyad-main:${TAG:-latest}
+    # Порт наружу НЕ публикуется. Единственный, кто ходит в бэкенд, — Caddy по
+    # внутренней сети Compose. Поэтому `--forwarded-allow-ips *` в образе
+    # безопасен: подделать X-Forwarded-For и обойти rate limiter можно было бы
+    # только при прямом доступе к порту, а его нет.
+    expose:
+      - "8000"
+    volumes:
+      # Конфиги запечены в образ; с машины приходят только секреты и логи.
+      - ./secrets:/app/secrets:ro
+      - ./logs:/app/logs
+    env_file:
+      - secrets/.env
+      # Без значения по умолчанию намеренно: пустой ENV_FILE уронит запуск, а не
+      # поднимет production-машину с development-конфигами.
+      - ${ENV_FILE:?ENV_FILE is not set — put it in the .env next to this file}
+    environment:
+      # Логи пишутся в ./logs с суточной ротацией и хранятся год. Данных пациентов
+      # в них нет — только техническая метаинформация.
+      LOG_DIR: /app/logs
+      LOG_RETENTION_DAYS: 365
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  caddy:
+    image: caddy:2
+    # Единственное, что смотрит в интернет.
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?DOMAIN is not set — put it in the .env next to this file}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Выданные сертификаты переживают перезапуск: без этого тома Caddy при
+      # каждом старте ходил бы за новым и упёрся в лимиты Let's Encrypt.
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend_main
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+volumes:
+  caddy_data:
+  caddy_config:
