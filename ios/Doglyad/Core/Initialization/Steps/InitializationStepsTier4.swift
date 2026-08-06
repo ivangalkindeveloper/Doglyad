@@ -8,7 +8,7 @@ extension InitializationProcess {
             AsyncInitializationStep<InitializationProcess>(
                 title: "Ultrasound examination types",
                 run: { (process: InitializationProcess) async throws in
-                    let url = await process.applicationConfig!.configUrl.appendingPathComponent("ultrasound_examination_types.json")
+                    let url = await process.environment!.baseUrl.appendingPathComponent("ultrasound_examination_types")
                     let usExaminationTypes: [USExaminationType] = try await process.httpClient!.get(url: url)
                     if usExaminationTypes.isEmpty {
                         throw InitializationError.usExaminationTypesEmpty
@@ -26,7 +26,7 @@ extension InitializationProcess {
             AsyncInitializationStep<InitializationProcess>(
                 title: "Ultrasound examination neural models",
                 run: { (process: InitializationProcess) async throws in
-                    let url = await process.applicationConfig!.configUrl.appendingPathComponent("ultrasound_examination_neural_models.json")
+                    let url = await process.environment!.baseUrl.appendingPathComponent("ultrasound_examination_neural_models")
                     let usExaminationNeuralModels: [USExaminationNeuralModel] = try await process.httpClient!.get(url: url)
                     if usExaminationNeuralModels.isEmpty {
                         throw InitializationError.usExaminationNeuralModelsEmpty
@@ -44,7 +44,7 @@ extension InitializationProcess {
             AsyncInitializationStep<InitializationProcess>(
                 title: "Ultrasound examination contextual strings",
                 run: { (process: InitializationProcess) async throws in
-                    let url = await process.applicationConfig!.configUrl.appendingPathComponent("ultrasound_examination_contextual_strings.json")
+                    let url = await process.environment!.baseUrl.appendingPathComponent("ultrasound_examination_contextual_strings")
                     // Strings may be empty — that is a valid state, so unlike types and
                     // models we do not check them for emptiness.
                     let usExaminationContextualStrings: USExaminationContextualStrings = try await process.httpClient!.get(url: url)

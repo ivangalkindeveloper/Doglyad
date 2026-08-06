@@ -1,12 +1,9 @@
 import Foundation
 
 final class EnvironmentBase: EnvironmentProtocol {
-    static let contentUrl: String = "https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/backend/main/config/"
-
     let type: EnvironmentType
     let baseUrl: URL
     let baseVersionPrefix: String = "/v1"
-    let configUrl: URL
 
     init(
         type: EnvironmentType,
@@ -14,6 +11,5 @@ final class EnvironmentBase: EnvironmentProtocol {
     ) {
         self.type = type
         self.baseUrl = baseUrl
-        configUrl = URL(string: "\(Self.contentUrl)\(type.rawValue)/application.json")!
     }
 }

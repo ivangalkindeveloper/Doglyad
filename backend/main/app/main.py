@@ -14,6 +14,7 @@ from app.core.config import load_configs
 from app.core.limiter import limiter
 from app.core.logging import setup_logging
 from app.core.variables import variables
+from app.route.application_config import router as application_config_router
 from app.route.ultrasound_conclusion import router as ultrasound_conclusion_router
 from app.route.ultrasound_conclusion_send_email import router as ultrasound_conclusion_send_email_router
 from app.service import create_model_service
@@ -58,3 +59,6 @@ app = FastAPI(lifespan=lifespan)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.include_router(router_v1)
+# Outside /v1 on purpose: the app reads these before it has anything to
+# authenticate with, and their contents are public either way.
+app.include_router(application_config_router)

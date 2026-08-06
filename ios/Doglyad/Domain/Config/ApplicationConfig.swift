@@ -4,7 +4,6 @@ struct ApplicationConfig: Codable {
     let appStoreId: String
     let actualVersion: Version
     let contactEmail: String
-    let configUrl: URL
     let appleUpdateUrl: URL
     /// The revision date of the current legal documents. When it is newer than the
     /// one the user accepted, the re-acceptance screen is shown.
@@ -21,7 +20,6 @@ extension ApplicationConfig {
         case appStoreId
         case actualVersion
         case contactEmail
-        case configUrl
         case appleUpdateUrl
         case legalDate
         case privacyPolicyUrl
@@ -36,7 +34,6 @@ extension ApplicationConfig {
         appStoreId = try container.decode(String.self, forKey: .appStoreId)
         actualVersion = try container.decode(Version.self, forKey: .actualVersion)
         contactEmail = try container.decode(String.self, forKey: .contactEmail)
-        configUrl = try container.decode(URL.self, forKey: .configUrl)
         appleUpdateUrl = try container.decode(URL.self, forKey: .appleUpdateUrl)
         legalDate = try container.decodeIfPresent(Date.self, forKey: .legalDate) ?? .distantPast
         privacyPolicyUrl = try container.decode(URL.self, forKey: .privacyPolicyUrl)
@@ -62,7 +59,6 @@ extension ApplicationConfig {
         try container.encode(appStoreId, forKey: .appStoreId)
         try container.encode(actualVersion, forKey: .actualVersion)
         try container.encode(contactEmail, forKey: .contactEmail)
-        try container.encode(configUrl, forKey: .configUrl)
         try container.encode(appleUpdateUrl, forKey: .appleUpdateUrl)
         try container.encode(legalDate, forKey: .legalDate)
         try container.encode(privacyPolicyUrl, forKey: .privacyPolicyUrl)
