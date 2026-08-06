@@ -1,22 +1,23 @@
 #cloud-config
 #
-# ЭТА СТРОКА ОБЯЗАТЕЛЬНА И ДОЛЖНА БЫТЬ ПЕРВОЙ. По ней cloud-init понимает, что
-# перед ним конфиг, а не произвольный текст. Без неё файл молча игнорируется и
-# машина поднимается пустой.
+# THIS LINE IS MANDATORY AND MUST COME FIRST. cloud-init decides from it whether
+# the payload is a config at all; without it the file is silently ignored and the
+# machine comes up bare.
 #
-# Вставляется при создании ВМ в Метаданные → user-data. Выполняется один раз, от
-# root, при первой загрузке.
+# Pasted into Metadata → user-data when the VM is created. Runs once, as root, on
+# first boot.
 #
-# Файл одинаков для main-development и main-production и ничего про конкретную
-# машину не знает: ни логина, ни домена, ни окружения. Всё это приезжает потом,
-# по ssh, — см. итоговое сообщение внизу. Поэтому его же можно без изменений
-# отдать любому провайдеру.
+# The same file serves main-development and main-production and knows nothing
+# about either: no login, no domain, no environment. All of that arrives later
+# over ssh — see the final message below. That is also what makes it portable to
+# any provider.
 #
-# Секретов здесь нет намеренно: user-data читается изнутри машины через сервис
-# метаданных и хранится у провайдера.
+# Deliberately holds no secrets: user-data is readable from inside the machine
+# through the metadata service and is stored by the provider.
 #
-# Стек не запускается: без секретов бэкенд всё равно не стартует, а Caddy начал
-# бы жечь попытки Let's Encrypt, пока домен на машину ещё не указывает.
+# Deliberately does not start the stack: the backend would not come up without
+# its secrets anyway, and Caddy would burn Let's Encrypt attempts while the
+# domain still points elsewhere.
 
 package_update: true
 packages:
@@ -25,51 +26,61 @@ packages:
 
 runcmd:
   # --- Docker ---------------------------------------------------------------
-  # Официальный скрипт: ставит docker-ce и плагин compose v2.
+  # Official script: installs docker-ce and the compose v2 plugin.
   - curl -fsSL https://get.docker.com | sh
 
   # --- Tailscale ------------------------------------------------------------
-  # Закрытая сеть до GPU-виртуалки: она у другого провайдера, приватной сети
-  # между ними нет, а по этому каналу пойдут снимки пациентов.
-  # Только установка. Подключение — вручную (`tailscale up`), чтобы auth-key не
-  # оседал в метаданных.
+  # A private network to the GPU VM: it lives at a different provider, so there
+  # is no shared private subnet, and this link carries patient scans.
+  # Install only. `tailscale up` is run by hand so the auth key never lands in
+  # the metadata service.
   - curl -fsSL https://tailscale.com/install.sh | sh
 
-  # --- Файлы стека ----------------------------------------------------------
-  # Тянутся из публичного репозитория, а не вписаны сюда, чтобы не разъезжались
-  # с deploy/ в git. Источник правды — репозиторий.
+  # --- Stack files ----------------------------------------------------------
+  # Fetched from the public repository rather than inlined here, so they cannot
+  # drift from deploy/ in git. The repository is the source of truth.
   - mkdir -p /opt/doglyad/logs
   - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/docker-compose.yml
     https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/docker-compose.yml
   - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/Caddyfile
     https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/Caddyfile
 
-  # Логин не зашит: берём пользователя, которого завёл провайдер, — первого
-  # непривилегированного, UID 1000. Двоеточие без группы даёт его основную
-  # группу, как бы она ни называлась.
-  # Строка в кавычках обязательно: без них YAML принимает `"$U": /opt` за ключ
-  # словаря и разбор всего файла падает.
-  - 'U=$(getent passwd 1000 | cut -d: -f1) && usermod -aG docker "$U" && chown -R "$U": /opt/doglyad'
+  # Rights go to every non-system user rather than to a named login, which keeps
+  # this file identical across machines and providers.
+  #
+  # UID 1000 is not a reliable stand-in for "the user I log in as" — measured on
+  # Yandex Cloud: their Ubuntu image already ships a built-in `ubuntu` at 1000,
+  # so the login from the creation form lands on 1001 and the rights went to the
+  # wrong account.
+  #
+  # The directory is handed to the docker group: the same people end up in it, so
+  # "may write to /opt/doglyad" and "may run containers" stay one decision.
+  - |
+    for u in $(awk -F: '$3>=1000 && $3<65534 {print $1}' /etc/passwd); do
+      usermod -aG docker "$u"
+    done
+    chgrp -R docker /opt/doglyad
+    chmod -R g+rwX /opt/doglyad
 
 final_message: |
-  ВМ настроена. Далee:
+  The machine is configured. Three steps left, with your login and domain:
 
-    1. Три строки конфигурации этой машины:
+    1. This machine's configuration:
 
-       ssh ЛОГИН@ДОМЕН 'cat > /opt/doglyad/.env' <<EOF
+       ssh LOGIN@DOMAIN 'cat > /opt/doglyad/.env' <<EOF
        TAG=latest
        ENV_FILE=secrets/.env.development
-       DOMAIN=ДОМЕН
+       DOMAIN=DOMAIN
        EOF
 
-       для production: ENV_FILE=secrets/.env.production
+       for production: ENV_FILE=secrets/.env.production
 
-    2. Секреты:
+    2. Secrets:
 
-       scp -r backend/main/secrets ЛОГИН@ДОМЕН:/opt/doglyad/
+       scp -r backend/main/secrets LOGIN@DOMAIN:/opt/doglyad/
 
-    3. Запуск:
+    3. Start:
 
-       ssh ЛОГИН@ДОМЕН 'sudo tailscale up && cd /opt/doglyad && docker compose up -d'
+       ssh LOGIN@DOMAIN 'sudo tailscale up && cd /opt/doglyad && docker compose up -d'
 
-  Лог этой настройки: /var/log/cloud-init-output.log
+  Log of this run: /var/log/cloud-init-output.log
