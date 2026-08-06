@@ -23,8 +23,10 @@ App Check проверяется **дважды**: на входе в систе
 
 Отключить проверку нечем — ни флага, ни режима: закрыт весь роутер `/v1` в любом окружении. Ответы 401/403 от сервиса инференса в RunPod **не** переотправляются.
 
+Вне `/v1` живут только ручки конфигов (`/application_config` и три `ultrasound_examination_*`). Они открыты намеренно: приложение читает их до того, как ему есть чем аутентифицироваться, а содержимое публично по природе — до переезда на бэкенд оно лежало в открытом репозитории. Они же служат инфраструктуре проверкой живости.
+
 ### Окружения
-`ENVIRONMENT` (`development` / `production`) выбирает каталог конфигов в `backend/main/config/` — и больше ничего. Оба окружения ходят в сервис инференса по одному и тому же пути, с тем же резервом RunPod и той же проверкой токена. Именно поэтому проверка на development-стенде что-то значит: это тот же код на том же маршруте, отличаются только список моделей, типы исследований и настройки приложения.
+`ENVIRONMENT` (`development` / `production`) выбирает каталог конфигов в `backend/main/config/` — и больше ничего. Приложение читает те же документы через ручки этого бэкенда, а не из репозитория: иначе пуш новой модели в `master` делал её видимой приложению сразу, а бэкенд узнавал о ней только после выкатки — и врач получал `400`. Оба окружения ходят в сервис инференса по одному и тому же пути, с тем же резервом RunPod и той же проверкой токена. Именно поэтому проверка на development-стенде что-то значит: это тот же код на том же маршруте, отличаются только список моделей, типы исследований и настройки приложения.
 
 ### Таймауты
 Вложены строго снаружи внутрь, каждый слой шире того, который оборачивает:
@@ -44,17 +46,18 @@ RUNPOD_REQUEST_TIMEOUT       150  резервная попытка после �
 ### `backend/main/` — Главный бэкенд
 | Путь | Описание |
 |---|---|
-| `backend/main/app/main.py` | FastAPI-приложение, lifespan (загрузка конфигов, создание `httpx.AsyncClient`, инициализация сервисов), роутер `/v1`, rate limiter |
+| `backend/main/app/main.py` | FastAPI-приложение, lifespan (загрузка конфигов, создание `httpx.AsyncClient`, инициализация сервисов), закрытый App Check роутер `/v1` и открытый роутер конфигов рядом с ним, rate limiter |
 | `backend/main/app/route/ultrasound_conclusion.py` | Эндпоинт `POST /v1/ultrasound_conclusion` — принимает данные исследования, вызывает `ModelService`, пробрасывает в него токен App Check, возвращает заключение |
 | `backend/main/app/route/ultrasound_conclusion_send_email.py` | Эндпоинт `POST /v1/ultrasound_conclusion_send_email` — отправка заключения на email через SMTP (`smtplib`) |
+| `backend/main/app/route/application_config.py` | Четыре ручки конфигов для приложения — `/application_config`, `/ultrasound_examination_types`, `/ultrasound_examination_neural_models`, `/ultrasound_examination_contextual_strings`. **Вне `/v1`**, то есть без App Check. Отдают файл из образа исходным текстом, без `response_model`: описывать всё дерево конфигов моделями значило бы завести второе место, где оно разъезжается с JSON |
 | `backend/main/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `FIREBASE_CREDENTIALS_PATH`, `EMAIL_*`, `INFERENCE_ENDPOINTS_PATH`, `RUNPOD_API_KEY`, `RUNPOD_ENDPOINTS_PATH`, таймауты, читаются в т.ч. из `backend/main/secrets/.env` |
 | `backend/main/app/core/app_check.py` | Проверка App Check на входе в систему. `APP_CHECK_HEADER`, `init_app_check` и зависимость `verify_app_check`, висящая на роутере `/v1`. Безусловна: без учётных данных Firebase бэкенд не стартует |
-| `backend/main/app/core/config.py` | Загрузка конфигов нейромоделей и типов исследований из JSON (`backend/main/config/<environment>/`), резолверы моделей и заголовков |
+| `backend/main/app/core/config.py` | Загрузка конфигов при старте: нейромодели и типы исследований разбираются в объекты, а `SERVED_DOCUMENTS` читаются ещё и текстом — их отдаёт приложению `resolve_config_document`. Плюс резолверы моделей и заголовков |
 | `backend/main/app/service/` | Слой инференса. Контракт `ModelService` и запрос `InferenceRequest` (`base.py`); реализации: основной `InferenceService` (`inference.py`), резервный `RunPodService` (`runpod.py`), композиция `FallbackModelService` (`fallback.py`). `create_model_service()` (`factory.py`) собирает связку один раз в lifespan и кладёт в `app.state.model_service`; роут просто вызывает её |
 | `backend/main/app/model/` | Pydantic-модели — `neural_model_settings.py`, `inference_response.py`, `runpod_response.py`, подпакет `ultrasound/` (request/data/conclusion/email/scan_photo/type/neural_model) |
 | `backend/main/secrets/inference_endpoints.json` | Карта `modelId -> URL` GPU-виртуалок (путь в `INFERENCE_ENDPOINTS_PATH`). Ведётся вручную: по одной записи на виртуалку. В git не хранится |
 | `backend/main/app/prompt/` | Генерация промптов — `base.py` (`PromptFactory`), локализации `ru.py`/`en.py`, `resolve_prompt_factory` в `__init__.py` |
-| `backend/main/config/` | JSON-конфиги по окружениям (`development/`, `production/`): `application.json`, `ultrasound_examination_neural_models.json`, `ultrasound_examination_types.json` |
+| `backend/main/config/` | JSON-конфиги по окружениям (`development/`, `production/`): `application.json`, `ultrasound_examination_neural_models.json`, `ultrasound_examination_types.json`, `ultrasound_examination_contextual_strings.json`. Читаются бэкендом при старте и **отдаются приложению** через `app/route/application_config.py`. Запечены в образ, см. `backend/main/Dockerfile` |
 | `backend/main/config/runpod_endpoints.json` | Желаемое состояние **резервных** serverless-эндпоинтов RunPod (образ, `env` для vLLM, GPU, скейлинг). Общий для окружений — имена эндпоинтов не привязаны к окружению. Разбор каждой настройки — в [`RUNPOD.md`](backend/main/RUNPOD.md) |
 | `backend/main/scripts/runpod_sync.py` | Синхронизация эндпоинтов RunPod с конфигом: `plan`/`apply`/`urls`/`destroy` (`make runpod-*`). Печатает карту `modelId -> url` для `backend/main/secrets/runpod_endpoints.json` |
 | `backend/main/docker-compose.yml` | Docker Compose — читает `backend/main/secrets/.env` + профильный `secrets/.env.<профиль>` (выбор через `ENV_FILE`), монтирует только `./secrets` и `./logs`: конфиги запечены в образ |

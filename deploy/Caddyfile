@@ -1,10 +1,10 @@
-# Домен приходит из переменной DOMAIN — файл общий для обеих main-машин.
+# The domain arrives in DOMAIN, so this file is shared by both main VMs.
 #
-# Сертификат Caddy получает и продлевает сам: для настоящего домена — через
-# Let's Encrypt, для `localhost` — свой внутренний, что и позволяет проверить
-# всю связку локально, до покупки виртуалки.
+# Caddy obtains and renews the certificate itself: from Let's Encrypt for a real
+# domain, from its own internal CA for `localhost` — which is what lets the whole
+# chain be exercised locally, before any VM exists.
 {$DOMAIN} {
-	# Имя backend_main — это имя сервиса в docker-compose.yml; Compose резолвит
-	# его во внутренней сети. Порт 8000 наружу не опубликован.
+	# backend_main is the service name from docker-compose.yml; Compose resolves it
+	# on the internal network. Port 8000 is never published.
 	reverse_proxy backend_main:8000
 }

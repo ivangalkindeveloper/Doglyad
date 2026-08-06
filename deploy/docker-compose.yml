@@ -1,36 +1,36 @@
-# Развёртывание главного бэкенда на виртуалке. Один и тот же файл для
-# main-development и main-production: машины различает только `.env` рядом с ним.
+# Deploys the main backend on a VM. The same file serves main-development and
+# main-production: the machines are told apart only by the `.env` beside it.
 #
-# Локально этим файлом не пользуются — для разработки есть
-# backend/main/docker-compose.yml, который собирает образ из исходников.
+# Not used locally — development builds from source through
+# backend/main/docker-compose.yml.
 #
-# Рядом обязателен `.env` с тремя строками (Compose читает его сам):
+# A `.env` with three lines is required alongside (Compose reads it itself):
 #
-#   TAG=latest                          какой образ развернуть
-#   ENV_FILE=secrets/.env.development   какой профиль окружения подмешать
-#   DOMAIN=api-dev.doglyad.ru           за каким доменом Caddy возьмёт сертификат
+#   TAG=<image tag>          which image to run
+#   ENV_FILE=<profile path>  which environment profile to mix in
+#   DOMAIN=<host>            the domain Caddy gets a certificate for
 
 services:
   backend_main:
     image: ghcr.io/ivangalkindeveloper/doglyad-main:${TAG:-latest}
-    # Порт наружу НЕ публикуется. Единственный, кто ходит в бэкенд, — Caddy по
-    # внутренней сети Compose. Поэтому `--forwarded-allow-ips *` в образе
-    # безопасен: подделать X-Forwarded-For и обойти rate limiter можно было бы
-    # только при прямом доступе к порту, а его нет.
+    # The port is NOT published. The only thing that reaches the backend is Caddy,
+    # over the internal Compose network. That is what makes the image's
+    # `--forwarded-allow-ips *` safe: spoofing X-Forwarded-For to slip past the
+    # rate limiter would need direct access to the port, and there is none.
     expose:
       - "8000"
     volumes:
-      # Конфиги запечены в образ; с машины приходят только секреты и логи.
+      # Configs are baked into the image; only secrets and logs come from the machine.
       - ./secrets:/app/secrets:ro
       - ./logs:/app/logs
     env_file:
       - secrets/.env
-      # Без значения по умолчанию намеренно: пустой ENV_FILE уронит запуск, а не
-      # поднимет production-машину с development-конфигами.
+      # No default on purpose: an unset ENV_FILE fails the start instead of quietly
+      # bringing a production machine up on development configs.
       - ${ENV_FILE:?ENV_FILE is not set — put it in the .env next to this file}
     environment:
-      # Логи пишутся в ./logs с суточной ротацией и хранятся год. Данных пациентов
-      # в них нет — только техническая метаинформация.
+      # Logs are written to ./logs with daily rotation and kept for a year. They hold
+      # no patient data — only technical metadata.
       LOG_DIR: /app/logs
       LOG_RETENTION_DAYS: 365
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
 
   caddy:
     image: caddy:2
-    # Единственное, что смотрит в интернет.
+    # The only thing facing the internet.
     ports:
       - "80:80"
       - "443:443"
@@ -50,8 +50,8 @@ services:
       DOMAIN: ${DOMAIN:?DOMAIN is not set — put it in the .env next to this file}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      # Выданные сертификаты переживают перезапуск: без этого тома Caddy при
-      # каждом старте ходил бы за новым и упёрся в лимиты Let's Encrypt.
+      # Issued certificates survive a restart: without this volume Caddy would ask
+      # for a new one on every start and run into Let's Encrypt's rate limits.
       - caddy_data:/data
       - caddy_config:/config
     depends_on:

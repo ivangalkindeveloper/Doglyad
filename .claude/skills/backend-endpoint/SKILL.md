@@ -19,7 +19,8 @@ description: Добавление нового HTTP-эндпоинта в бэк
 1. **Имя эндпоинта** в snake_case, напр. `ultrasound_history`. Из него получаются: файл `app/route/<name>.py`, путь `/<name>`, имя функции.
 2. **Метод и форма ответа**: возвращает модель (`response_model=...`) или без тела (`status_code=status.HTTP_204_NO_CONTENT`).
 3. **Request-модель**: какие поля приходят (или эндпоинт без body).
-4. **Нужен ли LLM-инференс** (тогда подключаем `resolve_model_service` + `resolve_prompt_factory`, см. `ultrasound_conclusion.py`), внешний HTTP (общий клиент из `request.app.state.http_client`) или просто бизнес-логика.
+4. **Нужен ли LLM-инференс** (тогда берём готовый сервис из `request.app.state.model_service` + `resolve_prompt_factory`, см. `ultrasound_conclusion.py`), внешний HTTP (общий клиент из `request.app.state.http_client`) или просто бизнес-логика.
+5. **Под App Check или нет.** Роутер `/v1` закрыт целиком и безусловно — по умолчанию эндпоинт попадает туда. Вне `/v1` выносится только то, что приложение читает до появления токена и что публично по природе (сейчас это ручки конфигов, см. `app/route/application_config.py`).
 
 ## Жёсткие правила (из AGENTS.md)
 
@@ -116,18 +117,19 @@ from app.route.<name> import router as <name>_router
 ```python
 router_v1.include_router(<name>_router)
 ```
+На `router_v1` висит `Depends(verify_app_check)`, поэтому эндпоинт автоматически требует токен App Check. Если он должен быть открытым — подключай к самому `app`, а не к `router_v1`, и объясни в docstring, почему токен не нужен.
 
 ## Если нужен LLM-инференс
 
 Повтори паттерн из `ultrasound_conclusion.py`:
 - язык из заголовка: `request.headers.get("accept-language", "en")` → `resolve_prompt_factory(language_code)`;
-- ветвление по `variables.llm_mode` (`LLMMode.STUB` / `LLMMode.INFERENCE`) через `match`;
-- `model_service = resolve_model_service(variables.llm_mode)` и `await model_service.call(...)`;
+- сервис берётся готовым: `model_service: ModelService = request.app.state.model_service`, дальше `await model_service.call(...)`. Ветвиться не по чему — связка собирается один раз в lifespan через `create_model_service()` и одинакова во всех окружениях;
 - резолверы моделей/типов — из `app/core/config.py` (`resolve_neural_model`, `resolve_examination_title`).
-Новый бэкенд-сервис инференса добавляй как реализацию `ModelService` (`app/service/base.py`) и регистрируй в `app/service/__init__.py`.
+Новую реализацию инференса добавляй как наследника `ModelService` (`app/service/base.py`) и включай в composition внутри `app/service/factory.py`.
 
 ## Финальные шаги
 
 1. Если эндпоинт меняет контракт — синхронизируй модели на стороне iOS (DTO/доменные модели, camelCase-поля).
-2. Прогон: подними бэкенд через `make start-backend-main-development-stub`, проверь эндпоинт (`/v1/<name>`), посмотри `make start-backend-main-logs`.
+2. Прогон: подними бэкенд через `make start-backend-main-development`, проверь эндпоинт (`/v1/<name>`), посмотри `make start-backend-main-logs`.
+   Учти: `/v1` закрыт App Check, поэтому без токена приложения ручка отдаст `401` — это правильный ответ, а не поломка.
 3. Сообщи пользователю: созданные файлы, путь эндпоинта и точку регистрации в `main.py`.
