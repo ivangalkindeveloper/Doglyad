@@ -40,11 +40,11 @@ format:
 	cd backend/main && "$(RUFF)" format app tests
 	cd backend/inference && "$(RUFF)" format app tests
 
-init-ios-development:
+init-ios-local:
 	@set -e; \
 	IP="$$(ipconfig getifaddr en0)"; \
-	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config/Config.Development.xcconfig; \
-	cat ios/Config/Config.Development.xcconfig
+	sed -i '' 's|^BASE_URL = .*|BASE_URL = http:/$$()/'''"$${IP}:8000"'|' ios/Config/Config.Local.xcconfig; \
+	cat ios/Config/Config.Local.xcconfig
 build-ios-development:
 	cd ios && xcodebuild build \
 		-project Doglyad.xcodeproj \
