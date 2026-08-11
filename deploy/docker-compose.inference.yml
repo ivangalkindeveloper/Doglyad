@@ -1,0 +1,111 @@
+# Deploys the inference service on a GPU VM: the vLLM engine and our service beside
+# it. One VM per model.
+#
+# Not used locally — development builds from source through
+# backend/inference/docker-compose.yml.
+#
+# No Caddy here: this service never faces the internet. The backend reaches it over
+# the private network, and App Check is what guards it.
+#
+# A `.env` is required alongside (Compose reads it itself, and only from there can
+# it substitute the ${VAR} below — `env_file:` feeds containers, not interpolation):
+#
+#   TAG=<image tag>                     which build of our service to run
+#   SERVED_MODEL_ID=<hf model id>       the model this VM serves
+#   VLLM_IMAGE=<image:tag>              pin a tag you have actually booted here
+#   VLLM_MAX_MODEL_LEN=<tokens>         also caps the startup profiling run
+#   VLLM_LIMIT_MM_PER_PROMPT=image=<n>  at least application.json's scanPhotoMaxNumber
+#   VLLM_MAX_NUM_SEQS=<n>
+#   VLLM_GPU_MEMORY_UTILIZATION=<0..1>
+#   VLLM_TENSOR_PARALLEL_SIZE=<gpus>    must equal the number of cards
+#   VLLM_REQUEST_TIMEOUT_SECONDS=<s>    must stay under the backend's own timeout
+#   INFERENCE_BACKEND_BIND=<address>    the private address to listen on
+#   INFERENCE_BACKEND_PORT=<port>
+#
+# Secrets stay in ./secrets and are shipped by deploy/sync-secrets.sh.
+
+services:
+  # The model engine. Bound to the internal Docker network only — it has no
+  # authentication of its own and must never be reachable from outside the VM.
+  vllm:
+    image: ${VLLM_IMAGE:?VLLM_IMAGE is not set — put it in the .env next to this file}
+    command: >
+      --model ${SERVED_MODEL_ID:?SERVED_MODEL_ID is not set}
+      --served-model-name ${SERVED_MODEL_ID}
+      --host 0.0.0.0
+      --port 8000
+      --max-model-len ${VLLM_MAX_MODEL_LEN:-16384}
+      --limit-mm-per-prompt ${VLLM_LIMIT_MM_PER_PROMPT:-image=6}
+      --max-num-seqs ${VLLM_MAX_NUM_SEQS:-16}
+      --gpu-memory-utilization ${VLLM_GPU_MEMORY_UTILIZATION:-0.90}
+      --tensor-parallel-size ${VLLM_TENSOR_PARALLEL_SIZE:-1}
+      --enable-prefix-caching
+    # HF_TOKEN arrives through the file rather than through interpolation: it is a
+    # secret and belongs in secrets/, which Compose never reads for ${VAR}.
+    # If you pin an older vLLM image that wants the previous name, add
+    # HUGGING_FACE_HUB_TOKEN to the same file.
+    env_file:
+      - secrets/.env
+    volumes:
+      # Weights survive restarts, so only the first boot pays the download. To keep
+      # them across a rebuild of the machine, point this at a mounted disk instead:
+      #   - /mnt/weights:/root/.cache/huggingface
+      - huggingface:/root/.cache/huggingface
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      # Model load takes minutes; start_period keeps the container from being
+      # marked unhealthy while the weights are still being read.
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 900s
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  backend_inference:
+    image: ghcr.io/ivangalkindeveloper/doglyad-inference:${TAG:-latest}
+    # Bind to the private interface — the backend VM reaches this port, the internet
+    # must not. With the two machines at different providers that address is the
+    # Tailscale one.
+    ports:
+      - "${INFERENCE_BACKEND_BIND:?INFERENCE_BACKEND_BIND is not set}:${INFERENCE_BACKEND_PORT:-8100}:8000"
+    volumes:
+      - ./secrets:/app/secrets:ro
+      - ./logs:/app/logs
+    env_file:
+      - secrets/.env
+    environment:
+      VLLM_BASE_URL: http://vllm:8000
+      # Passed through from the .env beside this file so the model id is stated
+      # once: the engine takes it as a command-line argument, the service compares
+      # incoming requests against it.
+      SERVED_MODEL_ID: ${SERVED_MODEL_ID}
+      VLLM_REQUEST_TIMEOUT_SECONDS: ${VLLM_REQUEST_TIMEOUT_SECONDS:-120}
+      # Application logs are written to ./logs with daily rotation, kept for a year.
+      # They contain no patient data — only technical metadata.
+      LOG_DIR: /app/logs
+      LOG_RETENTION_DAYS: 365
+    depends_on:
+      vllm:
+        condition: service_healthy
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+volumes:
+  huggingface:

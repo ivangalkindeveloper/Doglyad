@@ -41,7 +41,7 @@ runcmd:
   # drift from deploy/ in git. The repository is the source of truth.
   - mkdir -p /opt/doglyad/logs
   - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/docker-compose.yml
-    https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/docker-compose.yml
+    https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/docker-compose.main.yml
   - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/Caddyfile
     https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/Caddyfile
 
