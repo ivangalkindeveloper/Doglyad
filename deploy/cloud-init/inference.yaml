@@ -5,88 +5,32 @@
 # machine comes up bare.
 #
 # Pasted into user-data when the GPU VM is created. Runs once, as root, on first
-# boot, and reboots the machine at the end — the NVIDIA kernel module needs it.
+# boot, and reboots at the end — the NVIDIA kernel module wants a clean start.
 #
-# If the provider does not accept user-data (common on dedicated servers), run the
-# runcmd body below by hand over ssh instead. It is plain shell and does the same
-# thing; only the reboot has to be triggered manually.
+# All the work lives in deploy/bootstrap.sh, which this only fetches and runs. A
+# provider that accepts user-data and one that does not therefore produce the same
+# machine; without user-data, run that script yourself:
 #
-# Knows nothing about this particular machine: no login, no address, no model. All
-# of that arrives afterwards — see the final message.
+#   curl -fsSL --retry 5 --retry-delay 3 -o /tmp/doglyad-bootstrap.sh \
+#     https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/bootstrap.sh
+#   sudo bash /tmp/doglyad-bootstrap.sh inference
 #
-# Deliberately holds no secrets, and deliberately does not start the stack: without
-# secrets the service would not come up, and the weights download should begin when
-# you are watching it, not on a machine you have not logged into yet.
+# Knows nothing about this particular machine: no login, no address, no model.
+# Those arrive afterwards — see the final message.
 
 package_update: true
 packages:
   - ca-certificates
   - curl
-  - gnupg
-  # Picks the right server driver for whichever card the provider gave us.
-  - ubuntu-drivers-common
 
 runcmd:
-  # --- Docker ---------------------------------------------------------------
-  - curl -fsSL https://get.docker.com | sh
-
-  # --- NVIDIA driver --------------------------------------------------------
-  # Skipped when the provider's image already ships one — reinstalling a working
-  # driver is a good way to break it.
   - |
-    if command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi >/dev/null 2>&1; then
-      echo "NVIDIA driver already present, skipping"
-    else
-      ubuntu-drivers install --gpgpu
-    fi
+    set -eu
+    bootstrap_path=/run/doglyad-bootstrap.sh
+    curl -fsSL --retry 5 --retry-delay 3 -o "$bootstrap_path" \
+      https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/bootstrap.sh
+    bash "$bootstrap_path" inference
 
-  # --- NVIDIA Container Toolkit ---------------------------------------------
-  # This is what lets a container see the card. Without it the `capabilities: [gpu]`
-  # reservation in docker-compose fails and vLLM never starts.
-  #
-  # If these commands drift, the canonical source is NVIDIA's installation guide;
-  # the shape (add repo, install, `nvidia-ctk runtime configure`) has been stable.
-  - |
-    set -e
-    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey |
-      gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-    curl -fsSL https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list |
-      sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
-      > /etc/apt/sources.list.d/nvidia-container-toolkit.list
-    apt-get update
-    apt-get install -y nvidia-container-toolkit
-    nvidia-ctk runtime configure --runtime=docker
-
-  # --- Tailscale ------------------------------------------------------------
-  # The private link to the backend VM: the two live at different providers, so
-  # there is no shared subnet, and this link carries patient scans.
-  # Install only. `tailscale up` is run by hand so the auth key never lands in the
-  # metadata service.
-  - curl -fsSL https://tailscale.com/install.sh | sh
-
-  # --- Stack files ----------------------------------------------------------
-  # Fetched from the public repository rather than inlined here, so they cannot
-  # drift from deploy/ in git. The repository is the source of truth.
-  - mkdir -p /opt/doglyad/logs
-  - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/docker-compose.yml
-    https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/docker-compose.inference.yml
-
-  # Rights go to every non-system user rather than to a named login, which keeps
-  # this file identical across machines and providers.
-  #
-  # UID 1000 is not a reliable stand-in for "the user I log in as" — measured on
-  # Yandex Cloud: their Ubuntu image already ships a built-in `ubuntu` at 1000, so
-  # the login from the creation form lands on 1001 and the rights went to the wrong
-  # account.
-  - |
-    for u in $(awk -F: '$3>=1000 && $3<65534 {print $1}' /etc/passwd); do
-      usermod -aG docker "$u"
-    done
-    chgrp -R docker /opt/doglyad
-    chmod -R g+rwX /opt/doglyad
-
-# The driver's kernel module wants a clean boot. Nothing is running yet, so this
-# costs nothing.
 power_state:
   mode: reboot
   message: Rebooting to load the NVIDIA driver
@@ -104,6 +48,7 @@ final_message: |
     2. Join the private network, and note the address it prints:
 
        sudo tailscale up
+       tailscale ip -4
 
     3. This machine's configuration, from your laptop:
 

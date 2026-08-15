@@ -4,20 +4,26 @@
 # the payload is a config at all; without it the file is silently ignored and the
 # machine comes up bare.
 #
-# Pasted into Metadata → user-data when the VM is created. Runs once, as root, on
-# first boot.
+# Pasted into user-data when the VM is created. Runs once, as root, on first boot.
+#
+# All the work lives in deploy/bootstrap.sh, which this only fetches and runs. A
+# provider that accepts user-data and one that does not therefore produce the same
+# machine; without user-data, run that script yourself:
+#
+#   curl -fsSL --retry 5 --retry-delay 3 -o /tmp/doglyad-bootstrap.sh \
+#     https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/bootstrap.sh
+#   sudo bash /tmp/doglyad-bootstrap.sh main
 #
 # The same file serves main-development and main-production and knows nothing
 # about either: no login, no domain, no environment. All of that arrives later
-# over ssh — see the final message below. That is also what makes it portable to
-# any provider.
+# over ssh — see the final message.
 #
 # Deliberately holds no secrets: user-data is readable from inside the machine
 # through the metadata service and is stored by the provider.
 #
-# Deliberately does not start the stack: the backend would not come up without
-# its secrets anyway, and Caddy would burn Let's Encrypt attempts while the
-# domain still points elsewhere.
+# Deliberately does not start the stack: the backend would not come up without its
+# secrets anyway, and Caddy would burn Let's Encrypt attempts while the domain
+# still points elsewhere.
 
 package_update: true
 packages:
@@ -25,62 +31,28 @@ packages:
   - curl
 
 runcmd:
-  # --- Docker ---------------------------------------------------------------
-  # Official script: installs docker-ce and the compose v2 plugin.
-  - curl -fsSL https://get.docker.com | sh
-
-  # --- Tailscale ------------------------------------------------------------
-  # A private network to the GPU VM: it lives at a different provider, so there
-  # is no shared private subnet, and this link carries patient scans.
-  # Install only. `tailscale up` is run by hand so the auth key never lands in
-  # the metadata service.
-  - curl -fsSL https://tailscale.com/install.sh | sh
-
-  # --- Stack files ----------------------------------------------------------
-  # Fetched from the public repository rather than inlined here, so they cannot
-  # drift from deploy/ in git. The repository is the source of truth.
-  - mkdir -p /opt/doglyad/logs
-  - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/docker-compose.yml
-    https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/docker-compose.main.yml
-  - curl -fsSL --retry 5 --retry-delay 3 -o /opt/doglyad/Caddyfile
-    https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/Caddyfile
-
-  # Rights go to every non-system user rather than to a named login, which keeps
-  # this file identical across machines and providers.
-  #
-  # UID 1000 is not a reliable stand-in for "the user I log in as" — measured on
-  # Yandex Cloud: their Ubuntu image already ships a built-in `ubuntu` at 1000,
-  # so the login from the creation form lands on 1001 and the rights went to the
-  # wrong account.
-  #
-  # The directory is handed to the docker group: the same people end up in it, so
-  # "may write to /opt/doglyad" and "may run containers" stay one decision.
   - |
-    for u in $(awk -F: '$3>=1000 && $3<65534 {print $1}' /etc/passwd); do
-      usermod -aG docker "$u"
-    done
-    chgrp -R docker /opt/doglyad
-    chmod -R g+rwX /opt/doglyad
+    set -eu
+    bootstrap_path=/run/doglyad-bootstrap.sh
+    curl -fsSL --retry 5 --retry-delay 3 -o "$bootstrap_path" \
+      https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/bootstrap.sh
+    bash "$bootstrap_path" main
 
 final_message: |
-  The machine is configured. Three steps left, with your login and domain:
+  The machine is configured. Reboot once so the docker group applies, then:
 
-    1. This machine's configuration:
+    1. Three lines of configuration for this machine:
 
-       ssh LOGIN@DOMAIN 'cat > /opt/doglyad/.env' <<EOF
+       ssh LOGIN@HOST 'cat > /opt/doglyad/.env' <<EOF
        TAG=latest
        ENV_FILE=secrets/.env.development
-       DOMAIN=DOMAIN
+       DOMAIN=HOST
        EOF
 
        for production: ENV_FILE=secrets/.env.production
 
-    2. Secrets:
+    2. Secrets, and the first start:
 
-       scp -r backend/main/secrets LOGIN@DOMAIN:/opt/doglyad/
-
-    3. Start:
-
-       ssh LOGIN@DOMAIN 'sudo tailscale up && cd /opt/doglyad && docker compose up -d'
+       deploy/sync-secrets.sh main LOGIN@HOST
 
   Log of this run: /var/log/cloud-init-output.log
