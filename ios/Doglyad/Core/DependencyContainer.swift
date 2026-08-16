@@ -148,6 +148,7 @@ extension DependencyContainer {
             templateRepository: templateRepository,
             subscriptionRepository: subscriptionRepository,
             applicationConfig: ApplicationConfig(
+                isServiceAvailable: false,
                 appStoreId: "",
                 actualVersion: Version(
                     major: 1,

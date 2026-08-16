@@ -58,3 +58,12 @@ def test_config_is_reachable_without_app_check(client: TestClient, path: str) ->
 def test_only_the_app_facing_documents_are_exposed(client: TestClient) -> None:
     served = {str(getattr(r, "path", "")) for r in client.app.routes}
     assert set(_ENDPOINTS) <= served
+
+
+@pytest.mark.parametrize("environment", ("development", "production"))
+def test_service_availability_is_the_first_field_and_disabled_by_default(environment: str) -> None:
+    path = _CONFIG_DIR.parent / environment / "application.json"
+    application_config = json.loads(path.read_text(encoding="utf-8"))
+
+    assert next(iter(application_config)) == "isServiceAvailable"
+    assert application_config["isServiceAvailable"] is False

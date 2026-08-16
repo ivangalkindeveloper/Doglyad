@@ -7,22 +7,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "env: development.stub",
+            "label": "env: development",
             "type": "shell",
-            "command": "awk 1 secrets/.env secrets/.env.development.stub > secrets/.env.running",
-            "options": {
-                "cwd": "${workspaceFolder}/backend/main"
-            },
-            "presentation": {
-                "reveal": "silent",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "env: development.inference",
-            "type": "shell",
-            "command": "awk 1 secrets/.env secrets/.env.development.inference > secrets/.env.running",
+            "command": "awk 1 secrets/.env secrets/.env.development > secrets/.env.running",
             "options": {
                 "cwd": "${workspaceFolder}/backend/main"
             },

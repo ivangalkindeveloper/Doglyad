@@ -1,4 +1,5 @@
 enum ScreenType: Hashable {
+    case serviceUnavailable
     case newVersion
     case onBoarding
     case legalUpdate

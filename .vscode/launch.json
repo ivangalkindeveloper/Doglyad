@@ -1,11 +1,11 @@
 {
     // Каждая конфигурация сначала прогоняет задачу из tasks.json, которая склеивает
-    // secrets/.env с профильным файлом в secrets/.env.debug — тот же набор переменных,
+    // secrets/.env с профильным файлом в secrets/.env.running — тот же набор переменных,
     // что compose передаёт через env_file в `make start-backend-*`.
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Backend: Development Stub",
+            "name": "Backend: Development",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
@@ -15,22 +15,8 @@
                 "--port", "8000"
             ],
             "cwd": "${workspaceFolder}/backend/main",
-            "preLaunchTask": "env: development.stub",
-            "envFile": "${workspaceFolder}/backend/main/secrets/.env.debug"
-        },
-        {
-            "name": "Backend: Development Inference",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "app.main:app",
-                "--host", "0.0.0.0",
-                "--port", "8000"
-            ],
-            "cwd": "${workspaceFolder}/backend/main",
-            "preLaunchTask": "env: development.inference",
-            "envFile": "${workspaceFolder}/backend/main/secrets/.env.debug"
+            "preLaunchTask": "env: development",
+            "envFile": "${workspaceFolder}/backend/main/secrets/.env.running"
         },
         {
             "name": "Backend: Production",
@@ -44,7 +30,7 @@
             ],
             "cwd": "${workspaceFolder}/backend/main",
             "preLaunchTask": "env: production",
-            "envFile": "${workspaceFolder}/backend/main/secrets/.env.debug"
+            "envFile": "${workspaceFolder}/backend/main/secrets/.env.running"
         }
     ]
 }

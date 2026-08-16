@@ -1,6 +1,7 @@
 import Foundation
 
 struct ApplicationConfig: Codable {
+    let isServiceAvailable: Bool
     let appStoreId: String
     let actualVersion: Version
     let contactEmail: String
@@ -17,6 +18,7 @@ struct ApplicationConfig: Codable {
 
 extension ApplicationConfig {
     private enum CodingKeys: String, CodingKey {
+        case isServiceAvailable
         case appStoreId
         case actualVersion
         case contactEmail
@@ -31,6 +33,7 @@ extension ApplicationConfig {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        isServiceAvailable = try container.decodeIfPresent(Bool.self, forKey: .isServiceAvailable) ?? false
         appStoreId = try container.decode(String.self, forKey: .appStoreId)
         actualVersion = try container.decode(Version.self, forKey: .actualVersion)
         contactEmail = try container.decode(String.self, forKey: .contactEmail)
@@ -56,6 +59,7 @@ extension ApplicationConfig {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(isServiceAvailable, forKey: .isServiceAvailable)
         try container.encode(appStoreId, forKey: .appStoreId)
         try container.encode(actualVersion, forKey: .actualVersion)
         try container.encode(contactEmail, forKey: .contactEmail)

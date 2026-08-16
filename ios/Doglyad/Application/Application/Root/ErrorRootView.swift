@@ -64,35 +64,33 @@ private struct ErrorView: View {
                 spacing: .zero
             ) {
                 Spacer()
-                ZStack {
-                    Circle()
-                        .fill(color.gradientPrimaryWeak)
-                    DIcon(
-                        image,
-                        color: color.grayscaleBackground
+
+                Image(.onBoarding4)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(
+                        maxWidth: .infinity,
+                        alignment: .center
                     )
-                }
-                .frame(width: size.s64, height: size.s64)
-                .padding(.bottom, size.s16)
-                DText(
-                    title
-                )
-                .dStyle(
-                    font: theme.typography.linkMedium,
-                    alignment: .center
-                )
-                .padding(.bottom, size.s10)
-                DText(
-                    description
-                )
-                .dStyle(
-                    font: typography.textSmall,
-                    color: color.grayscalePlacehold,
-                    alignment: .center
-                )
-                .padding(.horizontal, size.s14)
-                .padding(.bottom, size.s14)
+                    .padding(size.s16)
+
+                DText(title)
+                    .dStyle(
+                        font: theme.typography.linkMedium,
+                        alignment: .center
+                    )
+                    .padding(.bottom, size.s16)
+
+                DText(description)
+                    .dStyle(
+                        font: typography.textSmall,
+                        color: color.grayscalePlacehold,
+                        alignment: .center
+                    )
+                    .padding(.bottom, size.s16)
+
                 Spacer()
+
                 DButton(
                     title: buttonTitle,
                     action: self.action,

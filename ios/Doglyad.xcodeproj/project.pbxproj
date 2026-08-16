@@ -168,8 +168,8 @@
 		7730C19E3016979700E0BE55 /* Exceptions for "Firebase" folder in "Doglyad" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Development/GoogleService-Info.plist",
-				"Local/GoogleService-Info.plist",
+				"Debug-Development/GoogleService-Info.plist",
+				"Debug-Local/GoogleService-Info.plist",
 				"Production/GoogleService-Info.plist",
 			);
 			target = 77AC58B12E929E7E0028250A /* Doglyad */;
@@ -1091,7 +1091,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		771F41B12EA430B400C4945A /* Local */ = {
+		771F41B12EA430B400C4945A /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1130,7 +1130,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		771F41B22EA430B400C4945A /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -1173,7 +1173,7 @@
 			};
 			name = Production;
 		};
-		7720FEEE2E9ACE43002EA89E /* Local */ = {
+		7720FEEE2E9ACE43002EA89E /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1212,7 +1212,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		7720FEEF2E9ACE43002EA89E /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -1255,7 +1255,7 @@
 			};
 			name = Production;
 		};
-		773BC613302BCA6700D33D02 /* Development */ = {
+		773BC613302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Development.xcconfig;
@@ -1321,9 +1321,9 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC614302BCA6700D33D02 /* Development */ = {
+		773BC614302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Development.xcconfig;
@@ -1374,9 +1374,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC615302BCA6700D33D02 /* Development */ = {
+		773BC615302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Development.xcconfig;
@@ -1399,9 +1399,9 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doglyad.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Doglyad";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC616302BCA6700D33D02 /* Development */ = {
+		773BC616302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Development.xcconfig;
@@ -1423,9 +1423,9 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = Doglyad;
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC617302BCA6700D33D02 /* Development */ = {
+		773BC617302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1467,9 +1467,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC618302BCA6700D33D02 /* Development */ = {
+		773BC618302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1508,9 +1508,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC619302BCA6700D33D02 /* Development */ = {
+		773BC619302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1556,9 +1556,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC61A302BCA6700D33D02 /* Development */ = {
+		773BC61A302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1600,9 +1600,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC61B302BCA6700D33D02 /* Development */ = {
+		773BC61B302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1641,9 +1641,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		773BC61C302BCA6700D33D02 /* Development */ = {
+		773BC61C302BCA6700D33D02 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1685,9 +1685,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Development;
+			name = "Debug-Development";
 		};
-		77A896D22F0C82B1006E6E41 /* Local */ = {
+		77A896D22F0C82B1006E6E41 /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1729,7 +1729,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77A896D32F0C82B1006E6E41 /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -1775,7 +1775,7 @@
 			};
 			name = Production;
 		};
-		77AC58D32E929E800028250A /* Local */ = {
+		77AC58D32E929E800028250A /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Local.xcconfig;
@@ -1841,7 +1841,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77AC58D42E929E800028250A /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -1904,7 +1904,7 @@
 			};
 			name = Production;
 		};
-		77AC58D62E929E800028250A /* Local */ = {
+		77AC58D62E929E800028250A /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Local.xcconfig;
@@ -1955,7 +1955,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77AC58D72E929E800028250A /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -2008,7 +2008,7 @@
 			};
 			name = Production;
 		};
-		77AC58D92E929E800028250A /* Local */ = {
+		77AC58D92E929E800028250A /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Local.xcconfig;
@@ -2031,7 +2031,7 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doglyad.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Doglyad";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77AC58DA2E929E800028250A /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -2058,7 +2058,7 @@
 			};
 			name = Production;
 		};
-		77AC58DC2E929E800028250A /* Local */ = {
+		77AC58DC2E929E800028250A /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 77C3EE2C2FD617FF00DC4D6A /* Config */;
 			baseConfigurationReferenceRelativePath = Config.Local.xcconfig;
@@ -2080,7 +2080,7 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = Doglyad;
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77AC58DD2E929E800028250A /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -2106,7 +2106,7 @@
 			};
 			name = Production;
 		};
-		77CB94FB2EB8FED100489F3E /* Local */ = {
+		77CB94FB2EB8FED100489F3E /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -2148,7 +2148,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77CB94FC2EB8FED100489F3E /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -2194,7 +2194,7 @@
 			};
 			name = Production;
 		};
-		77CB951C2EB90C4600489F3E /* Local */ = {
+		77CB951C2EB90C4600489F3E /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -2236,7 +2236,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77CB951D2EB90C4600489F3E /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -2282,7 +2282,7 @@
 			};
 			name = Production;
 		};
-		77CB952C2EB90C8500489F3E /* Local */ = {
+		77CB952C2EB90C8500489F3E /* Debug-Local */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -2328,7 +2328,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Local;
+			name = "Debug-Local";
 		};
 		77CB952D2EB90C8500489F3E /* Production */ = {
 			isa = XCBuildConfiguration;
@@ -2384,8 +2384,8 @@
 		771F41B02EA430B400C4945A /* Build configuration list for PBXNativeTarget "DoglyadDatabase" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				771F41B12EA430B400C4945A /* Local */,
-				773BC618302BCA6700D33D02 /* Development */,
+				771F41B12EA430B400C4945A /* Debug-Local */,
+				773BC618302BCA6700D33D02 /* Debug-Development */,
 				771F41B22EA430B400C4945A /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2394,8 +2394,8 @@
 		7720FEF02E9ACE43002EA89E /* Build configuration list for PBXNativeTarget "DoglyadUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7720FEEE2E9ACE43002EA89E /* Local */,
-				773BC61B302BCA6700D33D02 /* Development */,
+				7720FEEE2E9ACE43002EA89E /* Debug-Local */,
+				773BC61B302BCA6700D33D02 /* Debug-Development */,
 				7720FEEF2E9ACE43002EA89E /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2404,8 +2404,8 @@
 		77A896D12F0C82B1006E6E41 /* Build configuration list for PBXNativeTarget "DoglyadNetwork" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77A896D22F0C82B1006E6E41 /* Local */,
-				773BC61C302BCA6700D33D02 /* Development */,
+				77A896D22F0C82B1006E6E41 /* Debug-Local */,
+				773BC61C302BCA6700D33D02 /* Debug-Development */,
 				77A896D32F0C82B1006E6E41 /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2414,8 +2414,8 @@
 		77AC58AD2E929E7E0028250A /* Build configuration list for PBXProject "Doglyad" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77AC58D32E929E800028250A /* Local */,
-				773BC613302BCA6700D33D02 /* Development */,
+				77AC58D32E929E800028250A /* Debug-Local */,
+				773BC613302BCA6700D33D02 /* Debug-Development */,
 				77AC58D42E929E800028250A /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2424,8 +2424,8 @@
 		77AC58D52E929E800028250A /* Build configuration list for PBXNativeTarget "Doglyad" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77AC58D62E929E800028250A /* Local */,
-				773BC614302BCA6700D33D02 /* Development */,
+				77AC58D62E929E800028250A /* Debug-Local */,
+				773BC614302BCA6700D33D02 /* Debug-Development */,
 				77AC58D72E929E800028250A /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2434,8 +2434,8 @@
 		77AC58D82E929E800028250A /* Build configuration list for PBXNativeTarget "DoglyadTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77AC58D92E929E800028250A /* Local */,
-				773BC615302BCA6700D33D02 /* Development */,
+				77AC58D92E929E800028250A /* Debug-Local */,
+				773BC615302BCA6700D33D02 /* Debug-Development */,
 				77AC58DA2E929E800028250A /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2444,8 +2444,8 @@
 		77AC58DB2E929E800028250A /* Build configuration list for PBXNativeTarget "DoglyadUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77AC58DC2E929E800028250A /* Local */,
-				773BC616302BCA6700D33D02 /* Development */,
+				77AC58DC2E929E800028250A /* Debug-Local */,
+				773BC616302BCA6700D33D02 /* Debug-Development */,
 				77AC58DD2E929E800028250A /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2454,8 +2454,8 @@
 		77CB94FA2EB8FED100489F3E /* Build configuration list for PBXNativeTarget "DoglyadCamera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77CB94FB2EB8FED100489F3E /* Local */,
-				773BC617302BCA6700D33D02 /* Development */,
+				77CB94FB2EB8FED100489F3E /* Debug-Local */,
+				773BC617302BCA6700D33D02 /* Debug-Development */,
 				77CB94FC2EB8FED100489F3E /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2464,8 +2464,8 @@
 		77CB951B2EB90C4600489F3E /* Build configuration list for PBXNativeTarget "DoglyadSpeech" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77CB951C2EB90C4600489F3E /* Local */,
-				773BC61A302BCA6700D33D02 /* Development */,
+				77CB951C2EB90C4600489F3E /* Debug-Local */,
+				773BC61A302BCA6700D33D02 /* Debug-Development */,
 				77CB951D2EB90C4600489F3E /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2474,8 +2474,8 @@
 		77CB952B2EB90C8500489F3E /* Build configuration list for PBXNativeTarget "DoglyadNeuralModel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77CB952C2EB90C8500489F3E /* Local */,
-				773BC619302BCA6700D33D02 /* Development */,
+				77CB952C2EB90C8500489F3E /* Debug-Local */,
+				773BC619302BCA6700D33D02 /* Debug-Development */,
 				77CB952D2EB90C8500489F3E /* Production */,
 			);
 			defaultConfigurationIsVisible = 0;

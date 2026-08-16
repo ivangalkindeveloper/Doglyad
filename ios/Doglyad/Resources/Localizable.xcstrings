@@ -2077,6 +2077,40 @@
         }
       }
     },
+    "serviceUnavailableTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The service is currently unavailable"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сервис сейчас недоступен"
+          }
+        }
+      }
+    },
+    "serviceUnavailableDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We will resume operation shortly. If you have any questions, please contact us at:"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В скором времени мы продолжим работу. В случае возникновения вопросов, пожалуйста, свяжитесь с нами:"
+          }
+        }
+      }
+    },
     "settingsAboutAppTitle": {
       "extractionState": "manual",
       "localizations": {

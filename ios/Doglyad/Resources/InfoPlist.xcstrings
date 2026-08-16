@@ -8,12 +8,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Doglyad AI"
+            "value" : "Doglyad"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Догляд AI"
           }
         }
@@ -26,12 +26,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "DoglyadAI"
+            "value" : "Doglyad"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "DoglyadAI"
           }
         }
@@ -50,6 +50,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Необходимо для съёмки фотографий ультразвукового исследования."
+          }
+        }
+      }
+    },
+    "NSLocalNetworkUsageDescription" : {
+      "comment" : "Privacy - Local Network Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Доступ к локальной сети необходим для подключения к локальному серверу разработки."
           }
         }
       }
