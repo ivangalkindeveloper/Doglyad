@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class InferenceService(ModelService):
-    """Primary inference path: our own GPU VMs, one per model.
+    """Inference through dedicated GPU VMs, one per model.
 
     Each VM runs the `backend/inference` service next to a local vLLM instance
     holding that model. This backend stays on a non-GPU machine and only routes:
@@ -72,8 +72,7 @@ class InferenceService(ModelService):
             # The response body may echo the request — log the status only.
             logger.error("Inference request returned error status %d", response.status_code)
             # 401/403 mean the App Check token did not pass on the GPU VM. Keep the
-            # status so the caller is told to re-authenticate instead of being
-            # quietly served by the fallback.
+            # status so the caller is told to re-authenticate.
             if response.status_code in (401, 403):
                 raise HTTPException(status_code=response.status_code, detail="App Check verification failed")
             raise HTTPException(status_code=502, detail="Inference service returned an error")

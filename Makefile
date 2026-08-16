@@ -15,10 +15,6 @@
 	stop-backend-inference \
 	init-vm-main \
 	init-vm-inference \
-	runpod-plan \
-	runpod-apply \
-	runpod-urls \
-	runpod-destroy \
 	download-ios-examination-model
 .SILENT:
 
@@ -89,17 +85,6 @@ init-vm-main:
 init-vm-inference:
 	test -n "$(TARGET)" || { echo "TARGET is required: make init-vm-inference TARGET=USER@HOST" >&2; exit 1; }
 	deploy/init-vm.sh inference "$(TARGET)"
-
-# Управление serverless-эндпоинтами RunPod из backend/main/config/runpod_endpoints.json.
-# RunPod теперь резерв: используется, только если GPU-виртуалка не ответила.
-runpod-plan:
-	cd backend/main && python3 scripts/runpod_sync.py plan
-runpod-apply:
-	cd backend/main && python3 scripts/runpod_sync.py apply
-runpod-urls:
-	cd backend/main && python3 scripts/runpod_sync.py urls
-runpod-destroy:
-	cd backend/main && python3 scripts/runpod_sync.py destroy
 
 download-ios-examination-model:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit

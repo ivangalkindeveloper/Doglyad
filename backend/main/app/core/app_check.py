@@ -37,10 +37,10 @@ async def verify_app_check(
     """Verifies the App Check token from the `X-Firebase-AppCheck` header.
 
     This is the edge of the system: requests arrive here from the internet, so
-    rejecting them here keeps an unverified caller away from everything behind it
-    — the GPU VMs, the paid RunPod fallback that verifies nothing itself, and the
-    SMTP credentials the email route sends with. The inference VM verifies the
-    same token again, because it is reachable over the network on its own.
+    rejecting them here keeps an unverified caller away from everything behind it,
+    including the GPU VMs and the SMTP credentials used by the email route. The
+    inference VM verifies the same token again because it is independently
+    reachable over the network.
 
     Raises 401 when the token is missing or fails verification.
     """

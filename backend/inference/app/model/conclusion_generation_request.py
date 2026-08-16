@@ -12,8 +12,7 @@ class ConclusionGenerationRequest(BaseModel):
 
     Prompt building, localization and templating stay in the backend: this service
     receives a ready pair of prompts and only runs the model. That keeps the GPU
-    side model-agnostic and lets the RunPod fallback receive exactly the same
-    inputs when this service is unreachable.
+    side model-agnostic and the two deployable services independently maintainable.
     """
 
     modelId: str

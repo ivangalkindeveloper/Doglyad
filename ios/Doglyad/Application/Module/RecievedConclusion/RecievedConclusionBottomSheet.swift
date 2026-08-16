@@ -30,7 +30,7 @@ struct RecievedConclusionBottomSheet: View {
             conclusion: USExaminationConclusion(
                 date: Date(),
                 neuralModelSettings: NeuralModelSettings(
-                    selectedNeuralModelId: "google/medgemma-27b-it",
+                    selectedNeuralModelId: "google/medgemma-1.5-4b-it",
                     isMarkdown: false,
                     temperature: nil,
                     maxTokens: nil
@@ -48,7 +48,7 @@ struct RecievedConclusionBottomSheet: View {
                 ),
                 actualModelConclusion: USExaminationModelConclusion(
                     date: Date(),
-                    modelId: "google/medgemma-27b-it",
+                    modelId: "google/medgemma-1.5-4b-it",
                     response: """
                     Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                     Размеры органа в пределах возрастной нормы.

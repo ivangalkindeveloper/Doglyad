@@ -14,10 +14,8 @@ from app.model.ultrasound.us_examination_scan_photo import USExaminationScanPhot
 class InferenceRequest:
     """Everything a `ModelService` needs to produce one conclusion.
 
-    Grouped into an object rather than passed as positional arguments: the
-    implementations need different subsets of it — RunPod ignores the App Check
-    token, our own VMs need it — and a shared shape keeps the route from having
-    to know which.
+    Grouped into an object rather than passed as positional arguments so the route
+    remains independent of the concrete service implementation.
     """
 
     neural_model: USExaminationNeuralModel
@@ -29,8 +27,7 @@ class InferenceRequest:
     prompt: str
     photos: list[USExaminationScanPhoto] = field(default_factory=list)
     # The caller's App Check token, already verified at the edge and relayed
-    # unchanged to the GPU VM, which verifies it again. Services that call a
-    # third party ignore it.
+    # unchanged to the GPU VM, which verifies it again.
     app_check_token: str | None = None
 
 
@@ -42,9 +39,8 @@ class ModelService(ABC):
 
     @staticmethod
     def _load_urls(path: Path) -> dict[str, str]:
-        # A JSON object of modelId -> URL. For RunPod it is written by
-        # scripts/runpod_sync.py; for the GPU VMs it is maintained by hand, one
-        # entry per machine.
+        # A JSON object of modelId -> URL, maintained by hand with one entry per
+        # GPU VM.
         if not path.exists():
             raise RuntimeError(f"Model URLs file not found: {path}")
         try:

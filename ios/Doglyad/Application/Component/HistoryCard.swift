@@ -83,7 +83,7 @@ struct HistoryCard: View {
         conclusion: USExaminationConclusion(
             date: Date(),
             neuralModelSettings: NeuralModelSettings(
-                selectedNeuralModelId: "google/medgemma-27b-it",
+                selectedNeuralModelId: "google/medgemma-1.5-4b-it",
                 isMarkdown: false,
                 temperature: nil,
                 maxTokens: nil
@@ -117,7 +117,7 @@ struct HistoryCard: View {
             ),
             actualModelConclusion: USExaminationModelConclusion(
                 date: Date(),
-                modelId: "google/medgemma-27b-it",
+                modelId: "google/medgemma-1.5-4b-it",
                 response: """
                 Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                 Размеры органа в пределах возрастной нормы.
@@ -129,7 +129,7 @@ struct HistoryCard: View {
             previosModelConclusions: [
                 USExaminationModelConclusion(
                     date: Date(),
-                    modelId: "google/medgemma-27b-it",
+                    modelId: "google/medgemma-1.5-4b-it",
                     response: """
                     Признаков узловых или кистозных изменений щитовидной железы не выявлено.
                     Размеры органа в пределах возрастной нормы.
@@ -140,7 +140,7 @@ struct HistoryCard: View {
                 ),
                 USExaminationModelConclusion(
                     date: Date(),
-                    modelId: "google/medgemma-27b-it",
+                    modelId: "google/medgemma-1.5-4b-it",
                     response: """
                     Щитовидная железа расположена типично, структура органа сохранена.
                     Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.

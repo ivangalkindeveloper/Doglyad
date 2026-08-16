@@ -6,27 +6,24 @@
 
 - **Главный бэкенд** (`backend/main/`) — Python, FastAPI, Docker. Живёт на **не-GPU-виртуалке** и сам инференс не делает: собирает промпт, выбирает модель и маршрутизирует запрос. Отправка заключений на email через SMTP.
 - **Сервис инференса** (`backend/inference/`) — Python, FastAPI, Docker. Разворачивается **на GPU-виртуалке** (одна виртуалка на модель) рядом с локальным vLLM и самой моделью. Проверяет App Check и генерирует заключение.
-- **RunPod** — резервный путь инференса. Бэкенд идёт в serverless-эндпоинт, только если запрос к GPU-виртуалке упал.
 - **iOS-приложение** — SwiftUI, MVVM, SwiftData, Alamofire, MLX (on-device инференс), Firebase, RevenueCat (подписки).
 
 Путь одного запроса на генерацию заключения:
 
 ```
 iOS ──► backend/main (не-GPU) ──► backend/inference + vllm (GPU-виртуалка модели)
-                   │
-                   └── если упало ──► RunPod serverless
 ```
 
 App Check проверяется **дважды**: на входе в систему (`backend/main`) и ещё раз на машине с моделью (`backend/inference`). Токен из заголовка `X-Firebase-AppCheck` перекладывается в исходящий запрос без изменений, так что оба раза проверяется один и тот же токен.
 
-Две точки, а не одна, потому что резервный путь обходит виртуалку: если она недоступна, запрос уходит в RunPod, который токен не получает и ничего не проверяет. Проверка только на виртуалке отключалась бы ровно в момент её отказа. Проверка только на бэкенде оставила бы виртуалку доверяющей всем, кто дотянулся до её порта по сети.
+Проверка на главном бэкенде защищает внешний вход в систему, а повторная проверка не позволяет обращаться к GPU-виртуалке напрямую в обход главного бэкенда. Обе группы виртуальных машин находятся под контролем разработчика.
 
-Отключить проверку нечем — ни флага, ни режима: закрыт весь роутер `/v1` в любом окружении. Ответы 401/403 от сервиса инференса в RunPod **не** переотправляются.
+Отключить проверку нечем — ни флага, ни режима: закрыт весь роутер `/v1` в любом окружении.
 
 Вне `/v1` живут только ручки конфигов (`/application_config` и три `ultrasound_examination_*`). Они открыты намеренно: приложение читает их до того, как ему есть чем аутентифицироваться, а содержимое публично по природе — до переезда на бэкенд оно лежало в открытом репозитории. Они же служат инфраструктуре проверкой живости.
 
 ### Окружения
-`ENVIRONMENT` (`development` / `production`) выбирает каталог конфигов в `backend/main/config/` — и больше ничего. Приложение читает те же документы через ручки этого бэкенда, а не из репозитория: иначе пуш новой модели в `master` делал её видимой приложению сразу, а бэкенд узнавал о ней только после выкатки — и врач получал `400`. Оба окружения ходят в сервис инференса по одному и тому же пути, с тем же резервом RunPod и той же проверкой токена. Именно поэтому проверка на development-стенде что-то значит: это тот же код на том же маршруте, отличаются только список моделей, типы исследований и настройки приложения.
+`ENVIRONMENT` (`development` / `production`) выбирает каталог конфигов в `backend/main/config/` — и больше ничего. Приложение читает те же документы через ручки этого бэкенда, а не из репозитория: иначе пуш новой модели в `master` делал её видимой приложению сразу, а бэкенд узнавал о ней только после выкатки — и врач получал `400`. Оба окружения ходят в сервис инференса по одному и тому же пути и с той же проверкой токена. Именно поэтому проверка на development-стенде что-то значит: это тот же код на том же маршруте, отличаются только список моделей, типы исследований и настройки приложения.
 
 ### Таймауты
 Вложены строго снаружи внутрь, каждый слой шире того, который оборачивает:
@@ -35,12 +32,11 @@ App Check проверяется **дважды**: на входе в систе
 iOS-клиент                   300  application.json -> network.timeoutIntervalForRequest
 INFERENCE_REQUEST_TIMEOUT    130  главный бэкенд ждёт GPU-виртуалку
 VLLM_REQUEST_TIMEOUT         120  виртуалка ждёт свой локальный движок
-RUNPOD_REQUEST_TIMEOUT       150  резервная попытка после отказа виртуалки
 ```
 
-Два правила: внутренний таймаут меньше внешнего — иначе вызывающий рвёт соединение на генерации, которая ещё считается и уже оплачена; и `130 + 150` должно оставаться меньше клиентских `300` — иначе резерв досчитает в соединение, которое уже никто не слушает, и это будет счёт от RunPod ни за что.
+Внутренний таймаут меньше внешнего — иначе вызывающий разорвёт соединение во время генерации, которая ещё выполняется.
 
-Модель, для которой в `backend/main/secrets/inference_endpoints.json` нет записи, обслуживается RunPod. Так модели переезжают по одной: подняли виртуалку — добавили строку в карту.
+Для каждой опубликованной модели в `backend/main/secrets/inference_endpoints.json` должна существовать запись с URL соответствующей GPU-виртуалки. Отсутствие записи является ошибкой конфигурации.
 
 ## Навигация по коду
 ### `backend/main/` — Главный бэкенд
@@ -50,16 +46,14 @@ RUNPOD_REQUEST_TIMEOUT       150  резервная попытка после �
 | `backend/main/app/route/ultrasound_conclusion.py` | Эндпоинт `POST /v1/ultrasound_conclusion` — принимает данные исследования, вызывает `ModelService`, пробрасывает в него токен App Check, возвращает заключение |
 | `backend/main/app/route/ultrasound_conclusion_send_email.py` | Эндпоинт `POST /v1/ultrasound_conclusion_send_email` — отправка заключения на email через SMTP (`smtplib`) |
 | `backend/main/app/route/application_config.py` | Четыре ручки конфигов для приложения — `/application_config`, `/ultrasound_examination_types`, `/ultrasound_examination_neural_models`, `/ultrasound_examination_contextual_strings`. **Вне `/v1`**, то есть без App Check. Отдают файл из образа исходным текстом, без `response_model`: описывать всё дерево конфигов моделями значило бы завести второе место, где оно разъезжается с JSON |
-| `backend/main/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `FIREBASE_CREDENTIALS_PATH`, `EMAIL_*`, `INFERENCE_ENDPOINTS_PATH`, `RUNPOD_API_KEY`, `RUNPOD_ENDPOINTS_PATH`, таймауты, читаются в т.ч. из `backend/main/secrets/.env` |
+| `backend/main/app/core/variables.py` | Переменные окружения через `pydantic_settings` (`Variables`): `ENVIRONMENT`, `FIREBASE_CREDENTIALS_PATH`, `EMAIL_*`, `INFERENCE_ENDPOINTS_PATH`, таймауты, читаются в т.ч. из `backend/main/secrets/.env` |
 | `backend/main/app/core/app_check.py` | Проверка App Check на входе в систему. `APP_CHECK_HEADER`, `init_app_check` и зависимость `verify_app_check`, висящая на роутере `/v1`. Безусловна: без учётных данных Firebase бэкенд не стартует |
 | `backend/main/app/core/config.py` | Загрузка конфигов при старте: нейромодели и типы исследований разбираются в объекты, а `SERVED_DOCUMENTS` читаются ещё и текстом — их отдаёт приложению `resolve_config_document`. Плюс резолверы моделей и заголовков |
-| `backend/main/app/service/` | Слой инференса. Контракт `ModelService` и запрос `InferenceRequest` (`base.py`); реализации: основной `InferenceService` (`inference.py`), резервный `RunPodService` (`runpod.py`), композиция `FallbackModelService` (`fallback.py`). `create_model_service()` (`factory.py`) собирает связку один раз в lifespan и кладёт в `app.state.model_service`; роут просто вызывает её |
-| `backend/main/app/model/` | Pydantic-модели — `neural_model_settings.py`, `inference_response.py`, `runpod_response.py`, подпакет `ultrasound/` (request/data/conclusion/email/scan_photo/type/neural_model) |
+| `backend/main/app/service/` | Слой инференса. Контракт `ModelService` и запрос `InferenceRequest` (`base.py`), реализация `InferenceService` (`inference.py`). `create_model_service()` (`factory.py`) создаёт сервис один раз в lifespan и кладёт его в `app.state.model_service`; роут просто вызывает его |
+| `backend/main/app/model/` | Pydantic-модели — `neural_model_settings.py`, `inference_response.py`, подпакет `ultrasound/` (request/data/conclusion/email/scan_photo/type/neural_model) |
 | `backend/main/secrets/inference_endpoints.json` | Карта `modelId -> URL` GPU-виртуалок (путь в `INFERENCE_ENDPOINTS_PATH`). Ведётся вручную: по одной записи на виртуалку. В git не хранится |
 | `backend/main/app/prompt/` | Генерация промптов — `base.py` (`PromptFactory`), локализации `ru.py`/`en.py`, `resolve_prompt_factory` в `__init__.py` |
 | `backend/main/config/` | JSON-конфиги по окружениям (`development/`, `production/`): `application.json`, `ultrasound_examination_neural_models.json`, `ultrasound_examination_types.json`, `ultrasound_examination_contextual_strings.json`. Читаются бэкендом при старте и **отдаются приложению** через `app/route/application_config.py`. Запечены в образ, см. `backend/main/Dockerfile` |
-| `backend/main/config/runpod_endpoints.json` | Желаемое состояние **резервных** serverless-эндпоинтов RunPod (образ, `env` для vLLM, GPU, скейлинг). Общий для окружений — имена эндпоинтов не привязаны к окружению. Разбор каждой настройки — в [`RUNPOD.md`](backend/main/RUNPOD.md) |
-| `backend/main/scripts/runpod_sync.py` | Синхронизация эндпоинтов RunPod с конфигом: `plan`/`apply`/`urls`/`destroy` (`make runpod-*`). Печатает карту `modelId -> url` для `backend/main/secrets/runpod_endpoints.json` |
 | `backend/main/docker-compose.yml` | Docker Compose — читает `backend/main/secrets/.env` + профильный `secrets/.env.<профиль>` (выбор через `ENV_FILE`), монтирует только `./secrets` и `./logs`: конфиги запечены в образ |
 
 ### `backend/inference/` — сервис инференса
@@ -140,7 +134,7 @@ MVVM. Каждый MVVM-модуль содержит:
 - На клиенте для взаимодействия с базой данных использовать только ресурсы из модуля (`DoglyadDatabase`).
 - Не модифицировать файлы: `ios/DoglyadNeuralModel/Resources/`, `ios/Config/`, `ios/Firebase/`, `backend/main/secrets/`, `backend/inference/secrets/`.
 - Бэкенд не делает инференс сам: он живёт на не-GPU-виртуалке. Любая работа с моделью — в `backend/inference/`.
-- Промпты, локализация и шаблоны живут только в бэкенде. Сервис инференса получает готовый текст, чтобы резервный запрос в RunPod уходил с теми же входными данными.
+- Промпты, локализация и шаблоны живут только в главном бэкенде. Сервис инференса получает готовый текст и выполняет только генерацию.
 
 ## Команды
 Все команды описаны в `Makefile`. Основные:
@@ -152,4 +146,3 @@ MVVM. Каждый MVVM-модуль содержит:
 - `make start-backend-main-development` / `make start-backend-main-production` — запуск главного бэкенда в Docker; `ENVIRONMENT` берётся из соответствующего `backend/main/secrets/.env.<профиль>` (поверх общего `backend/main/secrets/.env`).
 - `make start-backend-main-logs` / `make stop-backend-main` — логи и остановка главного бэкенда.
 - `make start-backend-inference` / `make start-backend-inference-logs` / `make stop-backend-inference` — сервис инференса. Запускается **на GPU-виртуалке**, а не на машине разработчика: поднимает vLLM с моделью из `SERVED_MODEL_ID` и сервис `backend/inference` рядом с ней.
-- `make runpod-plan` / `make runpod-apply` / `make runpod-urls` / `make runpod-destroy` — управление резервными эндпоинтами RunPod.

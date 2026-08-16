@@ -64,7 +64,7 @@ def test_generate_rejects_another_model() -> None:
         async with httpx.AsyncClient() as client:
             service = VLLMService(client)
             request = ConclusionGenerationRequest(
-                modelId="google/medgemma-27b-it",
+                modelId="google/medgemma-1.5-4b-it",
                 systemPrompt="system",
                 prompt="prompt",
             )

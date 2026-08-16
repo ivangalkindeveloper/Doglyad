@@ -56,8 +56,5 @@ def test_config_is_reachable_without_app_check(client: TestClient, path: str) ->
 
 
 def test_only_the_app_facing_documents_are_exposed(client: TestClient) -> None:
-    # runpod_endpoints.json lives in config/ too but describes paid infrastructure;
-    # nothing routes to it, and there is no name a caller could pass to reach it.
     served = {str(getattr(r, "path", "")) for r in client.app.routes}
-    assert "/runpod_endpoints" not in served
     assert set(_ENDPOINTS) <= served

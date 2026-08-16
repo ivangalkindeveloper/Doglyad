@@ -18,15 +18,5 @@
             "en": "Choose it for complex cases and long patient histories: the same compact size, but it reasons more carefully over clinical text while still linking the images to context. Google's January 2026 update to the 4B model, trained on a broader range of studies — including volumetric CT and MRI, follow-up chest imaging over time, and turning lab reports and documents into structured records. A richer first draft when the case needs more thought.",
             "ru": "Выбирайте для сложных случаев и объёмного анамнеза: тот же компактный размер, но модель тщательнее рассуждает по клиническому тексту и по-прежнему связывает снимки с контекстом. Обновление Google (январь 2026) для модели 4B, обученное на более широком наборе исследований — включая объёмные КТ и МРТ, динамику снимков грудной клетки во времени и превращение лабораторных отчётов и документов в структурированные записи. Более содержательный черновик, когда случай требует размышления."
         }
-    },
-    {
-        "id": "google/medgemma-27b-it",
-        "title": "Google MedGemma 27B",
-        "entitlement": "pro",
-        "contextLength": 128000,
-        "description": {
-            "en": "The most capable model, for the hardest cases: much larger than the 4B versions, it reasons noticeably more accurately over both images and clinical text. Built by Google (released July 2025) on Gemma 3 and trained on de-identified medical images (X-ray, dermatology, ophthalmology, pathology) together with medical literature, clinical questions and real electronic health records. In Google's tests it markedly outperforms the smaller models on medical exams and record understanding — the choice when you want the strongest possible draft.",
-            "ru": "Самая мощная модель — для самых трудных случаев: значительно крупнее версий 4B и заметно точнее рассуждает и по снимкам, и по клиническому тексту. Создана Google (релиз — июль 2025) на основе Gemma 3 и обучена на обезличенных медицинских снимках (рентген, дерматология, офтальмология, патология) вместе с медицинской литературой, клиническими вопросами и реальными электронными медкартами. В тестах Google она заметно превосходит меньшие модели на медицинских экзаменах и в понимании историй болезни — выбор, когда нужен максимально сильный черновик."
-        }
     }
 ]

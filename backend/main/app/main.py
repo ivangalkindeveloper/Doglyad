@@ -25,9 +25,8 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
-    # Each inference service sets its own per-request timeout (the GPU VM and the
-    # RunPod fallback have very different latency profiles); this is only the
-    # default for callers that do not.
+    # The inference service sets the same per-request timeout explicitly; this is
+    # also the default for any other caller using the shared client.
     http_client = httpx.AsyncClient(timeout=variables.inference_request_timeout_seconds)
     _app.state.http_client = http_client
 
@@ -47,10 +46,10 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
 
 
 # App Check is verified here, at the edge, and again on the GPU VM that holds the
-# model. Two places rather than one because the fallback path bypasses the VM: a
-# request that failed verification must not reach RunPod either. Unconditional and
-# without exceptions — every environment reaches a real model, and the email route
-# spends real SMTP credentials. See backend/inference.
+# model. The second check prevents direct access to a VM by anyone who merely knows
+# its network address. Verification is unconditional in every environment. The
+# email route is protected by the same boundary because it uses real SMTP
+# credentials. See backend/inference.
 router_v1 = APIRouter(prefix="/v1", dependencies=[Depends(verify_app_check)])
 router_v1.include_router(ultrasound_conclusion_router)
 router_v1.include_router(ultrasound_conclusion_send_email_router)

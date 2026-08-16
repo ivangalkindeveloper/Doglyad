@@ -84,8 +84,8 @@ def test_request_carries_prompts_photos_and_sampling(endpoints: Path) -> None:
 
 @pytest.mark.parametrize("status_code", [401, 403])
 def test_auth_status_is_preserved(endpoints: Path, status_code: int) -> None:
-    # Preserved rather than mapped to 502, so FallbackModelService can tell an
-    # unauthorized caller apart from a broken VM and refuse to retry on RunPod.
+    # Preserve authentication failures rather than hiding them behind a generic
+    # upstream error.
     def handler(request: httpx.Request) -> httpx.Response:
         return httpx.Response(status_code, json={"detail": "no"})
 
@@ -129,7 +129,7 @@ def test_model_without_a_vm_is_not_sent_anywhere(endpoints: Path) -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         raise AssertionError("must not be called")
 
-    other = USExaminationNeuralModel(id="google/medgemma-27b-it", title="27B", description={"en": ""})
+    other = USExaminationNeuralModel(id="google/unsupported-model", title="Unsupported", description={"en": ""})
 
     with pytest.raises(HTTPException) as error:
         _call(handler, _request(model=other))

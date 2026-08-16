@@ -24,8 +24,8 @@ def test_every_v1_route_is_behind_app_check() -> None:
 
 
 def test_missing_token_is_rejected() -> None:
-    # Rejected at the edge, before any service is resolved: the RunPod fallback
-    # bypasses the GPU VM, so verification cannot be left to the VM alone.
+    # Rejected at the edge before any service is resolved. The GPU VM performs a
+    # second independent verification when the request reaches it.
     with pytest.raises(HTTPException) as error:
         asyncio.run(verify_app_check(None))
 

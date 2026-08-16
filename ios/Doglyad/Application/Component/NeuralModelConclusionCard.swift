@@ -90,7 +90,7 @@ struct NeuralModelConclusionCard: View {
     NeuralModelConclusionCard(
         conclusion: USExaminationModelConclusion(
             date: Date(),
-            modelId: "google/medgemma-27b-it",
+            modelId: "google/medgemma-1.5-4b-it",
             response: """
             Щитовидная железа расположена типично, структура органа сохранена.
             Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.
