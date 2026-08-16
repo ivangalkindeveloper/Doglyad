@@ -25,6 +25,12 @@ usage() {
 ROLE="${1:-}"
 TARGET="${2:-}"
 [ -n "$ROLE" ] && [ -n "$TARGET" ] || usage
+case "$TARGET" in
+-* | *[[:space:]]*)
+    echo "Invalid SSH target: expected USER@HOST or an SSH config host alias" >&2
+    exit 1
+    ;;
+esac
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REMOTE_DIR="/opt/doglyad"
@@ -60,9 +66,9 @@ if [ ! -d "$LOCAL_SECRETS" ]; then
     exit 1
 fi
 
-SSH_OPTS=()
+SSH_COMMAND=(ssh)
 if [ -n "${DOGLYAD_SSH_KEY:-}" ]; then
-    SSH_OPTS=(-i "$DOGLYAD_SSH_KEY")
+    SSH_COMMAND+=(-i "$DOGLYAD_SSH_KEY")
 fi
 
 echo "==> $ROLE: $LOCAL_SECRETS  ->  $TARGET:$REMOTE_DIR/secrets"
@@ -73,12 +79,18 @@ ls -A "$LOCAL_SECRETS" | sed 's/^/      /'
 # quietly produce /opt/doglyad/secrets/secrets. tar also carries dotfiles, which is
 # most of what is being copied here.
 tar -C "$(dirname "$LOCAL_SECRETS")" -czf - "$(basename "$LOCAL_SECRETS")" |
-    ssh "${SSH_OPTS[@]}" "$TARGET" "mkdir -p '$REMOTE_DIR' && tar -C '$REMOTE_DIR' -xzf -"
+    "${SSH_COMMAND[@]}" "$TARGET" "
+        set -e
+        umask 077
+        mkdir -p '$REMOTE_DIR/secrets'
+        chmod 700 '$REMOTE_DIR/secrets'
+        tar --no-same-permissions -C '$REMOTE_DIR' -xzf -
+        chmod -R go-rwx '$REMOTE_DIR/secrets'
+    "
 
 echo "==> applying on the VM"
-ssh "${SSH_OPTS[@]}" "$TARGET" "
+"${SSH_COMMAND[@]}" "$TARGET" "
     set -e
-    chmod -R go-rwx '$REMOTE_DIR/secrets'
     cd '$REMOTE_DIR'
 
     # Brings up whatever is not running — this is also the first start on a fresh

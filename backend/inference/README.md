@@ -92,11 +92,11 @@ make stop-backend-inference
 | Переменная | Значение | Зачем |
 |---|---|---|
 | `VLLM_MAX_MODEL_LEN` | `16384` | Ограничивает не только длину запроса, но и профилировочный прогон энкодера на старте. На дефолте модели (131072 у Gemma 3 / MedGemma) 4B-модель падает с OOM даже на 40-гиговой карте. |
-| `VLLM_LIMIT_MM_PER_PROMPT` | `image=10` | Не меньше `ultrasound.scanPhotoMaxNumber` из `application.json` (сейчас 6). При дефолтном лимите в 1 изображение запросы с несколькими снимками отклоняются в рантайме. |
+| `VLLM_LIMIT_MM_PER_PROMPT` | `10` | Число изображений на запрос, не меньше `ultrasound.scanPhotoMaxNumber` из `application.json` (сейчас 6). Compose преобразует его в JSON, который принимает vLLM. При дефолтном лимите в 1 изображение запросы с несколькими снимками отклоняются в рантайме. |
 | `VLLM_MAX_NUM_SEQS` | `16` | Потолок одновременных запросов. 256 по умолчанию для нашей нагрузки бессмысленно много и раздувает профилировку. |
 | `VLLM_GPU_MEMORY_UTILIZATION` | `0.90` | Запас на активации и фрагментацию. От OOM на старте не спасает — это лечится `VLLM_MAX_MODEL_LEN`. |
 | `VLLM_TENSOR_PARALLEL_SIZE` | `1` | Обязан совпадать с числом GPU в виртуалке. |
-| `VLLM_IMAGE` | пин тега | Образ определяет сборку CUDA. Карта новее сборки падает с `no kernel image is available for execution on the device` на первой же CUDA-операции. Пиньте тег, который реально загрузился на этой карте. |
+| `VLLM_IMAGE` | `vllm/vllm-openai:v0.27.1@sha256:c2f3b1b964e47809b722b5e75b61b1e7b39a50f70388cf2bf2418f16a9f31da2` | Проверенный linux/amd64-образ зафиксирован digest: тег в registry можно переписать, digest — нет. Образ определяет сборку CUDA; карта новее сборки падает с `no kernel image is available for execution on the device` на первой же CUDA-операции. |
 
 ## Разработка
 

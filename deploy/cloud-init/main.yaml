@@ -10,7 +10,8 @@
 # provider that accepts user-data and one that does not therefore produce the same
 # machine; without user-data, run that script yourself:
 #
-#   curl -fsSL --retry 5 --retry-delay 3 -o /tmp/doglyad-bootstrap.sh \
+#   curl -fsSL --retry 10 --retry-all-errors --retry-delay 3 \
+#     -o /tmp/doglyad-bootstrap.sh \
 #     https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/bootstrap.sh
 #   sudo bash /tmp/doglyad-bootstrap.sh main
 #
@@ -34,7 +35,7 @@ runcmd:
   - |
     set -eu
     bootstrap_path=/run/doglyad-bootstrap.sh
-    curl -fsSL --retry 5 --retry-delay 3 -o "$bootstrap_path" \
+    curl -fsSL --retry 10 --retry-all-errors --retry-delay 3 -o "$bootstrap_path" \
       https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/bootstrap.sh
     bash "$bootstrap_path" main
 

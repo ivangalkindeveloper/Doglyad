@@ -13,6 +13,8 @@
 	start-backend-inference \
 	start-backend-inference-logs \
 	stop-backend-inference \
+	init-vm-main \
+	init-vm-inference \
 	runpod-plan \
 	runpod-apply \
 	runpod-urls \
@@ -77,6 +79,16 @@ start-backend-inference-logs:
 	docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml logs -f
 stop-backend-inference:
 	docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml down
+
+# Инициализация свежей VM с локальной машины: bootstrap, reboot, проверки и
+# подключение к Tailscale без ручного входа в интерактивную SSH-сессию.
+# Пример: make init-vm-inference TARGET=root@203.0.113.10
+init-vm-main:
+	test -n "$(TARGET)" || { echo "TARGET is required: make init-vm-main TARGET=USER@HOST" >&2; exit 1; }
+	deploy/init-vm.sh main "$(TARGET)"
+init-vm-inference:
+	test -n "$(TARGET)" || { echo "TARGET is required: make init-vm-inference TARGET=USER@HOST" >&2; exit 1; }
+	deploy/init-vm.sh inference "$(TARGET)"
 
 # Управление serverless-эндпоинтами RunPod из backend/main/config/runpod_endpoints.json.
 # RunPod теперь резерв: используется, только если GPU-виртуалка не ответила.
