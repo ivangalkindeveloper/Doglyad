@@ -1,42 +1,42 @@
-# backend/inference — сервис инференса на GPU-виртуалке
+# backend/inference — GPU inference service
 
-Отдельный сервис, который разворачивается **на GPU-виртуалке** рядом с самой моделью. Держит локальный vLLM, принимает от бэкенда готовую пару промптов со снимками, генерирует заключение и отдаёт его обратно.
+This standalone service is deployed **on a GPU VM** beside the model runtime. It runs a local vLLM instance, accepts ready-to-use prompts and images from the main backend, generates a report, and returns it.
 
-## Как это устроено
+## Architecture
 
+```text
+                              ┌─────────────────────────────────────────────┐
+                              │ GPU VM (one VM per model)                  │
+                              │                                            │
+iOS ──► backend/main ────────►│ backend/inference ──► vLLM (localhost)     │
+        (non-GPU VM)          │ App Check             google/medgemma-4b-it│
+                              └─────────────────────────────────────────────┘
 ```
-                              ┌─────────────────────────────────────────┐
-                              │  GPU-виртуалка (одна на модель)         │
-                              │                                         │
-iOS ──► backend/main ────────►│  backend/inference ──► vllm (localhost) │
-        (не-GPU виртуалка)    │  App Check       google/medgemma-4b-it  │
-                              └─────────────────────────────────────────┘
-```
 
-- **backend/main** ([`../main`](../main)) — не-GPU виртуалка. Собирает промпт, выбирает модель, маршрутизирует запрос. Инференса не делает.
-- **backend/inference** (этот сервис) — по одной виртуалке на модель. Проверяет App Check и вызывает локальный vLLM.
+- **backend/main** ([`../main`](../main)) runs on a non-GPU VM. It builds prompts, selects a model, and routes the request. It does not run inference.
+- **backend/inference** (this service) runs once per model VM. It validates App Check and calls its local vLLM instance.
 
-Промпты, локализация и шаблоны остаются в главном бэкенде. Этот сервис получает готовый текст и ничего о предметной области не знает.
+Prompts, localization, and templates remain in the main backend. This service receives final text and has no product-domain knowledge.
 
-Бэкенд выбирает виртуалку по id модели через `backend/main/secrets/inference_endpoints.json`. Для каждой модели из опубликованного конфига там должна быть запись; её отсутствие является ошибкой конфигурации.
+The main backend selects a VM by model ID through `backend/main/secrets/inference_endpoints.json`. Every model in the published configuration must have a mapping; a missing entry is a configuration error.
 
-## Почему App Check проверяется и здесь тоже
+## Why App Check is verified again
 
-Токен проверяется дважды: на входе в систему (`backend/main`) и здесь. `backend/main` забирает заголовок `X-Firebase-AppCheck` из входящего запроса и **передаёт без изменений** дальше, так что обе проверки видят один и тот же токен.
+The token is verified twice: once at the system entry point (`backend/main`) and once here. `backend/main` reads `X-Firebase-AppCheck` from the incoming request and forwards it **unchanged**, so both services validate the same token.
 
-Вторая проверка стоит там, где лежит модель: эта виртуалка доступна по сети, и доступа к её порту не должно быть достаточно, чтобы получить заключение. Первая проверка защищает внешний вход в систему, а вторая не позволяет обращаться к сервису инференса напрямую в обход главного бэкенда.
+The second check protects the VM that hosts the model. Network access to its port must not be enough to obtain a report. The first check protects the public system entry point; the second prevents callers from bypassing the main backend and reaching inference directly.
 
-Здесь проверка **безусловна**. Флага, который её выключает, нет: без `secrets/firebase_credentials.json` сервис не стартует вовсе. Практическое следствие — неаутентифицированных ручек у сервиса не осталось вовсе: проверить его вручную (curl'ом) на свежей виртуалке нельзя, нужен настоящий токен живого экземпляра приложения. Готовность модели смотрят по логам — `make start-backend-inference-logs`.
+Validation is **unconditional**. There is no bypass flag, and the service cannot start without `secrets/firebase_credentials.json`. Consequently, the service has no unauthenticated endpoints. A fresh VM cannot be tested with an anonymous `curl`; use a valid token from a running app. Observe model readiness in the logs with `make start-backend-inference-logs`.
 
 ## API
 
-| Метод | Путь | App Check | Описание |
-|---|---|---|---|
-| `POST` | `/v1/conclusion_generation` | да | Генерация одного заключения |
+| Method | Path | App Check | Description |
+|---|---|---:|---|
+| `POST` | `/v1/conclusion_generation` | Yes | Generate one report |
 
-Это единственная ручка сервиса, и она под App Check. Открытых наружу эндпоинтов у него нет: машина держит модель, и дотянуться до её порта не должно давать ничего.
+This is the service's only endpoint, and it is protected by App Check. Nothing is exposed anonymously: reaching the model VM's port alone must not grant model access.
 
-Запрос:
+Request:
 
 ```json
 {
@@ -49,24 +49,24 @@ iOS ──► backend/main ────────►│  backend/inference ─
 }
 ```
 
-Ответ:
+Response:
 
 ```json
-{ "modelId": "google/medgemma-4b-it", "response": "## Протокол ультразвукового исследования ..." }
+{ "modelId": "google/medgemma-4b-it", "response": "## Ultrasound examination report ..." }
 ```
 
-`modelId` сверяется с `SERVED_MODEL_ID`. Чужой id — `400`, а не молчаливая генерация не той моделью, которую выбрал врач.
+`modelId` is compared with `SERVED_MODEL_ID`. A mismatch returns `400` instead of silently generating with a model different from the one selected by the physician.
 
-Rate limiter здесь не нужен: единственный клиент — бэкенд, а он уже ограничивает по адресу клиента. Лимитер на этой стороне сложил бы всех врачей в одно ведро за единственным IP бэкенда.
+A rate limiter is unnecessary here because the only client is the main backend, which already limits requests by client address. A limiter at this layer would group every physician under the main backend's single IP address.
 
-## Развёртывание
+## Deployment
 
-1. Поставить на виртуалку Docker, NVIDIA-драйверы и NVIDIA Container Toolkit.
-2. Скопировать репозиторий (достаточно каталога `backend/inference/`).
-3. Создать `backend/inference/secrets/`:
-   - `.env` — переменные окружения (`SERVED_MODEL_ID`, `HF_TOKEN`, `FIREBASE_CREDENTIALS_PATH`, `INFERENCE_BACKEND_*`, `VLLM_*`; разбор настроек vLLM — ниже);
-   - `firebase_credentials.json` — сервисный аккаунт Firebase.
-4. Запустить:
+1. Install Docker, NVIDIA drivers, and NVIDIA Container Toolkit on the VM.
+2. Copy the repository, or at least `backend/inference/`.
+3. Create `backend/inference/secrets/`:
+   - `.env` with `SERVED_MODEL_ID`, `HF_TOKEN`, `FIREBASE_CREDENTIALS_PATH`, `INFERENCE_BACKEND_*`, and `VLLM_*` values;
+   - `firebase_credentials.json` with the Firebase service account.
+4. Start the stack:
 
 ```bash
 make start-backend-inference        # docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml up --build -d
@@ -74,26 +74,26 @@ make start-backend-inference-logs
 make stop-backend-inference
 ```
 
-`--env-file` обязателен: Compose подставляет `${VAR}` в самом `docker-compose.yml` только из своего env-файла — значения из секции `env_file:` сервисов для этого не видны.
+`--env-file` is required. Compose substitutes `${VAR}` references in `docker-compose.yml` only from its own environment file; values from a service's `env_file:` section are not available for Compose-file interpolation.
 
-Первый запуск качает веса с Hugging Face (для 4B — около 8 ГБ) и занимает минуты. Веса лежат в volume `huggingface` и переживают перезапуск, поэтому платится только первая загрузка. `healthcheck` у `vllm` имеет `start_period: 900s`, чтобы контейнер не считался нездоровым, пока модель ещё грузится.
+The first start downloads weights from Hugging Face (about 8 GB for a 4B model) and takes several minutes. The `huggingface` volume persists weights across restarts, so the download happens only once. The vLLM health check uses `start_period: 900s` to avoid marking the container unhealthy while the model is loading.
 
-Готовность видно в логах — `make start-backend-inference-logs`: сначала vLLM пишет о загрузке весов, затем сервис — `Inference service started`.
+Follow `make start-backend-inference-logs` to observe readiness: vLLM first reports weight loading, then the backend logs `Inference service started`.
 
-## Настройки vLLM
+## vLLM configuration
 
-Ключевые значения подобраны с учётом параметров моделей и доступной памяти GPU:
+The key values account for model parameters and available GPU memory:
 
-| Переменная | Значение | Зачем |
+| Variable | Value | Reason |
 |---|---|---|
-| `VLLM_MAX_MODEL_LEN` | `16384` | Ограничивает не только длину запроса, но и профилировочный прогон энкодера на старте. На дефолте модели (131072 у Gemma 3 / MedGemma) 4B-модель падает с OOM даже на 40-гиговой карте. |
-| `VLLM_LIMIT_MM_PER_PROMPT` | `10` | Число изображений на запрос, не меньше `ultrasound.scanPhotoMaxNumber` из `application.json` (сейчас 6). Compose преобразует его в JSON, который принимает vLLM. При дефолтном лимите в 1 изображение запросы с несколькими снимками отклоняются в рантайме. |
-| `VLLM_MAX_NUM_SEQS` | `16` | Потолок одновременных запросов. 256 по умолчанию для нашей нагрузки бессмысленно много и раздувает профилировку. |
-| `VLLM_GPU_MEMORY_UTILIZATION` | `0.90` | Запас на активации и фрагментацию. От OOM на старте не спасает — это лечится `VLLM_MAX_MODEL_LEN`. |
-| `VLLM_TENSOR_PARALLEL_SIZE` | `1` | Обязан совпадать с числом GPU в виртуалке. |
-| `VLLM_IMAGE` | `vllm/vllm-openai:v0.27.1@sha256:c2f3b1b964e47809b722b5e75b61b1e7b39a50f70388cf2bf2418f16a9f31da2` | Проверенный linux/amd64-образ зафиксирован digest: тег в registry можно переписать, digest — нет. Образ определяет сборку CUDA; карта новее сборки падает с `no kernel image is available for execution on the device` на первой же CUDA-операции. |
+| `VLLM_MAX_MODEL_LEN` | `16384` | Limits both request length and the encoder profiling run at startup. With the model default (131072 for Gemma 3 / MedGemma), the 4B model can run out of memory even on a 40 GB GPU. |
+| `VLLM_LIMIT_MM_PER_PROMPT` | `10` | Maximum images per request. It must be at least `ultrasound.scanPhotoMaxNumber` from `application.json` (currently 6). Compose converts the value to the JSON accepted by vLLM. The default one-image limit rejects requests containing multiple scans. |
+| `VLLM_MAX_NUM_SEQS` | `16` | Maximum concurrent sequences. The default 256 is excessive for this workload and increases profiling memory use. |
+| `VLLM_GPU_MEMORY_UTILIZATION` | `0.90` | Leaves headroom for activations and fragmentation. Startup OOM errors are addressed with `VLLM_MAX_MODEL_LEN`, not this value alone. |
+| `VLLM_TENSOR_PARALLEL_SIZE` | `1` | Must equal the number of GPUs in the VM. |
+| `VLLM_IMAGE` | `vllm/vllm-openai:v0.27.1@sha256:c2f3b1b964e47809b722b5e75b61b1e7b39a50f70388cf2bf2418f16a9f31da2` | Tested `linux/amd64` image pinned by digest. The image determines the CUDA build; a GPU newer than that build may fail on its first CUDA operation with `no kernel image is available for execution on the device`. |
 
-## Разработка
+## Development
 
 ```bash
 cd backend/inference
@@ -103,6 +103,6 @@ cd backend/inference
 ../../.venv311/bin/python -m pytest
 ```
 
-Зависимости — `requirements-dev.txt`. Сервис намеренно повторяет структуру `backend/main/` (`app/core`, `app/model`, `app/route`, `app/service`) и дублирует `logging.py` и `app_check.py`: общего пакета между двумя разными деплоями нет, а файлы маленькие и меняются редко.
+Development dependencies are listed in `requirements-dev.txt`. The service intentionally mirrors the `backend/main/` structure (`app/core`, `app/model`, `app/route`, and `app/service`) and keeps local copies of `logging.py` and `app_check.py`. The deployments are independent, while these files are small and change infrequently.
 
-`app_check.py` в двух сервисах почти совпадает — в обоих проверка безусловная. Выносить общий пакет ради него не стоит: файл маленький, а деплои разные и независимые.
+The two services have almost identical `app_check.py` modules and both enforce validation unconditionally. A shared package would add deployment coupling for very little code.

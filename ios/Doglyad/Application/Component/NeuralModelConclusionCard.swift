@@ -92,16 +92,16 @@ struct NeuralModelConclusionCard: View {
             date: Date(),
             modelId: "google/medgemma-1.5-4b-it",
             response: """
-            Щитовидная железа расположена типично, структура органа сохранена.
-            Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.
-            Эхогенность паренхимы равномерная, без участков патологического снижения или повышения.
-            Очаговых образований, узлов, кист и кальцинатов не обнаружено.
-            Контуры железы ровные, чёткие, капсула не утолщена.
-            Кровоток по данным цветового допплеровского картирования не усилен, соответствует физиологическим значениям.
-            Регионарные лимфатические узлы визуализируются без признаков увеличения или структурных изменений.
-            Признаков воспалительных процессов или аутоиммунного поражения не отмечено.
-            Полученные данные соответствуют нормальной ультразвуковой картине щитовидной железы.
-            Рекомендуется плановое контрольное УЗИ по необходимости или по назначению врача.
+            The thyroid is in its normal position and its structure is preserved.
+            Both lobes are within the normal size range for age, with no abnormalities.
+            Parenchymal echogenicity is uniform, without pathological decreases or increases.
+            No focal lesions, nodules, cysts, or calcifications were detected.
+            The gland contours are smooth and well defined; the capsule is not thickened.
+            Color Doppler shows no increased blood flow; values are physiological.
+            Regional lymph nodes show no enlargement or structural changes.
+            No signs of inflammation or autoimmune involvement were observed.
+            The findings correspond to a normal thyroid ultrasound appearance.
+            Routine follow-up ultrasound is recommended when clinically indicated.
             """
         ),
         onTapCopy: {}

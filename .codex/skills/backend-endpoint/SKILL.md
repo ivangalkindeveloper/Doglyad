@@ -1,40 +1,43 @@
 ---
 name: backend-endpoint
-description: Добавление нового HTTP-эндпоинта в бэкенд Doglyad (FastAPI). Создаёт роут под /v1, Pydantic request/response модели с camelCase-полями (совместимость с iOS), подключает rate limiter и регистрирует роутер в main.py. Используй, когда нужен новый API-метод на бэкенде.
+description: Add a new HTTP endpoint to the Doglyad FastAPI backend. Create a /v1 route, camelCase Pydantic request and response models compatible with iOS, apply rate limiting, and register the router in main.py. Use when adding a backend API method.
 ---
 
-# backend-endpoint — новый эндпоинт FastAPI
+# Add a FastAPI backend endpoint
 
-Создаёт эндпоинт по принятым в проекте конвенциям и **полностью** подключает его к приложению. Бэкенд: Python 3.11, FastAPI, Pydantic, общий `httpx.AsyncClient`, slowapi-лимитер.
+Create and fully integrate an endpoint according to project conventions. The backend uses Python 3.11, FastAPI, Pydantic, a shared `httpx.AsyncClient`, and SlowAPI.
 
-Каталоги:
-- роуты — `backend/main/app/route/<name>.py`
-- модели — `backend/main/app/model/` (общие) или `backend/main/app/model/ultrasound/` (доменные УЗИ)
-- сборка приложения — `backend/main/app/main.py`
+Use these locations:
 
-Перед генерацией **прочитай эталон** `app/route/ultrasound_conclusion.py` (с инференсом/сервисами) или `app/route/ultrasound_conclusion_send_email.py` (без тела ответа) — шаблоны ниже лишь каркас.
+- routes: `backend/main/app/route/<name>.py`
+- shared models: `backend/main/app/model/`
+- ultrasound models: `backend/main/app/model/ultrasound/`
+- application assembly: `backend/main/app/main.py`
 
-## Что уточнить перед началом
+Before generating code, read `app/route/ultrasound_conclusion.py` for an inference/service example or `app/route/ultrasound_conclusion_send_email.py` for a response without a body. Treat the templates below as scaffolding only.
 
-1. **Имя эндпоинта** в snake_case, напр. `ultrasound_history`. Из него получаются: файл `app/route/<name>.py`, путь `/<name>`, имя функции.
-2. **Метод и форма ответа**: возвращает модель (`response_model=...`) или без тела (`status_code=status.HTTP_204_NO_CONTENT`).
-3. **Request-модель**: какие поля приходят (или эндпоинт без body).
-4. **Нужен ли LLM-инференс** (тогда берём готовый сервис из `request.app.state.model_service` + `resolve_prompt_factory`, см. `ultrasound_conclusion.py`), внешний HTTP (общий клиент из `request.app.state.http_client`) или просто бизнес-логика.
-5. **Под App Check или нет.** Роутер `/v1` закрыт целиком и безусловно — по умолчанию эндпоинт попадает туда. Вне `/v1` выносится только то, что приложение читает до появления токена и что публично по природе (сейчас это ручки конфигов, см. `app/route/application_config.py`).
+## Resolve before implementation
 
-## Жёсткие правила (из AGENTS.md)
+1. Choose a snake_case endpoint name, such as `ultrasound_history`. Derive the route file, URL path, and function name from it.
+2. Determine the HTTP method and whether the endpoint returns a model or `204 No Content`.
+3. Define incoming request fields or confirm that no body is required.
+4. Determine whether the route needs LLM inference, external HTTP through the shared client, or local business logic.
+5. Determine whether the endpoint belongs behind App Check. Put it under `/v1` by default. Only expose data outside `/v1` when the app must read it before obtaining a token and the data is public by nature, as with configuration endpoints.
 
-- `from __future__ import annotations` в начале каждого файла; аннотации типов везде.
-- **Именование**: snake_case для функций/переменных, CamelCase для классов и Pydantic-моделей.
-- **camelCase в полях Pydantic-моделей** — это контракт с iOS, не нарушать (`neuralModelSettings`, `recipientEmail`, `modelId`). Не добавляй `alias`/`Field` для перевода в snake_case.
-- Асинхронность: `async def` для обработчиков; внешние HTTP — через общий `httpx.AsyncClient` (`request.app.state.http_client`), а не новый клиент на запрос. Блокирующий I/O (SMTP, CPU) — через `asyncio.to_thread`.
-- Конфигурация/секреты — только через `variables` из `app/core/variables.py` (значения из `backend/main/secrets/.env`). Не хардкодить и не трогать `backend/main/secrets/`.
-- Ошибки — `raise HTTPException(status_code=..., detail=...)`; логирование через модульный `logger`.
-- Rate limit — декоратор `@limiter.limit("30/minute")` (нужен параметр `request: Request` в сигнатуре).
+## Required conventions
 
-## Шаблон роута
+- Put `from __future__ import annotations` at the beginning of each Python file and add type annotations everywhere.
+- Use snake_case for functions and variables and CamelCase for classes and Pydantic models.
+- Keep Pydantic fields in camelCase because they are part of the iOS contract, for example `neuralModelSettings`, `recipientEmail`, and `modelId`. Do not add aliases to convert them to snake_case.
+- Use `async def` for handlers. Reuse `request.app.state.http_client` for external HTTP instead of creating a client per request. Run blocking I/O such as SMTP through `asyncio.to_thread`.
+- Read configuration and secrets only through `variables` from `app/core/variables.py`. Never hardcode values or modify `backend/main/secrets/`.
+- Raise `HTTPException(status_code=..., detail=...)` for API errors and use a module-level `logger`.
+- Apply `@limiter.limit("30/minute")`; keep `request: Request` in the function signature for the limiter.
 
-`backend/main/app/route/<name>.py`:
+## Route template
+
+Create `backend/main/app/route/<name>.py`:
+
 ```python
 from __future__ import annotations
 
@@ -48,7 +51,6 @@ from app.model.<name>_request import <Name>Request
 from app.model.<name>_response import <Name>Response
 
 logger = logging.getLogger(__name__)
-
 router = APIRouter()
 
 
@@ -60,27 +62,29 @@ async def <name>(
 ) -> <Name>Response:
     logger.info("Request <name>: ...")
 
-    # бизнес-логика. Для внешнего HTTP: request.app.state.http_client
-    # Для блокирующего I/O: await asyncio.to_thread(_blocking_fn, ...)
-    # При ошибке: raise HTTPException(status_code=400, detail="...")
+    # Business logic. For external HTTP, use request.app.state.http_client.
+    # For blocking I/O, use await asyncio.to_thread(_blocking_fn, ...).
+    # For API errors, raise HTTPException(status_code=400, detail="...").
 
     return <Name>Response(...)
 ```
 
-Вариант **без тела ответа** (как `ultrasound_conclusion_send_email`):
+For a response without a body, follow `ultrasound_conclusion_send_email`:
+
 ```python
 from fastapi import status
 
 @router.post("/<name>", status_code=status.HTTP_204_NO_CONTENT)
 @limiter.limit("30/minute")
 async def <name>(body: <Name>Request, request: Request) -> None:
-    del request  # если request нужен только лимитеру
+    del request  # Keep the parameter when only the limiter needs it.
     ...
 ```
 
-## Шаблон Pydantic-моделей
+## Pydantic model templates
 
-`backend/main/app/model/<name>_request.py` (доменные УЗИ-модели — в `app/model/ultrasound/`, префикс `US`):
+Create `backend/main/app/model/<name>_request.py`, or place ultrasound-domain models under `app/model/ultrasound/` with the `US` prefix:
+
 ```python
 from __future__ import annotations
 
@@ -88,11 +92,12 @@ from pydantic import BaseModel
 
 
 class <Name>Request(BaseModel):
-    someField: str            # camelCase — контракт с iOS
+    someField: str
     optionalField: str | None = None
 ```
 
-`backend/main/app/model/<name>_response.py`:
+Create `backend/main/app/model/<name>_response.py`:
+
 ```python
 from __future__ import annotations
 
@@ -103,33 +108,37 @@ class <Name>Response(BaseModel):
     resultField: str
 ```
 
-Если модель вложенная — выноси под-модели отдельными классами/файлами, как в `app/model/ultrasound/`.
+Extract nested models into separate classes or files, following `app/model/ultrasound/`.
 
-## Регистрация в приложении (обязательно)
+## Register the route
 
-В `backend/main/app/main.py`:
+In `backend/main/app/main.py`:
 
-1. Импорт роутера рядом с существующими:
+1. Import the router beside existing route imports:
+
 ```python
 from app.route.<name> import router as <name>_router
 ```
-2. Подключение к `router_v1` (он имеет `prefix="/v1"`, итоговый путь — `/v1/<name>`):
+
+2. Attach it to the router with `prefix="/v1"`:
+
 ```python
 router_v1.include_router(<name>_router)
 ```
-На `router_v1` висит `Depends(verify_app_check)`, поэтому эндпоинт автоматически требует токен App Check. Если он должен быть открытым — подключай к самому `app`, а не к `router_v1`, и объясни в docstring, почему токен не нужен.
 
-## Если нужен LLM-инференс
+`Depends(verify_app_check)` is attached to `router_v1`, so the endpoint automatically requires App Check. If the endpoint must be public, attach it directly to `app` and explain the exception in its docstring.
 
-Повтори паттерн из `ultrasound_conclusion.py`:
-- язык из заголовка: `request.headers.get("accept-language", "en")` → `resolve_prompt_factory(language_code)`;
-- сервис берётся готовым: `model_service: ModelService = request.app.state.model_service`, дальше `await model_service.call(...)`. Ветвиться не по чему — связка собирается один раз в lifespan через `create_model_service()` и одинакова во всех окружениях;
-- резолверы моделей/типов — из `app/core/config.py` (`resolve_neural_model`, `resolve_examination_title`).
-Новую реализацию инференса добавляй как наследника `ModelService` (`app/service/base.py`) и включай в composition внутри `app/service/factory.py`.
+## Add LLM inference only when required
 
-## Финальные шаги
+Follow `ultrasound_conclusion.py`:
 
-1. Если эндпоинт меняет контракт — синхронизируй модели на стороне iOS (DTO/доменные модели, camelCase-поля).
-2. Прогон: подними бэкенд через `make start-backend-main-development`, проверь эндпоинт (`/v1/<name>`), посмотри `make start-backend-main-logs`.
-   Учти: `/v1` закрыт App Check, поэтому без токена приложения ручка отдаст `401` — это правильный ответ, а не поломка.
-3. Сообщи пользователю: созданные файлы, путь эндпоинта и точку регистрации в `main.py`.
+- Resolve language with `request.headers.get("accept-language", "en")` and `resolve_prompt_factory(language_code)`.
+- Read the ready service with `model_service: ModelService = request.app.state.model_service`, then call `await model_service.call(...)`. Do not branch by environment; `create_model_service()` composes the same route during lifespan.
+- Use `resolve_neural_model` and `resolve_examination_title` from `app/core/config.py`.
+- Add a new inference implementation as a `ModelService` subclass in `app/service/base.py` and compose it only in `app/service/factory.py`.
+
+## Finish
+
+1. Synchronize iOS DTO and domain models when the API contract changes, preserving camelCase fields.
+2. Start the backend with `make start-backend-main-development`, exercise `/v1/<name>`, and inspect `make start-backend-main-logs`. A request without an application App Check token must return `401`.
+3. Report the created files, endpoint path, and registration point in `main.py`.

@@ -46,13 +46,13 @@ struct TemplateListItemCard: View {
 
 #Preview {
     TemplateListItemCard(
-        examinationTypeTitle: "Щитовидная железа",
+        examinationTypeTitle: "Thyroid gland",
         templateContent: """
-        Проведено ультразвуковое исследование.
-        Размеры долей симметричные.
-        Паренхима однородная.
-        Очаговых образований не выявлено.
-        Дополнительная строка для обрезки.
+        An ultrasound examination was performed.
+        The lobes are symmetrical.
+        The parenchyma is homogeneous.
+        No focal lesions were identified.
+        An additional line demonstrates truncation.
         """,
         action: {}
     )

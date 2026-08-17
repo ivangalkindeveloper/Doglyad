@@ -1,65 +1,62 @@
 ---
 name: build-verify
-description: Проверка изменений в проекте Doglyad перед коммитом — сборка/тесты iOS (xcodebuild) и линт/типы/тесты бэкенда (ruff, mypy, pytest). Используй, когда нужно убедиться, что код компилируется и проходит проверки ("проверь сборку", "прогони тесты", "всё ли собирается", "verify").
+description: Verify Doglyad changes before commit by building or testing iOS with xcodebuild and checking both backends with Ruff, mypy, and pytest. Use for requests such as verify the build, run the tests, or confirm that the project compiles.
 ---
 
-# build-verify — сборка и проверка Doglyad
+# Verify Doglyad builds and tests
 
-Замыкает цикл «написал код → убедился, что он рабочий». Запускай после изменений и перед `git-push`. Все команды — из `Makefile`; не изобретай инвокации `xcodebuild`/`pytest` вручную.
+Close the loop from implementation to a verified result. Run checks after changes and before `git-push`. Prefer the project commands and configurations instead of inventing alternative invocations.
 
-## Что уточнить перед началом
+## Select the scope
 
-1. **Что затронуто** — iOS, бэкенд или оба. Гоняй проверки только релевантной части, чтобы не тратить время.
-2. **Симулятор для iOS** — по умолчанию `iPhone 17` (`IOS_DEST`). Если такого нет, спроси или подставь доступный: `make build-ios-development IOS_DEST='platform=iOS Simulator,name=<имя>'`.
-3. **Окружение для iOS** — `Development` или `Production`. По умолчанию проверяй `Development`; `Production` — когда правки касаются продовой конфигурации или готовится релиз.
+1. Identify whether changes affect iOS, the main backend, inference, or a shared contract. Run only relevant checks.
+2. Use `iPhone 17` through `IOS_DEST` by default. If unavailable, select an installed simulator with `make build-ios-development IOS_DEST='platform=iOS Simulator,name=<name>'`.
+3. Verify Development by default. Verify Production when release behavior or production configuration is affected.
 
-## Бэкенд (Python / FastAPI)
+## Backend checks
 
-Бэкенда два, и проверяются они по отдельности: `backend/main` (главный, не-GPU) и `backend/inference` (сервис инференса на GPU-виртуалке). У каждого свои `pyproject.toml`, `requirements*.txt` и `tests/`. Гоняй тот, который затронут; если правка меняет контракт между ними — оба.
-
-Порядок (от быстрого к медленному). Отдельных make-целей для линта/типов/тестов нет, вызывай напрямую:
+Check `backend/main` and `backend/inference` independently. Check both when their shared contract changes.
 
 ```bash
-make format                               # ruff format для обоих бэкендов (заодно swiftformat для iOS)
+make format
 
-cd backend/main && ruff check app tests   # линт
-cd backend/main && mypy                   # типы (files из pyproject)
-cd backend/main && pytest                 # тесты (в backend/main/tests/)
+cd backend/main
+../../.venv311/bin/python -m ruff check app tests
+../../.venv311/bin/python -m mypy
+../../.venv311/bin/python -m pytest
 
-cd backend/inference && ruff check app tests    # то же для сервиса инференса
-cd backend/inference && mypy
-cd backend/inference && pytest
+cd ../inference
+../../.venv311/bin/python -m ruff check app tests
+../../.venv311/bin/python -m mypy
+../../.venv311/bin/python -m pytest
 ```
 
-- Dev-инструменты ставятся один раз: `make pip-install-dev` (ставит зависимости `backend/main`; для `backend/inference` — `pip3 install -r backend/inference/requirements-dev.txt`).
-- `pytest` при отсутствии тестов вернёт «no tests collected» (exit 5) — это не ошибка кода, отметь и продолжай.
-- Конфигурация линтера/типов/тестов — `backend/main/pyproject.toml` и `backend/inference/pyproject.toml`.
-- В `backend/main` `mypy` показывает несколько давних ошибок в `ultrasound_conclusion_send_email.py`, `config.py` и `main.py`. Они были там до разделения бэкендов — не выдавай их за поломку своих правок, но и новых не добавляй.
+Install main development dependencies with `make pip-install-dev` and inference dependencies with `pip3 install -r backend/inference/requirements-dev.txt`. Record pytest exit code 5 for no collected tests without treating it as a code failure. Separate pre-existing mypy errors from new regressions.
 
-## iOS (Swift / SwiftUI)
+## iOS checks
 
 ```bash
-make format                   # swiftformat (правила в ios/.swiftformat) — обычно уже прогнан хуком
-make build-ios-development    # сборка схемы Doglyad-Development
-make build-ios-production     # сборка схемы Doglyad-Production
+make format
+make build-ios-development
+make build-ios-production
 ```
 
-Отдельной make-цели для тестов нет, вызывай напрямую:
+Run tests directly:
 
 ```bash
-cd ios && xcodebuild test \
+cd ios
+xcodebuild test \
   -project Doglyad.xcodeproj \
   -scheme Doglyad-Development \
   -destination 'platform=iOS Simulator,name=iPhone 17'
 ```
 
-- `xcodebuild` шумный и медленный. При падении ищи в конце вывода `error:` / `** BUILD FAILED **` / `** TEST FAILED **` — не пересказывай весь лог, покажи суть.
-- Если симулятор `IOS_DEST` недоступен (`Unable to find a device`), подставь существующий и повтори.
-- Схема определяет конфигурацию сборки (`Development` / `Production`), а та — `.xcconfig`, bundle id и `GoogleService-Info.plist`. Никогда не подменяй окружение правкой файлов в `ios/Config/` или `ios/Firebase/` — переключайся схемой.
-- Сборка требует `ios/Config/Config.*.xcconfig` и `ios/Firebase/*/GoogleService-Info.plist`; в репозитории их нет. Если отсутствуют — сборка упадёт, запроси файлы у пользователя, не создавай сам.
+Extract relevant `error:`, `** BUILD FAILED **`, or `** TEST FAILED **` lines from failures. Select another installed simulator when needed.
 
-## Финальные шаги
+Switch environments with schemes. Never edit files in `ios/Config/` or `ios/Firebase/`. If required untracked configuration files are missing, ask the user to provide them instead of generating substitutes.
 
-1. Кратко доложи статус по каждой части: что прошло, что упало, с какими ошибками (файл + строка).
-2. **Не коммить сам** — это делает skill `git-push`. Если всё зелёное и пользователь хочет отправить изменения, предложи вызвать `git-push`.
-3. Если проверки упали — не выдавай результат за успех. Покажи ошибку и предложи починить.
+## Report
+
+1. Summarize each checked part and include file and line for failures.
+2. Do not commit automatically; `git-push` owns that operation.
+3. Never present failed checks as success. Explain the error and offer to fix it.

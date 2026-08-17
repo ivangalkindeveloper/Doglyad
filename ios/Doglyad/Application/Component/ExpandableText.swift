@@ -86,10 +86,10 @@ struct ExpandableText: View {
 #Preview {
     ExpandableText(
         text: """
-        Это длинный текст, который должен быть обрезан после определённого количества строк. \
-        При этом в конце текста в свернутом состоянии должно показываться троеточие и слово «Далее», \
-        которое является кнопкой и располагается на той же строке, что и окончание усеченного текста. \
-        При нажатии текст полностью развернётся.
+        This is long text that should be truncated after a specified number of lines. \
+        The collapsed state should end with an ellipsis and a “More” button, \
+        placed on the same line as the end of the truncated text. \
+        Tapping the button expands the entire text.
         """,
         backgroundColor: Color(.white)
     )

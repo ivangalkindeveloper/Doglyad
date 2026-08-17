@@ -1,52 +1,50 @@
 ---
 name: mobile-module
-description: Создание нового мобильного модуля (экрана) по конвенциям проекта Doglyad. iOS — SwiftUI/MVVM-модуль (Screen/ScreenView/ViewModel/Arguments) с регистрацией в роутере; задел под Android. Используй, когда нужно добавить новый экран, bottom-sheet или экранный модуль в мобильное приложение.
+description: Create a mobile application module according to Doglyad conventions. Scaffold an iOS SwiftUI and MVVM screen or bottom sheet with Screen, ScreenView, ViewModel, and Arguments types and register it in the router. Use when adding a mobile screen, bottom sheet, or navigation module.
 ---
 
-# mobile-module — скаффолд мобильного модуля
+# Create a mobile module
 
-Создаёт новый модуль приложения по принятым в проекте конвенциям и **полностью** подключает его к навигации. Цель — чтобы новый модуль был неотличим от существующих по структуре и стилю.
+Create and fully connect a module so its structure and style match the existing application.
 
-## Платформы
+## Platforms
 
-- **iOS** (есть сейчас) — раздел [iOS](#ios-swiftui-mvvm) ниже.
-- **Android** (планируется) — когда появится Android-проект, добавь раздел `## Android` с аналогичной процедурой; имя и идея скилла кросс-платформенные.
+- **iOS:** Follow the procedure below.
+- **Android:** Add an equivalent section when an Android project exists. Keep this skill concept cross-platform.
 
-При запуске определи платформу. Если в проекте только iOS — работай по iOS-разделу без лишних вопросов.
+Detect the platform first. When the repository contains only iOS, proceed without asking an unnecessary platform question.
 
-## Что нужно уточнить перед началом
+## Resolve before implementation
 
-1. **Имя модуля** в PascalCase без суффиксов, напр. `Profile`, `Statistics` (имена файлов/типов соберутся сами).
-2. **Тип**: полноэкранный модуль (`Screen`) или `BottomSheet`. Если не очевидно из запроса — спроси.
-3. **Аргументы**: какие данные/колбэки приходят в модуль (может быть пусто).
-4. **Зависит ли от данных** (репозитории/менеджеры из `DependencyContainer`) — влияет на `onInit()` во ViewModel.
+1. Choose a PascalCase module name without a suffix, such as `Profile` or `Statistics`.
+2. Determine whether it is a full-screen `Screen` or a `BottomSheet`.
+3. Define incoming data and callbacks; arguments may be empty.
+4. Determine whether the module depends on repositories or managers from `DependencyContainer`, which affects `onInit()`.
 
----
+## iOS: SwiftUI and MVVM
 
-## iOS (SwiftUI / MVVM)
+Create modules in `ios/Doglyad/Application/Module/<Name>/`. Register navigation in `ios/Doglyad/Application/Application/Router/RouteType.swift` and `RouterBuilder.swift`.
 
-Каталог модулей: `ios/Doglyad/Application/Module/<Name>/`.
-Регистрация навигации: `ios/Doglyad/Application/Application/Router/RouteType.swift` и `RouterBuilder.swift`.
+Before generating code, read `Module/Settings/` for a full-screen reference or `Module/Select/NeuralModel/` for a sheet reference. Treat the templates below as scaffolding only.
 
-Перед генерацией **прочитай эталонный модуль** `Module/Settings/` (полноэкранный) или `Module/Select/NeuralModel/` (sheet), чтобы повторить актуальный стиль — шаблоны ниже это лишь каркас.
+### Required conventions
 
-### Жёсткие правила (из AGENTS.md)
+- Make `*Screen` a SwiftUI view that only creates the view model and passes it to `*ScreenView`.
+- Keep `*ScreenView` free of business and presentation logic. Build layout only with `DoglyadUI` components such as `DScreen`, `DBottomSheet`, `DListButtonCard`, `DButton`, `DText`, and `DTheme`.
+- Mark `*ViewModel` with `@MainActor`, inherit from `DViewModel`, and keep all presentation logic there.
+- Pass the entire `DependencyContainer` when the view model needs container dependencies.
+- Never let view models communicate directly. Exchange module data only through closures supplied while constructing the destination view model.
+- Let each module's view model control visibility for that module. Expose computed flags and methods such as `isSpeechButtonVisible` or `isNeuralModelSettingsVisible`; let `*ScreenView` branch only on its own view model.
+- Use `@Published` for scalar state and `@NestedObservableObject` for nested observable controllers. Let the view own its view model with `@StateObject`.
+- Use only `DoglyadNetwork` for networking and `DoglyadDatabase` for persistence.
+- Use `LocalizedStringResource` values from `Localizable.xcstrings`. Add both English and Russian values for new keys.
 
-- `*Screen` — SwiftUI View, только создаёт ViewModel и отдаёт его в `*ScreenView`.
-- `*ScreenView` — чистая View без логики; вёрстка **только** компонентами из `DoglyadUI` (`DScreen`, `DBottomSheet`, `DListButtonCard`, `DButton`, `DText`, `DTheme`…).
-- `*ViewModel` — `@MainActor`, наследует `DViewModel`, вся логика отображения здесь.
-- Если ViewModel зависит от контейнера — передавай **весь** `DependencyContainer`, а не отдельные сущности.
-- **ViewModel не общаются между собой напрямую** — обмен данными между модулями только через замыкания, прокинутые в `*Screen` при создании VM (`getIsActive`, `getAvailableRequestCount`, `onNeuralModelSelected` и т.п.). VM модуля не обращается к чужой VM ни напрямую, ни через `@EnvironmentObject`.
-- **Показ частей интерфейса регулирует VM своего модуля**: во VM прокидываются данные/замыкания, а она объявляет вычисляемые флаги и методы (`isSpeechButtonVisible`, `isNeuralModelSettingsVisible`). `*ScreenView` ветвит вёрстку только по флагам/методам своей VM, а не по сторонним `@EnvironmentObject`.
-- Состояние: `@Published` для скаляров, `@NestedObservableObject` для вложенных `ObservableObject`. View владеет VM через `@StateObject`.
-- Сеть — только через `DoglyadNetwork`, БД — только через `DoglyadDatabase`.
-- Тексты — `LocalizedStringResource` из `Localizable.xcstrings` (новые ключи добавляй туда; ru+en).
+### Full-screen module files
 
-### Файлы полноэкранного модуля
+Create `<Name>Screen.swift`, `<Name>ScreenView.swift`, `<Name>ViewModel.swift`, and `<Name>ScreenArguments.swift`.
 
-`<Name>Screen.swift`, `<Name>ScreenView.swift`, `<Name>ViewModel.swift`, `<Name>ScreenArguments.swift`.
+Create `<Name>ScreenArguments.swift`; leave the body empty when no arguments are required:
 
-**`<Name>ScreenArguments.swift`** (пустые аргументы — оставь тело пустым):
 ```swift
 import Router
 
@@ -57,7 +55,8 @@ final class <Name>ScreenArguments: RouteArgumentsProtocol {
 }
 ```
 
-**`<Name>Screen.swift`**:
+Create `<Name>Screen.swift`:
+
 ```swift
 import DoglyadUI
 import Router
@@ -79,14 +78,13 @@ struct <Name>Screen: View {
 }
 
 #Preview {
-    <Name>Screen(
-        arguments: nil
-    )
-    .previewable()
+    <Name>Screen(arguments: nil)
+        .previewable()
 }
 ```
 
-**`<Name>ViewModel.swift`**:
+Create `<Name>ViewModel.swift`:
+
 ```swift
 import Foundation
 import Handler
@@ -109,7 +107,7 @@ final class <Name>ViewModel: DViewModel {
 
     // @Published var items: [Some] = []
 
-    // Грузим данные здесь (вызывается один раз через onAppear -> onInit).
+    // Load data here. onAppear calls onInit only once.
     // override func onInit() {
     //     handle {
     //         await self.container.someRepository.getItems()
@@ -124,7 +122,8 @@ final class <Name>ViewModel: DViewModel {
 }
 ```
 
-**`<Name>ScreenView.swift`**:
+Create `<Name>ScreenView.swift`:
+
 ```swift
 import DoglyadUI
 import SwiftUI
@@ -142,7 +141,7 @@ struct <Name>ScreenView: View {
         ) { toolbarInset in
             ScrollView(showsIndicators: false) {
                 VStack(spacing: size.s16) {
-                    // вёрстка из компонентов DoglyadUI
+                    // Build the layout from DoglyadUI components.
                 }
                 .padding(size.s16)
                 .padding(.top, toolbarInset)
@@ -157,10 +156,11 @@ struct <Name>ScreenView: View {
 }
 ```
 
-### Регистрация в навигации (обязательно)
+### Register full-screen navigation
 
-1. В `RouteType.swift` добавь кейс в `enum ScreenType`: `case <name>`.
-2. В `RouterBuilder.swift` в `build(route: RouteScreen<ScreenType>)` добавь:
+1. Add `case <name>` to `enum ScreenType` in `RouteType.swift`.
+2. Add a branch to `build(route: RouteScreen<ScreenType>)` in `RouterBuilder.swift`:
+
 ```swift
 case .<name>:
     AnyView(
@@ -169,18 +169,25 @@ case .<name>:
         )
     )
 ```
-Используй `as!` вместо `as?` только если аргументы обязательны (см. `.conclusion`).
 
-3. Переход на модуль из другого ViewModel:
+Use `as!` only when arguments are mandatory, following `.conclusion`.
+
+3. Navigate from another view model:
+
 ```swift
 router.push(route: RouteScreen(type: .<name>))
-// либо с аргументами:
-router.push(route: RouteScreen(type: .<name>, arguments: <Name>ScreenArguments(...)))
+router.push(
+    route: RouteScreen(
+        type: .<name>,
+        arguments: <Name>ScreenArguments(...)
+    )
+)
 ```
 
-### Вариант BottomSheet
+### Bottom sheet variant
 
-Файлы: `<Name>BottomSheet.swift` + `<Name>Arguments.swift` (sheet обычно проще и часто без отдельных ScreenView/ViewModel — смотри `Select/NeuralModel/`). Каркас View:
+Create `<Name>BottomSheet.swift` and `<Name>Arguments.swift`. Sheets are often simple enough to omit separate view and view-model types; follow the nearest existing example.
+
 ```swift
 import DoglyadUI
 import Router
@@ -201,7 +208,7 @@ struct <Name>BottomSheet: View {
         ) { toolbarHeight in
             ScrollView(showsIndicators: false) {
                 VStack(spacing: .zero) {
-                    // содержимое
+                    // Content
                 }
                 .padding(size.s16)
                 .padding(.top, toolbarHeight)
@@ -211,14 +218,16 @@ struct <Name>BottomSheet: View {
 }
 
 #Preview {
-    <Name>BottomSheet(arguments: nil).previewable()
+    <Name>BottomSheet(arguments: nil)
+        .previewable()
 }
 ```
-Регистрация: `enum SheetType { case <name> }` в `RouteType.swift` + кейс в `build(route: RouteSheet<SheetType>)`. Показ: `router.push(route: RouteSheet(type: .<name>, arguments: ...))`, закрытие — `router.dismissSheet()`.
 
-### Финальные шаги
+Add `case <name>` to `SheetType` and handle it in `build(route: RouteSheet<SheetType>)`. Present it with `router.push(route: RouteSheet(type: .<name>, arguments: ...))` and close it with `router.dismissSheet()`.
 
-1. Добавь новые ключи локализации в `ios/Doglyad/Resources/Localizable.xcstrings` (ru + en).
-2. Файлы подхватятся Xcode-проектом автоматически (synchronized groups) — отдельная правка `project.pbxproj` обычно не нужна; проверь, что новые типы доступны.
-3. Запусти `make format` (swiftformat) перед завершением.
-4. Сообщи пользователю список созданных файлов и точки регистрации в роутере.
+## Finish
+
+1. Add English and Russian localization values to `ios/Doglyad/Resources/Localizable.xcstrings`.
+2. Rely on Xcode synchronized groups to discover new files; normally do not edit `project.pbxproj`. Confirm that new types compile.
+3. Run `make format`.
+4. Report the created files and router registration points.

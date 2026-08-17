@@ -45,35 +45,35 @@ struct ConclusionScreen: View {
                     photos: [
                         USExaminationScanPhoto(image: UIImage(resource: .alertInfo)),
                     ],
-                    patientName: "Пациент#0",
+                    patientName: "Patient#0",
                     patientGender: .male,
                     patientDateOfBirth: Date(),
                     patientHeight: 180.0,
                     patientWeight: 80.0,
                     patientComplaint: """
-                    Пациент отмечает периодическое чувство давления в области шеи.
-                    Сообщает о небольшом дискомфорте при глотании в течение последних двух недель.
-                    Также упоминает общую слабость и повышенную утомляемость.
-                    Ранее подобные симптомы не наблюдались.
-                    Жалоб на боль нет.
+                    The patient reports an intermittent feeling of pressure in the neck.
+                    They report mild discomfort while swallowing during the last two weeks.
+                    They also mention general weakness and increased fatigue.
+                    No similar symptoms were previously observed.
+                    The patient reports no pain.
                     """,
                     examinationDescription: """
-                    Проведено ультразвуковое исследование щитовидной железы в стандартных продольных и поперечных проекциях.
-                    Размеры долей симметричные, контуры ровные и чёткие.
-                    Паренхима однородная, эхогенность умеренная.
-                    Очаговых образований не выявлено.
-                    Региональные лимфоузлы без особенностей.
+                    A thyroid ultrasound was performed in standard longitudinal and transverse planes.
+                    The lobes are symmetrical, with smooth and well-defined contours.
+                    The parenchyma is homogeneous with moderate echogenicity.
+                    No focal lesions were identified.
+                    The regional lymph nodes are unremarkable.
                     """
                 ),
                 actualModelConclusion: USExaminationModelConclusion(
                     date: Date(),
                     modelId: "google/medgemma-1.5-4b-it",
                     response: """
-                    Признаков узловых или кистозных изменений щитовидной железы не выявлено.
-                    Размеры органа в пределах возрастной нормы.
-                    Эхоструктура паренхимы сохранена, патологических включений нет.
-                    Данных за воспалительный процесс не получено.
-                    УЗ-картина соответствует норме.
+                    No signs of thyroid nodules or cystic changes were identified.
+                    The organ dimensions are within the normal range for age.
+                    The parenchymal echotexture is preserved, with no pathological inclusions.
+                    No evidence of an inflammatory process was found.
+                    The ultrasound findings are within normal limits.
                     """
                 ),
                 previosModelConclusions: [
@@ -81,27 +81,27 @@ struct ConclusionScreen: View {
                         date: Date(),
                         modelId: "google/medgemma-1.5-4b-it",
                         response: """
-                        Признаков узловых или кистозных изменений щитовидной железы не выявлено.
-                        Размеры органа в пределах возрастной нормы.
-                        Эхоструктура паренхимы сохранена, патологических включений нет.
-                        Данных за воспалительный процесс не получено.
-                        УЗ-картина соответствует норме.
+                        No signs of thyroid nodules or cystic changes were identified.
+                        The organ dimensions are within the normal range for age.
+                        The parenchymal echotexture is preserved, with no pathological inclusions.
+                        No evidence of an inflammatory process was found.
+                        The ultrasound findings are within normal limits.
                         """
                     ),
                     USExaminationModelConclusion(
                         date: Date(),
                         modelId: "google/medgemma-1.5-4b-it",
                         response: """
-                        Щитовидная железа расположена типично, структура органа сохранена.
-                        Размеры обеих долей находятся в пределах возрастной нормы, отклонений не выявлено.
-                        Эхогенность паренхимы равномерная, без участков патологического снижения или повышения.
-                        Очаговых образований, узлов, кист и кальцинатов не обнаружено.
-                        Контуры железы ровные, чёткие, капсула не утолщена.
-                        Кровоток по данным цветового допплеровского картирования не усилен, соответствует физиологическим значениям.
-                        Регионарные лимфатические узлы визуализируются без признаков увеличения или структурных изменений.
-                        Признаков воспалительных процессов или аутоиммунного поражения не отмечено.
-                        Полученные данные соответствуют нормальной ультразвуковой картине щитовидной железы.
-                        Рекомендуется плановое контрольное УЗИ по необходимости или по назначению врача.
+                        The thyroid is in its normal position and its structure is preserved.
+                        Both lobes are within the normal size range for age, with no abnormalities.
+                        Parenchymal echogenicity is uniform, without pathological decreases or increases.
+                        No focal lesions, nodules, cysts, or calcifications were detected.
+                        The gland contours are smooth and well defined; the capsule is not thickened.
+                        Color Doppler shows no increased blood flow; values are physiological.
+                        Regional lymph nodes show no enlargement or structural changes.
+                        No signs of inflammation or autoimmune involvement were observed.
+                        The findings correspond to a normal thyroid ultrasound appearance.
+                        Routine follow-up ultrasound is recommended when clinically indicated.
                         """
                     ),
                 ]

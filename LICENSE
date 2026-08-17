@@ -1,0 +1,46 @@
+DOGLYAD PROPRIETARY LICENSE
+
+Copyright (c) 2026 Ivan Galkin. All rights reserved.
+
+This repository and its contents, including but not limited to source code,
+object code, documentation, configuration, prompts, designs, user interfaces,
+illustrations, images, icons, and other original materials (collectively, the
+"Software"), are proprietary and protected by applicable copyright and other
+intellectual property laws.
+
+NO LICENSE OR PERMISSION IS GRANTED TO USE THE SOFTWARE.
+
+Except for the limited rights that GitHub's Terms of Service grant to GitHub
+and GitHub users solely to access, view, and fork a public repository through
+GitHub's services, you may not, without the copyright holder's prior explicit
+written permission:
+
+1. use, run, execute, compile, build, deploy, or host the Software;
+2. copy, reproduce, download, or store the Software;
+3. modify, adapt, translate, reverse engineer, or create derivative works;
+4. publish, distribute, transmit, sublicense, sell, rent, lease, or otherwise
+   make the Software or any substantial part of it available to another party;
+5. use the Software for personal, educational, research, evaluation,
+   non-commercial, or commercial purposes; or
+6. remove or alter any copyright, proprietary, or attribution notice.
+
+Permission for a specific use may be granted only in a separate written
+authorization from the copyright holder. Requests may be sent to
+doglyadapp@gmail.com. No permission is implied by publication of the Software,
+access to this repository, correspondence, or failure to enforce any right.
+
+The names "Doglyad" and "Догляд", the Doglyad logo, application icon,
+mascot, and associated brand assets are proprietary. This license grants no
+trademark or other brand-use rights.
+
+Third-party software, libraries, fonts, models, and other materials included
+in or referenced by this repository remain subject to their respective
+licenses and terms. This license applies only to material for which Ivan
+Galkin owns the applicable rights.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. TO THE MAXIMUM EXTENT
+PERMITTED BY LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM,
+DAMAGES, OR OTHER LIABILITY ARISING FROM ACCESS TO OR UNAUTHORIZED USE OF THE
+SOFTWARE.

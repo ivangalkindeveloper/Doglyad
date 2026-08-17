@@ -1,22 +1,22 @@
 name: Build backend images
 
-# Собирает образы обоих бэкендов и кладёт их в GitHub Container Registry.
-# На виртуалках нет ни исходников, ни сборки: они делают docker compose pull.
+# Build both backend images and publish them to GitHub Container Registry.
+# VMs contain neither source code nor build tooling; they use docker compose pull.
 on:
-  # Пока только вручную: кнопка "Run workflow" на вкладке Actions. Сборка по пушу
-  # в master добавится, когда развёртывание обкатается.
+  # Manual only for now through the "Run workflow" button in Actions. Enable
+  # builds on pushes to master after the deployment process is proven stable.
   workflow_dispatch:
 
 permissions:
   contents: read
-  # Без этого docker push в ghcr.io получит 403.
+  # Required to prevent docker push to ghcr.io from returning 403.
   packages: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      # Два независимых образа, собираются параллельно.
+      # Build two independent images in parallel.
       matrix:
         service: [main, inference]
 
@@ -29,21 +29,21 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          # Выдаётся Actions автоматически, заводить свой токен не нужно.
+          # GitHub Actions provides this automatically; no custom token is required.
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: docker/build-push-action@v6
         with:
-          # Dockerfile и .dockerignore берутся из этого каталога.
+          # Read Dockerfile and .dockerignore from this directory.
           context: backend/${{ matrix.service }}
-          # Виртуалки — amd64, машина разработчика может быть arm64: архитектуру
-          # задаём явно, чтобы образ не зависел от того, где его собрали.
+          # VMs use amd64 while a developer machine may use arm64. Pin the platform
+          # so the resulting image does not depend on the build machine.
           platforms: linux/amd64
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/doglyad-${{ matrix.service }}:${{ github.sha }}
             ghcr.io/${{ github.repository_owner }}/doglyad-${{ matrix.service }}:latest
-          # Слои между запусками переиспользуются: pip install не повторяется,
-          # пока не менялся requirements.txt.
+          # Reuse layers between runs so pip install is skipped while
+          # requirements.txt remains unchanged.
           cache-from: type=gha
           cache-to: type=gha,mode=max

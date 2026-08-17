@@ -93,8 +93,8 @@ struct ExpandableMarkdown: View {
 #Preview {
     ExpandableMarkdown(
         text: """
-        Это **длинный** маркдаун, который должен быть обрезан после нескольких строк. \
-        При развёрнутом виде видна вся разметка. В свернутом состоянии — градиент и кнопка «Далее».
+        This is **long** Markdown content that should be truncated after several lines. \
+        The expanded view shows all markup. The collapsed view shows a gradient and a “More” button.
         """,
         backgroundColor: Color(.white)
     )

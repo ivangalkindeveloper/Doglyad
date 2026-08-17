@@ -28,15 +28,15 @@ import sys
 
 # Forbidden path patterns (matched against the full file path in the repository).
 DENY_PATTERNS: list[tuple[str, str]] = [
-    (r"(^|/)\.env(\.|$)", "секреты окружения бэкенда (.env)"),
-    (r"(^|/)GoogleService-Info\.plist$", "конфигурация Firebase"),
-    (r"(^|/)Config/[^/]*\.xcconfig$", "конфиг сборки (BASE_URL, ключи)"),
-    (r"\.xcuserstate$", "Xcode user state (шум)"),
-    (r"(^|/)xcschememanagement\.plist$", "Xcode scheme management (шум)"),
-    (r"DoglyadNeuralModel/Resources/", "веса MLX-модели"),
-    (r"\.(pem|p8|p12|keystore|jks)$", "приватный ключ/сертификат"),
-    (r"(^|/)id_rsa(\.|$)", "приватный SSH-ключ"),
-    (r"(^|/)(secrets?|credentials?)\.(json|ya?ml|txt)$", "файл с секретами"),
+    (r"(^|/)\.env(\.|$)", "backend environment secrets (.env)"),
+    (r"(^|/)GoogleService-Info\.plist$", "Firebase configuration"),
+    (r"(^|/)Config/[^/]*\.xcconfig$", "build configuration (BASE_URL, keys)"),
+    (r"\.xcuserstate$", "Xcode user-state noise"),
+    (r"(^|/)xcschememanagement\.plist$", "Xcode scheme-management noise"),
+    (r"DoglyadNeuralModel/Resources/", "MLX model weights"),
+    (r"\.(pem|p8|p12|keystore|jks)$", "private key or certificate"),
+    (r"(^|/)id_rsa(\.|$)", "private SSH key"),
+    (r"(^|/)(secrets?|credentials?)\.(json|ya?ml|txt)$", "secrets file"),
 ]
 
 
@@ -160,17 +160,17 @@ def main() -> int:
         return 0
 
     lines = [
-        "🛑 security-check: команда заблокирована — в коммит попадают защищённые файлы:",
+        "🛑 security-check: command blocked because protected files would enter the commit:",
         "",
     ]
     for path, reason in sorted(flagged.items()):
         lines.append(f"  • {path} — {reason}")
     lines += [
         "",
-        "Исключи их из индекса перед коммитом:",
-        "  git restore --staged <путь>",
-        "и застейджи изменения точечно вместо `git add -A`.",
-        "Если файл нужно добавить сознательно — сделай это вручную вне этого агента.",
+        "Remove them from the index before committing:",
+        "  git restore --staged <path>",
+        "then stage allowed changes explicitly instead of using `git add -A`.",
+        "If a protected file must be added intentionally, do it manually outside this agent.",
     ]
     print("\n".join(lines), file=sys.stderr)
     return 2

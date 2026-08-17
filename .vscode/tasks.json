@@ -1,9 +1,8 @@
 {
-    // Собирает окружение для отладочных запусков так же, как это делает docker-compose:
-    // общий secrets/.env плюс профильный файл поверх него (последнее определение ключа
-    // побеждает). `awk 1` вместо `cat` — он дописывает недостающие переводы строк, иначе
-    // последняя строка одного файла склеится с первой строкой следующего.
-    // Результат secrets/.env.running перезаписывается перед каждым запуском и лежит в .gitignore.
+    // Build the debug environment exactly like docker-compose: merge the shared
+    // secrets/.env with a profile-specific file, with later definitions winning.
+    // Use `awk 1` instead of `cat` to insert missing newlines between files.
+    // secrets/.env.running is overwritten before every run and is ignored by Git.
     "version": "2.0.0",
     "tasks": [
         {

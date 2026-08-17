@@ -36,7 +36,7 @@ struct DSpeechLexiconCorrectorTests {
 
     // MARK: - Repairs what it was built for
 
-    @Test("Созвучие э/е приводится к каноническому термину")
+    @Test("A phonetic vowel variant resolves to the canonical term")
     func correctsPhoneticVariant() {
         #expect(
             corrector.correct("анехогенное образование в правой доле")
@@ -44,7 +44,7 @@ struct DSpeechLexiconCorrectorTests {
         )
     }
 
-    @Test("Пропущенный слог в середине фразы восстанавливается")
+    @Test("A missing syllable in the middle of a phrase is restored")
     func correctsMissingSyllable() {
         #expect(
             corrector.correct("дистальное усилие сигнала определяется")
@@ -52,7 +52,7 @@ struct DSpeechLexiconCorrectorTests {
         )
     }
 
-    @Test("Длинный термин выигрывает у вложенного короткого")
+    @Test("A longer term wins over a nested shorter term")
     func prefersLongerTerm() {
         #expect(
             corrector.correct("дистальное усиление сигнала")
@@ -62,18 +62,18 @@ struct DSpeechLexiconCorrectorTests {
 
     // MARK: - Refuses where a substitution changes the meaning
 
-    @Test("Отрицание не дописывается к фразе, где его не было")
+    @Test("Negation is not added to a phrase")
     func neverAddsNegation() {
         #expect(corrector.correct("капсула изменена") == "капсула изменена")
     }
 
-    @Test("Отрицание не убирается из фразы, где оно было")
+    @Test("Existing negation is not removed")
     func neverRemovesNegation() {
         #expect(corrector.correct("капсула не изменена") == "капсула не изменена")
     }
 
     @Test(
-        "Противоположности с приставкой не подменяются друг другом",
+        "Prefixed opposites are not substituted for one another",
         arguments: [
             "содержимое однородное",
             "содержимое неоднородное",
@@ -90,7 +90,7 @@ struct DSpeechLexiconCorrectorTests {
     }
 
     @Test(
-        "Противоположности без приставки не подменяются друг другом",
+        "Other semantic opposites are not substituted for one another",
         arguments: [
             "эхогенность повышена",
             "эхогенность снижена",
@@ -102,7 +102,7 @@ struct DSpeechLexiconCorrectorTests {
         #expect(corrector.correct(term) == term)
     }
 
-    @Test("Близкие типы образований не подменяются друг другом")
+    @Test("Similar lesion types are not substituted for one another")
     func keepsEchogenicityFamily() {
         for term in [
             "анэхогенное образование",
@@ -114,7 +114,7 @@ struct DSpeechLexiconCorrectorTests {
         }
     }
 
-    @Test("Фразы с числами не трогаются: датчик 7,5 и 5 мегагерц — разные")
+    @Test("Phrases containing numbers remain unchanged")
     func keepsPhrasesWithNumbers() {
         let text = "использован датчик 7,5 мегагерц линейный"
         #expect(corrector.correct(text) == text)
@@ -123,7 +123,7 @@ struct DSpeechLexiconCorrectorTests {
     // MARK: - Does not damage ordinary speech
 
     @Test(
-        "Речь вне словаря остаётся нетронутой",
+        "Speech outside the lexicon remains unchanged",
         arguments: [
             "жалобы на боли в правом подреберье",
             "печень увеличена в размерах",
@@ -135,18 +135,18 @@ struct DSpeechLexiconCorrectorTests {
         #expect(corrector.correct(text) == text)
     }
 
-    @Test("Пустой словарь превращает корректор в тождественную функцию")
+    @Test("An empty lexicon makes the corrector an identity function")
     func emptyLexiconIsIdentity() {
         let empty = DSpeechLexiconCorrector(terms: [])
         #expect(empty.correct("анехогенное образование") == "анехогенное образование")
     }
 
-    @Test("Пустой текст не ломает корректор")
+    @Test("Empty text is handled safely")
     func handlesEmptyText() {
         #expect(corrector.correct("") == "")
     }
 
-    @Test("Регистр первой буквы сохраняется при подмене")
+    @Test("Leading capitalization is preserved during substitution")
     func preservesLeadingCase() {
         #expect(
             corrector.correct("Анехогенное образование в левой доле")
@@ -159,7 +159,7 @@ struct DSpeechLexiconCorrectorTests {
     /// The key property: a single corruption of a term by a recognition error leads
     /// either to restoring the original term or to leaving the text as is — but never
     /// to turning one dictionary term into another.
-    @Test("Порча термина никогда не превращает его в другой термин")
+    @Test("Corrupting a term never turns it into another dictionary term")
     func neverFlipsOneTermIntoAnother() {
         let vocabulary = Set(Self.terms)
 
@@ -170,7 +170,7 @@ struct DSpeechLexiconCorrectorTests {
 
                 #expect(
                     !vocabulary.contains(result),
-                    "«\(corrupted)» превратилось в «\(result)» вместо «\(term)»"
+                    "\(corrupted) became \(result) instead of \(term)"
                 )
             }
         }

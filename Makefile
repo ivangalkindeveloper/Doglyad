@@ -65,10 +65,10 @@ start-backend-main-logs:
 stop-backend-main:
 	docker compose -f backend/main/docker-compose.yml down
 
-# Сервис инференса. Запускается НА GPU-виртуалке, а не на машине разработчика:
-# поднимает vLLM с моделью из SERVED_MODEL_ID и сервис backend/inference рядом с ней.
-# --env-file обязателен: Compose подставляет ${VAR} в docker-compose.yml
-# только из своего env-файла, а не из секции env_file сервисов.
+# Inference service. Run this ON a GPU VM, not on a developer machine:
+# it starts vLLM with SERVED_MODEL_ID and the adjacent backend/inference service.
+# --env-file is required because Compose substitutes ${VAR} in docker-compose.yml
+# only from its own environment file, not from a service's env_file section.
 start-backend-inference:
 	docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml up --build -d
 start-backend-inference-logs:
@@ -76,9 +76,9 @@ start-backend-inference-logs:
 stop-backend-inference:
 	docker compose --env-file backend/inference/secrets/.env -f backend/inference/docker-compose.yml down
 
-# Инициализация свежей VM с локальной машины: bootstrap, reboot, проверки и
-# подключение к Tailscale без ручного входа в интерактивную SSH-сессию.
-# Пример: make init-vm-inference TARGET=root@203.0.113.10
+# Initialize a clean VM from a local machine: bootstrap, reboot, verification,
+# and Tailscale connection without manually entering an interactive SSH session.
+# Example: make init-vm-inference TARGET=root@203.0.113.10
 init-vm-main:
 	test -n "$(TARGET)" || { echo "TARGET is required: make init-vm-main TARGET=USER@HOST" >&2; exit 1; }
 	deploy/init-vm.sh main "$(TARGET)"

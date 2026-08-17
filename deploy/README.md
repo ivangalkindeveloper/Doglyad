@@ -1,46 +1,42 @@
-# Развёртывание виртуальных машин
+# Virtual machine deployment
 
-`deploy/` подготавливает чистую Ubuntu `amd64` VM для одного из двух сервисов:
+`deploy/` prepares a clean Ubuntu `amd64` VM for one of two services:
 
-- `main` — главный бэкенд без GPU;
-- `inference` — inference-бэкенд, локальный vLLM и NVIDIA GPU.
+- `main` — the non-GPU main backend;
+- `inference` — the inference backend, local vLLM, and an NVIDIA GPU.
 
-Bootstrap устанавливает системные зависимости, но намеренно не запускает сервис:
-машинная конфигурация и секреты передаются отдельно и не попадают ни в cloud-init,
-ни в metadata провайдера.
+Bootstrap installs system dependencies but deliberately does not start the service. Machine-specific configuration and secrets are transferred separately and never placed in cloud-init or provider metadata.
 
-## Новая VM одной командой с Mac
+## Initialize a new VM from a Mac
 
-Нужны публичный адрес VM, SSH-доступ и `root` либо passwordless `sudo`:
+You need the VM's public address, SSH access, and either `root` or passwordless `sudo`:
 
 ```bash
 make init-vm-inference TARGET=root@203.0.113.10
 make init-vm-main TARGET=ubuntu@203.0.113.20
 ```
 
-Команда:
+The command:
 
-1. передаёт локальный `deploy/bootstrap.sh` по SSH без интерактивного входа;
-2. устанавливает Docker, Compose, Tailscale и нужный стек сервиса;
-3. для inference устанавливает драйвер, NVIDIA Container Toolkit и CDI;
-4. перезагружает VM и ждёт её возвращения;
-5. проверяет Docker, Tailscale и, для inference, доступ GPU из контейнера;
-6. запускает интерактивную авторизацию Tailscale и печатает приватный IP.
+1. sends the local `deploy/bootstrap.sh` over SSH without an interactive login;
+2. installs Docker, Compose, Tailscale, and the service-specific stack;
+3. installs the driver, NVIDIA Container Toolkit, and CDI for inference;
+4. reboots the VM and waits for it to return;
+5. verifies Docker, Tailscale, and GPU access from a container when applicable;
+6. starts interactive Tailscale authorization and prints the private IP address.
 
-Для отдельного SSH-ключа:
+To use a dedicated SSH key:
 
 ```bash
 DOGLYAD_SSH_KEY=~/.ssh/gpu_vm \
   make init-vm-inference TARGET=root@203.0.113.10
 ```
 
-Повторный запуск безопасен: исправные компоненты проверяются и пропускаются. Журнал
-каждого запуска остаётся на VM в `/var/log/doglyad-bootstrap.log`.
+Rerunning bootstrap is safe: healthy components are detected and skipped. Each run is recorded on the VM in `/var/log/doglyad-bootstrap.log`.
 
-## Машинная конфигурация inference
+## Inference machine configuration
 
-После инициализации создать `/opt/doglyad/.env` на GPU VM. `TAG` — SHA успешно
-собранного образа, `INFERENCE_BACKEND_BIND` — адрес из `tailscale ip -4`:
+After initialization, create `/opt/doglyad/.env` on the GPU VM. `TAG` is the SHA of a successfully built image, and `INFERENCE_BACKEND_BIND` is the address returned by `tailscale ip -4`:
 
 ```dotenv
 TAG=<git sha>
@@ -56,19 +52,17 @@ INFERENCE_BACKEND_BIND=<tailscale ip>
 INFERENCE_BACKEND_PORT=8100
 ```
 
-Затем с Mac, из корня репозитория:
+Then run the following from the repository root on the Mac:
 
 ```bash
 deploy/sync-secrets.sh inference USER@GPU_HOST
 ```
 
-Скрипт отправит `backend/inference/secrets/`, запустит vLLM и inference. Первый
-запуск скачивает образ и веса модели, поэтому занимает минуты.
+The script transfers `backend/inference/secrets/` and starts vLLM and the inference backend. The first run downloads the image and model weights, so it takes several minutes.
 
-## Связать main с GPU VM
+## Connect the main backend to the GPU VM
 
-Сначала с main VM проверить приватный маршрут; `401` означает, что сеть и сервис
-работают, а App Check правильно отклонил запрос без токена:
+First, verify the private route from the main VM. A `401` response means the network and service are reachable and App Check correctly rejected a request without a token:
 
 ```bash
 curl --noproxy '*' -sS -o /dev/null -w '%{http_code}\n' \
@@ -78,8 +72,7 @@ curl --noproxy '*' -sS -o /dev/null -w '%{http_code}\n' \
   http://<gpu tailscale ip>:8100/v1/conclusion_generation
 ```
 
-Только после этой проверки обновить локальный
-`backend/main/secrets/inference_endpoints.json`:
+Only after that check, update the local `backend/main/secrets/inference_endpoints.json`:
 
 ```json
 {
@@ -87,22 +80,19 @@ curl --noproxy '*' -sS -o /dev/null -w '%{http_code}\n' \
 }
 ```
 
-И применить на development VM:
+Apply the change to the development VM:
 
 ```bash
 deploy/sync-secrets.sh main USER@MAIN_DEVELOPMENT_HOST
 ```
 
-Карта endpoint читается при старте main, поэтому `sync-secrets.sh` пересоздаёт
-`backend_main`. Ответы `200` от `/application_config` и `401` от `/v1` без токена
-означают, что публичная часть после обновления здорова.
+The endpoint map is loaded when the main backend starts, so `sync-secrets.sh` recreates `backend_main`. A `200` response from `/application_config` and a `401` response from `/v1` without a token confirm the public stack is healthy after the update.
 
-## Если cloud-init доступен
+## Cloud-init alternative
 
-При создании VM можно передать один из файлов:
+When the provider supports user data, attach one of these files while creating the VM:
 
 - `deploy/cloud-init/main.yaml`;
 - `deploy/cloud-init/inference.yaml`.
 
-Они вызывают тот же `bootstrap.sh`. Если провайдер не предоставляет user-data,
-используется локальная команда `make init-vm-*`; результат одинаковый.
+Both call the same `bootstrap.sh`. If the provider does not support user data, use the local `make init-vm-*` command; the resulting machine configuration is the same.

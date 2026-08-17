@@ -2,20 +2,17 @@ import Foundation
 
 /// Normalizes recognized text to the canonical examination vocabulary.
 ///
-/// The recognizer errs on similar-sounding words: «анехогенное» instead of
-/// «анэхогенное», «дистальное усилие» instead of «дистальное усиление». The parsing
-/// model can no longer repair such misses — it does not know what was actually said.
-/// So before parsing, the text is run against a dictionary of terms and close
-/// matches are replaced with the canonical ones.
+/// The recognizer can confuse similar-sounding medical words. The parsing model can
+/// no longer repair such misses because it does not know what was actually said. Before
+/// parsing, the text is therefore compared with a dictionary of canonical terms.
 ///
-/// Comparison is not letter by letter but by a "phonetic skeleton": recognition errors
-/// are audible rather than orthographic, and «э» and «е» are interchangeable for it.
+/// Comparison uses a phonetic skeleton rather than raw spelling because recognition
+/// errors usually follow sound instead of orthography.
 ///
 /// Two substitutions are forbidden outright because they invert the meaning of a
 /// report: the algorithm never adds or removes a negation and never touches phrases
-/// with numbers. «Капсула изменена» and «капсула не изменена» differ by three edits
-/// yet mean the opposite; «7,5 мегагерц» and «5 мегагерц» differ by two, and the
-/// probe is a different one.
+/// with numbers. Small edit distances can otherwise connect statements with opposite
+/// meanings or different measurement values.
 public struct DSpeechLexiconCorrector: Sendable {
     /// The allowed share of edits relative to the term length. Chosen conservatively:
     /// missing a fix is cheaper than replacing what the physician actually said.
@@ -24,11 +21,8 @@ public struct DSpeechLexiconCorrector: Sendable {
     /// How far ahead of the runner-up the best candidate must be for a substitution
     /// to happen.
     ///
-    /// The examination vocabulary consists almost entirely of semantic opposites that
-    /// differ by a couple of letters: «содержимое однородное» and «неоднородное»,
-    /// «эхогенность повышена» and «снижена», «васкуляризация усилена» and «снижена»,
-    /// «гипо-», «гипер-», «изо-» and «анэхогенное образование».
-    /// All of these pairs fall within the distance threshold, so refusing ties alone is
+    /// The examination vocabulary contains many semantic opposites that differ by only
+    /// a few letters. These pairs fall within the distance threshold, so refusing ties alone is
     /// not enough — a margin is needed. On a run over the whole dictionary with synthetic
     /// recognition errors, a margin of two edits removes substitution of one term by
     /// another entirely, at the cost of about one percent of the fixes.
@@ -84,8 +78,7 @@ public struct DSpeechLexiconCorrector: Sendable {
         var replacements = [(text: String, length: Int)?](repeating: nil, count: words.count)
         var isConsumed = [Bool](repeating: false, count: words.count)
 
-        // Longer phrases come first: «дистальное усиление сигнала» must beat the
-        // shorter term nested inside it.
+        // Process longer phrases first so they beat shorter terms nested inside them.
         for wordCount in stride(from: maximumWordCount, through: 2, by: -1) {
             guard let candidates = termsByWordCount[wordCount] else { continue }
             guard words.count >= wordCount else { continue }
@@ -139,8 +132,7 @@ public struct DSpeechLexiconCorrector: Sendable {
         var runnerUpDistance = Int.max
 
         for term in candidates {
-            // Negation is untouchable: the algorithm has no right either to add «не»
-            // or to remove it.
+            // Negation is immutable: the algorithm must neither add nor remove it.
             guard term.hasNegation == hasNegation else { continue }
             guard abs(term.normalized.count - normalized.count) <= limit else { continue }
 
@@ -164,9 +156,8 @@ public struct DSpeechLexiconCorrector: Sendable {
         return best.text
     }
 
-    /// Collapsing of homophones: the recognizer errs by ear, so we drop the distinctions
-    /// that are inaudible — «э»/«е», «ы»/«и», consonant voicing, the soft and hard signs,
-    /// doubled letters and spaces.
+    /// Collapse homophones by removing selected vowel distinctions, consonant voicing,
+    /// soft and hard signs, repeated letters, and spaces.
     private static let phoneticMap: [Character: Character] = [
         "ё": "е",
         "э": "е",

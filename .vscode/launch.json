@@ -1,7 +1,7 @@
 {
-    // Каждая конфигурация сначала прогоняет задачу из tasks.json, которая склеивает
-    // secrets/.env с профильным файлом в secrets/.env.running — тот же набор переменных,
-    // что compose передаёт через env_file в `make start-backend-*`.
+    // Each configuration first runs a tasks.json task that merges secrets/.env
+    // with its profile into secrets/.env.running. This matches the variables
+    // passed through env_file by `make start-backend-*`.
     "version": "0.2.0",
     "configurations": [
         {

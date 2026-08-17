@@ -1,67 +1,50 @@
 ---
 name: git-push
-description: Отправка изменений в git по конвенциям проекта Doglyad — форматирование, добавление всех изменений (кроме секретов), короткое imperative-сообщение коммита на английском, коммит в master и push в origin. Используй, когда нужно закоммитить и запушить изменения ("отправь изменения", "запушь", "сделай коммит").
+description: Commit and push Doglyad changes according to project conventions. Format code, stage all changes except secrets and generated noise, write a short imperative English commit message, commit to master, and push to origin. Use when asked to commit, push, or send changes.
 ---
 
-# git-push — отправка изменений в git
+# Commit and push Doglyad changes
 
-Готовит и отправляет изменения в репозиторий по принятым в проекте конвенциям. Основная ветка — `master`, разработка ведётся напрямую в неё (соло-проект), удалённый репозиторий — `origin` (GitHub: `ivangalkindeveloper/Doglyad`).
+Prepare and send changes according to repository conventions. Work directly on `master` unless the user explicitly requests a branch. The remote is `origin` at `ivangalkindeveloper/Doglyad`.
 
-## Что уточнить перед началом
+## Resolve before starting
 
-1. **Текст сообщения** — если пользователь не задал, сформулируй сам по правилам ниже.
-2. **Пушить ли сразу** — по умолчанию да (push в `origin master`). Если пользователь сказал только «коммит» — не пушить.
+1. Use a user-provided commit message or create one from the rules below.
+2. Push to `origin master` by default. If the user asks only for a commit, do not push.
 
-По умолчанию коммить все изменения рабочего каталога (`git add -A`), исключая секреты и шумовые файлы из списка ниже.
+Commit all relevant working-tree changes with `git add -A`, excluding protected and noisy files.
 
-## Жёсткие правила
+## Required rules
 
-- **Форматирование перед коммитом**: `make format` прогоняет разом `swiftformat` для iOS и `ruff format` для бэкенда. Коммить уже отформатированный код.
-- **Не коммитить секреты и локальные конфиги** (см. AGENTS.md, «не модифицировать»):
-  - `backend/main/secrets/` (секреты главного бэкенда: `.env`, `.env.<профиль>`, `firebase_credentials.json`, `inference_endpoints.json`)
-  - `backend/inference/secrets/` (секреты сервиса инференса: `.env`, `firebase_credentials.json`)
-  - `ios/Config/` (`Config.Development.xcconfig`, `Config.Production.xcconfig` — `BASE_URL`, `REVENUECAT_API_KEY`)
-  - `ios/Firebase/` (`Development/GoogleService-Info.plist`, `Production/GoogleService-Info.plist`)
-  - `ios/DoglyadNeuralModel/Resources/` (веса MLX-модели)
-- **Шум от Xcode**: файлы пользовательского состояния — `*.xcuserstate`, `xcschememanagement.plist` — меняются сами по себе. Не включай их в коммит с фичей, если пользователь явно не попросил.
-- **Сообщение коммита** — в стиле истории проекта: короткое, на английском, в повелительном наклонении, с заглавной буквы, без точки в конце. Примеры из истории: `Add version`, `Fix settings buttons`, `Fix gallery button`, `Adding skills`. Тело сообщения для мелких правок не нужно.
-- **Ветка**: коммить в `master` напрямую (так ведётся проект). Не создавай ветку без явной просьбы.
+- Run `make format` before committing.
+- Never commit `backend/main/secrets/`, `backend/inference/secrets/`, `ios/Config/`, `ios/Firebase/`, or `ios/DoglyadNeuralModel/Resources/`.
+- Exclude `*.xcuserstate` and `xcschememanagement.plist` unless explicitly requested.
+- Write a short English commit subject in imperative mood, capitalized, without a trailing period. Examples: `Add version`, `Fix settings buttons`, `Fix gallery button`, `Add skills`.
+- Commit directly to `master`. Do not create a branch unless requested.
 
-## Последовательность
+## Procedure
 
-1. **Проверить состояние**:
-```bash
-git status
-git diff
-```
-Убедись, что нет незавершённого rebase/merge и что в индекс не попадут лишние/секретные файлы.
+1. Inspect `git status` and `git diff`. Confirm that no merge or rebase is in progress and identify protected or unrelated files.
+2. Run `make format`.
+3. Run `git add -A`, then inspect `git status`. Remove protected or noisy paths with `git restore --staged <path>`.
+4. Commit with a conventional subject:
 
-2. **Отформатировать** изменённые Swift-файлы:
-```bash
-make format
-```
-
-3. **Добавить все изменения** одной командой:
-```bash
-git add -A
-```
-После этого проверь `git status`, что в индекс не попали секреты и шумовые файлы (см. «Жёсткие правила»). Если попали — исключи их (`git restore --staged <путь>`).
-
-4. **Закоммитить** с сообщением по конвенции:
 ```bash
 git commit -m "Fix subscription paywall layout"
 ```
-Если коммит делает Claude Code — в конец сообщения добавляется трейлер:
-```
+
+When Claude Code authors the commit, append:
+
+```text
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 ```
 
-5. **Запушить** в удалённый репозиторий:
+5. Push when requested:
+
 ```bash
 git push origin master
 ```
 
-## Финальные шаги
+## Report
 
-1. Сообщи пользователю: какие файлы вошли в коммит, текст сообщения, хеш коммита и что push в `origin/master` прошёл.
-2. Если push отклонён (не fast-forward) — сделай `git pull --rebase origin master`, реши конфликты, затем повтори push. Не используй `--force` без явного разрешения.
+Provide the included files, commit subject, commit hash, and push result. If push is rejected as non-fast-forward, run `git pull --rebase origin master`, resolve conflicts, and retry. Never force-push without explicit permission.

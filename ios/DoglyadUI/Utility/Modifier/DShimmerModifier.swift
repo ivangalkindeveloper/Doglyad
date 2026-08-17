@@ -66,7 +66,7 @@ private func shimmerSurface(
         }
 }
 
-#Preview("Chip (капсула)") {
+#Preview("Chip (capsule)") {
     Text("PRO")
         .font(.footnote.weight(.bold))
         .foregroundStyle(.white)
@@ -77,13 +77,13 @@ private func shimmerSurface(
         .padding()
 }
 
-#Preview("Карточка") {
+#Preview("Card") {
     shimmerSurface("Premium card", cornerRadius: 24, height: 120)
         .dShimmer(cornerRadius: 24)
         .padding()
 }
 
-#Preview("Сравнение радиусов") {
+#Preview("Corner radius comparison") {
     VStack(spacing: 24) {
         shimmerSurface("cornerRadius 0", cornerRadius: 0)
         shimmerSurface("cornerRadius 0", cornerRadius: 0)
@@ -105,7 +105,7 @@ private func shimmerSurface(
             )
             .frame(height: 56)
             .overlay {
-                Text("капсула (.infinity)")
+                Text("capsule (.infinity)")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.white)
             }

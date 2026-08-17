@@ -38,18 +38,18 @@ struct ShareBottomSheet: View {
                 examinationData: USExaminationData(
                     usExaminationTypeId: "abdominalCavity",
                     photos: [],
-                    patientName: "Пациент#0",
+                    patientName: "Patient#0",
                     patientGender: .male,
                     patientDateOfBirth: Date(),
                     patientHeight: 180.0,
                     patientWeight: 80.0,
-                    patientComplaint: "Жалобы",
-                    examinationDescription: "Описание"
+                    patientComplaint: "Patient complaints",
+                    examinationDescription: "Examination description"
                 ),
                 actualModelConclusion: USExaminationModelConclusion(
                     date: Date(),
                     modelId: "google/medgemma-1.5-4b-it",
-                    response: "УЗ-картина соответствует норме."
+                    response: "The ultrasound findings are within normal limits."
                 ),
                 previosModelConclusions: []
             )
