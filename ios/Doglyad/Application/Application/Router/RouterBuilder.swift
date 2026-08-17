@@ -11,12 +11,6 @@ final class RouterBuilder: RouterBuilderProtocol {
         route: RouteScreen<ScreenType>
     ) -> AnyView {
         switch route.type {
-        case .serviceUnavailable:
-            AnyView(
-                ServiceUnavailableScreen(
-                    arguments: route.arguments as? ServiceUnavailableScreenArguments
-                )
-            )
         case .newVersion:
             AnyView(
                 NewVersionScreen(

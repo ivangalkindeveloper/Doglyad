@@ -2100,13 +2100,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "We will resume operation shortly. If you have any questions, please contact us at:"
+            "value": "We will resume operation shortly.\nIf you have any questions, please contact us at:"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "В скором времени мы продолжим работу. В случае возникновения вопросов, пожалуйста, свяжитесь с нами:"
+            "value": "В скором времени мы продолжим работу.\nВ случае возникновения вопросов, пожалуйста, свяжитесь с нами:"
           }
         }
       }

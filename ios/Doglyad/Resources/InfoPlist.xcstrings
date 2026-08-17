@@ -61,7 +61,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Доступ к локальной сети необходим для подключения к локальному серверу разработки."
+            "value" : "Local network access is required to connect to a local development server."
           }
         }
       }

@@ -66,8 +66,10 @@ extension InitializationProcess {
             SyncInitializationStep<InitializationProcess>(
                 title: "Initial screen",
                 run: { (process: InitializationProcess) in
-                    if process.applicationConfig!.isServiceAvailable {
-                        return process.initialScreen = .serviceUnavailable
+                    if !process.applicationConfig!.isServiceAvailable {
+                        throw InitializationError.serviceUnavailable(
+                            email: process.applicationConfig!.contactEmail
+                        )
                     }
 
                     if Bundle.shortVersion.major < process.applicationConfig!.actualVersion.major, process.applicationConfig?.appStoreId != nil {
