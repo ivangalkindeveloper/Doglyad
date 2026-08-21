@@ -10,6 +10,8 @@
 	start-backend-main-production \
 	start-backend-main-logs \
 	stop-backend-main \
+	update-main-development \
+	update-main-production \
 	start-backend-inference \
 	start-backend-inference-logs \
 	stop-backend-inference \
@@ -85,6 +87,17 @@ init-vm-main:
 init-vm-inference:
 	test -n "$(TARGET)" || { echo "TARGET is required: make init-vm-inference TARGET=USER@HOST" >&2; exit 1; }
 	deploy/init-vm.sh inference "$(TARGET)"
+
+# Deploy an image that has already been published by the GitHub Actions build.
+# Example: make update-main-development TARGET=USER@HOST TAG=$$(git rev-parse HEAD)
+update-main-development:
+	test -n "$(TARGET)" || { echo "TARGET is required: make update-main-development TARGET=USER@HOST TAG=IMAGE_TAG" >&2; exit 1; }
+	test -n "$(TAG)" || { echo "TAG is required: make update-main-development TARGET=USER@HOST TAG=IMAGE_TAG" >&2; exit 1; }
+	deploy/update-main.sh development "$(TARGET)" "$(TAG)"
+update-main-production:
+	test -n "$(TARGET)" || { echo "TARGET is required: make update-main-production TARGET=USER@HOST TAG=IMAGE_TAG" >&2; exit 1; }
+	test -n "$(TAG)" || { echo "TAG is required: make update-main-production TARGET=USER@HOST TAG=IMAGE_TAG" >&2; exit 1; }
+	deploy/update-main.sh production "$(TARGET)" "$(TAG)"
 
 download-ios-examination-model:
 	sudo hf download mlx-community/Qwen2.5-1.5B-Instruct-4bit --local-dir ios/DoglyadNeuralModel/Resources/mlx-Qwen2.5-1.5B-Instruct-4bit

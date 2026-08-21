@@ -88,6 +88,36 @@ deploy/sync-secrets.sh main USER@MAIN_DEVELOPMENT_HOST
 
 The endpoint map is loaded when the main backend starts, so `sync-secrets.sh` recreates `backend_main`. A `200` response from `/application_config` and a `401` response from `/v1` without a token confirm the public stack is healthy after the update.
 
+## Update an existing main backend
+
+After the `Build backend images` GitHub Actions workflow has published an image, deploy its full commit SHA from the repository root:
+
+```bash
+make update-main-development \
+  TARGET=USER@MAIN_DEVELOPMENT_HOST \
+  TAG=$(git rev-parse HEAD)
+```
+
+Use the same script for production, changing both the command and the target:
+
+```bash
+make update-main-production \
+  TARGET=USER@MAIN_PRODUCTION_HOST \
+  TAG=<successfully-built-git-sha>
+```
+
+The update script:
+
+1. reads the public domain from `/opt/doglyad/.env`;
+2. refuses to continue if the VM's current environment profile does not match the requested environment;
+3. saves that file as `/opt/doglyad/.env.before-main-update`;
+4. sets the requested image tag and preserves the matching development or production profile;
+5. pulls and recreates only `backend_main`, leaving Caddy and its certificates untouched;
+6. expects `200` from `/application_config` and `401` from `/v1` without an App Check token;
+7. restores the previous environment file and container if deployment or health verification fails.
+
+To use a dedicated SSH key, set `DOGLYAD_SSH_KEY` for either Make command.
+
 ## Cloud-init alternative
 
 When the provider supports user data, attach one of these files while creating the VM:
