@@ -200,6 +200,7 @@ extension DependencyContainer {
                 id: "",
                 title: "",
                 entitlement: .base,
+                accessibility: .available,
                 contextLength: 0,
                 description: [:]
             ),

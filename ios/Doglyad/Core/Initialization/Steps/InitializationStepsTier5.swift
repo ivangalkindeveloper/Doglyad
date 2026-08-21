@@ -46,20 +46,50 @@ extension InitializationProcess {
                     }
 
                     @MainActor
-                    func selectFirstBaseModel() {
+                    func selectFirstAvailableBaseModel() {
                         let firstBaseModel = process.usExaminationNeuralModels!.first(where: {
-                            $0.entitlement == .base
+                            let isAvailable: Bool
+                            switch $0.accessibility {
+                            case .available:
+                                isAvailable = true
+                            case .comingSoon, .unavailable:
+                                isAvailable = false
+                            }
+
+                            switch $0.entitlement {
+                            case .base:
+                                return isAvailable
+                            case .pro:
+                                return false
+                            }
                         })
                         process.ultrasoundModelRepository!.setSelectedModelId(
                             id: (firstBaseModel ?? process.usExaminationNeuralModelDefault!).id
                         )
                     }
 
+                    switch selectedModel.accessibility {
+                    case .available:
+                        break
+                    case .comingSoon, .unavailable:
+                        return selectFirstAvailableBaseModel()
+                    }
+
                     let activeSubscriptionType = process.initialSubscriptionStatus?.type
-                    let isModelAvailable = selectedModel.entitlement == .base
-                        || selectedModel.entitlement == activeSubscriptionType
-                    guard isModelAvailable else {
-                        return selectFirstBaseModel()
+                    let isModelEntitlementAvailable: Bool
+                    switch selectedModel.entitlement {
+                    case .base:
+                        isModelEntitlementAvailable = true
+                    case .pro:
+                        switch activeSubscriptionType {
+                        case .some(.pro):
+                            isModelEntitlementAvailable = true
+                        case .some(.base), .none:
+                            isModelEntitlementAvailable = false
+                        }
+                    }
+                    guard isModelEntitlementAvailable else {
+                        return selectFirstAvailableBaseModel()
                     }
                 }
             ),

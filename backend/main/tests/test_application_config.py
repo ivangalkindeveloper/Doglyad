@@ -6,6 +6,9 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.core.config import _CONFIG_DIR, load_configs
+from app.model.ultrasound.us_examination_neural_model_accessibility import (
+    USExaminationNeuralModelAccessibility,
+)
 
 # Endpoint -> the document in the image it must serve, byte for byte.
 _ENDPOINTS = {
@@ -61,9 +64,20 @@ def test_only_the_app_facing_documents_are_exposed(client: TestClient) -> None:
 
 
 @pytest.mark.parametrize("environment", ("development", "production"))
-def test_service_availability_is_the_first_field_and_disabled_by_default(environment: str) -> None:
+def test_service_availability_is_the_first_boolean_field(environment: str) -> None:
     path = _CONFIG_DIR.parent / environment / "application.json"
     application_config = json.loads(path.read_text(encoding="utf-8"))
 
     assert next(iter(application_config)) == "isServiceAvailable"
-    assert application_config["isServiceAvailable"] is False
+    assert isinstance(application_config["isServiceAvailable"], bool)
+
+
+@pytest.mark.parametrize("environment", ("development", "production"))
+def test_neural_model_accessibility_is_valid_and_the_default_is_available(environment: str) -> None:
+    path = _CONFIG_DIR.parent / environment / "ultrasound_examination_neural_models.json"
+    neural_models = json.loads(path.read_text(encoding="utf-8"))
+
+    accessibility = [USExaminationNeuralModelAccessibility(model["accessibility"]) for model in neural_models]
+
+    assert accessibility
+    assert accessibility[0] is USExaminationNeuralModelAccessibility.AVAILABLE

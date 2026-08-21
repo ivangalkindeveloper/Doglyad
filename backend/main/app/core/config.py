@@ -3,11 +3,15 @@ from __future__ import annotations
 import json
 import logging
 from pathlib import Path
+from typing import Any
 
 from fastapi import HTTPException
 
 from app.core.variables import variables
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
+from app.model.ultrasound.us_examination_neural_model_accessibility import (
+    USExaminationNeuralModelAccessibility,
+)
 from app.model.ultrasound.us_examination_type import USExaminationType
 
 logger = logging.getLogger(__name__)
@@ -31,7 +35,7 @@ SERVED_DOCUMENTS = (
 _served_documents: dict[str, str] = {}
 
 
-def _load_json_array(path: Path) -> list[dict]:
+def _load_json_array(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         raise RuntimeError(f"Config file not found: {path}")
     try:
@@ -88,12 +92,20 @@ def resolve_config_document(name: str) -> str:
 
 def resolve_neural_model(selected_id: str | None) -> USExaminationNeuralModel:
     if not selected_id:
-        return next(iter(neural_models.values()))
-    model = neural_models.get(selected_id)
-    if not model:
+        model = next(iter(neural_models.values()))
+    else:
+        selected_model = neural_models.get(selected_id)
+        if not selected_model:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unknown neural model id: {selected_id}",
+            )
+        model = selected_model
+
+    if model.accessibility is not USExaminationNeuralModelAccessibility.AVAILABLE:
         raise HTTPException(
             status_code=400,
-            detail=f"Unknown neural model id: {selected_id}",
+            detail=f"Neural model is not available: {model.id}",
         )
     return model
 

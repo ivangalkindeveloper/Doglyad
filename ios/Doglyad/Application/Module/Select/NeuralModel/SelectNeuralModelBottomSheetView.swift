@@ -22,11 +22,17 @@ struct SelectNeuralModelBottomSheetView: View {
                     spacing: .zero
                 ) {
                     ForEach(viewModel.models) { model in
-                        DBadge(
-                            .entitlementPro,
-                            isVisible: viewModel.isProBadgeVisible(for: model),
-                            isShimmering: true
-                        ) {
+                        DBadge([
+                            DBadgeItem(
+                                .entitlementPro,
+                                isVisible: viewModel.isProBadgeVisible(for: model),
+                                isShimmering: true
+                            ),
+                            DBadgeItem(
+                                .neuralModelComingSoonBadge,
+                                isVisible: viewModel.isComingSoonBadgeVisible(for: model)
+                            ),
+                        ]) {
                             DListButtonCard(
                                 title: LocalizedStringResource(stringLiteral: model.title),
                                 description: """
@@ -39,6 +45,7 @@ struct SelectNeuralModelBottomSheetView: View {
                                 },
                                 isSelected: viewModel.isSelected(model)
                             )
+                            .disabled(!viewModel.isSelectionEnabled(for: model))
                         }
                     }
                     .padding(.bottom, size.s8)

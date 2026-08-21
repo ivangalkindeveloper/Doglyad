@@ -921,6 +921,23 @@
         }
       }
     },
+    "neuralModelComingSoonBadge": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coming soon"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скоро"
+          }
+        }
+      }
+    },
     "neuralModelContextLengthDescription": {
       "extractionState": "manual",
       "localizations": {

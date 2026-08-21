@@ -31,10 +31,40 @@ final class SelectNeuralModelViewModel: DViewModel {
     }
 
     func isProBadgeVisible(for model: USExaminationNeuralModel) -> Bool {
-        model.entitlement == .pro && subscription.status?.type != .pro
+        switch model.entitlement {
+        case .base:
+            return false
+        case .pro:
+            switch subscription.status?.type {
+            case .some(.pro):
+                return false
+            case .some(.base), .none:
+                return true
+            }
+        }
+    }
+
+    func isComingSoonBadgeVisible(for model: USExaminationNeuralModel) -> Bool {
+        switch model.accessibility {
+        case .available, .unavailable:
+            return false
+        case .comingSoon:
+            return true
+        }
+    }
+
+    func isSelectionEnabled(for model: USExaminationNeuralModel) -> Bool {
+        switch model.accessibility {
+        case .available:
+            return true
+        case .comingSoon, .unavailable:
+            return false
+        }
     }
 
     func onModelTap(_ model: USExaminationNeuralModel) {
+        guard isSelectionEnabled(for: model) else { return }
+
         if isPaywallRequired(for: model) {
             router.dismissSheet()
             router.push(
@@ -50,6 +80,6 @@ final class SelectNeuralModelViewModel: DViewModel {
     }
 
     private func isPaywallRequired(for model: USExaminationNeuralModel) -> Bool {
-        model.entitlement == .pro && subscription.status?.type != .pro
+        isProBadgeVisible(for: model)
     }
 }

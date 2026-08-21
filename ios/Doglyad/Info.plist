@@ -8,13 +8,9 @@
 	<string>$(ENVIRONMENT)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<!-- Allow HTTP only for a local development backend.
-		     Require HTTPS for every external connection, including production. -->
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Local network access is required to connect to a local development server.</string>
 	<key>REVENUECAT_API_KEY</key>
 	<string>$(REVENUECAT_API_KEY)</string>
 	<key>UIAppFonts</key>

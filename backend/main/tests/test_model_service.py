@@ -8,11 +8,19 @@ import pytest
 
 from app.core.variables import variables
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
+from app.model.ultrasound.us_examination_neural_model_accessibility import (
+    USExaminationNeuralModelAccessibility,
+)
 from app.service import create_model_service
 from app.service.base import ModelService
 from app.service.inference import InferenceService
 
-_MODEL = USExaminationNeuralModel(id="google/medgemma-4b-it", title="MedGemma 4B", description={"en": ""})
+_MODEL = USExaminationNeuralModel(
+    id="google/medgemma-4b-it",
+    title="MedGemma 4B",
+    accessibility=USExaminationNeuralModelAccessibility.AVAILABLE,
+    description={"en": ""},
+)
 
 
 @pytest.fixture

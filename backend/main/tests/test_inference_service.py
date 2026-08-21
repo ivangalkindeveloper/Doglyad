@@ -12,12 +12,20 @@ from fastapi import HTTPException
 from app.core.variables import variables
 from app.model.neural_model_settings import NeuralModelSettings
 from app.model.ultrasound.us_examination_neural_model import USExaminationNeuralModel
+from app.model.ultrasound.us_examination_neural_model_accessibility import (
+    USExaminationNeuralModelAccessibility,
+)
 from app.model.ultrasound.us_examination_scan_photo import USExaminationScanPhoto
 from app.service.base import InferenceRequest
 from app.service.inference import InferenceService
 
 _URL = "http://10.0.0.11:8100/v1/conclusion_generation"
-_MODEL = USExaminationNeuralModel(id="google/medgemma-4b-it", title="MedGemma 4B", description={"en": ""})
+_MODEL = USExaminationNeuralModel(
+    id="google/medgemma-4b-it",
+    title="MedGemma 4B",
+    accessibility=USExaminationNeuralModelAccessibility.AVAILABLE,
+    description={"en": ""},
+)
 
 
 @pytest.fixture
@@ -129,7 +137,12 @@ def test_model_without_a_vm_is_not_sent_anywhere(endpoints: Path) -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         raise AssertionError("must not be called")
 
-    other = USExaminationNeuralModel(id="google/unsupported-model", title="Unsupported", description={"en": ""})
+    other = USExaminationNeuralModel(
+        id="google/unsupported-model",
+        title="Unsupported",
+        accessibility=USExaminationNeuralModelAccessibility.AVAILABLE,
+        description={"en": ""},
+    )
 
     with pytest.raises(HTTPException) as error:
         _call(handler, _request(model=other))

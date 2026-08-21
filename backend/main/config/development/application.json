@@ -3,9 +3,9 @@
     "androidPackage": "",
     "appStoreId": "",
     "actualVersion": {
-        "major": 1,
+        "major": 0,
         "minor": 0,
-        "patch": 0
+        "patch": 1
     },
     "contactEmail": "doglyadapp@gmail.com",
     "appleUpdateUrl": "https://apps.apple.com/app/id",

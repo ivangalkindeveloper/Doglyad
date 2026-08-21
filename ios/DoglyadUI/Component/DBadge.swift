@@ -6,9 +6,7 @@ public struct DBadge<Content: View>: View {
     private var size: DSize { theme.size }
     private var typography: DTypography { theme.typography }
 
-    let title: LocalizedStringResource
-    let isVisible: Bool
-    let isShimmering: Bool
+    let badges: [DBadgeItem]
     let content: () -> Content
 
     public init(
@@ -17,25 +15,46 @@ public struct DBadge<Content: View>: View {
         isShimmering: Bool = false,
         @ViewBuilder content: @escaping () -> Content
     ) {
-        self.title = title
-        self.isVisible = isVisible
-        self.isShimmering = isShimmering
+        badges = [
+            DBadgeItem(
+                title,
+                isVisible: isVisible,
+                isShimmering: isShimmering
+            ),
+        ]
+        self.content = content
+    }
+
+    public init(
+        _ badges: [DBadgeItem],
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.badges = badges
         self.content = content
     }
 
     public var body: some View {
         content()
             .overlay(alignment: .topTrailing) {
-                if isVisible {
-                    badge
-                        .if(isShimmering) { $0.dShimmer() }
-                        .offset(x: size.s10, y: -size.s10)
+                if !visibleBadges.isEmpty {
+                    HStack(spacing: size.s4) {
+                        ForEach(visibleBadges.indices, id: \.self) { index in
+                            let badge = visibleBadges[index]
+                            badgeView(badge)
+                                .if(badge.isShimmering) { $0.dShimmer() }
+                        }
+                    }
+                    .offset(x: size.s10, y: -size.s10)
                 }
             }
     }
 
-    private var badge: some View {
-        Text(title)
+    private var visibleBadges: [DBadgeItem] {
+        badges.filter(\.isVisible)
+    }
+
+    private func badgeView(_ badge: DBadgeItem) -> some View {
+        Text(badge.title)
             .font(typography.linkXSmall)
             .foregroundStyle(color.grayscaleBackground)
             .lineLimit(1)
@@ -78,6 +97,14 @@ public struct DBadge<Content: View>: View {
 
             DBadge("Long badge title") {
                 DText("Badge grows to the left")
+                    .dStyle()
+            }
+
+            DBadge([
+                DBadgeItem("Pro", isShimmering: true),
+                DBadgeItem("Coming soon"),
+            ]) {
+                DText("Card with multiple badges")
                     .dStyle()
             }
         }

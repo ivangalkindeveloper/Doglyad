@@ -3,6 +3,7 @@
         "id": "google/medgemma-4b-it",
         "title": "Google MedGemma 4B",
         "entitlement": "base",
+        "accessibility": "available",
         "contextLength": 128000,
         "description": {
             "en": "A dependable everyday assistant: it reads your ultrasound frames together with the patient's complaints and your notes and turns them into a structured clinical conclusion. Built by Google (released May 2025) on its Gemma 3 family and specially trained for medicine — on real de-identified medical images (X-ray, dermatology, ophthalmology, pathology, radiology) and a large body of clinical texts, exam-style medical questions and patient records. Compact and fast, a solid default for routine studies.",
@@ -12,7 +13,8 @@
     {
         "id": "google/medgemma-1.5-4b-it",
         "title": "Google MedGemma 1.5 4B",
-        "entitlement": "base",
+        "entitlement": "pro",
+        "accessibility": "coming_soon",
         "contextLength": 128000,
         "description": {
             "en": "Choose it for complex cases and long patient histories: the same compact size, but it reasons more carefully over clinical text while still linking the images to context. Google's January 2026 update to the 4B model, trained on a broader range of studies — including volumetric CT and MRI, follow-up chest imaging over time, and turning lab reports and documents into structured records. A richer first draft when the case needs more thought.",
