@@ -55,7 +55,7 @@ INFERENCE_BACKEND_PORT=8100
 Then run the following from the repository root on the Mac:
 
 ```bash
-deploy/sync-secrets.sh inference USER@GPU_HOST
+make sync-secrets-inference TARGET=USER@GPU_HOST
 ```
 
 The script transfers `backend/inference/secrets/` and starts vLLM and the inference backend. The first run downloads the image and model weights, so it takes several minutes.
@@ -83,7 +83,13 @@ Only after that check, update the local `backend/main/secrets/inference_endpoint
 Apply the change to the development VM:
 
 ```bash
-deploy/sync-secrets.sh main USER@MAIN_DEVELOPMENT_HOST
+make sync-secrets-main-development TARGET=USER@MAIN_DEVELOPMENT_HOST
+```
+
+For production, use the environment-specific target:
+
+```bash
+make sync-secrets-main-production TARGET=USER@MAIN_PRODUCTION_HOST
 ```
 
 The endpoint map is loaded when the main backend starts, so `sync-secrets.sh` recreates `backend_main`. A `200` response from `/application_config` and a `401` response from `/v1` without a token confirm the public stack is healthy after the update.

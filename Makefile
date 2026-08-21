@@ -10,11 +10,14 @@
 	start-backend-main-production \
 	start-backend-main-logs \
 	stop-backend-main \
+	sync-secrets-main-development \
+	sync-secrets-main-production \
 	update-main-development \
 	update-main-production \
 	start-backend-inference \
 	start-backend-inference-logs \
 	stop-backend-inference \
+	sync-secrets-inference \
 	init-vm-main \
 	init-vm-inference \
 	download-ios-examination-model
@@ -87,6 +90,16 @@ init-vm-main:
 init-vm-inference:
 	test -n "$(TARGET)" || { echo "TARGET is required: make init-vm-inference TARGET=USER@HOST" >&2; exit 1; }
 	deploy/init-vm.sh inference "$(TARGET)"
+
+# Transfer local secrets and apply them on an already initialized VM.
+# The main deployment profile remains controlled by /opt/doglyad/.env on the VM;
+# separate targets make the intended environment explicit at the call site.
+sync-secrets-main-development sync-secrets-main-production:
+	test -n "$(TARGET)" || { echo "TARGET is required: make $@ TARGET=USER@HOST" >&2; exit 1; }
+	deploy/sync-secrets.sh main "$(TARGET)"
+sync-secrets-inference:
+	test -n "$(TARGET)" || { echo "TARGET is required: make sync-secrets-inference TARGET=USER@HOST" >&2; exit 1; }
+	deploy/sync-secrets.sh inference "$(TARGET)"
 
 # Deploy an image that has already been published by the GitHub Actions build.
 # Example: make update-main-development TARGET=USER@HOST TAG=$$(git rev-parse HEAD)
