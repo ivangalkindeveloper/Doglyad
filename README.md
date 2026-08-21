@@ -208,6 +208,6 @@ See the [Doglyad Proprietary License](LICENSE) for the complete terms. Permissio
 
 Doglyad assists physicians with preparing documentation. It does not replace professional clinical judgment, provide a final diagnosis, or remove the physician's responsibility to validate generated content.
 
-- [Privacy Policy](https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy)
-- [Terms and Conditions](https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions)
+- [Privacy Policy](https://ivangalkindeveloper.github.io/DoglyadAI/legal/privacy-policy)
+- [Terms and Conditions](https://ivangalkindeveloper.github.io/DoglyadAI/legal/terms-and-conditions)
 - Contact: [doglyadapp@gmail.com](mailto:doglyadapp@gmail.com)

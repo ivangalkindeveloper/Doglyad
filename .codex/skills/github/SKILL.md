@@ -10,7 +10,7 @@ Use this as the entry point for repository version-control conventions. This ski
 ## Repository facts
 
 - Primary branch: `master`. Development happens directly on it unless a branch is explicitly requested.
-- Remote: `origin`, GitHub repository `ivangalkindeveloper/Doglyad`.
+- Remote: `origin`, GitHub repository `ivangalkindeveloper/DoglyadAI`.
 - Use the `gh` CLI for pull requests, issues, releases, and other GitHub-side operations.
 
 ## Read-only commands

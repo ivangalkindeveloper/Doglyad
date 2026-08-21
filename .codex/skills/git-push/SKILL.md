@@ -5,7 +5,7 @@ description: Commit and push Doglyad changes according to project conventions. F
 
 # Commit and push Doglyad changes
 
-Prepare and send changes according to repository conventions. Work directly on `master` unless the user explicitly requests a branch. The remote is `origin` at `ivangalkindeveloper/Doglyad`.
+Prepare and send changes according to repository conventions. Work directly on `master` unless the user explicitly requests a branch. The remote is `origin` at `ivangalkindeveloper/DoglyadAI`.
 
 ## Resolve before starting
 

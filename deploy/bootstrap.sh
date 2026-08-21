@@ -7,7 +7,7 @@
 #
 #   curl -fsSL --retry 10 --retry-all-errors --retry-delay 3 \
 #     -o /tmp/doglyad-bootstrap.sh \
-#     https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy/bootstrap.sh
+#     https://raw.githubusercontent.com/ivangalkindeveloper/DoglyadAI/master/deploy/bootstrap.sh
 #   sudo bash /tmp/doglyad-bootstrap.sh main
 #   sudo bash /tmp/doglyad-bootstrap.sh inference
 #
@@ -24,7 +24,7 @@
 
 set -euo pipefail
 
-RAW="https://raw.githubusercontent.com/ivangalkindeveloper/Doglyad/master/deploy"
+RAW="https://raw.githubusercontent.com/ivangalkindeveloper/DoglyadAI/master/deploy"
 TARGET_DIR="/opt/doglyad"
 LOG_FILE="/var/log/doglyad-bootstrap.log"
 

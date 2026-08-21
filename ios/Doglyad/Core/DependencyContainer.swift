@@ -158,8 +158,8 @@ extension DependencyContainer {
                 contactEmail: "doglyadapp@gmail.com",
                 appleUpdateUrl: URL(string: "https://apps.apple.com/app/id")!,
                 legalDate: .distantPast,
-                privacyPolicyUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/privacy-policy")!,
-                termsAndConditionsUrl: URL(string: "https://ivangalkindeveloper.github.io/Doglyad/legal/terms-and-conditions")!,
+                privacyPolicyUrl: URL(string: "https://ivangalkindeveloper.github.io/DoglyadAI/legal/privacy-policy")!,
+                termsAndConditionsUrl: URL(string: "https://ivangalkindeveloper.github.io/DoglyadAI/legal/terms-and-conditions")!,
                 network: .default,
                 entitlements: [
                     .base: SubscriptionEntitlement(
